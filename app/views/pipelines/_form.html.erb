@@ -1,0 +1,22 @@
+<%= form_with(model: pipeline) do |form| %>
+  <% if pipeline.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(pipeline.errors.count, "error") %> prohibited this pipeline from being saved:</h2>
+
+      <ul>
+        <% pipeline.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

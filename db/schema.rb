@@ -10,10 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_21_151945) do
+ActiveRecord::Schema.define(version: 2021_08_21_155347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "deals", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "status", default: "open", null: false
+    t.bigint "stage_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["stage_id"], name: "index_deals_on_stage_id"
+  end
+
+  create_table "pipelines", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "stages", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.bigint "pipeline_id", null: false
+    t.integer "order", default: 1, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["pipeline_id"], name: "index_stages_on_pipeline_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "full_name", default: "", null: false
@@ -28,4 +52,6 @@ ActiveRecord::Schema.define(version: 2021_08_21_151945) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "deals", "stages"
+  add_foreign_key "stages", "pipelines"
 end

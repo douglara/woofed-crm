@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Pipelines</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pipelines.each do |pipeline| %>
+      <tr>
+        <td><%= pipeline.name %></td>
+        <td><%= link_to 'Show', pipeline %></td>
+        <td><%= link_to 'Edit', edit_pipeline_path(pipeline) %></td>
+        <td><%= link_to 'Destroy', pipeline, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Pipeline', new_pipeline_path %>
