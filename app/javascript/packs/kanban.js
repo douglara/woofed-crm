@@ -1,3 +1,5 @@
+dragula = require("dragula")
+
 stages_count = document.querySelectorAll('.drag-column').length;
 elements = []
 
