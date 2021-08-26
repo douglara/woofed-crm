@@ -10,10 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_21_155347) do
+ActiveRecord::Schema.define(version: 2021_08_25_032611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
 
   create_table "deals", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -22,6 +60,36 @@ ActiveRecord::Schema.define(version: 2021_08_21_155347) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["stage_id"], name: "index_deals_on_stage_id"
+  end
+
+  create_table "deals_flow_items", force: :cascade do |t|
+    t.string "kind", default: "note", null: false
+    t.bigint "deal_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deal_id"], name: "index_deals_flow_items_on_deal_id"
+  end
+
+  create_table "deals_flow_items_notes", force: :cascade do |t|
+    t.bigint "deals_flow_item_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deals_flow_item_id"], name: "index_deals_flow_items_notes_on_deals_flow_item_id"
+  end
+
+  create_table "flow_items", force: :cascade do |t|
+    t.string "kind", default: "", null: false
+    t.bigint "deal_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deal_id"], name: "index_flow_items_on_deal_id"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.bigint "flow_item_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["flow_item_id"], name: "index_notes_on_flow_item_id"
   end
 
   create_table "pipelines", force: :cascade do |t|
@@ -52,6 +120,12 @@ ActiveRecord::Schema.define(version: 2021_08_21_155347) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "deals", "stages"
+  add_foreign_key "deals_flow_items", "deals"
+  add_foreign_key "deals_flow_items_notes", "deals_flow_items"
+  add_foreign_key "flow_items", "deals"
+  add_foreign_key "notes", "flow_items"
   add_foreign_key "stages", "pipelines"
 end

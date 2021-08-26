@@ -1,0 +1,21 @@
+<%= form_with(model: note, url: deal_notes_path(deal_id: 1)) do |form| %>
+  <% if note.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(note.errors.count, "error") %> prohibited this note from being saved:</h2>
+
+      <ul>
+        <% note.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.rich_text_area :content %>
+  </div>
+
+  <div class="card-footer text-right">
+    <%= form.submit 'Save', class: 'btn btn-primary' %>
+  </div>
+<% end %>

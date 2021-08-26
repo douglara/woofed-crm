@@ -3,7 +3,7 @@ class PipelinesController < InternalController
 
   # GET /pipelines or /pipelines.json
   def index
-    @pipelines = Pipeline.all
+    redirect_to(pipeline_path(Pipeline.first))
   end
 
   # GET /pipelines/1 or /pipelines/1.json

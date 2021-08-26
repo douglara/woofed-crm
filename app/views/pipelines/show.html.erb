@@ -1,9 +1,38 @@
-<p id="notice"><%= notice %></p>
+<section class="section">
+  <div class="section-header">
+    <h1>Deals</h1>
+  </div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @pipeline.name %>
-</p>
+  <div class="section-body">
+    <div class="card">
+      <div class="card-body">
+        <div class="drag-container">
+          <ul class="drag-list" name="drag-list" content="<%= @pipeline.stages.count %>">
+            <% @pipeline.stages.each do | stage | %>
+              <li class="drag-column drag-column-in-progress">
+                <span class="drag-column-header">
+                  <h2><%= stage.name %></h2>
+                </span>
+                <div class="drag-options" id="options2"></div>
+                <ul class="drag-inner-list" id="<%= stage.order %>">
+                  <% stage.deals.each do | deal | %>
+                    <%= link_to deal_path(deal.id) do %>
+                      <li class="drag-item">
+                        <p class="deal-name"><%= deal.name %></p>
+                      </li>
+                    <% end %>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<%= link_to 'Edit', edit_pipeline_path(@pipeline) %> |
-<%= link_to 'Back', pipelines_path %>
+<%= content_for :javascripts do %>
+  <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/45226/dragula.min.js" type="text/javascript"></script>
+  <%= javascript_pack_tag 'kanban' %>
+<% end %>

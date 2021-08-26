@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :deals
+  resources :deals do
+    resources :notes, module: :deals
+  end
+
   resources :pipelines
   devise_for :users
   root to: "pipelines#index"

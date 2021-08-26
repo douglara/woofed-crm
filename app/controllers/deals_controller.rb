@@ -1,4 +1,4 @@
-class DealsController < ApplicationController
+class DealsController < InternalController
   before_action :set_deal, only: %i[ show edit update destroy ]
 
   # GET /deals or /deals.json
@@ -8,6 +8,7 @@ class DealsController < ApplicationController
 
   # GET /deals/1 or /deals/1.json
   def show
+    @note = @deal.notes.new
   end
 
   # GET /deals/new
