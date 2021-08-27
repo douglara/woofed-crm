@@ -17,6 +17,9 @@ dragula(
 		el.classList.add("is-moving");
 	})
 	.on("dragend", function (el) {
+		var stage_id = el.parentElement.getAttribute('id')
+		var deal_id = el.getAttribute('deal_id')
+		update_deal(deal_id, stage_id)
 		// remove 'is-moving' class from element after dragging has stopped
 		el.classList.remove("is-moving");
 
@@ -28,6 +31,16 @@ dragula(
 			}, 600);
 		}, 100);
 	});
+
+	function update_deal(deal_id, stage_id) {
+		result = $.ajax({
+			url: `/deals/${deal_id}.json`,
+			type: "put",
+			data: {"deal":{"stage_id": stage_id}},
+			success: function(data) {},
+			error: function(data) {}
+		})
+	}
 
 var createOptions = (function () {
 	var dragOptions = document.querySelectorAll(".drag-options");

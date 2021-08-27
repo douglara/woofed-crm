@@ -16,8 +16,8 @@
                 <div class="drag-options" id="options2"></div>
                 <ul class="drag-inner-list" id="<%= stage.order %>">
                   <% stage.deals.each do | deal | %>
-                    <%= link_to deal_path(deal.id) do %>
-                      <li class="drag-item">
+                    <%= link_to deal_path(deal.id), deal_id: deal.id do %>
+                      <li class="drag-item" deal_id="<%= deal.id %>">
                         <p class="deal-name"><%= deal.name %></p>
                       </li>
                     <% end %>
