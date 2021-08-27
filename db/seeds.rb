@@ -21,6 +21,13 @@ if User.all.count == 0
 end
 
 
+if Contact.all.count == 0
+  contacts = []
+  20.times do | time |
+    contacts.append(Contact.create(full_name: "Contact #{time}", email: "contact#{time}@email.com", phone: '41998910151'))
+  end
+end
+
 if Deal.all.count == 0
   deal_1 = Deal.create(name: 'Deal 1', stage: stage_1, status: 'open')
   deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open')

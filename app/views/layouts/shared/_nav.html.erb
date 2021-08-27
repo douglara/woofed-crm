@@ -28,7 +28,12 @@
       <% end %>
     </div>
     <ul class="sidebar-menu">
-      <li>
+      <li class="<%= 'active' if request.path.include?('contact') %>">
+        <%= link_to(contacts_path, class: 'nav-link') do %>
+          <i class="fas fa-users"></i> <span>Contacts</span>
+        <% end %>
+      </li>
+      <li class="<%= 'active' if request.path.include?('pipelines') or request.path.include?('deal') %>">
         <%= link_to(pipelines_path, class: 'nav-link') do %>
           <i class="fas fa-funnel-dollar"></i> <span>Deals</span>
         <% end %>

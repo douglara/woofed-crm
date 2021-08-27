@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :contacts
   resources :deals do
     resources :notes, module: :deals
   end

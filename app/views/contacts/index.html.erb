@@ -1,0 +1,76 @@
+<section class="section">
+  <div class="section-header">
+    <h1>Contacts</h1>
+  </div>
+
+  <div class="section-body">
+    <div class="card">
+      <div class="card-header">
+        <h4></h4>
+        <div class="card-header-action">
+          <div class="row">
+            <form hidden>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search">
+              <div class="input-group-btn">
+                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+              </div>
+            </div>
+          </form>
+          <div class="dropdown ml-5 mr-5">
+            <a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown">Actions</a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <%= link_to new_contact_path, class: 'dropdown-item has-icon' do %>
+                <i class="fas fa-user-plus"></i> New
+              <% end %>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-striped mb-0">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @contacts.each do |contact| %>
+                <tr>
+                  <td>
+                    <%= contact.full_name %>
+                  </td>
+                  <td>
+                    <%= contact.email %>
+                  </td>
+                  <td>
+                    <%= contact.phone %>
+                  </td>
+                  <td>
+                    <%= link_to edit_contact_path(contact), class: 'btn btn-primary btn-action mr-1' do %>
+                      <i class="fas fa-pencil-alt"></i>
+                    <% end %>
+                    <%= link_to contact, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-action trigger--fire-modal-1' do %>
+                      <i class="fas fa-trash"></i>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row float-right p-3">
+          <div class="col-12 mr-5">
+            <%== pagy_bootstrap_nav(@pagy) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
