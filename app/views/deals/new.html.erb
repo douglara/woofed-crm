@@ -1,5 +1,15 @@
-<h1>New Deal</h1>
+<section class="section">
+  <div class="section-header">
+    <h1>New Deal</h1>
+  </div>
 
-<%= render 'form', deal: @deal %>
-
-<%= link_to 'Back', deals_path %>
+  <div class="section-body">
+    <div class="card">
+      <div class="card-body">
+        <div class="col-lg-5 container">
+          <%= render 'form', deal: @deal %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

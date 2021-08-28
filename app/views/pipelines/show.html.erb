@@ -5,6 +5,23 @@
 
   <div class="section-body">
     <div class="card">
+
+      <div class="card-header">
+        <h4></h4>
+        <div class="card-header-action">
+          <div class="row">
+            <div class="dropdown ml-5 mr-5">
+              <a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown">Actions</a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <%= link_to new_deal_path, class: 'dropdown-item has-icon' do %>
+                  <i class="fas fa-user-plus"></i> New
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="card-body">
         <div class="drag-container">
           <ul class="drag-list" name="drag-list" content="<%= @pipeline.stages.count %>">

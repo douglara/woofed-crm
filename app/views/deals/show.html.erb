@@ -1,4 +1,8 @@
 <section class="section">
+  <div class="section-header">
+    <h1><%= @deal.name %></h1>
+  </div>
+
   <div class="row">
     <div class="col-12 col-md-7 col-lg-4">
       <div class="card card-primary">
@@ -16,6 +20,15 @@
               <%= f.submit 'Submit', class: 'btn btn-primary' %>
             </div>
           <% end %>
+        </div>
+      </div>
+
+      <div class="card card-primary">
+        <div class="card-header">
+          <h4>Contact</h4>
+        </div>
+        <div class="card-body">
+          <%= render '/contacts/form', contact: @deal.contact %>
         </div>
       </div>
     </div>

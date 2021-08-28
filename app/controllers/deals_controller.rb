@@ -14,6 +14,7 @@ class DealsController < InternalController
   # GET /deals/new
   def new
     @deal = Deal.new
+    @deal.build_contact
   end
 
   # GET /deals/1/edit
@@ -65,6 +66,9 @@ class DealsController < InternalController
 
     # Only allow a list of trusted parameters through.
     def deal_params
-      params.require(:deal).permit(:name, :status, :stage_id)
+      params.require(:deal).permit(
+        :name, :status, :stage_id,
+        contact_attributes: [ :id, :full_name, :phone, :email ]
+      )
     end
 end

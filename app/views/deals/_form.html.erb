@@ -11,22 +11,36 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, class: 'form-control' %>
   </div>
 
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.text_field :status %>
-  </div>
-
-  <div class="field">
+    <div class="form-group">
     <%= form.label :stage_id %>
-    <%= form.text_field :stage_id %>
+    <%= form.select(:stage_id, Stage.all.map { |stage| [stage.name, stage.id] }, {}, { class: 'form-control' }) %>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="section-title">Contact</div>
+
+  <%= form.fields_for :contact do |c| %>
+    <div class="form-group">
+      <%= c.label :full_name %>
+      <%= c.text_field :full_name, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= c.label :phone %>
+      <%= c.text_field :phone, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= c.label :email %>
+      <%= c.text_field :email, class: 'form-control' %>
+    </div>
+	<% end %>
+
+  <div class="card-footer text-right">
+    <%= form.submit 'Submit', class: 'btn btn-primary' %>
   </div>
 <% end %>
