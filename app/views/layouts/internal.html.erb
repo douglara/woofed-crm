@@ -11,7 +11,9 @@
     <%= stylesheet_link_tag 'application' %>
     <link rel="stylesheet" href="/assets/stisla/node_modules/@fortawesome/fontawesome-free/css/all">
     <link rel="stylesheet" href="/assets/stisla/node_modules/izitoast/dist/css/iziToast.min.css">
-    <link src="/assets/stisla/node_modules/summernote/dist/summernote-bs4.css" type="stylesheet">
+    <link rel="stylesheet" href="/assets/stisla/node_modules/summernote/dist/summernote-bs4.css">
+    <link rel="stylesheet" href="/assets/stisla/node_modules/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="/assets/stisla/assets/css/components.css">
 
     <%= stylesheet_link_tag "#{controller_name}", media: 'all' rescue nil %>
     <%= javascript_pack_tag 'application', defer: true %>
@@ -41,6 +43,7 @@
     <script src="/assets/stisla/node_modules/popper.js/dist/umd/popper.min.js" type="text/javascript"></script>
     <script src="/assets/stisla/node_modules/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="/assets/stisla/node_modules/izitoast/dist/js/iziToast.min.js" type="text/javascript"></script>
+    <script src="/assets/stisla/node_modules/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
     
     <%= yield :javascripts %>
 

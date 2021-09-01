@@ -67,7 +67,7 @@ class DealsController < InternalController
     # Only allow a list of trusted parameters through.
     def deal_params
       params.require(:deal).permit(
-        :name, :status, :stage_id,
+        :name, :status, :stage_id, :contact_id,
         contact_attributes: [ :id, :full_name, :phone, :email ]
       )
     end

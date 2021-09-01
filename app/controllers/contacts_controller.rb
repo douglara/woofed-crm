@@ -7,6 +7,22 @@ class ContactsController < InternalController
     @pagy, @contacts = pagy(@contacts)
   end
 
+  def search
+    @contacts = Contact.where('full_name LIKE :search OR email LIKE :search OR phone LIKE :search', search: "%#{params[:q]}%").limit(5).map(&:attributes)
+    
+    @results = @contacts.each do | c |
+      c[:text] = "#{c['full_name']} - #{c['email']}"
+      c
+    end
+
+    @results.insert(0, {"id": 0, "text": "New contact"})
+
+    json =  {
+      "results": @results
+    }
+    render json: json
+  end
+
   # GET /contacts/new
   def new
     @contact = Contact.new

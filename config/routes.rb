@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :contacts
+  resources :contacts do
+    get 'search', to: 'contacts#search', on: :collection
+  end
   resources :deals do
     resources :notes, module: :deals
   end
