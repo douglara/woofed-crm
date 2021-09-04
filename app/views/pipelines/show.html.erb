@@ -2,52 +2,39 @@
   <div class="section-header">
     <h1>Deals</h1>
   </div>
-
-  <div class="section-body">
-    <div class="card">
-
-      <div class="card-header">
-        <h4></h4>
-        <div class="card-header-action">
-          <div class="row">
-            <div class="dropdown ml-5 mr-5">
-              <a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown">Actions</a>
-              <div class="dropdown-menu dropdown-menu-right">
-                <%= link_to new_deal_path, class: 'dropdown-item has-icon' do %>
-                  <i class="fas fa-user-plus"></i> New
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card-body">
-        <div class="drag-container">
-          <ul class="drag-list" name="drag-list" content="<%= @pipeline.stages.count %>">
-            <% @pipeline.stages.each do | stage | %>
-              <li class="drag-column drag-column-in-progress">
-                <span class="drag-column-header">
-                  <h2><%= stage.name %></h2>
-                </span>
-                <div class="drag-options" id="options2"></div>
-                <ul class="drag-inner-list" id="<%= stage.order %>">
-                  <% stage.deals.each do | deal | %>
-                    <%= link_to deal_path(deal.id), deal_id: deal.id do %>
-                      <li class="drag-item" deal_id="<%= deal.id %>">
-                        <p class="deal-name"><%= deal.name %></p>
-                      </li>
-                    <% end %>
+  <div class="drag-container">
+    <ul class="drag-list" name="drag-list" content="<%= @pipeline.stages.count %>">
+      <% @pipeline.stages.each do | stage | %>
+        <li class="drag-column drag-column-in-progress">
+          <header>
+            <span class="drag-column-header">
+              <h2><%= stage.name %></h2>
+            </span>
+          </header>
+          <div class="teste">
+                          <ul class="drag-inner-list" id="<%= stage.order %>">
+            <% stage.deals.each do | deal | %>
+                <li class="drag-item" deal_id="<%= deal.id %>">
+                  <header>
+                    <label color="#7159c1"> </label>
+                  </header>
+                  <%= link_to deal_path(deal.id), deal_id: deal.id do %>
+                    <p class="deal-name"><%= deal.name %></p>
                   <% end %>
-                </ul>
-              </li>
+                </li>
             <% end %>
           </ul>
-        </div>
-      </div>
-    </div>
+          </div>
+
+        </li>
+      <% end %>
+    </ul>
   </div>
-</section>
+  <div class="new-deal-btn">
+    <%= button_to new_deal_path, method: :get do %>
+      <i class="fas fa-plus"></i>
+    <% end %>
+  </div>
 
 <%= content_for :javascripts do %>
   <%= javascript_pack_tag 'kanban' %>
