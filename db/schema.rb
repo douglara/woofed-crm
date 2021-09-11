@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_25_032611) do
+ActiveRecord::Schema.define(version: 2021_09_04_162059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,25 @@ ActiveRecord::Schema.define(version: 2021_08_25_032611) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "activities", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.datetime "due"
+    t.boolean "done", default: false, null: false
+    t.bigint "activity_kind_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["activity_kind_id"], name: "index_activities_on_activity_kind_id"
+  end
+
+  create_table "activity_kinds", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "key", default: "", null: false
+    t.integer "order", default: 0, null: false
+    t.string "icon_key", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "contacts", force: :cascade do |t|
     t.string "full_name", default: "", null: false
     t.string "phone", default: "", null: false
@@ -73,18 +92,19 @@ ActiveRecord::Schema.define(version: 2021_08_25_032611) do
   end
 
   create_table "flow_items", force: :cascade do |t|
-    t.string "kind", default: "", null: false
-    t.bigint "deal_id", null: false
+    t.bigint "deal_id"
+    t.bigint "contact_id", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["contact_id"], name: "index_flow_items_on_contact_id"
     t.index ["deal_id"], name: "index_flow_items_on_deal_id"
   end
 
   create_table "notes", force: :cascade do |t|
-    t.bigint "flow_item_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["flow_item_id"], name: "index_notes_on_flow_item_id"
   end
 
   create_table "pipelines", force: :cascade do |t|
@@ -117,9 +137,10 @@ ActiveRecord::Schema.define(version: 2021_08_25_032611) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "activities", "activity_kinds"
   add_foreign_key "deals", "contacts"
   add_foreign_key "deals", "stages"
+  add_foreign_key "flow_items", "contacts"
   add_foreign_key "flow_items", "deals"
-  add_foreign_key "notes", "flow_items"
   add_foreign_key "stages", "pipelines"
 end

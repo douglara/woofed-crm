@@ -27,4 +27,9 @@ if User.all.count == 0
   deal_1 = Deal.create(name: 'Deal 1', stage: stage_1, status: 'open', contact: contacts.sample)
   deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contact: contacts.sample)
   deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contact: contacts.sample)
+
+  activity_kind_1 = ActivityKind.create(name: 'Call', key: 'call', icon_key: 'fas fa-phone')
+  activity_kind_2 = ActivityKind.create(name: 'Email', key: 'email', icon_key: 'far fa-envelope')
+  activity_kind_3 = ActivityKind.create(name: 'Whatsapp', key: 'whatsapp', icon_key: 'fab fa-whatsapp')
+  puts('Created seed data')  
 end

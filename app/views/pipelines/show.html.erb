@@ -11,21 +11,28 @@
               <h2><%= stage.name %></h2>
             </span>
           </header>
-          <div class="teste">
-                          <ul class="drag-inner-list" id="<%= stage.order %>">
-            <% stage.deals.each do | deal | %>
-                <li class="drag-item" deal_id="<%= deal.id %>">
-                  <header>
-                    <label color="#7159c1"> </label>
-                  </header>
-                  <%= link_to deal_path(deal.id), deal_id: deal.id do %>
-                    <p class="deal-name"><%= deal.name %></p>
-                  <% end %>
-                </li>
-            <% end %>
-          </ul>
-          </div>
+          <div>
+            <ul class="drag-inner-list" id="<%= stage.order %>">
+              <% stage.deals.each do | deal | %>
+                <%= link_to deal_path(deal.id), deal_id: deal.id do %>
+                  <li class="drag-item" deal_id="<%= deal.id %>">
+                    <header>
+                      <label color="#7159c1"> </label>
+                    </header>
 
+                    <p class="deal-name"><%= deal.name %></p>
+                    <% if deal.next_action? %>
+                      <% if deal.next_action_overdue? %>
+                        <p class="time-overdue"><%= "Next action #{deal.next_action_format}"%></p>
+                      <% else %>
+                        <p><%= "Next action #{deal.next_action_format}"%></p>
+                      <% end %>
+                    <% end %>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
         </li>
       <% end %>
     </ul>

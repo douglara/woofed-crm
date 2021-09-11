@@ -8,7 +8,8 @@ class DealsController < InternalController
 
   # GET /deals/1 or /deals/1.json
   def show
-    @note = @deal.notes.new
+    @note = Note.new
+    @activity = Activity.new
   end
 
   # GET /deals/new

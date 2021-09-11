@@ -1,0 +1,18 @@
+<section class="section">
+  <div class="section-header">
+    <h1><%= @deal.name %></h1>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h4>Edit note</h4>
+        </div>
+        <div class="card-body">
+          <%= render "/deals/notes/form", note: @note %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

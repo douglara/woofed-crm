@@ -13,3 +13,19 @@ Rails.start()
 ActiveStorage.start()
 require("trix")
 require("@rails/actiontext")
+require("../../../vendor/theme/stisla/node_modules/popper.js/dist/umd/popper.min.js")
+require("../../../vendor/theme/stisla/node_modules/bootstrap/dist/js/bootstrap")
+
+$(document).on("turbo:load", () => {
+  // Daterangepicker
+  if(jQuery().daterangepicker) {
+    if($(".datetimepicker").length) {
+      $('.datetimepicker').daterangepicker({
+        locale: {format: 'YYYY-MM-DD HH:mm'},
+        singleDatePicker: true,
+        timePicker: true,
+        timePicker24Hour: true,
+      });
+    }
+  }
+})

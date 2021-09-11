@@ -1,0 +1,2 @@
+class ActivityKind < ApplicationRecord
+end

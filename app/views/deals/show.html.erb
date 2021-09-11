@@ -45,7 +45,7 @@
               <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Note</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" hidden id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Active</a>
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Active</a>
             </li>
           </ul>
 
@@ -54,40 +54,13 @@
               <%= render "/deals/notes/form.html.erb", note: @note %>
             </div>
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-              Sed sed metus vel lacus hendrerit tempus. Sed efficitur velit tortor, ac efficitur est lobortis quis. Nullam lacinia metus erat, sed fermentum justo rutrum ultrices. Proin quis iaculis tellus. Etiam ac vehicula eros, pharetra consectetur dui. Aliquam convallis neque eget tellus efficitur, eget maximus massa imperdiet. Morbi a mattis velit. Donec hendrerit venenatis justo, eget scelerisque tellus pharetra a.
+              <%= render "/deals/activities/form", activity: @activity %>
             </div>
           </div>
-
         </div>
       </div>
 
-      <div class="col-12">
-        <div class="activities">
-          <% @deal.flow_items.each do | flow_item | %>
-            <div class="activity">
-              <div class="activity-icon bg-primary text-white shadow-primary">
-                <i class="fas fa-sticky-note"></i>
-              </div>
-              <div class="activity-detail">
-                <div class="mb-2">
-                  <span class="text-job text-primary"><%= time_ago_in_words(flow_item.created_at) %> ago</span>
-                  <span class="bullet"></span>
-                  <div class="float-right dropdown">
-                    <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
-                    <div class="dropdown-menu">
-                      <div class="dropdown-title">Options</div>
-                      <a href="#" class="dropdown-item has-icon"><i class="fas fa-list"></i> Edit</a>
-                      <div class="dropdown-divider"></div>
-                      <a href="#" class="dropdown-item has-icon text-danger trigger--fire-modal-1" data-confirm="Wait, wait, wait...|This action can't be undone. Want to take risks?" data-confirm-text-yes="Yes, IDC"><i class="fas fa-trash-alt"></i> Delete</a>
-                    </div>
-                  </div>
-                </div>
-                <p><%= flow_item.note.content %></p>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
+      <%= render "/deals/flow_items/items", deal: @deal %>
     </div>
   </div>
 </section>

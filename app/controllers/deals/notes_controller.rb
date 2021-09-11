@@ -1,19 +1,5 @@
-class Deals::NotesController < ApplicationController
-  before_action :set_note, only: %i[ show edit update destroy ]
-
-  # GET /notes or /notes.json
-  def index
-    @notes = Note.all
-  end
-
-  # GET /notes/1 or /notes/1.json
-  def show
-  end
-
-  # GET /notes/new
-  def new
-    @note = Note.new
-  end
+class Deals::NotesController < InternalController
+  before_action :set_note, :set_deal, only: %i[ show edit update destroy ]
 
   # GET /notes/1/edit
   def edit
@@ -21,12 +7,12 @@ class Deals::NotesController < ApplicationController
 
   # POST /notes or /notes.json
   def create
-    @floiw_item = Deal.find(params[:deal_id]).flow_items.new
+    @deal = Deal.find(params[:deal_id])
     @note = Note.new(note_params)
-    @note.flow_item = @floiw_item
+    @flow_item = FlowItem.new(deal_id: @deal.id, contact_id: @deal.contact.id, record: @note)
 
     respond_to do |format|
-      if @note.save
+      if @note.save && @flow_item.save
         format.html {  redirect_to(deal_path(params[:deal_id]), notice: "Note was successfully created.") }
         #format.json { render :show, status: :created, location: @note }
       else
@@ -40,7 +26,7 @@ class Deals::NotesController < ApplicationController
   def update
     respond_to do |format|
       if @note.update(note_params)
-        format.html { redirect_to @note, notice: "Note was successfully updated." }
+        format.html {  redirect_to(deal_path(params[:deal_id]), notice: "Note was successfully updated.") }
         format.json { render :show, status: :ok, location: @note }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -49,19 +35,14 @@ class Deals::NotesController < ApplicationController
     end
   end
 
-  # DELETE /notes/1 or /notes/1.json
-  def destroy
-    @note.destroy
-    respond_to do |format|
-      format.html { redirect_to notes_url, notice: "Note was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_note
       @note = Note.find(params[:id])
+    end
+
+    def set_deal
+      @deal = Deal.find(params[:deal_id])
     end
 
     # Only allow a list of trusted parameters through.

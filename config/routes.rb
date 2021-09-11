@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   end
   resources :deals do
     resources :notes, module: :deals
+    resources :activities, module: :deals
+    resources :flow_items, only: [:destroy], module: :deals
   end
 
   resources :pipelines

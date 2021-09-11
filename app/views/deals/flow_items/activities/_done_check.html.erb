@@ -1,0 +1,7 @@
+<%= form_with(model: activity, url: deal_activity_path(deal_id: @deal.id, id: activity.id)) do |form| %>
+  <div class="form-check form-check-inline">
+    <div>
+      <%= form.check_box :done, class: 'form-check-input', onclick: 'this.form.submit()' %>
+    </div>
+  </div>
+<% end %>
