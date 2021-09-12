@@ -6,6 +6,15 @@ Open CRM is a Open source CRM Software.
 
 🚧 **Under development** 🚧
 
+## Layout
+
+![Open CRM](/.github/layout.png)
+
+## Let's try
+
+You can try the development version through the link:
+https://open-crm-development.herokuapp.com
+
 
 ## Contributing
 

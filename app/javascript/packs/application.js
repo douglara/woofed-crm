@@ -13,8 +13,8 @@ Rails.start()
 ActiveStorage.start()
 require("trix")
 require("@rails/actiontext")
-require("../../../vendor/theme/stisla/node_modules/popper.js/dist/umd/popper.min.js")
-require("../../../vendor/theme/stisla/node_modules/bootstrap/dist/js/bootstrap")
+require("@stisla/node_modules/popper.js/dist/umd/popper.min.js")
+require("@stisla/node_modules/bootstrap/dist/js/bootstrap")
 
 $(document).on("turbo:load", () => {
   // Daterangepicker
