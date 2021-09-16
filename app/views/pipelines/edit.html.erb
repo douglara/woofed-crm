@@ -1,6 +1,15 @@
-<h1>Editing Pipeline</h1>
+<section class="section">
+  <div class="section-header">
+    <h1>Editing Pipeline</h1>
+  </div>
 
-<%= render 'form', pipeline: @pipeline %>
-
-<%= link_to 'Show', @pipeline %> |
-<%= link_to 'Back', pipelines_path %>
+  <div class="section-body">
+    <div class="card">
+      <div class="card-body">
+        <div class="col-lg-5 container">
+          <%= render 'form', pipeline: @pipeline %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

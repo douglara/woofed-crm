@@ -11,12 +11,23 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, class: 'form-control' %>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <h3>Stages</h3>
+  <div id='stages'>    
+    <%= form.fields_for :stages do |stage| %>
+      <%= render 'stage_fields', :f => stage %>
+    <% end %>
+    <div class='links'>
+      <%= link_to_add_association 'New stage', form, :stages %>
+    </div>
+  </div>
+
+
+  <div class="card-footer text-right">
+    <%= form.submit 'Submit', class: 'btn btn-primary' %>
   </div>
 <% end %>

@@ -32,6 +32,10 @@ gem 'devise'
 # Pagination
 gem 'pagy', '~> 3.5'
 
+
+# Dynamic forms
+gem 'cocoon'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 

@@ -8,6 +8,7 @@ class PipelinesController < InternalController
 
   # GET /pipelines/1 or /pipelines/1.json
   def show
+    @pipelines = Pipeline.all
   end
 
   # GET /pipelines/new
@@ -64,6 +65,6 @@ class PipelinesController < InternalController
 
     # Only allow a list of trusted parameters through.
     def pipeline_params
-      params.require(:pipeline).permit(:name)
+      params.require(:pipeline).permit(:name, stages_attributes: [:id, :name, :_destroy])
     end
 end

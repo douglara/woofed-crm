@@ -4,3 +4,17 @@
 @import "stisla/sources/scss/components";
 @import "stisla/node_modules/izitoast/dist/css/iziToast";
 @import "./actiontext.scss";
+
+.btn-remove {
+	font-size: 12px;
+	border-radius: 30px;
+	padding-left: 13px;
+	padding-right: 13px;
+  padding: 2px 15px;
+  box-shadow: 0 2px 6px #fd9b96;
+  background-color: #fc544b;
+  border-color: #fc544b;
+  color: #fff;
+  max-height: 30px;
+  margin-left: 15px;
+}
