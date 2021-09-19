@@ -1,19 +1,19 @@
 <h1 align="center">
-  Open CRM
+  <img src="/.github/logo.png"/>
 </h1>
 
-Open CRM is a Open source CRM Software.
+Woofed CRM is a Open source CRM Software.
 
 🚧 **Under development** 🚧
 
 ## Layout
 
-![Open CRM](/.github/layout.png)
+![Woofed CRM](/.github/layout.png)
 
 ## Let's try
 
 You can try the development version through the link:
-https://open-crm-development.herokuapp.com
+https://woofed-crm-development.herokuapp.com
 
 
 ## Contributing

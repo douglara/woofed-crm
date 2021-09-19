@@ -1,5 +1,5 @@
 {
-  "name": "opencrm-app",
+  "name": "woofed-crm",
   "private": true,
   "scripts": {
     "install-theme": "yarn --cwd vendor/theme/stisla install",
