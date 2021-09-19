@@ -8,6 +8,10 @@
       <%= image_tag "/assets/stisla/assets/img/avatar/avatar-1.png", class: 'rounded-circle mr-1' %>
       <div class="d-sm-none d-lg-inline-block">Hi, <%= current_user.full_name %></div></a>
       <div class="dropdown-menu dropdown-menu-right">
+        <%= link_to settings_index_path, class:"dropdown-item has-icon" do %>
+          <i class="fas fa-cog"></i> Settings
+        <% end %>
+        <div class="dropdown-divider"></div>
         <%= link_to destroy_user_session_path, class:"dropdown-item has-icon text-danger", :method => :delete do %>
           <i class="fas fa-sign-out-alt"></i> Logout
         <% end %>

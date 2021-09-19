@@ -29,12 +29,12 @@ gem 'redis', '~> 4.0'
 # Authentication
 gem 'devise'
 
-# Pagination
+
 gem 'pagy', '~> 3.5'
-
-
-# Dynamic forms
+gem 'faraday'
+gem 'html2text'
 gem 'cocoon'
+gem 'sidekiq'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false

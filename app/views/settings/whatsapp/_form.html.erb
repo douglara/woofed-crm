@@ -1,0 +1,38 @@
+<%= form_with(model: activity_kind_whatsapp, url: settings_whatsapp_new_connection_path, method: :post, data: {turbo: false}) do |form| %>
+  <% if activity_kind_whatsapp.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(activity_kind_whatsapp.errors.count, "error") %> prohibited this activity kind from being saved:</h2>
+
+      <ul>
+        <% activity_kind_whatsapp.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label_tag 'activity_kind[settings][text]', 'Endpoint' %>
+    <%= text_field_tag "activity_kind[settings][endpoint_url]", activity_kind_whatsapp['settings']['endpoint_url'], class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag 'activity_kind[settings][text]', 'Secret Key' %>
+    <%= text_field_tag "activity_kind[settings][secretkey]", activity_kind_whatsapp['settings']['secretkey'], class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag 'activity_kind[settings][enabled]', 'Enabled', class: 'd-block' %>
+    <div class="form-check form-check-inline">
+      <%= form.check_box 'activity_kind[settings][enabled]', { checked: activity_kind_whatsapp['settings']['enabled'], disabled: true }, class: 'form-check-input' %>
+    </div>
+  </div>
+
+  <div class="card-footer text-right">
+    <%= link_to settings_whatsapp_deactivate_path, class:"btn btn-secondary", :method => :post do %>
+      Deactivate
+    <% end %>
+
+    <%= form.submit 'New connection', class: 'btn btn-primary' %>
+  </div>
+<% end %>

@@ -13,4 +13,12 @@ class Activity < ApplicationRecord
     return false if due.blank?
     DateTime.now < due
   end
+
+  after_commit :check_and_enqueue_whatsapp_message
+
+  def check_and_enqueue_whatsapp_message
+    if self.activity_kind.key == 'whatsapp' && self.previous_changes.has_key?('done') && self.done == true
+      Activities::Whatsapp::Message::SendWorker.perform_in(1.seconds, self.id)
+    end
+  end
 end

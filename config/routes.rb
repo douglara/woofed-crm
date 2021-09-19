@@ -1,4 +1,8 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  mount Sidekiq::Web => "/sidekiq"
+ 
   resources :contacts do
     get 'search', to: 'contacts#search', on: :collection
   end
@@ -6,6 +10,17 @@ Rails.application.routes.draw do
     resources :notes, module: :deals
     resources :activities, module: :deals
     resources :flow_items, only: [:destroy], module: :deals
+  end
+
+  namespace :settings do
+    get 'index'
+    resources :activity_kinds
+    namespace :whatsapp do
+      get 'edit'
+      post 'new_connection'
+      get 'new_connection_status'
+      post 'deactivate'
+    end
   end
 
   resources :pipelines

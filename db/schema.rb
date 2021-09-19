@@ -68,6 +68,8 @@ ActiveRecord::Schema.define(version: 2021_09_04_162059) do
     t.string "key", default: "", null: false
     t.integer "order", default: 0, null: false
     t.string "icon_key", default: "", null: false
+    t.boolean "is_custom", default: true, null: false
+    t.jsonb "settings", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

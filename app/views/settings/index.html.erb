@@ -1,0 +1,38 @@
+<section class="section">
+  <div class="section-header">
+    <h1>Settings</h1>
+  </div>
+
+  <div class="section-body">
+    <div class="row">
+      <div hidden class="col-lg-6">
+        <div class="card card-large-icons">
+          <div class="card-icon bg-primary text-white">
+            <i class="fas fa-stopwatch"></i>
+          </div>
+          <div class="card-body">
+            <h4>Activities</h4>
+            <p>Configure CRM activities.</p>
+            <%= link_to settings_activity_kinds_path, class:"card-cta" do %>
+              Configure activities<i class="fas fa-chevron-right"></i>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card card-large-icons">
+          <div class="card-icon bg-primary text-white">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <div class="card-body">
+            <h4>Whatsapp</h4>
+            <p>Configure Whatsapp connection.</p>
+            <%= link_to settings_whatsapp_edit_path(), class:"card-cta" do %>
+              Configure whatsapp<i class="fas fa-chevron-right"></i>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
