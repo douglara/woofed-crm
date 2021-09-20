@@ -22,9 +22,9 @@
   </div>
 
   <div class="form-group">
-    <%= label_tag 'activity_kind[settings][enabled]', 'Enabled', class: 'd-block' %>
+    <%= form.label :enabled, class: 'd-block' %>
     <div class="form-check form-check-inline">
-      <%= form.check_box 'activity_kind[settings][enabled]', { checked: activity_kind_whatsapp['settings']['enabled'], disabled: true }, class: 'form-check-input' %>
+      <%= form.check_box 'activity_kind[settings][enabled]', { checked: activity_kind_whatsapp.enabled, disabled: true }, class: 'form-check-input' %>
     </div>
   </div>
 

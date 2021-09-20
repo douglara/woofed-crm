@@ -5,7 +5,7 @@ class CreateActivityKinds < ActiveRecord::Migration[6.1]
       t.string :key, null: false, default: ""
       t.integer :order, null: false, default: 0
       t.string :icon_key, null: false, default: ""
-      t.boolean :is_custom, null: false, default: true
+      t.boolean :enabled, null: false, default: false
       t.jsonb :settings, null: false, default: {}
 
       t.timestamps

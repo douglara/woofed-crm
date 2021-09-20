@@ -21,8 +21,7 @@ class Settings::WhatsappController < InternalController
 
   def new_connection_status
     is_connected = Activities::Whatsapp::Connection::New.new.connected?
-    @activity_kind_whatsapp['settings']['enabled'] = is_connected
-    @activity_kind_whatsapp.save
+    @activity_kind_whatsapp.update(enabled: is_connected)
 
     respond_to do |format|
       format.json { render json: {'connceted': is_connected}, status: :ok }
@@ -30,7 +29,7 @@ class Settings::WhatsappController < InternalController
   end
 
   def deactivate
-    @activity_kind_whatsapp['settings']['enabled'] = false
+    @activity_kind_whatsapp.update(enabled: false)
     respond_to do |format|
       if @activity_kind_whatsapp.save
         format.html { redirect_to settings_whatsapp_edit_path(), notice: "Whatsapp activated" }

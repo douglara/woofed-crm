@@ -28,8 +28,8 @@ if User.all.count == 0
   deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contact: contacts.sample)
   deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contact: contacts.sample)
 
-  activity_kind_1 = ActivityKind.create(name: 'Call', key: 'call', icon_key: 'fas fa-phone', is_custom: false)
-  activity_kind_2 = ActivityKind.create(name: 'Email', key: 'email', icon_key: 'far fa-envelope', is_custom: false)
-  activity_kind_3 = ActivityKind.create(name: 'Whatsapp', key: 'whatsapp', icon_key: 'fab fa-whatsapp', is_custom: false, settings: {'secretkey': '', 'endpoint_url': '', 'enabled': false, 'session': '', 'token': ''})
+  activity_kind_1 = ActivityKind.create(name: 'Call', key: 'call', icon_key: 'fas fa-phone', enabled: true)
+  activity_kind_2 = ActivityKind.create(name: 'Email', key: 'email', icon_key: 'far fa-envelope', enabled: true)
+  activity_kind_3 = ActivityKind.create(name: 'Whatsapp', key: 'whatsapp', icon_key: 'fab fa-whatsapp', enabled: false, settings: {'secretkey': 'THISISMYSECURETOKEN', 'endpoint_url': 'https://wppconnect-server-open-crm.herokuapp.com', 'enabled': false, 'session': '', 'token': ''})
   puts('Created seed data')  
 end

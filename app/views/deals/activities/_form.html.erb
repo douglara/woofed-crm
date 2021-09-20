@@ -18,7 +18,7 @@
 
   <div class="form-group">
     <%= form.label :activity_kind_id %>
-    <%= form.select(:activity_kind_id, ActivityKind.all.map { |stage| [stage.name, stage.id] }, {}, { class: 'form-control' }) %>
+    <%= form.select(:activity_kind_id, ActivityKind.enabled.map { |stage| [stage.name, stage.id] }, {}, { class: 'form-control' }) %>
   </div>
 
   <div class="form-group">
