@@ -4,7 +4,7 @@
       <span class="badge badge-light">Planned</span>
     </header>
     <div class="activities">
-      <% deal.flow_items.activities_not_done.each do | flow_item | %>
+      <% [].each do | flow_item | %>
         <%= render "/deals/flow_items/item", flow_item: flow_item %>
       <% end %>
     </div>
@@ -15,7 +15,7 @@
       <span class="badge badge-light">Done</span>
     </header>
     <div class="activities">
-      <% deal.flow_items.wihtout_activities_not_done.each do | flow_item | %>
+      <% deal.contact.flow_items.done_items.each do | flow_item | %>
         <%= render "/deals/flow_items/item", flow_item: flow_item %>
       <% end %>
     </div>

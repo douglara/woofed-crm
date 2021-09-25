@@ -16,7 +16,7 @@ module WithVCR
 
   def with_expiring_vcr_cassette
     names = self.class.name.split("::")
-    cassette_path = names.map { |s| s.gsub(/[^A-Z0-9]+/i, "_") }.join("/")
+    cassette_path = names.map { |s| s.gsub(/[^A-Z0-9]+/i, "_") }.join("/") + "/#{self.method_name}"
 
     VCR.use_cassette(cassette_path, match_requests_on: [:method]) do |cassette|
       if File.exist?(cassette.file)

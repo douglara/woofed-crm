@@ -10,6 +10,7 @@ class DealsController < InternalController
   def show
     @note = Note.new
     @activity = Activity.new
+    @flow_item = FlowItem.new
   end
 
   # GET /deals/new
@@ -29,6 +30,21 @@ class DealsController < InternalController
     respond_to do |format|
       if @deal.save
         format.html { redirect_to @deal, notice: "Deal was successfully created." }
+        format.json { render :show, status: :created, location: @deal }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @deal.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def create_whatsapp
+    @deal = Deal.find(params['deal_id'])
+    result = FlowItems::ActivitiesKinds::WpConnect::Messages::Create.call(whatsapp_params.merge({'contact_id': @deal.contact.id}))
+
+    respond_to do |format|
+      if result.key?(:ok)
+        format.html { redirect_to @deal }
         format.json { render :show, status: :created, location: @deal }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -70,6 +86,12 @@ class DealsController < InternalController
       params.require(:deal).permit(
         :name, :status, :stage_id, :contact_id,
         contact_attributes: [ :id, :full_name, :phone, :email ]
+      )
+    end
+
+    def whatsapp_params
+      params.require(:flow_item).permit(
+        :content, :kind_id
       )
     end
 end

@@ -1,14 +1,29 @@
 class FlowItem < ApplicationRecord
   default_scope { order(created_at: :desc) }
 
-  belongs_to :deal
+  belongs_to :deal, optional: true
   belongs_to :contact
-  belongs_to :record, polymorphic: true, dependent: :destroy
+  belongs_to :kind, polymorphic: true, dependent: :destroy, optional: true
 
-  scope :activities_not_done, -> {
-    joins("LEFT JOIN activities ON activities.id = flow_items.record_id")
-    .where('activities.done = False').where(record_type: 'Activity')
+  jsonb_accessor :item,
+    name: [:string, default: ''],
+    wp_connect_id: [:integer],
+    due: [:datetime],
+    done: [:boolean, default: false],
+    source_id: [:string,],
+    error: [:jsonb],
+    content: [:text]
+
+  scope :done_items, -> {
+    item_where(done: true)
   }
 
-  scope :wihtout_activities_not_done, -> { where.not(id: activities_not_done) }
+  def due_format
+    due.to_s(:short) rescue ''
+  end
+  
+  def overdue?
+    return false if self.done == true || due.blank?
+    DateTime.now < due
+  end
 end

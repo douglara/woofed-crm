@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get 'search', to: 'contacts#search', on: :collection
   end
   resources :deals do
+    post 'create_whatsapp'
     resources :notes, module: :deals
     resources :activities, module: :deals
     resources :flow_items, only: [:destroy], module: :deals

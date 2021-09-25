@@ -96,8 +96,9 @@ ActiveRecord::Schema.define(version: 2021_09_25_012824) do
   create_table "flow_items", force: :cascade do |t|
     t.bigint "deal_id"
     t.bigint "contact_id", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
+    t.string "kind_type"
+    t.bigint "kind_id"
+    t.jsonb "item"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["contact_id"], name: "index_flow_items_on_contact_id"
@@ -155,10 +156,10 @@ ActiveRecord::Schema.define(version: 2021_09_25_012824) do
     t.string "source_id"
     t.text "content"
     t.jsonb "error", default: {}, null: false
-    t.bigint "wp_connects_id", null: false
+    t.bigint "wp_connect_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["wp_connects_id"], name: "index_wp_connects_messages_on_wp_connects_id"
+    t.index ["wp_connect_id"], name: "index_wp_connects_messages_on_wp_connect_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -169,5 +170,5 @@ ActiveRecord::Schema.define(version: 2021_09_25_012824) do
   add_foreign_key "flow_items", "contacts"
   add_foreign_key "flow_items", "deals"
   add_foreign_key "stages", "pipelines"
-  add_foreign_key "wp_connects_messages", "wp_connects", column: "wp_connects_id"
+  add_foreign_key "wp_connects_messages", "wp_connects"
 end

@@ -1,6 +1,6 @@
 <div class="activity">
   <div class="activity-icon bg-primary text-white shadow-primary">
-    <i class="<%= flow_item.record.icon_key %>"></i>
+    <i class="<%= flow_item.kind.icon_key %>"></i>
   </div>
   <div class="activity-detail">
     <header>
@@ -9,11 +9,11 @@
         <div class="dropdown-menu">
           <div class="dropdown-title">Options</div>
 
-          <% if flow_item.record_type == 'Note' %>
+          <% if flow_item.kind_type == 'Note' %>
             <%= link_to edit_deal_note_path(deal_id: @deal.id, id: flow_item.record), class: 'dropdown-item has-icon' do %>
               <i class="far fa-edit"></i> Edit</a>
             <% end %>
-          <% elsif flow_item.record_type == 'Activity' %>
+          <% elsif flow_item.kind_type == 'Activity' %>
             <%= link_to edit_deal_activity_path(deal_id: @deal.id, id: flow_item.record), class: 'dropdown-item has-icon' do %>
               <i class="far fa-edit"></i> Edit</a>
             <% end %>
@@ -22,32 +22,32 @@
           <div class="dropdown-divider"></div>
 
           <%= link_to(deal_flow_item_path(deal_id: @deal.id, id: flow_item.id), method: :delete, data: { confirm: 'Are you sure?' },
-            class: 'dropdown-item has-icon text-danger'
+            class: 'dropdown-item has-icon text-danger', hidden: true
             ) do %>
             <i class="fas fa-trash-alt"></i> Delete
           <% end %>
         </div>
       </div>
       <div class="row">
-        <% if flow_item.record_type == 'Activity' %>
+        <% if flow_item.kind_type == 'Activity' %>
           <%= render "/deals/flow_items/activities/done_check", activity: flow_item.record %>
           <h4><%= flow_item.record.name %></h4>
-        <% elsif flow_item.record_type == 'Note' %>
+        <% elsif flow_item.kind_type == 'Note' %>
           <h4>Note</h4>
         <% end %>
       </div>
-      <% if flow_item.record.has_attribute?(:due) %>
-        <% if flow_item.record.overdue? %>
-          <span><%= flow_item.record.due_format %></span>
+      <% if flow_item.has_attribute?(:due) %>
+        <% if flow_item.overdue? %>
+          <span class="time-overdue"><%= flow_item.due_format %></span>
         <% else %>
-          <span class="time-overdue"><%= flow_item.record.due_format %></span>
+          <span><%= flow_item.due_format %></span>
         <% end %>
       <% else %>
         <span><%= time_ago_in_words(flow_item.updated_at) %> ago</span>
       <% end %>
     </header>
     <div class="card-body item-body">
-      <p><%= flow_item.record.content %></p>
+      <p><%= flow_item.content %></p>
     </div>
   </div>
 </div>

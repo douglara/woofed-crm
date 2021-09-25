@@ -1,0 +1,27 @@
+<%= form_with(model: flow_item, url: deal_create_whatsapp_path(@deal) ) do |form| %>
+  <% if flow_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(flow_item.errors.count, "error") %> prohibited this activity from being saved:</h2>
+
+      <ul>
+        <% flow_item.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :wp_connect %>
+    <%= form.select(:kind_id, FlowItems::ActivitiesKinds::WpConnect.enabled.map { |connection| [connection.name, connection.id] }, {}, { class: 'form-control', required: true}) %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :content %>
+    <%= form.text_area :content, class: 'form-control wp-text-area', required: true %>
+  </div>
+
+  <div class="card-footer text-right">
+    <%= form.submit 'Save', class: 'btn btn-primary' %>
+  </div>
+<% end %>
