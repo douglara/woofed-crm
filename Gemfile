@@ -36,6 +36,7 @@ gem 'html2text'
 gem 'cocoon'
 gem 'sidekiq'
 gem 'jsonb_accessor', '1.3.2'
+gem 'jwt', '2.2.3'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false

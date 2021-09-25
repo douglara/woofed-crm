@@ -26,5 +26,14 @@ Rails.application.routes.draw do
   resources :pipelines
   devise_for :users
   root to: "pipelines#index"
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  namespace :api do
+    namespace :v1 do
+      resources :contacts, only: [:create] do
+        resources :wp_connects, only: [] do
+          resources :messages, only: [:create], controller: "contacts/wp_connects/messages"
+        end
+      end
+    end
+  end
 end
