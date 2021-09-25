@@ -1,0 +1,12 @@
+{
+  "saveAndRun": {
+    "commands": [
+      {
+        "match": ".rb",
+        "cmd": "rails test",
+        "useShortcut": false,
+        "silent": true
+      }
+    ]
+  }
+}

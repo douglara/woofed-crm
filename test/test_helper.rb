@@ -1,6 +1,8 @@
 ENV['RAILS_ENV'] ||= 'test'
 require_relative "../config/environment"
 require "rails/test_help"
+require 'webmock/minitest'
+Dir[File.expand_path("../support/**/*.rb", __FILE__)].each { |rb| require(rb) }
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers

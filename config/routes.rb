@@ -15,11 +15,10 @@ Rails.application.routes.draw do
   namespace :settings do
     get 'index'
     resources :activity_kinds
-    namespace :whatsapp do
-      get 'edit'
-      post 'new_connection'
-      get 'new_connection_status'
-      post 'deactivate'
+    resources :whatsapp do
+      post 'pair_qr_code', on: :collection
+      post 'new_connection_status', on: :collection
+      post 'disable'
     end
   end
 
