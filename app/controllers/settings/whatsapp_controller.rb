@@ -1,5 +1,5 @@
 class Settings::WhatsappController < InternalController
-  before_action :set_whatsapp, only: %i[ edit disable new_connection new_connection_status ]
+  before_action :set_whatsapp, only: %i[ edit disable new_connection ]
 
   def new
     @whatsapp = FlowItems::ActivitiesKinds::WpConnect.new

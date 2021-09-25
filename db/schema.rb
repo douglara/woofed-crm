@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_23_024235) do
+ActiveRecord::Schema.define(version: 2021_09_25_012824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,17 +104,6 @@ ActiveRecord::Schema.define(version: 2021_09_23_024235) do
     t.index ["deal_id"], name: "index_flow_items_on_deal_id"
   end
 
-  create_table "flow_items_activities_kinds_wp_connects", force: :cascade do |t|
-    t.string "name", default: "", null: false
-    t.boolean "enabled", default: false, null: false
-    t.string "secretkey", default: "", null: false
-    t.string "endpoint_url", default: "", null: false
-    t.string "session", default: "", null: false
-    t.string "token", default: "", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "notes", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -148,6 +137,30 @@ ActiveRecord::Schema.define(version: 2021_09_23_024235) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "wp_connects", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.boolean "enabled", default: false, null: false
+    t.string "secretkey", default: "", null: false
+    t.string "endpoint_url", default: "", null: false
+    t.string "session", default: "", null: false
+    t.string "token", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "wp_connects_messages", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.datetime "due"
+    t.boolean "done", default: false, null: false
+    t.string "source_id"
+    t.text "content"
+    t.jsonb "error", default: {}, null: false
+    t.bigint "wp_connects_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["wp_connects_id"], name: "index_wp_connects_messages_on_wp_connects_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "activities", "activity_kinds"
@@ -156,4 +169,5 @@ ActiveRecord::Schema.define(version: 2021_09_23_024235) do
   add_foreign_key "flow_items", "contacts"
   add_foreign_key "flow_items", "deals"
   add_foreign_key "stages", "pipelines"
+  add_foreign_key "wp_connects_messages", "wp_connects", column: "wp_connects_id"
 end

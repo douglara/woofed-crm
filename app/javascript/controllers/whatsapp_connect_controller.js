@@ -4,7 +4,6 @@ export default class extends Controller {
 	static targets = ['token', 'secretkey', 'endpoint_url', 'session']
 
 	connect() {
-		console.log('eaee')
 		this.load(); 
   }
 

@@ -1,6 +1,6 @@
 class CreateFlowItemsActivitiesKindsWpConnects < ActiveRecord::Migration[6.1]
   def change
-    create_table :flow_items_activities_kinds_wp_connects do |t|
+    create_table :wp_connects do |t|
       t.string :name, null: false, default: ""
       t.boolean :enabled, null: false, default: false
       t.string :secretkey, null: false, default: ""
