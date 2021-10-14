@@ -8,7 +8,7 @@
       <div class="card-body">
         <div class="jumbotron text-center" data-controller="whatsapp-connect">
           <h2 class="mb-4">Whatsapp QR code</h2>
-            <p><img src="data:image/png;base64, <%= @qr_code %>" alt="Whatsapp QR Code" /></p>
+            <p><img id="qr_code" src="data:image/png;base64, <%= @qr_code %>" alt="Whatsapp QR Code" /></p>
             <%= render 'form_pair', whatsapp: @whatsapp %>
         </div>
       </div>

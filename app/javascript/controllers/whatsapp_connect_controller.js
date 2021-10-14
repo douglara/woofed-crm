@@ -10,12 +10,15 @@ export default class extends Controller {
 	async load () {
 		const timer = ms => new Promise(res => setTimeout(res, ms))
 
-		for (var i = 0; i < 25; i++) {
+		for (var i = 0; i < 45; i++) {
 			let res = await this.is_connected()
-			if (res == true) {
+			if (res['connceted'] == true) {
 				$("#pair-form").submit();
 			}
-			await timer(3000);
+			else {
+				$("#qr_code").attr("src", res['qr_code']);
+			}
+			await timer(1000);
 		}
 	}
 	
@@ -39,6 +42,6 @@ export default class extends Controller {
 			},
 			dataType:'json'
 		});
-		return res['connceted']
+		return res
 	}
 }

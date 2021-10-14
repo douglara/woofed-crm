@@ -4,21 +4,22 @@ class FlowItems::ActivitiesKinds::WpConnect::Connection::Status
     whatsapp = FlowItems::ActivitiesKinds::WpConnect.new(whatsapp_params)
 
     response = Faraday.get(
-      "#{whatsapp.endpoint_url}/api/#{whatsapp.session}/check-connection-session",
+      "#{whatsapp.endpoint_url}/api/#{whatsapp.session}/status-session",
       {},
       {'Authorization': "Bearer #{whatsapp.token}", 'Content-Type': 'application/json'}
     )
 
-    if connected?(response)
-      return {ok: response}
+    body = JSON.parse(response.body)
+
+    if connected?(body)
+      return {ok: body}
     else
-      return {error: response}
+      return {error: body}
     end
   end
 
-  def self.connected?(response)
-    body = JSON.parse(response.body)
-    body['message'] == 'Connected'
+  def self.connected?(response_body)
+    response_body['status'] == 'CONNECTED'
   rescue
     false
   end

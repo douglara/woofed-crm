@@ -45,10 +45,13 @@ class Settings::WhatsappController < InternalController
 
   def new_connection_status
     status = FlowItems::ActivitiesKinds::WpConnect::Connection::Status.call(whatsapp_params)
-    is_connected = status.key?(:ok)
 
     respond_to do |format|
-      format.json { render json: {'connceted': is_connected}, status: :ok }
+      if status.key?(:ok)
+        format.json { render json: {'connceted': true }, status: :ok }
+      else
+        format.json { render json: {'connceted': false, qr_code: status[:error]['qrcode'] }, status: :ok }
+      end
     end
   end
 
