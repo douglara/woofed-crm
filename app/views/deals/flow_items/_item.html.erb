@@ -2,7 +2,7 @@
   <div class="activity-icon bg-primary text-white shadow-primary">
     <i class="<%= flow_item.kind.icon_key %>"></i>
   </div>
-  <div class="activity-detail">
+  <div class="activity-detail <%= flow_item.from_me == true ? 'activity-detail-from-me' : '' %>">
     <header>
       <div class="float-right dropdown dropleft">
         <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
