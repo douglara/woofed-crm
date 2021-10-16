@@ -1,0 +1,23 @@
+<div class="col-12">
+  <div>
+    <header class="text-center m-3">
+      <span class="badge badge-light">Planned</span>
+    </header>
+    <div class="activities">
+      <% [].each do | flow_item | %>
+        <%= render "/contacts/flow_items/item", flow_item: flow_item %>
+      <% end %>
+    </div>
+  </div>
+
+  <div>
+    <header class="text-center m-3">
+      <span class="badge badge-light">Done</span>
+    </header>
+    <div class="activities">
+      <% contact.flow_items.done_items.each do | flow_item | %>
+        <%= render "/contacts/flow_items/item", flow_item: flow_item %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="activity">
+  <div class="activity-icon bg-primary text-white shadow-primary">
+    <i class="<%= flow_item.kind.icon_key %>"></i>
+  </div>
+  <div class="activity-detail">
+    <header>
+      <div class="float-right dropdown dropleft">
+        <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+        <div class="dropdown-menu">
+          <div class="dropdown-title">Options</div>
+
+          <% if flow_item.kind_type == 'Note' %>
+
+          <% elsif flow_item.kind_type == 'Activity' %>
+
+          <% end %>
+
+          <div class="dropdown-divider"></div>
+
+
+        </div>
+      </div>
+      <div class="row">
+        <% if flow_item.kind_type == 'Activity' %>
+          <%= render "/deals/flow_items/activities/done_check", activity: flow_item.record %>
+          <h4><%= flow_item.record.name %></h4>
+        <% elsif flow_item.kind_type == 'Note' %>
+          <h4>Note</h4>
+        <% end %>
+      </div>
+      <% if flow_item.has_attribute?(:due) %>
+        <% if flow_item.overdue? %>
+          <span class="time-overdue"><%= flow_item.due_format %></span>
+        <% else %>
+          <span><%= flow_item.due_format %></span>
+        <% end %>
+      <% else %>
+        <span><%= time_ago_in_words(flow_item.updated_at) %> ago</span>
+      <% end %>
+    </header>
+    <div class="card-body item-body">
+      <p><%= flow_item.content %></p>
+    </div>
+  </div>
+</div>

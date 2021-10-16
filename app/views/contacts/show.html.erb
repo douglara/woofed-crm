@@ -1,0 +1,22 @@
+<section class="section">
+  <div class="section-header">
+    <h1><%= @contact.full_name %></h1>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-7 col-lg-4">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h4>Details</h4>
+        </div>
+        <div class="card-body">
+          <%= render 'form', contact: @contact %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <%= render "/contacts/flow_items/items", contact: @contact %>
+    </div>
+  </div>
+</section>

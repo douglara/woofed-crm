@@ -1,29 +1,4 @@
 // Place all the styles related to the Deals controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
-
-.item-body {
-  background-color: #fffcdc;
-  margin: 0px -15px -15px;
-  border-top: 1px solid rgba(230, 236, 245, 1);;
-}
-
-.activity-detail {
-  width: 100%;
-  border-radius: 5px !important;
-}
-
-.activity-detail {
-  header {
-    padding: 10px;
-  }
-}
-
-.time-overdue{
-  font-weight: 700;
-  color: rgb(249, 72, 57);
-}
-
-.wp-text-area {
-  height: 150px !important;
-}
+@import "flow_items";

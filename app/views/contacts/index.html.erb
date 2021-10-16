@@ -52,9 +52,7 @@
                     <%= contact.phone %>
                   </td>
                   <td>
-                    <%= link_to edit_contact_path(contact), class: 'btn btn-primary btn-action mr-1' do %>
-                      <i class="fas fa-pencil-alt"></i>
-                    <% end %>
+                    <%= link_to 'Detail', contact_path(contact), class: 'btn btn-primary' %>
                     <%= link_to contact, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-action trigger--fire-modal-1' do %>
                       <i class="fas fa-trash"></i>
                     <% end %>
