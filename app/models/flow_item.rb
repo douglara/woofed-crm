@@ -12,7 +12,8 @@ class FlowItem < ApplicationRecord
     done: [:boolean, default: false],
     source_id: [:string,],
     error: [:jsonb],
-    content: [:text]
+    content: [:text],
+    from_me: [:boolean]
 
   scope :done_items, -> {
     item_where(done: true)

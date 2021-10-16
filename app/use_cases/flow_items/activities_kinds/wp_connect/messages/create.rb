@@ -26,6 +26,7 @@ class FlowItems::ActivitiesKinds::WpConnect::Messages::Create
       new_message.done = true
       new_message.due = Time.at(result[:ok]['t'])
       new_message.source_id = result[:ok]['id']
+      new_message.from_me = true
       return new_message
     else
       new_message.done = false
