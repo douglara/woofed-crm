@@ -22,7 +22,8 @@ export default class extends Controller {
 
   formatState (state) {
     if (state.id == '0' ) {
-      window.location.href = "/contacts/new";
+      $("#deal_contact_id").val(state.id)
+      return state.text
     }
 
     $("#deal_contact_id").val(state.id)

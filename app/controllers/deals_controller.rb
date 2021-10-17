@@ -16,7 +16,16 @@ class DealsController < InternalController
   # GET /deals/new
   def new
     @deal = Deal.new
-    @deal.build_contact
+    if params[:deal][:contact_id].present? && params[:deal][:contact_id] != '0'
+      @deal.contact = Contact.find(params[:deal][:contact_id])
+      @deal.contact_id = params[:deal][:contact_id]
+    else
+      @deal.build_contact
+    end
+  end
+
+  def new_select_contact
+    @deal = Deal.new
   end
 
   # GET /deals/1/edit

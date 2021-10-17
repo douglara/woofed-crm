@@ -24,14 +24,46 @@
 
     <div class="section-title">Contact</div>
 
-    <div class="form-group">
-      <select class="form-control select2">
-        <option selected="selected" disabled hidden>Select</option>
-        <option>New contact</option>
-      </select>
-    </div>
+    <% if deal.contact_id.present? %>
+      <%= form.hidden_field :contact_id, class: 'form-control' %>
 
-    <%= form.hidden_field :contact_id, class: 'form-control' %>
+      <div class="form-group">
+        <%= label_tag :full_name %>
+        <%= text_field_tag "full_name", deal.contact.full_name, class: 'form-control', disabled: true %>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag :phone %>
+        <%= text_field_tag "phone", deal.contact.phone, class: 'form-control', disabled: true %>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag :email %>
+        <%= text_field_tag "email", deal.contact.email, class: 'form-control', disabled: true %>
+      </div>
+
+    <% else %>
+
+      <%= form.fields_for :contact, deal.contact do | contact_form | %>
+
+        <div class="form-group">
+          <%= contact_form.label :full_name %>
+          <%= contact_form.text_field :full_name, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= contact_form.label :phone %>
+          <%= contact_form.text_field :phone, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= contact_form.label :email %>
+          <%= contact_form.text_field :email, class: 'form-control' %>
+        </div>
+      <% end %>
+
+    <% end %>
+
 
     <div class="card-footer text-right">
       <%= form.submit 'Submit', class: 'btn btn-primary' %>
