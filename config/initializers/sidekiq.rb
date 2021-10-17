@@ -21,6 +21,7 @@ Sidekiq.configure_server do |config|
     @activity_kind_whatsapp ||= ActivityKind.find_by_key('whatsapp')
     Faraday.get("#{@activity_kind_whatsapp['settings']['endpoint_url']}")  
   end
+  FlowItems::ActivitiesKinds::WpConnect::Connection::StartAll.call()
 end
 
 Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|

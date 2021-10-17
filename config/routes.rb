@@ -29,6 +29,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      namespace :flow_items do
+        resources :wp_connects do
+          post 'webhook'
+        end  
+      end
       resources :contacts, only: [:create] do
         resources :wp_connects, only: [] do
           resources :messages, only: [:create], controller: "contacts/wp_connects/messages"
