@@ -2,6 +2,7 @@ class FlowItems::ActivitiesKinds::WpConnect::Messages::Create
 
   def self.call(message_params)
     message = FlowItem.new(message_params)
+    message.from_me = true
     message = send_message(message)
 
     if save(message) && message.done == true
@@ -26,7 +27,6 @@ class FlowItems::ActivitiesKinds::WpConnect::Messages::Create
       new_message.done = true
       new_message.due = Time.at(result[:ok]['t'])
       new_message.source_id = result[:ok]['id']
-      new_message.from_me = true
       return new_message
     else
       new_message.done = false
@@ -41,7 +41,7 @@ class FlowItems::ActivitiesKinds::WpConnect::Messages::Create
     response = Faraday.post(
       "#{wp_connect.endpoint_url}/api/#{wp_connect.session}/send-message",
       {
-        "phone": "55#{contact.phone}",
+        "phone": "#{contact.phone}",
         "message": "#{message.content}",
         "isGroup": false
       }.to_json,
