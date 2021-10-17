@@ -19,6 +19,10 @@ class FlowItem < ApplicationRecord
     item_where(done: true)
   }
 
+  scope :not_done_items, -> {
+    item_where(done: false)
+  }
+
   def due_format
     due.to_s(:short) rescue ''
   end

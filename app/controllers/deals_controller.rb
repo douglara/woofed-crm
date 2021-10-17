@@ -11,6 +11,9 @@ class DealsController < InternalController
     @note = Note.new
     @activity = Activity.new
     @flow_item = FlowItem.new
+
+    @flow_items = @deal.contact.flow_items
+    @pagy, @flow_items = pagy(@flow_items)
   end
 
   # GET /deals/new
@@ -56,7 +59,7 @@ class DealsController < InternalController
         format.html { redirect_to @deal }
         format.json { render :show, status: :created, location: @deal }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { redirect_to @deal }
         format.json { render json: @deal.errors, status: :unprocessable_entity }
       end
     end

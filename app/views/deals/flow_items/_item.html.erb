@@ -29,11 +29,9 @@
         </div>
       </div>
       <div class="row">
-        <% if flow_item.kind_type == 'Activity' %>
-          <%= render "/deals/flow_items/activities/done_check", activity: flow_item.record %>
-          <h4><%= flow_item.record.name %></h4>
-        <% elsif flow_item.kind_type == 'Note' %>
-          <h4>Note</h4>
+        <% if true == false %>
+          <%= render "/deals/flow_items/activities/done_check", activity: flow_item %>
+          <h4><%= flow_item.name %></h4>
         <% end %>
       </div>
       <% if flow_item.has_attribute?(:due) %>
