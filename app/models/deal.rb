@@ -9,6 +9,8 @@ class Deal < ApplicationRecord
 
   accepts_nested_attributes_for :contact
 
+  enum status: { 'open': 'open', 'won': 'won', 'lost': 'lost' }
+
   def next_action?
     next_action rescue false
   end

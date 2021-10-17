@@ -1,6 +1,39 @@
 <section class="section">
   <div class="section-header">
-    <h1><%= @deal.name %></h1>
+    
+    <div class="card-body">
+      <h1><%= @deal.name %></h1>
+      <nav aria-label="breadcrumb" class="mt-4">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item col">
+            <% if @deal.status != 'lost' %>
+              <%= link_to 'Lost', deal_path(@deal, deal: { status: 'lost'} ), method: :patch, data: { confirm: 'Are you sure?' } %>
+            <% else %>
+              Lost
+            <% end %>
+          </li>
+
+          <% @deal.stage.pipeline.stages.each do | stage | %>
+            <% if stage == @deal.stage and @deal.status == 'open' %>
+              <li class="breadcrumb-item col active" aria-current="page"><%= stage.name %></li>
+            <% else %>
+              <li class="breadcrumb-item col">
+                <%= link_to stage.name, deal_path(@deal, deal: { status: 'open', stage_id: stage.id } ), method: :patch, data: { confirm: 'Are you sure?' } %>            
+              </li>
+
+
+            <% end %>
+          <% end %>
+          <li class="breadcrumb-item col">
+            <% if @deal.status != 'won' %>
+              <%= link_to 'Won', deal_path(@deal, deal: { status: 'won'} ), method: :patch, data: { confirm: 'Are you sure?' } %>
+            <% else %>
+              Won
+            <% end %>
+          </li>
+        </ol>
+      </nav>
+    </div> 
   </div>
 
   <div class="row">
@@ -17,7 +50,7 @@
             </div>
 
             <div class="card-footer text-right">
-              <%= f.submit 'Submit', class: 'btn btn-primary' %>
+              <%= f.submit 'Update', class: 'btn btn-primary' %>
             </div>
           <% end %>
         </div>
