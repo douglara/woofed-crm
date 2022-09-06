@@ -1,0 +1,19 @@
+version: '3.7'                                                                                                                                                                                 
+                                                                                                                                                                                               
+services:                                                                                                                                                                                          
+  postgres:                                                                                                                                                                                    
+    image: postgres:13.3-alpine                                                                                                                                                                  
+    volumes:                                                                                                                                                                                   
+      - woofed-crm-pg-volume:/var/lib/postgresql/data                                                                                                                                               
+    environment:                                                                                                                                                                                  
+      POSTGRES_PASSWORD: password                                                                                                                                                                            
+    ports:                                                                                                                                                                                     
+      - "5432:5432"
+  redis:
+    image: 'redis:6.2.7-alpine'
+    ports:
+      - '6379:6379'
+
+volumes:
+  woofed-crm-pg-volume:
+      external: false
