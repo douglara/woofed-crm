@@ -1,4 +1,4 @@
-<%= form_with(model: contact) do |form| %>
+<%= form_with(model: contact, url: account_contact_path(current_user.account, contact)) do |form| %>
   <% if contact.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(contact.errors.count, "error") %> prohibited this contact from being saved:</h2>

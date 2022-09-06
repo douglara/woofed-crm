@@ -8,10 +8,12 @@
 
 
 if User.all.count == 0
+  account_1 = Account.create(name: 'Company 1')
 
-  user_1 = User.create(full_name: 'User 1', email: 'user1@email.com', password: '123456', password_confirmation: '123456')
-  user_2 = User.create(full_name: 'User 2', email: 'user2@email.com', password: '123456', password_confirmation: '123456')
-  user_3 = User.create(full_name: 'User 3', email: 'user3@email.com', password: '123456', password_confirmation: '123456')
+
+  user_1 = User.create(full_name: 'User 1', email: 'user1@email.com', password: '123456', password_confirmation: '123456', account: account_1)
+  user_2 = User.create(full_name: 'User 2', email: 'user2@email.com', password: '123456', password_confirmation: '123456', account: account_1)
+  user_3 = User.create(full_name: 'User 3', email: 'user3@email.com', password: '123456', password_confirmation: '123456', account: account_1)
 
   pipeline = Pipeline.create(name: 'Sales')
   stage_1 = Stage.create(pipeline: pipeline, name: 'New', order: 1)

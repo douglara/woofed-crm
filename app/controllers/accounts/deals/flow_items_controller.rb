@@ -1,4 +1,4 @@
-class Deals::FlowItemsController < InternalController
+class Accounts::Deals::FlowItemsController < InternalController
   before_action :set_flow_item, :set_deal, only: %i[ destroy ]
 
   # DELETE /activities/1 or /activities/1.json

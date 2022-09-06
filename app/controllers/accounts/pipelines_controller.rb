@@ -1,9 +1,9 @@
-class PipelinesController < InternalController
+class Accounts::PipelinesController < InternalController
   before_action :set_pipeline, only: %i[ show edit update destroy ]
 
   # GET /pipelines or /pipelines.json
   def index
-    redirect_to(pipeline_path(Pipeline.first))
+    redirect_to(account_pipeline_path(current_user.account, Pipeline.first))
   end
 
   # GET /pipelines/1 or /pipelines/1.json
@@ -26,7 +26,7 @@ class PipelinesController < InternalController
 
     respond_to do |format|
       if @pipeline.save
-        format.html { redirect_to @pipeline, notice: "Pipeline was successfully created." }
+        format.html { redirect_to account_pipeline_path(current_user.account, @pipeline), notice: "Pipeline was successfully created." }
         format.json { render :show, status: :created, location: @pipeline }
       else
         format.html { render :new, status: :unprocessable_entity }

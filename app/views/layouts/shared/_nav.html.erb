@@ -8,7 +8,7 @@
       <%= image_tag "/assets/stisla/assets/img/avatar/avatar-1.png", class: 'rounded-circle mr-1' %>
       <div class="d-sm-none d-lg-inline-block">Hi, <%= current_user.full_name %></div></a>
       <div class="dropdown-menu dropdown-menu-right">
-        <%= link_to settings_index_path, class:"dropdown-item has-icon" do %>
+        <%= link_to account_settings_path(current_user.account), class:"dropdown-item has-icon" do %>
           <i class="fas fa-cog"></i> Settings
         <% end %>
         <div class="dropdown-divider"></div>
@@ -33,12 +33,12 @@
     </div>
     <ul class="sidebar-menu">
       <li class="<%= 'active' if request.path.include?('contact') %>">
-        <%= link_to(contacts_path, class: 'nav-link') do %>
+        <%= link_to(account_contacts_path(current_user.account), class: 'nav-link') do %>
           <i class="fas fa-users"></i> <span>Contacts</span>
         <% end %>
       </li>
       <li class="<%= 'active' if request.path.include?('pipelines') or request.path.include?('deal') %>">
-        <%= link_to(pipelines_path, class: 'nav-link') do %>
+        <%= link_to(account_pipelines_path(current_user.account), class: 'nav-link') do %>
           <i class="fas fa-funnel-dollar"></i> <span>Deals</span>
         <% end %>
       </li>

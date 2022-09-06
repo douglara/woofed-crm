@@ -13,7 +13,7 @@
 
   <div class="form-group">
     <%= form.label :wp_connect %>
-    <%= form.select(:kind_id, FlowItems::ActivitiesKinds::WpConnect.enabled.map { |connection| [connection.name, connection.id] }, {selected: FlowItems::ActivitiesKinds::WpConnect.enabled.first.id}, { class: 'form-control', required: true}) %>
+    <% # form.select(:kind_id, FlowItems::ActivitiesKinds::WpConnect.enabled.map { |connection| [connection.name, connection.id] }, {selected: FlowItems::ActivitiesKinds::WpConnect.enabled.first.id}, { class: 'form-control', required: true}) %>
   </div>
 
   <div class="form-group">

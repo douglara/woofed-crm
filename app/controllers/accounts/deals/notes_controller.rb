@@ -1,4 +1,4 @@
-class Deals::NotesController < InternalController
+class Accounts::Deals::NotesController < InternalController
   before_action :set_note, :set_deal, only: %i[ show edit update destroy ]
 
   # GET /notes/1/edit

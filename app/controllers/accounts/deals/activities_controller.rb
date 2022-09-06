@@ -1,4 +1,4 @@
-class Deals::ActivitiesController < InternalController
+class Accounts::Deals::ActivitiesController < InternalController
   before_action :set_activity, only: %i[ show edit update destroy ]
   before_action :set_deal, only: %i[ create edit update ]
 

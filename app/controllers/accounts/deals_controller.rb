@@ -1,4 +1,4 @@
-class DealsController < InternalController
+class Accounts::DealsController < InternalController
   before_action :set_deal, only: %i[ show edit update destroy ]
 
   # GET /deals or /deals.json
@@ -69,7 +69,7 @@ class DealsController < InternalController
   def update
     respond_to do |format|
       if @deal.update(deal_params)
-        format.html { redirect_to @deal, notice: "Deal was successfully updated." }
+        format.html { redirect_to account_deal_path(current_user.account, @deal), notice: "Deal was successfully updated." }
         format.json { render :show, status: :ok, location: @deal }
       else
         format.html { render :edit, status: :unprocessable_entity }

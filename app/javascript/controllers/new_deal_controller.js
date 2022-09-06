@@ -5,7 +5,7 @@ export default class extends Controller {
     if(jQuery().select2) {
       $(".select2").select2({
         ajax: {
-          url: '/contacts/search',
+          url: '/accounts/1/contacts/search',
           data: function (params) {
             var query = {
               q: params.term,

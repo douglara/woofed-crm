@@ -20,7 +20,7 @@
           <div class="dropdown ml-5 mr-5">
             <a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown">Actions</a>
             <div class="dropdown-menu dropdown-menu-right">
-              <%= link_to new_contact_path, class: 'dropdown-item has-icon' do %>
+              <%= link_to new_account_contact_path(current_user.account), class: 'dropdown-item has-icon' do %>
                 <i class="fas fa-user-plus"></i> New
               <% end %>
             </div>
@@ -52,8 +52,8 @@
                     <%= contact.phone %>
                   </td>
                   <td>
-                    <%= link_to 'Detail', contact_path(contact), class: 'btn btn-primary' %>
-                    <%= link_to contact, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-action trigger--fire-modal-1' do %>
+                    <%= link_to 'Detail', account_contact_path(current_user.account, contact), class: 'btn btn-primary' %>
+                    <%= link_to account_contact_path(current_user.account, contact), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-action trigger--fire-modal-1' do %>
                       <i class="fas fa-trash"></i>
                     <% end %>
                   </td>

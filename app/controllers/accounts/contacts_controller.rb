@@ -1,4 +1,4 @@
-class ContactsController < InternalController
+class Accounts::ContactsController < InternalController
   before_action :set_contact, only: %i[ show edit update destroy ]
 
   # GET /contacts or /contacts.json
@@ -38,7 +38,7 @@ class ContactsController < InternalController
 
     respond_to do |format|
       if @contact.save
-        format.html { redirect_to edit_contact_path(@contact), notice: "Contact was successfully created." }
+        format.html { redirect_to edit_account_contact_path(current_user.account, @contact), notice: "Contact was successfully created." }
         format.json { render :edit, status: :created, location: @contact }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -51,7 +51,7 @@ class ContactsController < InternalController
   def update
     respond_to do |format|
       if @contact.update(contact_params)
-        format.html { redirect_to edit_contact_path(@contact), notice: "Contact was successfully updated." }
+        format.html { redirect_to edit_account_contact_path(current_user.account, @contact), notice: "Contact was successfully updated." }
         format.json { render :edit, status: :ok, location: @contact }
       else
         format.html { render :edit, status: :unprocessable_entity }
