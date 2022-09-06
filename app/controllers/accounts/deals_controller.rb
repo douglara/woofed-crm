@@ -41,7 +41,7 @@ class Accounts::DealsController < InternalController
 
     respond_to do |format|
       if @deal.save
-        format.html { redirect_to @deal, notice: "Deal was successfully created." }
+        format.html { redirect_to account_deal_path(current_user.account, @deal), notice: "Deal was successfully created." }
         format.json { render :show, status: :created, location: @deal }
       else
         format.html { render :new, status: :unprocessable_entity }

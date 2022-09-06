@@ -9,7 +9,7 @@
         <div class="col-lg-5 container">
 
           <div data-controller="new-deal">
-            <%= form_with(model: @deal, url: new_deal_path, method: :get) do |form| %>
+            <%= form_with(model: @deal, url: new_account_deal_path(current_user.account), method: :get) do |form| %>
               <div class="section-title">Contact</div>
               <div class="form-group">
                 <select class="form-control select2">

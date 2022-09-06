@@ -1,5 +1,5 @@
 <div data-controller="new-deal">
-  <%= form_with(model: deal) do |form| %>
+  <%= form_with(model: deal, url: account_deals_path(current_user.account)) do |form| %>
     <% if deal.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(deal.errors.count, "error") %> prohibited this deal from being saved:</h2>
