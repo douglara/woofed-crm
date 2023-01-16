@@ -1,6 +1,6 @@
-class CreateActivityKinds < ActiveRecord::Migration[6.1]
+class CreateEventKinds < ActiveRecord::Migration[6.1]
   def change
-    create_table :activity_kinds do |t|
+    create_table :event_kinds do |t|
       t.string :name, null: false, default: ""
       t.string :key, null: false, default: ""
       t.integer :order, null: false, default: 0

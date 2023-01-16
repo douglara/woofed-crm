@@ -1,0 +1,62 @@
+<%= turbo_frame_tag event, class: 'activity' do %>
+
+  <div class="activity-icon bg-primary text-white shadow-primary">
+    <i class="<%= event.event_kind.icon_key %>"></i>
+  </div>
+  <div class="activity-detail <%= event.from_me == true ? 'activity-detail-from-me' : '' %>">
+    <header>
+      <div class="float-right dropdown dropleft">
+        <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+        <div class="dropdown-menu">
+          <div class="dropdown-title">Options</div>
+
+          <% if event.event_kind.key == 'Note' %>
+            <%
+=begin%>
+ <%= link_to edit_deal_note_path(deal_id: @deal.id, id: event.record), class: 'dropdown-item has-icon' do %>
+              <i class="far fa-edit"></i> Edit</a>
+            <% end %> 
+<%
+=end%>
+          <% elsif event.event_kind.key == 'Activity' %>
+            <%= link_to edit_deal_activity_path(deal_id: @deal.id, id: event.record), class: 'dropdown-item has-icon' do %>
+              <i class="far fa-edit"></i> Edit</a>
+            <% end %>
+          <% end %>
+
+          <div class="dropdown-divider"></div>
+
+          <%
+=begin%>
+ <%= link_to(deal_event_path(deal_id: @deal.id, id: event.id), method: :delete, data: { confirm: 'Are you sure?' },
+            class: 'dropdown-item has-icon text-danger', hidden: true
+            ) do %>
+            <i class="fas fa-trash-alt"></i> Delete
+          <% end %> 
+<%
+=end%>
+
+        </div>
+      </div>
+      <div class="row">
+        <% if true == false %>
+          <%= render "/deals/events/activities/done_check", activity: event %>
+          <h4><%= event.name %></h4>
+        <% end %>
+      </div>
+      <% if event.has_attribute?(:due) %>
+        <% if event.overdue? %>
+          <span class="time-overdue"><%= event.due_format %></span>
+        <% else %>
+          <span><%= event.due_format %></span>
+        <% end %>
+      <% else %>
+        <span><%= time_ago_in_words(event.updated_at) %> ago</span>
+      <% end %>
+    </header>
+    <div class="card-body item-body">
+      <p><%= event.content %></p>
+    </div>
+  </div>
+
+<% end %>

@@ -5,6 +5,7 @@ class CreateDeals < ActiveRecord::Migration[6.1]
       t.string :status, null: false, default: "open"
       t.references :stage, null: false, foreign_key: true
       t.references :contact, null: false, foreign_key: true
+      t.jsonb :custom_attributes, default: {}
 
       t.timestamps
     end

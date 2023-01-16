@@ -5,7 +5,7 @@ class CreateActivities < ActiveRecord::Migration[6.1]
       t.datetime :due
       t.boolean :done, null: false, default: false
 
-      t.references :activity_kind, null: false, foreign_key: true
+      # t.references :activity_kind, null: false, foreign_key: true
 
       t.timestamps
     end

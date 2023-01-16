@@ -1,0 +1,39 @@
+<%= form_with(model: custom_attributes_definition, url: account_custom_attributes_definitions_path(current_user.account), method: :post, data: {turbo: false}, id: 'formId') do |form| %>
+  <% if custom_attributes_definition.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(custom_attributes_definition.errors.count, "error") %> prohibited this activity kind from being saved:</h2>
+
+      <ul>
+        <% custom_attributes_definition.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :attribute_model %>
+    <%= select_tag :attribute_model, options_for_select(CustomAttributeDefinition.attribute_models) %>
+
+
+  </div>
+
+  <div class="form-group">
+    <%= form.label :attribute_key %>
+    <%= form.text_field :attribute_key, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :attribute_display_name %>
+    <%= form.text_field :attribute_display_name, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :attribute_description %>
+    <%= form.text_field :attribute_description, class: 'form-control' %>
+  </div>
+
+  <div class="card-footer text-right">
+    <%= form.submit 'New connection', class: 'btn btn-primary' %>
+  </div>
+<% end %>

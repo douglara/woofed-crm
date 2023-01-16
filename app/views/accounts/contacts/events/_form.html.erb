@@ -1,0 +1,28 @@
+<div class="form-group">
+  <label>Tipo</label>
+  <select class="form-control">
+    <option>Nota</option>
+  </select>
+</div> 
+
+<%= form_with(model: event, url: account_contact_events_path(current_user.account ,contact_id: @contact.id, deal_id: @deal.id)) do |form| %>
+  <% if event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event.errors.count, "error") %> prohibited this note from being saved:</h2>
+
+      <ul>
+        <% event.errors.each do |error| %>
+          <li><%= event.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.rich_text_area :content %>
+  </div>
+
+  <div class="card-footer text-right">
+    <%= form.submit 'Save', class: 'btn btn-primary' %>
+  </div>
+<% end %>

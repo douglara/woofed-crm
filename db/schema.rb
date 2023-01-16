@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_23_024235) do
+ActiveRecord::Schema.define(version: 2023_01_14_031832) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,13 +63,44 @@ ActiveRecord::Schema.define(version: 2021_09_23_024235) do
     t.string "name", default: "", null: false
     t.datetime "due"
     t.boolean "done", default: false, null: false
-    t.bigint "activity_kind_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["activity_kind_id"], name: "index_activities_on_activity_kind_id"
   end
 
-  create_table "activity_kinds", force: :cascade do |t|
+  create_table "contacts", force: :cascade do |t|
+    t.string "full_name", default: "", null: false
+    t.string "phone", default: "", null: false
+    t.string "email", default: "", null: false
+    t.jsonb "custom_attributes", default: {}
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "custom_attribute_definitions", force: :cascade do |t|
+    t.integer "attribute_model", default: 0
+    t.string "attribute_key"
+    t.string "attribute_display_name"
+    t.text "attribute_description"
+    t.bigint "account_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
+    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
+  end
+
+  create_table "deals", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "status", default: "open", null: false
+    t.bigint "stage_id", null: false
+    t.bigint "contact_id", null: false
+    t.jsonb "custom_attributes", default: {}
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contact_id"], name: "index_deals_on_contact_id"
+    t.index ["stage_id"], name: "index_deals_on_stage_id"
+  end
+
+  create_table "event_kinds", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "key", default: "", null: false
     t.integer "order", default: 0, null: false
@@ -80,23 +111,22 @@ ActiveRecord::Schema.define(version: 2021_09_23_024235) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "contacts", force: :cascade do |t|
-    t.string "full_name", default: "", null: false
-    t.string "phone", default: "", null: false
-    t.string "email", default: "", null: false
+  create_table "events", force: :cascade do |t|
+    t.bigint "deal_id"
+    t.bigint "contact_id"
+    t.bigint "account_id", null: false
+    t.bigint "event_kind_id", null: false
+    t.datetime "due"
+    t.boolean "done"
+    t.datetime "done_at"
+    t.boolean "from_me"
+    t.jsonb "custom_attributes", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "deals", force: :cascade do |t|
-    t.string "name", default: "", null: false
-    t.string "status", default: "open", null: false
-    t.bigint "stage_id", null: false
-    t.bigint "contact_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["contact_id"], name: "index_deals_on_contact_id"
-    t.index ["stage_id"], name: "index_deals_on_stage_id"
+    t.index ["account_id"], name: "index_events_on_account_id"
+    t.index ["contact_id"], name: "index_events_on_contact_id"
+    t.index ["deal_id"], name: "index_events_on_deal_id"
+    t.index ["event_kind_id"], name: "index_events_on_event_kind_id"
   end
 
   create_table "flow_items", force: :cascade do |t|
@@ -159,9 +189,10 @@ ActiveRecord::Schema.define(version: 2021_09_23_024235) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "activities", "activity_kinds"
   add_foreign_key "deals", "contacts"
   add_foreign_key "deals", "stages"
+  add_foreign_key "events", "accounts"
+  add_foreign_key "events", "event_kinds"
   add_foreign_key "flow_items", "contacts"
   add_foreign_key "flow_items", "deals"
   add_foreign_key "stages", "pipelines"

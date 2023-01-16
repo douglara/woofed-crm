@@ -30,8 +30,14 @@ if User.all.count == 0
   deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contact: contacts.sample)
   deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contact: contacts.sample)
 
-  activity_kind_1 = ActivityKind.create(name: 'Call', key: 'call', icon_key: 'fas fa-phone', enabled: true)
-  activity_kind_2 = ActivityKind.create(name: 'Email', key: 'email', icon_key: 'far fa-envelope', enabled: true)
-  activity_kind_3 = ActivityKind.create(name: 'Whatsapp', key: 'whatsapp', icon_key: 'fab fa-whatsapp', enabled: false, settings: {'secretkey': 'THISISMYSECURETOKEN', 'endpoint_url': 'https://wppconnect-server-open-crm.herokuapp.com', 'enabled': false, 'session': '', 'token': ''})
+  event_kind_1 = EventKind.create(name: 'Call', key: 'call', icon_key: 'fas fa-phone', enabled: true)
+  event_kind_2 = EventKind.create(name: 'Email', key: 'email', icon_key: 'far fa-envelope', enabled: true)
+  event_kind_3 = EventKind.create(name: 'Note', key: 'note', icon_key: 'far fa-sticky-note', enabled: true)
+  event_kind_4 = EventKind.create(name: 'Whatsapp', key: 'whatsapp', icon_key: 'fab fa-whatsapp', enabled: false, settings: {'secretkey': 'THISISMYSECURETOKEN', 'endpoint_url': 'https://wppconnect-server-open-crm.herokuapp.com', 'enabled': false, 'session': '', 'token': ''})
+  
+  event_1 = Event.create(account: account_1, contact: deal_1.contact, deal: deal_1, event_kind: event_kind_1, from_me: true )
+  event_2 = Event.create(account: account_1, contact: deal_2.contact, deal: deal_2, event_kind: event_kind_2, from_me: true )
+  event_3 = Event.create(account: account_1, contact: deal_3.contact, deal: deal_3, event_kind: event_kind_3, from_me: true )
+  
   puts('Created seed data')  
 end

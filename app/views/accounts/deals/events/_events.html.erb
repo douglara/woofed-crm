@@ -4,8 +4,8 @@
       <span class="badge badge-light">Planned</span>
     </header>
     <div class="activities">
-      <% flow_items.not_done_items.each do | flow_item | %>
-        <%= render "/deals/flow_items/item", flow_item: flow_item %>
+      <% events.planned.each do | event | %>
+        <%= render "/accounts/deals/events/event", event: event %>
       <% end %>
     </div>
   </div>
@@ -15,8 +15,8 @@
       <span class="badge badge-light">Done</span>
     </header>
     <div class="activities">
-      <% flow_items.done_items.each do | flow_item | %>
-        <%= render "/deals/flow_items/item", flow_item: flow_item %>
+      <% events.each do | event | %>
+        <%= render "/accounts/deals/events/event", event: event %>
       <% end %>
     </div>
   </div>

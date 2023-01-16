@@ -1,26 +1,53 @@
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+<section class="section mt-5 pt-5">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+        <div class="login-brand" style="display:none;">
+          <img src="../assets/img/stisla-fill.svg" alt="logo" width="100" class="shadow-light rounded-circle">
+        </div>
+        <div class="card card-primary">
+          <div class="card-header">
+            <h4>Entrar</h4>
+          </div>
+          <div class="card-body">
+            <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f| %>
+              <div class="form-group">
+                <%= f.label :email %><br />
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+                <div class="invalid-feedback">
+                  Please fill in your email
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="d-block">
+                  <%= f.label :password, class: "control-label" %><br />
+                  <div class="float-right">
+                    <%= link_to "Forgot your password?", new_password_path(resource_name), class: "text-small", style: "display:none;" %><br />
+                  </div>
+                </div>
+                <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
+                <div class="invalid-feedback">
+                  please fill in your password
+                </div>
+              </div>
+              <% if devise_mapping.rememberable? %>
+                <div class="field">
+                  <%= f.check_box :remember_me %>
+                  <%= f.label :remember_me %>
+                </div>
+              <% end %>
+              <div class="form-group">
+                <div class="actions">
+                  <%= f.submit "Entrar", class: "btn btn-primary btn-lg btn-block" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="mt-5 text-muted text-center">
+          Não possui conta? <%= link_to "Criar conta", new_registration_path(resource_name), data: { turbo: false} %><br />
+        </div>
+      </div>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
   </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</section>

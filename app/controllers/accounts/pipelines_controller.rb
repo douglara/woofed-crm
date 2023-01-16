@@ -20,6 +20,16 @@ class Accounts::PipelinesController < InternalController
   def edit
   end
 
+  # GET /pipelines/1/import
+  def import
+  end
+
+  def bulk_action
+  end
+
+  def bulk_action_2
+  end
+
   # POST /pipelines or /pipelines.json
   def create
     @pipeline = Pipeline.new(pipeline_params)

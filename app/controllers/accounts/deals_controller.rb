@@ -10,10 +10,10 @@ class Accounts::DealsController < InternalController
   def show
     @note = Note.new
     @activity = Activity.new
-    @flow_item = FlowItem.new
+    @event = Event.new
 
-    @flow_items = @deal.contact.flow_items
-    @pagy, @flow_items = pagy(@flow_items)
+    @events = @deal.contact.events
+    @pagy, @events = pagy(@events)
   end
 
   # GET /deals/new
@@ -97,7 +97,8 @@ class Accounts::DealsController < InternalController
     def deal_params
       params.require(:deal).permit(
         :name, :status, :stage_id, :contact_id,
-        contact_attributes: [ :id, :full_name, :phone, :email ]
+        contact_attributes: [ :id, :full_name, :phone, :email ],
+        custom_attributes: {}
       )
     end
 

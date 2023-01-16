@@ -1,5 +1,9 @@
-class Accounts::Deals::NotesController < InternalController
-  before_action :set_note, :set_deal, only: %i[ show edit update destroy ]
+class Accounts::Contacts::NotesController < InternalController
+  before_action :set_note, :set_contact, only: %i[ show edit update destroy ]
+
+  # GET /notes
+  def new
+  end
 
   # GET /notes/1/edit
   def edit
@@ -9,11 +13,12 @@ class Accounts::Deals::NotesController < InternalController
   def create
     @deal = Deal.find(params[:deal_id])
     @note = Note.new(note_params)
-    @flow_item = FlowItem.new(deal_id: @deal.id, contact_id: @deal.contact.id, record: @note)
+    @item = Item.new(deal_id: @deal.id, contact_id: @deal.contact.id, record: @note, account: current_user.account)
+    #@flow_item = FlowItem.new(deal_id: @deal.id, contact_id: @deal.contact.id, record: @note)
 
     respond_to do |format|
-      if @note.save && @flow_item.save
-        format.html {  redirect_to(deal_path(params[:deal_id]), notice: "Note was successfully created.") }
+      if @note.save && @item.save
+        format.html {  redirect_to(account_deal_path(current_user.account, params[:deal_id]), notice: "Note was successfully created.") }
         #format.json { render :show, status: :created, location: @note }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -41,8 +46,8 @@ class Accounts::Deals::NotesController < InternalController
       @note = Note.find(params[:id])
     end
 
-    def set_deal
-      @deal = Deal.find(params[:deal_id])
+    def set_contact
+      @deal = Contact.find(params[:contact_id])
     end
 
     # Only allow a list of trusted parameters through.

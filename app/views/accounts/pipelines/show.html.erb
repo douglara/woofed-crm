@@ -24,7 +24,32 @@
         <li class="drag-column drag-column-in-progress">
           <header>
             <span class="drag-column-header">
-              <h2><%= stage.name %></h2>
+
+              <div class="dropdown show">
+                <h2 class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <%= stage.name %>
+                </h2>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <%= link_to '#', class:"dropdown-item has-icon" do %>
+                    <i class="fas fa-pencil-alt"></i> Editar
+                  <% end %>
+                  <%= link_to account_pipeline_bulk_action_path(1,1), class:"dropdown-item has-icon" do %>
+                    <i class="fas fa-solid fa-layer-group"></i> Ação em massa
+                  <% end %>
+                  <%= link_to account_pipeline_import_path(current_user.account, 1), class:"dropdown-item has-icon" do %>
+                    <i class="fas fa-solid fa-file-import"></i> Importar leads
+                  <% end %>
+
+
+
+                  <div class="dropdown-divider"></div>
+                  <%= link_to '#', class:"dropdown-item has-icon text-danger", :method => :delete do %>
+                    <i class="fas fa-trash"></i> Deletar etapa
+                  <% end %>
+                </div>
+              </div>
+
             </span>
           </header>
           <div>
