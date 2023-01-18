@@ -26,9 +26,9 @@ if User.all.count == 0
     contacts.append(Contact.create(full_name: "Contact #{time}", email: "contact#{time}@email.com", phone: '41998910151'))
   end
 
-  deal_1 = Deal.create(name: 'Deal 1', stage: stage_1, status: 'open', contact: contacts.sample)
-  deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contact: contacts.sample)
-  deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contact: contacts.sample)
+  deal_1 = Deal.create(name: 'Deal 1', stage: stage_1, status: 'open', contact: contacts[0], contacts: [contacts[0]] )
+  deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contact: contacts[1], contacts: [contacts[0]])
+  deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contact: contacts[2], contacts: [contacts[0]])
 
   event_kind_1 = EventKind.create(name: 'Call', key: 'call', icon_key: 'fas fa-phone', enabled: true)
   event_kind_2 = EventKind.create(name: 'Email', key: 'email', icon_key: 'far fa-envelope', enabled: true)

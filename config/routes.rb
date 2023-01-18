@@ -30,6 +30,9 @@ Rails.application.routes.draw do
       
       resources :deals do
         post 'create_whatsapp'
+        get 'add_contact'
+        post 'commit_add_contact'
+        delete 'remove_contact'
         get 'new_select_contact', on: :collection
         resources :activities, module: :deals
         resources :flow_items, only: [:destroy], module: :deals

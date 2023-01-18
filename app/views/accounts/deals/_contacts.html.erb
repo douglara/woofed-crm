@@ -1,0 +1,29 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="d-inline">Contatos</h4>
+    <div class="card-header-action">
+      <%= link_to account_deal_add_contact_path(current_user.account, @deal), class: 'btn btn-primary' do %>
+        <i class="fas fa-user-plus"></i> Adicionar
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body">             
+    <ul class="list-unstyled list-unstyled-border">
+      <% @deal.contacts.each do | contact | %>
+        <li class="media">
+          <img class="mr-3 rounded-circle" width="50" src="/assets/stisla/assets/img/avatar/avatar-<%= rand(2..5)%>.png" alt="avatar">
+          <div class="media-body">
+            <% if contact != @deal.contact %>
+            <%= link_to 'Remover', account_deal_remove_contact_path(current_user.account, @deal, contact_id: contact.id),
+                method: :delete, data: {confirm: 'Are you sure?'}, class: 'badge badge-pill badge-primary mb-1 float-right' %>
+            <% end %>
+            <h6 class="media-title">
+              <%= link_to contact.full_name, account_contact_path(current_user.account, contact)%>
+            </h6>
+            <div class="text-small text-muted"> <%= contact.phone %> <div class="bullet"></div> <span class="text-primary"><%= contact.email %></span></div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

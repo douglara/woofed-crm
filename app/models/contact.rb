@@ -4,6 +4,7 @@ class Contact < ApplicationRecord
   has_many :events
 
   after_commit :get_messages_wp_connections
+  has_and_belongs_to_many :deals
 
   def get_messages_wp_connections
     Contacts::FlowItems::ActivitiesKinds::WpConnections::Messages::SyncWorker.perform_async(self.id)

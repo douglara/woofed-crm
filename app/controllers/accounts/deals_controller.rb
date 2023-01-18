@@ -31,6 +31,39 @@ class Accounts::DealsController < InternalController
     @deal = Deal.new
   end
 
+  def add_contact
+    @deal = Deal.find(params[:deal_id])
+  end
+
+  def commit_add_contact
+    @deal = Deal.find(params[:deal_id])
+    @new_contact = Contact.find(params['deal']['contact_id']) 
+    @deal.contacts.push(@new_contact)
+
+    if @deal.save
+      redirect_to account_deal_path(current_user.account, @deal)
+    else
+      render :add_contact, status: :unprocessable_entity
+    end
+
+    rescue
+      render :add_contact, status: :unprocessable_entity
+  end
+
+  def remove_contact
+    @deal = Deal.find(params[:deal_id])
+    @contacts_deal = @deal.contacts_deals.find_by_contact_id(params['contact_id'])
+
+    if @contacts_deal.destroy
+      redirect_to account_deal_path(current_user.account, @deal)
+    else
+      render :show, status: :unprocessable_entity
+    end
+
+    rescue
+      render :show, status: :unprocessable_entity
+  end
+
   # GET /deals/1/edit
   def edit
   end
