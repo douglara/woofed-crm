@@ -10,7 +10,7 @@
           <h4>Details</h4>
         </div>
         <div class="card-body">
-          <%= render 'form', contact: @contact %>
+          <%= render partial: "form", locals: { contact: @contact } %>
         </div>
       </div>
     </div>

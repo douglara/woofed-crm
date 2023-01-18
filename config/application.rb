@@ -32,5 +32,11 @@ module WoofedCrm
     # Do not fallback to assets pipeline if a precompiled asset is missed.
     config.assets.compile = true
     config.serve_static_assets = true
+
+
+    # Location and Timezone
+    config.i18n.default_locale = 'pt-BR'
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales','**' ,'*.{rb,yml}').to_s]
+    config.time_zone = 'Brasilia'
   end
 end

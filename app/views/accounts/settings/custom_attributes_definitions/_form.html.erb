@@ -13,14 +13,12 @@
 
   <div class="form-group">
     <%= form.label :attribute_model %>
-    <%= select_tag :attribute_model, options_for_select(CustomAttributeDefinition.attribute_models) %>
-
-
+    <%= form.select(:attribute_model, [ ['Contato', 'contact_attribute'], ['Negócio', 'deal_attribute']], {}, { class: 'form-control'  } ) %>
   </div>
 
   <div class="form-group">
     <%= form.label :attribute_key %>
-    <%= form.text_field :attribute_key, class: 'form-control' %>
+    <%= form.text_field :attribute_key, class: 'form-control', data: { controller: 'keyfield', action: 'keyfield#update' } %>
   </div>
 
   <div class="form-group">
@@ -34,6 +32,6 @@
   </div>
 
   <div class="card-footer text-right">
-    <%= form.submit 'New connection', class: 'btn btn-primary' %>
+    <%= form.submit 'Criar', class: 'btn btn-primary' %>
   </div>
 <% end %>

@@ -1,32 +1,36 @@
-<%= form_with(model: contact, url: account_contact_path(current_user.account, contact)) do |form| %>
-  <% if contact.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
+<div data-controller="new-contact">
+  <%= form_for [current_user.account, contact] do | form | %>
+    <% if contact.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
 
-      <ul>
-        <% contact.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% contact.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :full_name %>
+      <%= form.text_field :full_name, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :phone %>
+      <%= form.text_field :phone, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :email %>
+      <%= form.text_field :email, class: 'form-control' %>
+    </div>
+
+    <%= render 'accounts/custom_attributes', m: contact, f: form %>
+
+    <div class="card-footer text-right">
+      <%= form.submit 'Submit', class: 'btn btn-primary' %>
     </div>
   <% end %>
-
-  <div class="form-group">
-    <%= form.label :full_name %>
-    <%= form.text_field :full_name, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :phone %>
-    <%= form.text_field :phone, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :email %>
-    <%= form.text_field :email, class: 'form-control' %>
-  </div>
-
-  <div class="card-footer text-right">
-    <%= form.submit 'Submit', class: 'btn btn-primary' %>
-  </div>
-<% end %>
+</div>

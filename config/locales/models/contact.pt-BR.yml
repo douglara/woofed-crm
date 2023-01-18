@@ -1,0 +1,10 @@
+pt-BR:
+  activerecord:
+    models:
+      contact:
+        one: Contato
+        other: Contatos
+    attributes:
+      contact:
+        name: Nome
+        phone: Telefone (celular)

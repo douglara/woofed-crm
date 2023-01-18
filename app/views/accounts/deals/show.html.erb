@@ -49,12 +49,7 @@
               <%= f.text_field :name, autofocus: true, class: "form-control" %>
             </div>
 
-
-
-            <%= render 'custom_attributes', m: @deal, f: f %>
-
-
-            
+            <%= render 'accounts/custom_attributes', m: @deal, f: f %>
 
             <div class="card-footer text-right">
               <%= f.submit 'Update', class: 'btn btn-primary' %>

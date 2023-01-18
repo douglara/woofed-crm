@@ -37,6 +37,7 @@ gem 'cocoon'
 gem 'sidekiq'
 gem 'jsonb_accessor', '1.3.2'
 gem 'jwt', '2.2.3'
+gem 'rails-i18n', '~> 7.0.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
