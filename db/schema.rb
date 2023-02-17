@@ -68,12 +68,14 @@ ActiveRecord::Schema.define(version: 2023_01_18_070805) do
   end
 
   create_table "contacts", force: :cascade do |t|
+    t.bigint "account_id", null: false
     t.string "full_name", default: "", null: false
     t.string "phone", default: "", null: false
     t.string "email", default: "", null: false
     t.jsonb "custom_attributes", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_contacts_on_account_id"
   end
 
   create_table "contacts_deals", force: :cascade do |t|
@@ -102,11 +104,13 @@ ActiveRecord::Schema.define(version: 2023_01_18_070805) do
   create_table "deals", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "status", default: "open", null: false
+    t.bigint "account_id", null: false
     t.bigint "stage_id", null: false
     t.bigint "contact_id", null: false
     t.jsonb "custom_attributes", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_deals_on_account_id"
     t.index ["contact_id"], name: "index_deals_on_contact_id"
     t.index ["stage_id"], name: "index_deals_on_stage_id"
   end
@@ -158,17 +162,21 @@ ActiveRecord::Schema.define(version: 2023_01_18_070805) do
   end
 
   create_table "pipelines", force: :cascade do |t|
+    t.bigint "account_id", null: false
     t.string "name", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_pipelines_on_account_id"
   end
 
   create_table "stages", force: :cascade do |t|
     t.string "name", default: "", null: false
+    t.bigint "account_id", null: false
     t.bigint "pipeline_id", null: false
     t.integer "order", default: 1, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_stages_on_account_id"
     t.index ["pipeline_id"], name: "index_stages_on_pipeline_id"
   end
 

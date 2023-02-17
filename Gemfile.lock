@@ -127,6 +127,7 @@ GEM
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.2)
       activesupport (>= 5.0.0)
+    json_csv (1.0.0)
     jsonb_accessor (1.3.2)
       activerecord (>= 5.0)
       activesupport (>= 5.0)
@@ -283,6 +284,7 @@ DEPENDENCIES
   hotwire-rails
   html2text
   jbuilder (~> 2.7)
+  json_csv
   jsonb_accessor (= 1.3.2)
   jwt (= 2.2.3)
   listen (~> 3.3)

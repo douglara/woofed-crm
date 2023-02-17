@@ -13,7 +13,7 @@
         <li class="media">
           <img class="mr-3 rounded-circle" width="50" src="/assets/stisla/assets/img/avatar/avatar-<%= rand(2..5)%>.png" alt="avatar">
           <div class="media-body">
-            <% if contact != @deal.contact %>
+            <% if contact != @deal.primary_contact %>
             <%= link_to 'Remover', account_deal_remove_contact_path(current_user.account, @deal, contact_id: contact.id),
                 method: :delete, data: {confirm: 'Are you sure?'}, class: 'badge badge-pill badge-primary mb-1 float-right' %>
             <% end %>

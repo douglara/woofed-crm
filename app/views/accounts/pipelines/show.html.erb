@@ -37,11 +37,12 @@
                   <%= link_to account_pipeline_bulk_action_path(1,1), class:"dropdown-item has-icon" do %>
                     <i class="fas fa-solid fa-layer-group"></i> Ação em massa
                   <% end %>
-                  <%= link_to account_pipeline_import_path(current_user.account, 1), class:"dropdown-item has-icon" do %>
-                    <i class="fas fa-solid fa-file-import"></i> Importar leads
+                  <%= link_to account_pipeline_import_path(current_user.account, stage.pipeline_id, stage_id: stage.id), class:"dropdown-item has-icon" do %>
+                    <i class="fas fa-solid fa-file-import"></i> Importar negócios
                   <% end %>
-
-
+                  <%= link_to account_pipeline_export_path(current_user.account, stage.pipeline_id, stage_id: stage.id), class:"dropdown-item has-icon" do %>
+                    <i class="fas fa-file-download"></i> Exportar negócios
+                  <% end %>
 
                   <div class="dropdown-divider"></div>
                   <%= link_to '#', class:"dropdown-item has-icon text-danger", :method => :delete do %>

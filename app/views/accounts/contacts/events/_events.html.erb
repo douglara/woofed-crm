@@ -1,4 +1,4 @@
-<%= turbo_stream_from @deal.contact_id, 'events' %>
+<%= turbo_stream_from @deal.primary_contact.id, 'events' %>
 
 
   <div class="col-12">

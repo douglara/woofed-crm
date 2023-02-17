@@ -24,6 +24,8 @@ Rails.application.routes.draw do
       end
       resources :pipelines do
         get 'import'
+        post 'import_file'
+        get 'export'
         get 'bulk_action'
         get 'bulk_action_2'
       end
@@ -44,6 +46,10 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      resources :accounts, module: :accounts do
+        resources :deals, only: [:show, :create]
+      end
+
       namespace :flow_items do
         resources :wp_connects do
           post 'webhook'

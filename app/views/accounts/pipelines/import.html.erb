@@ -9,6 +9,16 @@
 
         <div class="card-body offset-2 col-sm-8">
 
+
+        <%= form_with url: account_pipeline_import_file_path(current_user.account, 1), data: { turbo: false} do |form| %>
+          <%= form.label :import_file, "Search for:" %>
+          <%= form.file_field :import_file %>
+          <%= form.submit "Enviar" %>
+        <% end %>
+
+
+
+
         <div class="form-group">
           <label>Etapa</label>
           <select class="form-control">
@@ -22,18 +32,18 @@
           <form onclick="$('#file').click()" action="#" class="dropzone dz-clickable" id="mydropzone">
             
           <div class="dz-default dz-message"><span>Arraste o arquivo aqui.</span></div></form>
-        
+
           <div class="text-center pt-3">
-            <a href="#" class="mt-4 bb">Planilha de exemplo</a>
+            <%= link_to account_pipeline_import_path(current_user.account, params['pipeline_id'] , stage_id: params['stage_id'], format: :csv), class:"mt-4 bb" do %>
+              Baixar planilha de exemplo
+            <% end %>
           </div>
 
           <div class="card-footer text-right">
             <a href="/accounts/1/pipelines/1" class="btn btn-primary" type="submit">Enviar</a>
           </div>
         </div>
-        
       </div>
-
     </div>
   </div>
 </section>

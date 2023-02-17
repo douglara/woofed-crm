@@ -63,7 +63,7 @@
           <h4>Contact</h4>
         </div>
         <div class="card-body">
-          <%= render '/accounts/contacts/form', contact: @deal.contact %>
+          <%= render '/accounts/contacts/form', contact: @deal.primary_contact %>
         </div>
       </div>
 
@@ -77,7 +77,7 @@
         </div>
         <div class="card-body">
 
-          <%= turbo_frame_tag "new-event-form", src: new_account_contact_event_path(account_id: current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id) %>
+          <%= turbo_frame_tag "new-event-form", src: new_account_contact_event_path(account_id: current_user.account, contact_id: @deal.primary_contact.id, deal_id: @deal.id) %>
         </div>
       </div>
 

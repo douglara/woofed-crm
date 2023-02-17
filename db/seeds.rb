@@ -15,20 +15,23 @@ if User.all.count == 0
   user_2 = User.create(full_name: 'User 2', email: 'user2@email.com', password: '123456', password_confirmation: '123456', account: account_1)
   user_3 = User.create(full_name: 'User 3', email: 'user3@email.com', password: '123456', password_confirmation: '123456', account: account_1)
 
-  pipeline = Pipeline.create(name: 'Sales')
-  stage_1 = Stage.create(pipeline: pipeline, name: 'New', order: 1)
-  stage_2 = Stage.create(pipeline: pipeline, name: 'Qualifying', order: 2)
-  stage_3 = Stage.create(pipeline: pipeline, name: 'Proposal', order: 3)
-  stage_4 = Stage.create(pipeline: pipeline, name: 'Follow Up', order: 4)
+  pipeline = Pipeline.create(name: 'Sales' , account: account_1)
+  stage_1 = Stage.create(pipeline: pipeline, name: 'New', order: 1, account: account_1)
+  stage_2 = Stage.create(pipeline: pipeline, name: 'Qualifying', order: 2, account: account_1)
+  stage_3 = Stage.create(pipeline: pipeline, name: 'Proposal', order: 3, account: account_1)
+  stage_4 = Stage.create(pipeline: pipeline, name: 'Follow Up', order: 4, account: account_1)
 
   contacts = []
   20.times do | time |
-    contacts.append(Contact.create(full_name: "Contact #{time}", email: "contact#{time}@email.com", phone: '41998910151'))
+    contacts.append(Contact.create(full_name: "Contact #{time}", email: "contact#{time}@email.com", phone: '41998910151', account: account_1))
   end
 
-  deal_1 = Deal.create(name: 'Deal 1', stage: stage_1, status: 'open', contact: contacts[0], contacts: [contacts[0]] )
-  deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contact: contacts[1], contacts: [contacts[0]])
-  deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contact: contacts[2], contacts: [contacts[0]])
+  deal_1 = Deal.create(name: 'Deal 1', stage: stage_1, status: 'open', contact: contacts[0], account: account_1)
+  deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contact: contacts[1], contacts: [contacts[0]], account: account_1)
+  deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contact: contacts[2], contacts: [contacts[0]], account: account_1)
+  # deal_1 = Deal.create(name: 'Deal 1', stage: stage_1, status: 'open', contacts: [ contacts[0] ], account: account_1)
+  # deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contacts: [ contacts[1] ], account: account_1)
+  # deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contacts: [ contacts[2] ], account: account_1)
 
   event_kind_1 = EventKind.create(name: 'Call', key: 'call', icon_key: 'fas fa-phone', enabled: true)
   event_kind_2 = EventKind.create(name: 'Email', key: 'email', icon_key: 'far fa-envelope', enabled: true)

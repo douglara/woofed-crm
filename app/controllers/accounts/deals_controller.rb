@@ -13,6 +13,7 @@ class Accounts::DealsController < InternalController
     @event = Event.new
 
     @events = @deal.contact.events
+    # @events = @deal.primary_contact.events
     @pagy, @events = pagy(@events)
   end
 
@@ -22,6 +23,11 @@ class Accounts::DealsController < InternalController
     if params[:deal][:contact_id].present? && params[:deal][:contact_id] != '0'
       @deal.contact = Contact.find(params[:deal][:contact_id])
       @deal.contact_id = params[:deal][:contact_id]
+
+
+      # @deal = DealBuilder.new(current_user, 
+      #   {contacts_deals_attributes: [ {contact_id: 1} ]}
+      # ).build
     else
       @deal.build_contact
     end
@@ -70,7 +76,8 @@ class Accounts::DealsController < InternalController
 
   # POST /deals or /deals.json
   def create
-    @deal = Deal.new(deal_params)
+    @deal = current_user.account.deals.new(deal_params)
+    # @deal = DealBuilder.new(current_user, deal_params).perform
 
     respond_to do |format|
       if @deal.save
