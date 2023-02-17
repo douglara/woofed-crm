@@ -56,7 +56,7 @@
           <div>
             <ul class="drag-inner-list" id="<%= stage.order %>">
               <% stage.deals.each do | deal | %>
-                <%= link_to account_deal_path(current_user.account, deal.id), deal_id: deal.id do %>
+                <%= link_to account_deal_path(current_user.account, deal.id), deal_id: deal.id, account_id:  current_user.account.id do %>
                   <li class="drag-item" deal_id="<%= deal.id %>">
                     <header>
                       <label color="#7159c1"> </label>

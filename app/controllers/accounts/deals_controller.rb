@@ -110,7 +110,7 @@ class Accounts::DealsController < InternalController
     respond_to do |format|
       if @deal.update(deal_params)
         format.html { redirect_to account_deal_path(current_user.account, @deal), notice: "Deal was successfully updated." }
-        format.json { render :show, status: :ok, location: @deal }
+        format.json { render json: @deal, status: :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @deal.errors, status: :unprocessable_entity }
