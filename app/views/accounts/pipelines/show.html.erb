@@ -8,16 +8,27 @@
         <a href="#" class="dropdown-toggle btn btn-pipelines" data-toggle="dropdown" aria-expanded="false"><%= @pipeline.name %></a>
         <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(-132px, 26px, 0px); top: 0px; left: 0px; will-change: transform;">
           <% @pipelines.each do | pipeline |  %>
-            <%= link_to(pipeline.name, account_pipeline_path(current_user.account, pipeline), class: 'dropdown-item has-icon') %>
+
+<%
+
+=begin%>
+ <%= link_to(pipeline.name, account_pipeline_path(current_user.account, pipeline), class: 'dropdown-item has-icon') %> 
+<%
+=end
+
+%>
           <% end %>
           <div class="dropdown-divider"></div>
 
-          <%
+<%
+
 =begin%>
  <%= link_to('New', new_account_pipeline_path(@pipeline), class: 'dropdown-item') %>
           <%= link_to('Edit', edit_account_pipeline_path(@pipeline), class: 'dropdown-item') %> 
 <%
-=end%>
+=end
+
+%>
 
         </div>
       </div>

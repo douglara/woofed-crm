@@ -6,12 +6,12 @@ class Accounts::PipelinesController < InternalController
 
   # GET /pipelines or /pipelines.json
   def index
-    redirect_to(account_pipeline_path(current_user.account, Pipeline.first))
+    redirect_to(account_pipeline_path(current_user.account, current_user.account.pipelines.first))
   end
 
   # GET /pipelines/1 or /pipelines/1.json
   def show
-    @pipelines = Pipeline.all
+    @pipelines = current_user.account.pipelines
   end
 
   # GET /pipelines/new
