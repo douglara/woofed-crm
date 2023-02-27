@@ -1,0 +1,9 @@
+<%= form.hidden_field :app_type, value: 'Apps::WppConnect' %>
+
+<div class="form-group">
+  <%= form.select(:app_id, current_user.account.apps_wpp_connects.actives.map { | wpp | [ wpp.name, wpp.id ]  } , {}, {class: 'form-control', required: true} ) %>
+</div>
+
+<div class="form-group">
+  <%= form.text_area :content, class: 'form-control', value: event.content.to_plain_text %>
+</div>

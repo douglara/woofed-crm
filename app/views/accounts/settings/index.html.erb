@@ -33,16 +33,16 @@
           </div>
         </div>
       </div>
-      <div hidden class="col-lg-6">
+      <div class="col-lg-6">
         <div class="card card-large-icons">
           <div class="card-icon bg-primary text-white">
             <i class="fab fa-whatsapp"></i>
           </div>
           <div class="card-body">
             <h4>Whatsapp - WP Connect</h4>
-            <p>Configure Whatsapp connection.</p>
-            <%= link_to '#', class:"card-cta" do %>
-              Configure whatsapp<i class="fas fa-chevron-right"></i>
+            <p>Configure sua conexão com o Whatsapp.</p>
+            <%= link_to account_apps_wpp_connects_path(current_user.account), class:"card-cta" do %>
+              Configurar Whatsapp<i class="fas fa-chevron-right"></i>
             <% end %>
           </div>
         </div>

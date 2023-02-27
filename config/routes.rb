@@ -8,6 +8,10 @@ Rails.application.routes.draw do
         resources :custom_attributes_definitions, module: :settings do
 
         end
+
+        resources :webhooks, module: :settings do
+
+        end
       # namespace :settings do
       #   get 'index' #, controller: "accounts/settings"
       #   resources :activity_kinds
@@ -20,7 +24,15 @@ Rails.application.routes.draw do
       resources :contacts do
         get 'search', to: 'contacts#search', on: :collection
         resources :notes, module: :contacts
-        resources :events, module: :contacts
+        resources :events, module: :contacts do
+        end
+        namespace :events, module: :contacts do
+          namespace :apps, module: :events do
+            namespace :wpp_connects, module: :apps do
+              resources :messages, module: :wpp_connects
+            end
+          end
+        end
       end
       resources :pipelines do
         get 'import'
@@ -39,6 +51,15 @@ Rails.application.routes.draw do
         resources :activities, module: :deals
         resources :flow_items, only: [:destroy], module: :deals
       end
+
+      namespace :apps do
+        resources :wpp_connects do
+          get 'pair_qr_code'
+          post 'new_connection_status'
+          post 'disable'
+        end
+        #resources :events, module: :contacts
+      end
   end
  
   devise_for :users
@@ -47,7 +68,16 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :accounts, module: :accounts do
-        resources :deals, only: [:show, :create]
+        resources :deals, only: [:show, :create, :update] do
+          resources :events, only: [:create], module: :deals do
+          end
+        end
+        namespace :apps do
+          resources :wpp_connects, only: [] do
+            post 'webhook'
+          end
+          #resources :events, module: :contacts
+        end
       end
 
       namespace :flow_items do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_18_070805) do
+ActiveRecord::Schema.define(version: 2023_02_27_035537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,30 @@ ActiveRecord::Schema.define(version: 2023_01_18_070805) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "apps", force: :cascade do |t|
+    t.bigint "account_id"
+    t.string "name"
+    t.string "kind"
+    t.boolean "active", default: false, null: false
+    t.jsonb "settings", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_apps_on_account_id"
+  end
+
+  create_table "apps_wpp_connects", force: :cascade do |t|
+    t.bigint "account_id"
+    t.string "name"
+    t.boolean "active", default: false, null: false
+    t.string "session", default: "", null: false
+    t.string "token", default: "", null: false
+    t.string "endpoint_url", default: "", null: false
+    t.string "secretkey", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_apps_wpp_connects_on_account_id"
+  end
+
   create_table "contacts", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.string "full_name", default: "", null: false
@@ -115,22 +139,13 @@ ActiveRecord::Schema.define(version: 2023_01_18_070805) do
     t.index ["stage_id"], name: "index_deals_on_stage_id"
   end
 
-  create_table "event_kinds", force: :cascade do |t|
-    t.string "name", default: "", null: false
-    t.string "key", default: "", null: false
-    t.integer "order", default: 0, null: false
-    t.string "icon_key", default: "", null: false
-    t.boolean "enabled", default: false, null: false
-    t.jsonb "settings", default: {}, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "events", force: :cascade do |t|
     t.bigint "deal_id"
     t.bigint "contact_id"
     t.bigint "account_id", null: false
-    t.bigint "event_kind_id", null: false
+    t.string "app_type"
+    t.bigint "app_id"
+    t.string "kind", default: "note", null: false
     t.datetime "due"
     t.boolean "done"
     t.datetime "done_at"
@@ -139,9 +154,9 @@ ActiveRecord::Schema.define(version: 2023_01_18_070805) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_events_on_account_id"
+    t.index ["app_type", "app_id"], name: "index_events_on_app"
     t.index ["contact_id"], name: "index_events_on_contact_id"
     t.index ["deal_id"], name: "index_events_on_deal_id"
-    t.index ["event_kind_id"], name: "index_events_on_event_kind_id"
   end
 
   create_table "flow_items", force: :cascade do |t|
@@ -195,6 +210,14 @@ ActiveRecord::Schema.define(version: 2023_01_18_070805) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "webhooks", force: :cascade do |t|
+    t.bigint "account_id"
+    t.string "url", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_webhooks_on_account_id"
+  end
+
   create_table "wp_connects", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.boolean "enabled", default: false, null: false
@@ -211,7 +234,6 @@ ActiveRecord::Schema.define(version: 2023_01_18_070805) do
   add_foreign_key "deals", "contacts"
   add_foreign_key "deals", "stages"
   add_foreign_key "events", "accounts"
-  add_foreign_key "events", "event_kinds"
   add_foreign_key "flow_items", "contacts"
   add_foreign_key "flow_items", "deals"
   add_foreign_key "stages", "pipelines"

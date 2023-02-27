@@ -4,7 +4,14 @@ class Accounts::Contacts::EventsController < InternalController
 
   # GET /notes
   def new
-    @event = Event.new(contact: @contact)
+    #@event = current_user.account.events.new(event_params.merge({contact: @contact}))
+    @event = EventBuilder.new(current_user, event_params.merge({contact_id: @contact.id})).build
+    @options = [ 
+      {'name': 'Notas', 'id': 'note'},
+      {'name': 'Whatsapp', 'id': 'wpp_connect_message'}
+    ]
+
+
     if params[:deal_id].present?
       @event.deal_id = params[:deal_id]
       @deal = Deal.find(params[:deal_id])
@@ -18,11 +25,9 @@ class Accounts::Contacts::EventsController < InternalController
   # POST /notes or /notes.json
   def create
     @deal = Deal.find(params[:deal_id])
-    @event = Event.new(event_params)
-    @event.account = current_user.account
+    @event = current_user.account.events.new(event_params.merge({contact: @contact}))
     @event.contact = @contact
     @event.deal = @deal
-    @event.event_kind = EventKind.find_by_key('note')
     @event.from_me = true
 
     respond_to do |format|
@@ -60,6 +65,8 @@ class Accounts::Contacts::EventsController < InternalController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:content)
+      params.require(:event).permit(:content, :kind, :app_type, :app_id)
+    rescue
+      {}
     end
 end

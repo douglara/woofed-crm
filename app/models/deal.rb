@@ -14,6 +14,7 @@ class Deal < ApplicationRecord
   has_one :primary_contact, through: :contacts_deal_main, source: :contact
 
   belongs_to :stage
+  has_many :events
   has_many :flow_items
   has_many :notes, through: :flow_items
   has_many :activities
@@ -61,5 +62,23 @@ class Deal < ApplicationRecord
   def self.csv_header(account_id)
     custom_fields = CustomAttributeDefinition.where(account_id: account_id, attribute_model: 'deal_attribute').map { | i | "custom_attributes.#{i.attribute_key}" }
     self.column_names.excluding('account_id','created_at', 'updated_at', 'id', 'custom_attributes' ) + custom_fields
+  end
+
+
+
+  ## Events
+
+  include Wisper::Publisher
+  after_commit :publish_created, on: :create
+  after_commit :publish_updated, on: :update
+
+  private
+
+  def publish_created
+    broadcast(:deal_created, self)
+  end
+
+  def publish_updated
+    broadcast(:deal_updated, self)
   end
 end

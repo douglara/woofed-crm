@@ -20,6 +20,16 @@ class Api::V1::Accounts::DealsController < Api::V1::InternalController
     end
   end
 
+  def update
+    @deal = @current_user.account.deals.find(params["id"])
+
+    if @deal.update(deal_params)
+      render json: @deal, status: :ok
+    else
+      render json: { errors: @deal.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   def deal_params
     params.permit(:name, :status, :stage_id, contacts_attributes: [ :id, :full_name, :phone, :email ], custom_attributes: {} )
   end

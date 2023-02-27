@@ -33,14 +33,14 @@ if User.all.count == 0
   # deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contacts: [ contacts[1] ], account: account_1)
   # deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contacts: [ contacts[2] ], account: account_1)
 
-  event_kind_1 = EventKind.create(name: 'Call', key: 'call', icon_key: 'fas fa-phone', enabled: true)
-  event_kind_2 = EventKind.create(name: 'Email', key: 'email', icon_key: 'far fa-envelope', enabled: true)
-  event_kind_3 = EventKind.create(name: 'Note', key: 'note', icon_key: 'far fa-sticky-note', enabled: true)
-  event_kind_4 = EventKind.create(name: 'Whatsapp', key: 'whatsapp', icon_key: 'fab fa-whatsapp', enabled: false, settings: {'secretkey': 'THISISMYSECURETOKEN', 'endpoint_url': 'https://wppconnect-server-open-crm.herokuapp.com', 'enabled': false, 'session': '', 'token': ''})
+  #event_kind_1 = EventKind.create(name: 'Call', key: 'call', icon_key: 'fas fa-phone', enabled: true)
+  #event_kind_2 = EventKind.create(name: 'Email', key: 'email', icon_key: 'far fa-envelope', enabled: true)
+  #event_kind_3 = EventKind.create(name: 'Note', key: 'note', icon_key: 'far fa-sticky-note', enabled: true)
+  #event_kind_4 = EventKind.create(name: 'Whatsapp', key: 'whatsapp', icon_key: 'fab fa-whatsapp', enabled: true, settings: {'secretkey': 'THISISMYSECURETOKEN', 'endpoint_url': 'https://wppconnect-server-open-crm.herokuapp.com', 'enabled': false, 'session': '', 'token': ''})
   
-  event_1 = Event.create(account: account_1, contact: deal_1.contact, deal: deal_1, event_kind: event_kind_1, from_me: true )
-  event_2 = Event.create(account: account_1, contact: deal_2.contact, deal: deal_2, event_kind: event_kind_2, from_me: true )
-  event_3 = Event.create(account: account_1, contact: deal_3.contact, deal: deal_3, event_kind: event_kind_3, from_me: true )
+  event_1 = Event.create(account: account_1, contact: deal_1.contact, deal: deal_1, kind: 'note', from_me: true )
+  event_2 = Event.create(account: account_1, contact: deal_2.contact, deal: deal_2, kind: 'note', from_me: true )
+  event_3 = Event.create(account: account_1, contact: deal_3.contact, deal: deal_3, kind: 'note', from_me: true )
   
   puts('Created seed data')  
 end
