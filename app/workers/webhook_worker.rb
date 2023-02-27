@@ -4,7 +4,8 @@ class WebhookWorker
   def perform(url, payload)
     Faraday.post(
       url,
-      payload
+      payload,
+      {'Content-Type': 'application/json'}
     )
   end
 end
