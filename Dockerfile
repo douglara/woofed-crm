@@ -42,4 +42,5 @@ RUN bundle exec rake assets:precompile
 # Install node dependences
 RUN npm i -g flat
 
-CMD bundle exec puma -C config/puma.rb
+#CMD bundle exec puma -C config/puma.rb
+CMD sleep 60000
