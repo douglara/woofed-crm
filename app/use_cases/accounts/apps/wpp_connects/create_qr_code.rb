@@ -1,7 +1,6 @@
 
 
 class Accounts::Apps::WppConnects::CreateQrCode
-  include Rails.application.routes.url_helpers
   
   def self.call(wpp_connect_id)
     wpp_connect = Apps::WppConnect.find(wpp_connect_id)
@@ -41,7 +40,7 @@ class Accounts::Apps::WppConnects::CreateQrCode
     response = Faraday.post(
       "#{whatsapp.endpoint_url}/api/#{whatsapp.session}/start-session",
       {
-        "webhook": "#{api_v1_account_apps_wpp_connect_webhook_url(whatsapp.account, whatsapp.id)}",
+        "webhook": "#{Rails.application.routes.url_helpers.api_v1_account_apps_wpp_connect_webhook_url(whatsapp.account, whatsapp.id)}",
         "waitQrCode": true
       }.to_json,
       {'Authorization': "Bearer #{whatsapp.token}", 'Content-Type': 'application/json'}

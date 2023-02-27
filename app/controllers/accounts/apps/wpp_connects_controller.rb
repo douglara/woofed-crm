@@ -39,8 +39,8 @@ class Accounts::Apps::WppConnectsController < InternalController
         format.html { render :pair_qr_code, status: :ok }
         format.json { render :pair_qr_code, status: :ok }
       else
-        format.html { redirect_to settings_whatsapp_index_path(), status: :unprocessable_entity }
-        format.json { render json: @activity_kind.errors, status: :unprocessable_entity }
+        puts(result.inspect)
+        format.html { redirect_to account_apps_wpp_connects_path(current_user.account), status: :unprocessable_entity }
       end
     end
   end
