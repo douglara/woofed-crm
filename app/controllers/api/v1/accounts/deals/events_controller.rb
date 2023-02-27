@@ -15,6 +15,6 @@ class Api::V1::Accounts::Deals::EventsController < Api::V1::InternalController
   end
 
   def event_params
-    params.permit(:content, :kind, :app_type, :app_id)
+    params.permit(:content, :kind, :app_type, :app_id, custom_attributes: {})
   end
 end

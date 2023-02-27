@@ -32,7 +32,7 @@ class Accounts::Apps::WppConnects::Events::DeliveryMessage
     response = Faraday.post(
       "#{wpp_connect.endpoint_url}/api/#{wpp_connect.session}/send-message",
       {
-        "phone": "#{contact.phone}",
+        "phone": "#{event.custom_attributes['wpp_connect_message_phone']}",
         "message": "#{event.content.to_plain_text}",
         "isGroup": false
       }.to_json,

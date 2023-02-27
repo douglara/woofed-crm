@@ -1,9 +1,19 @@
 <%= form.hidden_field :app_type, value: 'Apps::WppConnect' %>
 
 <div class="form-group">
+<%= form.label :app_id, 'Conexão' %>
   <%= form.select(:app_id, current_user.account.apps_wpp_connects.actives.map { | wpp | [ wpp.name, wpp.id ]  } , {}, {class: 'form-control', required: true} ) %>
 </div>
 
+ <%= form.fields_for(:custom_attributes) do |ca| %>
+  <div class="form-group">
+    <%= ca.label :wpp_connect_message_phone, 'Telefone' %>
+    <%= ca.text_field :wpp_connect_message_phone, value: event.contact.phone , class: 'form-control' %>
+  </div>
+ <% end %>
+
+
 <div class="form-group">
+  <%= form.label :content, 'Mensagem' %>
   <%= form.text_area :content, class: 'form-control', value: event.content.to_plain_text %>
 </div>

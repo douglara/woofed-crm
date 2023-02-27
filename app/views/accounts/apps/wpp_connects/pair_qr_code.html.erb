@@ -7,8 +7,8 @@
     <div class="card">
       <div class="card-body">
         <div class="jumbotron text-center" data-controller="whatsapp-connect">
-          <input data-target="whatsapp-connect.account_id" type="text" value="<%= @whatsapp.account.id %>" readonly>
-          <input data-target="whatsapp-connect.id" type="text" value="<%= @whatsapp.id %>" readonly>
+          <input hidden data-target="whatsapp-connect.account_id" type="text" value="<%= @whatsapp.account.id %>" readonly>
+          <input hidden data-target="whatsapp-connect.id" type="text" value="<%= @whatsapp.id %>" readonly>
     
           <h2 class="mb-4">Whatsapp QR code</h2>
             <p><img id="qr_code" src="data:image/png;base64, <%= @qr_code %>" alt="Whatsapp QR Code" /></p>

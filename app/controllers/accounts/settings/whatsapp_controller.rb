@@ -1,4 +1,4 @@
-class Settings::WhatsappController < InternalController
+class Accounts::Settings::WhatsappController < InternalController
   before_action :set_whatsapp, only: %i[ edit disable new_connection ]
 
   def new
