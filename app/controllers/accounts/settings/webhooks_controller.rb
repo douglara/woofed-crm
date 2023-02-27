@@ -1,4 +1,4 @@
-class Accounts::Settings::WebHooksController < InternalController
+class Accounts::Settings::WebhooksController < InternalController
   before_action :set_activity_kind, only: %i[ edit update ]
 
   def index
