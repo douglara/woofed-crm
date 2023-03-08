@@ -40,6 +40,7 @@ gem 'jwt', '2.2.3'
 gem 'rails-i18n', '~> 7.0.0'
 gem 'json_csv'
 gem 'wisper', '2.0.0'
+gem 'requestjs-rails'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false

@@ -69,11 +69,11 @@
 
             </span>
           </header>
-          <div>
+          <div data-controller="drag" data-drag-url="/accounts/<%= current_user.account.id %>/deals/:deal_id" data-id="<%= stage.id %>">
             <ul class="drag-inner-list" id="<%= stage.order %>">
               <% stage.deals.open.each do | deal | %>
-                <%= link_to account_deal_path(current_user.account, deal.id), deal_id: deal.id, account_id:  current_user.account.id do %>
-                  <li class="drag-item" deal_id="<%= deal.id %>">
+                <%= link_to account_deal_path(current_user.account, deal.id), data: {id: deal.id}, deal_id: deal.id, account_id:  current_user.account.id do %>
+                  <li class="drag-item" account_id="<%= current_user.account.id %>" deal_id="<%= deal.id %>" data-id="<%= deal.id %>" draggable="true" sortable="true" data-pipeline-target="deal" data-action="dragstart->pipeline#dragStart dragend->pipeline#dragEnd drop->pipeline#drop dragenter->pipeline#dragEnter dragleave->pipeline#dragLeave dragover->pipeline#dragOver">
                     <header>
                       <label color="#7159c1"> </label>
                     </header>
@@ -102,5 +102,5 @@
   </div>
 
 <%= content_for :javascripts do %>
-  <%= javascript_pack_tag 'kanban' %>
+
 <% end %>

@@ -201,6 +201,8 @@ GEM
     redis-client (0.12.2)
       connection_pool
     regexp_parser (2.7.0)
+    requestjs-rails (0.0.10)
+      rails (>= 6.0.0)
     responders (3.1.0)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -302,6 +304,7 @@ DEPENDENCIES
   rails (~> 6.1.4)
   rails-i18n (~> 7.0.0)
   redis (~> 4.0)
+  requestjs-rails
   rexml (= 3.2.4)
   sass-rails (>= 6)
   selenium-webdriver
