@@ -5,13 +5,17 @@
   <%= form.select(:app_id, current_user.account.apps_wpp_connects.actives.map { | wpp | [ wpp.name, wpp.id ]  } , {}, {class: 'form-control', required: true} ) %>
 </div>
 
- <%= form.fields_for(:custom_attributes) do |ca| %>
-  <div class="form-group">
-    <%= ca.label :wpp_connect_message_phone, 'Telefone' %>
-    <%= ca.text_field :wpp_connect_message_phone, value: event.contact.phone , class: 'form-control' %>
-  </div>
- <% end %>
+<%= form.fields_for(:custom_attributes) do |ca| %>
+<div class="form-group">
+  <%= ca.label :wpp_connect_message_to, 'Telefone' %>
+  <%= ca.text_field :wpp_connect_message_to, value: event.contact.phone , class: 'form-control' %>
+</div>
+<% end %>
 
+<div class="form-group">
+  <%= form.label "Agendar" %>
+  <%= form.text_field :due, class: 'form-control', type: 'datetime-local' %>
+</div>
 
 <div class="form-group">
   <%= form.label :content, 'Mensagem' %>

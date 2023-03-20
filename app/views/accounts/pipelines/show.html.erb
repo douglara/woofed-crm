@@ -50,7 +50,7 @@
                   <%= link_to '#', class:"dropdown-item has-icon" do %>
                     <i class="fas fa-pencil-alt"></i> Editar
                   <% end %>
-                  <%= link_to account_pipeline_bulk_action_path(1,1), class:"dropdown-item has-icon" do %>
+                  <%= link_to account_pipeline_bulk_action_path(current_user.account, stage.pipeline_id, stage_id: stage.id), class:"dropdown-item has-icon" do %>
                     <i class="fas fa-solid fa-layer-group"></i> Ação em massa
                   <% end %>
                   <%= link_to account_pipeline_import_path(current_user.account, stage.pipeline_id, stage_id: stage.id), class:"dropdown-item has-icon" do %>

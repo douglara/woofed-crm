@@ -1,5 +1,5 @@
 class Event < ApplicationRecord
-  default_scope { order('created_at DESC') }
+  # default_scope { order('created_at DESC') }
 
   belongs_to :deal
   belongs_to :contact
@@ -10,7 +10,7 @@ class Event < ApplicationRecord
   has_rich_text :content
 
   after_create_commit {
-    broadcast_prepend_to [contact_id, 'events'],
+    broadcast_append_to [contact_id, 'events'],
     partial: "accounts/contacts/events/event"
 
     Accounts::Contacts::Events::CreatedWorker.perform_async(self.id)
@@ -44,6 +44,6 @@ class Event < ApplicationRecord
 
   def overdue?
     return false if self.done == true || due.blank?
-    DateTime.now < due
+    DateTime.current > due
   end
 end

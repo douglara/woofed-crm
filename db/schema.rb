@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_27_035537) do
+ActiveRecord::Schema.define(version: 2023_03_18_185136) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
@@ -97,9 +98,13 @@ ActiveRecord::Schema.define(version: 2023_02_27_035537) do
     t.string "phone", default: "", null: false
     t.string "email", default: "", null: false
     t.jsonb "custom_attributes", default: {}
+    t.jsonb "additional_attributes", default: {}
+    t.string "app_type"
+    t.bigint "app_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_contacts_on_account_id"
+    t.index ["app_type", "app_id"], name: "index_contacts_on_app"
   end
 
   create_table "contacts_deals", force: :cascade do |t|
@@ -150,7 +155,9 @@ ActiveRecord::Schema.define(version: 2023_02_27_035537) do
     t.boolean "done"
     t.datetime "done_at"
     t.boolean "from_me"
+    t.integer "status"
     t.jsonb "custom_attributes", default: {}
+    t.jsonb "additional_attributes", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_events_on_account_id"
@@ -169,6 +176,65 @@ ActiveRecord::Schema.define(version: 2023_02_27_035537) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["contact_id"], name: "index_flow_items_on_contact_id"
     t.index ["deal_id"], name: "index_flow_items_on_deal_id"
+  end
+
+  create_table "good_job_batches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "description"
+    t.jsonb "serialized_properties"
+    t.text "on_finish"
+    t.text "on_success"
+    t.text "on_discard"
+    t.text "callback_queue_name"
+    t.integer "callback_priority"
+    t.datetime "enqueued_at"
+    t.datetime "discarded_at"
+    t.datetime "finished_at"
+  end
+
+  create_table "good_job_processes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "state"
+  end
+
+  create_table "good_job_settings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "key"
+    t.jsonb "value"
+    t.index ["key"], name: "index_good_job_settings_on_key", unique: true
+  end
+
+  create_table "good_jobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "queue_name"
+    t.integer "priority"
+    t.jsonb "serialized_params"
+    t.datetime "scheduled_at"
+    t.datetime "performed_at"
+    t.datetime "finished_at"
+    t.text "error"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.uuid "active_job_id"
+    t.text "concurrency_key"
+    t.text "cron_key"
+    t.uuid "retried_good_job_id"
+    t.datetime "cron_at"
+    t.uuid "batch_id"
+    t.uuid "batch_callback_id"
+    t.index ["active_job_id", "created_at"], name: "index_good_jobs_on_active_job_id_and_created_at"
+    t.index ["active_job_id"], name: "index_good_jobs_on_active_job_id"
+    t.index ["batch_callback_id"], name: "index_good_jobs_on_batch_callback_id", where: "(batch_callback_id IS NOT NULL)"
+    t.index ["batch_id"], name: "index_good_jobs_on_batch_id", where: "(batch_id IS NOT NULL)"
+    t.index ["concurrency_key"], name: "index_good_jobs_on_concurrency_key_when_unfinished", where: "(finished_at IS NULL)"
+    t.index ["cron_key", "created_at"], name: "index_good_jobs_on_cron_key_and_created_at"
+    t.index ["cron_key", "cron_at"], name: "index_good_jobs_on_cron_key_and_cron_at", unique: true
+    t.index ["finished_at"], name: "index_good_jobs_jobs_on_finished_at", where: "((retried_good_job_id IS NULL) AND (finished_at IS NOT NULL))"
+    t.index ["priority", "created_at"], name: "index_good_jobs_jobs_on_priority_created_at_when_unfinished", order: { priority: "DESC NULLS LAST" }, where: "(finished_at IS NULL)"
+    t.index ["queue_name", "scheduled_at"], name: "index_good_jobs_on_queue_name_and_scheduled_at", where: "(finished_at IS NULL)"
+    t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
   end
 
   create_table "notes", force: :cascade do |t|

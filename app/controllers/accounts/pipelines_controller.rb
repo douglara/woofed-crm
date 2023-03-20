@@ -25,6 +25,7 @@ class Accounts::PipelinesController < InternalController
 
   # POST /pipelines/1/import_file
   def import_file
+    @pipeline = Pipeline.find(params[:pipeline_id])
 
     uploaded_io = params[:import_file]
 
@@ -42,9 +43,10 @@ class Accounts::PipelinesController < InternalController
 
         row_json = JsonCsv.csv_row_hash_to_hierarchical_json_hash(row, {})
 
-        row_params = ActionController::Parameters.new(row_json)
+        row_params = ActionController::Parameters.new(row_json).merge({"stage_id": params[:stage_id]})
 
-        deal = current_user.account.deals.new(deal_params(row_params))
+        #deal = current_user.account.deals.new(row_params)
+        deal = DealBuilder.new(current_user, row_params).perform
 
         if deal.save
           csv_output << row.to_h.values + ["Criado com sucesso id #{deal.id}"]
@@ -63,11 +65,14 @@ class Accounts::PipelinesController < InternalController
 
   # GET /pipelines/1/import
   def import
+    @pipeline = Pipeline.find(params[:pipeline_id])
+
     respond_to do |format|
       format.html
       format.csv do
         path_to_output_csv_file = "#{Rails.root}/tmp/deals-#{Time.current.to_i}.csv"
-        headers = Deal.csv_header(current_user.account)
+        #headers = Deal.csv_header(current_user.account)
+        headers = ["name", "contact_attributes.full_name", "contact_attributes.phone"]
         CSV.open(path_to_output_csv_file, "w") do |csv|
           csv << headers
         end
@@ -103,6 +108,30 @@ class Accounts::PipelinesController < InternalController
   end
 
   def bulk_action
+    @pipeline = Pipeline.find(params[:pipeline_id])
+    @event = Event.new
+  end
+
+  def create_bulk_action
+    @deals = current_user.account.deals.where(stage_id: params['stage_id'], status: 'open')
+    time_start = DateTime.current
+
+    @result = @deals.each do | deal |
+      time_start = time_start + rand(5..15).seconds
+
+      Event.create(
+        deal: deal,
+        contact: deal.contact,
+        from_me: true, account: current_user.account, 
+        kind: 'wpp_connect_message',
+        done: false,
+        app_id: params['event']['app_id'],
+        app_type: params['event']['app_type'],
+        content: params['event']['content'],
+        custom_attributes: {'wpp_connect_message_to': deal.contact.phone},
+        due: time_start
+      )
+    end
   end
 
   def bulk_action_2
@@ -162,5 +191,11 @@ class Accounts::PipelinesController < InternalController
         contact_attributes: [ :id, :full_name, :phone, :email, :account_id ],
         custom_attributes: {}
       )
+    end
+
+    def event_params
+      params.require(:event).permit(:content, :kind, :app_type, :app_id, custom_attributes: {})
+    rescue
+      {}
     end
 end

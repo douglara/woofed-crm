@@ -2,6 +2,7 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
   mount Sidekiq::Web => "/sidekiq"
+  mount GoodJob::Engine => 'good_job'
 
   resources :accounts, module: :accounts do
     resources :settings, only: [:index]
@@ -39,7 +40,7 @@ Rails.application.routes.draw do
         post 'import_file'
         get 'export'
         get 'bulk_action'
-        get 'bulk_action_2'
+        post 'create_bulk_action'
       end
       
       resources :deals do

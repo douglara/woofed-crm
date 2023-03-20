@@ -8,6 +8,17 @@
   border-top: 1px solid rgba(230, 236, 245, 1);;
 }
 
+.chat-note {
+  background-color: #fffcdc !important;
+  color: black !important;
+}
+
+.chat-wpp {
+  font: inherit;
+  background-color: #d9fdd3 !important;
+  color: black !important;
+}
+
 .activity-detail {
   width: 70%;
   border-radius: 5px !important;
@@ -31,4 +42,22 @@
 
 .wp-text-area {
   height: 150px !important;
+}
+
+.chat-note {
+  
+}
+
+.chat-content {
+  height: 100%;
+  min-height: 600px;
+
+  overflow: auto !important;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.chat-item.chat-right i {
+  float: right;
+  font-size: 25px;
 }

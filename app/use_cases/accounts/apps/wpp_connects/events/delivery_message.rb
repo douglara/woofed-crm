@@ -21,21 +21,30 @@ class Accounts::Apps::WppConnects::Events::DeliveryMessage
       return new_message
     else
       new_message.done = false
-      return new_message
     end
+
+    rescue 
+      new_message.done = false
+      return new_message
   end
 
 
   def self.make_request(event)
     wpp_connect = event.app
     contact = event.contact
+
+    if (event.custom_attributes['wpp_connect_message_to'].size == 18 )
+      message_params = { "isGroup": true }
+    else
+      message_params = { "isGroup": false }
+    end
+
     response = Faraday.post(
       "#{wpp_connect.endpoint_url}/api/#{wpp_connect.session}/send-message",
-      {
-        "phone": "#{event.custom_attributes['wpp_connect_message_phone']}",
+      message_params.merge({
+        "phone": "#{event.custom_attributes['wpp_connect_message_to']}",
         "message": "#{event.content.to_plain_text}",
-        "isGroup": false
-      }.to_json,
+      }).to_json,
       {'Authorization': "Bearer #{wpp_connect.token}", 'Content-Type': 'application/json'}
     )
     delivery_message?(response)

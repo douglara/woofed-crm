@@ -11,14 +11,23 @@
 
 
         <%= form_with url: account_pipeline_import_file_path(current_user.account, 1), data: { turbo: false} do |form| %>
-          <%= form.label :import_file, "Search for:" %>
-          <%= form.file_field :import_file %>
-          <%= form.submit "Enviar" %>
-        <% end %>
+          <div class="form-group">
+            <%= form.hidden_field :stage_id, value: params[:stage_id] %>
+
+            <%= form.label :import_file, "Arquivo" %>
+            <div class="custom-file">
+              <%= form.file_field :import_file, class: "custom-file-input" %>
+              <label class="custom-file-label" for="import_file">Selecione o arquivo</label>
+            </div>
+          </div>
 
 
 
 
+
+<%
+=begin%>
+ 
         <div class="form-group">
           <label>Etapa</label>
           <select class="form-control">
@@ -31,7 +40,16 @@
           <input id="file" hidden type="file" class="form-control">
           <form onclick="$('#file').click()" action="#" class="dropzone dz-clickable" id="mydropzone">
             
-          <div class="dz-default dz-message"><span>Arraste o arquivo aqui.</span></div></form>
+          <div class="dz-default dz-message"><span>Arraste o arquivo aqui.</span></div></form> 
+<%
+=end%>
+
+
+            <div class="card-footer text-right">
+              <%= form.submit "Enviar", class: 'btn btn-primary' %>
+            </div>
+          <% end %>
+
 
           <div class="text-center pt-3">
             <%= link_to account_pipeline_import_path(current_user.account, params['pipeline_id'] , stage_id: params['stage_id'], format: :csv), class:"mt-4 bb" do %>
@@ -39,8 +57,10 @@
             <% end %>
           </div>
 
-          <div class="card-footer text-right">
-            <a href="/accounts/1/pipelines/1" class="btn btn-primary" type="submit">Enviar</a>
+          <div class="text-center pt-5">
+            <%= link_to account_pipeline_path(current_user.account, params['pipeline_id'] , stage_id: params['stage_id']), class:"mt-4", data: {turbo: false} do %>
+              Voltar
+            <% end %>
           </div>
         </div>
       </div>

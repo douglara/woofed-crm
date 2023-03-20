@@ -20,19 +20,29 @@
 =end%>
 
     <div>
-      <header class="text-center m-3">
+      <%
+=begin%>
+ <header class="text-center m-3">
         <span class="badge badge-light">Done</span>
-      </header>
+      </header> 
+<%
+=end%>
 
-      <%= turbo_frame_tag 'events', class: 'activities' do %>
-        <%= render partial: 'accounts/contacts/events/event', collection: events %>
-      <% end %>
+      
+        <div class="col-12">
+          <div class="card chat-box">
+            <div class="card-body chat-content">
+            <%= turbo_frame_tag 'events' do %>
+              <%= render partial: 'accounts/contacts/events/event', collection: events %>
+            <% end %>
+          </div>
 
-    </div>
-  </div>
-
-  <div class="row float-right p-3">
-    <div class="col-12 mr-5">
-      <%== pagy_bootstrap_nav(@pagy) %>
+          <div class="card-footer">
+            <div class="card-body">
+              <%= turbo_frame_tag "new-event-form", src: new_account_contact_event_path(account_id: current_user.account, contact_id: @deal.primary_contact.id, deal_id: @deal.id) %>
+            </div>
+          </div>
+        </div>
+     
     </div>
   </div>

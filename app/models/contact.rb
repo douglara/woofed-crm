@@ -5,4 +5,5 @@ class Contact < ApplicationRecord
   belongs_to :account
 
   has_and_belongs_to_many :deals
+  belongs_to :app, polymorphic: true, optional: true
 end

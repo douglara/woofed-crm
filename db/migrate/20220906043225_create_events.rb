@@ -13,7 +13,9 @@ class CreateEvents < ActiveRecord::Migration[6.1]
       t.boolean :done, null: true
       t.datetime :done_at, null: true
       t.boolean :from_me, null: true
+      t.integer :status, default: nil
       t.jsonb :custom_attributes, default: {}
+      t.jsonb :additional_attributes, default: {}
 
       t.timestamps
     end

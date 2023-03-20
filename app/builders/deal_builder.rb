@@ -6,7 +6,8 @@ class DealBuilder
   end
 
   def build
-    @deal = @user.account.deals.new(deal_params)
+    @deal = @user.account.deals.new(deal_params(@params))
+    fill_contact_account
     @deal
   end
 
@@ -36,10 +37,22 @@ class DealBuilder
 
   end
 
-  def deal_params
-    # @params[:contacts] = @params[:contacts].map { | c |
-    #   c.merge({account_id: @user.account_id})
-    # }
-    @params
+  # def deal_params
+  #   # @params[:contacts] = @params[:contacts].map { | c |
+  #   #   c.merge({account_id: @user.account_id})
+  #   # }
+  #   @params
+  # end
+
+  def fill_contact_account()
+    @deal.contact.account = @user.account
+  end
+
+  def deal_params(params)
+    params.permit(
+      :name, :status, :stage_id, :contact_id,
+      contact_attributes: [ :id, :full_name, :phone, :email, :account_id ],
+      custom_attributes: {}
+    )
   end
 end
