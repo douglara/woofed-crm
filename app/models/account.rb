@@ -11,5 +11,6 @@ class Account < ApplicationRecord
   has_many :apps_wpp_connects, class_name: 'Apps::WppConnect'
   has_many :webhooks, dependent: :destroy
   has_many :pipelines, dependent: :destroy
+  has_many :stages, dependent: :destroy
 
 end

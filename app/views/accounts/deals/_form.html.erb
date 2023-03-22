@@ -19,7 +19,7 @@
 
       <div class="form-group">
       <%= form.label :stage_id %>
-      <%= form.select(:stage_id, Stage.all.map { |stage| [stage.name, stage.id] }, {}, { class: 'form-control' }) %>
+      <%= form.select(:stage_id, @stages.map { |stage| [stage.name, stage.id] }, {}, { class: 'form-control' }) %>
     </div>
 
     <div class="section-title">Contact</div>

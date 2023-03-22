@@ -20,6 +20,8 @@ class Accounts::DealsController < InternalController
   # GET /deals/new
   def new
     @deal = Deal.new
+    @stages = current_user.account.stages
+
     if params[:deal][:contact_id].present? && params[:deal][:contact_id] != '0'
       @deal.contact = Contact.find(params[:deal][:contact_id])
       @deal.contact_id = params[:deal][:contact_id]
