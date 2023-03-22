@@ -15,13 +15,15 @@ class Accounts::Apps::WppConnects::Sync::Contacts
 
     body = JSON.parse(response.body)
     body['response'].each do | group |
-      Contact.create(
-        full_name: "Grupo - #{group['name']}",
-        phone: group['id']['user'],
-        app: wpp_connect,
-        account: wpp_connect.account,
-        additional_attributes: {'wpp_connect_id': group['id']['user'] }
-      )
+      if Contact.find_by('app_id = ? and additional_attributes @> ?', wpp_connect.id, {"wpp_connect_id"=> group['id']['user']}.to_json) == nil
+        Contact.create(
+          full_name: "Grupo - #{group['name']}",
+          phone: group['id']['user'],
+          app: wpp_connect,
+          account: wpp_connect.account,
+          additional_attributes: {'wpp_connect_id': group['id']['user'] }
+        )  
+      end
     end
   end
 end
