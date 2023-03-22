@@ -3,7 +3,7 @@ class Accounts::DealsController < InternalController
 
   # GET /deals or /deals.json
   def index
-    @deals = Deal.all
+    @deals = current_user.account.deals
   end
 
   # GET /deals/1 or /deals/1.json

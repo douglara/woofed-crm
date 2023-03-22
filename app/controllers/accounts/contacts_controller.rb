@@ -3,7 +3,7 @@ class Accounts::ContactsController < InternalController
 
   # GET /contacts or /contacts.json
   def index
-    @contacts = Contact.all
+    @contacts = current_user.account.contacts
     @pagy, @contacts = pagy(@contacts)
   end
 
