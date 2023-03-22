@@ -8,7 +8,7 @@ class Accounts::ContactsController < InternalController
   end
 
   def search
-    @contacts = Contact.where('full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search', search: "%#{params[:q]}%").limit(5).map(&:attributes)
+    @contacts = current_user.account.contacts.where('full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search', search: "%#{params[:q]}%").limit(5).map(&:attributes)
     
     @results = @contacts.each do | c |
       c[:text] = "#{c['full_name']} - #{c['email']} - #{c['phone']}"
