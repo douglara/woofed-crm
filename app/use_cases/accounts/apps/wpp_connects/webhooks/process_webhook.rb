@@ -7,6 +7,10 @@ class Accounts::Apps::WppConnects::Webhooks::ProcessWebhook
 
     if (webhook['event'] == 'status-find')
       Accounts::Apps::WppConnects::Webhooks::Status.call(wpp_connect, webhook)
+    elsif (webhook['event'] == 'onparticipantschanged')
+      Accounts::Apps::WppConnects::Webhooks::Groups::Onparticipantschanged.call(wpp_connect, webhook)
+    elsif (webhook['event'] == 'onmessage')
+      Accounts::Apps::WppConnects::Webhooks::Messages::Onmessage.call(wpp_connect, webhook)
     end
 
     return { ok: wpp_connect }

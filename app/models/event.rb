@@ -1,7 +1,7 @@
 class Event < ApplicationRecord
   # default_scope { order('created_at DESC') }
 
-  belongs_to :deal
+  belongs_to :deal, optional: true
   belongs_to :contact
   belongs_to :account
   # belongs_to :event_kind, default: -> { EventKind }
@@ -27,7 +27,8 @@ class Event < ApplicationRecord
 
   enum kind: {
     'note': 'note',
-    'wpp_connect_message': 'wpp_connect_message'
+    'wpp_connect_message': 'wpp_connect_message',
+    'wpp_connect_information': 'wpp_connect_information'
   }
 
   def icon_key

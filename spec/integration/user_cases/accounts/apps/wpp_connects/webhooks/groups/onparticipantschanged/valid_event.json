@@ -1,0 +1,25 @@
+{
+    "event": "onparticipantschanged",
+    "session": "session_1679561383",
+    "by": "554196910256@c.us",
+    "byPushName": "Douglas Lara",
+    "groupId": "120363101980547250@g.us",
+    "operation": "add",
+    "who": [
+      "554192342890@c.us"
+    ],
+    "account_id": "1",
+    "wpp_connect_id": "4",
+    "wpp_connect": {
+      "event": "onparticipantschanged",
+      "session": "session_1679561383",
+      "by": "554196910256@c.us",
+      "byPushName": "Douglas Lara",
+      "groupId": "120363101980547250@g.us",
+      "action": "webhook",
+      "operation": "add",
+      "who": [
+        "554192342890@c.us"
+      ]
+    }
+  }

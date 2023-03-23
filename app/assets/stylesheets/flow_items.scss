@@ -61,3 +61,19 @@
   float: right;
   font-size: 25px;
 }
+
+.chat-center {
+  img {
+    float: center;
+  }
+  .chat-details {
+    margin-left: 0;
+    margin-right: 70px;
+    text-align: center;
+    .chat-text {
+      text-align: center;
+      background-color: color(primary);
+      color: black;
+    }
+  }
+}

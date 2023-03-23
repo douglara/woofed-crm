@@ -2,7 +2,7 @@ class Accounts::Apps::WppConnects::Sync::Contacts
 
   def self.call(wpp_connect_id)
     wpp_connect = Apps::WppConnect.find(wpp_connect_id)
-
+    return {error: 'Conneciton active'} if wpp_connect.active == false
     return {ok: import_groups(wpp_connect)}
   end
 
