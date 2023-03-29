@@ -1,57 +1,68 @@
 <%= turbo_frame_tag event do %>
 
   <% if event.from_me == true %>
-    <div class="chat-item chat-right" style="">
-      <i class="<%= event.icon_key %>"></i>
+
+    <div class="chat-item chat-right">
       <div class="chat-details">
         <% if event.kind == 'note' %>
-          <div class="chat-text chat-note"><%= event.content %></div>
+          <div class="chat-text chat-note"><%= event.content %>
         <% elsif event.kind == 'wpp_connect_message' %>
           <% if event.done == true %>
-            <div class="chat-text chat-wpp"><%= event.content %></div>
+            <div class="chat-text chat-wpp"><%= event.content %>
           <% else %>
-            <div class="chat-text"><%= event.content %></div>
+            <div class="chat-text"><%= event.content %>
           <% end %>
         <% end %>
-        <div class="chat-time">
-          <% if event.done == true %>
-            <span><%= event.due_format %></span>
-          <% elsif event.done == false && event.done == nil  %>
-            <% if event.overdue? %>
-              <span class="time-overdue">Atividade agendada para <%= event.due_format %></span>
-            <% else %>
-              <span>Atividade agendada para <%= event.due_format %></span>
-            <% end %>
-          <% end %>
-        </div>
+
+          
+            <div>
+              <i class="<%= event.icon_key %> float-left events-icon"></i>
+              <div class ="float-right">
+                <div class="chat-time">
+                  <% if event.done == true %>
+                    <span><%= event.due_format %></span>
+                  <% elsif event.done == false && event.done == nil  %>
+                    <% if event.overdue? %>
+                      <span class="time-overdue">Atividade agendada para <%= event.due_format %></span>
+                    <% else %>
+                      <span>Atividade agendada para <%= event.due_format %></span>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+
+          </div>
       </div>
     </div>
 
 
   <% elsif event.from_me == false %>
-    <div class="chat-item chat-left" style="">
-      <i class="<%= event.icon_key %>"></i>
+    <div class="chat-item chat-left">
       <div class="chat-details">
-        <% if event.kind == 'note' %>
-          <div class="chat-text chat-note"><%= event.content %></div>
-        <% elsif event.kind == 'wpp_connect_message' %>
-          <% if event.done == true %>
-            <div class="chat-text chat-wpp"><%= event.content %></div>
-          <% else %>
-            <div class="chat-text"><%= event.content %></div>
-          <% end %>
+        <% if event.kind == 'wpp_connect_message' %>
+          <div class="chat-text"><%= event.content %>
         <% end %>
-        <div class="chat-time">
-          <% if event.done == true %>
-            <span><%= event.due_format %></span>
-          <% elsif event.done == false && event.done == nil  %>
-            <% if event.overdue? %>
-              <span class="time-overdue">Atividade agendada para <%= event.due_format %></span>
-            <% else %>
-              <span>Atividade agendada para <%= event.due_format %></span>
-            <% end %>
-          <% end %>
+
+
+          <div>
+            <i class="<%= event.icon_key %> float-right events-icon-right"></i>
+            <div class ="float-right">
+              <div class="chat-time">
+                <% if event.done == true %>
+                  <span><%= event.due_format %></span>
+                <% elsif event.done == false && event.done == nil  %>
+                  <% if event.overdue? %>
+                    <span class="time-overdue">Atividade agendada para <%= event.due_format %></span>
+                  <% else %>
+                    <span>Atividade agendada para <%= event.due_format %></span>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
 

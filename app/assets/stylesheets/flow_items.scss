@@ -44,13 +44,10 @@
   height: 150px !important;
 }
 
-.chat-note {
-  
-}
 
 .chat-content {
   height: 100%;
-  min-height: 600px;
+  //min-height: 600px;
 
   overflow: auto !important;
   display: flex;
@@ -60,6 +57,11 @@
 .chat-item.chat-right i {
   float: right;
   font-size: 25px;
+}
+
+.chat-details {
+  margin-right: 0px !important;
+  margin-left: 0px !important;
 }
 
 .chat-center {
@@ -76,4 +78,22 @@
       color: black;
     }
   }
+}
+
+.events-icon {
+  position: relative;
+  top: 18px;
+  right: 18px;
+  font-size: 18px !important;
+}
+
+.events-icon-right {
+  position: relative;
+  top: 18px;
+  left: 18px;
+  font-size: 18px !important;
+}
+
+.chat-text {
+  border-radius: 10px !important;
 }
