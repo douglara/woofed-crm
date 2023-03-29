@@ -1,0 +1,42 @@
+{
+  "status": "success",
+  "response": {
+    "id": {
+      "server": "c.us",
+      "user": "554196910256",
+      "_serialized": "554196910256@c.us"
+    },
+    "name": "Douglas Lara",
+    "shortName": "Douglas",
+    "pushname": "Douglas Lara",
+    "type": "in",
+    "isBusiness": false,
+    "isEnterprise": false,
+    "isSmb": false,
+    "labels": [
+
+    ],
+    "isContactSyncCompleted": 0,
+    "disappearingModeDuration": 0,
+    "disappearingModeSettingTimestamp": 1676971690,
+    "formattedName": "Douglas Lara",
+    "isMe": false,
+    "isMyContact": true,
+    "isPSA": false,
+    "isUser": true,
+    "isWAContact": true,
+    "profilePicThumbObj": {
+      "eurl": "https://pps.whatsapp.net/v/t61.24694-24/218088560_1343083402861493_7003699211785604252_n.jpg?ccb=11-4&oh=01_AdT2DePm30KCltviNogGpqOe6-7-lsQXpaE2Muzc085yng&oe=6430902C",
+      "id": {
+        "server": "c.us",
+        "user": "554196910256",
+        "_serialized": "554196910256@c.us"
+      },
+      "img": "https://pps.whatsapp.net/v/t61.24694-24/218088560_1343083402861493_7003699211785604252_n.jpg?stp=dst-jpg_s96x96&ccb=11-4&oh=01_AdT4iHJL2j9_Ou9x9hS654xvT2mgjRBFUOVbth81mX-KRQ&oe=6430902C",
+      "imgFull": "https://pps.whatsapp.net/v/t61.24694-24/218088560_1343083402861493_7003699211785604252_n.jpg?ccb=11-4&oh=01_AdT2DePm30KCltviNogGpqOe6-7-lsQXpaE2Muzc085yng&oe=6430902C",
+      "tag": "1649620011"
+    },
+    "msgs": null
+  },
+  "session": "session_1680050113"
+}
