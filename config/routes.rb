@@ -59,6 +59,9 @@ Rails.application.routes.draw do
           post 'new_connection_status'
           post 'disable'
         end
+
+        resources :chatwoots do
+        end
         #resources :events, module: :contacts
       end
   end
@@ -89,6 +92,15 @@ Rails.application.routes.draw do
       resources :contacts, only: [:create] do
         resources :wp_connects, only: [] do
           resources :messages, only: [:create], controller: "contacts/wp_connects/messages"
+        end
+      end
+    end
+  end
+
+  namespace :embedded do
+    resources :accounts, module: :accounts do
+      namespace :apps do
+        resources :chatwoots, only: [:index] do
         end
       end
     end
