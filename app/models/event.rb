@@ -1,3 +1,35 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  id                    :bigint           not null, primary key
+#  additional_attributes :jsonb
+#  app_type              :string
+#  custom_attributes     :jsonb
+#  done                  :boolean
+#  done_at               :datetime
+#  due                   :datetime
+#  from_me               :boolean
+#  kind                  :string           default("note"), not null
+#  status                :integer
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  account_id            :bigint           not null
+#  app_id                :bigint
+#  contact_id            :bigint
+#  deal_id               :bigint
+#
+# Indexes
+#
+#  index_events_on_account_id  (account_id)
+#  index_events_on_app         (app_type,app_id)
+#  index_events_on_contact_id  (contact_id)
+#  index_events_on_deal_id     (deal_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#
 class Event < ApplicationRecord
   # default_scope { order('created_at DESC') }
 
@@ -28,7 +60,8 @@ class Event < ApplicationRecord
   enum kind: {
     'note': 'note',
     'wpp_connect_message': 'wpp_connect_message',
-    'wpp_connect_information': 'wpp_connect_information'
+    'wpp_connect_information': 'wpp_connect_information',
+    'activity': 'activity'
   }
 
   def icon_key
@@ -36,6 +69,8 @@ class Event < ApplicationRecord
       return 'far fa-sticky-note'
     elsif kind == 'wpp_connect_message'
       return 'fab fa-whatsapp'
+    elsif kind == 'activity'
+      return 'far fa-calendar'
     end
   end
 

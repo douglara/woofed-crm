@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: activities
+#
+#  id         :bigint           not null, primary key
+#  done       :boolean          default(FALSE), not null
+#  due        :datetime
+#  name       :string           default(""), not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 class Activity < ApplicationRecord
   include Activity::Decorators
 

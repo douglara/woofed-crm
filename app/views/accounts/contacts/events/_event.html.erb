@@ -6,6 +6,8 @@
       <div class="chat-details">
         <% if event.kind == 'note' %>
           <div class="chat-text chat-note"><%= event.content %>
+        <% elsif event.kind == 'activity' %>
+          <div class="chat-text"><%= event.content %>
         <% elsif event.kind == 'wpp_connect_message' %>
           <% if event.done == true %>
             <div class="chat-text chat-wpp"><%= event.content %>

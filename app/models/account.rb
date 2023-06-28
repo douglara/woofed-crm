@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: accounts
+#
+#  id         :bigint           not null, primary key
+#  name       :string           default(""), not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 class Account < ApplicationRecord
   validates :name, presence: true
   validates :name, length: { maximum: 255 }

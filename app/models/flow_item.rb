@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: flow_items
+#
+#  id         :bigint           not null, primary key
+#  item       :jsonb
+#  kind_type  :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  contact_id :bigint           not null
+#  deal_id    :bigint
+#  kind_id    :bigint
+#
+# Indexes
+#
+#  index_flow_items_on_contact_id  (contact_id)
+#  index_flow_items_on_deal_id     (deal_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (contact_id => contacts.id)
+#  fk_rails_...  (deal_id => deals.id)
+#
 class FlowItem < ApplicationRecord
   default_scope { order(created_at: :desc) }
 

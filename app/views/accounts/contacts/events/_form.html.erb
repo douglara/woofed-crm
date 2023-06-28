@@ -18,7 +18,7 @@
 
       <div class="form-group">
         <label>Tipo</label>
-        <%= form.select(:kind, [ ['Notas', 'note'], ['Whatsapp', 'wpp_connect_message']], {}, { :class => 'form-control', data: { action: 'change->form-navigate#to', url: new_account_contact_event_path(current_user.account ,contact_id: @contact.id, deal_id: @deal.id) }} ) %>
+        <%= form.select(:kind, [ ['Notas', 'note'], ['Whatsapp', 'wpp_connect_message'], ['Atividade', 'activity']], {}, { :class => 'form-control', data: { action: 'change->form-navigate#to', url: new_account_contact_event_path(current_user.account ,contact_id: @contact.id, deal_id: @deal.id) }} ) %>
       </div>
 
 
@@ -28,6 +28,8 @@
         <%= render "accounts/contacts/events/form/note", form:form, event: event %>
       <% elsif event.kind == 'wpp_connect_message' %>
         <%= render "accounts/contacts/events/form/wpp_connect_message", form:form, event: event %>
+      <% elsif event.kind == 'activity' %>
+        <%= render "accounts/contacts/events/form/activity", form:form, event: event %>
       <% end %>
 
 
