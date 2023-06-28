@@ -37,39 +37,7 @@
   </div>
 
   <div class="row">
-    <div class="col-lg-4 pr-0">
-      <div class="card card-primary">
-        <div class="card-header">
-          <h4>Details</h4>
-        </div>
-        <div class="card-body">
-          <%= form_with(model: @deal, url: account_deal_path(current_user.account), role:"form", class:"needs-validation") do |f| %>
-            <div class="form-group">
-              <%= f.label :name %><br />
-              <%= f.text_field :name, autofocus: true, class: "form-control" %>
-            </div>
-
-            <%= render 'accounts/custom_attributes', m: @deal, f: f %>
-
-            <div class="card-footer text-right">
-              <%= f.submit 'Update', class: 'btn btn-primary' %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-
-      <div class="card card-primary">
-        <div class="card-header">
-          <h4>Contact</h4>
-        </div>
-        <div class="card-body">
-          <%= render '/accounts/contacts/form', contact: @deal.primary_contact %>
-        </div>
-      </div>
-
-      <%= render 'contacts' %>
-    </div>
-
+    <%= render "/accounts/deals/details" %>
     <div class="col-8 pl-0">
       <%= render "/accounts/contacts/events/events", deal: @deal, events: @events %>
     </div>
