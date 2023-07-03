@@ -2,3 +2,29 @@
 .sidebar-component {
   padding: 1rem;
 }
+
+.icon-menu {
+  padding: 1rem;
+}
+
+.dropdown-divider {
+  border-top: 2px solid #F2F1F7;
+}
+
+.active a {
+  border-right: 1.5px solid var(--light-palette-p-3-line, #F2F1F7);
+  background: #F6F8FE !important;
+  border-radius: 5px;
+  border: 1.5px solid  #EDF1FD;
+}
+
+.nav-button {
+  padding: 0.5rem;
+  border: 2px solid #F2F1F7;
+  border-radius: 5px;
+  color: #888599 !important; 
+}
+
+.logo-img {
+  margin-right: 2rem;
+}
