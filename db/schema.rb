@@ -83,9 +83,13 @@ ActiveRecord::Schema.define(version: 2023_06_20_191827) do
     t.bigint "account_id"
     t.string "name"
     t.boolean "active", default: false, null: false
-    t.string "endpoint_url", default: "", null: false
-    t.string "user_token", default: "", null: false
+    t.string "status", default: "inactive", null: false
     t.string "embedding_token", default: "", null: false
+    t.integer "chatwoot_account_id", null: false
+    t.string "chatwoot_endpoint_url", default: "", null: false
+    t.string "chatwoot_user_token", default: "", null: false
+    t.integer "chatwoot_dashboard_app_id", null: false
+    t.integer "chatwoot_webhook_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_apps_chatwoots_on_account_id"

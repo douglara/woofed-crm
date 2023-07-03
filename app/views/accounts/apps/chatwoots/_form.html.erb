@@ -1,4 +1,4 @@
-<%= form_with(model: chatwoot, url: account_apps_chatwoot_path(current_user.account), method: :post, data: {turbo: false}, id: 'formId') do |form| %>
+<%= form_with(model: chatwoot, url: account_apps_chatwoots_path(current_user.account), data: {turbo: false}, id: 'formId') do |form| %>
   <% if chatwoot.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(chatwoot.errors.count, "error") %> prohibited this activity kind from being saved:</h2>
@@ -12,13 +12,18 @@
   <% end %>
 
   <div class="form-group">
-    <%= form.label :endpoint_url, 'Endereço do Chatwoot' %>
-    <%= form.text_field :endpoint_url, class: 'form-control' %>
+    <%= form.label :chatwoot_endpoint_url, 'Endereço do Chatwoot' %>
+    <%= form.text_field :chatwoot_endpoint_url, class: 'form-control' %>
   </div>
 
   <div class="form-group">
-    <%= form.label :user_token, 'Token do usuário' %>
-    <%= form.text_field :user_token, class: 'form-control' %>
+    <%= form.label :chatwoot_account_id, 'Token do usuário' %>
+    <%= form.text_field :chatwoot_account_id, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :chatwoot_user_token, 'Token do usuário' %>
+    <%= form.text_field :chatwoot_user_token, class: 'form-control' %>
   </div>
 
   <div class="card-footer text-right">
