@@ -1,12 +1,19 @@
 <%= stylesheet_link_tag "sidebar", media: 'all' %>
 
-<div class="main-sidebar">
+<div class="main-sidebar main-sidebar-custom">
   <aside id="sidebar-wrapper">
     <div class="sidebar-brand">
-      <%= link_to(root_path()) do %>
-        <%= image_tag "logo.png", class: 'logo-img' %>
-      <% end %>
-      <a href="#" data-toggle="sidebar" class="nav-button"><i class="fas fa-bars"></i></a>
+      <div class="row">
+        <div class="col ml-3">
+          <%= link_to(root_path()) do %>
+            <%= image_tag "logo.png", class: 'logo-img' %>
+          <% end %>
+        </div>
+
+        <div class="col mr-3">
+          <a href="#" data-toggle="sidebar" class="nav-button"><i class="fas fa-bars"></i></a>
+        </div>
+      </div>
     </div>
     <div class="sidebar-brand sidebar-brand-sm">
       <%= link_to(root_path()) do %>
