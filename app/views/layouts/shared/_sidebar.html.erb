@@ -21,34 +21,41 @@
       <% end %>
     </div>
     <div class="sidebar-component">
+      <div class="container">
+        <div class="row">
+          <div class="col align-self-start">
+            <ul class="sidebar-menu">
+              <li class="<%= 'active' if request.path.include?('pipelines') or request.path.include?('deal') %>">
+                <%= link_to(account_pipelines_path(current_user.account), class: 'nav-link') do %>
+                  <%= embedded_svg('deals-icon.svg') %>
+                  <span class="ml-2">Negócios</span>
+                <% end %>
+              </li>
 
-      <ul class="sidebar-menu">
-        <li class="<%= 'active' if request.path.include?('pipelines') or request.path.include?('deal') %>">
-          <%= link_to(account_pipelines_path(current_user.account), class: 'nav-link') do %>
-          <img class="icon-menu" src="/assets/icon-deals.svg" alt="icons-deals"/><span>Negócios</span>
-          <% end %>
-        </li>
-
-        <li class="<%= 'active' if request.path.include?('contact') %>">
-          <%= link_to(account_contacts_path(current_user.account), class: 'nav-link') do %>
-            <img class="icon-menu" src="/assets/icon-contact.svg"> <span>Contatos</span>
-          <% end %>
-        </li>
-
-      </ul>
-      <div class="dropdown-divider">
+              <li class="<%= 'active' if request.path.include?('contact') or request.path.include?('contact') %>">
+                <%= link_to(account_contacts_path(current_user.account), class: 'nav-link') do %>
+                  <%= embedded_svg('contacts-icon.svg') %>
+                  <span class="ml-2">Contatos</span>
+                <% end %>
+              </li>
+            </ul>
+            <div class="dropdown-divider"></div>
+          </div>
+          <div class="align-self-center">
+          </div>
+          <div class="col align-self-end">
+            <div class="button-company">
+              <ul class="sidebar-menu">
+                <li class="<%= 'active' if request.path.include?('company') %>">
+                  <%= link_to(account_contacts_path(current_user.account), class: 'nav-link') do %>
+                    <img class="icon-menu" src="/assets/icon-settings.svg"> <span>Empresa</span>
+                  <% end %>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div class="button-company">
-        <ul class="sidebar-menu">
-          <li class="<%= 'active' if request.path.include?('company') %>">
-            <%= link_to(account_contacts_path(current_user.account), class: 'nav-link') do %>
-              <img class="icon-menu" src="/assets/icon-settings.svg"> <span>Empresa</span>
-            <% end %>
-          </li>
-        </ul>
-      </div>
-      
     </div>
   </aside>
 </div>

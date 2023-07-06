@@ -1,7 +1,16 @@
 
 .sidebar-component {
   padding: 1rem;
-  
+  .container {
+    padding: 0;
+  }
+  .row {
+    height: 91vh;
+    margin: 0;
+    div{
+      padding: 0;
+    }
+  }
 }
 
 .icon-menu {
@@ -32,11 +41,6 @@
 
 .button-company li {
   list-style-type: none;
-}
-
-.button-company {
-  margin-top: 29rem;
-
 }
 
 .main-sidebar-custom {
