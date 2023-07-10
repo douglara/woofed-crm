@@ -1,23 +1,56 @@
 <%= stylesheet_link_tag "navbar_pipe", media: 'all' %>
 
 <nav class="navbar navbar-expand-lg main-navbar navbar-custom">
-  <form class="form-inline mr-auto">
-  </form>
-    <ul class="navbar-nav navbar-right">
-      <a href="#" class="button_navbar color_button_navbar" >Novo Negócio</a>
-    <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-      <%= image_tag "/assets/user-icon.svg", class: 'icon-user' %>
-      <div class="d-sm-none d-lg-inline-block"></div></a>
-      <div class="dropdown-menu dropdown-menu-right">
-        <%= link_to account_settings_path(current_user.account), class:"dropdown-item has-icon" do %>
-          <i class="fas fa-cog"></i> Settings
-        <% end %>
-        <div class="dropdown-divider"></div>
-        <%= link_to destroy_user_session_path, class:"dropdown-item has-icon text-danger", :method => :delete do %>
-          <i class="fas fa-sign-out-alt"></i> Logout
-        <% end %>
-      </div>
-    </li>
+  <div class="form-inline mr-auto">
 
-  </ul>
+
+<div class="input-group colorpickerinput colorpicker-element ml-3 mr-3" data-colorpicker-id="2">
+  <div class="input-group-prepend">
+    <div class="input-group-text">
+      <i class="fas fa-calendar"></i>
+    </div>
+  </div>
+
+  <select class="form-control">
+    <option>Nome do Funil</option>
+    <option>Option 2</option>
+    <option>Option 3</option>
+  </select>
+
+
+
+
+  <div class="input-group-append">
+    <div class="input-group-text">
+      <i class="fas fa-fill-drip"></i>
+    </div>
+  </div>
+</div>
+
+
+<a href="#" class="btn btn-lg btn-primary custom-btn-navbar">Primary</a>
+
+
+
+
+  </div>
+
+
+
+
+    <ul class="navbar-nav navbar-right">
+      <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+        <%= image_tag "/assets/user-icon.svg", class: 'icon-user' %>
+        <div class="d-sm-none d-lg-inline-block"></div></a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <%= link_to account_settings_path(current_user.account), class:"dropdown-item has-icon" do %>
+            <i class="fas fa-cog"></i> Settings
+          <% end %>
+          <div class="dropdown-divider"></div>
+          <%= link_to destroy_user_session_path, class:"dropdown-item has-icon text-danger", :method => :delete do %>
+            <i class="fas fa-sign-out-alt"></i> Logout
+          <% end %>
+        </div>
+      </li>
+    </ul>
 </nav>
