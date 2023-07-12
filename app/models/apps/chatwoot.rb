@@ -33,14 +33,10 @@ class Apps::Chatwoot < ApplicationRecord
   }
 
   validate :validate_chatwoot
-  before_validation :chatwoot_create_flow
   before_destroy :chatwoot_delete_flow
 
-  after_create_commit do
-    self.update(embedding_token: generate_token)
-  end
-
   def validate_chatwoot
+    chatwoot_create_flow
     if self.chatwoot_dashboard_app_id.blank? || self.chatwoot_webhook_id.blank?
       errors.add(:chatwoot_endpoint_url, 'Invalid Chatwoot configuration')
       errors.add(:chatwoot_user_token, 'Invalid Chatwoot configuration')
@@ -48,6 +44,7 @@ class Apps::Chatwoot < ApplicationRecord
   end
 
   def chatwoot_create_flow
+    self.embedding_token = generate_token
     dashboard_apps_response = Faraday.post(
       "#{chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot_account_id}/dashboard_apps",
       {
@@ -56,7 +53,7 @@ class Apps::Chatwoot < ApplicationRecord
       }.to_json,
       {'api_access_token': "#{chatwoot_user_token}", 'Content-Type': 'application/json'}
     )
-    byebug
+
     webhook_response = Faraday.post(
       "#{chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot_account_id}/webhooks",
       {
@@ -95,11 +92,13 @@ class Apps::Chatwoot < ApplicationRecord
       {'api_access_token': "#{chatwoot_user_token}", 'Content-Type': 'application/json'}
     )
 
-    byebug
+
     return true
     rescue
       return true
   end
+
+  private
 
   def generate_token
     loop do
