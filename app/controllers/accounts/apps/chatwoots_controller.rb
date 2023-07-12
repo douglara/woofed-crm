@@ -1,5 +1,6 @@
 class Accounts::Apps::ChatwootsController < InternalController
   before_action :set_chatwoot, only: %i[ edit update destroy ]
+  before_action :authenticate_token, only: %i[ embedding ]
 
   def new
     if current_user.account.apps_chatwoots.blank?
@@ -29,6 +30,24 @@ class Accounts::Apps::ChatwootsController < InternalController
   def update
     @chatwoot.update(chatwoot_params)
     redirect_to edit_account_apps_chatwoot_path(current_user.account, current_user.account.apps_chatwoots.first)  
+  end
+
+  def embedding
+    if params['token'].present?
+      
+    end
+  end
+
+  def authenticate_token
+    token = params['token']
+
+    begin
+      @chatwoot = Apps::Chatwoot.find_by(embedding_token: token)
+    rescue ActiveRecord::RecordNotFound => e
+      render json: { errors: e.message }, status: :unauthorized
+    rescue JWT::DecodeError => e
+      render json: { errors: e.message }, status: :unauthorized
+    end
   end
 
   private

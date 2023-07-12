@@ -61,6 +61,7 @@ Rails.application.routes.draw do
         end
 
         resources :chatwoots do
+          get 'embedding', on: :collection
         end
         #resources :events, module: :contacts
       end
