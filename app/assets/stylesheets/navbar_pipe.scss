@@ -3,6 +3,13 @@
     background-color: #fff;
 }
 
+.form-inline-custom {
+    select {
+        min-height: 100% !important;
+        border-color: #cfcfd4 !important;
+    }
+}
+
 // .icon-user {
 //     padding: 3px;
 //     border-radius: 5px;
