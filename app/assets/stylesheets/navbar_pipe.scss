@@ -7,6 +7,7 @@
     select {
         min-height: 100% !important;
         border-color: #cfcfd4 !important;
+        border-radius: 2.5px !important;
     }
 }
 
@@ -19,7 +20,16 @@
 .custom-btn-navbar {
     text-decoration: none !important;
     background-color: #6857D9 !important;
-    padding: 7px !important;
+    // padding: 7px !important;
     border-radius: 5.5px !important;
     box-shadow: none;
+}
+
+// .custom-btn-navbar:hover {
+//     background-color: #F2F1F7 !important;
+//     color: #F2F1F7 !important;
+// }
+
+.btn-lg {
+    font-size: 14px !important;
 }
