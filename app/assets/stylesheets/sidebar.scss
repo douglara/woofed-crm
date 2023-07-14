@@ -1,9 +1,4 @@
-
 .sidebar-component {
-  padding: 1rem;
-  .container {
-    padding: 0;
-  }
   .row {
     height: 89vh;
     margin: 0;
@@ -21,11 +16,15 @@
   border-top: 2px solid #F2F1F7;
 }
 
+.active {
+  svg {
+    fill: #6857D9;
+  }
+}
+
 .active a {
   border-right: 1.5px solid var(--light-palette-p-3-line, #F2F1F7);
   background: #F6F8FE !important;
-  border-radius: 6px;
-  border: 1.9px solid  #EDF1FD;
 }
 
 .nav-button {
@@ -47,15 +46,16 @@
   max-width: 12.5rem;;
 }
 
-.active {
-  svg {
-    fill: #6857D9;
-  }
-}
-
 .nav-link:hover {
   text-decoration: none;
   border-radius: 6px;
-
 }
 
+.sidebar-mini {
+  .sidebar-component{
+   .container {
+  padding: 0;
+ }
+ 
+ }
+ }
