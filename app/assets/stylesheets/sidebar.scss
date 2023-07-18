@@ -22,6 +22,10 @@
   }
 }
 
+svg {
+  height: 20px;
+}
+
 .active a {
   border-right: 1.5px solid var(--light-palette-p-3-line, #F2F1F7);
   background: #F6F8FE !important;

@@ -46,9 +46,10 @@
           <div class="col align-self-end">
             <div class="button-company">
               <ul class="sidebar-menu">
-                <li class="<%= 'active' if request.path.include?('company') %>">
+                <li class="<%= 'active' if request.path.include?('settings') %>">
                   <%= link_to(account_contacts_path(current_user.account), class: 'nav-link') do %>
-                    <img class="icon-menu" src="/assets/company-icon.svg"> <span>Empresa</span>
+                    <%= embedded_svg('company-icon.svg') %>
+                    <span class="ml-2">Empresa</span>
                   <% end %>
                 </li>
               </ul>
