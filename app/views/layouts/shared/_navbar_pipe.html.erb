@@ -23,9 +23,9 @@
   </div>
 </div>
 
-
-<a href="#" class="btn btn-lg btn-primary custom-btn-navbar">Novo negócio</a>
-
+  <%= link_to new_select_contact_account_deals_path(current_user.account), class: 'btn btn-lg btn-primary custom-btn-navbar' do %>
+    Novo negócio
+  <% end %>
   </div>
 
     <ul class="navbar-nav navbar-right">
