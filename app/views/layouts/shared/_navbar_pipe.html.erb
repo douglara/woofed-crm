@@ -10,15 +10,20 @@
     </div>
   </div>
 
-  <select class="form-control m-0">
-    <option>Nome do Funil</option>
-    <option>Option 2</option>
-    <option>Option 3</option>
+
+  <select class="form-control m-0" onchange="window.location=this.value">
+    <%= @pipelines.each do | pipeline |  %>
+      <option value="<%= account_pipeline_path(current_user.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
+    <% end %>
   </select>
+
+ 
 
   <div class="input-group-append">
     <div class="input-group-text col">
-    <%= embedded_svg('pencil-icon.svg') %>
+      <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline) ) do %>
+        <%= embedded_svg('pencil-icon.svg') %>
+      <% end %>
     </div>
   </div>
 </div>
