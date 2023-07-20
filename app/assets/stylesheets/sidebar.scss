@@ -20,15 +20,22 @@
   svg {
     fill: #6857D9;
   }
+  li {
+    box-shadow: none !important;
+  }
 }
 
 svg {
+  fill: #888599;
   height: 20px;
 }
 
 .active a {
-  border-right: 1.5px solid var(--light-palette-p-3-line, #F2F1F7);
   background: #F6F8FE !important;
+}
+
+.active:hover {
+  border-radius: 5px;
 }
 
 .nav-button {
@@ -63,3 +70,13 @@ svg {
  
  }
  }
+
+ body.sidebar-mini .main-sidebar .sidebar-menu > li.active > a {
+  box-shadow: none !important;
+  background-color: #6777ef;
+  color: #fff;
+}
+
+.logo-patinha {
+  border: 2px solid #f2f2f1;
+}
