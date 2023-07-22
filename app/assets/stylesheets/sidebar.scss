@@ -79,6 +79,14 @@ svg {
   color: #fff;
 }
 
-.logo-patinha {
-  border: 2px solid #f2f2f1;
+.logo-mini {
+  svg {
+    fill: #121D3A;
+    padding: 5px;
+    width: 45px;
+    height: 40px;
+    border: 2px solid #f2f2f1;
+    border-radius: 5px;
+    background-color: #FAF9FD;
+  }
 }

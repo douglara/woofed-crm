@@ -16,9 +16,9 @@
       </div>
     </div>
     <div class="sidebar-brand sidebar-brand-sm">
-      <%= link_to(root_path()) do %>
-            <%= image_tag "logo-patinha.svg", class: 'logo-patinha' %>
-      <% end %>
+            <div class="logo-patinha-mini">
+          <a href="#" data-toggle="sidebar" class="logo-mini"><%= embedded_svg("logo-patinha.svg")%></a>
+        </div>
               <div class="col mr-3">
           <a href="#" data-toggle="sidebar" class="nav-button botao-mini"><i class="fas fa-bars"></i></a>
         </div>
@@ -53,12 +53,12 @@
                   <%= link_to(account_settings_path(current_user.account), class: 'nav-link') do %>
                     <%= embedded_svg('company-icon.svg') %>
                     <span class="ml-2">Empresa</span>
-                  <% end %>
+                  <% end %>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
                 </li>
               </ul>
             </div>
           </div>
-        </div>
+      </div>
       </div>
     </div>
   </aside>
