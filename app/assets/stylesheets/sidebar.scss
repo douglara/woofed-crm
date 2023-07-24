@@ -8,10 +8,6 @@
   }
 }
 
-.icon-menu {
-  padding: 1rem;
-}
-
 .dropdown-divider {
   border-top: 2px solid #F2F1F7;
 }
@@ -19,9 +15,6 @@
 .active {
   svg {
     fill: #6857D9;
-  }
-  li {
-    box-shadow: none !important;
   }
 }
 
@@ -32,10 +25,7 @@ svg {
 
 .active a {
   background: #F6F8FE !important;
-}
-
-.active:hover {
-  border-radius: 5px;
+  border-radius: 5px !important;
 }
 
 .nav-button {
@@ -49,12 +39,8 @@ svg {
   max-width: 100px;
 }
 
-.button-company li {
-  list-style-type: none;
-}
-
 .main-sidebar-custom {
-  max-width: 12.5rem;;
+  max-width: 12.5rem;
 }
 
 .nav-link:hover {
@@ -75,8 +61,6 @@ svg {
 
  body.sidebar-mini .main-sidebar .sidebar-menu > li.active > a {
   box-shadow: none !important;
-  background-color: #6777ef;
-  color: #fff;
 }
 
 .logo-mini {
