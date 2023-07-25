@@ -1,43 +1,42 @@
-<%= stylesheet_link_tag "navbar_pipe", media: 'all' %>
-
-<nav class="navbar navbar-expand-lg main-navbar navbar-custom">
-  <div class="form-inline mr-auto form-inline-custom">
-
-<div class="input-group colorpickerinput colorpicker-element ml-3 mr-3" data-colorpicker-id="2">
-  <div class="input-group-prepend">
-    <div class="input-group-text">
-  <%= embedded_svg('pipe-icon.svg') %>
+<div class="form-inline mr-auto form-inline-custom">
+  <div class="input-group colorpickerinput colorpicker-element ml-3 mr-3" data-colorpicker-id="2">
+    <div class="input-group-prepend">
+      <div class="input-group-text">
+        <%= embedded_svg('pipe-icon.svg') %>
+      </div>
     </div>
-  </div>
 
-
-  <select class="form-control m-0" onchange="window.location=this.value">
-    <%= @pipelines.each do | pipeline |  %>
-      <option value="<%= account_pipeline_path(current_user.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
-    <% end %>
-  </select>
-
- 
-
-  <div class="input-group-append">
-    <div class="input-group-text col">
-      <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline) ) do %>
-        <%= embedded_svg('pencil-icon.svg') %>
+    <select class="form-control m-0" onchange="window.location=this.value">
+      <%= @pipelines.each do | pipeline |  %>
+        <option value="<%= account_pipeline_path(current_user.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
       <% end %>
+    </select>
+
+    <div class="input-group-append">
+      <div class="input-group-text col">
+        <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline) ) do %>
+          <%= embedded_svg('pencil-icon.svg') %>
+        <% end %>
+      </div>
     </div>
   </div>
-</div>
 
   <%= link_to new_select_contact_account_deals_path(current_user.account), class: 'btn btn-lg btn-primary custom-btn-navbar' do %>
     Novo negócio
   <% end %>
-  </div>
+</div>
 
-    <ul class="navbar-nav navbar-right">
-      <li class="dropdown">
-        <a href="#" data-toggle="dropdown" class="custom-btn-user"><i class="far fa-user"></i></a>        
-        
-        
-      </li>
-    </ul>
-</nav>
+<ul class="navbar-nav navbar-right">
+  <li class="dropdown">
+    <a href="#" data-toggle="dropdown" class="custom-btn-user"><i class="far fa-user"></i></a> 
+
+    <div class="dropdown-menu dropdown-menu-right">
+      <div class="dropdown-divider"></div>
+      <%= link_to destroy_user_session_path, class:"dropdown-item has-icon text-danger", :method => :delete do %>
+        <i class="fas fa-sign-out-alt"></i> Logout
+      <% end %>
+    </div>
+  </li>
+</ul>
+
+
