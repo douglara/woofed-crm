@@ -106,4 +106,12 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  namespace :apps do
+    resources :chatwoots do
+      post 'webhooks', on: :collection
+      get 'embedding', on: :collection
+      post 'embedding_auth', on: :collection
+    end
+  end
 end

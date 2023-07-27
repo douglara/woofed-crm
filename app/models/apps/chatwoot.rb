@@ -35,6 +35,10 @@ class Apps::Chatwoot < ApplicationRecord
   validate :validate_chatwoot
   before_destroy :chatwoot_delete_flow
 
+  def request_headers
+    {'api_access_token': "#{chatwoot_user_token}", 'Content-Type': 'application/json'}
+  end
+
   def validate_chatwoot
     chatwoot_create_flow
     if self.chatwoot_dashboard_app_id.blank? || self.chatwoot_webhook_id.blank?
@@ -49,7 +53,7 @@ class Apps::Chatwoot < ApplicationRecord
       "#{chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot_account_id}/dashboard_apps",
       {
         "title": "WoofedCRM",
-        "content":[{"type": "frame","url": "https://www.woofedcrm.com"}]
+        "content":[{"type": "frame","url": woofedcrm_embedding_url}]
       }.to_json,
       {'api_access_token': "#{chatwoot_user_token}", 'Content-Type': 'application/json'}
     )
@@ -58,8 +62,16 @@ class Apps::Chatwoot < ApplicationRecord
       "#{chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot_account_id}/webhooks",
       {
         "webhook":{
-          "url": "https://chat.zimobi.com.br/app/accounts/5/settings/integrations/webhook",
-          "subscriptions":["contact_created","contact_updated"]
+          "url": woofedcrm_webhooks_url,
+          "subscriptions":[
+            "contact_created",
+            "contact_updated",
+            "conversation_created",
+            "conversation_status_changed",
+            "conversation_updated",
+            "message_created",
+            "message_updated",
+            "webwidget_triggered"]
         }
       }.to_json,
       {'api_access_token': "#{chatwoot_user_token}", 'Content-Type': 'application/json'}
@@ -99,6 +111,14 @@ class Apps::Chatwoot < ApplicationRecord
   end
 
   private
+
+  def woofedcrm_webhooks_url
+    "#{ENV['FRONTEND_URL']}/apps/chatwoots/webhooks?token=#{self.embedding_token}"
+  end
+
+  def woofedcrm_embedding_url
+    "#{ENV['FRONTEND_URL']}/apps/chatwoots/embedding?token=#{self.embedding_token}"
+  end
 
   def generate_token
     loop do

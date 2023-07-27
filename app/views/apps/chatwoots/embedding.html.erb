@@ -1,0 +1,33 @@
+<section class="section">
+  <div class="section-header">
+    <h1>Embedding Chatwoot</h1>
+  </div>
+
+  <div class="section-body">
+    <div class="card">
+      <div class="card-body">
+        <div class="col-lg-5 container">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<%= form_tag("/apps/chatwoots/embedding_auth", :method => "post", id: 'embedding_auth' ) do %>
+  <%= hidden_field_tag(:token, @token) %>
+  <%= hidden_field_tag(:event, id: 'event') %>
+<% end %>
+
+<script>
+  window.addEventListener("message", function (event) {
+    if(event.data.includes("appContext")) {     
+      document.getElementById('event').value = event.data;
+      document.getElementById('embedding_auth').submit();
+    }
+  });
+  
+  window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*')
+</script>
+
+
