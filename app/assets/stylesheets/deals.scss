@@ -2,3 +2,69 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 @import "flow_items";
+
+.setinhas-navbar {
+    text-decoration: none;
+    a {
+        color: #6c757d;
+    }
+}
+
+.icon {
+    padding: 5px;
+}
+
+.button-perda {
+    color: #CF4F27;
+    text-decoration: none !important;
+    background-color: #FBE0D8;
+    width: 100px;
+    text-align: center;
+    font-weight: 600;
+}
+.button-perda:hover {
+    text-decoration: none !important;
+    font-size: 15px;
+    color: #a53d1e;
+}
+
+.button-ganho {
+    color:#259C50;
+    text-decoration: none !important;
+    background-color: #D8F2E1;
+    width: 100px;
+    text-align: center;
+    font-weight: 600;
+}
+.button-ganho:hover {
+    text-decoration: none !important;
+    font-size: 15px;
+    color: #0f8d3d;
+}
+
+.text-navbar {
+    margin-top: 5px
+}
+
+.font-text {
+    font-weight: 400;
+    font-size: 15px !important;
+}
+
+.navbar-deals {
+    padding-top: 20px;
+}
+
+.voltar {
+    border: 2px solid #F2F1F7;
+    border-radius: 5px;
+    display: flex;
+    padding: 10px;
+    align-items: flex-start;
+    color: #6c757d;
+}
+
+.voltar:hover {
+    text-decoration: none !important;
+    color: #6c757d;
+}
