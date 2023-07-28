@@ -27,7 +27,7 @@
     <div class="sidebar-component">
       <div class="container">
         <div class="row">
-          <div class="col align-self-start">
+          <div class="col align-self-start deals-sidebar">
             <ul class="sidebar-menu">
               <li class="<%= 'active' if request.path.include?('pipelines') or request.path.include?('deal') %>">
                 <%= link_to(account_pipelines_path(current_user.account), class: 'nav-link') do %>
@@ -48,7 +48,7 @@
           <div class="align-self-center">
           </div>
           <div class="col align-self-end">
-            <div class="button-company">
+            <div>
               <ul class="sidebar-menu">
                 <li class="<%= 'active' if request.path.include?('settings') %>">
                   <%= link_to(account_settings_path(current_user.account), class: 'nav-link') do %>

@@ -3,52 +3,51 @@
   .dropdown-divider {
     border-top: 2px solid #F2F1F7;
   }
-}
-
-.sidebar-component {
-  .row {
-    height: 91vh;
-    margin: 0;
-    div{
-      padding: 0;
+  .sidebar-component {
+    .row {
+      height: 91vh;
+      margin: 0;
+      div{
+        padding: 0;
+      }
     }
   }
-}
-
-.active {
-  svg {
-    fill: #6857D9;
+  .active {
+    svg {
+      fill: #6857D9;
+    }
   }
-}
-
-svg {
-  fill: #888599;
-  height: 20px;
-}
-
-.active a {
-  background: #F6F8FE !important;
-  border-radius: 5px !important;
-}
-
-.nav-button {
-  padding: 0.5rem;
-  border: 1px solid #F2F1F7;
-  border-radius: 5px;
-  color: #888599 !important; 
-}
-
-.logo-img {
-  max-width: 100px;
-}
-
-.nav-link {
-  margin-top: 5px;
-}
-
-.nav-link:hover {
-  text-decoration: none;
-  border-radius: 6px;
+  
+  svg {
+    fill: #888599;
+    height: 20px;
+  }
+  
+  .active a {
+    background: #F6F8FE !important;
+    border-radius: 5px !important;
+  }
+  
+  .nav-button {
+    padding: 0.5rem;
+    border: 1px solid #F2F1F7;
+    border-radius: 5px;
+    color: #888599 !important; 
+  }
+  
+  .logo-img {
+    max-width: 100px;
+  }
+  
+  .nav-link {
+    margin-top: 5px;
+  }
+  
+  .nav-link:hover {
+    text-decoration: none;
+    border-radius: 6px;
+  }
+  
 }
 
 .sidebar-mini {
@@ -71,8 +70,18 @@ svg {
       background-color: #FAF9FD;
     }
   }  
+
+  .dropdown-divider {
+    border-top: 2px solid #F2F1F7;
+    width: 45px;
+    margin-left: 10px;
+  }
 }
 
  body.sidebar-mini .main-sidebar .sidebar-menu > li.active > a {
   box-shadow: none !important;
+}
+
+.deals-sidebar {
+  margin-top: 16px;
 }
