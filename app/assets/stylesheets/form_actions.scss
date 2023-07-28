@@ -1,0 +1,45 @@
+svg {
+    width: 20px;
+    height: 20px;
+    fill: #888599;
+    margin-right: 5px;
+}
+
+svg:active {
+    fill: #6857D9;
+}
+
+.buttons_form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    a {
+        text-decoration: none;
+        color: #888599;
+    }
+}
+
+.buttons_a {
+    margin-right: 10px;
+    border: 2px solid #f2f1f7;
+    border-radius: 5px;
+    padding: 7px;
+
+}
+
+.arrow_down {
+    border: 2px solid #f2f1f7;
+    border-radius: 5px;
+    padding: 7px;
+    text-align: center;
+}
+
+.text {
+    margin-bottom: 15px; 
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.main-footer {
+    border-top: none;
+}

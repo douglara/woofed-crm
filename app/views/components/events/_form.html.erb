@@ -1,40 +1,13 @@
-<%= turbo_frame_tag "kind_content" do %>
-  <%= form_with(model: event, url: account_contact_events_path(current_user.account ,contact_id: @contact.id, deal_id: @deal.id), data: { controller: "form-navigate", remote: true }) do |form| %>
-    <% if event.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(event.errors.count, "error") %> prohibited this note from being saved:</h2>
+<%= stylesheet_link_tag "form_actions", media: 'all' %>
 
-        <ul>
-          <% event.errors.each do |error| %>
-            <li><%= event.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+<%= turbo_frame_tag "kind_content" do %> <% end %>
 
-
-      <%= form.hidden_field :deal_id %>
-    
-
-      <div class="form-group">
-        <label>Tipo</label>
-        <%= form.select(:kind, [ ['Notas', 'note'], ['Whatsapp', 'wpp_connect_message'], ['Atividade', 'activity']], {}, { :class => 'form-control', data: { action: 'change->form-navigate#to', url: new_account_contact_event_path(current_user.account ,contact_id: @contact.id, deal_id: @deal.id) }} ) %>
-      </div>
-
-
-  
-
-      <% if event.kind == 'note' %>
-        <%= render "components/events/form/note", form:form, event: event %>
-      <% elsif event.kind == 'wpp_connect_message' %>
-        <%= render "components/events/form/wpp_connect_message", form:form, event: event %>
-      <% elsif event.kind == 'activity' %>
-        <%= render "components/events/form/activity", form:form, event: event %>
-      <% end %>
-
-
-    <div class="card-footer text-right">
-      <%= form.submit 'Save', class: 'btn btn-primary' %>
-    </div>
-  <% end %>
-<% end %>
+<div class="form_deals">
+  <p class="text">Ações</p>
+  <div class="buttons_form">
+  <a href="#" class="buttons_a"><%= embedded_svg('icon-sheet.svg') %>Atividade</a>
+  <a href="#" class="buttons_a"><%= embedded_svg('icon-list.svg') %>Nota</a>
+  <a href="#" class="buttons_a"><%= embedded_svg('icon-whtass.svg') %>Whatsapp</a>
+  <a href="#" class="buttons_a"><i class="fas fa-envelope"></i></a>
+  <a href="#" class="arrow_down"><i class="fas fa-chevron-down"></i></a>
+</div>
