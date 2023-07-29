@@ -25,8 +25,16 @@
     .form-inline-custom {
         select {
             min-height: 100% !important;
-            border-color: #cfcfd4 !important;
+            border-color: #e4e6fc !important;
             border-radius: 2.5px !important;
         }
+    }
+}
+
+.icon-color {
+    svg {
+        height: 20px !important;
+        width: 20px !important;
+        fill: #888599 !important;
     }
 }
