@@ -1,0 +1,17 @@
+.component-chatwoot-embed{
+  padding: 32px;
+  background-color: #F6F8FE;
+}
+
+.btn-danger {
+  color: #CF4F27;
+}
+
+.btn-clock {
+  border-radius: 5px;
+  border: 1.5px solid #FBE0D8;
+  background: #FAEEEB;
+  color: #CF4F27;
+  padding-left: 10px;
+  padding-right: 10px;
+}

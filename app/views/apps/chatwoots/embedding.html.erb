@@ -3,6 +3,9 @@ Request <%= request.request_id %>
 
 <script>
   window.addEventListener("message", function (event) {
-    console.log(event.data)
+    var event_json = JSON.parse(event.data);
+    var contact = event_json.data.contact;
+    const url_params = new URLSearchParams(contact).toString();
+    window.location.href = "<%= chatwoot_embed_account_contacts_path(current_user.account) %>?" + url_params;
   });
 </script>
