@@ -47,7 +47,6 @@
     text-decoration: none;
     border-radius: 6px;
   }
-  
 }
 
 .sidebar-mini {
@@ -59,6 +58,7 @@
       }
     }
   }
+  
   .logo-mini {
     svg {
       fill: #121D3A;
@@ -69,19 +69,19 @@
       border-radius: 5px;
       background-color: #FAF9FD;
     }
-  }  
+  } 
 
   .dropdown-divider {
     border-top: 2px solid #F2F1F7;
     width: 45px;
     margin-left: 10px;
   }
+  
+  .deals-sidebar {
+    margin-top: 16px;
+  }
 }
 
- body.sidebar-mini .main-sidebar .sidebar-menu > li.active > a {
+body.sidebar-mini .main-sidebar .sidebar-menu > li.active > a {
   box-shadow: none !important;
-}
-
-.deals-sidebar {
-  margin-top: 16px;
 }
