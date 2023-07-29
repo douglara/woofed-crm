@@ -111,7 +111,8 @@ Rails.application.routes.draw do
     resources :chatwoots do
       post 'webhooks', on: :collection
       get 'embedding', on: :collection
-      post 'embedding_auth', on: :collection
+      get 'embedding_init_authenticate', on: :collection
+      post 'embedding_authenticate', on: :collection
     end
   end
 end
