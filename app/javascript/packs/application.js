@@ -16,6 +16,7 @@ require("@rails/actiontext")
 require("@stisla/node_modules/popper.js/dist/umd/popper.min.js")
 require("@stisla/node_modules/bootstrap/dist/js/bootstrap")
 require("@nathanvda/cocoon")
+require("./stisla_scripts")
 
 $(document).on("turbo:load", () => {
   // Daterangepicker
