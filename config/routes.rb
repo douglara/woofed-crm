@@ -35,6 +35,12 @@ Rails.application.routes.draw do
             end
           end
         end
+
+        collection do
+          resources :chatwoot_embed, only: [:show, :new, :create], controller: 'contacts/chatwoot_embed' do
+            get 'search', on: :collection
+          end
+        end
       end
       resources :pipelines do
         get 'import'

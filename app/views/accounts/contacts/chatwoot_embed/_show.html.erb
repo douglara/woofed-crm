@@ -1,0 +1,25 @@
+<div>
+  <h4><%= contact.full_name %></h4>
+
+  <div class="form-inline">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="fas fa-envelope"></i>
+        </div>
+      </div>
+      <input type="text" class="form-control phone-number" value="<%= contact.email %>">
+    </div>
+
+    <div class="input-group ml-3">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="fas fa-phone"></i>
+        </div>
+      </div>
+      <input type="text" class="form-control phone-number" value="<%= contact.phone %>">
+    </div>
+
+    <a href="#" class="w-btn-outline ml-3">ver mais</a>
+  </div>
+</div>

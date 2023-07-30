@@ -1,0 +1,49 @@
+<div>
+  <div class="card mt-4">
+    <div class="card-header">
+      <h4>Negócios</h4>
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-striped">
+        <tbody>
+          <% if contact.deals.blank? %>
+            <tr>
+              <%= link_to new_select_contact_account_deals_path(current_user.account, contact_id: contact.id), class: 'btn btn-lg btn-primary' do %>
+                Criar novo negócio
+              <% end %>
+            </tr>
+          <% else %>
+            <tr>
+              <th scope="row">
+                <div class="row pb-3">
+                  <div class="col-8">
+                    <h6 class="pt-4">Imóvel no Centro Cívico </h6>
+                    <div class="form-inline mr-auto">
+                      <p>Visita agendada</p>
+                        <button type="button" class="ml-3 btn-clock">
+                          <i data-lucide="clock-3"></i> 2h
+                        </button>
+                    </div>
+                  </div>
+                  <div class="col"> 
+                    <div class="d-flex align-items-center justify-content-center" style="height: 100%;">
+                      <a class="ml-3 custom-btn-user ml-auto float-right">
+                        <i data-lucide="arrow-up-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </th>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

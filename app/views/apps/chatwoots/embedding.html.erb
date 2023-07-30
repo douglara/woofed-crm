@@ -5,7 +5,7 @@ Request <%= request.request_id %>
   window.addEventListener("message", function (event) {
     var event_json = JSON.parse(event.data);
     var contact = event_json.data.contact;
-    const url_params = new URLSearchParams(contact).toString();
-    window.location.href = "<%= chatwoot_embed_account_contacts_path(current_user.account) %>?" + url_params;
+    const url_params = `chatwoot_contact=${JSON.stringify(contact)}`
+    window.location.href = "<%= search_account_chatwoot_embed_index_path(current_user.account) %>?" + url_params;
   });
 </script>
