@@ -6,3 +6,4 @@
 //= link_directory ../../../vendor/theme
 //= link_directory ../../../vendor/theme/stisla
 //= link_tree ../../../vendor/theme/stisla/node_modules/chocolat/dist/images
+//= link_tree ../builds
