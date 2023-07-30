@@ -1,0 +1,87 @@
+.main-sidebar-custom {
+  max-width: 12.5rem;
+  .dropdown-divider {
+    border-top: 2px solid #F2F1F7;
+  }
+  .sidebar-component {
+    .row {
+      height: 91vh;
+      margin: 0;
+      div{
+        padding: 0;
+      }
+    }
+  }
+  .active {
+    svg {
+      fill: #6857D9;
+    }
+  }
+  
+  svg {
+    fill: #888599;
+    height: 20px;
+  }
+  
+  .active a {
+    background: #F6F8FE !important;
+    border-radius: 5px !important;
+  }
+  
+  .nav-button {
+    padding: 0.5rem;
+    border: 1px solid #F2F1F7;
+    border-radius: 5px;
+    color: #888599 !important; 
+  }
+  
+  .logo-img {
+    max-width: 100px;
+  }
+  
+  .nav-link {
+    margin-top: 5px;
+  }
+  
+  .nav-link:hover {
+    text-decoration: none;
+    border-radius: 6px;
+  }
+}
+
+.sidebar-mini {
+  .sidebar-component{
+    .container {
+      padding: 0;
+      .row {
+        padding-top: 60px;
+      }
+    }
+  }
+  
+  .logo-mini {
+    svg {
+      fill: #121D3A;
+      padding: 5px;
+      width: 45px;
+      height: 40px;
+      border: 2px solid #f2f2f1;
+      border-radius: 5px;
+      background-color: #FAF9FD;
+    }
+  } 
+
+  .dropdown-divider {
+    border-top: 2px solid #F2F1F7;
+    width: 45px;
+    margin-left: 10px;
+  }
+  
+  .deals-sidebar {
+    margin-top: 16px;
+  }
+}
+
+body.sidebar-mini .main-sidebar .sidebar-menu > li.active > a {
+  box-shadow: none !important;
+}
