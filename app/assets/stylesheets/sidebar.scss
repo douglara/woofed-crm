@@ -85,3 +85,7 @@
 body.sidebar-mini .main-sidebar .sidebar-menu > li.active > a {
   box-shadow: none !important;
 }
+
+body.sidebar-mini .main-sidebar {
+  position: fixed !important;
+}
