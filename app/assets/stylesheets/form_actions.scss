@@ -28,10 +28,15 @@ svg:active {
 }
 
 .arrow_down {
+    display: flex;
     border: 2px solid #f2f1f7;
     border-radius: 5px;
     padding: 7px;
     text-align: center;
+    height: 45px;
+    width: 45px;
+    justify-content: center;
+    align-items: center;
 }
 
 .text {
