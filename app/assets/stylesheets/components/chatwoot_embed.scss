@@ -1,6 +1,9 @@
 .component-chatwoot-embed{
   padding: 32px;
   background-color: #F6F8FE;
+  p {
+    margin-bottom: 0px;
+  }
 }
 
 .btn-danger {
@@ -14,4 +17,15 @@
   color: #CF4F27;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.custom-btn-user {
+  color: #888599 !important;
+  border-radius: 5px;
+  border: 1.8px solid #F2F1F7;
+  padding: 10px !important;
+  i {
+      font-size: 15px !important;
+      margin: 0px !important;
+  }
 }
