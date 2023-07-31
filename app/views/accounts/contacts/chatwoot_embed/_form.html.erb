@@ -1,4 +1,9 @@
 <%= form_with(model: contact, url: account_chatwoot_embed_index_path(current_user.account), data: {turbo: false}, id: 'formId') do |form| %>
+  <%= form.hidden_field :full_name %>
+  <%= form.hidden_field :email %>
+  <%= form.hidden_field :phone %>
+  <%= hidden_field_tag 'contact[additional_attributes][chatwoot_id]', contact.additional_attributes['chatwoot_id'] %>
+
   <% if contact.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(contact.errors.count, "error") %> prohibited this activity kind from being saved:</h2>
@@ -22,34 +27,5 @@
         <i data-lucide="check"></i>
       <% end %>
     </div>
-  </div>
-
-  <h4><%= @contact.full_name %></h4>
-
-  <div class="form-inline">
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <div class="input-group-text">
-          <i class="fas fa-envelope"></i>
-        </div>
-      </div>
-      <%= form.text_field :email, class: 'form-control', disabled: true %>
-    </div>
-
-    <div class="input-group ml-3">
-      <div class="input-group-prepend">
-        <div class="input-group-text">
-          <i class="fas fa-phone"></i>
-        </div>
-      </div>
-      <%= form.text_field :phone, class: 'form-control phone-number', disabled: true %>
-    </div>
-
-     <%= form.hidden_field :full_name %>
-     <%= form.hidden_field :email %>
-     <%= form.hidden_field :phone %>
-     <%= hidden_field_tag 'contact[additional_attributes][chatwoot_id]', contact.additional_attributes['chatwoot_id'] %>
-
-    <a href="#" disabled class="w-btn-outline ml-3">ver mais</a>
   </div>
 <% end %>

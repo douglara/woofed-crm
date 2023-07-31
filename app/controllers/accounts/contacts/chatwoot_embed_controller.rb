@@ -7,6 +7,12 @@ class Accounts::Contacts::ChatwootEmbedController < InternalController
       "? <@ additional_attributes", { chatwoot_id: "#{chatwoot_contact['id']}" }.to_json
     ).first
 
+    contact = current_user.account.contacts.where(
+      'email ILIKE :email OR phone ILIKE :phone',
+      email: "#{chatwoot_contact['email']}",
+      phone: "#{chatwoot_contact['phone_number']}"
+    ).first if contact.blank?
+
     if contact.present?
       redirect_to account_chatwoot_embed_path(current_user.account, contact)
     else
@@ -47,6 +53,6 @@ class Accounts::Contacts::ChatwootEmbedController < InternalController
     end
 
     def chatwoot_contact
-      chatwoot_contact = JSON.parse(params['chatwoot_contact'])
+      @chatwoot_contact ||= JSON.parse(params['chatwoot_contact'])
     end
 end

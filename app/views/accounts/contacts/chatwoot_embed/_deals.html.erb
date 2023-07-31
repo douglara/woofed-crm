@@ -8,39 +8,39 @@
         <tbody>
           <% if contact.deals.blank? %>
             <tr>
-              <%= link_to new_select_contact_account_deals_path(current_user.account, contact_id: contact.id), class: 'btn btn-lg btn-primary' do %>
-                Criar novo negócio
-              <% end %>
+              <div class="flex flex-col items-center">
+                <%= link_to new_select_contact_account_deals_path(current_user.account, contact_id: contact.id), class: 'background-transparent font-bold uppercase px-3 py-1 text-xs outline-none focus:outline-none m-3 ease-linear transition-all duration-150' do %>
+                  Criar novo negócio
+                <% end %>
+              </div>
             </tr>
           <% else %>
-            <tr>
-              <th scope="row">
-                <div class="row pb-3">
-                  <div class="col-8">
-                    <h6 class="pt-4">Imóvel no Centro Cívico </h6>
-                    <div class="form-inline mr-auto">
-                      <p>Visita agendada</p>
-                        <button type="button" class="ml-3 btn-clock">
-                          <i data-lucide="clock-3"></i> 2h
-                        </button>
+            <% contact.deals.each do | deal |  %>
+              <tr>
+                <th scope="row">
+                  <div class="row pb-3">
+                    <div class="col-8">
+                      <h6 class="pt-4"><%= deal.name %></h6>
+                      <div class="form-inline mr-auto">
+                        <p><%= deal.stage.name %></p>
+                        <% if true == false %>
+                          <button type="button" class="ml-3 btn-clock">
+                            <i data-lucide="clock-3"></i> 2h
+                          </button>
+                        <% end %>
+                      </div>
+                    </div>
+                    <div class="col"> 
+                      <div class="d-flex align-items-center justify-content-center" style="height: 100%;">
+                        <%= link_to(account_deal_path(current_user.account, deal), class: 'ml-3 custom-btn-user ml-auto float-right') do %>
+                          <i data-lucide="arrow-up-right"></i>
+                        <% end %> 
+                      </div>
                     </div>
                   </div>
-                  <div class="col"> 
-                    <div class="d-flex align-items-center justify-content-center" style="height: 100%;">
-                      <a class="ml-3 custom-btn-user ml-auto float-right">
-                        <i data-lucide="arrow-up-right"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </th>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-            </tr>
+                </th>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>
