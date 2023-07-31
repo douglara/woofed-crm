@@ -4,6 +4,8 @@
 @import "stisla/src/scss/components";
 @import "stisla/node_modules/izitoast/dist/css/iziToast";
 @import "./actiontext.scss";
+@import "./commons/w-btn-outline.scss";
+@import "./commons/w-btn-block.scss";
 
 .btn-remove {
 	font-size: 12px;
@@ -19,6 +21,9 @@
   margin-left: 15px;
 }
 
-.logo-img {
-  max-width: 100px;
+.embed {
+  .main-content {
+    padding-top: 0px !important;
+  }
+  background-color: #F6F8FE;
 }
