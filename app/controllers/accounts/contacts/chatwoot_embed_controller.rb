@@ -3,15 +3,7 @@ class Accounts::Contacts::ChatwootEmbedController < InternalController
   before_action :set_contact, only: %i[ show ]
 
   def search
-    contact = current_user.account.contacts.where(
-      "? <@ additional_attributes", { chatwoot_id: "#{chatwoot_contact['id']}" }.to_json
-    ).first
-
-    contact = current_user.account.contacts.where(
-      'email ILIKE :email OR phone ILIKE :phone',
-      email: "#{chatwoot_contact['email']}",
-      phone: "#{chatwoot_contact['phone_number']}"
-    ).first if contact.blank?
+    contact = contact_search
 
     if contact.present?
       redirect_to account_chatwoot_embed_path(current_user.account, contact)
@@ -54,5 +46,33 @@ class Accounts::Contacts::ChatwootEmbedController < InternalController
 
     def chatwoot_contact
       @chatwoot_contact ||= JSON.parse(params['chatwoot_contact'])
+    end
+
+    def contact_search()
+      if chatwoot_contact['email'].present? && chatwoot_contact['phone_number'].present?
+        return current_user.account.contacts.where(
+          ":chatwoot_id <@ additional_attributes OR email LIKE :email OR phone LIKE :phone",
+          chatwoot_id: { chatwoot_id: "#{chatwoot_contact['id']}" }.to_json,
+          email: "#{chatwoot_contact['email']}",
+          phone: "#{chatwoot_contact['phone_number']}"
+        ).first
+      elsif chatwoot_contact['email'].present?
+        return current_user.account.contacts.where(
+          ":chatwoot_id <@ additional_attributes OR email LIKE :email",
+          chatwoot_id: { chatwoot_id: "#{chatwoot_contact['id']}" }.to_json,
+          email: "#{chatwoot_contact['email']}"
+        ).first
+      elsif chatwoot_contact['phone_number'].present?
+        return current_user.account.contacts.where(
+          ":chatwoot_id <@ additional_attributes OR phone LIKE :phone",
+          chatwoot_id: { chatwoot_id: "#{chatwoot_contact['id']}" }.to_json,
+          phone: "#{chatwoot_contact['phone_number']}"
+        ).first
+      else
+        return current_user.account.contacts.where(
+          ":chatwoot_id <@ additional_attributes",
+          chatwoot_id: { chatwoot_id: "#{chatwoot_contact['id']}" }.to_json
+        ).first
+      end
     end
 end

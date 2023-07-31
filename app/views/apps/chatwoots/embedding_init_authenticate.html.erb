@@ -1,3 +1,7 @@
+<div class="grid place-items-center h-screen">
+  <%= render 'components/loading' %>
+</div>
+
 <%= form_tag("/apps/chatwoots/embedding_authenticate", :method => "post", id: 'embedding_auth' ) do %>
   <%= hidden_field_tag(:token, @token) %>
   <%= hidden_field_tag(:event, id: 'event') %>

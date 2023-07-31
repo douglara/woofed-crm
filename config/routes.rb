@@ -24,7 +24,6 @@ Rails.application.routes.draw do
       # end
       resources :contacts do
         get 'search', to: 'contacts#search', on: :collection
-        get 'chatwoot_embed', on: :collection
         resources :notes, module: :contacts
         resources :events, module: :contacts do
         end
@@ -38,7 +37,7 @@ Rails.application.routes.draw do
 
         collection do
           resources :chatwoot_embed, only: [:show, :new, :create], controller: 'contacts/chatwoot_embed' do
-            get 'search', on: :collection
+            post 'search', on: :collection
           end
         end
       end
@@ -67,9 +66,7 @@ Rails.application.routes.draw do
           post 'disable'
         end
 
-        resources :chatwoots do
-          get 'embedding', on: :collection
-        end
+        resources :chatwoots
         #resources :events, module: :contacts
       end
   end
@@ -116,10 +113,12 @@ Rails.application.routes.draw do
 
   namespace :apps do
     resources :chatwoots do
-      post 'webhooks', on: :collection
-      get 'embedding', on: :collection
-      get 'embedding_init_authenticate', on: :collection
-      post 'embedding_authenticate', on: :collection
+      collection do
+        post 'webhooks'
+        get 'embedding'
+        get 'embedding_init_authenticate'
+        post 'embedding_authenticate'  
+      end
     end
   end
 end

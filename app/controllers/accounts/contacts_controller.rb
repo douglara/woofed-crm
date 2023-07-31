@@ -1,6 +1,5 @@
 class Accounts::ContactsController < InternalController
   before_action :set_contact, only: %i[ show edit update destroy ]
-  layout "embed", only: [:chatwoot_embed]
 
   # GET /contacts or /contacts.json
   def index
@@ -63,9 +62,6 @@ class Accounts::ContactsController < InternalController
       format.html { redirect_to contacts_url, notice: "Contact was successfully destroyed." }
       format.json { head :no_content }
     end
-  end
-
-  def chatwoot_embed
   end
 
   private
