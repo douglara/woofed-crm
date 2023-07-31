@@ -8,6 +8,7 @@ import "@hotwired/turbo-rails"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "controllers"
+import lucide from "lucide/dist/umd/lucide"
 
 Rails.start()
 ActiveStorage.start()
@@ -19,6 +20,7 @@ require("@nathanvda/cocoon")
 require("./stisla_scripts")
 
 $(document).on("turbo:load", () => {
+  lucide.createIcons();
   // Daterangepicker
   if(jQuery().daterangepicker) {
     if($(".datetimepicker").length) {

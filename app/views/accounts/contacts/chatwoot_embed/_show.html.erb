@@ -1,0 +1,25 @@
+<div>
+  <h4><%= contact.full_name %></h4>
+
+  <div class="form-inline">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="fas fa-envelope"></i>
+        </div>
+      </div>
+      <input type="text" disabled class="form-control phone-number" value="<%= contact.email %>">
+    </div>
+
+    <div class="input-group ml-3">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="fas fa-phone"></i>
+        </div>
+      </div>
+      <input type="text" disabled class="form-control phone-number" value="<%= contact.phone %>">
+    </div>
+
+    <%= link_to('ver mais', account_contact_path(current_user.account, contact), class: 'w-btn-outline ml-3') if contact.id.present? %>
+  </div>
+</div>
