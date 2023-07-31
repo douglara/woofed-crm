@@ -11,31 +11,27 @@
   button {
     background: none !important;
   }
-}
 
-.btn-danger {
-  color: #CF4F27;
-}
-
-.btn-clock {
-  border-radius: 5px;
-  border: 1.5px solid #FBE0D8;
-  background: #FAEEEB;
-  color: #CF4F27;
-  padding-left: 5px;
-  padding-right: 5px;
-  svg {
-    height: 16px;
+  .btn-clock {
+    border-radius: 5px;
+    border: 1.5px solid #FBE0D8;
+    background: #FAEEEB;
+    color: #CF4F27;
+    padding-left: 5px;
+    padding-right: 5px;
+    svg {
+      height: 16px;
+    }
   }
-}
 
-.custom-btn-user {
-  color: #888599 !important;
-  border-radius: 5px;
-  border: 1.8px solid #F2F1F7;
-  padding: 10px !important;
-  i {
-      font-size: 15px !important;
-      margin: 0px !important;
+  .custom-btn-user {
+    color: #888599 !important;
+    border-radius: 5px;
+    border: 1.8px solid #F2F1F7;
+    padding: 10px !important;
+    i {
+        font-size: 15px !important;
+        margin: 0px !important;
+    }
   }
 }
