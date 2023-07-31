@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  mount Motor::Admin => '/motor_admin'
   mount Sidekiq::Web => "/sidekiq"
   mount GoodJob::Engine => 'good_job'
 
