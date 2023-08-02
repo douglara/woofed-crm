@@ -2,12 +2,26 @@
 
 <%= turbo_frame_tag "kind_content" do %> <% end %>
 
-<div class="form_deals">
-  <p class="text">Ações</p>
-  <div class="buttons_form">
-  <a href="#" class="buttons_a"><%= embedded_svg('icon-sheet.svg') %>Atividade</a>
-  <a href="#" class="buttons_a"><%= embedded_svg('icon-list.svg') %>Nota</a>
-  <a href="#" class="buttons_a"><%= embedded_svg('icon-whtass.svg') %>Whatsapp</a>
-  <a href="#" class="buttons_a"><i class="fas fa-envelope"></i>Email</a>
-  <a href="#" class="arrow_down"><i class="fas fa-chevron-down"></i></a>
+<div class="pr-4 pl-4">
+  <div class="flex flex-nowrap">
+  <h2 class="text-lg font-semibold w-fit">Ações</h2>
+  <div class="flex justify-end ml-auto"> 
+  <div class="mx-auto">
+  <div class="flex">
+     <i class="button-form inline-flex items-center px-3 text-sm bg-gray-200 border border-r-0 border-gray-300 rounded-l-md  dark:text-gray-400 dark:border-gray-600"></i>
+    <a href="#" class="button-a rounded-none rounded-r-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:placeholder-gray-400">Atividade</a>
+    <i class="ml-3 button-form inline-flex items-center px-3 text-sm bg-gray-200 border border-r-0 border-gray-300 rounded-l-md  dark:text-gray-400 dark:border-gray-600"></i>
+    <a href="#" class="button-a rounded-none rounded-r-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:placeholder-gray-400">Nota</a>
+     <i class=" ml-3 button-form inline-flex items-center px-3 text-sm bg-gray-200 border border-r-0 border-gray-300 rounded-l-md  dark:text-gray-400 dark:border-gray-600"></i>
+    <a href="#" class="button-a rounded-none rounded-r-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:placeholder-gray-400">Whatsapp</a>
+     <i class=" ml-3 button-form inline-flex items-center px-3 text-sm bg-gray-200 border border-r-0 border-gray-300 rounded-l-md  dark:text-gray-400 dark:border-gray-600"></i>
+    <a href="#" class="button-a rounded-none rounded-r-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:placeholder-gray-400">Email</a>
+  </div>
+</div>
+  <%# <a href="#" class="ml-7 flex"><%= embedded_svg('icon-sheet.svg') %></a>
+  <%# <a href="#" class="ml-7 flex"><%= embedded_svg('icon-list.svg') %></a>
+  <%# <a href="#" class="ml-7 flex"><%= embedded_svg('icon-whtass.svg') %></a>
+  <%# <a href="#" class="ml-7"><i class="fas fa-envelope fa-lg pr-2" style="color: #888599;"></i>Email</a> %>
+  <a href="#" class="bg-zinc-100 p-2.5 ml-3 px-3.5 py-2 border rounded"><i class="fas fa-chevron-down" style="color: #888599;"></i></a>
+  </div>
 </div>

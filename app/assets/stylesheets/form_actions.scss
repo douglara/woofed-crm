@@ -9,42 +9,16 @@ svg:active {
     fill: #6857D9;
 }
 
-.buttons_form {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    a {
-        text-decoration: none;
-        color: #888599;
-    }
+.button-form {
+    line-height: 40px !important;
 }
 
-.buttons_a {
-    margin-right: 10px;
-    border: 2px solid #f2f1f7;
-    border-radius: 5px;
-    padding: 7px;
-
-}
-
-.arrow_down {
-    display: flex;
-    border: 2px solid #f2f1f7;
-    border-radius: 5px;
-    padding: 7px;
-    text-align: center;
-    height: 45px;
-    width: 45px;
-    justify-content: center;
-    align-items: center;
-}
-
-.text {
-    margin-bottom: 15px; 
-    font-size: 18px;
-    font-weight: 500;
+.button-a {
+    color: #888599;
+    text-decoration: none !important;
 }
 
 .main-footer {
-    border-top: none;
+    margin-top: 0 !important;
+    padding: 0px 0px 0px 0px !important; 
 }
