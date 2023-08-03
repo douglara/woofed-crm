@@ -9,6 +9,7 @@ module.exports = {
   ],
   theme: {
     colors: {
+      ...require('tailwindcss/colors'),
       'green-down-2': '#E8F2EC',
       'dark-palette-p1': '#17161E',
       'dark-palette-p2': '#282733',
