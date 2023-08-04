@@ -3,4 +3,4 @@ Rails.application.config.session_store :cookie_store,
   :domain => :all,
   :same_site => :none,
   :secure => :true,
-  :tld_length => 2
+  :tld_length => 2 if Rails.env.production?
