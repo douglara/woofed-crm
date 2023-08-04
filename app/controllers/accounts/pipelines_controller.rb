@@ -139,7 +139,7 @@ class Accounts::PipelinesController < InternalController
 
   # POST /pipelines or /pipelines.json
   def create
-    @pipeline = Pipeline.new(pipeline_params)
+    @pipeline = current_user.account.pipelines.new(pipeline_params)
 
     respond_to do |format|
       if @pipeline.save
@@ -156,7 +156,7 @@ class Accounts::PipelinesController < InternalController
   def update
     respond_to do |format|
       if @pipeline.update(pipeline_params)
-        format.html { redirect_to @pipeline, notice: "Pipeline was successfully updated." }
+        format.html { redirect_to account_pipeline_path(current_user.account, @pipeline), notice: "Pipeline was successfully updated." }
         format.json { render :show, status: :ok, location: @pipeline }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -182,7 +182,7 @@ class Accounts::PipelinesController < InternalController
 
     # Only allow a list of trusted parameters through.
     def pipeline_params
-      params.require(:pipeline).permit(:name, stages_attributes: [:id, :name, :_destroy])
+      params.require(:pipeline).permit(:name, stages_attributes: [:id, :name, :_destroy, :account_id])
     end
 
     def deal_params(params)
