@@ -3,13 +3,6 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 @import "flow_items";
 
-.setinhas-navbar {
-    text-decoration: none;
-    a {
-        color: #6c757d;
-    }
-}
-
 .icon {
     padding: 5px;
 }
@@ -53,18 +46,4 @@
 
 .navbar-deals {
     padding-top: 20px;
-}
-
-.voltar {
-    border: 2px solid #F2F1F7;
-    border-radius: 5px;
-    display: flex;
-    padding: 10px;
-    align-items: flex-start;
-    color: #6c757d;
-}
-
-.voltar:hover {
-    text-decoration: none !important;
-    color: #6c757d;
 }
