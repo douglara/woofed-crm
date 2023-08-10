@@ -82,4 +82,12 @@ class Event < ApplicationRecord
     return false if self.done == true || due.blank?
     DateTime.current > due
   end
+
+  def primary_date
+    if due.present?
+      return due_format
+    else
+      return created_at.to_s(:short)
+    end
+  end
 end
