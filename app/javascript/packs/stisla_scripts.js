@@ -25,33 +25,33 @@ if(window.Dropzone) {
 }
 
 // Basic confirm box
-$('[data-confirm]').each(function() {
-  var me = $(this),
-      me_data = me.data('confirm');
+// $('[data-confirm]').each(function() {
+//   var me = $(this),
+//       me_data = me.data('confirm');
 
-  me_data = me_data.split("|");
-  me.fireModal({
-    title: me_data[0],
-    body: me_data[1],
-    buttons: [
-      {
-        text: me.data('confirm-text-yes') || 'Yes',
-        class: 'btn btn-danger btn-shadow',
-        handler: function() {
-          eval(me.data('confirm-yes'));
-        }
-      },
-      {
-        text: me.data('confirm-text-cancel') || 'Cancel',
-        class: 'btn btn-secondary',
-        handler: function(modal) {
-          $.destroyModal(modal);
-          eval(me.data('confirm-no'));
-        }
-      }
-    ]
-  })
-});
+//   me_data = me_data.split("|");
+//   me.fireModal({
+//     title: me_data[0],
+//     body: me_data[1],
+//     buttons: [
+//       {
+//         text: me.data('confirm-text-yes') || 'Yes',
+//         class: 'btn btn-danger btn-shadow',
+//         handler: function() {
+//           eval(me.data('confirm-yes'));
+//         }
+//       },
+//       {
+//         text: me.data('confirm-text-cancel') || 'Cancel',
+//         class: 'btn btn-secondary',
+//         handler: function(modal) {
+//           $.destroyModal(modal);
+//           eval(me.data('confirm-no'));
+//         }
+//       }
+//     ]
+//   })
+// });
 
 // Global
 $(function() {
