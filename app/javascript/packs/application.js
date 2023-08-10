@@ -33,3 +33,7 @@ $(document).on("turbo:load", () => {
     }
   }
 })
+
+$(document).on("turbo:frame-load", function (e) {
+  lucide.createIcons();
+})
