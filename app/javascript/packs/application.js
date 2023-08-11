@@ -17,10 +17,12 @@ require("@rails/actiontext")
 require("@stisla/node_modules/popper.js/dist/umd/popper.min.js")
 require("@stisla/node_modules/bootstrap/dist/js/bootstrap")
 require("@nathanvda/cocoon")
-require("./stisla_scripts")
+
+const load_stisla_scripts = require('./stisla_scripts');
 
 $(document).on("turbo:load", () => {
   lucide.createIcons();
+  load_stisla_scripts();
   // Daterangepicker
   if(jQuery().daterangepicker) {
     if($(".datetimepicker").length) {
@@ -36,4 +38,5 @@ $(document).on("turbo:load", () => {
 
 $(document).on("turbo:frame-load", function (e) {
   lucide.createIcons();
+  load_stisla_scripts();
 })

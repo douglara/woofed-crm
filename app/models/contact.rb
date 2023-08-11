@@ -20,6 +20,8 @@
 #  index_contacts_on_app         (app_type,app_id)
 #
 class Contact < ApplicationRecord
+  include Labelable
+
   validates :full_name, presence: true
   has_many :flow_items
   has_many :events
