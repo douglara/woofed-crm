@@ -9,17 +9,37 @@
       <div class="flex justify-end ml-auto"> 
         <div class="mx-auto">
           <div class="flex space-x-2.5">
-            <a href="#" class="px-6 pr-0.5 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 dark:placeholder-gray-400 flex h-full items-center">
-              <i data-lucide="clipboard-list" class="ml-3 button-form items-center text-sm bg-light-palette-p4 border-r-2 dark:text-gray-400 h-10"></i><p class="m-0 px-3 flex items-center">Atividade</p>
+            <a href="#" class="px-2 pr-0.5 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 dark:placeholder-gray-400 flex h-full items-center">
+              <div class="ml-2 button-form items-center text-sm bg-light-palette-p4 border-r-2 dark:text-gray-400 h-10">
+              <div class="mt-2 mr-1 fill-gray-pallete-p3">
+                <i data-lucide="library"></i>
+              </div>
+            </div>
+              <p class="m-0 px-3 flex items-center">Atividade</p>
             </a>
             <a href="#" class="pr-0.5 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 dark:placeholder-gray-400 flex h-full items-center">
-              <i data-lucide="sticky-note" class="ml-3 button-form items-center text-sm bg-light-palette-p4 border-r-2 dark:text-gray-4000 h-10"></i><p class="m-0 px-3 flex items-center">Nota</p>
+            <div class="ml-3 button-form items-center text-sm bg-light-palette-p4 border-r-2 dark:text-gray-400 h-10">
+              <div class="mt-2 mr-1 fill-gray-pallete-p3">
+                <i data-lucide="menu-square"></i>
+              </div>
+            </div>
+            <p class="m-0 px-3 flex items-center">Nota</p>
             </a>
             <a href="#" class="pr-0.5 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 dark:placeholder-gray-400 flex h-full items-center">
-              <i data-lucide="sticky-note" class="ml-3 button-form items-center text-sm bg-light-palette-p4 border-r-2 dark:text-gray-400 h-10"></i><p class="m-0 px-3 flex items-center">Whatsapp</p>
+            <div class="ml-3 button-form items-center text-sm bg-light-palette-p4 border-r-2 dark:text-gray-400 h-10">
+              <div class="mt-2 mr-1 fill-gray-pallete-p3">
+                <%= embedded_svg('icon-whtass.svg') %>
+              </div>
+            </div>
+            <p class="m-0 px-3 flex items-center">Whatsapp</p>
             </a>
             <a href="#" class="pr-0.5 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 dark:placeholder-gray-400 flex h-full items-center">
-              <i data-lucide="mail" class="ml-3 button-form items-center text-sm bg-light-palette-p4 border-r-2 dark:text-gray-400 h-10"></i><p class="m-0 px-3 flex items-center">Email</p>
+            <div class="ml-3 button-form items-center text-sm bg-light-palette-p4 border-r-2 dark:text-gray-400 h-10">
+              <div class="mt-2 mr-1 fill-gray-pallete-p3">
+                <i data-lucide="mail"></i>
+              </div>
+            </div>
+            <p class="m-0 px-3 flex items-center">Email</p>
             </a>
             <a href="#" class="bg-light-palette-p4 p-2.5 ml-3 px-3.5 py-2 border rounded"><i class="fas fa-chevron-down m-0" style="color: #888599;"></i>
             </a>
@@ -30,8 +50,10 @@
   </div>
   <div class="flex justify-center items-center text-center">
     <div>
-      <div>
-        <i data-lucide="layout-dashboard"></i>
+      <div class="flex justify-center items-center flex-col mt-4">
+        <div class="border-2 rounded-md px-2 flex justify-center items-center text-center">
+          <i data-lucide="layout-grid" class="h-14"></i>
+        </div>
       </div>
       <p class="font-semibold mb-0 text-base">Adicionar atividade</p>
       <p class="font-thin">Clique aqui ou nos campos acima para adicionar uma atividade<p>

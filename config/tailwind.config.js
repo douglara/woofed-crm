@@ -15,6 +15,7 @@ module.exports = {
       'dark-palette-p2': '#282733',
       'dark-palette-p3': '#3A3847',
       'dark-palette-p4': '#4D4B5C',
+      'gray-pallete-p3': '#888599',
       'dark-gray-palette-p1': '#605E70',
       'dark-gray-palette-p2': '#737185',
       'dark-gray-palette-p3': '#888599',
