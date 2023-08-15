@@ -44,7 +44,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
       chatwoot.request_headers
     )
     body = JSON.parse(contact_response.body)
-    contact.assign_attributes({chatwoot_contact_label_list: body['payload']})
+    contact.assign_attributes({label_list: body['payload']})
     return contact
   end
 
