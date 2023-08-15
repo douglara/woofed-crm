@@ -36,6 +36,26 @@
       </select>
     </div>
 
+    <% if contact.connected_with_chatwoot?  %>
+      <div class="form-group">
+        <label>Chatwoot conversations labels</label>
+        <select disabled class="form-control select2" multiple="">
+          <%= contact.chatwoot_conversations_labels.each do | label | %>
+            <option selected><%= label.name %></option>
+          <% end %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Chatwoot contact labels</label>
+        <select disabled class="form-control select2" multiple="">
+          <%= contact.chatwoot_contact_labels.each do | label | %>
+            <option selected><%= label.name %></option>
+          <% end %>
+        </select>
+      </div>
+    <% end %>
+
     <%= render 'accounts/custom_attributes', m: contact, f: form %>
 
     <div class="card-footer text-right">

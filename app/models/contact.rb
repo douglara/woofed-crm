@@ -21,6 +21,7 @@
 #
 class Contact < ApplicationRecord
   include Labelable
+  include ChatwootLabels
 
   validates :full_name, presence: true
   has_many :flow_items
@@ -29,4 +30,8 @@ class Contact < ApplicationRecord
 
   has_and_belongs_to_many :deals
   belongs_to :app, polymorphic: true, optional: true
+
+  def connected_with_chatwoot?
+    additional_attributes['chatwoot_id'].present?
+  end
 end
