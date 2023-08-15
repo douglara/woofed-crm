@@ -1,0 +1,47 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://wppconnect-server-open-crm.herokuapp.com/api/session_1632446075/status-session
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.4
+      Authorization:
+      - Bearer $2b$10$XbwuBfjzn5LexQ7IY9AXn.glF0vr9VkZ9gKHJunRvIHfRTNbambIW
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 503
+      message: Service Unavailable
+    headers:
+      Connection:
+      - keep-alive
+      Server:
+      - Cowboy
+      Date:
+      - Tue, 15 Aug 2023 11:57:16 GMT
+      Content-Length:
+      - '506'
+      Content-Type:
+      - text/html; charset=utf-8
+      Cache-Control:
+      - no-cache, no-store
+    body:
+      encoding: UTF-8
+      string: "<!DOCTYPE html>\n\t<html>\n\t  <head>\n\t\t<meta name=\"viewport\"
+        content=\"width=device-width, initial-scale=1\">\n\t\t<meta charset=\"utf-8\">\n\t\t<title>Application
+        Error</title>\n\t\t<style media=\"screen\">\n\t\t  html,body,iframe {\n\t\t\tmargin:
+        0;\n\t\t\tpadding: 0;\n\t\t  }\n\t\t  html,body {\n\t\t\theight: 100%;\n\t\t\toverflow:
+        hidden;\n\t\t  }\n\t\t  iframe {\n\t\t\twidth: 100%;\n\t\t\theight: 100%;\n\t\t\tborder:
+        0;\n\t\t  }\n\t\t</style>\n\t  </head>\n\t  <body>\n\t\t<iframe src=\"//www.herokucdn.com/error-pages/application-error.html\"></iframe>\n\t
+        \ </body>\n\t</html>"
+  recorded_at: Tue, 15 Aug 2023 11:57:16 GMT
+recorded_with: VCR 6.1.0
