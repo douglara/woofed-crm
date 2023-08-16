@@ -3,6 +3,7 @@ module Labelable
 
   included do
     acts_as_taggable_on :labels
+    acts_as_taggable_tenant :account_id
   end
 
   def update_labels(labels = nil)

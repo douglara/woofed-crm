@@ -3,6 +3,7 @@ module ChatwootLabels
 
   included do
     acts_as_taggable_on :chatwoot_conversations_labels
+    acts_as_taggable_tenant :account_id
   end
 
   def update_chatwoot_conversations_labels(labels = nil)
