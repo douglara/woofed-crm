@@ -17,10 +17,14 @@ require("@rails/actiontext")
 require("@stisla/node_modules/popper.js/dist/umd/popper.min.js")
 require("@stisla/node_modules/bootstrap/dist/js/bootstrap")
 require("@nathanvda/cocoon")
+import { initFlowbite } from 'flowbite'
+import "flowbite/dist/flowbite.turbo.js";
+
 
 const load_stisla_scripts = require('./stisla_scripts');
 
 $(document).on("turbo:load", () => {
+  initFlowbite();
   lucide.createIcons();
   load_stisla_scripts();
   // Daterangepicker
@@ -37,6 +41,13 @@ $(document).on("turbo:load", () => {
 })
 
 $(document).on("turbo:frame-load", function (e) {
+  initFlowbite();
+  lucide.createIcons();
+  load_stisla_scripts();
+})
+
+$(document).on("turbo:render", function (e) {
+  initFlowbite();
   lucide.createIcons();
   load_stisla_scripts();
 })
