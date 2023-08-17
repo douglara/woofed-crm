@@ -1,0 +1,37 @@
+<section class="section">
+  <div class="drag-container">
+    <ul class="drag-list" name="drag-list" content="<%= @labels.count %>">
+      <% @labels.each do | stage | %>
+        <li class="drag-column drag-column-in-progress">
+          <header>
+            <span class="drag-column-header">
+
+              <div class="dropdown show">
+                <h2 class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <%= stage.name %>
+                </h2>
+              </div>
+
+            </span>
+          </header>
+          <div>
+            <ul data-controller="drag" class="drag-inner-list" id="1">
+              <% current_user.account.contacts.tagged_with([stage.name], :on => :chatwoot_conversations_labels, :any => true).each do | deal | %>
+                <li class="drag-item">
+                  <%= link_to account_contact_path(current_user.account, deal.id), id: dom_id(deal), data: {id: deal.id}, deal_id: deal.id, account_id:  current_user.account.id do %>
+
+                    <header>
+                      <label color="#7159c1"> </label>
+                    </header>
+
+                    <p class="deal-name"><%= deal.name %></p>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</section>

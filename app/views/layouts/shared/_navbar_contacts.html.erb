@@ -1,0 +1,24 @@
+<div class="form-inline mr-auto form-inline-custom">
+</div>
+
+
+<div class="navbar-nav navbar-right mx-3">
+  <select class="px-4 pr-9 w-full border-gray-200 rounded-md text-sm" onchange="window.location=this.value">
+    <option <%= action_name == 'index' ? 'selected' : '' %> value="<%= account_contacts_path(current_user.account) %>"><i data-lucide="clock-3"></i> Lista</option>
+    <option <%= action_name == 'index_kanban_tags' ? 'selected' : '' %> value="<%= index_kanban_tags_account_contacts_path(current_user.account) %>"><i data-lucide="clock-3"></i>Kanban por tags</option>
+  </select>
+</div>
+
+
+<ul class="navbar-nav navbar-right">
+  <li class="dropdown">
+    <a href="#" data-toggle="dropdown" class="custom-btn-user"><i class="far fa-user"></i></a> 
+
+    <div class="dropdown-menu dropdown-menu-right">
+      <div class="dropdown-divider"></div>
+      <%= link_to destroy_user_session_path, class:"dropdown-item has-icon text-danger", :method => :delete do %>
+        <i class="fas fa-sign-out-alt"></i> Logout
+      <% end %>
+    </div>
+  </li>
+</ul>

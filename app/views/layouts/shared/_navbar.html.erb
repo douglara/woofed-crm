@@ -5,5 +5,7 @@
     <%= render "layouts/shared/navbar_pipe" %>
   <% elsif controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
     <%= render "layouts/shared/navbar_deal" %>
+  <% elsif controller_path == 'accounts/contacts' && ['index', 'index_kanban_tags'].include?(action_name) %>
+    <%= render "layouts/shared/navbar_contacts" %>
   <% end %>
 </nav>

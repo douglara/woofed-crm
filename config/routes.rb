@@ -37,6 +37,7 @@ Rails.application.routes.draw do
         end
 
         collection do
+          get 'index_kanban_tags'
           resources :chatwoot_embed, only: [:show, :new, :create], controller: 'contacts/chatwoot_embed' do
             post 'search', on: :collection
           end

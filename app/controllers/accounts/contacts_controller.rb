@@ -7,6 +7,12 @@ class Accounts::ContactsController < InternalController
     @pagy, @contacts = pagy(@contacts)
   end
 
+  def index_kanban_tags
+    @pipelines = current_user.account.pipelines
+    @pipeline = @pipelines.first
+    @labels = current_user.account.contacts.chatwoot_conversations_label_counts
+  end
+
   def search
     @contacts = current_user.account.contacts.where('full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search', search: "%#{params[:q]}%").limit(5).map(&:attributes)
     

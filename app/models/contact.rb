@@ -31,6 +31,10 @@ class Contact < ApplicationRecord
   has_and_belongs_to_many :deals
   belongs_to :app, polymorphic: true, optional: true
 
+  def name
+    full_name
+  end
+
   def connected_with_chatwoot?
     additional_attributes['chatwoot_id'].present?
   end
