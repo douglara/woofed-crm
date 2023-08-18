@@ -1,5 +1,11 @@
 class WebhookListener
 
+  def extract_changed_attributes(event)
+    changed_attributes = event.previous_changes
+    return nil if changed_attributes.blank?
+    changed_attributes.map { |k, v| { k => { previous_value: v[0], current_value: v[1] } } }
+  end
+
   ## Contact
   def contact_updated(contact)
     if (contact.account.webhooks.present?)
@@ -41,7 +47,9 @@ class WebhookListener
   end
 
   def build_contact_payload(event, contact)
-    contact_json = contact.to_json(:include => :deals)
-    { event: event, data: JSON.parse(contact_json)  }.to_json
+    changed_attributes = extract_changed_attributes(contact)
+
+    contact_json = contact.as_json(:include => :deals).merge({changed_attributes: changed_attributes})
+    { event: event, data: contact_json }.to_json
   end
 end
