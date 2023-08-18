@@ -82,6 +82,7 @@ Rails.application.routes.draw do
           resources :events, only: [:create], module: :deals do
           end
         end
+        resources :contacts, only: [:show, :create]
         namespace :apps do
           resources :wpp_connects, only: [] do
             post 'webhook'

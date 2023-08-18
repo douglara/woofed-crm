@@ -4,7 +4,7 @@ class Api::V1::Accounts::DealsController < Api::V1::InternalController
     @deal = @current_user.account.deals.find(params["id"])
 
     if @deal
-      render json: @deal, include: [:contacts], status: :ok
+      render json: @deal, include: [:contacts, :contact_events], status: :ok
     else
       render json: { errors: 'Not found' }, status: :not_found
     end
@@ -31,6 +31,6 @@ class Api::V1::Accounts::DealsController < Api::V1::InternalController
   end
 
   def deal_params
-    params.permit(:name, :status, :stage_id, contacts_attributes: [ :id, :full_name, :phone, :email ], custom_attributes: {} )
+    params.permit(:name, :status, :stage_id, :contact_id, contacts_attributes: [ :id, :full_name, :phone, :email ], custom_attributes: {} )
   end
 end
