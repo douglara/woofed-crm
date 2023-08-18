@@ -20,6 +20,18 @@ class Api::V1::Accounts::DealsController < Api::V1::InternalController
     end
   end
 
+  def upsert
+    @deal = @current_user.account.deals.where(
+      contact_id: params['contact_id']
+    ).first_or_initialize(deal_params)
+
+    if @deal.update(deal_params)
+      render json: @deal, status: :ok
+    else
+      render json: { errors: @deal.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   def update
     @deal = @current_user.account.deals.find(params["id"])
 

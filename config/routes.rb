@@ -79,6 +79,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :accounts, module: :accounts do
         resources :deals, only: [:show, :create, :update] do
+          post 'upsert', on: :collection
           resources :events, only: [:create], module: :deals do
           end
         end
