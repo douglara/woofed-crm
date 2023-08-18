@@ -20,14 +20,27 @@ RSpec.describe 'Deals API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      it 'create deal' do
-        expect do
-          post "/api/v1/accounts/#{account.id}/deals/upsert",
-          headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
-          params: valid_params
-        end.to change(Deal, :count).by(1)
+      context 'create deal' do
+        it do
+          expect do
+            post "/api/v1/accounts/#{account.id}/deals/upsert",
+            headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
+            params: valid_params
+          end.to change(Deal, :count).by(1)
+  
+          expect(response).to have_http_status(:success)
+        end
 
-        expect(response).to have_http_status(:success)
+        it 'create deal without stage' do
+          expect do
+            post "/api/v1/accounts/#{account.id}/deals/upsert",
+            headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
+            params: valid_params.except('stage_id').merge({pipeline_id: pipeline.id})
+          end.to change(Deal, :count).by(1)
+  
+          expect(response).to have_http_status(:success)
+          expect(Deal.last.stage).to eq(stage)
+        end
       end
 
       context 'update deal' do
