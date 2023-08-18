@@ -34,4 +34,20 @@ class Contact < ApplicationRecord
   def connected_with_chatwoot?
     additional_attributes['chatwoot_id'].present?
   end
+
+  ## Events
+
+  include Wisper::Publisher
+  after_commit :publish_created, on: :create
+  after_commit :publish_updated, on: :update
+
+  private
+
+  def publish_created
+    broadcast(:contact_created, self)
+  end
+
+  def publish_updated
+    broadcast(:contact_updated, self)
+  end
 end
