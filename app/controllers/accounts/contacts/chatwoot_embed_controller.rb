@@ -49,6 +49,12 @@ class Accounts::Contacts::ChatwootEmbedController < InternalController
     end
 
     def contact_search()
+      result =  current_user.account.contacts.where(
+        ":chatwoot_id <@ additional_attributes",
+        chatwoot_id: { chatwoot_id: "#{chatwoot_contact['id']}" }.to_json
+      ).first
+      return result if result.present?
+
       if chatwoot_contact['email'].present? && chatwoot_contact['phone_number'].present?
         return current_user.account.contacts.where(
           ":chatwoot_id <@ additional_attributes OR email LIKE :email OR phone LIKE :phone",
@@ -67,11 +73,6 @@ class Accounts::Contacts::ChatwootEmbedController < InternalController
           ":chatwoot_id <@ additional_attributes OR phone LIKE :phone",
           chatwoot_id: { chatwoot_id: "#{chatwoot_contact['id']}" }.to_json,
           phone: "#{chatwoot_contact['phone_number']}"
-        ).first
-      else
-        return current_user.account.contacts.where(
-          ":chatwoot_id <@ additional_attributes",
-          chatwoot_id: { chatwoot_id: "#{chatwoot_contact['id']}" }.to_json
         ).first
       end
     end
