@@ -7,7 +7,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
 
   def self.get_or_import_contact(chatwoot, contact_id)
     contact = chatwoot.account.contacts.where(
-      "? <@ additional_attributes", { chatwoot_id: contact_id }.to_json
+      "additional_attributes->>'chatwoot_id' = ?", "#{contact_id}"
     ).first
 
     if contact.present?
