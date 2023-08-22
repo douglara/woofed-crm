@@ -9,10 +9,8 @@ class Api::V1::InternalController < ActionController::API
       decoded = Users::JsonWebToken.decode_user(header)
       @current_user = decoded[:ok]
       @current_account = @current_user.account
-    rescue ActiveRecord::RecordNotFound => e
-      render json: { errors: e.message }, status: :unauthorized
-    rescue JWT::DecodeError => e
-      render json: { errors: e.message }, status: :unauthorized
+    rescue
+      render json: { errors: 'Unauthorized' }, status: :unauthorized
     end
   end
 end

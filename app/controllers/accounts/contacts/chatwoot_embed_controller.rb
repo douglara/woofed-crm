@@ -49,30 +49,25 @@ class Accounts::Contacts::ChatwootEmbedController < InternalController
     end
 
     def contact_search()
+      result = current_user.account.contacts.where(
+        "additional_attributes->>'chatwoot_id' = ?", "#{chatwoot_contact['id']}"
+      ).first
+      return result if result.present?
+
       if chatwoot_contact['email'].present? && chatwoot_contact['phone_number'].present?
         return current_user.account.contacts.where(
-          ":chatwoot_id <@ additional_attributes OR email LIKE :email OR phone LIKE :phone",
-          chatwoot_id: { chatwoot_id: "#{chatwoot_contact['id']}" }.to_json,
+          "email LIKE :email OR phone LIKE :phone",
           email: "#{chatwoot_contact['email']}",
           phone: "#{chatwoot_contact['phone_number']}"
         ).first
-      elsif chatwoot_contact['email'].present?
-        return current_user.account.contacts.where(
-          ":chatwoot_id <@ additional_attributes OR email LIKE :email",
-          chatwoot_id: { chatwoot_id: "#{chatwoot_contact['id']}" }.to_json,
-          email: "#{chatwoot_contact['email']}"
-        ).first
       elsif chatwoot_contact['phone_number'].present?
         return current_user.account.contacts.where(
-          ":chatwoot_id <@ additional_attributes OR phone LIKE :phone",
-          chatwoot_id: { chatwoot_id: "#{chatwoot_contact['id']}" }.to_json,
-          phone: "#{chatwoot_contact['phone_number']}"
-        ).first
-      else
+          "phone LIKE ?", "#{chatwoot_contact['phone_number']}"
+        ).first  
+      elsif chatwoot_contact['email'].present?
         return current_user.account.contacts.where(
-          ":chatwoot_id <@ additional_attributes",
-          chatwoot_id: { chatwoot_id: "#{chatwoot_contact['id']}" }.to_json
-        ).first
+          "email LIKE ?", "#{chatwoot_contact['email']}"
+        ).first  
       end
     end
 end
