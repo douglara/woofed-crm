@@ -16,6 +16,7 @@ class Account < ApplicationRecord
   has_many :users, dependent: :destroy_async
   has_many :contacts, dependent: :destroy_async
   has_many :deals, dependent: :destroy_async
+  has_many :custom_attribute_definitions
   has_many :custom_attributes_definitions, class_name: 'CustomAttributeDefinition', dependent: :destroy_async
   has_many :apps_wpp_connects, class_name: 'Apps::WppConnect'
   has_many :apps_chatwoots, class_name: 'Apps::Chatwoot'
