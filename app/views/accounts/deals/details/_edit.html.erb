@@ -37,8 +37,8 @@
           <label class="flex-grow m-0">Adicionar campos</label>
           <div class="w-48">
             <%= turbo_frame_tag "form_custom_attributes_#{model.class.name.downcase}_#{model.id}" do %>
-              <%= link_to account_deal_edit_custom_attributes_path(current_user.account, model), class: 'rounded-md w-48 border-light-palette-p2 bg-light-palette-p3 h-10 d-flex align-items-center justify-content-center text-dark-gray-palette-p3 hover:text-dark-gray-palette-p3' do %>
-                <i data-lucide="plus" height="18" class="text-red"></i>
+              <%= link_to account_deal_edit_custom_attributes_path(current_user.account, model), class: 'rounded-md w-48 border-light-palette-p3 bg-light-palette-p4 h-10 d-flex align-items-center justify-content-center hover:border-brand-palette-06 hover:bg-brand-palette-08 hover:border-2 hover:text-brand-palette-03 hover:duration-100' do %>
+                <i data-lucide="plus" height="18"></i>
               <% end %>
             <% end %>
           </div>
