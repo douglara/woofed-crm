@@ -3,11 +3,15 @@
     <div class="flex items-center h-16">
       <p class="flex items-center m-0 mr-auto font-semibold text-lg"><%= model_name %></p>
       <%= link_to edit_account_deal_path(current_user.account, model), class: 'text-dark-gray-palette-p3' do %>
-        <i data-lucide="pencil" height="16"></i>
+      <div class="hover:border-[1.5px] hover:border-brand-palette-06 p-2 hover:rounded-md hover:bg-brand-palette-08 hover:duration-75 ">
+        <i data-lucide="pencil" height="16" class=""></i>
+      </div>
       <% end %>
 
       <%= link_to '#', class: 'pl-2 text-dark-gray-palette-p3' do %>
+      <div class="hover:border-[1.5px] hover:border-brand-palette-06 p-2 hover:rounded-md hover:bg-brand-palette-08 hover:duration-75">
         <i data-lucide="chevron-down" height="16"></i>
+      </div>
       <% end %>
     </div>
     <div class="py-3">
