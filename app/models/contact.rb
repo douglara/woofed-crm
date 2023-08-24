@@ -35,6 +35,8 @@ class Contact < ApplicationRecord
     additional_attributes['chatwoot_id'].present?
   end
 
+  FORM_FIELDS = [:full_name, :email, :phone]
+
   ## Events
 
   include Wisper::Publisher

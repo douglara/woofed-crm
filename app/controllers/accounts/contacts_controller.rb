@@ -45,13 +45,10 @@ class Accounts::ContactsController < InternalController
 
   # PATCH/PUT /contacts/1 or /contacts/1.json
   def update
-    respond_to do |format|
-      if @contact.update(contact_params)
-        redirect_to account_contact_path(current_user.account, @contact), notice: "Contact was successfully updated."
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @contact.errors, status: :unprocessable_entity }
-      end
+    if @contact.update(contact_params)
+      render :update, status: :ok
+    else
+      render :edit, status: :unprocessable_entity 
     end
   end
 

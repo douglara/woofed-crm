@@ -1,21 +1,26 @@
-<%= turbo_frame_tag "form_deal_#{model.id}" do %>
-  <div class="bg-light-palette-p5 rounded-md mb-4 px-3 pb-6">
-    <div class="flex items-center h-16">
-      <p class="flex items-center m-0 mr-auto font-semibold text-lg"><%= model_name %></p>
-      <%= link_to edit_account_deal_path(current_user.account, model), class: 'text-dark-gray-palette-p3' do %>
+<%= turbo_frame_tag "form_#{model.class.name.downcase}_#{model.id}" do %>
+  <div class="bg-light-palette-p5 px-3 pb-6">
+    <div class="flex items-baseline h-12">
+      <p class="self-end m-0 mr-auto font-semibold text-base"><%= model_name %></p>
+      <%= link_to edit_path, class: 'self-end m-2 text-dark-gray-palette-p3' do %>
         <i data-lucide="pencil" height="16"></i>
       <% end %>
 
-      <%= link_to '#', class: 'pl-2 text-dark-gray-palette-p3' do %>
+      <%= link_to '#', class: 'self-end m-2 text-dark-gray-palette-p3' do %>
         <i data-lucide="chevron-down" height="16"></i>
       <% end %>
     </div>
     <div class="py-3">
-      <div class="flex items-center">
-        <label class="flex-none m-auto">Nome</label>
-        <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
-        <p class="m-0"><%= model.name %></p>
-      </div>
+      <% model.class::FORM_FIELDS.each do | f | %>
+        <% if model["#{f}"].present? %>
+          <div class="flex items-center pb-2">
+            <label class="flex-none m-auto"><%= model.class.human_attribute_name(f) %></label>
+            <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>
+            <p class="m-0"><%= model["#{f}"] %></p>
+          </div>
+        <% end %>
+      <% end %>
+
       <%= render 'accounts/deals/details/show_custom_attributes', model: model %>
     </div>
   </div>

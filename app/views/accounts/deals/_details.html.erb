@@ -1,14 +1,11 @@
-<div class="col-lg-4 pr-0">
-  <%= render "/accounts/deals/details/show", model: @deal, model_name: 'Negócio' %>
+<div class="p-1 bg-light-palette-p5  rounded-md border-light-palette-p3 h-full w-[28rem]">
+  <%= render "/accounts/deals/details/show", model: @deal, model_name: 'Negócio', edit_path: edit_account_deal_path(current_user.account, @deal) %>
+  <div class="border-t border-light-palette-p3"></div>
+  <%= render "/accounts/deals/details/show", model: @deal.contact, model_name: 'Contato', edit_path: edit_account_contact_path(current_user.account, @deal.contact) %>
 
-  <div class="card card-primary">
-    <div class="card-header">
-      <h4>Contact</h4>
-    </div>
-    <div class="card-body">
-      <%= render '/accounts/contacts/form', contact: @deal.primary_contact %>
-    </div>
-  </div>
-
-  <%= render 'contacts' %>
+  <%
+=begin%>
+ <%= render 'contacts' %> 
+<%
+=end%>
 </div>

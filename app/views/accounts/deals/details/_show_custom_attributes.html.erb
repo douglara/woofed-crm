@@ -1,7 +1,7 @@
 <% model.custom_attributes.each do | custom_attribute | %>
   <div class="flex items-center">
     <label class="flex-none m-auto"><%= custom_attribute[0] %></label>
-    <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+    <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>
     <p><%= custom_attribute[1] %></p>
   </div>
 <% end %>

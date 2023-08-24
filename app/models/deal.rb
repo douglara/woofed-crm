@@ -53,6 +53,8 @@ class Deal < ApplicationRecord
 
   enum status: { 'open': 'open', 'won': 'won', 'lost': 'lost' }
 
+  FORM_FIELDS = [:name]
+
   before_validation do
     if self.contact_main.blank?
       self.contact_main = self.contact
@@ -75,7 +77,7 @@ class Deal < ApplicationRecord
     end
   end
 
-  validate :validate_contact_main
+  # validate :validate_contact_main
 
   def validate_contact_main
     if self.contact != self.contact_main
