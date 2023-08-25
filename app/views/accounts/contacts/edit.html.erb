@@ -1,3 +1,7 @@
 <%= turbo_frame_tag "form_contact_#{@contact.id}" do %>
-  <%= render "/accounts/deals/details/edit", model: @contact, model_name: 'Contato', update_path: account_contact_path(current_user.account, @contact) %>
+  <%= render "/accounts/deals/details/edit",
+  model: @contact,
+  model_name: 'Contato',
+  update_path: account_contact_path(current_user.account, @contact)
+   %>
 <% end %>
