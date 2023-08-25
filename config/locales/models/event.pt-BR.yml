@@ -1,0 +1,10 @@
+pt-BR:
+  activerecord:
+    models:
+      event:
+        one: Evento
+        other: Eventos
+    attributes:
+      event:
+        kind: 'Tipo de evento'
+        activity: 'Atividade'

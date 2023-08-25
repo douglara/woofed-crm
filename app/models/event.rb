@@ -65,6 +65,12 @@ class Event < ApplicationRecord
     'chatwoot_message': 'chatwoot_message',
   }
 
+  before_validation do
+    if self.due.present? && self.done == nil
+      self.done = false
+    end
+  end
+
   def icon_key
     if kind == 'note'
       return 'far fa-sticky-note'
