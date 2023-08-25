@@ -42,4 +42,7 @@ RUN bundle exec rake assets:precompile
 # Install node dependences
 RUN npm i -g flat
 
-CMD bundle exec puma -C config/puma.rb
+RUN  "Waiting for postgres to become ready...."
+RUN  sleep 10
+
+CMD bundle exec rails db:create; bundle exec rails db:migrate; bundle exec puma -C config/puma.rb

@@ -1,0 +1,132 @@
+{
+  "account": {
+    "id": 5,
+    "name": "Doug testes"
+  },
+  "additional_attributes": {},
+  "content_attributes": {},
+  "content_type": "text",
+  "content": "Teste2",
+  "conversation": {
+    "additional_attributes": {
+      "browser": {
+        "device_name": "Unknown",
+        "browser_name": "Chrome",
+        "platform_name": "Generic Linux",
+        "browser_version": "114.0.0.0",
+        "platform_version": "0"
+      },
+      "referer": "https://cdpn.io/cpe/boomboom/index.html?key=index.html-b97d0740-a49f-5035-1c2e-40377bb51e54",
+      "initiated_at": {
+        "timestamp": "Thu Jun 29 2023 01:11:46 GMT-0300 (Horário Padrão de Brasília)"
+      },
+      "browser_language": "pt"
+    },
+    "can_reply": true,
+    "channel": "Channel::WebWidget",
+    "contact_inbox": {
+      "id": 3685,
+      "contact_id": 715,
+      "inbox_id": 36,
+      "source_id": "92c0cfe2-a2fc-4165-bb49-c1143939baf5",
+      "created_at": "2023-06-29T04:11:40.662Z",
+      "updated_at": "2023-06-29T04:12:06.021Z",
+      "hmac_verified": false,
+      "pubsub_token": "WZTMUujB3mrweGwSbdFvgXg5"
+    },
+    "id": 49,
+    "inbox_id": 36,
+    "messages": [
+      {
+        "id": 99523,
+        "content": "Teste2",
+        "account_id": 5,
+        "inbox_id": 36,
+        "conversation_id": 49,
+        "message_type": 1,
+        "created_at": 1690336794,
+        "updated_at": "2023-07-26T01:59:54.994Z",
+        "private": false,
+        "status": "sent",
+        "source_id": null,
+        "content_type": "text",
+        "content_attributes": {},
+        "sender_type": "User",
+        "sender_id": 95,
+        "external_source_ids": {},
+        "additional_attributes": {},
+        "processed_message_content": "Teste2",
+        "conversation": {
+          "assignee_id": 1,
+          "unread_count": 0,
+          "last_activity_at": 1690336794
+        },
+        "sender": {
+          "id": 95,
+          "name": "Douglas Teste",
+          "available_name": "Douglas Teste",
+          "avatar_url": "",
+          "type": "user",
+          "availability_status": null,
+          "thumbnail": ""
+        }
+      }
+    ],
+    "labels": [
+      "novo_lead"
+    ],
+    "meta": {
+      "sender": {
+        "additional_attributes": {
+          "source_id": "email:CAHco2v7Smo9R+5AKTCnLq5pTbJfuHtQL6jhrNV-1h18md63v_A@mail.gmail.com",
+          "created_at_ip": "191.177.185.103"
+        },
+        "custom_attributes": {},
+        "email": "doug@zimobi.com.br",
+        "id": 715,
+        "identifier": null,
+        "name": "doug",
+        "phone_number": null,
+        "thumbnail": "",
+        "type": "contact"
+      },
+      "assignee": {
+        "id": 1,
+        "name": "Douglas",
+        "available_name": "Douglas",
+        "avatar_url": "",
+        "type": "user",
+        "availability_status": null,
+        "thumbnail": ""
+      },
+      "team": null,
+      "hmac_verified": false
+    },
+    "status": "open",
+    "custom_attributes": {},
+    "snoozed_until": null,
+    "unread_count": 0,
+    "first_reply_created_at": "2023-07-24T22:16:10.631Z",
+    "priority": null,
+    "agent_last_seen_at": 1690336795,
+    "contact_last_seen_at": 1688011906,
+    "timestamp": 1690336794,
+    "created_at": 1688011906
+  },
+  "created_at": "2023-07-26T01:59:54.994Z",
+  "id": 99523,
+  "inbox": {
+    "id": 36,
+    "name": "Teste"
+  },
+  "message_type": "outgoing",
+  "private": false,
+  "sender": {
+    "id": 95,
+    "name": "Douglas Teste",
+    "email": "douglasdelaras@gmail.com",
+    "type": "user"
+  },
+  "source_id": null,
+  "event": "message_created"
+}

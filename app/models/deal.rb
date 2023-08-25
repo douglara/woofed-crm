@@ -10,13 +10,15 @@
 #  updated_at        :datetime         not null
 #  account_id        :bigint           not null
 #  contact_id        :bigint           not null
+#  pipeline_id       :bigint
 #  stage_id          :bigint           not null
 #
 # Indexes
 #
-#  index_deals_on_account_id  (account_id)
-#  index_deals_on_contact_id  (contact_id)
-#  index_deals_on_stage_id    (stage_id)
+#  index_deals_on_account_id   (account_id)
+#  index_deals_on_contact_id   (contact_id)
+#  index_deals_on_pipeline_id  (pipeline_id)
+#  index_deals_on_stage_id     (stage_id)
 #
 # Foreign Keys
 #
@@ -39,10 +41,12 @@ class Deal < ApplicationRecord
   has_one :primary_contact, through: :contacts_deal_main, source: :contact
 
   belongs_to :stage
+  belongs_to :pipeline
   has_many :events
   has_many :flow_items
   has_many :notes, through: :flow_items
   has_many :activities
+  has_many :contact_events, through: :primary_contact, source: :events
   accepts_nested_attributes_for :contact
   accepts_nested_attributes_for :contacts
   accepts_nested_attributes_for :contacts_deals
@@ -60,6 +64,14 @@ class Deal < ApplicationRecord
 
     if self.account.blank? && @current_account.present?
       self.account = @current_account
+    end
+
+    if self.pipeline.blank? && self.stage.present?
+      self.pipeline = self.stage.pipeline
+    end
+
+    if self.stage.blank? && self.pipeline.present?
+      self.stage = self.pipeline.stages.first
     end
   end
 

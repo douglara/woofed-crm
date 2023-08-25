@@ -61,7 +61,8 @@ class Event < ApplicationRecord
     'note': 'note',
     'wpp_connect_message': 'wpp_connect_message',
     'wpp_connect_information': 'wpp_connect_information',
-    'activity': 'activity'
+    'activity': 'activity',
+    'chatwoot_message': 'chatwoot_message',
   }
 
   def icon_key
@@ -71,6 +72,8 @@ class Event < ApplicationRecord
       return 'fab fa-whatsapp'
     elsif kind == 'activity'
       return 'far fa-calendar'
+    elsif kind == 'chatwoot_message'
+      return 'far fa-comments'
     end
   end
 
