@@ -2,12 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-
 @layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
+  .event-item-from-me {
+    @apply flex-row-reverse flex pb-3;
+  }
+  .event-from-contacts {
+    @apply flex-row flex pb-3;
   }
 }
-
-*/

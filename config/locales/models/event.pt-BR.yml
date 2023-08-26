@@ -8,3 +8,4 @@ pt-BR:
       event:
         kind: 'Tipo de evento'
         activity: 'Atividade'
+        note: 'Nota'

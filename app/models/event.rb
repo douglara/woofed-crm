@@ -42,8 +42,15 @@ class Event < ApplicationRecord
   has_rich_text :content
 
   after_create_commit {
-    broadcast_append_to [contact_id, 'events'],
-    partial: "accounts/contacts/events/event"
+    if self.done == false
+      broadcast_prepend_to [contact_id, 'events'],
+      partial: "accounts/contacts/events/event",
+      target: "events_planned_#{contact.id}"
+    else
+      broadcast_prepend_to [contact_id, 'events'],
+      partial: "accounts/contacts/events/event",
+      target: "events_not_planned_or_done_#{contact.id}"
+    end
 
     Accounts::Contacts::Events::CreatedWorker.perform_async(self.id)
   }
@@ -55,6 +62,10 @@ class Event < ApplicationRecord
 
   scope :planned, -> {
     where(done: false)
+  }
+
+  scope :not_planned_or_done, -> {
+    where('done IS NULL or done = true')
   }
 
   enum kind: {
@@ -97,6 +108,14 @@ class Event < ApplicationRecord
       return due_format
     else
       return created_at.to_s(:short)
+    end
+  end
+
+  def from
+    if from_me == true
+      'from-me'
+    else
+      'from-contacts'
     end
   end
 end
