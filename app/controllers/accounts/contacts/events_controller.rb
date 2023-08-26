@@ -42,14 +42,11 @@ class Accounts::Contacts::EventsController < InternalController
 
   # PATCH/PUT /notes/1 or /notes/1.json
   def update
-    respond_to do |format|
-      if @note.update(note_params)
-        format.html {  redirect_to(deal_path(params[:deal_id]), notice: "Note was successfully updated.") }
-        format.json { render :show, status: :ok, location: @note }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @note.errors, status: :unprocessable_entity }
-      end
+    @deal = current_user.account.deals.find(params[:deal_id])
+    @event.update(event_params)
+
+    unless @event.update(event_params)
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -65,7 +62,7 @@ class Accounts::Contacts::EventsController < InternalController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:content, :due, :kind, :app_type, :app_id, custom_attributes: {})
+      params.require(:event).permit(:content, :done, :due, :kind, :app_type, :app_id, custom_attributes: {})
     rescue
       {}
     end
