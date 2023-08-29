@@ -1,0 +1,31 @@
+<%= form_with(model: contact, url: account_chatwoot_embed_index_path(current_user.account), data: {turbo: false}, id: 'formId') do |form| %>
+  <%= form.hidden_field :full_name %>
+  <%= form.hidden_field :email %>
+  <%= form.hidden_field :phone %>
+  <%= hidden_field_tag 'contact[additional_attributes][chatwoot_id]', contact.additional_attributes['chatwoot_id'] %>
+
+  <% if contact.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(contact.errors.count, "error") %> prohibited this activity kind from being saved:</h2>
+
+      <ul>
+        <% contact.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card mt-4">
+    <div class="card-header">
+      <h4>Esse contato não existe no Woofed CRM deseja criar?</h4>
+      <a class="ml-3 w-btn-block ml-auto float-right">
+        <i data-lucide="x"></i>
+      </a>
+
+      <%= form.button nil, class: "ml-3 w-btn-block" do %>
+        <i data-lucide="check"></i>
+      <% end %>
+    </div>
+  </div>
+<% end %>

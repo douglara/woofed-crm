@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  mount Motor::Admin => '/motor_admin'
   mount Sidekiq::Web => "/sidekiq"
   mount GoodJob::Engine => 'good_job'
 
@@ -34,6 +35,12 @@ Rails.application.routes.draw do
             end
           end
         end
+
+        collection do
+          resources :chatwoot_embed, only: [:show, :new, :create], controller: 'contacts/chatwoot_embed' do
+            post 'search', on: :collection
+          end
+        end
       end
       resources :pipelines do
         get 'import'
@@ -60,8 +67,7 @@ Rails.application.routes.draw do
           post 'disable'
         end
 
-        resources :chatwoots do
-        end
+        resources :chatwoots
         #resources :events, module: :contacts
       end
   end
@@ -73,9 +79,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :accounts, module: :accounts do
         resources :deals, only: [:show, :create, :update] do
+          post 'upsert', on: :collection
           resources :events, only: [:create], module: :deals do
           end
         end
+        resources :contacts, only: [:show, :create]
         namespace :apps do
           resources :wpp_connects, only: [] do
             post 'webhook'
@@ -102,6 +110,17 @@ Rails.application.routes.draw do
       namespace :apps do
         resources :chatwoots, only: [:index] do
         end
+      end
+    end
+  end
+
+  namespace :apps do
+    resources :chatwoots do
+      collection do
+        post 'webhooks'
+        get 'embedding'
+        get 'embedding_init_authenticate'
+        post 'embedding_authenticate'  
       end
     end
   end

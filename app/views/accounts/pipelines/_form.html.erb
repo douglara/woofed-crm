@@ -1,4 +1,4 @@
-<%= form_with(model: pipeline, url: account_pipelines_path(current_user.account)) do |form| %>
+<%= form_with(model: pipeline, url: pipeline.persisted? ? account_pipeline_path(current_user.account, pipeline) : account_pipelines_path(current_user.account)) do |form| %>
   <% if pipeline.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(pipeline.errors.count, "error") %> prohibited this pipeline from being saved:</h2>

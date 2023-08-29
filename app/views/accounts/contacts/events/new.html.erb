@@ -2,6 +2,6 @@
 
 <%= turbo_frame_tag "new-event-form" do %>
   <div class="tab-content" id="myTabContent">
-    <%= render "form", event: @event %>
+    <%= render "components/events/form", event: @event %>
   </div>
 <% end %>

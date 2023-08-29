@@ -2,6 +2,7 @@
   <div class="form-group">
     <%= f.label :name %>
       <div class="input-group">
+        <%= f.hidden_field :account_id, value: current_user.account.id, class: 'form-control' %>
         <%= f.text_field :name, class: 'form-control' %>
         <%= link_to_remove_association f, class: 'btn btn-icon btn-danger btn-remove', data: { confirm: 'Are you sure? All deals in this stage will be deleted too' } do %>
           <i class="fas fa-times"></i>

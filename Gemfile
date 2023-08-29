@@ -42,6 +42,8 @@ gem 'rails-i18n', '~> 7.0.0'
 gem 'json_csv'
 gem 'wisper', '2.0.0'
 gem 'requestjs-rails'
+gem 'motor-admin'
+gem 'acts-as-taggable-on', '~> 9.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
@@ -79,3 +81,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "tailwindcss-rails", "~> 2.0"

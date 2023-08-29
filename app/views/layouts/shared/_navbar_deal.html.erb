@@ -1,20 +1,42 @@
-<div class="navbar-bg"></div>
-<nav class="navbar navbar-expand-lg main-navbar">
-  <form class="form-inline mr-auto">
-  </form>
-  <ul class="navbar-nav navbar-right">
-    <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-      <%= image_tag "/assets/stisla/assets/img/avatar/avatar-1.png", class: 'rounded-circle mr-1' %>
-      <div class="d-sm-none d-lg-inline-block">Hi, <%= current_user.full_name %></div></a>
-      <div class="dropdown-menu dropdown-menu-right">
-        <%= link_to account_settings_path(current_user.account), class:"dropdown-item has-icon" do %>
-          <i class="fas fa-cog"></i> Settings
-        <% end %>
-        <div class="dropdown-divider"></div>
-        <%= link_to destroy_user_session_path, class:"dropdown-item has-icon text-danger", :method => :delete do %>
-          <i class="fas fa-sign-out-alt"></i> Logout
-        <% end %>
-      </div>
-    </li>
-  </ul>
-</nav>
+<div>
+  <div class="flex items-center">
+    <div class="d-flex align-items-center justify-content-center" style="height: 100%;">
+      <%= link_to(:back, class: 'ml-3 w-btn-block ml-auto float-right') do %>
+        <i data-lucide="chevron-left"></i>
+      <% end %> 
+    </div>
+
+    <div class="h-full flex items-center border-r-2 border-light-palette-p3 px-16">
+      <p class="m-0 font-semibold"><%= @deal.name %></p>
+    </div>
+
+    <div class="h-full flex items-center mx-3">
+      <p class="m-0"><%= @deal.stage.pipeline.name %></p>
+    </div>
+
+    <div class="h-full flex items-center mx-3">
+      <i class="fas fa-chevron-right icon"></i>
+    <div>
+
+    <div class="h-full flex items-center mx-3">
+      <p class="m-0"><%= @deal.stage.name %></p>
+    </div>
+  </div>
+
+  <div class="absolute right-0 mr-3">
+    <%= link_to(
+      'Perdido',
+      account_deal_path(current_user.account, @deal, deal: { status: 'lost'} ),
+      method: :patch,
+      data: { confirm: 'Are you sure?' },
+      class: 'btn-lg button-perda mr-2') %>
+
+    <%= link_to(
+      'Ganho',
+      account_deal_path(current_user.account, @deal, deal: { status: 'won'}),
+      method: :patch,
+      data: { confirm: 'Are you sure?' },
+      class: 'btn-lg button-ganho') %>
+
+  </div>
+</div>

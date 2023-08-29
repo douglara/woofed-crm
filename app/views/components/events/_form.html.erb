@@ -25,11 +25,11 @@
   
 
       <% if event.kind == 'note' %>
-        <%= render "accounts/contacts/events/form/note", form:form, event: event %>
+        <%= render "components/events/form/note", form:form, event: event %>
       <% elsif event.kind == 'wpp_connect_message' %>
-        <%= render "accounts/contacts/events/form/wpp_connect_message", form:form, event: event %>
+        <%= render "components/events/form/wpp_connect_message", form:form, event: event %>
       <% elsif event.kind == 'activity' %>
-        <%= render "accounts/contacts/events/form/activity", form:form, event: event %>
+        <%= render "components/events/form/activity", form:form, event: event %>
       <% end %>
 
 
