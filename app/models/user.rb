@@ -29,4 +29,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   belongs_to :account
+
+  def get_jwt_token
+    Users::JsonWebToken.encode_user(self)
+  end
 end

@@ -4,5 +4,6 @@ Rails.application.config.to_prepare do
   Wisper.subscribe(
     WebhookListener.new, scope: %w(
         Deal
+        Contact
     ))
 end
