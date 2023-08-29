@@ -32,14 +32,14 @@ class Deal < ApplicationRecord
   belongs_to :contact
   belongs_to :account
 
-  #has_and_belongs_to_many :contacts
-  has_many :contacts_deals
-  has_many :contacts, through: :contacts_deals
+  # has_and_belongs_to_many :contacts
+  # has_many :contacts_deals
+  # has_many :contacts, through: :contacts_deals
 
-  has_one :contacts_deal_main, -> { where(main: true) }, class_name: 'ContactsDeal'
-  has_one :contact_main, through: :contacts_deal_main, source: :contact
+  # has_one :contacts_deal_main, -> { where(main: true) }, class_name: 'ContactsDeal'
+  # has_one :contact_main, through: :contacts_deal_main, source: :contact
+  # # has_one :primary_contact, through: :contacts_deal_main, source: :contact
   # has_one :primary_contact, through: :contacts_deal_main, source: :contact
-  has_one :primary_contact, through: :contacts_deal_main, source: :contact
 
   belongs_to :stage
   belongs_to :pipeline
@@ -49,21 +49,21 @@ class Deal < ApplicationRecord
   has_many :activities
   has_many :contact_events, through: :primary_contact, source: :events
   accepts_nested_attributes_for :contact
-  accepts_nested_attributes_for :contacts
-  accepts_nested_attributes_for :contacts_deals
+  # accepts_nested_attributes_for :contacts
+  # accepts_nested_attributes_for :contacts_deals
 
   enum status: { 'open': 'open', 'won': 'won', 'lost': 'lost' }
 
   FORM_FIELDS = [:name]
 
   before_validation do
-    if self.contact_main.blank?
-      self.contact_main = self.contact
-    end
+    # if self.contact_main.blank?
+    #   self.contact_main = self.contact
+    # end
 
-    if self.contact.blank?
-      self.contact = self.contacts.first
-    end
+    # if self.contact.blank?
+    #   self.contact = self.contacts.first
+    # end
 
     if self.account.blank? && @current_account.present?
       self.account = @current_account
@@ -80,11 +80,11 @@ class Deal < ApplicationRecord
 
   # validate :validate_contact_main
 
-  def validate_contact_main
-    if self.contact != self.contact_main
-      errors.add :base, 'Contact main invalid'
-    end
-  end
+  # def validate_contact_main
+  #   if self.contact != self.contact_main
+  #     errors.add :base, 'Contact main invalid'
+  #   end
+  # end
 
   def next_action?
     next_action rescue false

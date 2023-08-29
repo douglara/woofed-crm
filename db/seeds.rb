@@ -27,8 +27,8 @@ if User.all.count == 0
   end
 
   deal_1 = Deal.create(name: 'Deal 1', stage: stage_1, status: 'open', contact: contacts[0], account: account_1)
-  deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contact: contacts[1], contacts: [contacts[0]], account: account_1)
-  deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contact: contacts[2], contacts: [contacts[0]], account: account_1)
+  deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contact: contacts[1], account: account_1)
+  deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contact: contacts[2], account: account_1)
   # deal_1 = Deal.create(name: 'Deal 1', stage: stage_1, status: 'open', contacts: [ contacts[0] ], account: account_1)
   # deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contacts: [ contacts[1] ], account: account_1)
   # deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contacts: [ contacts[2] ], account: account_1)
