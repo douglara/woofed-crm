@@ -20,7 +20,7 @@
           <i data-lucide="x" height="16"></i>
         <% end %>
       </div>
-      <div class="p-3">
+      <div class="px-3 pt-3">
         <div>
           <% model.class::FORM_FIELDS.each do | f | %>
             <div class="flex items-center pb-3">
@@ -32,7 +32,7 @@
           <%= render 'accounts/deals/details/edit_custom_attributes', form: form, model: model %>
         </div>
       </div>
-      <div class="px-3 border-t-2 border-light-palette-p3 py-2 mt-4">
+      <div class="px-3 border-t-2 border-light-palette-p3 py-2">
         <div class="flex items-center mt-2">
           <label class="flex-grow m-0 mb-auto">Adicionar campos</label>
           <div class="w-64">
