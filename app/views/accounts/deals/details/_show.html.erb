@@ -1,12 +1,12 @@
 <%= turbo_frame_tag "form_#{model.class.name.downcase}_#{model.id}" do %>
   <div class="bg-light-palette-p5 px-3 pb-6">
-    <div class="flex items-baseline h-12">
-      <p class="self-end m-0 mr-auto font-semibold text-base"><%= model_name %></p>
-      <%= link_to edit_path, class: 'self-end m-2 text-dark-gray-palette-p3 p-2  border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03' do %>
+    <div class="flex items-center h-12">
+      <p class="m-0 mr-auto font-semibold text-base"><%= model_name %></p>
+      <%= link_to edit_path, class: 'flex items-center h-8 p-1 mx-2 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
         <i data-lucide="pencil" height="16"></i>
       <% end %>
 
-      <%= link_to '#', class: 'self-end m-2 text-dark-gray-palette-p3 p-2  border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03' do %>
+      <%= link_to '#', class: 'flex items-center h-8 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
         <i data-lucide="chevron-down" height="16"></i>
       <% end %>
     </div>
