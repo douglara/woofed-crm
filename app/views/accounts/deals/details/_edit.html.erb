@@ -38,13 +38,13 @@
           <div class="w-64">
             <% if model.class.name.downcase == 'deal' %>
               <%= turbo_frame_tag "form_custom_attributes_#{model.class.name.downcase}_#{model.id}" do %>
-                <%= link_to account_deal_edit_custom_attributes_path(current_user.account, model), class: 'rounded-md border-light-palette-p3 bg-light-palette-p4 h-10 d-flex align-items-center justify-content-center hover:border-brand-palette-06 hover:bg-brand-palette-08 hover:border-2 hover:text-brand-palette-03 hover:duration-100' do %>
+                <%= link_to account_deal_edit_custom_attributes_path(current_user.account, model), class: 'd-flex align-items-center justify-content-center h-10 border-2 bg-light-palette-p4 text-dark-gray-palette-p3 rounded-md border-light-palette-p3 hover:border-brand-palette-06 hover:bg-brand-palette-08 hover:border-2 hover:text-brand-palette-03 hover:duration-100' do %>
                   <i data-lucide="plus" height="18"></i>
                 <% end %>
               <% end %>
             <% elsif model.class.name.downcase == 'contact' %>
               <%= turbo_frame_tag "form_custom_attributes_#{model.class.name.downcase}_#{model.id}" do %>
-                <%= link_to account_contact_edit_custom_attributes_path(current_user.account, model), class: 'rounded-md border-light-palette-p3 bg-light-palette-p4 h-10 d-flex align-items-center justify-content-center hover:border-brand-palette-06 hover:bg-brand-palette-08 hover:border-2 hover:text-brand-palette-03 hover:duration-100' do %>
+                <%= link_to account_contact_edit_custom_attributes_path(current_user.account, model), class: 'd-flex align-items-center justify-content-center h-10 border-2 bg-light-palette-p4 text-dark-gray-palette-p3 rounded-md border-light-palette-p3 hover:border-brand-palette-06 hover:bg-brand-palette-08 hover:border-2 hover:text-brand-palette-03 hover:duration-100' do %>
                   <i data-lucide="plus" height="18"></i>
                 <% end %>
               <% end %>
