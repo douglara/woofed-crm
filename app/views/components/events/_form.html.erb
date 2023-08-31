@@ -1,5 +1,3 @@
-<%= stylesheet_link_tag "form_actions", media: 'all' %>
-
 <%= turbo_frame_tag "kind_content" do %> <% end %>
 
 <div>
@@ -9,15 +7,15 @@
       <div class="flex justify-end ml-auto"> 
         <div class="mx-auto">
           <div class="flex space-x-2.5">
-            <a href="#" class="pr-0.5 rounded-lg border border-gray-300 bg-light-palette-p5 text-sm text-gray-900 dark:placeholder-gray-400 flex h-full items-center">
-              <div class="pl-1 ml-2 button-form items-center text-sm bg-light-palette-p4 border-r-2 dark:text-gray-400 h-10">
-                <div class="mt-2 mr-1 fill-gray-pallete-p3">
-                  <i data-lucide="clipboard-list" class="text-gray-pallete-p3"></i>
-                </div>
+            <a href="#" class="pr-0.5 h-10 flex items-center text-sm text-gray-900 dark:placeholder-gray-400">
+              <div class="px-2 rounded-l-lg border-y border-l border-gray-300 flex items-center text-sm bg-light-palette-p4 dark:text-gray-400 h-full w-full">
+                <i data-lucide="clipboard-list" class="text-gray-pallete-p3"></i>                
               </div>
-              <p class="m-0 px-3 flex items-center">Atividade</p>
+              <div class="flex items-center rounded-r-lg border border-gray-300 bg-light-palette-p5 h-full w-full">
+                <p class="m-0 px-3">Atividade</p>
+              </div>
             </a>
-            <a href="#" class="pr-0.5 rounded-lg border border-gray-300 bg-light-palette-p5 text-sm text-gray-900 dark:placeholder-gray-400 flex h-full items-center">
+            <a href="#" class="pr-0.5 h-10 flex items-center text-sm text-gray-900 dark:placeholder-gray-400">
               <div class="pl-1 ml-2 button-form items-center text-sm bg-light-palette-p4 border-r-2 dark:text-gray-400 h-10">
                 <div class="mt-2 mr-1 fill-gray-pallete-p3">
                   <i data-lucide="menu-square" class="text-gray-pallete-p3"></i>
@@ -25,7 +23,7 @@
               </div>
               <p class="m-0 px-3 flex items-center">Nota</p>
             </a>
-            <a href="#" class="pr-0.5 rounded-lg border border-gray-300 bg-light-palette-p5 text-sm text-gray-900 dark:placeholder-gray-400 flex h-full items-center">
+            <a href="#" class="pr-0.5 h-10 flex items-center text-sm text-gray-900 dark:placeholder-gray-400">
               <div class="pl-1 ml-2 button-form items-center text-sm bg-light-palette-p4 border-r-2 dark:text-gray-400 h-10">
                 <div class="mt-2 mr-1 fill-dark-gray-palette-p3">
                   <%= embedded_svg('icon-whtass.svg') %>
@@ -33,7 +31,7 @@
               </div>
               <p class="m-0 px-3 flex items-center">Whatsapp</p>
             </a>
-            <a href="#" class="pr-0.5 rounded-lg border border-gray-300 bg-light-palette-p5 text-sm text-gray-900 dark:placeholder-gray-400 flex h-full items-center">
+            <a href="#" class="pr-0.5 h-10 flex items-center text-sm text-gray-900 dark:placeholder-gray-400">
               <div class="pl-1 ml-2 button-form items-center text-sm bg-light-palette-p4 border-r-2 dark:text-gray-400 h-10">
                 <div class="mt-2 mr-1 fill-gray-pallete-p3 max-w-full">
                   <i data-lucide="mail" class="text-gray-pallete-p3"></i>
