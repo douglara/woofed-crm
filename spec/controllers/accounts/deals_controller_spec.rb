@@ -44,4 +44,57 @@ RSpec.describe Accounts::DealsController, type: :request do
       end
     end
   end
+
+  describe 'PUT /accounts/{account.id}/deals/:id' do
+    let(:deal) { create(:deal, account: account, stage: stage) }
+    let(:valid_params) { { deal: { name: 'Deal Updated'} } }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        put "/accounts/#{account.id}/deals/#{deal.id}", params: valid_params
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      context 'should update deal' do
+        it do
+          put "/accounts/#{account.id}/deals/#{deal.id}",
+          params: valid_params
+
+          # expect(response).to have_http_status(:success)
+          expect(deal.reload.name).to eq('Deal Updated')
+        end
+      end
+    end
+  end
+
+  describe 'GET /accounts/{account.id}/deals/:id' do
+    let(:deal) { create(:deal, account: account, stage: stage) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/deals/#{deal.id}"
+
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      it 'shows the deal' do
+        get "/accounts/#{account.id}/deals/#{deal.id}"
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(deal.name)
+      end
+    end
+  end
 end

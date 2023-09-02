@@ -29,6 +29,7 @@ FactoryBot.define do
   factory :deal do
     account
     stage
+    contact
     name { 'Deal 1' }
   end
 end
