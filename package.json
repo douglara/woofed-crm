@@ -19,6 +19,7 @@
     "dragula": "^3.7.3",
     "flowbite": "^1.8.1",
     "lucide": "^0.263.0",
+    "motion": "^10.16.2",
     "sortablejs": "^1.15.0",
     "stimulus": "^2.0.0",
     "trix": "^1.2.0",
