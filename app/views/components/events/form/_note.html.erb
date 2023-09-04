@@ -1,3 +1,23 @@
-<div class="form-group">
-  <%= form.rich_text_area :content %>
+<div data-events-form-target="kindNote" hidden>
+  <%= form_with(model: @event, url: account_contact_events_path(current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id), namespace: 'note') do |form| %>
+    <% if @event.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@event.errors.count, "error") %> prohibited this activity kind from being saved:</h2>
+
+        <ul>
+          <% @event.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form.hidden_field :kind, value: 'note' %>
+    <%= form.hidden_field :deal_id %>
+
+    <div>
+      <%= form.rich_text_area :content %>
+      <%= form.submit 'Save', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
 </div>

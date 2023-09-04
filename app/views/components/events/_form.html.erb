@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "kind_content" do %> <% end %>
 
-<div>
+<div data-controller="events-form">
   <div class="border-b-2 border-light-palette-p3 w-full h-full">
     <div class="flex flex-nowrap pb-3 px-3">
       <h2 class="text-lg w-fit">Ações</h2>
@@ -8,7 +8,7 @@
         <div class="mx-auto">
           <div class="flex space-x-2.5">
             <!-- Icone atividade -->
-            <a href="#" class="transition delay-100 duration-100 group pr-0.5 h-10 flex items-center text-sm text-gray-900 dark:placeholder-gray-400 hover:no-underline">
+            <a data-action="click->events-form#selectActivity" class="transition delay-100 duration-100 group pr-0.5 h-10 flex items-center text-sm text-gray-900 dark:placeholder-gray-400 hover:no-underline">
               <div class="transition delay-100 duration-100 px-2 rounded-l-lg border-y border-l border-light-palette-p3 flex items-center text-sm bg-light-palette-p4 dark:text-gray-400 group-hover:bg-brand-palette-07 group-hover:border-brand-palette-07 h-full w-full">
                 <i data-lucide="clipboard-list" class="transition delay-100 duration-100 h-3.5 text-gray-pallete-p3 group-hover:text-brand-palette-03"></i>
               </div>
@@ -17,7 +17,7 @@
               </div>
             </a>
             <!-- Icone nota -->
-            <a href="#" class="transition delay-100 duration-100 group pr-0.5 h-10 flex items-center text-sm text-gray-900 dark:placeholder-gray-400 hover:no-underline">
+            <a data-action="click->events-form#selectNote" class="transition delay-100 duration-100 group pr-0.5 h-10 flex items-center text-sm text-gray-900 dark:placeholder-gray-400 hover:no-underline">
               <div class="transition delay-100 duration-100 px-2 rounded-l-lg border-y border-l border-light-palette-p3 flex items-center text-sm bg-light-palette-p4 dark:text-gray-400 group-hover:bg-brand-palette-07 group-hover:border-brand-palette-07 h-full w-full">
                 <i data-lucide="menu-square" class="transition delay-100 duration-100 h-3.5 text-gray-pallete-p3 group-hover:text-brand-palette-03"></i>
               </div>
@@ -55,8 +55,8 @@
       </div>
     </div>
   </div>
-  <div class="flex justify-center items-center text-center">
-    <div>
+  <div class="flex justify-center py-5">
+    <div class="items-center text-center"data-events-form-target="kindNone">
       <div class="flex justify-center items-center flex-col mt-4">
         <div class="border-2 rounded-md flex justify-center items-center text-center w-11 h-11 border-brand-palette-07 bg-brand-palette-08">
           <i data-lucide="layout-grid" class="text-brand-palette-03"></i>
@@ -68,5 +68,8 @@
         <p></p>
       </div>
     </div>
+
+    <%= render "components/events/form/note" %>
+    <%= render "components/events/form/activity" %>
   </div>
 </div>
