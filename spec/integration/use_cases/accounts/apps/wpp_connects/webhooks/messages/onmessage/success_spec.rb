@@ -4,9 +4,9 @@ RSpec.describe Accounts::Apps::WppConnects::Webhooks::Messages::Onmessage, type:
   describe 'success' do
     let(:account) { create(:account) }
     let(:wpp_connect) { create(:apps_wpp_connect)}
-    let(:contact_response) { File.read("spec/integration/user_cases/accounts/apps/wpp_connects/webhooks/messages/onmessage/contact_response.json") }
+    let(:contact_response) { File.read("spec/integration/use_cases/accounts/apps/wpp_connects/webhooks/messages/onmessage/contact_response.json") }
 
-    let(:event) { File.read("spec/integration/user_cases/accounts/apps/wpp_connects/webhooks/messages/onmessage/valid_event.json") }
+    let(:event) { File.read("spec/integration/use_cases/accounts/apps/wpp_connects/webhooks/messages/onmessage/valid_event.json") }
 
     it do
       stub_request(:any, /contact/).

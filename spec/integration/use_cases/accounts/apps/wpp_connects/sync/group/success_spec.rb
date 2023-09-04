@@ -4,7 +4,7 @@ RSpec.describe Accounts::Apps::WppConnects::Sync::Group, type: :request do
   describe 'success' do
     let(:account) { create(:account) }
     let(:wpp_connect) { create(:apps_wpp_connect)}
-    let(:event) { File.read("spec/integration/user_cases/accounts/apps/wpp_connects/sync/group/valid_event.json") }
+    let(:event) { File.read("spec/integration/use_cases/accounts/apps/wpp_connects/sync/group/valid_event.json") }
 
     it do
       stub_request(:any, /all-groups/).
