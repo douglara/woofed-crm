@@ -1,4 +1,4 @@
-<div data-events-form-target="kindActivity" hidden>
+<div data-events-form-target="kindActivity" hidden class="h-full w-full">
   <%= form_with(model: @event, url: account_contact_events_path(current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id), namespace: 'activity') do |form| %>
     <% if @event.errors.any? %>
       <div id="error_explanation">
@@ -15,16 +15,29 @@
     <%= form.hidden_field :kind, value: 'activity' %>
     <%= form.hidden_field :deal_id %>
 
+    <div class="p-3 mt-4">
+      <%= form.label :title, 'Tipo', class:'py-1' %>
+      <%= form.text_field :title, class: 'woo-input w-full' %>
+    </div>
 
-      <div class="form-group">
-        <%= form.label "Agendar" %>
-        <%= form.text_field :due, class: 'form-control', type: 'datetime-local' %>
+    <div class="border-t border-light-palette-p3 p-3 mt-4">
+      <%= form.label :content, 'Descrição', class:'py-2' %>
+      <%= form.rich_text_area :content, class: 'woo-input' %>
+    </div>
+
+    <div class="border-t border-light-palette-p3 p-3 mt-4">
+      <%= form.label "Agendar" %>
+      <%= form.text_field :due, class: 'woo-input w-full', type: 'datetime-local' %>
+    </div>
+
+    <div class="flex flex-row-reverse border-t border-light-palette-p3 p-3 mt-4">
+      <%= form.submit 'Confirmar', class: 'h-10 rounded-md border-light-palette-p3 bg-brand-palette-03 text-light-palette-p5 px-3' %>
+
+      <input type="button" value="Cancelar" data-action="click->events-form#selectNone" class="h-10 rounded-md border border-gray-pallete-p3 bg-light-palette-p5 text-gray-pallete-p3 px-3 mx-2">
+      <div class="mr-auto flex items-center">
+        <%= form.check_box :done, class: 'rounded text-brand-palette-03' %>
+        <%= form.label :done, "Marcar atividade como feita", class: 'px-3 m-0' %>
       </div>
-
-      <div class="form-group">
-        <%= form.rich_text_area :content %>
-      </div>
-
-      <%= form.submit 'Save', class: 'btn btn-primary' %>
+    </div>
   <% end %>
 </div>
