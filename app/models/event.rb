@@ -12,6 +12,7 @@
 #  from_me               :boolean
 #  kind                  :string           default("note"), not null
 #  status                :integer
+#  title                 :string           default(""), not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :bigint           not null
