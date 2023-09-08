@@ -119,4 +119,12 @@ class Event < ApplicationRecord
       'from-contacts'
     end
   end
+
+  def scheduled_kind
+    if self.done == true
+      return 'done'
+    else
+      return 'scheduled'
+    end
+  end
 end
