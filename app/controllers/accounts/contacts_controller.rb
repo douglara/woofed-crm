@@ -32,6 +32,20 @@ class Accounts::ContactsController < InternalController
   def edit
   end
 
+  def edit_custom_attributes
+    @contact = current_user.account.contacts.find(params[:contact_id])
+    @custom_attribute_definitions = current_user.account.custom_attribute_definitions.contact_attribute
+  end
+
+  def update_custom_attributes
+    @contact = current_user.account.contacts.find(params[:contact_id])
+    @contact.custom_attributes[params[:contact][:att_key]] = params[:contact][:att_value]
+
+    unless @contact.save
+      render :edit_custom_attributes, status: :unprocessable_entity
+    end
+  end
+
   # POST /contacts or /contacts.json
   def create
     @contact = current_user.account.contacts.new(contact_params)
@@ -45,13 +59,10 @@ class Accounts::ContactsController < InternalController
 
   # PATCH/PUT /contacts/1 or /contacts/1.json
   def update
-    respond_to do |format|
-      if @contact.update(contact_params)
-        redirect_to account_contact_path(current_user.account, @contact), notice: "Contact was successfully updated."
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @contact.errors, status: :unprocessable_entity }
-      end
+    if @contact.update(contact_params)
+      render :update, status: :ok
+    else
+      render :edit, status: :unprocessable_entity 
     end
   end
 

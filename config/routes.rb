@@ -25,6 +25,8 @@ Rails.application.routes.draw do
       # end
       resources :contacts do
         get 'search', to: 'contacts#search', on: :collection
+        get 'edit_custom_attributes'
+        patch 'update_custom_attributes'
         resources :notes, module: :contacts
         resources :events, module: :contacts do
         end
@@ -56,6 +58,8 @@ Rails.application.routes.draw do
         post 'commit_add_contact'
         delete 'remove_contact'
         get 'new_select_contact', on: :collection
+        get 'edit_custom_attributes'
+        patch 'update_custom_attributes'
         resources :activities, module: :deals
         resources :flow_items, only: [:destroy], module: :deals
       end

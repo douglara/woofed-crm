@@ -1,21 +1,211 @@
+<%= stylesheet_link_tag "detail-form", media: 'all' %>
+
+<%# Menu Edit deals %>
+
 <div>
-  <div class="card card-primary">
-    <div class="card-header">
-      <h4>Details</h4>
+  <div class="bg-light-palette-p4 rounded-md">
+    <div class="flex p-2">
+      <p class="mt-2 px-3 font-semibold text-lg mr-auto">Negócio</p>
+      <a class="mt-2 border-r-2 h-5 pr-2" href="#">Salvar alterações</a>
+      <a class="mt-2 pl-4 mr-2" href="#">X</a>
     </div>
-    <div class="card-body">
-      <%= form_with(model: @deal, url: account_deal_path(current_user.account), role:"form", class:"needs-validation") do |f| %>
-        <div class="form-group">
-          <%= f.label :name %><br />
-          <%= f.text_field :name, autofocus: true, class: "form-control" %>
+    <div class="pb-3">
+      <div class="mx-3 pb-2">
+        <div class="flex items-center">
+          <label class="flex-none m-auto">Valor</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <input class="w-48 rounded-md border-light-palette-p2 bg-light-palette-p3" placeholder="R$ 0,00" type="text">
         </div>
-
-        <%= render 'accounts/custom_attributes', m: @deal, f: f %>
-
-        <div class="card-footer text-right">
-          <%= f.submit 'Update', class: 'btn btn-primary' %>
+        <div class="flex items-center mt-2">
+          <label>Idade do negócio</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <input class="rounded-md w-48 border-light-palette-p2 bg-light-palette-p3" type="text" placeholder="Idade">
         </div>
-      <% end %>
+        <div class="flex items-center mt-2">
+          <label>Etiqueta</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <input class="rounded-md w-48 border-light-palette-p2 bg-light-palette-p3" type="text" value="Select">
+        </div>
+        <div class="flex items-center mt-2">
+          <label>Probabilidade</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <input class="rounded-md w-48 border-light-palette-p2 bg-light-palette-p3" type="text" value="Definir">
+        </div>
+        <div class="flex items-center mt-2">
+          <label>Responsavel</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <input class="rounded-md w-48 border-light-palette-p2 bg-light-palette-p3" type="text" placeholder="Nome">
+        </div>
+        <div class="flex items-center mt-2">
+          <label>Organização</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <input class="rounded-md w-48 border-light-palette-p2 bg-light-palette-p3" type="text" placeholder="Vínculo imóveis">
+        </div>
+        <div class="flex items-center mt-2">
+          <label>CNPJ</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <input class="rounded-md w-48 border-light-palette-p2 bg-light-palette-p3 " type="text" placeholder="00.000.000/0000-00">
+        </div>
+        <div class="flex items-center mt-2">
+          <label>Link</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <input class="rounded-md w-48 border-light-palette-p2 bg-light-palette-p3 h-12" type="text" placeholder="https://seulink">
+        </div>
+      </div>
+      <div class="mx-3 border-t-2 border-light-palette-p3 py-2">
+        <div class="flex items-center mt-2">
+          <label class="flex-grow">Adicionar campos</label>
+          <a class="rounded-md w-48 border-light-palette-p2 bg-light-palette-p3 h-12 d-flex align-items-center justify-content-center text-dark-gray-palette-p3 hover:text-dark-gray-palette-p3">
+            <i data-lucide="plus" height="18" class="text-red"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="bg-light-palette-p4 rounded-md">
+    <div class="flex p-2">
+      <p class="mt-2 px-3 font-semibold text-lg mr-auto">Negócio</p>
+      <a class="mt-2 border-r-2 h-5 pr-2" href="#">
+        <i data-lucide="pencil" height="18" class="text-red"></i>
+      </a>
+      <a class="mt-2 pl-4 mr-2" href="#">X</a>
+    </div>
+    <div class="pb-3">
+      <div class="mx-3 py-3">
+        <div class="flex items-center">
+          <label class="flex-none m-auto">Valor</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <p>R$ 0,00</p>
+        </div>
+        <div class="flex items-center">
+          <label>Idade do negócio</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <p>15 dias</p>
+        </div>
+        <div class="flex items-center">
+          <label>Etiqueta</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <a href="#">Definir</a>
+        </div>
+        <div class="flex items-center">
+          <label>Probabilidade</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <a href="#">Definir</a>
+        </div>
+        <div class="flex items-center">
+          <label>Responsavel</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <p>Nome</p>
+        </div>
+        <div class="flex items-center">
+          <label>Organização</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <p>Vínculo Imóveis</p>
+        </div>
+        <div class="flex items-center">
+          <label>CNPJ</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <p>00.000.000/0000-00</p>
+        </div>
+        <div class="flex items-center">
+          <label>Link</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <a href="#">Site da Empresa</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%# Menu people %>
+
+<div>
+  <div class="bg-light-palette-p4 rounded-md">
+    <div class="flex p-2">
+      <p class="mt-2 px-3 font-semibold text-lg mr-auto">Pessoa</p>
+      <a class="mt-2 border-r-2 h-5 pr-2" href="#">Salvar alterações</a>
+      <a class="mt-2 pl-4 mr-2" href="#">X</a>
+    </div>
+    <div class="pb-3">
+      <div class="mx-3 pb-2">
+        <div class="flex items-center">
+          <label class="flex-none m-auto">Nome</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <input class="w-48 rounded-md border-light-palette-p2 bg-light-palette-p3" type="text" placeholder="Nome Completo" >
+        </div>
+        <div class="flex items-center mt-2">
+          <label>Email</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <input class="rounded-md w-48 border-light-palette-p2 bg-light-palette-p3" type="text" placeholder="email@exemplo.com">
+        </div>
+        <div class="flex items-center mt-2">
+          <label>Telefone</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <input class="rounded-md w-48 border-light-palette-p2 bg-light-palette-p3" type="text" placeholder="(99) 9999-9999">
+        </div>
+        <div class="flex items-center mt-2">
+          <label>Profisão</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <input class="rounded-md w-48 border-light-palette-p2 bg-light-palette-p3" type="text" placeholder="Profisão">
+        </div>
+        <div class="flex items-center mt-2">
+          <label>Renda</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <input class="rounded-md w-48 border-light-palette-p2 bg-light-palette-p3 " type="text" placeholder="0.000,00">
+        </div>
+      </div>
+      <div class="mx-3 border-t-2 border-light-palette-p3 py-2">
+        <div class="flex items-center mt-2">
+          <label class="flex-grow">Adicionar campos</label>
+          <a class="rounded-md w-48 border-light-palette-p2 bg-light-palette-p3 h-12 d-flex align-items-center justify-content-center text-dark-gray-palette-p3 hover:text-dark-gray-palette-p3">
+            <i data-lucide="plus" height="18" class="text-red"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="bg-light-palette-p4 rounded-md">
+    <div class="flex p-2">
+      <p class="mt-2 px-3 font-semibold text-lg mr-auto">Pessoas</p>
+      <a class="mt-2 border-r-2 h-5 pr-2" href="#">
+        <i data-lucide="pencil" height="18" class="text-red"></i>
+      </a>
+      <a class="mt-2 pl-4 mr-2" href="#">X</a>
+    </div>
+    <div class="pb-3">
+      <div class="mx-3 py-3">
+        <div class="flex items-center">
+          <label class="flex-none m-auto">Nome</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <p>Brenno Guedes</p>
+        </div>
+        <div class="flex items-center">
+          <label>Email</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <p>exemplo@email.com</p>
+        </div>
+        <div class="flex items-center">
+          <label>Telefone</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <p>(83) 9 9999-9999</p>
+        </div>
+        <div class="flex items-center">
+          <label>Profisão</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <p>UI Designer</p>
+        </div>
+        <div class="flex items-center">
+          <label>Renda</label>
+          <div class="bg-light-palette-p3 flex-auto rounded-md h-0.5 mx-2"></div>
+          <p>5.000,00</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

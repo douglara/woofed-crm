@@ -1,3 +1,3 @@
-<h1>Editing Deal</h1>
-
-<%= render 'form', deal: @deal %>
+<%= turbo_frame_tag "form_deal_#{@deal.id}" do %>
+  <%= render "/accounts/deals/details/edit", model: @deal, model_name: 'Negócio', update_path: account_deal_path(current_user.account, @deal) %>
+<% end %>

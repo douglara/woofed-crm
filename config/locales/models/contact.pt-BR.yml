@@ -6,5 +6,5 @@ pt-BR:
         other: Contatos
     attributes:
       contact:
-        name: Nome
+        full_name: Nome completo
         phone: Telefone (celular)

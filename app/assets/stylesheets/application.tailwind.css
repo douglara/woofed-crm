@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer components {
+  .woo-input {
+    @apply rounded-md border-light-palette-p2 bg-light-palette-p4
+  }
   .event-item-from-me {
     @apply flex-row-reverse flex pb-3;
   }

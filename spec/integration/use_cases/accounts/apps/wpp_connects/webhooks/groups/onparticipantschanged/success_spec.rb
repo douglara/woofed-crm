@@ -4,9 +4,9 @@ RSpec.describe Accounts::Apps::WppConnects::Webhooks::Groups::Onparticipantschan
   describe 'success' do
     let(:account) { create(:account) }
     let(:wpp_connect) { create(:apps_wpp_connect)}
-    let(:groups_response) { File.read("spec/integration/user_cases/accounts/apps/wpp_connects/sync/group/valid_event.json") }
+    let(:groups_response) { File.read("spec/integration/use_cases/accounts/apps/wpp_connects/sync/group/valid_event.json") }
 
-    let(:event) { File.read("spec/integration/user_cases/accounts/apps/wpp_connects/webhooks/groups/onparticipantschanged/valid_event.json") }
+    let(:event) { File.read("spec/integration/use_cases/accounts/apps/wpp_connects/webhooks/groups/onparticipantschanged/valid_event.json") }
 
     it do
       stub_request(:any, /all-groups/).
