@@ -24,7 +24,7 @@
         </div>
       </a>
       <!-- Icone WhatsApp -->
-      <a href="#" class="transition delay-100 duration-100 group pr-0.5 h-10 flex items-center text-sm text-gray-900  hover:no-underline">
+      <a data-action="click->events-form#selectWppConnect" class="transition delay-100 duration-100 group pr-0.5 h-10 flex items-center text-sm text-gray-900  hover:no-underline">
         <div class="w-14 h-10 transition delay-100 duration-100 px-2 rounded-l-lg border-y border-l border-light-palette-p3 flex items-center text-sm bg-light-palette-p4 group-hover:bg-brand-palette-07 group-hover:border-brand-palette-07 group-[.btn-active]:bg-light-palette-p5">
           <%= embedded_svg('icon-whtass.svg', class:"transition delay-100 duration-100 h-3.5 fill-gray-pallete-p3 mx-auto group-hover:fill-brand-palette-03") %>  
         </div>
@@ -66,5 +66,6 @@
 
     <%= render "components/events/form/note" %>
     <%= render "components/events/form/activity" %>
+    <%= render "components/events/form/wpp_connect_message", event: @event, deal: @deal %>
   </div>
 </div>
