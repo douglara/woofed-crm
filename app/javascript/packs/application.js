@@ -51,3 +51,10 @@ $(document).on("turbo:render", function (e) {
   lucide.createIcons();
   load_stisla_scripts();
 })
+
+$(document).on("turbo:frame-render", function (e) {
+  initFlowbite();
+  lucide.createIcons();
+  load_stisla_scripts();
+})
+

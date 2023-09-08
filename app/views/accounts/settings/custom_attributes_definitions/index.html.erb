@@ -18,11 +18,15 @@
             </div>
           </form>
           <div class="dropdown ml-5 mr-5">
-            <a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown">Actions</a>
+            <%= link_to new_account_custom_attributes_definition_path(current_user.account), class: 'dropdown-toggle btn btn-primary' do %>
+              <i class="fas fa-plus"></i> New
+            <% end %>
+            <%
+=begin%>
+ <a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown">Actions</a> 
+<%
+=end%>
             <div class="dropdown-menu dropdown-menu-right">
-              <%= link_to new_account_custom_attributes_definition_path(current_user.account), class: 'dropdown-item has-icon' do %>
-                <i class="fas fa-plus"></i> New
-              <% end %>
             </div>
           </div>
           </div>

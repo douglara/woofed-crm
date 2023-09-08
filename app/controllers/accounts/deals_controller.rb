@@ -76,6 +76,22 @@ class Accounts::DealsController < InternalController
   def edit
   end
 
+  def edit_custom_attributes
+    @deal = current_user.account.deals.find(params[:deal_id])
+    @custom_attribute_definitions = current_user.account.custom_attribute_definitions.deal_attribute
+  end
+
+  def update_custom_attributes
+    @deal = current_user.account.deals.find(params[:deal_id])
+    @deal.custom_attributes[params[:deal][:att_key]] = params[:deal][:att_value]
+
+    if @deal.save
+      redirect_to account_deal_path(current_user.account, @deal)
+    else
+      render :edit_custom_attributes, status: :unprocessable_entity
+    end
+  end
+
   # POST /deals or /deals.json
   def create
     @deal = current_user.account.deals.new(deal_params)

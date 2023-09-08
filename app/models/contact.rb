@@ -22,6 +22,7 @@
 class Contact < ApplicationRecord
   include Labelable
   include ChatwootLabels
+  include CustomAttributes
 
   validates :full_name, presence: true
   has_many :flow_items
@@ -34,6 +35,8 @@ class Contact < ApplicationRecord
   def connected_with_chatwoot?
     additional_attributes['chatwoot_id'].present?
   end
+
+  FORM_FIELDS = [:full_name, :email, :phone]
 
   ## Events
 

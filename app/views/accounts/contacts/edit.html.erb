@@ -1,15 +1,7 @@
-<section class="section">
-  <div class="section-header">
-    <h1><%= @contact.full_name %></h1>
-  </div>
-
-  <div class="section-body">
-    <div class="card">
-      <div class="card-body">
-        <div class="col-lg-5 container">
-          <%= render 'form', contact: @contact %>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<%= turbo_frame_tag "form_contact_#{@contact.id}" do %>
+  <%= render "/accounts/deals/details/edit",
+  model: @contact,
+  model_name: 'Contato',
+  update_path: account_contact_path(current_user.account, @contact)
+   %>
+<% end %>

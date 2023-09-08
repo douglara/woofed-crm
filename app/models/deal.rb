@@ -27,6 +27,7 @@
 #
 class Deal < ApplicationRecord
   include Deal::Decorators
+  include CustomAttributes
 
   belongs_to :contact
   belongs_to :account
@@ -52,6 +53,8 @@ class Deal < ApplicationRecord
   # accepts_nested_attributes_for :contacts_deals
 
   enum status: { 'open': 'open', 'won': 'won', 'lost': 'lost' }
+
+  FORM_FIELDS = [:name]
 
   before_validation do
     # if self.contact_main.blank?
@@ -100,8 +103,6 @@ class Deal < ApplicationRecord
     custom_fields = CustomAttributeDefinition.where(account_id: account_id, attribute_model: 'deal_attribute').map { | i | "custom_attributes.#{i.attribute_key}" }
     self.column_names.excluding('account_id','created_at', 'updated_at', 'id', 'custom_attributes' ) + custom_fields
   end
-
-
 
   ## Events
 
