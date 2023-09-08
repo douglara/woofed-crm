@@ -95,16 +95,14 @@ class Accounts::DealsController < InternalController
   # POST /deals or /deals.json
   def create
     @deal = current_user.account.deals.new(deal_params)
+    @deal.contact.account = @deal.account
+
     # @deal = DealBuilder.new(current_user, deal_params).perform
 
-    respond_to do |format|
-      if @deal.save
-        format.html { redirect_to account_deal_path(current_user.account, @deal), notice: "Deal was successfully created." }
-        format.json { render :show, status: :created, location: @deal }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @deal.errors, status: :unprocessable_entity }
-      end
+    if @deal.save
+      redirect_to account_deal_path(current_user.account, @deal)
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
