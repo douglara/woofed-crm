@@ -3,9 +3,5 @@
   <div class="border-t border-light-palette-p3"></div>
   <%= render "/accounts/deals/details/show", model: @deal.contact, model_name: 'Contato', edit_path: edit_account_contact_path(current_user.account, @deal.contact) %>
 
-  <%
-=begin%>
- <%= render 'contacts' %> 
-<%
-=end%>
+  <%# render 'contacts' %>
 </div>

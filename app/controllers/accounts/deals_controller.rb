@@ -125,14 +125,10 @@ class Accounts::DealsController < InternalController
 
   # PATCH/PUT /deals/1 or /deals/1.json
   def update
-    respond_to do |format|
-      if @deal.update(deal_params)
-        format.html { redirect_to account_deal_path(current_user.account, @deal), notice: "Deal was successfully updated." }
-        format.json { render json: @deal, status: :ok }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @deal.errors, status: :unprocessable_entity }
-      end
+    if @deal.update(deal_params)
+      redirect_to account_deal_path(current_user.account, @deal)
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
