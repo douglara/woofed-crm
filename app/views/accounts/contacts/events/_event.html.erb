@@ -4,10 +4,15 @@
       <div class="border-b-2 border-neutral-100 bg-light-palette-p4 px-3 py-2 flex items-center">
         <% if event.done != nil %>
           <%= form_with(model: event, url: account_contact_event_path(event.account, event.contact, event, deal_id: event.deal.id), data: { turbo_frame: "events_#{event.contact.id}" }) do |form| %>
-            <div class="mr-3">
+            <div class="mr-3 group-[.event-item-from-contacts]:hidden">
               <%= form.check_box :done, class: 'w-7 h-7 text-blue-600 rounded-full border-light-palette-p2 focus:ring-transparent', onclick: 'this.form.querySelector(".check-submit").click()' %>
               <%= form.submit class: 'check-submit', hidden: true %>
             </div>
+  
+            <div class="flex items-center rounded-full border-light-palette-p3 border h-8 w-8 mr-3 bg-light-palette-p5 group-[.event-item-from-me]:hidden">
+              <i class="m-auto text-auxiliary-palette-blue" data-lucide="user" height="20"></i>
+            </div>
+
           <% end %>
         <% end %>
         <div class="flex-grow py-1">
@@ -16,7 +21,7 @@
             <i class="<%= event.icon_key %> mx-2" height="14"></i>
           </span>
           <% if event.due.present? %>
-            <span class="m-0 text-brand-palette-04 group-[.event-scheduled]:font-semibold">Prazo: <%= event.primary_date %></span>
+            <span class="m-0 text-brand-palette-04 group-[.event-scheduled]:font-semibold group-[.event-item-from-contacts]:text-dark-gray-palette-p4">Prazo: <%= event.primary_date %></span>
           <% else %>
             <p class="m-0"><%= event.primary_date %></p>
           <% end %>
