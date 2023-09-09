@@ -43,8 +43,15 @@ class Event < ApplicationRecord
   has_rich_text :content
 
   after_create_commit {
-    broadcast_append_to [contact_id, 'events'],
-    partial: "accounts/contacts/events/event"
+    if self.done == false
+      broadcast_prepend_to [contact_id, 'events'],
+      partial: "accounts/contacts/events/event",
+      target: "events_planned_#{contact.id}"
+    else
+      broadcast_prepend_to [contact_id, 'events'],
+      partial: "accounts/contacts/events/event",
+      target: "events_not_planned_or_done_#{contact.id}"
+    end
 
     Accounts::Contacts::Events::CreatedWorker.perform_async(self.id)
   }
@@ -58,6 +65,10 @@ class Event < ApplicationRecord
     where(done: false)
   }
 
+  scope :not_planned_or_done, -> {
+    where('done IS NULL or done = true')
+  }
+
   enum kind: {
     'note': 'note',
     'wpp_connect_message': 'wpp_connect_message',
@@ -65,6 +76,12 @@ class Event < ApplicationRecord
     'activity': 'activity',
     'chatwoot_message': 'chatwoot_message',
   }
+
+  before_validation do
+    if self.due.present? && self.done == nil
+      self.done = false
+    end
+  end
 
   def icon_key
     if kind == 'note'
@@ -85,5 +102,29 @@ class Event < ApplicationRecord
   def overdue?
     return false if self.done == true || due.blank?
     DateTime.current > due
+  end
+
+  def primary_date
+    if due.present?
+      return due_format
+    else
+      return created_at.to_s(:short)
+    end
+  end
+
+  def from
+    if from_me == true
+      'from-me'
+    else
+      'from-contacts'
+    end
+  end
+
+  def scheduled_kind
+    if self.done == true
+      return 'done'
+    else
+      return 'scheduled'
+    end
   end
 end

@@ -1,0 +1,27 @@
+<% header = capture do %>
+
+  <div class="mr-3">
+   <% unless event.done.blank? %>
+    <input id="default-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 rounded">
+   <% end %>
+  </div>
+  <div class="flex-grow h-12">
+    <span class="m-0 text-dark-gray-palette-p1 flex flex-grow">
+      <% if event.kind == 'note' %>
+        Nota adicionada <i data-lucide="sticky-note" class="my-auto mx-1" height="14"></i>
+      <% end %>
+    </span>
+   <p class="m-0"><%= event.primary_date %> </p>
+  </div>
+  <div class="mb-auto">
+    <a>
+      <i data-lucide="more-horizontal" height="20"></i>
+    </a>
+  </div>
+<% end %>
+
+<% content = capture do %>
+  <%= event.content %>
+<% end %>
+
+<%= render 'accounts/contacts/events/card', :header => header, :content => content %>

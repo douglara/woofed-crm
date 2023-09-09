@@ -39,7 +39,13 @@
   <div class="row">
     <%= render "/accounts/deals/details" %>
     <div class="col-8 pl-0">
-      <%= render "/accounts/contacts/events/events", deal: @deal, events: @events %>
+      <div class="mx-2 mb-2">
+        <%= turbo_frame_tag "new-event-form", src: new_account_contact_event_path(account_id: current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id) %>
+      </div>
+
+      <div class="mt-4">
+        <%= render "/accounts/contacts/events/events", deal: @deal, events: @events %>
+      </div>
     </div>
   </div>
 </section>

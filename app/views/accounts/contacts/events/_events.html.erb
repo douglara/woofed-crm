@@ -1,45 +1,73 @@
-<%= turbo_stream_from @deal.contact.id, 'events' %>
+<%= turbo_frame_tag "events_#{@deal.contact.id}" do %>
+  <%= turbo_stream_from @deal.contact.id, 'events' %>
 
-
-
-    <%
-=begin%>
- <div>
-      <header class="text-center m-3">
-        <span class="badge badge-light">Planned</span>
-      </header>
-      <div class="activities">
-        <% events.planned.each do | event | %>
-          <%= render "/accounts/contacts/events/event", event: event %>
-        <% end %>
-      </div>
-    </div> 
-<%
-=end%>
-
-    <div>
-      <%
-=begin%>
- <header class="text-center m-3">
-        <span class="badge badge-light">Done</span>
-      </header> 
-<%
-=end%>
-
-      
-        <div class="col-12">
-          <div class="card chat-box">
-            <div class="card-body chat-content">
-            <%= turbo_frame_tag 'events' do %>
-              <%= render partial: 'accounts/contacts/events/event', collection: events %>
-            <% end %>
-          </div>
-
-          <div class="card-footer">
-            <div>
-            </div>
-          </div>
-            <%= turbo_frame_tag "new-event-form", src: new_account_contact_event_path(account_id: current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id) %>
-        </div>
-     
+  <div class="bg-light-palette-p5 border-2 border-neutral-150 border-light-palette-p3 rounded mx-2 ">
+    <div class="border-b-2 border-neutral-100 h-16 flex items-center p-3">
+      <p class="my-auto text-gray-palette-p-1 font-semibold text-lg">Histórico</p>
     </div>
+    <div class="p-3">
+      
+        <div class="border-b pb-6">
+          <div class="my-2">
+            <span class="text-brand-palette-03 background-transparent font-semibold text-sm flex items-center">
+              <i data-lucide="calendar" height="18" class="mr-2"></i> Agendado
+            </span>
+          </div>
+          <%= turbo_frame_tag "events_planned_#{@deal.contact.id}" do %>
+            <%= render partial: 'accounts/contacts/events/event', collection: @deal.events.planned %>
+          <% end %>
+        </div>
+
+        <div class="">
+          <div>
+            <span class="py-4 text-auxiliary-palette-green background-transparent font-semibold text-sm flex items-center">
+              <i data-lucide="check-circle-2" height="18" class="mr-2"></i> Concluído
+            </span>
+          </div>
+            <%= turbo_frame_tag "events_not_planned_or_done_#{@deal.contact.id}" do %>
+              <%= render partial: 'accounts/contacts/events/event', collection: @deal.events.not_planned_or_done, data: { target: 'not_planned_or_done' }%>
+            <% end %>
+        </div>
+    </div>
+  </div>
+<% end %>
+
+
+
+<!-- Frontend -->
+
+<%
+
+=begin%>
+ <div class="flex my-3">
+  <div class="block rounded-lg bg-white border border-light-palette-p3 rounded dark:bg-neutral-700">
+    <div class="border-b-2 border-neutral-100 bg-light-palette-p4 px-3 py-2 flex items-center">
+      <div class="mr-3">
+        <input id="default-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 rounded">
+      </div>
+      <div class="flex-grow">
+        <p class="m-0 text-dark-gray-palette-p1">Nome da atividade</p>
+        <p class="m-0 text-brand-palette-04">Prazo: 30/06 às 16:00</p>
+      </div>
+      <div class="mb-auto">
+        <a>
+          <i data-lucide="more-horizontal" height="20"></i>
+        </a>
+      </div>
+    </div>
+    <div class="p-6">
+      <p class="m-0">Vel pulvinar est sem dictum elit amet sed iaculis. Gravida sit nulla pellentesque eget interdum</p>
+    </div>
+  </div>
+</div>
+        
+
+<div class="my-4 flex items-center justify-center">
+  <span class="p-2 px-3 font-semibold inline-block py-1 px-2 rounded-full bg-brand-palette-08 last:mr-0 mr-1">
+    O negócio foi movido da etapa proposta enviada para a a etapa reuni...
+  </span>
+</div> 
+<%
+=end
+
+%>

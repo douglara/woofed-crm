@@ -17,12 +17,11 @@
               </div>
             </div>
           </form>
-          <div class="dropdown ml-5 mr-5">
-            <a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown">Actions</a>
+          <div class="dropdown ml-5 mr-5">           
+            <%= link_to new_account_apps_wpp_connect_path(current_user.account), class: 'dropdown-toggle btn btn-primary' do %>
+              <i class="fas fa-plus"></i> New
+            <% end %>
             <div class="dropdown-menu dropdown-menu-right">
-              <%= link_to new_account_apps_wpp_connect_path(current_user.account), class: 'dropdown-item has-icon' do %>
-                <i class="fas fa-plus"></i> New
-              <% end %>
             </div>
           </div>
           </div>

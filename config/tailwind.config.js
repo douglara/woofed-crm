@@ -56,5 +56,9 @@ module.exports = {
     require('@tailwindcss/typography'),
     require('@tailwindcss/container-queries'),
     require('flowbite/plugin'),
+  ],
+  safelist: [
+    'event-item-from-me',
+    'event-from-contacts',
   ]
 }
