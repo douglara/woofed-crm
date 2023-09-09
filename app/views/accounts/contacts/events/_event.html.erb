@@ -3,7 +3,7 @@
     <div class="w-3/4 block rounded-lg bg-white border border-light-palette-p3 rounded dark:bg-neutral-700">
       <div class="border-b-2 border-neutral-100 bg-light-palette-p4 px-3 py-2 flex items-center">
         <% if event.done != nil %>
-          <%= form_with(model: event, url: account_contact_event_path(event.account, event.contact, event, deal_id: event.deal.id), data: { turbo_frame: "events_#{event.contact.id}" }) do |form| %>
+          <%= form_with(model: event, url: account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id), data: { turbo_frame: "events_#{event.contact.id}" }) do |form| %>
             <div class="mr-3 group-[.event-item-from-contacts]:hidden">
               <%= form.check_box :done, class: 'w-7 h-7 text-blue-600 rounded-full border-light-palette-p2 focus:ring-transparent', onclick: 'this.form.querySelector(".check-submit").click()' %>
               <%= form.submit class: 'check-submit', hidden: true %>
