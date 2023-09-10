@@ -39,7 +39,9 @@ export default class extends Controller {
   selectNone() {
     const elementToInactive = this.formsTarget.querySelector("div[data-events-form-target]:not([hidden])")
     const elementToActive = this.kindNoneTarget
+    const btnActive = this.element.querySelector(".btn-active")
     this.changeForm(elementToActive, elementToInactive)
+    btnActive.classList.remove('btn-active')
   }
 
   changeBtn(btnToActive) {
@@ -50,8 +52,60 @@ export default class extends Controller {
     catch { }
     btnToActive.classList.add('btn-active')
   }
-
+  
   changeForm(elementToActive, elementToInactive) {
+    this.animationBlurAndMove(elementToActive, elementToInactive)
+  }
+
+  animationUpDown(elementToActive, elementToInactive) {
+    try {
+      const elementToInactiveHeight = elementToInactive.offsetHeight
+      animate(
+        elementToInactive,
+        { height:0, y: [0, -elementToInactiveHeight], opacity: [1, 0]},
+        { duration: 0.2 }
+      ).finished.then(() => {
+      
+        elementToInactive.classList.remove('events-form-active')
+        elementToInactive.hidden = true
+        animate(elementToInactive, { height: "auto", opacity: 1 })
+
+        try {
+          elementToActive.classList.add('events-form-active')
+          elementToActive.hidden = false
+          animate(
+            elementToActive,
+            { height: [0, "auto" ], y: [-elementToInactiveHeight, 0]},
+            { duration: 0.2 }
+          )
+        } catch { }
+      })
+    } catch { }
+  }
+
+  animationBlur(elementToActive, elementToInactive) {
+    try {
+      elementToInactive.classList.remove('events-form-active')
+      elementToInactive.hidden = true
+      animate(
+        elementToInactive,
+        { filter: [ "blur(10px)", "blur(0px)"], opacity: [1, 0]},
+        { duration: 0.3 }
+      )  
+    } catch { }
+    try {
+      elementToActive.classList.add('events-form-active')
+      elementToActive.hidden = false
+      animate(
+        elementToActive,
+        { filter: [ "blur(10px)", "blur(0px)"], opacity: [0, 1]},
+        { duration: 0.3 }
+      )
+    } catch { }
+
+  }
+
+  animationBlurAndMove(elementToActive, elementToInactive) {
     try {
       elementToInactive.classList.remove('events-form-active')
       elementToInactive.hidden = true
