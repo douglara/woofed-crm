@@ -1,9 +1,24 @@
+<%= stylesheet_link_tag "components/stage", media: 'all' %>
+
 <section class="section">
   <div class="section-header mb-5">
-    
     <div class="card-body">
       <h1><%= @deal.name %></h1>
       <nav aria-label="breadcrumb" class="mt-4">
+        <div class="h-20 w-full">
+          <section class="stage-wrapper">
+            <div class="stage-item completed bg-auxiliary-palette-green">
+              <span class="arrow-right"></span>
+            </div>
+            <div class="stage-item completed">
+              <span class="arrow-right"></span>
+            </div>
+            <div class="stage-item completed">
+              <span class="arrow-right"></span>
+            </div>
+          </section>
+        </div>
+
         <ol class="breadcrumb">
           <li class="breadcrumb-item col">
             <% if @deal.status != 'lost' %>
