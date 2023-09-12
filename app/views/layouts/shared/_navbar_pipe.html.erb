@@ -1,29 +1,25 @@
 <div class="flex items-center ">
   <div class="flex flex-wrap items-center mr-4 flex-1">
-    <div class="p-2.5 border-solid border-2 border-light-palette-p3 rounded-l-md bg-brand-palette-08">
+    <div class="p-2.5 mr-[-2px] border-solid border-2 border-light-palette-p3 rounded-l-md bg-brand-palette-08">
       <div class="icon-color color-brand-palette-03">
         <%= embedded_svg('vectooor2.svg') %>
       </div>
     </div>
-
-    <select class="p-2.5 m-0 border-solid border-2 border-light-palette-p3 w-52 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04" onchange="window.location=this.value">
+    <select class="p-2.5 border-solid border-2 border-light-palette-p3 w-52 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04" onchange="window.location=this.value">
       <%= @pipelines.each do | pipeline |  %>
         <option value="<%= account_pipeline_path(current_user.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
       <% end %>
     </select>
-
-    <div class="p-2.5 border-solid border-2 border-light-palette-p3 rounded-r-md flex-1 hover:border-brand-palette-04">
-        <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline) ) do %>
-          <%= embedded_svg('pencil-icon.svg') %>
-        <% end %>
-    </div>
+      <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline), class: 'p-2.5 border-solid border-2 border-light-palette-p3 rounded-md flex-1 hover:border-brand-palette-04 ml-1' ) do %>
+        <%= embedded_svg('pencil-icon.svg') %>
+      <% end %>
   </div>
 
   <%= link_to new_select_contact_account_deals_path(current_user.account), class: 'w-32 h-10 rounded-md px-2 py-2.5 bg-brand-palette-03 text-white text-center hover:bg-brand-palette-04 hover:no-underline ' do %>
     Novo negócio
   <% end %>
 </div>
-<button type="button" class="flex border-solid border-2 border-light-palette-p3 rounded-md  p-2.5" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+<button type="button" class="flex border-solid border-2 border-light-palette-p3 rounded-md hover:bg-brand-palette-08 focus:bg-brand-palette-08 p-2.5" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
   <span class="sr-only">Open user menu</span>
   <i class="far fa-user "></i>
 </button>
