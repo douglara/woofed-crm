@@ -1,32 +1,45 @@
-<div class="flex flex-col fixed left-0 top-0 h-screen w-[12.5rem] bg-light-palette-p5 items-center" style="z-index: 999;">
-  <div class="w-full h-2 flex items-center my-3">
+<div class="flex flex-col fixed left-0 top-0 h-screen w-[12.5rem] p-3 bg-light-palette-p5 items-center z-[999]"> <%# alterar padding para p-4 após remover bootstrap %>
+  <div class="w-full h-10 flex items-center space-x-4">
+    <%# logo %>
     <div>
       <%= link_to(root_path()) do %>
-        <%= image_tag "logo.png", class: 'ml-2.5 max-w-[120px]' %>
+        <%= image_tag "logo.png", class: 'w-28' %>
       <% end %>
     </div>
-    <div>
-      <a href="#" class="px-2 py-2 text-dark-gray-palette-p3 font-bold uppercase text-sm rounded border outline-none mr-1 mt-2 ml-2" type="button">
-        <i data-lucide="menu" class="h-4 w-4"></i>
+    <%# menu %>
+    <div class="h-full ml-auto">
+      <a href="#" class="p-2 text-dark-gray-palette-p3 font-bold uppercase text-sm rounded border outline-none h-full w-10 flex items-center" type="button">
+        <i data-lucide="menu" class="m-auto p-0 w-5 h-5 flex items-center"></i>
       </a>
     </div>
   </div>
-  <li class="list-none pt-3 <%= 'active' if request.path.include?('pipelines') or request.path.include?('deal') %>">
-    <%= link_to(account_pipelines_path(current_user.account), class: 'd-flex align-items-center') do %>
-      <div class="w-5 h-5 mr-2 fill-dark-gray-palette-p3">
-        <%= embedded_svg('deals-icon.svg') %>
-      </div>
-        <span class="ml-2 text-dark-gray-palette-p3">Negócios</span>
-    <% end %>
-  </li>
-  <li class="list-none pt-3 <%= 'active' if request.path.include?('contact') or request.path.include?('contact') %>">
-    <%= link_to(account_contacts_path(current_user.account), class: 'd-flex align-items-center') do %>
-    <div class="w-6 h-6 mr-2 fill-dark-gray-palette-p3">
-      <%= embedded_svg('contacts-icon.svg') %>
+  <%# deals %>
+  <li class="list-none w-full <%= 'active' if request.path.include?('pipelines') or request.path.include?('deal') %>">
+    <div class="w-full h-10 p-3 mt-8">
+      <%= link_to(account_pipelines_path(current_user.account), class: 'd-flex align-items-center') do %>
+        <div class="p-0 w-5 h-5 flex items-center fill-dark-gray-palette-p3 ">
+          <i data-lucide="clipboard-list" class="text-dark-gray-palette-p3 flex items-center" height="20"></i> 
+        </div>
+        <div>
+          <span class="ml-2 text-dark-gray-palette-p3">Negócios</span>
+        </div>
+      <% end %>
     </div>
-      <span class="ml-2 text-dark-gray-palette-p3">Contatos</span>
-    <% end %>
   </li>
+  <%# contatos %>
+  <li class="list-none w-full mt-4 <%= 'active' if request.path.include?('contact') or request.path.include?('deal') %>">
+    <div class="w-full h-10 p-3">
+      <%= link_to(account_pipelines_path(current_user.account), class: 'd-flex align-items-center') do %>
+        <div class="p-0 w-5 h-5 flex items-center fill-dark-gray-palette-p3 ">
+          <i data-lucide="contact-2" class="text-dark-gray-palette-p3 flex items-center" height="20"></i>
+        </div>
+        <div>
+          <span class="ml-2 text-dark-gray-palette-p3">Contatos</span>
+        </div>
+      <% end %>
+    </div>
+  </li> 
+  <%# settings %>
   <div class="mt-auto">
     <li class="list-none mt-auto mb-2 text-center">
       <%= link_to(account_settings_path(current_user.account), class: 'd-flex align-items-center') do %>
