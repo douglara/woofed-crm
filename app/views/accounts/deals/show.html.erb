@@ -1,8 +1,7 @@
-<section class="section">
-  <div class="section-header mb-5">
+<section class="px-8">
+  <div class="section-header mb-4">
     
-    <div class="card-body">
-      <h1><%= @deal.name %></h1>
+    <div class="w-full">
       <nav aria-label="breadcrumb" class="mt-4">
         <ol class="breadcrumb">
           <li class="breadcrumb-item col">
@@ -36,14 +35,14 @@
     </div> 
   </div>
 
-  <div class="row">
+  <div class="grid grid-cols-[1fr_3fr] gap-8 w-full">
     <%= render "/accounts/deals/details" %>
-    <div class="col-8 pl-0">
-      <div class="mx-2 mb-2">
+    <div class="">
+      <div class="gap-8">
         <%= turbo_frame_tag "new-event-form", src: new_account_contact_event_path(account_id: current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id) %>
       </div>
 
-      <div class="mt-4">
+      <div class="mt-8">
         <%= render "/accounts/contacts/events/events", deal: @deal, events: @events %>
       </div>
     </div>
