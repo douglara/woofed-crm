@@ -30,9 +30,15 @@
       <%= render "layouts/shared/nav" %>
 
       <!-- Main Content -->
-      <div class="main-content">
-        <%= content_for?(:content) ? yield(:content) : yield %>
-      </div>
+      <% if controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
+        <div class="">
+          <%= content_for?(:content) ? yield(:content) : yield %>
+        </div>
+      <% else %>
+        <div class="main-content">
+          <%= content_for?(:content) ? yield(:content) : yield %>
+        </div>
+      <% end %>
 
       <footer class="main-footer">
         <div class="footer-left">
