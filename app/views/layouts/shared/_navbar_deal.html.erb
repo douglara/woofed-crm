@@ -23,14 +23,14 @@
       account_deal_path(current_user.account, @deal, deal: { status: 'lost'} ),
       method: :patch,
       data: { confirm: 'Are you sure?' },
-      class: 'rounded-md px-4 py-2 bg-auxiliary-palette-red-down text-auxiliary-palette-red text-center hover:bg-auxiliary-palette-green-2 hover:text-white hover:no-underline font-semibold mr-2') %>
+      class: 'rounded-md px-4 py-2 bg-auxiliary-palette-red-down text-auxiliary-palette-red text-center hover:bg-auxiliary-palette-red-2 hover:text-white hover:no-underline font-semibold mr-2') %>
 
     <%= link_to(
       'Ganho',
       account_deal_path(current_user.account, @deal, deal: { status: 'won'}),
       method: :patch,
       data: { confirm: 'Are you sure?' },
-      class: 'rounded-md px-4 py-2 bg-auxiliary-palette-green-down text-auxiliary-palette-green text-center hover:bg-auxiliary-palette-red-2 hover:no-underline font-semibold hover:text-white') %>
+      class: 'rounded-md px-4 py-2 bg-auxiliary-palette-green-down text-auxiliary-palette-green text-center hover:bg-auxiliary-palette-green-2  hover:no-underline font-semibold hover:text-white') %>
     
   </div>
 </nav>
