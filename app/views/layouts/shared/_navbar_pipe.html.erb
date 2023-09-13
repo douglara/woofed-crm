@@ -1,16 +1,16 @@
-<div class="flex items-center ">
-  <div class="flex flex-wrap items-center mr-4 flex-1">
-    <div class="p-2.5 mr-[-2px] border-solid border-2 border-light-palette-p3 rounded-l-md bg-brand-palette-08">
+<div class="flex items-center">
+  <div class="flex flex-wrap mr-[1rem] flex-1">
+    <div class="p-2.5 border-solid border-2 border-light-palette-p3 rounded-l-md bg-brand-palette-08 ">
       <div class="icon-color color-brand-palette-03">
         <%= embedded_svg('vectooor2.svg') %>
       </div>
     </div>
-    <select class="p-2.5 border-solid border-2 border-light-palette-p3 w-52 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04" onchange="window.location=this.value">
+    <select class="p-2.5 mx-[-2px] border-solid border-2 border-light-palette-p3 w-52 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04 focus:z-10" onchange="window.location=this.value">
       <%= @pipelines.each do | pipeline |  %>
         <option value="<%= account_pipeline_path(current_user.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
       <% end %>
     </select>
-      <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline), class: 'p-2.5 border-solid border-2 border-light-palette-p3 rounded-md flex-1 hover:border-brand-palette-04 ml-1' ) do %>
+      <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline), class: 'p-2.5 border-solid border-2 border-light-palette-p3 rounded-r-lg flex-1 hover:border-brand-palette-04' ) do %>
         <%= embedded_svg('pencil-icon.svg') %>
       <% end %>
   </div>
