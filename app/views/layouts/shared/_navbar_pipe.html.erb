@@ -1,4 +1,4 @@
-<nav class="flex flex-wrap z-10 group-[.sidebar-mini]:left-16 w-[calc(100%-200px)] group-[.sidebar-mini]:w-[calc(100%-64px)] left-[200px] ease-in duration-300 absolute items-center  justify-between py-3 px-6 bg-light-palette-p5 border-b-[1.5px] border-light-palette-p3">
+<nav class="flex flex-wrap z-10 group-[.sidebar-mini]:left-16 w-[calc(100%-200px)] group-[.sidebar-mini]:w-[calc(100%-64px)] left-[200px] ease-in duration-300 absolute items-center  justify-between py-3 px-8 bg-light-palette-p5 border-b-[1.5px] border-light-palette-p3">
   <div class="flex items-center">
     <div class="flex flex-wrap mr-[1rem] flex-1">
       <div class="p-2.5 border-solid border-2 border-light-palette-p3 rounded-l-md bg-brand-palette-08 ">
@@ -14,7 +14,8 @@
         <% end %>
     </div>
 
-    <%= link_to new_select_contact_account_deals_path(current_user.account), class: 'px-4 py-2 rounded-md bg-brand-palette-03 text-white text-center hover:bg-brand-palette-04 hover:no-underline font-semibold' do %>
+    <%= link_to new_select_contact_account_deals_path(current_user.account), class: 'px-4 py-[0.75rem] rounded-md
+    bg-brand-palette-03 text-white text-center hover:bg-brand-palette-04 hover:no-underline font-semibold' do %>
       Novo negócio
     <% end %>
   </div>
