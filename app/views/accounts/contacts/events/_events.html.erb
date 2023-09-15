@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "events_#{@deal.contact.id}" do %>
   <%= turbo_stream_from @deal.contact.id, 'events' %>
 
-  <div class="bg-light-palette-p5 border-2 border-neutral-150 border-light-palette-p3 rounded mx-2 ">
+  <div class=" bg-light-palette-p5 border-2 border-neutral-150 border-light-palette-p3 rounded ">
     <div class="border-b-2 border-neutral-100 h-16 flex items-center p-3">
       <p class="my-auto text-gray-palette-p-1 font-semibold text-lg">Histórico</p>
     </div>
