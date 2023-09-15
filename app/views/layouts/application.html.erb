@@ -6,7 +6,12 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-
+    <% %w(57 60 72 76 114 120 144 152 180).each do |s| %>
+      <link href="/public/apple-touch-icon-<%= s %>x<%= s %>.png" rel="apple-touch-icon" type="image/png" sizes= "<%= s %>x<%= s %>" />
+    <% end %>
+    <% %w(16 32 96).each do |s| %>
+      <link href="/public/fav-icon-<%= s %>x<%= s %>.png" rel="icon" type="image/png" sizes= "<%= s %>x<%= s %>" />
+    <% end %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
