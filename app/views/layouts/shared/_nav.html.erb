@@ -1,2 +1,4 @@
 <%= render "layouts/shared/navbar" %>
-<%= render "layouts/shared/sidebar" %>
+<% unless controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
+    <%= render "layouts/shared/sidebar" %>  
+<% end %>
