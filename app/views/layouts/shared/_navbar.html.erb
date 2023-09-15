@@ -1,9 +1,7 @@
 <%= stylesheet_link_tag "navbar_pipe", media: 'all' %>
 
-<nav class="navbar navbar-expand-lg main-navbar navbar-custom">
-  <% if controller_path == 'accounts/pipelines' && ['index', 'show'].include?(action_name) %>
-    <%= render "layouts/shared/navbar_pipe" %>
-  <% elsif controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
-    <%= render "layouts/shared/navbar_deal" %>
-  <% end %>
-</nav>
+<% if controller_path == 'accounts/pipelines' && ['index', 'show'].include?(action_name) %>
+  <%= render "layouts/shared/navbar_pipe" %>
+<% elsif controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
+  <%= render "layouts/shared/navbar_deal" %>
+<% end %>

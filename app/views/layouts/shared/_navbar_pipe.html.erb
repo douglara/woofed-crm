@@ -1,40 +1,45 @@
-<div class="form-inline mr-auto form-inline-custom">
-  <div class="input-group ml-3 mr-3">
-    <div class="input-group-prepend">
-      <div class="input-group-text icon-color">
-        <%= embedded_svg('vectooor2.svg') %>
+<nav class="flex flex-wrap z-10 group-[.sidebar-mini]:left-16 w-[calc(100%-200px)] group-[.sidebar-mini]:w-[calc(100%-64px)] left-[200px] ease-in duration-300 absolute items-center  justify-between py-3 px-6 bg-light-palette-p5 border-b-[1.5px] border-light-palette-p3">
+  <div class="flex items-center">
+    <div class="flex flex-wrap mr-[1rem] flex-1">
+      <div class="p-2.5 border-solid border-2 border-light-palette-p3 rounded-l-md bg-brand-palette-08 ">
+        <%= embedded_svg('vectooor2.svg', {class: '!h-5 !w-5 !fill-brand-palette-03'}) %>
       </div>
-    </div>
-
-    <select class="form-control m-0" onchange="window.location=this.value">
-      <%= @pipelines.each do | pipeline |  %>
-        <option value="<%= account_pipeline_path(current_user.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
-      <% end %>
-    </select>
-
-    <div class="input-group-append">
-      <div class="input-group-text col">
-        <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline) ) do %>
+      <select class="p-2.5 mx-[-2px] border-solid border-2 border-light-palette-p3 w-52 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04 focus:z-10" onchange="window.location=this.value">
+        <%= @pipelines.each do | pipeline |  %>
+          <option value="<%= account_pipeline_path(current_user.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
+        <% end %>
+      </select>
+        <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline), class: 'p-2.5 border-solid border-2 border-light-palette-p3 rounded-r-lg flex-1 hover:border-brand-palette-04' ) do %>
           <%= embedded_svg('pencil-icon.svg') %>
         <% end %>
-      </div>
+    </div>
+
     </div>
   </div>
-
-  <%= link_to new_select_contact_account_deals_path(current_user.account), class: 'btn btn-lg btn-primary custom-btn-navbar' do %>
-    Novo negócio
+  <%= link_to new_select_contact_account_deals_path(current_user.account), class: 'px-4 py-2 rounded-md bg-brand-palette-03 text-white text-center hover:bg-brand-palette-04 hover:no-underline font-semibold' do %>
+  Novo negócio
   <% end %>
-</div>
-
-<ul class="navbar-nav navbar-right">
-  <li class="dropdown">
-    <a href="#" data-toggle="dropdown" class="custom-btn-user"><i class="far fa-user"></i></a> 
-
-    <div class="dropdown-menu dropdown-menu-right">
-      <div class="dropdown-divider"></div>
-      <%= link_to destroy_user_session_path, class:"dropdown-item has-icon text-danger", :method => :delete do %>
-        <i class="fas fa-sign-out-alt"></i> Logout
+  </div>
+  <button type="button" class="flex border-solid border-2 border-light-palette-p3 rounded-md hover:bg-brand-palette-08 focus:bg-brand-palette-08 p-2.5" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+    <span class="sr-only">Open user menu</span>
+    <i class="far fa-user "></i>
+  </button>
+  <!-- Dropdown menu -->
+  <div class="z-50 my-4 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+    <div class="px-4 py-3">
+      <span class="block text-sm text-gray-900 dark:text-white"><%= current_user.full_name %></span>
+      <span class="block text-sm  text-gray-500 truncate dark:text-gray-400"><%= current_user.email %></span>
+    </div>
+    <ul class="py-2 mb-0" aria-labelledby="user-menu-button">
+      <li>
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-brand-palette-03 hover:text-white dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white hover:no-underline">My account</a>
+      </li>
+    </ul>
+    <div class="py-1">
+      <%= link_to destroy_user_session_path, class:"flex items-center px-3 py-2 text-sm text-red-600 hover:text-white hover:bg-red-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-red-500 dark:hover:text-white hover:no-underline", :method => :delete do %>
+      <i class="fas fa-sign-out-alt w-4 h-4 mr-2" style="display: flex; align-items: center;"></i>
+      Logout
       <% end %>
     </div>
-  </li>
-</ul>
+  </div>
+</nav>
