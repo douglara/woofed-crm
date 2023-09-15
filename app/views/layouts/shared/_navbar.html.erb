@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag "navbar_pipe", media: 'all' %>
 
-<nav class="navbar navbar-expand-lg main-navbar navbar-custom">
+<nav class="flex flex-wrap z-10 group-[.sidebar-mini]:left-16 w-[calc(100%-200px)] group-[.sidebar-mini]:w-[calc(100%-64px)] left-[200px] ease-in duration-300 absolute items-center justify-between py-3 px-8 bg-light-palette-p5">
   <% if controller_path == 'accounts/pipelines' && ['index', 'show'].include?(action_name) %>
     <%= render "layouts/shared/navbar_pipe" %>
   <% elsif controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
