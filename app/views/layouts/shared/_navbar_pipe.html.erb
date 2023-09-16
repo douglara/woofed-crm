@@ -1,4 +1,32 @@
-<div class="flex items-center">
+<button data-collapse-toggle="navbar-hamburger" type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-hamburger" aria-expanded="false">
+  <span class="sr-only">Open main menu</span>
+  <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+  </svg>
+</button>
+<%= image_tag("logo.svg", class: "max-[439px]:hidden w-44 lg:hidden ") %> 
+<%= image_tag("logo-patinha.svg", class: "w-12 min-[440px]:hidden") %>
+<button data-collapse-toggle="navbar-search" type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100  focus:outline-none focus:ring focus:ring-violet-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
+  <span class="sr-only">Open main menu</span>
+  <%= embedded_svg('vectooor2.svg', {class: '!h-5 !w-5 !fill-brand-palette-03'}) %>
+</button>
+<div class="hidden w-full" id="navbar-hamburger">
+  <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+    <li>
+      <a href="#" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded dark:bg-blue-600" aria-current="page">Home</a>
+    </li>
+    <li>
+      <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Services</a>
+    </li>
+    <li>
+      <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white">Pricing</a>
+    </li>
+    <li>
+      <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Contact</a>
+    </li>
+  </ul>
+</div>
+<div class="hidden lg:flex items-center">
   <div class="flex flex-wrap mr-[1rem] flex-1">
     <div class="p-2.5 border-solid border-2 border-light-palette-p3 rounded-l-md bg-brand-palette-08 ">
       <%= embedded_svg('vectooor2.svg', {class: '!h-5 !w-5 !fill-brand-palette-03'}) %>
@@ -20,7 +48,7 @@
     Novo negócio
   <% end %>
 </div>
-<button type="button" class="flex border-solid border-2 border-light-palette-p3 rounded-md hover:bg-brand-palette-08 focus:bg-brand-palette-08 p-[14px]" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+<button type="button" class="hidden lg:flex border-solid border-2 border-light-palette-p3 rounded-md hover:bg-brand-palette-08 focus:bg-brand-palette-08 p-[14px]" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
   <span class="sr-only">Open user menu</span>
   <i class="far fa-user "></i>
 </button>
@@ -41,4 +69,21 @@
     Logout
     <% end %>
   </div>
+</div>
+<div class="hidden w-full" id="navbar-search">
+  <div class="flex flex-wrap gap-px font-medium mt-4 rounded-lg bg-gray-50">
+    <select class="p-2.5 flex-[6_1_150px] mx-[-2px] border-solid border-2 border-light-palette-p3 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04 focus:z-10" onchange="window.location=this.value">
+      <%= @pipelines.each do | pipeline |  %>
+        <option value="<%= account_pipeline_path(current_user.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
+      <% end %>
+    </select>
+    <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline), class: 'p-2.5 mr-2 border-solid border-2 border-light-palette-p3 rounded-r-lg hover:border-brand-palette-04' ) do %>
+      <%= embedded_svg('pencil-icon.svg') %>
+    <% end %>
+    <%= link_to new_select_contact_account_deals_path(current_user.account), class: ' flex-[1_1_155px] px-4 py-[0.75rem] rounded-md
+    bg-brand-palette-03 text-white text-center hover:bg-brand-palette-04 hover:no-underline font-semibold' do %>
+      Novo negócio
+    <% end %>
+  </div>
+
 </div>
