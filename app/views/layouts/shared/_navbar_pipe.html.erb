@@ -1,3 +1,4 @@
+<%= stylesheet_link_tag "nav-pipe", media: 'all' %>
 <button data-collapse-toggle="navbar-hamburger" type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-hamburger" aria-expanded="false">
   <span class="sr-only">Open main menu</span>
   <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
@@ -11,19 +12,26 @@
   <%= embedded_svg('vectooor2.svg', {class: '!h-5 !w-5 !fill-brand-palette-03'}) %>
 </button>
 <div class="hidden w-full" id="navbar-hamburger">
-  <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
-    <li>
-      <a href="#" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded dark:bg-blue-600" aria-current="page">Home</a>
+  <ul class="flex flex-col gap-x-2 font-medium mt-4 rounded-lg dark:bg-gray-800 dark:border-gray-700">
+    <%= link_to(account_pipelines_path(current_user.account), class: "#{ 'bg-gray-100' if request.path.include?('pipelines') or request.path.include?('deal') } flex py-2 hover:bg-gray-50 hover:no-underline'") do %>
+      <li class="flex ">
+        <%= embedded_svg('deals-icon.svg', {class: 'w-10 self-center'}) %>
+        <span class="ml-2
+        ">Negócios</span>
+      </li>
+    <% end %>
+    <%= link_to(account_contacts_path(current_user.account), class: "#{ 'bg-gray-100' if request.path.include?('contact') or request.path.include?('contact') } flex py-2 hover:bg-gray-50 hover:no-underline'" 'flex hover:bg-gray-50 py-2 hover:no-underline') do %>
+      <li class="flex ">
+        <%= embedded_svg('contacts-icon.svg', {class: 'w-10 self-center'}) %>
+        <span class="ml-2 ">Contatos</span>
+      </li>
+    <% end %>
+    <%= link_to(account_settings_path(current_user.account), class: "#{ 'bg-gray-100' if request.path.include?('settings') } flex py-2 hover:bg-gray-50 hover:no-underline'" 'flex hover:bg-gray-50 py-2 hover:no-underline') do %>
+    <li class="flex ">
+      <%= embedded_svg('company-icon.svg', {class: 'w-10 self-center'}) %>
+      <span class="ml-2 ">Empresa</span>
     </li>
-    <li>
-      <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Services</a>
-    </li>
-    <li>
-      <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white">Pricing</a>
-    </li>
-    <li>
-      <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Contact</a>
-    </li>
+  <% end %>
   </ul>
 </div>
 <div class="hidden lg:flex items-center">
