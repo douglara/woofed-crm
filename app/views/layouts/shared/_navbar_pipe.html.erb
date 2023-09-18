@@ -80,18 +80,17 @@
 </div>
 <div class="hidden w-full" id="navbar-search">
   <div class="flex flex-wrap gap-px font-medium mt-4 rounded-lg bg-gray-50">
-    <select class="p-2.5 flex-[6_1_150px] mx-[-2px] border-solid border-2 border-light-palette-p3 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04 focus:z-10" onchange="window.location=this.value">
+    <select class="p-2.5 flex-[6_1_160px] mx-[-2px] border-solid border-2 border-light-palette-p3 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04 focus:z-10" onchange="window.location=this.value">
       <%= @pipelines.each do | pipeline |  %>
         <option value="<%= account_pipeline_path(current_user.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
       <% end %>
     </select>
-    <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline), class: 'p-2.5 mr-2 border-solid border-2 border-light-palette-p3 rounded-r-lg hover:border-brand-palette-04' ) do %>
+    <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline), class: 'p-2.5 mr-0 min-[142px]:mr-2 min-[142px]:mt-0 border-solid border-2 border-light-palette-p3 rounded-r-lg hover:border-brand-palette-04' ) do %>
       <%= embedded_svg('pencil-icon.svg') %>
     <% end %>
-    <%= link_to new_select_contact_account_deals_path(current_user.account), class: ' flex-[1_1_155px] px-4 py-[0.75rem] rounded-md
+    <%= link_to new_select_contact_account_deals_path(current_user.account), class: '  flex-[1_1_142px] px-4 py-[0.75rem] rounded-md
     bg-brand-palette-03 text-white text-center hover:bg-brand-palette-04 hover:no-underline font-semibold' do %>
       Novo negócio
     <% end %>
   </div>
-
 </div>
