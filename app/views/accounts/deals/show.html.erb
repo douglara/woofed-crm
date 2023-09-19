@@ -1,7 +1,8 @@
 <section class="px-8 bg-brand-palette-08 ">
-  <div class="section-header mb-4 mt-4 ">   
-    <div class="w-full">
-      <nav aria-label="breadcrumb">
+  <div class="section-header mb-4 mt-4 "> 
+    <div class="card-body">
+      <h1><%= @deal.name %></h1>
+      <nav aria-label="breadcrumb" class="mt-4">
         <ol class="breadcrumb">
           <li class="breadcrumb-item col">
             <% if @deal.status != 'lost' %>
@@ -31,10 +32,20 @@
           </li>
         </ol>
       </nav>
-    </div> 
+    </div>   
   </div>
-  <div class="grid grid-cols-1 lg:grid-cols-[minmax(320px,_1fr)_3fr] gap-8 w-full ">
-    <%= render "/accounts/deals/details" %>
+  <div class="grid grid-cols-1 min-[1400px]:grid-cols-[minmax(500px,_1fr)_3fr] gap-8 w-full ">
+    <div class="hidden min-[1400px]:block">
+      <%= render "/accounts/deals/details" %>
+    </div>
+    <div class="relative min-[1400px]:hidden flex items-center h-10 pr-3 border-2 rounded-lg bg-light-palette-p5 border-light-palette-p3">
+      <div class="p-2  border-r-2 border-r-light-palette-p3 rounded-l-md">
+        <i data-lucide="chevron-right" ></i>
+      </div>
+      <p class="m-0 font-semibold mx-2 text-center">Informações</p>
+      <p class=" m-0 items-center text-center whitespace-nowrap truncate pl-2 font-medium before:bg-light-palette-p3 before:absolute before:rounded-full before:left-[135px] before:h-7 before:w-0.5 before:bg-indigo-500">Resumo, Pessoa, Organização</p>
+    </div>
+    
     <div class="">
       <div class="gap-8">
         <%= turbo_frame_tag "new-event-form", src: new_account_contact_event_path(account_id: current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id) %>
