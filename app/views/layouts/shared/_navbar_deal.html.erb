@@ -3,21 +3,24 @@
     <%= link_to(:back, class: "flex border-solid border-2 border-light-palette-p3 rounded-md hover:bg-brand-palette-08 focus:bg-brand-palette-08 p-1.5") do %>
     <i data-lucide="chevron-left"></i>
     <% end %> 
-    <div class="h-full flex items-center border-r-2 border-light-palette-p3 px-16">
-      <p class="m-0 font-semibold"><%= @deal.name %></p>
+  <div class="pl-4 lg:flex lg:items-center">
+    <div class="h-full lg:border-r-2 border-light-palette-p3 lg:px-6 xl:px-16">
+      <p class="m-0 font-semibold leading-tight lg:leading-7"><%= @deal.name %></p>
     </div>
-    <div class="h-full flex items-center mx-3">
-      <p class="m-0"><%= @deal.stage.pipeline.name %></p>
+    <div class="flex items-center h-5 ">
+      <div class=" flex items-center mr-1.5 lg:pl-6 xl:pl-16">
+        <p class="m-0 p-0 leading-tight lg:leading-7"><%= @deal.stage.pipeline.name %></p>
+      </div>
+      <div class=" flex items-center mx-1.5 lg:mx-3 ">
+        <i class="fas fa-chevron-right icon"></i>
+      </div>
+      <div class=" flex items-center ml-1.5 lg:mx-3">
+        <p class="m-0 leading-tight lg:leading-7"><%= @deal.stage.name %></p>
+      </div>
     </div>
-    <div class="h-full flex items-center mx-3">
-      <i class="fas fa-chevron-right icon"></i>
-    </div>
-
-    <div class="h-full flex items-center mx-3">
-      <p class="m-0"><%= @deal.stage.name %></p>
     </div>
   </div>
-  <div class="flex">
+  <div class="hidden lg:flex">
     <%= link_to(
       'Perdido',
       account_deal_path(current_user.account, @deal, deal: { status: 'lost'} ),
