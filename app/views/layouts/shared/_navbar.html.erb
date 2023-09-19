@@ -1,7 +1,9 @@
-<%= stylesheet_link_tag "navbar_pipe", media: 'all' %>
 
 <% if controller_path == 'accounts/pipelines' && ['index', 'show'].include?(action_name) %>
-  <%= render "layouts/shared/navbar_pipe" %>
+<nav class="flex flex-wrap w-full z-10 group-[.sidebar-mini]:left-16 lg:w-[calc(100%-200px)] group-[.sidebar-mini]:w-[calc(100%-64px)] lg:left-[200px] ease-in duration-300 absolute items-center justify-between py-2 lg:py-4 px-6 lg:px-8 bg-light-palette-p5">
+    <%= render "layouts/shared/navbar_pipe" %>
+</nav>
 <% elsif controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
   <%= render "layouts/shared/navbar_deal" %>
 <% end %>
+
