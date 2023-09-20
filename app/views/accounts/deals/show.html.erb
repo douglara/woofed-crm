@@ -1,37 +1,21 @@
 <section class="px-8 bg-brand-palette-08 ">
-  <div class="section-header mb-4 mt-4 "> 
-    <!-- <div class="card-body">
-      <nav aria-label="breadcrumb" class="mt-4">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item col">
-            <% if @deal.status != 'lost' %>
-              <%= link_to 'Lost', account_deal_path(current_user.account, @deal, deal: { status: 'lost'} ), method: :patch, data: { confirm: 'Are you sure?' } %>
-            <% else %>
-              Lost
-            <% end %>
-          </li>
-
-          <% @deal.stage.pipeline.stages.each do | stage | %>
-            <% if stage == @deal.stage and @deal.status == 'open' %>
-              <li class="breadcrumb-item col active" aria-current="page"><%= stage.name %></li>
-            <% else %>
-              <li class="breadcrumb-item col">
-                <%= link_to stage.name, account_deal_path(current_user.account, @deal, deal: { status: 'open', stage_id: stage.id } ), method: :patch, data: { confirm: 'Are you sure?' } %>            
-              </li>
-
-
-            <% end %>
+  <div class="mb-4 mt-4 p-4 bg-light-palette-p5 border-2 border-light-palette-p3 rounded"> 
+    <nav aria-label="breadcrumb" >
+      <ol class="flex space-x-2 items-center text-center" >
+        <% @deal.stage.pipeline.stages.each_with_index do | stage, index | %>
+          <% if stage == @deal.stage and @deal.status == 'open' or @deal.stage.order > stage.order %>
+            <li class="<%= stage == @deal.stage ? 'pointer-events-none' : '' %> <%= index == 0 ? 'rounded-l-lg' : '' %> <%= index == @deal.stage.pipeline.stages.length - 1 ? "rounded-r-lg" : " "%> flex-1 bg-auxiliary-palette-green relative hover:bg-auxiliary-palette-green-down " style="z-index: <%= 30 - index  %> " aria-current="page">
+              <%= link_to stage.name, account_deal_path(current_user.account, @deal, deal: { status: 'open', stage_id: stage.id } ), method: :patch, data: { confirm: 'Are you sure?' }, class: " font-bold text-light-palette-p5 py-1.5 w-full px-7 hover:text-auxiliary-palette-green before:absolute inline-block #{ index == @deal.stage.pipeline.stages.length - 1 ? '' : "before:top-0 before:z-10 before:right-[-20px] before:border-solid before:border-l-auxiliary-palette-green before:hover:border-l-auxiliary-palette-green-down before:border-l-[20px] before:border-y-transparent before:border-y-[20px] after:absolute after:top-0  after:border-solid after:border-l-[20px] after:border-y-transparent after:border-y-[20px]  inline-block  after:absolute after:top-0  after:border-solid after:border-l-light-palette-p5 after:border-l-[20px] after:border-y-transparent after:right-[-28px] after:border-y-[20px]" } " %>  
+            </li>
+          <% else %>
+            <li class="flex-1 bg-gray-100 relative hover:bg-gray-200 <%= stage == @deal.stage ? 'pointer-events-none' : '' %> <%= index == 0 ? 'rounded-l-lg' : '' %> <%= index == @deal.stage.pipeline.stages.length - 1 ? "rounded-r-lg" : " "%>",  style="z-index: <%= 30 - index  %> ">
+              <%= link_to stage.name, account_deal_path(current_user.account, @deal, deal: { status: 'open', stage_id: stage.id } ), method: :patch, data: { confirm: 'Are you sure?' }, class: "font-semibold inline-block text-gray-500 py-1.5 w-full px-7 #{ index == @deal.stage.pipeline.stages.length - 1 ? '' : "before:absolute before:top-0 before:z-10 before:right-[-20px] before:border-solid before:border-l-gray-100 before:hover:border-l-gray-200 before:border-l-[20px] before:border-y-transparent before:border-y-[20px] after:absolute after:top-0  after:border-solid after:border-l-[20px] after:border-y-transparent after:border-y-[20px]    after:absolute after:top-0  after:border-solid after:border-l-light-palette-p5 after:border-l-[20px] after:border-y-transparent after:right-[-28px] after:border-y-[20px]" } " %>            
+            </li>
           <% end %>
-          <li class="breadcrumb-item col">
-            <% if @deal.status != 'won' %>
-              <%= link_to 'Won', account_deal_path(current_user.account, @deal, deal: { status: 'won'} ), method: :patch, data: { confirm: 'Are you sure?' } %>
-            <% else %>
-              Won
-            <% end %>
-          </li>
-        </ol>
-      </nav>
-    </div>    -->
+        <% end %>
+      </ol>
+    </nav>
+
   </div>
   <div class="grid grid-cols-1 min-[1400px]:grid-cols-[minmax(500px,_1fr)_3fr] gap-8 w-full ">
     <div class="hidden min-[1400px]:block">
