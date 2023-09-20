@@ -62,6 +62,7 @@ Rails.application.routes.draw do
         patch 'update_custom_attributes'
         resources :activities, module: :deals
         resources :flow_items, only: [:destroy], module: :deals
+        patch 'move'
       end
 
       namespace :apps do

@@ -139,6 +139,14 @@ class Accounts::DealsController < InternalController
     end
   end
 
+  def move
+    @deal = current_user.account.deals.find(params[:deal_id])
+    to_stage = params[:to_stage_id]
+    @deal.stage_id = to_stage
+    @deal.position = params[:position]
+    @deal.save
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_deal

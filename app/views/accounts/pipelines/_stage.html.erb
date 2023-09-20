@@ -1,0 +1,24 @@
+<%= content_tag :div, id: dom_id(stage) do %>
+  <p>
+    Stage <%= stage.name %>
+  </p>
+
+  <div class="list">
+    <div class="text-center mt-1 mb-4">
+      <span>
+        <%= content_tag :span, id: dom_id(stage), "data-id": stage.id do %>
+          <%= turbo_stream_from stage %>
+        <% end %>
+      </span>
+    </div>    
+
+    <ul class="list-items">
+      <div data-controller="drag" data-drag-url="/accounts/:account_id/deals/:deal_id/move" data-id="<%= stage.id %>">
+        <% stage.deals.sort_by(&:position).each do |deal| %>
+          <%= render 'accounts/pipelines/deal', deal: deal %>
+        <% end %>
+      </div>
+    </ul>
+  </div>
+<% end %>
+ 
