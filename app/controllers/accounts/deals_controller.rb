@@ -124,7 +124,6 @@ class Accounts::DealsController < InternalController
   # PATCH/PUT /deals/1 or /deals/1.json
   def update
     if @deal.update(deal_params)
-      redirect_to account_deal_path(current_user.account, @deal)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -139,24 +138,16 @@ class Accounts::DealsController < InternalController
     end
   end
 
-  def move
-    @deal = current_user.account.deals.find(params[:deal_id])
-    to_stage = params[:to_stage_id]
-    @deal.stage_id = to_stage
-    @deal.position = params[:position]
-    @deal.save
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_deal
-      @deal = Deal.find(params[:id])
+      @deal = current_user.account.deals.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def deal_params
       params.require(:deal).permit(
-        :name, :status, :stage_id, :contact_id,
+        :name, :status, :stage_id, :contact_id, :position,
         contact_attributes: [ :id, :full_name, :phone, :email ],
         custom_attributes: {}
       )

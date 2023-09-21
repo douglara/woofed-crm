@@ -20,8 +20,8 @@ export default class extends Controller {
     const to_id = event.to.dataset.id
     let data = new FormData()
 
-    data.append("position", event.newIndex + 1)
-    data.append("to_stage_id", to_id)
+    data.append("deal[position]", event.newIndex + 1)
+    data.append("deal[stage_id]", to_id)
     Rails.ajax({
       url: this.data.get("url").replace(":deal_id", id).replace(":account_id", accountId),
       type: 'PATCH',

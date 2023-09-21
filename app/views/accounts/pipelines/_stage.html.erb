@@ -12,7 +12,7 @@
     </div>    
 
     <ul class="list-items">
-      <div data-controller="drag" data-drag-url="/accounts/:account_id/deals/:deal_id/move" data-id="<%= stage.id %>">
+      <div data-controller="drag" data-drag-url="/accounts/:account_id/deals/:deal_id" data-id="<%= stage.id %>">
         <% stage.deals.sort_by(&:position).each do |deal| %>
           <%= render 'accounts/pipelines/deal', deal: deal %>
         <% end %>
