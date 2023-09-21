@@ -5,6 +5,7 @@
 #  id                :bigint           not null, primary key
 #  custom_attributes :jsonb
 #  name              :string           default(""), not null
+#  position          :integer          default(1), not null
 #  status            :string           default("open"), not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
@@ -43,6 +44,7 @@ class Deal < ApplicationRecord
 
   belongs_to :stage
   belongs_to :pipeline
+  acts_as_list scope: :stage
   has_many :events
   has_many :flow_items
   has_many :notes, through: :flow_items
@@ -78,6 +80,16 @@ class Deal < ApplicationRecord
     end
   end
 
+  after_update_commit -> { broadcast_updates }
+
+  def broadcast_updates
+    broadcast_replace_later_to self, partial: "accounts/pipelines/deal"
+    if previous_changes.key?('stage_id')
+      previous_changes['stage_id'].each do |stage_id| 
+        Stage.find(stage_id).broadcast_updates
+      end
+    end
+  end
   # validate :validate_contact_main
 
   # def validate_contact_main

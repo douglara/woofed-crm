@@ -62,6 +62,8 @@ GEM
       zeitwerk (~> 2.3)
     acts-as-taggable-on (9.0.1)
       activerecord (>= 6.0, < 7.1)
+    acts_as_list (1.1.0)
+      activerecord (>= 4.2)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
     annotate (3.2.0)
@@ -343,6 +345,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts-as-taggable-on (~> 9.0)
+  acts_as_list
   annotate
   bootsnap (>= 1.4.4)
   byebug

@@ -1,0 +1,10 @@
+<%= content_tag :li, id: dom_id(deal), 'data-id': deal.id, 'data-account-id': deal.account_id do %>
+  <%= turbo_stream_from deal %>
+
+  <%= link_to account_deal_path(deal.account, deal.id) do %>
+    <header>
+      <label color="#7159c1"> </label>
+    </header>
+    <p class="deal-name"><%= deal.name %></p>
+  <% end %>
+<% end %>

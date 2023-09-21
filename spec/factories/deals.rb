@@ -5,6 +5,7 @@
 #  id                :bigint           not null, primary key
 #  custom_attributes :jsonb
 #  name              :string           default(""), not null
+#  position          :integer          default(1), not null
 #  status            :string           default("open"), not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
