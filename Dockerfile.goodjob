@@ -29,9 +29,6 @@ WORKDIR $app
 # Copy the main application.
 COPY . ./
 
-# Clone Stisla theme
-RUN git clone https://github.com/stisla/stisla.git vendor/theme/stisla
-
 # Install and build javascript dependences
 RUN yarn build
 RUN yarn install --check-files
