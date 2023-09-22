@@ -3,6 +3,9 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
+import jquery from 'jquery'
+window.jQuery = jquery
+window.$ = jquery
 import Rails from "@rails/ujs"
 import "@hotwired/turbo-rails"
 import * as ActiveStorage from "@rails/activestorage"
@@ -14,19 +17,14 @@ Rails.start()
 ActiveStorage.start()
 require("trix")
 require("@rails/actiontext")
-require("@stisla/node_modules/popper.js/dist/umd/popper.min.js")
-require("@stisla/node_modules/bootstrap/dist/js/bootstrap")
 require("@nathanvda/cocoon")
+require("bootstrap-daterangepicker/daterangepicker")
 import { initFlowbite } from 'flowbite'
 import "flowbite/dist/flowbite.turbo.js";
-
-
-const load_stisla_scripts = require('./stisla_scripts');
 
 $(document).on("turbo:load", () => {
   initFlowbite();
   lucide.createIcons();
-  load_stisla_scripts();
   // Daterangepicker
   if(jQuery().daterangepicker) {
     if($(".datetimepicker").length) {
@@ -43,18 +41,15 @@ $(document).on("turbo:load", () => {
 $(document).on("turbo:frame-load", function (e) {
   initFlowbite();
   lucide.createIcons();
-  load_stisla_scripts();
 })
 
 $(document).on("turbo:render", function (e) {
   initFlowbite();
   lucide.createIcons();
-  load_stisla_scripts();
 })
 
 $(document).on("turbo:frame-render", function (e) {
   initFlowbite();
   lucide.createIcons();
-  load_stisla_scripts();
 })
 

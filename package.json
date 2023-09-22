@@ -2,9 +2,7 @@
   "name": "woofed-crm",
   "private": true,
   "scripts": {
-    "install-theme": "yarn --cwd vendor/theme/stisla install",
-    "build-theme": "yarn --cwd vendor/theme/stisla dist",
-    "build": "yarn install ; yarn install-theme",
+    "build": "yarn install",
     "heroku-prebuild": "yarn build"
   },
   "dependencies": {
@@ -16,6 +14,7 @@
     "@rails/request.js": "^0.0.8",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "5.4.2",
+    "bootstrap-daterangepicker": "^3.1.0",
     "flowbite": "^1.8.1",
     "lucide": "^0.263.0",
     "motion": "^10.16.2",
