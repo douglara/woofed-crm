@@ -28,22 +28,13 @@ nodejs 16.16.0
 git clone https://github.com/douglara/woofed-crm.git
 cd woofed-crm
 ```
-
-### 2 - Configre Stisla theme
-
-Download theme:
-
-```sh
-git clone https://github.com/stisla/stisla.git vendor/theme/stisla
-```
-
-### 3 - Install dependencies
+### 2 - Install dependencies
 
 ```sh
 bundle install
 yarn build
 ```
-### 4 - Create .env file
+### 3 - Create .env file
 
 Create .env file
 
@@ -51,7 +42,7 @@ Create .env file
 cp .env.sample .env
 ```
 
-### 5 - Up containers
+### 4 - Up containers
 
 ```sh
 docker-compose up -d
@@ -65,7 +56,7 @@ rails db:migrate
 rails db:seed
 ```
 
-### 5 - Start applications
+### 6 - Start applications
 
 ```sh
 ./bin/dev
