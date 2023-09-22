@@ -17,23 +17,24 @@
   </head>
 
   <body class="group">
-  	<div id="app">
-      <div class="main-wrapper">
-      
-      <%= render "layouts/shared/nav" %>
+  	<div id="app" class="h-screen">
+      <div class="flex h-full">
+        <aside class="w-60">
+          <%= render "layouts/shared/sidebar" %>
+        </aside>
 
-      <!-- Main Content -->
-      <div class="main-content">
-        <%= content_for?(:content) ? yield(:content) : yield %>
-      </div>
+        <div class="flex flex-col h-full w-full">
+          <nav class="h-20">
+            <%= render "layouts/shared/navbar" %>
+          </nav>
 
-      <footer class="main-footer">
-        <div class="footer-left">
+          <main class="h-full">
+            <%= content_for?(:content) ? yield(:content) : yield %>
+          </main> 
         </div>
-        <div class="footer-right">
-        </div>
-      </footer>
-    </div>
+      </div> 
+
+    <div>
     <%= yield :javascripts %>
   </body>
 </html>
