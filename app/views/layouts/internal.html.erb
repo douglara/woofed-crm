@@ -16,24 +16,11 @@
     <%= yield :stylesheets %>
   </head>
 
-  <body class="group">
-  	<div id="app">
-      <div class="main-wrapper">
-      
-      <%= render "layouts/shared/nav" %>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <%= content_for?(:content) ? yield(:content) : yield %>
-      </div>
-
-      <footer class="main-footer">
-        <div class="footer-left">
-        </div>
-        <div class="footer-right">
-        </div>
-      </footer>
-    </div>
+  <body class="app grid-cols-[200px_1fr]">
+    <%= render "layouts/shared/nav" %>
+    <main class="content">
+      <%= content_for?(:content) ? yield(:content) : yield %>
+    </main>
     <%= yield :javascripts %>
   </body>
 </html>
