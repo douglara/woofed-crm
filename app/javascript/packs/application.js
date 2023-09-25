@@ -19,11 +19,9 @@ require("trix")
 require("@rails/actiontext")
 require("@nathanvda/cocoon")
 require("bootstrap-daterangepicker/daterangepicker")
-import { initFlowbite } from 'flowbite'
 import "flowbite/dist/flowbite.turbo.js";
 
 $(document).on("turbo:load", () => {
-  initFlowbite();
   lucide.createIcons();
   // Daterangepicker
   if(jQuery().daterangepicker) {
@@ -39,17 +37,13 @@ $(document).on("turbo:load", () => {
 })
 
 $(document).on("turbo:frame-load", function (e) {
-  initFlowbite();
   lucide.createIcons();
 })
 
 $(document).on("turbo:render", function (e) {
-  initFlowbite();
   lucide.createIcons();
 })
 
 $(document).on("turbo:frame-render", function (e) {
-  initFlowbite();
   lucide.createIcons();
 })
-
