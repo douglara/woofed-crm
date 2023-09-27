@@ -18,15 +18,13 @@
 
   <body>
     <div id="app" class="h-screen">
-      <div class="flex h-full">
+      <div class="flex h-full ">
         <%= render "layouts/shared/sidebar" %>
         <div class="flex flex-col h-full w-full">
-
           <%= render "layouts/shared/navbar" %>
-
-          <!-- <main class="h-full overflow-auto">
+          <main class="h-full overflow-auto">
             <%= content_for?(:content) ? yield(:content) : yield %>
-          </main>  -->
+          </main> 
         </div>
       </div> 
 
