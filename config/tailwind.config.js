@@ -48,6 +48,17 @@ module.exports = {
       fontFamily: {
         'sans': ['Nunito', 'Arial', 'sans-serif'],
       },
+      fontSize: {
+        'title': '1.5rem',
+        'body': '1rem',
+        'text': '0.938rem',
+        'subtext': '0.875rem',
+        'micro': '0.813rem',
+      },
+      lineHeight: {
+        '100': '1.313rem',
+        '150': '1.875rem',
+      }
     },
   },
   plugins: [
