@@ -1,66 +1,76 @@
-<%= stylesheet_link_tag "sidebar", media: 'all' %>
+<aside class="sidebar ease-in duration-300 w-60 h-screen border-r-2 border-light-palette-p3 relative p-4 space-y-4 ">
+  <div class="flex items-center flex-wrap justify-between">
+    <%= link_to(root_path()) do %>     
+      <%= image_tag "logo.svg", class: 'logo w-36' %>
+    <% end %>
+    <%= link_to(root_path()) do %>
+    <div  class= 'logo-patinha w-[40px] hidden border-2 border-light-palette-p3 p-1.5 rounded-md hover:bg-brand-palette-08' >
+      <%= image_tag "logo-patinha.svg"%>
+    </div>
+    <% end %> 
+    <button class="border-2 mt-0 h-auto border-light-palette-p3 p-2.5 rounded-md hover:bg-brand-palette-08" id="btn-expand"><i data-lucide="menu" class="w-5"></i></button>
+  </div>
+  <div class="divider hidden h-[2px] w-full bg-light-palette-p3"></div>
+  <ul class="flex flex-col space-y-3 border-b-md">
+    <li class="<%= ' bg-brand-palette-08  border-2 border-brand-palette-07 rounded-md text-brand-palette-03 pointer-events-none' if request.path.include?('pipelines') or request.path.include?('deal') %> icons-button hover:bg-brand-palette-08 hover:rounded-md">
+      <%= link_to(account_pipelines_path(current_user.account), class: 'icons-link flex space-x-3 p-3 items-center') do %>
+        <%= embedded_svg("deals-icon.svg", class: "w-4 #{'!fill-brand-palette-03 ' if request.path.include?('pipelines') or request.path.include?('deal')} icon") %>
+        <span class="spam-link inline-block ml-2">Negócios</span>
+      <% end %>
+    </li>
+    <li class="<%= ' bg-brand-palette-08 border-2 border-brand-palette-07 rounded-md text-brand-palette-03 pointer-events-none' if request.path.include?('contact') or request.path.include?('contact') %> icons-button hover:bg-brand-palette-08 hover:rounded-md">
+      <%= link_to(account_contacts_path(current_user.account), class: 'icons-link flex space-x-3 p-3 items-center') do %>
+        <%= embedded_svg("contacts-icon.svg", class: "w-4 #{'!fill-brand-palette-03 ' if request.path.include?('contact') or request.path.include?('contact')} icon") %>
+        <span class="spam-link inline-block ml-2">Contatos</span>
+      <% end %>
+    </li>
+    <div class="h-[2px] w-full bg-light-palette-p3"></div>
+    <li class="<%= 'bg-brand-palette-08 border-2 border-brand-palette-07 rounded-md text-brand-palette-03 pointer-events-none' if request.path.include?('settings') %> icons-button mt-auto  absolute bottom-4 right-3 left-3 hover:bg-brand-palette-08 hover:rounded-md">
+      <%= link_to(account_settings_path(current_user.account), class: 'icons-link flex space-x-3 p-3 items-center') do %>
+        <%= embedded_svg("company-icon.svg", class: "w-4 lg:m-0 flex #{'!fill-brand-palette-03 ' if request.path.include?('settings')} icon") %>
+        <span class="spam-link inline-block ml-2">Empresa</span>
+      <% end %>     
+    </li> 
+  </ul>
+</aside>
+<script>
+  var btnExpand = document.querySelector('#btn-expand')
+  var sidebar = document.querySelector('.sidebar')
+  var logo = document.querySelector('.logo')
+  var logoPatinha = document.querySelector('.logo-patinha')
+  var iconsBtn = document.querySelector('.icons-button')
+  var iconsLink = document.querySelectorAll('.icons-link')
+  var spamLink = document.querySelectorAll('.spam-link')
+  var icons = document.querySelectorAll('.icon')
+  var divider = document.querySelector('.divider')
+  console.log(spamLink)
+  if (btnExpand) {
+    btnExpand.addEventListener('click', function(){
+      sidebar.classList.toggle('!w-[72px]');
+      logo.classList.toggle('hidden');
+      logoPatinha.classList.toggle('hidden');
+      divider.classList.toggle('!block');
+      icons.forEach(i => {i.classList.toggle('!mx-auto');});
+      ['!mt-4','!h-[40px]','!p-2'].map(i => btnExpand.classList.toggle(i));
+      ['!w-full', '!h-[40px]'].map(i => iconsBtn.classList.toggle(i));
+      iconsLink.forEach(i => {i.classList.toggle('!p-2.5');});
+      spamLink.forEach(i => {i.classList.toggle('!hidden');});
+    });
+  } 
+</script>
 
-<div class="main-sidebar main-sidebar-custom">
-  <aside id="sidebar-wrapper">
-    <div class="sidebar-brand">
-      <div class="row">
-        <div class="col ml-3">
-          <%= link_to(root_path()) do %>
-            <%= image_tag "logo.png", class: 'logo-img' %>
-          <% end %>
-        </div>
 
-        <div class="col mr-3">
-          <a href="#" data-toggle="sidebar" class="nav-button"><i class="fas fa-bars"></i></a>
-        </div>
-      </div>
-    </div>
-    <div class="sidebar-brand sidebar-brand-sm">
-      <div>
-        <a href="#" data-toggle="sidebar" class="logo-mini"><%= embedded_svg("logo-patinha.svg")%></a>
-    </div>
-      <div class="col mr-3">
-          <a href="#" data-toggle="sidebar" class="nav-button botao-mini"><i class="fas fa-bars"></i></a>
-        </div>
-          <div class="dropdown-divider"></div>
-    </div>
-    <div class="sidebar-component">
-      <div class="container">
-        <div class="row">
-          <div class="col align-self-start deals-sidebar">
-            <ul class="sidebar-menu">
-              <li class="<%= 'active' if request.path.include?('pipelines') or request.path.include?('deal') %>">
-                <%= link_to(account_pipelines_path(current_user.account), class: 'nav-link') do %>
-                  <%= embedded_svg('deals-icon.svg') %>
-                  <span class="ml-2">Negócios</span>
-                <% end %>
-              </li>
 
-              <li class="<%= 'active' if request.path.include?('contact') or request.path.include?('contact') %>">
-                <%= link_to(account_contacts_path(current_user.account), class: 'nav-link') do %>
-                  <%= embedded_svg('contacts-icon.svg') %>
-                  <span class="ml-2">Contatos</span>
-                <% end %>
-              </li>
-            </ul>
-            <div class="dropdown-divider"></div>
-          </div>
-          <div class="align-self-center">
-          </div>
-          <div class="col align-self-end">
-            <div>
-              <ul class="sidebar-menu">
-                <li class="<%= 'active' if request.path.include?('settings') %>">
-                  <%= link_to(account_settings_path(current_user.account), class: 'nav-link') do %>
-                    <%= embedded_svg('company-icon.svg') %>
-                    <span class="ml-2">Empresa</span>
-                  <% end %>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </aside>
-</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
