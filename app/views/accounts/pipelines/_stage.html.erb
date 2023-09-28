@@ -1,22 +1,17 @@
 <%= turbo_stream_from stage, class:'hidden' %>
 
 <%= content_tag :div, id: dom_id(stage) do %>
-  <p>
-    Stage <%= stage.name %> <%= Time.current %>
-  </p>
 
-  <div class="list">
-    <div class="text-center mt-1 mb-4">
-      <span>
-      </span>
-    </div>    
-
-    <ul class="list-items">
-      <div data-controller="drag" data-drag-url="/accounts/:account_id/deals/:deal_id" data-id="<%= stage.id %>">
-        <% stage.deals.sort_by(&:position).each do |deal| %>
-          <%= render 'accounts/pipelines/deal', deal: deal %>
-        <% end %>
-      </div>
+  <div class="px-4 pb-4 rounded border-2 border-light-palette-p3 bg-light-palette-p5">
+    <div class="flex py-4 justify-between">
+      <h1 class="typography-text-s-lh150 text-dark-gray-palette-p1"><%=stage.name%></h1>
+      <i data-lucide="more-horizontal" class="text-gray-pallete-p3"></i>
+    </div>
+    <ul data-controller="drag" data-drag-url="/accounts/:account_id/deals/:deal_id" data-id="<%= stage.id %>" class="space-y-4">
+      <% stage.deals.sort_by(&:position).each do |deal| %>
+        <%= render 'accounts/pipelines/deal', deal: deal %>
+      <% end %>
     </ul>
   </div>
 <% end %>
+
