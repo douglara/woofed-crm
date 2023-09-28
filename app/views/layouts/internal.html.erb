@@ -15,31 +15,23 @@
 
     <%= yield :stylesheets %>
   </head>
-
-  <body class="group !bg-brand-palette-08">
-  	<div id="app">
-      <div class="main-wrapper">
-      
-      <%= render "layouts/shared/nav" %>
-
-      <!-- Main Content -->
-      <% if controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
-      <div class="">
-        <%= content_for?(:content) ? yield(:content) : yield %>
-      </div>
-      <% else %>
-      <div class="main-content">
-        <%= content_for?(:content) ? yield(:content) : yield %>
-      </div>
-      <% end %>
-
-      <footer class="main-footer">
-        <div class="footer-left">
+  <body>
+    <div id="app" class="h-screen">
+      <div class="flex h-full">
+        <div class="w-60">
+          <%= render "layouts/shared/sidebar" %>
         </div>
-        <div class="footer-right">
+
+        <div class="flex flex-col h-full w-full">
+          <nav class="h-20">
+            <%= render "layouts/shared/navbar" %>
+          </nav>
+          <main class="h-full overflow-auto">
+            <%= content_for?(:content) ? yield(:content) : yield %>
+          </main> 
         </div>
-      </footer>
-    </div>
+      </div> 
+    <div>
     <%= yield :javascripts %>
   </body>
 </html>
