@@ -18,49 +18,24 @@
 
   <body>
     <div id="app" class="h-screen">
-      <div class="flex h-full ">
-        <% unless controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
-          <%= render "layouts/shared/sidebar" %>  
-        <% end %> 
-        <div class="content flex flex-col h-full w-full md:w-[calc(100vw-240px)] ease-in duration-300">
+      <div class="flex h-full">
+        <div>
+          <% unless controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
+            <%= render "layouts/shared/sidebar" %>
+          <% end %>
+        </div>
+
+        <div class="flex flex-col h-full w-full">
           <nav class="h-20">
             <%= render "layouts/shared/navbar" %>
           </nav>
           <main class="h-full overflow-auto">
             <%= content_for?(:content) ? yield(:content) : yield %>
-          </main> 
+          </main>
         </div>
-      </div> 
-
+      </div>
     <div>
-    <script>
-      var btnExpand = document.querySelector('#btn-expand')
-      var content = document.querySelector('.content')
-      var sidebar = document.querySelector('.sidebar')
-      var logoSidebar = document.querySelector('.logo-sidebar')
-      var logoPatinhaSidebar = document.querySelector('.logo-patinha-sidebar')
-      var iconsBtnSidebar = document.querySelector('.icons-button-sidebar')
-      var iconsLinkSidebar = document.querySelectorAll('.icons-link-sidebar')
-      var spamLinkSidebar = document.querySelectorAll('.spam-link-sidebar')
-      var iconsSidebar = document.querySelectorAll('.icon-sidebar')
-      var dividerSidebar = document.querySelector('.divider-sidebar')
-      console.log(content)
-      if (btnExpand) {
-        btnExpand.addEventListener('click', function(){
-          sidebar.classList.toggle('!w-[72px]');
-          logoSidebar.classList.toggle('hidden');
-          logoPatinhaSidebar.classList.toggle('hidden');
-          dividerSidebar.classList.toggle('!block');
-          content.classList.toggle('!w-[calc(100vw-72px)]');
-          iconsSidebar.forEach(i => {i.classList.toggle('!mx-auto');});
-          ['!mt-4','!h-[40px]','!p-2'].map(i => btnExpand.classList.toggle(i));
-          ['!w-full', '!h-[40px]'].map(i => iconsBtnSidebar.classList.toggle(i));
-          iconsLinkSidebar.forEach(i => {i.classList.toggle('!p-2.5');});
-          spamLinkSidebar.forEach(i => {i.classList.toggle('!hidden');});
-        });
-      } 
-    </script>
-      
+
     <%= yield :javascripts %>
   </body>
 </html>
