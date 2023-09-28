@@ -19,7 +19,9 @@
   <body>
     <div id="app" class="h-screen">
       <div class="flex h-full ">
-        <%= render "layouts/shared/sidebar" %>
+        <% unless controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
+          <%= render "layouts/shared/sidebar" %>  
+        <% end %> 
         <div class="flex flex-col h-full w-full">
           <nav class="h-20">
             <%= render "layouts/shared/navbar" %>
