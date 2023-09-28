@@ -15,57 +15,57 @@
 
 
   .typography-title-b-lh150 {
-    @apply text-title leading-100 font-bold;
+    @apply text-title leading-150 font-bold;
   }
   .typography-body-s-lh150 {
-    @apply text-body leading-100 font-semibold;
+    @apply text-body leading-150 font-semibold;
   }
   .typography-body-r-lh150 {
-    @apply text-body leading-100 font-normal;
+    @apply text-body leading-150 font-normal;
   }
   .typography-text-s-lh150 {
-    @apply text-text leading-100 font-semibold;
+    @apply text-text leading-150 font-semibold;
   }
   .typography-text-m-lh150 {
-    @apply text-text leading-100 font-medium;
-  }
-  .typography-text-r-lh150 {
-    @apply text-text leading-100 font-normal;
-  }
-  .typography-text-s-lh200 {
-    @apply text-text leading-100 font-semibold;
-  }
-  .typography-text-m-lh200 {
     @apply text-text leading-150 font-medium;
   }
-  .typography-text-r-lh200 {
+  .typography-text-r-lh150 {
     @apply text-text leading-150 font-normal;
   }
+  .typography-text-s-lh200 {
+    @apply text-text leading-200 font-semibold;
+  }
+  .typography-text-m-lh200 {
+    @apply text-text leading-200 font-medium;
+  }
+  .typography-text-r-lh200 {
+    @apply text-text leading-200 font-normal;
+  }
   .typography-sub-text-s-lh150 {
-    @apply text-subtext leading-100 font-semibold;
-  }
-  .typography-sub-text-m-lh150 {
-    @apply text-subtext leading-100 font-medium;
-  }
-  .typography-sub-text-r-lh150 {
-    @apply text-subtext leading-100 font-normal;
-  }
-  .typography-sub-text-s-lh200 {
     @apply text-subtext leading-150 font-semibold;
   }
-  .typography-sub-text-m-lh200 {
+  .typography-sub-text-m-lh150 {
     @apply text-subtext leading-150 font-medium;
   }
-  .typography-sub-text-r-lh200 {
+  .typography-sub-text-r-lh150 {
     @apply text-subtext leading-150 font-normal;
   }
+  .typography-sub-text-s-lh200 {
+    @apply text-subtext leading-200 font-semibold;
+  }
+  .typography-sub-text-m-lh200 {
+    @apply text-subtext leading-200 font-medium;
+  }
+  .typography-sub-text-r-lh200 {
+    @apply text-subtext leading-200 font-normal;
+  }
   .typography-micro-b-lh150 {
-    @apply text-micro leading-100 font-bold;
+    @apply text-micro leading-150 font-bold;
   }
   .typography-micro-s-lh150 {
-    @apply text-micro leading-100 font-semibold;
+    @apply text-micro leading-150 font-semibold;
   }
   .typography-micro-m-lh150 {
-    @apply text-micro leading-100 font-medium;
+    @apply text-micro leading-150 font-medium;
   }
  }
