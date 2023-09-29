@@ -38,5 +38,28 @@ a {
   -o-transition: all .0s;
 }
 
+// css scroll bar style
+
+
+/* width */
+.custom-scroll-list-deal::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+.custom-scroll-list-deal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+.custom-scroll-list-deal::-webkit-scrollbar-thumb {
+  background: #F2F1F7;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.custom-scroll-list-deal::-webkit-scrollbar-thumb:hover {
+  background: #CBC8DB;
+}
 
 
