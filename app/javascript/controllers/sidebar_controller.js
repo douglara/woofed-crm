@@ -2,8 +2,7 @@ import { Controller } from "stimulus"
 
 export default class extends Controller {
   toggle() {
-    this.element.classList.toggle('sidebar-mini');
-    this.element.classList.toggle('w-60');
-    this.element.classList.toggle('w-[72px]');
+    var expanded = (this.element.ariaExpanded === 'true');
+    this.element.ariaExpanded = !expanded;    
   }
 }
