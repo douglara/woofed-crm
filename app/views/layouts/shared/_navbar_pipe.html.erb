@@ -8,25 +8,25 @@
 <%= image_tag("logo-patinha.svg", class: "w-12 min-[440px]:hidden") %>
 <button data-collapse-toggle="navbar-search" type="button" class="md:hidden inline-flex items-center justify-center w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring focus:ring-violet-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
   <span class="sr-only">Open main menu</span>
-  <%= embedded_svg('vectooor2.svg', {class: '!h-5 !w-5 m-0.5 !fill-brand-palette-03'}) %>
+  <%= embedded_svg('vectooor2.svg', {class: 'h-5 w-5 m-0.5 fill-brand-palette-03'}) %>
 </button>
 <div class="hidden w-full" id="navbar-hamburger">
   <ul class="flex flex-col gap-x-2 mt-9 font-medium rounded-lg dark:bg-gray-800 dark:border-gray-700">
-    <%= link_to(account_pipelines_path(current_user.account), class: "#{ 'bg-gray-100 !text-brand-palette-03' if request.path.include?('pipelines') or request.path.include?('deal') } text-dark-gray-palette-p3 flex p-4 hover:bg-gray-50 hover:no-underline") do %>
+    <%= link_to(account_pipelines_path(current_user.account), class: "#{ 'bg-gray-100 text-brand-palette-03' if request.path.include?('pipelines') or request.path.include?('deal') } text-dark-gray-palette-p3 flex p-4 hover:bg-gray-50 hover:no-underline") do %>
       <li class="flex space-x-5 ">
-        <%= embedded_svg('deals-icon.svg', {class: "#{ '!fill-brand-palette-03' if request.path.include?('pipelines') or request.path.include?('deal') } w-[20px] self-center fill-dark-gray-palette-p3"}) %>
+        <%= embedded_svg('deals-icon.svg', {class: "#{ 'fill-brand-palette-03' if request.path.include?('pipelines') or request.path.include?('deal') } w-[20px] self-center fill-dark-gray-palette-p3"}) %>
         <span>Negócios</span>
       </li>
     <% end %>
-    <%= link_to(account_contacts_path(current_user.account), class: "#{ 'bg-gray-100 !text-brand-palette-03' if request.path.include?('contact') or request.path.include?('contact') } text-dark-gray-palette-p3 flex hover:bg-gray-50 p-4 hover:no-underline") do %>
+    <%= link_to(account_contacts_path(current_user.account), class: "#{ 'bg-gray-100 text-brand-palette-03' if request.path.include?('contact') or request.path.include?('contact') } text-dark-gray-palette-p3 flex hover:bg-gray-50 p-4 hover:no-underline") do %>
       <li class="flex space-x-5">
-        <%= embedded_svg('contacts-icon.svg', {class: "#{ '!fill-brand-palette-03' if request.path.include?('contact') or request.path.include?('contact') } w-[20px] self-center fill-dark-gray-palette-p3"}) %>
+        <%= embedded_svg('contacts-icon.svg', {class: "#{ 'fill-brand-palette-03' if request.path.include?('contact') or request.path.include?('contact') } w-[20px] self-center fill-dark-gray-palette-p3"}) %>
         <span>Contatos</span>
       </li>
     <% end %>
-    <%= link_to(account_settings_path(current_user.account), class: "#{ 'bg-gray-100 !text-brand-palette-03' if request.path.include?('settings') } flex p-4 flex hover:bg-gray-50 hover:no-underline text-dark-gray-palette-p3") do %>
+    <%= link_to(account_settings_path(current_user.account), class: "#{ 'bg-gray-100 text-brand-palette-03' if request.path.include?('settings') } flex p-4 flex hover:bg-gray-50 hover:no-underline text-dark-gray-palette-p3") do %>
     <li class="flex space-x-5">
-      <%= embedded_svg('company-icon.svg', {class: "#{ '!fill-brand-palette-03'if request.path.include?('settings') }w-[20px] self-center fill-dark-gray-palette-p3"}) %>
+      <%= embedded_svg('company-icon.svg', {class: "#{ 'fill-brand-palette-03'if request.path.include?('settings') }w-[20px] self-center fill-dark-gray-palette-p3"}) %>
       <span>Empresa</span>
     </li>
   <% end %>
@@ -35,7 +35,7 @@
 <div class="hidden md:flex items-center">
   <div class="flex flex-wrap mr-[1rem] flex-1">
     <div class="p-2.5 border-solid border-2 border-light-palette-p3 rounded-l-md bg-brand-palette-08 ">
-      <%= embedded_svg('vectooor2.svg', {class: '!h-5 !w-5 m-0.5 !fill-brand-palette-03'}) %>
+      <%= embedded_svg('vectooor2.svg', {class: 'h-5 w-5 m-0.5 fill-brand-palette-03'}) %>
     </div>
 
     <select class="p-2.5 mx-[-2px] border-solid border-2 border-light-palette-p3 w-52 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04 focus:z-10 typography-text-r-lh150 text-dark-gray-palette-p3" onchange="window.location=this.value">
