@@ -10,7 +10,7 @@
   <span class="sr-only">Open main menu</span>
   <%= embedded_svg('vectooor2.svg', {class: '!h-5 !w-5 m-0.5 !fill-brand-palette-03'}) %>
 </button>
-<div class="hidden w-full " id="navbar-hamburger">
+<div class="hidden w-full" id="navbar-hamburger">
   <ul class="flex flex-col gap-x-2 mt-9 font-medium rounded-lg dark:bg-gray-800 dark:border-gray-700">
     <%= link_to(account_pipelines_path(current_user.account), class: "#{ 'bg-gray-100 !text-brand-palette-03' if request.path.include?('pipelines') or request.path.include?('deal') } text-dark-gray-palette-p3 flex p-4 hover:bg-gray-50 hover:no-underline") do %>
       <li class="flex space-x-5 ">
