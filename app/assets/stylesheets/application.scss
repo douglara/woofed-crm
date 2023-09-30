@@ -43,7 +43,7 @@ a {
 
 /* width */
 .custom-scroll-list-deal::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
 }
 
 /* Track */
@@ -54,7 +54,7 @@ a {
 /* Handle */
 .custom-scroll-list-deal::-webkit-scrollbar-thumb {
   background: #F2F1F7;
-  border-radius: 5px;
+  border-left: 5px white solid;
 }
 
 /* Handle on hover */
