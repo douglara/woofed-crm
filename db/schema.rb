@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_19_105549) do
+ActiveRecord::Schema.define(version: 2023_10_02_143633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -468,7 +468,7 @@ ActiveRecord::Schema.define(version: 2023_09_19_105549) do
     t.string "name", default: "", null: false
     t.bigint "account_id", null: false
     t.bigint "pipeline_id", null: false
-    t.integer "order", default: 1, null: false
+    t.integer "position", default: 1, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_stages_on_account_id"

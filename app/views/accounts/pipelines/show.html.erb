@@ -1,5 +1,5 @@
 <div data-controller="lists" data-lists-id="<%= @pipeline.id %>">
   <section class="grid grid-flow-col auto-cols-[18.75.rem] h-auto gap-5" data-lists-target="lists">
-    <%= render partial: 'stage', collection: @pipeline.stages.sort_by(&:order), as: :stage %>
+    <%= render partial: 'stage', collection: @pipeline.stages.sort_by(&:position), as: :stage %>
   </section>
 </div>
