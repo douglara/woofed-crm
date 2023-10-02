@@ -1,53 +1,51 @@
-<%= stylesheet_link_tag "nav-pipe", media: 'all' %>
-<button data-collapse-toggle="navbar-hamburger" type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-hamburger" aria-expanded="false">
+<button data-collapse-toggle="navbar-hamburger" type="button" class="md:hidden inline-flex items-center justify-center w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-hamburger" aria-expanded="false">
   <span class="sr-only">Open main menu</span>
   <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
   </svg>
 </button>
-<%= image_tag("logo.svg", class: "max-[439px]:hidden w-44 lg:hidden ") %> 
+<%= image_tag("logo.svg", class: "max-[439px]:hidden w-44 md:hidden ") %> 
 <%= image_tag("logo-patinha.svg", class: "w-12 min-[440px]:hidden") %>
-<button data-collapse-toggle="navbar-search" type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100  focus:outline-none focus:ring focus:ring-violet-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
+<button data-collapse-toggle="navbar-search" type="button" class="md:hidden inline-flex items-center justify-center w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring focus:ring-violet-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
   <span class="sr-only">Open main menu</span>
-  <%= embedded_svg('vectooor2.svg', {class: '!h-5 !w-5 !fill-brand-palette-03'}) %>
+  <%= embedded_svg('vectooor2.svg', {class: 'h-5 w-5 m-0.5 fill-brand-palette-03'}) %>
 </button>
 <div class="hidden w-full" id="navbar-hamburger">
-  <ul class="flex flex-col gap-x-2 font-medium mt-4 rounded-lg dark:bg-gray-800 dark:border-gray-700">
-    <%= link_to(account_pipelines_path(current_user.account), class: "#{ 'bg-gray-100' if request.path.include?('pipelines') or request.path.include?('deal') } flex py-2 hover:bg-gray-50 hover:no-underline'") do %>
-      <li class="flex ">
-        <%= embedded_svg('deals-icon.svg', {class: 'w-10 self-center'}) %>
-        <span class="ml-2
-        ">Negócios</span>
+  <ul class="flex flex-col gap-x-2 mt-9 font-medium rounded-lg dark:bg-gray-800 dark:border-gray-700">
+    <%= link_to(account_pipelines_path(current_user.account), class: "#{ 'bg-gray-100 text-brand-palette-03' if request.path.include?('pipelines') or request.path.include?('deal') } text-dark-gray-palette-p3 flex p-4 hover:bg-gray-50 hover:no-underline") do %>
+      <li class="flex space-x-5 ">
+        <%= embedded_svg('deals-icon.svg', {class: "#{ 'fill-brand-palette-03' if request.path.include?('pipelines') or request.path.include?('deal') } w-[20px] self-center fill-dark-gray-palette-p3"}) %>
+        <span>Negócios</span>
       </li>
     <% end %>
-    <%= link_to(account_contacts_path(current_user.account), class: "#{ 'bg-gray-100' if request.path.include?('contact') or request.path.include?('contact') } flex py-2 hover:bg-gray-50 hover:no-underline'" 'flex hover:bg-gray-50 py-2 hover:no-underline') do %>
-      <li class="flex ">
-        <%= embedded_svg('contacts-icon.svg', {class: 'w-10 self-center'}) %>
-        <span class="ml-2 ">Contatos</span>
+    <%= link_to(account_contacts_path(current_user.account), class: "#{ 'bg-gray-100 text-brand-palette-03' if request.path.include?('contact') or request.path.include?('contact') } text-dark-gray-palette-p3 flex hover:bg-gray-50 p-4 hover:no-underline") do %>
+      <li class="flex space-x-5">
+        <%= embedded_svg('contacts-icon.svg', {class: "#{ 'fill-brand-palette-03' if request.path.include?('contact') or request.path.include?('contact') } w-[20px] self-center fill-dark-gray-palette-p3"}) %>
+        <span>Contatos</span>
       </li>
     <% end %>
-    <%= link_to(account_settings_path(current_user.account), class: "#{ 'bg-gray-100' if request.path.include?('settings') } flex py-2 hover:bg-gray-50 hover:no-underline'" 'flex hover:bg-gray-50 py-2 hover:no-underline') do %>
-    <li class="flex ">
-      <%= embedded_svg('company-icon.svg', {class: 'w-10 self-center'}) %>
-      <span class="ml-2 ">Empresa</span>
+    <%= link_to(account_settings_path(current_user.account), class: "#{ 'bg-gray-100 text-brand-palette-03' if request.path.include?('settings') } flex p-4 flex hover:bg-gray-50 hover:no-underline text-dark-gray-palette-p3") do %>
+    <li class="flex space-x-5">
+      <%= embedded_svg('company-icon.svg', {class: "#{ 'fill-brand-palette-03'if request.path.include?('settings') }w-[20px] self-center fill-dark-gray-palette-p3"}) %>
+      <span>Empresa</span>
     </li>
   <% end %>
   </ul>
 </div>
-<div class="hidden lg:flex items-center">
+<div class="hidden md:flex items-center">
   <div class="flex flex-wrap mr-[1rem] flex-1">
     <div class="p-2.5 border-solid border-2 border-light-palette-p3 rounded-l-md bg-brand-palette-08 ">
-      <%= embedded_svg('vectooor2.svg', {class: '!h-5 !w-5 !fill-brand-palette-03'}) %>
+      <%= embedded_svg('vectooor2.svg', {class: 'h-5 w-5 m-0.5 fill-brand-palette-03'}) %>
     </div>
 
-    <select class="p-2.5 mx-[-2px] border-solid border-2 border-light-palette-p3 w-52 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04 focus:z-10" onchange="window.location=this.value">
+    <select class="p-2.5 mx-[-2px] border-solid border-2 border-light-palette-p3 w-52 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04 focus:z-10 typography-text-r-lh150 text-dark-gray-palette-p3" onchange="window.location=this.value">
       <%= @pipelines.each do | pipeline |  %>
         <option value="<%= account_pipeline_path(current_user.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
       <% end %>
     </select>
 
     <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline), class: 'p-2.5 border-solid border-2 border-light-palette-p3 rounded-r-lg flex-1 hover:border-brand-palette-04' ) do %>
-      <%= embedded_svg('pencil-icon.svg') %>
+      <%= embedded_svg('pencil-icon.svg', class: 'm-0.5') %>
     <% end %>
   </div>
 
@@ -56,9 +54,9 @@
     Novo negócio
   <% end %>
 </div>
-<button type="button" class="hidden lg:flex border-solid border-2 border-light-palette-p3 rounded-md hover:bg-brand-palette-08 focus:bg-brand-palette-08 p-[14px]" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+<button type="button" class="hidden md:flex border-solid border-2 border-light-palette-p3 rounded-md hover:bg-brand-palette-08 focus:bg-brand-palette-08 p-2.5" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
   <span class="sr-only">Open user menu</span>
-  <i class="far fa-user "></i>
+  <i data-lucide="user" class="stroke-gray-500 w-5"></i>
 </button>
 <%# Dropdown menu %>
 <div class="z-50 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
@@ -79,14 +77,14 @@
   </div>
 </div>
 <div class="hidden w-full" id="navbar-search">
-  <div class="flex flex-wrap gap-px font-medium mt-4 rounded-lg bg-gray-50">
-    <select class="p-2.5 flex-[6_1_160px] mx-[-2px] border-solid border-2 border-light-palette-p3 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04 focus:z-10" onchange="window.location=this.value">
+  <div class="flex flex-wrap gap-px font-medium mt-8 rounded-lg bg-gray-50">
+    <select class="p-2.5 flex-[6_1_160px] mx-[-2px] border-solid border-2 border-light-palette-p3 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04 focus:z-10 typography-text-r-lh150" onchange="window.location=this.value">
       <%= @pipelines.each do | pipeline |  %>
         <option value="<%= account_pipeline_path(current_user.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
       <% end %>
     </select>
     <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline), class: 'p-2.5 mr-0 min-[142px]:mr-2 min-[142px]:mt-0 border-solid border-2 border-light-palette-p3 rounded-r-lg hover:border-brand-palette-04' ) do %>
-      <%= embedded_svg('pencil-icon.svg') %>
+      <%= embedded_svg('pencil-icon.svg', class: 'm-0.5') %>
     <% end %>
     <%= link_to new_select_contact_account_deals_path(current_user.account), class: 'flex-[1_1_142px] mt-2 min-[142px]:mt-0 px-4 py-[0.75rem] rounded-md
     bg-brand-palette-03 text-white text-center hover:bg-brand-palette-04 hover:no-underline font-semibold' do %>
