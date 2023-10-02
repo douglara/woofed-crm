@@ -1,5 +1,5 @@
 
-<div class="mb-4 mt-0 rounded-none md:hidden p-3 bg-light-palette-p5 border-2 border-light-palette-p3 rounded"> 
+<div class="mb-8 rounded-none md:hidden p-3 bg-light-palette-p5 border-b-2 border-light-palette-p3 rounded"> 
   <nav aria-label="breadcrumb" >
     <ol class="flex space-x-1 items-center text-center" >
       <%= render "/components/deals/stages_nav", deal: @deal %>
@@ -7,8 +7,8 @@
   </nav>
 </div>
 
-<section class="px-8 bg-brand-palette-08 ">
-  <div class="hidden md:block mb-4 mt-0 rounded-s md:mt-4 p-3 bg-light-palette-p5 border-2 border-light-palette-p3 rounded"> 
+<section class="px-8 md:px-0 bg-brand-palette-08 ">
+  <div class="hidden md:block mb-8 rounded-s p-3 bg-light-palette-p5 border-2 border-light-palette-p3 rounded"> 
     <nav aria-label="breadcrumb" >
       <ol class="flex space-x-2 items-center text-center" >
         <%= render "/accounts/deals/stages_nav_desktop", deal: @deal %>
