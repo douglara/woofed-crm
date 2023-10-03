@@ -1,65 +1,38 @@
-<section class="section">
-  <div class="section-header">
-    <h1>Campos personalizados</h1>
-  </div>
-
-  <div class="section-body">
-    <div class="card">
-      <div class="card-header">
-        <h4></h4>
-        <div class="card-header-action">
-          <div class="row">
-            <form hidden>
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search">
-              <div class="input-group-btn">
-                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-              </div>
-            </div>
-          </form>
-          <div class="dropdown ml-5 mr-5">
-            <%= link_to new_account_custom_attributes_definition_path(current_user.account), class: 'dropdown-toggle btn btn-primary' do %>
-              <i class="fas fa-plus"></i> New
-            <% end %>
-            <%
-=begin%>
- <a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown">Actions</a> 
-<%
-=end%>
-            <div class="dropdown-menu dropdown-menu-right">
-            </div>
-          </div>
-          </div>
+<section class="p-8 md:p-0 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md ">
+  <header class="flex justify-end items-center text-dark-gray-palette-p3 px-4 py-5 border-b-2 border-light-palette-p3">
+    <%= link_to 'Novo campo personalizado', new_account_custom_attributes_definition_path(current_user.account), class: 'typography-text-m-lh150 text-dark-gray-palette-p3 border-2 border-light-palette-p3 rounded-md px-4 py-2 hover:bg-dark-gray-palette-p3 hover:text-light-palette-p5 hover:border-transparent'%>
+  </header>
+  <ul class="px-4 py-5 space-y-5">
+    <% @custom_attributes_definitions.each do | custom_attributes_definition | %>
+      <li  class= "flex items-center gap-4">
+        <div class="p-2.5 rounded-lg border-2 border-light-palette-p3 bg-light-palette-p4">
+          <i data-lucide="wrench" class="w-5 stroke-dark-gray-palette-p3"></i>
         </div>
-      </div>
-      <div class="card-body p-0">
-        <div class="table-responsive">
-          <table class="table table-striped mb-0">
-            <thead>
-              <tr>
-                <th>Tipo</th>
-                <th>Nome</th>
-                <th>Chave</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @custom_attributes_definitions.each do | custom_attributes_definition | %>
-                <tr>
-                  <td>
-                    <%= CustomAttributeDefinition.human_attribute_name(custom_attributes_definition.attribute_model) %>
-                  </td>
-                  <td>
-                    <%= custom_attributes_definition.attribute_display_name %>
-                  </td>
-                  <td>
-                    <%= custom_attributes_definition.attribute_key %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
+        <div class="mr-auto">
+          <div class="flex items-center gap-1.5">
+            <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1"><%= custom_attributes_definition.attribute_display_name %></h2>
+            <p class="typography-text-r-lh150 text-dark-gray-palette-p4" ><%= custom_attributes_definition.attribute_key %> </p>
+          </div>
+          <p class= "typography-sub-text-s-lh150 text-dark-gray-palette-p4 hover:text-dark-gray-palette-p3"><%= CustomAttributeDefinition.human_attribute_name(custom_attributes_definition.attribute_model) %></p>
         </div>
-      </div>
-    </div>
-  </div>
+        <button id="dropdownContactBtn" data-dropdown-toggle="dropdownContactOptions" data-dropdown-placement="left-start" class="inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
+          <i data-lucide="more-vertical" class=" stroke-dark-gray-palette-p3"></i>
+        </button>
+        <div id="dropdownContactOptions" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
+          <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+            <li>
+              <a href="#" class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white"><i data-lucide="info"></i> <p>Detalhes</p></a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white"><i data-lucide="trash"></i> <p>Excluir</p></a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <div class="w-full h-0.5 bg-light-palette-p3 last:hidden"></div>
+    <% end %>
+  </ul>
 </section>
+
+
+
