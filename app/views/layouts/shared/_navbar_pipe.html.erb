@@ -38,7 +38,7 @@
       <%= embedded_svg('vectooor2.svg', {class: 'h-5 w-5 m-0.5 fill-brand-palette-03'}) %>
     </div>
 
-    <select class="p-2.5 mx-[-2px] border-solid border-2 border-light-palette-p3 w-52 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04 focus:z-10 typography-text-r-lh150 text-dark-gray-palette-p3" onchange="window.location=this.value">
+    <select class="p-2.5 mx-[-2px] border-solid border-2 border-light-palette-p3 w-[160px] focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04 focus:z-10 typography-text-r-lh150 text-dark-gray-palette-p3" onchange="window.location=this.value">
       <%= @pipelines.each do | pipeline |  %>
         <option value="<%= account_pipeline_path(current_user.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
       <% end %>
