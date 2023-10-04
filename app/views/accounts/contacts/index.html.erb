@@ -1,74 +1,45 @@
-<section class="section">
-  <div class="section-header">
-    <h1>Contacts</h1>
-  </div>
-
-  <div class="section-body">
-    <div class="card">
-      <div class="card-header">
-        <h4></h4>
-        <div class="card-header-action">
-          <div class="row">
-            <form hidden>
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search">
-              <div class="input-group-btn">
-                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-              </div>
-            </div>
-          </form>
-          <div class="dropdown ml-5 mr-5">
-            <a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown">Actions</a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <%= link_to new_account_contact_path(current_user.account), class: 'dropdown-item has-icon' do %>
-                <i class="fas fa-user-plus"></i> New
+<section class="m-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md ">
+  <ul class="px-4 py-5 space-y-5">
+    <% @contacts.each do |contact| %>
+      <li  class= "flex items-center gap-4">
+        <div class="p-2.5 rounded-lg border-2 border-light-palette-p3 bg-light-palette-p4">
+          <i data-lucide="user" class="w-5 stroke-dark-gray-palette-p3"></i>
+        </div>
+        <div class="mr-auto">
+          <div class="flex items-center gap-1.5">
+            <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1"><%= contact.full_name %></h2>
+            <%= mail_to contact.email do %>
+              <p class="typography-text-r-lh150 text-dark-gray-palette-p4 flex items-center gap-0.5 hover:text-dark-gray-palette-p2"><%= contact.email %> <i data-lucide="arrow-up-right-square" class="w-3.5"></i>
+              </p>
+            <% end %>
+          </div>
+        <%= link_to contact.phone, "tel:#{contact.phone}", class:"typography-sub-text-s-lh150 text-dark-gray-palette-p4 hover:text-dark-gray-palette-p3" %>
+        </div>
+        <button id="dropdownContactBtn" data-dropdown-toggle="dropdownContactOptions" data-dropdown-placement="left-start" class="inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
+          <i data-lucide="more-vertical" class=" stroke-dark-gray-palette-p3"></i>
+        </button>
+        <div id="dropdownContactOptions" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
+          <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+            <li>
+              <%= link_to account_contact_path(current_user.account, contact), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
+              <i data-lucide="info"></i> <p>Detalhes</p>
               <% end %>
-            </div>
-          </div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body p-0">
-        <div class="table-responsive">
-          <table class="table table-striped mb-0">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @contacts.each do |contact| %>
-                <tr>
-                  <td>
-                    <%= contact.full_name %>
-                  </td>
-                  <td>
-                    <%= contact.email %>
-                  </td>
-                  <td>
-                    <%= contact.phone %>
-                  </td>
-                  <td>
-                    <%= link_to 'Detail', account_contact_path(current_user.account, contact), class: 'btn btn-primary' %>
-                    <%= link_to account_contact_path(current_user.account, contact), method: :delete, class: 'btn btn-danger btn-action trigger--fire-modal-1' do %>
-                      <i class="fas fa-trash"></i>
-                    <% end %>
-                  </td>
-                </tr>
+            </li>
+            <li>
+              <%= link_to account_contact_path(current_user.account, contact), method: :delete, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
+                <i data-lucide="trash"></i> <p>Excluir</p>
               <% end %>
-            </tbody>
-          </table>
+            </li>
+          </ul>
         </div>
+      </li>
+      <div class="w-full h-0.5 bg-light-palette-p3 last:hidden"></div>
+    <% end %>
+  </ul>
 
-        <div class="row float-right p-3">
-          <div class="col-12 mr-5">
-            <%== pagy_bootstrap_nav(@pagy) %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="float-right py-6">
+    <%== pagy_nav(@pagy) %>
+  </div> 
 </section>
+
+
