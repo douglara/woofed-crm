@@ -4,7 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  name        :string           default(""), not null
-#  order       :integer          default(1), not null
+#  position    :integer          default(1), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  account_id  :bigint           not null
