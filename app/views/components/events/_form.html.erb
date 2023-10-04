@@ -1,52 +1,66 @@
 <%= turbo_frame_tag "kind_content" do %> <% end %>
 
 <div data-controller="events-form" class="bg-light-palette-p5 border-2 border-neutral-150 border-light-palette-p3 rounded">
-  <header class="border-b-2 border-neutral-100 h-18 flex items-center p-3">
-    <p class="mr-auto my-auto text-gray-palette-p-1 font-semibold text-lg">Ações</p>
+  <header class="border-b-2 border-neutral-100 h-18 flex flex-wrap items-center px-3 py-4">
+    <p class="flex-[1_1_180px] text-dark-gray-palette-p1 typography-body-s-lh150">Ações</p>
 
     <div class="flex space-x-2.5">
+      <!-- Dropdown menu -->
+      <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownDotsHorizontal" class="md:hidden inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button"> 
+        <i data-lucide="chevron-down" class="text-gray-pallete-p3"></i>
+      </button>
+      <!-- Dropdown menu -->
+      <div id="dropdownDotsHorizontal" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
+          <li>
+            <a data-action="click->events-form#selectActivity" class="flex items-center gap-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:no-underline hover:cursor-pointer">
+              <i data-lucide="clipboard-list" class="transition delay-100 duration-100 h-3.5 text-gray-pallete-p3 group-hover:text-brand-palette-03 group-[.btn-active]:text-brand-palette-03"></i>
+              <p class=" transition delay-100 duration-100 m-0  text-dark-gray-palette-p3 group-hover:text-dark-gray-palette-p1 group-hover:font-medium group-[.btn-active]:text-brand-palette-03 group-[.btn-active]:font-semibold">Atividade</p>
+            </a>
+          </li>
+          <li>
+            <a data-action="click->events-form#selectNote" class="flex items-center gap-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:no-underline hover:cursor-pointer">
+              <i data-lucide="menu-square" class="transition delay-100 duration-100 h-3.5 text-gray-pallete-p3 group-hover:text-brand-palette-03 group-[.btn-active]:text-brand-palette-03"></i>
+              <p class=" transition delay-100 duration-100 m-0  text-dark-gray-palette-p3 group-hover:text-dark-gray-palette-p1 group-hover:font-medium group-[.btn-active]:text-brand-palette-03 group-[.btn-active]:font-semibold">Nota</p>
+            </a>
+          </li>
+          <li>
+            <a data-action="click->events-form#selectWppConnect" class="flex items-center gap-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:no-underline hover:cursor-pointer">
+              <%= embedded_svg('icon-whtass.svg', class:"transition delay-100 duration-100 h-3.5 fill-gray-pallete-p3 mx-[5px] group-hover:fill-brand-palette-03") %>  
+              <p class=" transition delay-100 duration-100 m-0  text-dark-gray-palette-p3 group-hover:text-dark-gray-palette-p1 group-hover:font-medium group-[.btn-active]:text-brand-palette-03 group-[.btn-active]:font-semibold">Whatsapp</p>
+            </a>
+          </li>
+        </ul>
+    </div>
       <!-- Icone atividade -->
-      <a data-action="click->events-form#selectActivity" class="transition delay-100 duration-100 group pr-0.5 h-10 flex items-center text-sm text-gray-900 hover:no-underline">
-        <div class="w-14 h-10 transition delay-100 duration-100 px-2 rounded-l-lg border-y border-l border-light-palette-p3 flex items-center text-sm bg-light-palette-p4 group-hover:bg-brand-palette-07 group-hover:border-brand-palette-07 group-[.btn-active]:bg-light-palette-p5">
+      <a data-action="click->events-form#selectActivity" class="hidden md:flex transition delay-100 duration-100 group pr-0.5 h-10 flex items-center text-sm text-gray-900 hover:no-underline hover:cursor-pointer">
+        <div class="w-10 rounded-lg border h-10 transition min-[495px]:rounded-none delay-100 duration-100 px-2 min-[495px]:rounded-l-lg min-[495px]:border-y min-[495px]:border-l border-light-palette-p3 flex items-center text-sm bg-light-palette-p4 group-hover:bg-brand-palette-07 group-hover:border-brand-palette-07 group-[.btn-active]:bg-light-palette-p5">
           <i data-lucide="clipboard-list" class="transition delay-100 duration-100 h-3.5 text-gray-pallete-p3 group-hover:text-brand-palette-03 group-[.btn-active]:text-brand-palette-03"></i>
         </div>
-        <div class="transition delay-100 duration-100 flex items-center rounded-r-lg border border-light-palette-p3 bg-light-palette-p5 group-hover:border-brand-palette-07 h-full w-full group-[.btn-active]:bg-brand-palette-08">
-          <p class="transition delay-100 duration-100 m-0 px-3 text-dark-gray-palette-p3 group-hover:text-dark-gray-palette-p1 group-hover:font-medium group-[.btn-active]:text-brand-palette-03 group-[.btn-active]:font-semibold">Atividade</p>
+        <div class="hidden min-[495px]:flex transition delay-100 duration-100 flex items-center rounded-r-lg border border-light-palette-p3 bg-light-palette-p5 group-hover:border-brand-palette-07 h-full w-full group-[.btn-active]:bg-brand-palette-08">
+          <p class=" transition delay-100 duration-100 m-0 px-3 text-dark-gray-palette-p3 group-hover:text-dark-gray-palette-p1 group-hover:font-medium group-[.btn-active]:text-brand-palette-03 group-[.btn-active]:font-semibold">Atividade</p>
         </div>
       </a>
       <!-- Icone nota -->
-      <a data-action="click->events-form#selectNote" class="transition delay-100 duration-100 group pr-0.5 h-10 flex items-center text-sm text-gray-900 hover:no-underline">
-        <div class="w-14 h-10 transition delay-100 duration-100 px-2 rounded-l-lg border-y border-l border-light-palette-p3 flex items-center text-sm bg-light-palette-p4 group-hover:bg-brand-palette-07 group-hover:border-brand-palette-07 group-[.btn-active]:bg-light-palette-p5">
+      <a data-action="click->events-form#selectNote" class="hidden md:flex transition delay-100 duration-100 group pr-0.5 h-10 flex items-center text-sm text-gray-900 hover:no-underline hover:cursor-pointer">
+        <div class="w-10 border rounded-lg h-10 transition min-[495px]:rounded-none delay-100 duration-100 px-2 min-[495px]:rounded-l-lg min-[495px]:border-y min-[495px]:border-l border-light-palette-p3 flex items-center text-sm bg-light-palette-p4 group-hover:bg-brand-palette-07 group-hover:border-brand-palette-07 group-[.btn-active]:bg-light-palette-p5">
           <i data-lucide="menu-square" class="transition delay-100 duration-100 h-3.5 text-gray-pallete-p3 group-hover:text-brand-palette-03 group-[.btn-active]:text-brand-palette-03"></i>
         </div>
-        <div class="transition delay-100 duration-100 flex items-center rounded-r-lg border border-light-palette-p3 bg-light-palette-p5 group-hover:border-brand-palette-07 h-full w-full group-[.btn-active]:bg-brand-palette-08">
+        <div class="hidden min-[545px]:flex transition delay-100 duration-100 flex items-center rounded-r-lg border border-light-palette-p3 bg-light-palette-p5 group-hover:border-brand-palette-07 h-full w-full group-[.btn-active]:bg-brand-palette-08">
           <p class="transition delay-100 duration-100 m-0 px-3 text-dark-gray-palette-p3 group-hover:text-dark-gray-palette-p1 group-hover:font-medium group-[.btn-active]:text-brand-palette-03 group-[.btn-active]:font-semibold">Nota</p>
         </div>
       </a>
       <!-- Icone WhatsApp -->
-      <a data-action="click->events-form#selectWppConnect" class="transition delay-100 duration-100 group pr-0.5 h-10 flex items-center text-sm text-gray-900  hover:no-underline">
-        <div class="w-14 h-10 transition delay-100 duration-100 px-2 rounded-l-lg border-y border-l border-light-palette-p3 flex items-center text-sm bg-light-palette-p4 group-hover:bg-brand-palette-07 group-hover:border-brand-palette-07 group-[.btn-active]:bg-light-palette-p5">
+      <a data-action="click->events-form#selectWppConnect" class="hidden md:flex transition delay-100 duration-100 group pr-0.5 h-10 flex items-center text-sm text-gray-900  hover:no-underline hover:cursor-pointer">
+        <div class="w-10 border rounded-lg h-10 transition min-[495px]:rounded-none delay-100 duration-100 px-3 min-[495px]:rounded-l-lg min-[495px]:border-y min-[495px]:border-l border-light-palette-p3 flex items-center text-sm bg-light-palette-p4 group-hover:bg-brand-palette-07 group-hover:border-brand-palette-07 group-[.btn-active]:bg-light-palette-p5">
           <%= embedded_svg('icon-whtass.svg', class:"transition delay-100 duration-100 h-3.5 fill-gray-pallete-p3 mx-auto group-hover:fill-brand-palette-03") %>  
         </div>
-        <div class="transition delay-100 duration-100 flex items-center rounded-r-lg border border-light-palette-p3 bg-light-palette-p5 group-hover:border-brand-palette-07 h-full w-full group-[.btn-active]:bg-brand-palette-08">
+        <div class="hidden min-[647px]:flex transition delay-100 duration-100 flex items-center rounded-r-lg border border-light-palette-p3 bg-light-palette-p5 group-hover:border-brand-palette-07 h-full w-full group-[.btn-active]:bg-brand-palette-08">
           <p class="transition delay-100 duration-100 m-0 px-3 text-dark-gray-palette-p3 group-hover:text-dark-gray-palette-p1 group-hover:font-medium group-[.btn-active]:text-brand-palette-03 group-[.btn-active]:font-semibold">WhatsApp</p>
         </div>
       </a>
       <!-- Icone e-mail -->
-      <a href="#" class="transition delay-100 duration-100 group pr-0.5 h-10 flex items-center text-sm text-gray-900  hover:no-underline">
-        <div class="w-14 h-10 transition delay-100 duration-100 px-2 rounded-l-lg border-y border-l border-light-palette-p3 flex items-center text-sm bg-light-palette-p4 group-hover:bg-brand-palette-07 group-hover:border-brand-palette-07 group-[.btn-active]:bg-light-palette-p5">
-          <i data-lucide="mail" class="transition delay-100 duration-100 h-3.5 text-gray-pallete-p3 group-hover:text-brand-palette-03 group-[.btn-active]:text-brand-palette-03"></i>
-        </div>
-        <div class="transition delay-100 duration-100 flex items-center rounded-r-lg border border-light-palette-p3 bg-light-palette-p5 group-hover:border-brand-palette-07 h-full w-full group-[.btn-active]:bg-brand-palette-08">
-          <p class="transition delay-100 duration-100 m-0 px-3 text-dark-gray-palette-p3 group-hover:text-dark-gray-palette-p1 group-hover:font-medium group-[.btn-active]:text-brand-palette-03 group-[.btn-active]:font-semibold">Email</p>
-        </div>
-      </a>
-      <!-- Icone arrow down -->
-      <a href="#" class="pr-0.5 h-10 flex items-center text-sm text-gray-900" hidden>
-        <div class="px-2 rounded-lg border border-light-palette-p3 flex items-center text-sm bg-light-palette-p4 h-full w-full">
-          <i data-lucide="chevron-down" class="text-gray-pallete-p3"></i> 
-        </div>
-      </a>
+
     </div>
   </header>
 
@@ -58,8 +72,8 @@
         </div>
       </div>
       <div class="m-3">
-        <p class="font-semibold mb-0 text-base text-gray-pallete-p1">Adicionar atividade</p>
-        <p class="font-thin text-gray-pallete-p3">Clique aqui ou nos campos acima para adicionar uma atividade</p>
+        <p class="font-semibold mb-0 typography-body-s-lh150 text-dark-gray-palette-p1">Adicionar atividade</p>
+        <p class="typography-text-r-lh150 text-dark-gray-palette-p3">Clique aqui ou nos campos acima para adicionar uma atividade</p>
         <p></p>
       </div>
     </div>
