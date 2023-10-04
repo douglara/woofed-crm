@@ -1,37 +1,38 @@
-<%= form_with(model: custom_attributes_definition, url: account_custom_attributes_definitions_path(current_user.account), method: :post, data: {turbo: false}, id: 'formId') do |form| %>
+<%= form_with(model: custom_attributes_definition, url: account_custom_attributes_definitions_path(current_user.account), method: :post, data: {turbo: false}, id: 'formId', class: "flex flex-col gap-5") do |form| %>
   <% if custom_attributes_definition.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(custom_attributes_definition.errors.count, "error") %> prohibited this activity kind from being saved:</h2>
-
+    <div>
       <ul>
         <% custom_attributes_definition.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+          <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
-
-  <div class="form-group">
-    <%= form.label :attribute_model %>
-    <%= form.select(:attribute_model, [ ['Contato', 'contact_attribute'], ['Negócio', 'deal_attribute']], {}, { class: 'form-control'  } ) %>
+  <div class= "grid sm:grid-cols-3 gap-4">
+    <div class="flex flex-col gap-1">
+      <%= form.label :attribute_model, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.select(:attribute_model, [ ['Contato', 'contact_attribute'], ['Negócio', 'deal_attribute']], {}, { class: 'form-input'  } ) %>
+    </div>
+    <div class="flex flex-col gap-1">
+      <%= form.label :attribute_display_name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.text_field :attribute_display_name, placeholder: "Campo 1", class: 'form-input' %>
+    </div>
+    <div class="flex flex-col gap-1">
+      <%= form.label :attribute_key, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.text_field :attribute_key, placeholder: "21346542", class: 'form-input' %>
+    </div>
   </div>
 
-  <div class="form-group">
-    <%= form.label :attribute_key %>
-    <%= form.text_field :attribute_key, class: 'form-control', data: { controller: 'keyfield', action: 'keyfield#update' } %>
+  <div class="flex flex-col gap-1">
+    <%= form.label :attribute_description, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+    <%= form.text_area :attribute_description, placeholder: "Campo específico para .....", class: 'form-input' %>
   </div>
 
-  <div class="form-group">
-    <%= form.label :attribute_display_name %>
-    <%= form.text_field :attribute_display_name, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :attribute_description %>
-    <%= form.text_field :attribute_description, class: 'form-control' %>
-  </div>
-
-  <div class="card-footer text-right">
-    <%= form.submit 'Criar', class: 'btn btn-primary' %>
-  </div>
+  <%= form.submit 'Criar', class: 'btn-primary self-end cursor-pointer' %>
 <% end %>
+
+
+
+
+
+
