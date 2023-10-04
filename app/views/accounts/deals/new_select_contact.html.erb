@@ -1,32 +1,6 @@
-<section class="section">
-  <div class="section-header">
-    <h1>New Deal</h1>
-  </div>
-
-  <div class="section-body">
-    <div class="card">
-      <div class="card-body">
-        <div class="col-lg-5 container">
-
-          <div data-controller="new-deal">
-            <%= form_with(model: @deal, url: new_account_deal_path(current_user.account), method: :get) do |form| %>
-              <div class="section-title">Contact</div>
-              <div class="form-group">
-                <select class="form-control select2">
-                  <option selected="selected" value="">New contact</option>
-                </select>
-              </div>
-
-              <%= form.hidden_field :contact_id, class: 'form-control' %>
-
-              <div class="card-footer text-right">
-                <%= form.submit 'Continue', class: 'btn btn-primary' %>
-              </div>
-            <% end %>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
+<section class="px-4 py-5 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md">
+  <%= form_with(model: @deal, url: new_account_deal_path(current_user.account), method: :get, class:"flex gap-3") do |form| %>
+    <%= form.select(:contact_id, current_user.account.contacts.pluck(:full_name , :id) , {},  {class: "form-input flex-1"}) %>
+    <%= form.submit 'Continue', class: 'btn-primary' %>
+  <% end %>
 </section>

@@ -1,4 +1,40 @@
-<div data-controller="new-deal">
+<%= form_with(model: deal, url: account_deals_path(current_user.account), class: "flex flex-col gap-5") do |form| %>
+  <div class= "grid sm:grid-cols-2 gap-4">
+    <div class="flex flex-col gap-1">
+      <%= form.label :name, "Título do negócio", class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.text_field :name, placeholder: "Vendas", class: 'form-input' %>
+    </div>
+    <div class="flex flex-col gap-1">
+      <%= form.label :stage_id, "Funil", class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.select(:stage_id, @stages.map { |stage| [stage.name, stage.id] }, {}, { class: 'form-input' }) %>
+    </div>
+  </div>
+  <div class= "grid sm:grid-cols-3 gap-4">
+    <div class="flex flex-col gap-1">
+      <%= form.label :full_name, "Nome completo", class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.text_field :full_name, placeholder: deal.contact.full_name, class: 'form-input' %>
+    </div>
+    <div class="flex flex-col gap-1">
+      <%= form.label :phone, "Telefone", class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.text_field :phone, placeholder: deal.contact.phone, class: 'form-input' %>
+    </div>
+      <div class="flex flex-col gap-1">
+        <%= form.label :email, "Email", class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <%= form.text_field :email, placeholder: deal.contact.email, class: 'form-input' %>
+    </div>
+  </div>
+  <%= form.hidden_field :contact_id, class: 'form-control' %>
+  <%= form.submit 'Submit', class: 'btn-primary self-end cursor-pointer' %>
+<% end %>
+
+
+
+
+
+
+
+
+<!-- <div data-controller="new-deal">
   <%= form_with(model: deal, url: account_deals_path(current_user.account)) do |form| %>
     <% if deal.errors.any? %>
       <div id="error_explanation">
@@ -69,4 +105,4 @@
       <%= form.submit 'Submit', class: 'btn btn-primary' %>
     </div>
   <% end %>
-</div>
+</div> -->
