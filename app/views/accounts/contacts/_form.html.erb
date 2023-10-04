@@ -1,56 +1,57 @@
-<div data-controller="new-contact">
-  <%= form_for [current_user.account, contact] do | form | %>
-    <% if contact.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
-
-        <ul>
-          <% contact.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <div class="form-group">
-      <%= form.label :full_name %>
-      <%= form.text_field :full_name, class: 'form-control' %>
+<%= form_for([current_user.account, contact], html:{class: "flex flex-col gap-5"} ) do | form | %>
+  <% if contact.errors.any? %>
+    <div>
+      <ul>
+        <% contact.errors.each do |error| %>
+          <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
+        <% end %>
+      </ul>
     </div>
-
-    <div class="form-group">
-      <%= form.label :phone %>
-      <%= form.text_field :phone, class: 'form-control' %>
+  <% end %>
+  <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">Dados do usuário</h2>
+  <div class= "grid lg:grid-cols-3 gap-4">
+    <div class="flex flex-col gap-1">
+      <%= form.label :full_name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.text_field :full_name, placeholder: "João Paulo", class: 'form-input' %>
     </div>
-
-    <div class="form-group">
-      <%= form.label :email %>
-      <%= form.text_field :email, class: 'form-control' %>
+    <div class="flex flex-col gap-1">
+      <%= form.label :phone, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
+      <%= form.text_field :phone, placeholder: "999999999", class: 'form-input' %>
     </div>
-
-    <div class="form-group">
-      <label>Labels</label>
-      <select disabled class="form-control select2" multiple="">
-        <%= contact.labels.each do | label | %>
+    <div class="flex flex-col gap-1">
+      <%= form.label :email, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
+      <%= form.text_field :email, placeholder: "joaopaulo@email.com", class: 'form-input' %>
+    </div>
+  </div>
+  <!-- <div class="grid">
+    <label class= "typography-text-m-lh150 text-dark-gray-palette-p1">Labels</label>
+    <select disabled class="form-input" multiple="">
+      <%= contact.labels.each do | label | %>
+        <option selected><%= label.name %></option>
+      <% end %>
+    </select>
+  </div> -->
+  <% if contact.connected_with_chatwoot?  %>
+    <div class="grid">
+      <label class= "typography-text-m-lh150 text-dark-gray-palette-p1">Chatwoot conversations labels</label>
+      <select disabled class="form-input" multiple="">
+        <%= contact.chatwoot_conversations_labels.each do | label | %>
           <option selected><%= label.name %></option>
         <% end %>
       </select>
     </div>
-
-    <% if contact.connected_with_chatwoot?  %>
-      <div class="form-group">
-        <label>Chatwoot conversations labels</label>
-        <select disabled class="form-control select2" multiple="">
-          <%= contact.chatwoot_conversations_labels.each do | label | %>
-            <option selected><%= label.name %></option>
-          <% end %>
-        </select>
-      </div>
-    <% end %>
-
-    <%= render 'accounts/custom_attributes', m: contact, f: form %>
-
-    <div class="card-footer text-right">
-      <%= form.submit 'Submit', class: 'btn btn-primary' %>
-    </div>
   <% end %>
-</div>
+  <div class="h-0.5 w-full bg-light-palette-p3"></div>
+  <%= render 'accounts/custom_attributes', m: contact, f: form %>
+  <div class="flex gap-2 self-end">
+    <%= link_to account_custom_attributes_definitions_path(current_user.account), class:"btn-secondary-2 flex items-center gap-2" do %>
+    <i data-lucide="plus"></i>
+    Adicionar campo personalizado
+    <% end %>
+    <%= form.submit 'Cadastrar', class: 'btn-primary cursor-pointer' %>
+  </div>
+<% end %>
+
+
+
+

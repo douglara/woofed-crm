@@ -1,3 +1,4 @@
+<h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">Campos personalizados</h2>
 <%= f.fields_for(:custom_attributes) do |sf| %>
 
 <%
@@ -14,17 +15,9 @@
 
 
   <% current_user.account.custom_attributes_definitions.where(attribute_model: "#{m.class.name.downcase}_attribute").each do | custom_attribute | %>
-    <div class="form-group">
-      <%= sf.label custom_attribute.attribute_key.to_sym, custom_attribute.attribute_display_name %><br />
-      <%= sf.text_field custom_attribute.attribute_key.to_sym, value: m.custom_attributes[custom_attribute.attribute_key], autofocus: true, class: "form-control" %>
+    <div class="grid">
+      <%= sf.label custom_attribute.attribute_key.to_sym, custom_attribute.attribute_display_name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= sf.text_field custom_attribute.attribute_key.to_sym, value: m.custom_attributes[custom_attribute.attribute_key], autofocus: true, class: "form-input" %>
     </div>
   <% end %>
 <% end %>
-
-<div class="dropdown-divider"></div>
-<div>
-  <%= link_to account_custom_attributes_definitions_path(current_user.account), class:"btn btn-icon icon-left" do %>
-    <svg data-v-2beb9cd3="" width="14" height="14" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon icon--font add"><path d="M11.75 3a.75.75 0 0 1 .743.648l.007.102.001 7.25h7.253a.75.75 0 0 1 .102 1.493l-.102.007h-7.253l.002 7.25a.75.75 0 0 1-1.493.101l-.007-.102-.002-7.249H3.752a.75.75 0 0 1-.102-1.493L3.752 11h7.25L11 3.75a.75.75 0 0 1 .75-.75Z" fill="currentColor"></path></svg>
-    Adicionar campo personalizado
-  <% end %>
-</div>
