@@ -16,10 +16,10 @@ if User.all.count == 0
   user_3 = User.create(full_name: 'User 3', email: 'user3@email.com', password: '123456', password_confirmation: '123456', account: account_1)
 
   pipeline = Pipeline.create(name: 'Sales' , account: account_1)
-  stage_1 = Stage.create(pipeline: pipeline, name: 'New', order: 1, account: account_1)
-  stage_2 = Stage.create(pipeline: pipeline, name: 'Qualifying', order: 2, account: account_1)
-  stage_3 = Stage.create(pipeline: pipeline, name: 'Proposal', order: 3, account: account_1)
-  stage_4 = Stage.create(pipeline: pipeline, name: 'Follow Up', order: 4, account: account_1)
+  stage_1 = Stage.create(pipeline: pipeline, name: 'New', position: 1, account: account_1)
+  stage_2 = Stage.create(pipeline: pipeline, name: 'Qualifying', position: 2, account: account_1)
+  stage_3 = Stage.create(pipeline: pipeline, name: 'Proposal', position: 3, account: account_1)
+  stage_4 = Stage.create(pipeline: pipeline, name: 'Follow Up', position: 4, account: account_1)
 
   contacts = []
   20.times do | time |
