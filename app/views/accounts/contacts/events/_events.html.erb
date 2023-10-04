@@ -1,15 +1,13 @@
 <%= turbo_frame_tag "events_#{@deal.contact.id}" do %>
   <%= turbo_stream_from @deal.contact.id, 'events' %>
-
-  <div class="bg-light-palette-p5 border-2 border-neutral-150 border-light-palette-p3 rounded mx-2 ">
+  <div class="mb-5 bg-light-palette-p5 border-2 border-neutral-150 border-light-palette-p3 rounded ">
     <div class="border-b-2 border-neutral-100 h-16 flex items-center p-3">
-      <p class="my-auto text-gray-palette-p-1 font-semibold text-lg">Histórico</p>
+      <p class="my-auto text-dark-gray-palette-p1 typography-body-s-lh150">Histórico</p>
     </div>
     <div class="p-3">
-      
         <div class="border-b pb-6">
           <div class="my-2">
-            <span class="text-brand-palette-03 background-transparent font-semibold text-sm flex items-center">
+            <span class="text-brand-palette-03 background-transparent typography-text-s-lh150 flex items-center">
               <i data-lucide="calendar" height="18" class="mr-2"></i> Agendado
             </span>
           </div>
@@ -20,7 +18,7 @@
 
         <div class="">
           <div>
-            <span class="py-4 text-auxiliary-palette-green background-transparent font-semibold text-sm flex items-center">
+            <span class="py-4 text-auxiliary-palette-green background-transparent typography-text-s-lh150 flex items-center">
               <i data-lucide="check-circle-2" height="18" class="mr-2"></i> Concluído
             </span>
           </div>
