@@ -3,6 +3,8 @@
     <%= render "layouts/shared/navbar_pipe" %>
   <% elsif controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
     <%= render "layouts/shared/navbar_deal" %>
+  <% elsif controller_path == 'accounts/settings' %>
+    <%= render "layouts/shared/navbar_setting" %>
   <% end %>
 </nav>
 
