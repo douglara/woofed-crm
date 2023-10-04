@@ -124,6 +124,7 @@ class Accounts::DealsController < InternalController
   # PATCH/PUT /deals/1 or /deals/1.json
   def update
     if @deal.update(deal_params)
+      redirect_to account_deal_path(current_user.account, @deal)
     else
       render :edit, status: :unprocessable_entity
     end
