@@ -1,12 +1,18 @@
 <div class='nested-fields'>
-  <div class="form-group">
-    <%= f.label :name %>
-      <div class="input-group">
-        <%= f.hidden_field :account_id, value: current_user.account.id, class: 'form-control' %>
-        <%= f.text_field :name, class: 'form-control' %>
-        <%= link_to_remove_association f, class: 'btn btn-icon btn-danger btn-remove', data: { confirm: 'Are you sure? All deals in this stage will be deleted too' } do %>
-          <i class="fas fa-times"></i>
-        <% end %>
-    </div>
+  <%= f.label :name, "Nome", class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+  <div class="flex gap-2">
+    <%= f.hidden_field :account_id, value: current_user.account.id %>
+    <%= f.text_field :name, placeholer: 'Estágio 1', class: "form-input flex-1" %>
+    <%= link_to_remove_association f, class: 'btn-secondary !p-2', data: { confirm: 'Are you sure? All deals in this stage will be deleted too' } do %>
+      <i data-lucide="trash-2"></i>
+    <% end %>
   </div>
 </div>
+
+
+
+
+
+
+
+
