@@ -8,7 +8,14 @@ class Accounts::Contacts::ChatwootEmbedController < InternalController
     if contact.present?
       redirect_to account_chatwoot_embed_path(current_user.account, contact)
     else
-      redirect_to new_account_chatwoot_embed_path(current_user.account, chatwoot_contact: params['chatwoot_contact'])
+      chatwoot_contact = JSON.parse(params['chatwoot_contact'])
+      @contact = current_user.account.contacts.new({
+        full_name: chatwoot_contact['name'],
+        email: chatwoot_contact['email'],
+        phone: chatwoot_contact['phone_number'],
+        additional_attributes: {'chatwoot_id': chatwoot_contact['id']}
+      })
+      render :new
     end
   end
 
