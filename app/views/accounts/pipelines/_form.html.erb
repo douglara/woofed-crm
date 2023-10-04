@@ -1,33 +1,28 @@
-<%= form_with(model: pipeline, url: pipeline.persisted? ? account_pipeline_path(current_user.account, pipeline) : account_pipelines_path(current_user.account)) do |form| %>
+<%= form_with(model: pipeline, url: pipeline.persisted? ? account_pipeline_path(current_user.account, pipeline) : account_pipelines_path(current_user.account), class: "flex flex-col gap-5") do |form| %>
   <% if pipeline.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(pipeline.errors.count, "error") %> prohibited this pipeline from being saved:</h2>
-
+    <div>
       <ul>
         <% pipeline.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+          <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
-
-  <div class="form-group">
-    <%= form.label :name %>
-    <%= form.text_field :name, class: 'form-control' %>
+  <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">Dados do funil</h2>
+  <div class= "grid">
+    <div class="flex flex-col gap-1">
+      <%= form.label :name, "Nome", class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.text_field :name, class: 'form-input' %>
+    </div>
   </div>
-
-  <h3>Stages</h3>
-  <div id='stages'>    
+  <div class="h-0.5 w-full bg-light-palette-p3"></div>
+    <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">Estágios</h2>
     <%= form.fields_for :stages do |stage| %>
       <%= render 'stage_fields', :f => stage %>
     <% end %>
-    <div class='links'>
-      <%= link_to_add_association 'New stage', form, :stages %>
-    </div>
-  </div>
-
-
-  <div class="card-footer text-right">
-    <%= form.submit 'Submit', class: 'btn btn-primary' %>
+  <div class="flex gap-2 self-end">
+    <%= link_to_add_association 'Novo estágio', form, :stages, class: "btn-secondary-2"%>
+    <%= form.submit 'Salvar', class: 'btn-primary self-end cursor-pointer' %>
   </div>
 <% end %>
+
