@@ -1,5 +1,7 @@
 
-<h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">Contatos</h1>
-<% if ['show', 'index', 'edit'].include?(action_name) %>
+<% if ['new'].include?(action_name) %>
+    <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">Novo contato</h1>
+<% else %>  
+    <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">Contatos</h1>
     <%= link_to 'Novo contato', new_account_contact_path(current_user.account), class: 'typography-text-m-lh150 text-dark-gray-palette-p3 border-2 border-light-palette-p3 rounded-md px-4 py-2 hover:bg-dark-gray-palette-p3 hover:text-light-palette-p5 hover:border-transparent'%>
 <% end %>
