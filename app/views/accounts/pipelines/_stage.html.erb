@@ -28,7 +28,7 @@
       </ul>
     </div>
     <ul data-controller="drag" data-drag-url="/accounts/:account_id/deals/:deal_id" data-id="<%= stage.id %>" class="space-y-4 overflow-y-auto custom-scroll-list-deal h-[calc(100vh-240px)]">
-      <% stage.deals.sort_by(&:position).each do |deal| %>
+      <% stage.deals.open.sort_by(&:position).each do |deal| %>
         <%= render 'accounts/pipelines/deal', deal: deal %>
       <% end %>
     </ul>
