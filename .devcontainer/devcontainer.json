@@ -1,0 +1,31 @@
+{
+  "name": "WoofedCRM Development Codespace",
+  "service": "app",
+  "dockerComposeFile": "docker-compose.yml",
+
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/zsh"
+  },
+
+
+  // Add the IDs of extensions you want installed when the container is created.
+  "extensions": [
+    "rebornix.Ruby",
+    "misogi.ruby-rubocop",
+    "wingrunr21.vscode-ruby",
+    "davidpallinder.rails-test-runner",
+    "eamodio.gitlens",
+    "github.copilot",
+    "mrmlnc.vscode-duplicate"
+  ],
+
+
+  "forwardPorts": [3001],
+
+  "postCreateCommand": "POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rake db:seed && ./bin/dev",
+  "portsAttributes": {
+    "3000": {
+      "label": "Rails Server"
+    }
+  }
+}
