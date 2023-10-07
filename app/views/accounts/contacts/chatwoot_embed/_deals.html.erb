@@ -1,45 +1,30 @@
-<div>
-  <div class="card mt-4">
-    <div class="card-header">
-      <h4>Negócios</h4>
-    </div>
-    <div class="card-body p-0">
-      <table class="table table-striped">
-        <tbody>
-          <% contact.deals.each do | deal |  %>
-            <tr>
-              <th scope="row">
-                <div class="row pb-3">
-                  <div class="col-8">
-                    <h6 class="pt-4"><%= deal.name %></h6>
-                    <div class="form-inline mr-auto">
-                      <p><%= deal.stage.name %></p>
-                      <% if true == false %>
-                        <button type="button" class="ml-3 btn-clock">
-                          <i data-lucide="clock-3"></i> 2h
-                        </button>
-                      <% end %>
-                    </div>
-                  </div>
-                  <div class="col"> 
-                    <div class="d-flex align-items-center justify-content-center" style="height: 100%;">
-                      <%= link_to(account_deal_path(current_user.account, deal), class: 'ml-3 w-btn-block ml-auto float-right') do %>
-                        <i data-lucide="arrow-up-right"></i>
-                      <% end %> 
-                    </div>
-                  </div>
-                </div>
-              </th>
-            </tr>
-          <% end %>
-        </tbody>
-      
-      </table>
-      <div class="flex flex-col items-center">
-        <%= link_to new_account_deal_path(current_user.account, deal:{ contact_id: contact.id}), class: 'background-transparent font-bold uppercase px-3 py-1 text-xs outline-none focus:outline-none m-3 ease-linear transition-all duration-150' do %>
-          Criar novo negócio
+<div class="">
+  <header class="p-4 bg-light-palette-p5 border-2 rounded-t-md border-light-palette-p3  text-dark-gray-palette-p3">
+    <h4 class="typography-body-s-lh150">Negócios</h4>
+  </header>
+  <ul>
+    <% contact.deals.each do | deal |  %>
+      <li class="grid grid-cols-[1fr_40px] gap-4 p-4 border-x-2 border-b-2 border-light-palette-p3 odd:bg-light-palette-p4 even:bg-light-palette-p5">
+        <div>
+          <h5 class="typography-text-m-lh150 text-dark-gray-palette-p1 mb-1"><%= deal.name %></h5>
+          <div class="flex gap-4 items-center mb-4">
+            <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p3">Etapa</p>
+            <!-- <div class="flex items-center space-x-1 py-1 p-1 border-2 rounded-lg bg-auxiliary-palette-green-down-2 border-auxiliary-palette-green-down text-auxiliary-palette-green"> -->
+            <div class="flex items-center space-x-1 py-1 p-1 border-2 rounded-lg bg-auxiliary-palette-red-down-2 border-auxiliary-palette-red-down text-auxiliary-palette-red">
+              <!-- <i data-lucide="check-circle-2" class="w-4"></i> -->
+              <i data-lucide="clock-4" class="w-4"></i>
+              <p class="typography-micro-m-lh150"><%= @contact.created_at.strftime("%d %b")%></p>
+            </div>
+          </div>
+          <%= render 'components/deals/stages_nav', deal: deal  %>
+        </div>
+        <%= link_to(account_deal_path(deal.account, deal.id), class: "arrow-btn flex items-center p-2 border-2 rounded-md border-light-palette-p3 odd:bg-light-palette-p4 even:bg-light-palette-p5 hover:odd:bg-light-palette-p5 hover:even:bg-light-palette-p4 self-start cursor-pointer") do %>
+          <i data-lucide="arrow-up-right" class="w-6 h-6 stroke-dark-gray-palette-p3"></i>
         <% end %>
-      </div>
-    </div>
+      </li>
+    <% end %>
+  </ul>
+  <div class="flex justify-center border-b-2 border-x-2 border-light-palette-p3 rounded-b-md bg-light-palette-p5 py-3 cursor-pointer hover:bg-light-palette-p4">
+    <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p3">ver mais</p>
   </div>
 </div>

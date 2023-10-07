@@ -10,29 +10,13 @@
     <%= action_cable_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag 'application' %>
-    <%= stylesheet_link_tag "#{controller_name}", media: 'all' rescue nil %>
     <%= javascript_pack_tag 'application', defer: true, 'data-turbo-track': 'reload' %>
 
     <%= yield :stylesheets %>
   </head>
 
-  <body class="layout-3 embed">
-  	<div id="app">
-      <div class="main-wrapper">
-      <!-- Main Content -->
-      <div class="main-content">
-        <%= content_for?(:content) ? yield(:content) : yield %>
-      </div>
-
-      <footer class="main-footer">
-        <div class="footer-left">
-        </div>
-        <div class="footer-right">
-        </div>
-      </footer>
-    </div>
-
+  <body class="bg-brand-palette-08">
+    <%= content_for?(:content) ? yield(:content) : yield %>
     <%= yield :javascripts %>
-
   </body>
 </html>
