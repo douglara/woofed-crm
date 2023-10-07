@@ -20,6 +20,7 @@
           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", "<%= ENV.fetch('MS_CLARITY_TOKEN', '') %>");
         window.clarity("identify", "<%= current_user.email %>")
+        window.clarity("set", "user_email", "<%= current_user.email %>")
       </script>
     <% end %>
 
