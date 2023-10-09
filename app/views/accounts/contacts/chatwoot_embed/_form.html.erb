@@ -16,15 +16,14 @@
     </div>
   <% end %>
 
-  <div class="card mt-4">
-    <div class="card-header">
-      <h4>Esse contato não existe no Woofed CRM deseja criar?</h4>
-      <a class="w-btn-block ml-auto float-right">
-        <i data-lucide="x"></i>
+  <div class="px-4 py-5 rounded-md border-2 border-light-palette-p3 flex justify-between bg-light-palette-p5 text-dark-gray-palette-p1 items-center">
+    <p class="typography-body-s-lh150">Esse contato não existe no Woofed CRM deseja criar?</p>
+    <div class="flex gap-4">
+      <a class="p-1 cursor-pointer rounded-md hover:bg-light-palette-p3">
+        <i data-lucide="x" class="stroke-auxiliary-palette-red"></i>
       </a>
-
-      <%= form.button nil, class: "ml-3 w-btn-block" do %>
-        <i data-lucide="check"></i>
+      <%= form.button nil, class:"p-1 cursor-pointer rounded-md hover:bg-light-palette-p3" do %>
+        <i data-lucide="check" class="stroke-auxiliary-palette-green"></i>
       <% end %>
     </div>
   </div>
