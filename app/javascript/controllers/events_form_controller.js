@@ -3,7 +3,7 @@ import lucide from "lucide/dist/umd/lucide"
 import { animate } from "motion"
 
 export default class extends Controller {
-  static targets = ['kindNone', 'kindNote', 'kindActivity', 'forms', 'kindChatwootConnect']
+  static targets = ['kindNone', 'kindNote', 'kindActivity', 'forms', 'kindChatwootConnect', 'kindWppConnect']
 
   connect() {
     lucide.createIcons();
@@ -19,12 +19,15 @@ export default class extends Controller {
   selectActivity(e) {
     this.selectElement(e, this.kindActivityTarget)
   }
-
+  selectWppConnect(e) {
+    this.selectElement(e, this.kindWppConnectTarget)
+  }
   selectNote(e) {
     this.selectElement(e, this.kindNoteTarget)
   }
 
   selectChatwootConnect(e) {
+    console.log(this)
     this.selectElement(e, this.kindChatwootConnectTarget)
   }
 
