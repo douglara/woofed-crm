@@ -3,45 +3,33 @@ import lucide from "lucide/dist/umd/lucide"
 import { animate } from "motion"
 
 export default class extends Controller {
-  static targets = ['kindNone', 'kindNote', 'kindActivity', 'forms', 'kindWppConnect']
+  static targets = ['kindNone', 'kindNote', 'kindActivity', 'forms', 'kindChatwootConnect']
 
   connect() {
     lucide.createIcons();
   }
-
-  selectActivity(e) {
+  selectElement(e, targetElement) {
     const elementToInactive = this.formsTarget.querySelector("div[data-events-form-target]:not([hidden])")
-    const elementToActive = this.kindActivityTarget
+    const elementToActive = targetElement
     this.changeForm(elementToActive, elementToInactive)
 
     const btnToActive = e.currentTarget
     this.changeBtn(btnToActive)
+  }
+  selectActivity(e) {
+    this.selectElement(e, this.kindActivityTarget)
   }
 
   selectNote(e) {
-    const elementToInactive = this.formsTarget.querySelector("div[data-events-form-target]:not([hidden])")
-    const elementToActive = this.kindNoteTarget
-    this.changeForm(elementToActive, elementToInactive)
-
-    const btnToActive = e.currentTarget
-    this.changeBtn(btnToActive)
+    this.selectElement(e, this.kindNoteTarget)
   }
 
-  selectWppConnect(e) {
-    const elementToInactive = this.formsTarget.querySelector("div[data-events-form-target]:not([hidden])")
-    const elementToActive = this.kindWppConnectTarget
-    this.changeForm(elementToActive, elementToInactive)
-
-    const btnToActive = e.currentTarget
-    this.changeBtn(btnToActive)
+  selectChatwootConnect(e) {
+    this.selectElement(e, this.kindChatwootConnectTarget)
   }
 
   selectNone() {
-    const elementToInactive = this.formsTarget.querySelector("div[data-events-form-target]:not([hidden])")
-    const elementToActive = this.kindNoneTarget
-    const btnActive = this.element.querySelector(".btn-active")
-    this.changeForm(elementToActive, elementToInactive)
-    btnActive.classList.remove('btn-active')
+    this.selectElement(e, this.kindNoneTarget)
   }
 
   changeBtn(btnToActive) {
