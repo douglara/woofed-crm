@@ -8,7 +8,7 @@
   <ul>
     <% contact.deals.each do | deal |  %>
       <li class="grid grid-cols-[1fr_40px] gap-4 p-4 border-x-2 border-b-2 border-light-palette-p3 odd:bg-light-palette-p4 even:bg-light-palette-p5">
-        <div class="stage-bar">
+        <div class="">
           <h5 class="typography-text-m-lh150 text-dark-gray-palette-p1 mb-1"><%= deal.name %></h5>
           <div class="flex gap-4 items-center mb-4">
             <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p3">Etapa</p>
@@ -19,9 +19,11 @@
               <p class="typography-micro-m-lh150"><%= @contact.created_at.strftime("%d %b")%></p>
             </div>
           </div>
-          <ol class=" flex space-x-1 items-center text-center" >
-            <%= render 'components/deals/stages_nav', deal: deal  %>
-          </ol>
+          <nav aria-label="breadcrumb" class="stage-bar">
+            <ol class=" flex space-x-1 items-center text-center" >
+              <%= render 'components/deals/stages_nav', deal: deal  %>
+            </ol>
+          </nav>
         </div>
         <%= link_to(account_deal_path(deal.account, deal.id), class: "arrow-btn flex items-center p-2 border-2 rounded-md border-light-palette-p3 odd:bg-light-palette-p4 even:bg-light-palette-p5 hover:odd:bg-light-palette-p5 hover:even:bg-light-palette-p4 self-start cursor-pointer") do %>
           <i data-lucide="arrow-up-right" class="w-6 h-6 stroke-dark-gray-palette-p3"></i>
