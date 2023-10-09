@@ -29,7 +29,7 @@ class Contact < ApplicationRecord
   has_many :events
   belongs_to :account
 
-  has_and_belongs_to_many :deals
+  has_many :deals
   belongs_to :app, polymorphic: true, optional: true
 
   def connected_with_chatwoot?
