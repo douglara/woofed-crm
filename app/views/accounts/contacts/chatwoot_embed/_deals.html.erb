@@ -1,6 +1,9 @@
 <div class="">
-  <header class="p-4 bg-light-palette-p5 border-2 rounded-t-md border-light-palette-p3  text-dark-gray-palette-p3">
+  <header class="flex justify-between items-center p-4 bg-light-palette-p5 border-2 rounded-t-md border-light-palette-p3  text-dark-gray-palette-p3">
     <h4 class="typography-body-s-lh150">Negócios</h4>
+    <%= link_to new_account_deal_path(current_user.account, deal:{ contact_id: contact.id}), class: 'btn-secondary' do %>
+    Novo negócio
+    <% end %>
   </header>
   <ul>
     <% contact.deals.each do | deal |  %>
