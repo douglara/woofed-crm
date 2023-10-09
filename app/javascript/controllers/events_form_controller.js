@@ -28,7 +28,7 @@ export default class extends Controller {
     this.selectElement(e, this.kindChatwootConnectTarget)
   }
 
-  selectNone() {
+  selectNone(e) {
     this.selectElement(e, this.kindNoneTarget)
   }
 
