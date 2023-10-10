@@ -1,53 +1,37 @@
-<section class="section mt-5 pt-5">
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-        <div class="login-brand" style="display:none;">
-          <img src="../assets/img/stisla-fill.svg" alt="logo" width="100" class="shadow-light rounded-circle">
-        </div>
-        <div class="card card-primary">
-          <div class="card-header">
-            <h4>Entrar</h4>
-          </div>
-          <div class="card-body">
-            <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f| %>
-              <div class="form-group">
-                <%= f.label :email %><br />
-                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
-                <div class="invalid-feedback">
-                  Please fill in your email
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="d-block">
-                  <%= f.label :password, class: "control-label" %><br />
-                  <div class="float-right">
-                    <%= link_to "Forgot your password?", new_password_path(resource_name), class: "text-small", style: "display:none;" %><br />
-                  </div>
-                </div>
-                <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
-                <div class="invalid-feedback">
-                  please fill in your password
-                </div>
-              </div>
-              <% if devise_mapping.rememberable? %>
-                <div class="field">
-                  <%= f.check_box :remember_me %>
-                  <%= f.label :remember_me %>
-                </div>
-              <% end %>
-              <div class="form-group">
-                <div class="actions">
-                  <%= f.submit "Entrar", class: "btn btn-primary btn-lg btn-block" %>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </div>
-        <div class="mt-5 text-muted text-center">
-          Não possui conta? <%= link_to "Criar conta", new_registration_path(resource_name), data: { turbo: false} %><br />
-        </div>
+<section class="max-w-lg px-5 md:px-0 min-h-screen mx-auto py-20">
+  <div class="w-full flex items-center justify-center">
+    <%= image_tag('logo.svg', {class: "w-[70%]"}) %>
+  </div>
+  <h1 class="typography-title-b-lh150 text-dark-palette-p4 text-center mt-10">Log in</h1>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f| %>
+    <div class="grid gap-5">
+      <div class="grid gap-1">
+        <%= f.label :email, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input" %>
+        <!-- <div class="invalid-feedback typography-body-s-lh150 text-auxiliary-palette-red">
+          Please fill in your email
+        </div> -->
       </div>
+      <div class="grid gap-1">
+        <div class="flex items-center justify-between">
+          <%= f.label :password, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+          <%= link_to "Esqueceu a senha?", new_password_path(resource_name), class: "typography-text-m-lh150 text-dark-gray-palette-p1 hover:text-brand-palette-02 hidden" %>
+        </div>
+        <%= f.password_field :password, autocomplete: "current-password", class: "form-input w-full" %>
+        <!-- <div class="invalid-feedback typography-body-s-lh150 text-auxiliary-palette-red">
+          please fill in your password
+        </div> -->
+      </div>
+      <% if devise_mapping.rememberable? %>
+        <div class="flex items-center gap-2">
+          <%= f.check_box :remember_me, class: 'rounded text-brand-palette-03 focus:border-transparent focus:ring-0' %>
+          <%= f.label :remember_me, 'Lembrar?'  %>
+        </div>
+      <% end %>
+      <%= f.submit "Entrar", class: "btn-primary cursor-pointer" %>
     </div>
+  <% end %>
+  <div class="text-center typography-text-m-lh150 text-dark-gray-palette-p1 mt-5">
+    Não possui conta? <%= link_to "Criar conta", new_registration_path(resource_name), data: { turbo: false}, class: "text-brand-palette-02 hover:text-brand-palette-01"%>
   </div>
 </section>
