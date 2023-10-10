@@ -20,7 +20,7 @@
     <%= form.fields_for :stages do |stage| %>
       <%= render 'stage_fields', :f => stage %>
     <% end %>
-  <div class="flex gap-2 self-end">
+  <div class="flex gap-2 self-end mt-5">
     <%= link_to_add_association 'Novo estágio', form, :stages, class: "btn-secondary-2"%>
     <%= form.submit 'Salvar', class: 'btn-primary self-end cursor-pointer' %>
   </div>
