@@ -1,19 +1,19 @@
-<%= form_with(model: wpp_connect, url: account_apps_wpp_connects_path(current_user.account), method: :post, data: {turbo: false}, id: 'formId') do |form| %>
+<%= form_with(model: wpp_connect, url: account_apps_wpp_connects_path(current_user.account), method: :post, data: {turbo: false}, id: 'formId', class: 'flex flex-col gap-5') do |form| %>
   <% if wpp_connect.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(wpp_connect.errors.count, "error") %> prohibited this activity kind from being saved:</h2>
 
       <ul>
         <% wpp_connect.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= form.label :name %>
-    <%= form.text_field :name, class: 'form-control' %>
+  <div class="grid gap-2">
+    <%= form.label :name, class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
+    <%= form.text_field :name, class: 'form-input' %>
   </div>
 
   <%
@@ -30,7 +30,7 @@
 <%
 =end%>
 
-  <div class="card-footer text-right">
-    <%= form.submit 'New connection', class: 'btn btn-primary' %>
-  </div>
+
+  <%= form.submit 'Nova conexão', class: 'btn-primary cursor-pointer self-end' %>
+
 <% end %>
