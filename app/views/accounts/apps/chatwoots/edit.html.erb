@@ -1,47 +1,35 @@
-<section class="section">
-  <div class="section-header">
-    <h1>Configurar Chatwoot</h1>
-  </div>
+<section class="m-8 p-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md space-y-5">
+  <%= form_with(model: @chatwoot, url: account_apps_chatwoots_path(current_user.account), data: {turbo: false}, id: 'formId', class: 'flex flex-col gap-5') do |form| %>
+    <% if @chatwoot.errors.any? %>
+      <div id="error_explanation">
+        <h3 class="typography-body-s-lh150 text-auxiliary-palette-red"><%= pluralize(@chatwoot.errors.count, "error") %> prohibited this activity kind from being saved:</h3>
 
-  <div class="section-body">
-    <div class="card">
-      <div class="card-body">
-        <div class="col-lg-5 container">
-          <%= form_with(model: @chatwoot, url: account_apps_chatwoots_path(current_user.account), data: {turbo: false}, id: 'formId') do |form| %>
-            <% if @chatwoot.errors.any? %>
-              <div id="error_explanation">
-                <h2><%= pluralize(@chatwoot.errors.count, "error") %> prohibited this activity kind from being saved:</h2>
-
-                <ul>
-                  <% @chatwoot.errors.each do |error| %>
-                    <li><%= error.full_message %></li>
-                  <% end %>
-                </ul>
-              </div>
-            <% end %>
-
-            <div class="form-group">
-              <%= form.label :chatwoot_endpoint_url, 'Endereço do Chatwoot' %>
-              <%= form.text_field :chatwoot_endpoint_url, class: 'form-control', disabled: true %>
-            </div>
-
-            <div class="form-group">
-              <%= form.label :chatwoot_account_id, 'Token do usuário' %>
-              <%= form.text_field :chatwoot_account_id, class: 'form-control', disabled: true %>
-            </div>
-
-            <div class="form-group">
-              <%= form.label :chatwoot_user_token, 'Token do usuário' %>
-              <%= form.text_field :chatwoot_user_token, class: 'form-control', disabled: true %>
-            </div>
-
-            <div class="card-footer text-right">
-              <%= link_to 'Excluir', account_apps_chatwoot_path(current_user.account, @chatwoot),
-                  method: :delete, data: {confirm: 'Tem certeza?'}, class: 'btn btn-icon icon-left btn-danger' %>
-            </div>
+        <ul>
+          <% @chatwoot.errors.each do |error| %>
+            <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
           <% end %>
-        </div>
+        </ul>
       </div>
+    <% end %>
+
+    <div class="grid gap-2">
+      <%= form.label :chatwoot_endpoint_url, 'Endereço do Chatwoot', class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
+      <%= form.text_field :chatwoot_endpoint_url, class: 'form-input', disabled: true %>
     </div>
-  </div>
+
+    <div class="grid gap-2">
+      <%= form.label :chatwoot_account_id, 'Token do usuário', class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
+      <%= form.text_field :chatwoot_account_id, class: 'form-input', disabled: true %>
+    </div>
+
+    <div class="grid gap-2">
+      <%= form.label :chatwoot_user_token, 'Token do usuário', class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
+      <%= form.text_field :chatwoot_user_token, class: 'form-input', disabled: true %>
+    </div>
+
+
+    <%= link_to 'Excluir', account_apps_chatwoot_path(current_user.account, @chatwoot),
+        method: :delete, data: {confirm: 'Tem certeza?'}, class: 'btn-primary cursor-pointer self-end' %>
+
+  <% end %>
 </section>
