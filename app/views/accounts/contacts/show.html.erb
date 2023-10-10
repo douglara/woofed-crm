@@ -1,22 +1,4 @@
-<section class="section">
-  <div class="section-header">
-    <h1><%= @contact.full_name %></h1>
-  </div>
-
-  <div class="row">
-    <div class="col-12 col-md-7 col-lg-4">
-      <div class="card card-primary">
-        <div class="card-header">
-          <h4>Details</h4>
-        </div>
-        <div class="card-body">
-          <%= render partial: "form", locals: { contact: @contact } %>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <%= render "/accounts/contacts/flow_items/items", contact: @contact %>
-    </div>
-  </div>
+<section class="m-8 p-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md">
+  <%= render partial: "form", locals: { contact: @contact } %>
+  <!-- <%= render "/accounts/contacts/flow_items/items", contact: @contact %> -->
 </section>
