@@ -1,0 +1,7 @@
+<%= turbo_frame_tag "select-contact-results" do %>
+  <ul class="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUsersButton">
+    <% @contacts.each do | contact |%>
+      <%= render "select_contact_contact", contact: contact %>
+    <% end %>
+  </ul>
+<% end %>

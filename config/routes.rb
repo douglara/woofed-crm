@@ -27,6 +27,8 @@ Rails.application.routes.draw do
         get 'search', to: 'contacts#search', on: :collection
         get 'edit_custom_attributes'
         patch 'update_custom_attributes'
+        get 'select_contact', on: :collection
+        get 'select_contact_search', on: :collection
         resources :notes, module: :contacts
         resources :events, module: :contacts do
         end
