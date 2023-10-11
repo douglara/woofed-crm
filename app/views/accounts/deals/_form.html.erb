@@ -6,7 +6,7 @@
     </div>
     <div class="flex flex-col gap-1">
       <%= form.label :stage_id, "Funil", class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-      <%= form.select(:stage_id, @stages.map { |stage| ["#{stage.pipeline.name} - #{stage.name}", stage.id] }, {}, { class: 'form-input' }) %>
+      <%= form.select(:stage_id, @pipeline.stages.map { |stage| ["#{@pipeline.name} - #{stage.name}", stage.id] }, {}, { class: 'form-input' }) %>
     </div>
   </div>
   <%= form.hidden_field :contact_id, class: 'form-control' %>

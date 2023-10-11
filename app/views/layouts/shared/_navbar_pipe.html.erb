@@ -23,7 +23,7 @@
       <% end %>
     </div>
 
-    <%= link_to new_select_contact_account_deals_path(current_user.account), class: 'px-4 py-[0.75rem] rounded-md
+    <%= link_to new_select_contact_account_deals_path(current_user.account, pipeline_id: @pipeline), class: 'px-4 py-[0.75rem] rounded-md
     bg-brand-palette-03 text-white text-center hover:bg-brand-palette-04 hover:no-underline font-semibold' do %>
       Novo negócio
     <% end %>

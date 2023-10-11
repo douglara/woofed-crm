@@ -19,6 +19,7 @@ class Accounts::DealsController < InternalController
 
   # GET /deals/new
   def new
+    @pipeline = Pipeline.find(params[:deal][:pipeline_id])
     @deal = Deal.new
     @stages = current_user.account.stages
     @deal.contact_id = params[:select_contact_id]
