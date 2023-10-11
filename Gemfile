@@ -88,3 +88,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "tailwindcss-rails", "~> 2.0"
+
+gem "opentelemetry-sdk", "~> 1.3"
+gem "opentelemetry-instrumentation-all", "~> 0.50.1"
+gem "opentelemetry-exporter-otlp", "~> 0.26.1"
