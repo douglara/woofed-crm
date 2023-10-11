@@ -26,6 +26,7 @@ class Accounts::DealsController < InternalController
   end
 
   def new_select_contact
+    @pipeline = Pipeline.find(params[:pipeline_id])
     @deal = Deal.new
   end
 
