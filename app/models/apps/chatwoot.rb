@@ -7,6 +7,7 @@
 #  chatwoot_endpoint_url     :string           default(""), not null
 #  chatwoot_user_token       :string           default(""), not null
 #  embedding_token           :string           default(""), not null
+#  inboxes                   :jsonb            not null
 #  name                      :string
 #  status                    :string           default("inactive"), not null
 #  created_at                :datetime         not null
@@ -32,7 +33,7 @@ class Apps::Chatwoot < ApplicationRecord
     'pair': 'pair',
   }
 
-  validate :validate_chatwoot
+  validate :validate_chatwoot, on: :create
   before_destroy :chatwoot_delete_flow
 
   def request_headers
@@ -77,6 +78,8 @@ class Apps::Chatwoot < ApplicationRecord
       {'api_access_token': "#{chatwoot_user_token}", 'Content-Type': 'application/json'}
     )
 
+    self.inboxes = Accounts::Apps::Chatwoots::GetInboxes.call(self)[:ok]
+
     if dashboard_apps_response.status == 200 && webhook_response.status == 200
       dashboard_apps_body = JSON.parse(dashboard_apps_response.body)
       webhook_body = JSON.parse(webhook_response.body)
@@ -87,7 +90,8 @@ class Apps::Chatwoot < ApplicationRecord
       return false
     end
 
-  rescue
+  rescue Exception => e
+    puts(e.inspect)
     return false
   end
 
