@@ -61,11 +61,11 @@ gem 'newrelic-sidekiq-metrics', require: false
 gem 'sentry-rails', require: false
 gem 'sentry-ruby', require: false
 gem 'sentry-sidekiq', require: false
+gem 'dotenv-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 6.0.0'
 end
