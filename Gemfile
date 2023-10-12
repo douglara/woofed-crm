@@ -53,6 +53,15 @@ gem 'acts_as_list'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
+##-- apm and error monitoring ---#
+# loaded only when environment variables are set.
+# ref application.rb
+gem 'newrelic_rpm', require: false
+gem 'newrelic-sidekiq-metrics', require: false
+gem 'sentry-rails', require: false
+gem 'sentry-ruby', require: false
+gem 'sentry-sidekiq', require: false
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
