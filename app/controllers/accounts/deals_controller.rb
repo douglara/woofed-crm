@@ -21,7 +21,7 @@ class Accounts::DealsController < InternalController
   def new
     @deal = Deal.new
     @stages = current_user.account.stages
-    @deal.contact_id = params[:select_contact_id]
+    @deal.contact_id = params[:deal][:contact_id]
   end
 
   def new_select_contact
