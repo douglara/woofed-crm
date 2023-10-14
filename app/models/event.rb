@@ -63,7 +63,7 @@ class Event < ApplicationRecord
   }
 
   scope :planned, -> {
-    where(done: false)
+    where('done = false and due IS NOT NULL')
   }
 
   scope :not_planned_or_done, -> {
