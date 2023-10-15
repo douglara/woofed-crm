@@ -21,6 +21,7 @@ class Accounts::PipelinesController < InternalController
 
   # GET /pipelines/1/edit
   def edit
+    @stages = @pipeline.stages.order(:position)
   end
 
   # POST /pipelines/1/import_file
