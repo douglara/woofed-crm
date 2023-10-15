@@ -32,6 +32,7 @@
 #  fk_rails_...  (account_id => accounts.id)
 #
 class Event < ApplicationRecord
+  include Event::Decorators
   # default_scope { order('created_at DESC') }
 
   belongs_to :deal, optional: true
@@ -62,7 +63,7 @@ class Event < ApplicationRecord
   }
 
   scope :planned, -> {
-    where(done: false)
+    where('done = false and due IS NOT NULL')
   }
 
   scope :not_planned_or_done, -> {
@@ -93,10 +94,6 @@ class Event < ApplicationRecord
     elsif kind == 'chatwoot_message'
       return 'far fa-comments'
     end
-  end
-
-  def due_format
-    due.to_s(:short) rescue ''
   end
 
   def overdue?

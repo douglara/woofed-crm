@@ -6,6 +6,22 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+## Load the specific APM agent
+# We rely on DOTENV to load the environment variables
+# We need these environment variables to load the specific APM agent
+Dotenv::Railtie.load
+
+if ENV.fetch('NEW_RELIC_LICENSE_KEY', false).present?
+  require 'newrelic-sidekiq-metrics'
+  require 'newrelic_rpm'
+end
+
+if ENV.fetch('SENTRY_DSN', false).present?
+  require 'sentry-ruby'
+  require 'sentry-rails'
+  require 'sentry-sidekiq'
+end
+
 module WoofedCrm
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
