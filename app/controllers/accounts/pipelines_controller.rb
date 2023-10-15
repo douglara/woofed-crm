@@ -182,7 +182,7 @@ class Accounts::PipelinesController < InternalController
 
     # Only allow a list of trusted parameters through.
     def pipeline_params
-      params.require(:pipeline).permit(:name, stages_attributes: [:id, :name, :_destroy, :account_id])
+      params.require(:pipeline).permit(:name, stages_attributes: [:id, :name, :_destroy, :account_id, :position])
     end
 
     def deal_params(params)
