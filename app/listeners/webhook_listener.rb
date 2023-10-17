@@ -52,4 +52,29 @@ class WebhookListener
     contact_json = contact.as_json(:include => :deals).merge({changed_attributes: changed_attributes})
     { event: event, data: contact_json }.to_json
   end
+
+  ## Events
+
+  def event_created(event)
+    if (event.account.webhooks.present?)
+      event.account.webhooks.each do | wh |
+        WebhookWorker.perform_async(wh.url, build_event_payload( 'event_created', event))
+      end
+    end
+  end
+
+  def event_updated(event)
+    if (event.account.webhooks.present?)
+      event.account.webhooks.each do | wh |
+        WebhookWorker.perform_async(wh.url, build_event_payload( 'event_updated', event))
+      end
+    end
+  end
+
+  def build_event_payload(event, event_model)
+    changed_attributes = extract_changed_attributes(event_model)
+
+    event_json = event_model.as_json(:include => [:deal, :contact]).merge({changed_attributes: changed_attributes})
+    { event: event, data: event_model }.to_json
+  end
 end
