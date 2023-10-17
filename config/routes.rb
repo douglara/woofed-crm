@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       #   end
       # end
       resources :contacts do
+        get 'deals', to: 'contacts#deals'
         get 'search', to: 'contacts#search', on: :collection
         get 'edit_custom_attributes'
         patch 'update_custom_attributes'
