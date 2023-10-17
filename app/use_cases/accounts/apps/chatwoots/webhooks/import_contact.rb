@@ -59,7 +59,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
     chatwoot.account.contacts.new(
       full_name: body['payload']['name'],
       email: body['payload']['email'],
-      phone: body['payload']['phone_number'],
+      phone: "#{body['payload']['phone_number']}",
       additional_attributes: { chatwoot_id: contact_id }
     )
   end
@@ -76,7 +76,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
     contact.assign_attributes({
       full_name: body['payload']['name'],
       email: body['payload']['email'],
-      phone: body['payload']['phone_number'],
+      phone: "#{body['payload']['phone_number']}",
       })
     contact
   end
