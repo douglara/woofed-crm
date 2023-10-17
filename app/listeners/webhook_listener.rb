@@ -28,7 +28,7 @@ class WebhookListener
   def deal_updated(deal)
     if (deal.account.webhooks.present?)
       deal.account.webhooks.each do | wh |
-        WebhookWorker.perform_async(wh.url, build_payload( 'deal_updated', deal))
+        WebhookWorker.perform_async(wh.url, build_deal_payload( 'deal_updated', deal))
       end
     end
   end
@@ -36,13 +36,13 @@ class WebhookListener
   def deal_created(deal)
     if (deal.account.webhooks.present?)
       deal.account.webhooks.each do | wh |
-        WebhookWorker.perform_async(wh.url, build_payload( 'deal_created', deal))
+        WebhookWorker.perform_async(wh.url, build_deal_payload( 'deal_created', deal))
       end
     end
   end
 
-  def build_payload(event, deal)
-    deal_json = deal.to_json(:include => :contacts)
+  def build_deal_payload(event, deal)
+    deal_json = deal.to_json(:include => :contact)
     { event: event, data: JSON.parse(deal_json)  }.to_json
   end
 
