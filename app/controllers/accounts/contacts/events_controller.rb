@@ -18,6 +18,11 @@ class Accounts::Contacts::EventsController < InternalController
   end
 
   def edit
+    # @event.broadcast_replace_to @contact,
+    #                             partial: 'accounts/contacts/events/forms/event_form' ,
+    #                             locals: {contact: @contact, current_user: current_user, event: @event }
+
+
   end
 
   def create
@@ -33,14 +38,25 @@ class Accounts::Contacts::EventsController < InternalController
       return render :new, status: :unprocessable_entity
     end
   end
+  def destroy
+    @event.destroy
+    render turbo_stream: [
+      turbo_stream.remove(@event)
+    ]
+  end
 
   def update
     @deal = current_user.account.deals.find(params[:deal_id])
     @event.update(event_params)
-
     unless @event.update(event_params)
       render :edit, status: :unprocessable_entity
     end
+
+    # if @event.update(event_params)
+    #   render @event
+    # else
+    #   render :edit, status: :unprocessable_entity
+    # end
   end
 
   private
@@ -55,7 +71,7 @@ class Accounts::Contacts::EventsController < InternalController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:content, :done, :title, :due, :kind, :app_type, :app_id, custom_attributes: {})
+      params.require(:event).permit(:content, :done, :title, :due, :kind, :app_type, :deal_id, :app_id, custom_attributes: {})
     rescue
       {}
     end
