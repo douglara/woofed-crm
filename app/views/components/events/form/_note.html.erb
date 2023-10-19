@@ -16,14 +16,14 @@
     <%= form.hidden_field :deal_id %>
 
     <div class="p-3 mt-2">
-      <%= form.label :content, 'Nota', class:'py-2' %>
-      <%= form.rich_text_area :content, class: 'woo-input pb-2' %>
+      <%= form.label :content, 'Nota', class:'py-2 typography-text-m-lh150 text-dark-gray-palette-p1' %>
+      <%= form.rich_text_area :content, class: 'form-input pb-2' %>
     </div>
 
-    <div class="flex flex-row-reverse border-t border-light-palette-p3 p-3 mt-4">
-      <%= form.submit 'Confirmar', class: 'h-10 rounded-md border-light-palette-p3 bg-brand-palette-03 text-light-palette-p5 px-3' %>
+    <div class="flex gap-2 flex-row-reverse border-t border-light-palette-p3 p-3 mt-4">
+      <%= form.submit 'Confirmar', class: 'btn-primary cursor-pointer' %>
 
-      <input type="button" value="Cancelar" data-action="click->events-form#selectNone" class="h-10 rounded-md border border-gray-pallete-p3 bg-light-palette-p5 text-gray-pallete-p3 px-3 mx-2">
+      <input type="button" value="Cancelar" data-action="click->events-form#selectNone" class="btn-secondary-2 cursor-pointer">
     </div>
   <% end %>
 </div>
