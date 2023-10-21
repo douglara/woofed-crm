@@ -2,7 +2,7 @@ class Accounts::Apps::Chatwoots::GetConversations
   def self.call(chatwoot, contact_id, inbox_id)
     request = Faraday.post(
       "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/conversations/filter?page=1",
-      build_body(contact_id, inbox_id),
+      build_body(contact_id, inbox_id).to_json,
       chatwoot.request_headers
     )
     return { ok: JSON.parse(request.body)['payload'] }
