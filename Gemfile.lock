@@ -241,6 +241,7 @@ GEM
       activerecord (>= 5.0)
       activesupport (>= 5.0)
       pg (>= 0.18.1)
+    june-analytics-ruby (2.4.3)
     jwt (2.2.3)
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -680,6 +681,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   json_csv
   jsonb_accessor (= 1.3.2)
+  june-analytics-ruby
   jwt (= 2.2.3)
   listen (~> 3.3)
   motor-admin
