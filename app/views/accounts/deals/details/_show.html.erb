@@ -1,16 +1,16 @@
-<%= turbo_frame_tag "form_#{model.class.name.downcase}_#{model.id}" do %>
-  <div class="bg-light-palette-p5 px-3 pb-2" id="accordion-collapse" data-accordion="collapse">
+<div class="bg-light-palette-p5 px-3 pb-2">
+  <%= turbo_frame_tag "form_#{model.class.name.downcase}_#{model.id}" do %>
     <div class="flex items-center h-12">
       <p class="m-0 mr-auto typography-body-s-lh150 text-dark-gray-palette-p1"><%= model_name %></p>
       <%= link_to edit_path, class: 'flex items-center h-8 p-1 mx-2 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
         <i data-lucide="pencil" height="16"></i>
       <% end %>
 
-      <button type="button" class="flex bg-transparent items-center h-8 p-1 border-[1.5px] border-[#e5e7eb00]  dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250 dark:hover:bg-gray-800" data-accordion-target="#accordion-collapse-<%= "#{model.class.name.downcase}_#{model.id}_#{dropdown_type}"%>" aria-expanded="true" aria-controls="accordion-collapse-<%= "#{model.class.name.downcase}_#{model.id}_#{dropdown_type}"%> ">
+      <button type="button" class="flex bg-transparent items-center h-8 p-1 border-[1.5px] border-[#e5e7eb00]  dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250 dark:hover:bg-gray-800" data-accordion-target="#accordion-collapse-<%= "#{model.class.name.downcase}_#{model.id}"%>" aria-expanded="true" aria-controls="accordion-collapse-<%= "#{model.class.name.downcase}_#{model.id}"%> ">
         <i data-accordion-icon data-lucide="chevron-down" class="rotate-180 shrink-0" height="16"></i>
       </button>
     </div>
-    <div id="accordion-collapse-<%= "#{model.class.name.downcase}_#{model.id}_#{dropdown_type}"%>" class="hidden py-3" aria-labelledby="accordion-collapse-heading-<%= "#{model.class.name.downcase}_#{model.id}_#{dropdown_type}"%>">
+    <div id="accordion-collapse-<%= "#{model.class.name.downcase}_#{model.id}"%>" class="hidden py-3" aria-labelledby="accordion-collapse-heading-<%= "#{model.class.name.downcase}_#{model.id}"%>">
       <% model.class::FORM_FIELDS.each do | f | %>
         <% if model["#{f}"].present? %>
           <div class="flex items-center pb-2">
@@ -22,5 +22,5 @@
       <% end %>
       <%= render 'accounts/deals/details/show_custom_attributes', model: model %>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>

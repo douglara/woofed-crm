@@ -5,11 +5,11 @@
     data: { turbo_frame: "form_#{@deal.class.name.downcase}_#{@deal.id}" }
     ) do |form| %>
     <div class="h-full w-full" data-controller="custom-attributes-add">
-      <%= form.select :att_key, @custom_attribute_definitions.collect { |att| [att.attribute_display_name, att.attribute_key] }, { prompt: 'Buscar', selected: '', disabled: ''}, { class: 'w-full my-3 rounded-md border-light-palette-p2 bg-light-palette-p5 select2',  data: { 'custom-attributes-add-target': "select", action: 'change->custom-attributes-add#changed'} } %>
+      <%= form.select :att_key, @custom_attribute_definitions.collect { |att| [att.attribute_display_name, att.attribute_key] }, { prompt: 'Buscar', selected: '', disabled: ''}, { class: 'w-full first:my-0 my-3 form-input select2',  data: { 'custom-attributes-add-target': "select", action: 'change->custom-attributes-add#changed'} } %>
       <div data-custom-attributes-add-target="formFields" hidden="">
-        <%= form.text_field :att_value, class: 'w-full mt-3 rounded-md border-light-palette-p2 bg-light-palette-p5', placeholder:"Conteúdo do campo" %>
+        <%= form.text_field :att_value, class: 'w-full mt-3 form-input', placeholder:"Conteúdo do campo" %>
         <div class="flex-auto rounded-md my-3 border-t border-light-palette-p3"></div>
-        <%= form.submit 'Confirmar', class: 'h-10 w-full rounded-md border-light-palette-p3 bg-brand-palette-03 text-light-palette-p5' %>
+        <%= form.submit 'Confirmar', class: ' w-full btn-primary cursor-pointer' %>
       </div>
     </div>
   <% end %>
