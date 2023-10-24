@@ -74,6 +74,7 @@ class Accounts::DealsController < InternalController
 
   # GET /deals/1/edit
   def edit
+    @stages = Stage.all
   end
 
   def edit_custom_attributes
