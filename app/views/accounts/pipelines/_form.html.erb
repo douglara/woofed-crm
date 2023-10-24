@@ -17,9 +17,13 @@
   </div>
   <div class="h-0.5 w-full bg-light-palette-p3"></div>
     <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">Estágios</h2>
-    <%= form.fields_for :stages do |stage| %>
-      <%= render 'stage_fields', :f => stage %>
-    <% end %>
+    <div class="grid gap-5" data-controller="drag-stages-position" <%= "data-drag-stages-position-url= #{account_pipeline_path(pipeline)}" if pipeline.id.present?%>  >
+      <%= form.fields_for :stages, @stages do |stage| %>
+        <div data-id= "<%= stage.object.id %>">
+          <%= render 'stage_fields', :f => stage %>
+        </div>
+      <% end %>
+    </div>
   <div class="flex gap-2 self-end mt-5">
     <%= link_to_add_association 'Novo estágio', form, :stages, class: "btn-secondary-2"%>
     <%= form.submit 'Salvar', class: 'btn-primary self-end cursor-pointer' %>
