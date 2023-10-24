@@ -32,6 +32,7 @@
 #  fk_rails_...  (account_id => accounts.id)
 #
 class Event < ApplicationRecord
+  include Event::Decorators
   # default_scope { order('created_at DESC') }
 
   belongs_to :deal, optional: true
@@ -62,7 +63,7 @@ class Event < ApplicationRecord
   }
 
   scope :planned, -> {
-    where(done: false)
+    where('done = false and due IS NOT NULL')
   }
 
   scope :not_planned_or_done, -> {
@@ -95,10 +96,6 @@ class Event < ApplicationRecord
     end
   end
 
-  def due_format
-    due.to_s(:short) rescue ''
-  end
-
   def overdue?
     return false if self.done == true || due.blank?
     DateTime.current > due
@@ -126,5 +123,21 @@ class Event < ApplicationRecord
     else
       return 'scheduled'
     end
+  end
+
+  ## Events
+
+  include Wisper::Publisher
+  after_commit :publish_created, on: :create
+  after_commit :publish_updated, on: :update
+
+  private
+
+  def publish_created
+    broadcast(:event_created, self)
+  end
+
+  def publish_updated
+    broadcast(:event_updated, self)
   end
 end

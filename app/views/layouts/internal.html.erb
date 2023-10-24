@@ -10,8 +10,8 @@
     <%= action_cable_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag 'application' %>
-    <%= stylesheet_link_tag "#{controller_name}", media: 'all' rescue nil %>
     <%= javascript_pack_tag 'application', defer: true, 'data-turbo-track': 'reload' %>
+    <%= render "layouts/shared/analytics_scripts" %>
 
     <%= yield :stylesheets %>
   </head>

@@ -23,8 +23,12 @@ gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
+##-- for active storage --##
+gem 'aws-sdk-s3', require: false
+# original gem isn't maintained actively
+gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
+gem 'google-cloud-storage', require: false
+gem 'image_processing'
 
 # Authentication
 gem 'devise'
@@ -49,10 +53,21 @@ gem 'acts_as_list'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
+##-- apm and error monitoring ---#
+# loaded only when environment variables are set.
+# ref application.rb
+gem 'newrelic_rpm', require: false
+gem 'newrelic-sidekiq-metrics', require: false
+gem 'sentry-rails', require: false
+gem 'sentry-ruby', require: false
+gem 'sentry-sidekiq', require: false
+gem 'dotenv-rails'
+gem 'highlight_io', require: false
+gem 'june-analytics-ruby', require: false
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 6.0.0'
 end
@@ -84,3 +99,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "tailwindcss-rails", "~> 2.0"
+
+gem "opentelemetry-sdk", "~> 1.3"
+gem "opentelemetry-instrumentation-all", "~> 0.50.1"
+gem "opentelemetry-exporter-otlp", "~> 0.26.1"
