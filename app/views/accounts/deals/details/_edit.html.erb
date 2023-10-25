@@ -1,5 +1,6 @@
 <%= turbo_frame_tag "form_#{model.class.name.downcase}_#{model.id}" do %>
   <%= form_with(model: model, url: update_path) do |form| %>
+  <%= form.hidden_field :deal_page_id, value: params[:deal_page_id] %>
     <% if model.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(model.errors.count, "error") %> prohibited this deal from being saved:</h2>
@@ -51,7 +52,7 @@
               <% end %>
             <% elsif model.class.name.downcase == 'contact' %>
               <%= turbo_frame_tag "form_custom_attributes_#{model.class.name.downcase}_#{model.id}" do %>
-                <%= link_to account_contact_edit_custom_attributes_path(current_user.account, model), class: 'inline-block w-full h-10 flex justify-center items-center select-none border-2 border-2 bg-light-palette-p4 text-dark-gray-palette-p3 rounded-md border-light-palette-p3 hover:border-brand-palette-06 hover:bg-brand-palette-08 hover:border-2 hover:text-brand-palette-03 hover:duration-100' do %>
+                <%= link_to account_contact_edit_custom_attributes_path(current_user.account, model, deal_page_id: params[:deal_page_id]), class: 'inline-block w-full h-10 flex justify-center items-center select-none border-2 border-2 bg-light-palette-p4 text-dark-gray-palette-p3 rounded-md border-light-palette-p3 hover:border-brand-palette-06 hover:bg-brand-palette-08 hover:border-2 hover:text-brand-palette-03 hover:duration-100' do %>
                   <i data-lucide="plus" height="18"></i>
                 <% end %>
               <% end %>

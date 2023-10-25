@@ -4,6 +4,7 @@
     url: account_contact_update_custom_attributes_path(current_user.account, @contact),
     data: { turbo_frame: "form_#{@contact.class.name.downcase}_#{@contact.id}" }
     ) do |form| %>
+    <%= form.hidden_field :deal_page_id, value: params[:deal_page_id]%>
     <div class="h-full w-full" data-controller="custom-attributes-add">
       <%= form.select :att_key, @custom_attribute_definitions.collect { |att| [att.attribute_display_name, att.attribute_key] }, { prompt: 'Buscar', selected: '', disabled: ''}, { class: 'w-full first:my-0 my-3 form-input select2',  data: { 'custom-attributes-add-target': "select", action: 'change->custom-attributes-add#changed'} } %>
       <div data-custom-attributes-add-target="formFields" hidden="">
