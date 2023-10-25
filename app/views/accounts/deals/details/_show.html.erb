@@ -13,7 +13,7 @@
     <div id="accordion-collapse-<%= "#{model.class.name.downcase}_#{model.id}"%>" class="hidden py-3" aria-labelledby="accordion-collapse-heading-<%= "#{model.class.name.downcase}_#{model.id}"%>">
       <% model.class::FORM_FIELDS.each do | f | %>
         <% if model["#{f}"].present? %>
-          <div class="flex items-center pb-2">
+          <div class="flex items-center pb-4">
             <label class="flex-none m-auto typography-text-m-lh150 text-dark-gray-palette-p3"><%= model.class.human_attribute_name(f) %></label>
             <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>
             <p class="m-0 typography-text-m-lh150 text-dark-gray-palette-p3"><%= model["#{f}"] %></p>
