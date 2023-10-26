@@ -40,14 +40,10 @@ class Accounts::Contacts::EventsController < InternalController
   end
   def destroy
     @event.destroy
-    render turbo_stream: [
-      turbo_stream.remove(@event)
-    ]
   end
 
   def update
     @deal = current_user.account.deals.find(params[:deal_id])
-    @event.update(event_params)
     unless @event.update(event_params)
       render :edit, status: :unprocessable_entity
     end

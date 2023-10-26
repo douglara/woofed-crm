@@ -38,6 +38,8 @@ class Event < ApplicationRecord
   belongs_to :deal, optional: true
   belongs_to :contact
   belongs_to :account
+  belongs_to :deal
+  
   # belongs_to :event_kind, default: -> { EventKind }
   # belongs_to :record, polymorphic: true
   belongs_to :app, polymorphic: true, optional: true
@@ -60,6 +62,9 @@ class Event < ApplicationRecord
   after_update_commit {
     broadcast_replace_to [contact_id, 'events'],
     partial: "accounts/contacts/events/event"
+  }
+  after_destroy_commit {
+    broadcast_remove_to [contact_id, 'events']
   }
 
   scope :planned, -> {
