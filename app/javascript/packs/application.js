@@ -35,15 +35,6 @@ $(document).on("turbo:load", () => {
     }
   }
 })
-document.addEventListener("turbo:before-fetch-response", function(event) {
-  if (typeof (event.detail.fetchResponse) !== 'undefined') {
-    var response = event.detail.fetchResponse.response
-    if (response.redirected) {
-      event.preventDefault()
-      Turbo.visit(response.url)
-    }
-  }
-})
 
 $(document).on("turbo:frame-load", function (e) {
   lucide.createIcons();
