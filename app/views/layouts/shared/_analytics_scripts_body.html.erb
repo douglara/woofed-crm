@@ -1,0 +1,3 @@
+<% if ENV.fetch('COUNTLY_ENDPOINT', nil).present? && ENV.fetch('COUNTLY_KEY', nil).present? %>
+  <noscript><img src='<%= ENV.fetch('COUNTLY_ENDPOINT', nil) %>/pixel.png?app_key=<%= ENV.fetch('COUNTLY_KEY', nil) %>&begin_session=1'/></noscript>
+<% end %>

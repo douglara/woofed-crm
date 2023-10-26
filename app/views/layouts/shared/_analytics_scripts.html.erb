@@ -39,3 +39,47 @@
     juneify('<%= ENV['JUNE_KEY'] %>');
   </script>
 <% end %>
+
+<% if ENV.fetch('COUNTLY_ENDPOINT', nil).present? && ENV.fetch('COUNTLY_KEY', nil).present? && Rails.env.production? %>
+  <script type='text/javascript'>
+  //some default pre init
+  var Countly = Countly || {};
+  Countly.q = Countly.q || [];
+
+  //provide countly initialization parameters
+  Countly.app_key = '<%= ENV.fetch('COUNTLY_KEY', nil) %>';
+  Countly.url = '<%= ENV.fetch('COUNTLY_ENDPOINT', nil) %>';
+  <% if current_user.present? %>
+    Countly.uid = '<%= current_user.id %>' ;
+    Countly.q.push(['change_id', "<%= current_user.id %>", false]);
+
+    Countly.q.push(['user_details',{
+        "name": "<%= current_user.full_name %>",
+        "email": "<%= current_user.email %>",
+        "custom":{
+          "account_id":"<%= current_user.account.id %>",
+          "user_id":"<%= current_user.id %>"
+        }
+    }]);
+  <% end %>
+
+  Countly.q.push(['track_sessions']);
+  Countly.q.push(['track_pageview']);
+  Countly.q.push(['track_clicks']);
+  Countly.q.push(['track_scrolls']);
+  Countly.q.push(['track_errors']);
+  Countly.q.push(['track_links']);
+  Countly.q.push(['track_forms']);
+  Countly.q.push(['collect_from_forms']);
+
+  //load countly script asynchronously
+  (function() {
+    var cly = document.createElement('script'); cly.type = 'text/javascript';
+    cly.async = true;
+    //enter url of script here
+    cly.src = '<%= ENV.fetch('COUNTLY_ENDPOINT', nil) %>/sdk/web/countly.min.js';
+    cly.onload = function(){Countly.init()};
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(cly, s);
+  })();
+  </script>
+<% end %>
