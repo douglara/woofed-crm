@@ -98,17 +98,12 @@ class Deal < ApplicationRecord
   #   end
   # end
 
-  def next_action?
-    next_action rescue false
+  def next_event_scheduled?
+    next_event_scheduled rescue false
   end
-
-  def next_action_overdue?
-    return false unless next_action?
-    DateTime.now > next_action
-  end
-
-  def next_action
-    flow_items.activities_not_done.first.record.due rescue nil
+  
+  def next_event_scheduled
+    events.planned.first rescue nil
   end
 
   def self.csv_header(account_id)

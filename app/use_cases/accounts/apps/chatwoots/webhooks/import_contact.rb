@@ -58,6 +58,8 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
     body = JSON.parse(contact_response.body)
     chatwoot.account.contacts.new(
       full_name: body['payload']['name'],
+      email: body['payload']['email'],
+      phone: "#{body['payload']['phone_number']}",
       additional_attributes: { chatwoot_id: contact_id }
     )
   end
@@ -72,8 +74,10 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
 
     body = JSON.parse(contact_response.body)
     contact.assign_attributes({
-      full_name: body['payload']['name']
-    })
+      full_name: body['payload']['name'],
+      email: body['payload']['email'],
+      phone: "#{body['payload']['phone_number']}",
+      })
     contact
   end
 end

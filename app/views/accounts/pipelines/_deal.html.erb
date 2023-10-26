@@ -1,6 +1,6 @@
 <%= content_tag :li, id: dom_id(deal), 'data-id': deal.id, 'data-account-id': deal.account_id do %>
   <%= turbo_stream_from deal %>
-
+ 
   <%= link_to account_deal_path(deal.account, deal.id) do %>
     <div class="rounded cursor-pointer border-2 border-light-palette-p3 bg-light-palette-p4 py-2 px-4 space-y-2">
       <p class="typography-sub-text-m-lh200 text-dark-gray-palette-p1"><%= deal.name %></p>
@@ -8,12 +8,7 @@
       </div>
       <div class="flex items-center justify-between">
         <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p3"><%= deal.account.name %></p>
-        <div class="flex items-center space-x-1 py-1 pr-2 pl-1 border-2 rounded-lg bg-auxiliary-palette-green-down-2 border-auxiliary-palette-green-down text-auxiliary-palette-green">
-          <!-- <div class="bg-auxiliary-palette-red-down-2 border-auxiliary-palette-red-down text-auxiliary-palette-red"></div> -->
-          <i data-lucide="check-circle-2" class="w-4"></i>
-          <!-- <i data-lucide="clock-4" class="w-4"></i> -->
-          <p class="typography-micro-m-lh150"><%= deal.created_at.strftime("%d %b")%></p>
-        </div>
+        <%= render partial: 'accounts/pipelines/deal_event', locals: {event: deal.next_event_scheduled}  if deal.next_event_scheduled? %> 
       </div>
     </div>
   <% end %>
