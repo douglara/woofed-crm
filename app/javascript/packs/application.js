@@ -13,6 +13,7 @@ import "channels"
 import "controllers"
 import lucide from "lucide/dist/umd/lucide"
 
+
 Rails.start()
 ActiveStorage.start()
 require("trix")
@@ -36,14 +37,20 @@ $(document).on("turbo:load", () => {
   }
 })
 
-$(document).on("turbo:frame-load", function (e) {
-  lucide.createIcons();
-})
+// $(document).on("turbo:frame-load", function (e) {
+//   lucide.createIcons();
+//   initDismisses();
+//   initDropdowns();
+// })
 
 $(document).on("turbo:render", function (e) {
   lucide.createIcons();
+  initDismisses();
+  initDropdowns();
 })
 
 $(document).on("turbo:frame-render", function (e) {
   lucide.createIcons();
+  initDismisses();
+  initDropdowns();
 })
