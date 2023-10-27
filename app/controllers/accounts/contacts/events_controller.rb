@@ -71,7 +71,7 @@ class Accounts::Contacts::EventsController < InternalController
     end
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:content, :done, :title, :due, :kind, :app_type, :app_id, :chatwoot_inbox_id, custom_attributes: {})
+      params.require(:event).permit(:content, :done, :title, :due, :kind, :app_type, :app_id, :chatwoot_inbox_id, :from_me, custom_attributes: {})
     rescue
       {}
     end

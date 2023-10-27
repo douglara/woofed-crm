@@ -13,6 +13,7 @@
       <% end %>
   
       <%= form.hidden_field :app_type, value: 'Apps::Chatwoot' %>
+      <%= form.hidden_field :from_me, value: true %>
       <%= form.hidden_field :kind, value: 'chatwoot_message' %>
       <%= form.hidden_field :app_id, value: current_user.account.apps_chatwoots.last.id %>
   

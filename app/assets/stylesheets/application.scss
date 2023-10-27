@@ -28,6 +28,18 @@
   background-color: #F6F8FE;
 }
 
+// event icons styles
+.message-circle{
+  height: 15px;
+  width: 15px;
+  stroke: #369EF2;
+  transform: rotate(-101deg);
+}
+.clipboard-list, .menu-square{
+  height: 14px;
+  width: 14px;
+  stroke: #7161DB;
+}
 
 // Stisla css reset
 a {
