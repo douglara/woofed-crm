@@ -83,3 +83,28 @@
   })();
   </script>
 <% end %>
+
+
+<% if ENV.fetch('MATOMO_ENDPOINT', nil).present? %>
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+
+    <% if current_user.present? %>
+      _paq.push(['setUserId', '<%= current_user.id %>']);
+      _paq.push(['setCustomVariable', 1, 'User Name', '<%= current_user.full_name %>', scope = 'visit']);
+      _paq.push(['setCustomVariable', 2, 'User Email', '<%= current_user.email %>', scope = 'visit']);
+      _paq.push(['setCustomVariable', 3, 'Account ID', '<%= current_user.account.id %>', scope = 'visit']);
+    <% end %>
+
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//<%= ENV.fetch('MATOMO_ENDPOINT', nil) %>/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+<% end %>
