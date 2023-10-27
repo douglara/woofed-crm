@@ -1,17 +1,16 @@
-<% unless event.due.nil? %>
-  <% if event.overdue? %>
-    <div class="flex items-center space-x-1 py-1 pr-2 pl-1 border-2 rounded-lg bg-auxiliary-palette-red-down-2 border-auxiliary-palette-red-down text-auxiliary-palette-red">
-      <i data-lucide="clock-4" class="w-4"></i>
-      <p class="typography-micro-m-lh150 leading-none">
-        <%= event.due_format_distance %>
-      </p>
-    </div>
-  <% else %>
-    <div class="flex items-center space-x-1 py-1 pr-2 pl-1 border-2 rounded-lg bg-auxiliary-palette-green-down-2 border-auxiliary-palette-green-down text-auxiliary-palette-green">
-      <i data-lucide="check-circle-2" class="w-4"></i>
-      <p class="typography-micro-m-lh150 leading-none">
-        <%= event.due_format_distance %>
-      </p>
-    </div>
-  <% end %>
+<% if event.overdue? %>
+  <div class="flex items-center space-x-1 py-1 pr-2 pl-1 border-2 rounded-lg bg-auxiliary-palette-red-down-2 border-auxiliary-palette-red-down text-auxiliary-palette-red">
+    <i data-lucide="clock-4" class="w-4"></i>
+    <p class="typography-micro-m-lh150 leading-none">
+      <%= event.due_format_distance %>
+    </p>
+  </div>
+<% else %>
+  <div class="flex items-center space-x-1 py-1 pr-2 pl-1 border-2 rounded-lg bg-auxiliary-palette-green-down-2 border-auxiliary-palette-green-down text-auxiliary-palette-green">
+    <i data-lucide="check-circle-2" class="w-4"></i>
+    <p class="typography-micro-m-lh150 leading-none">
+      <%= event.due_format_distance %>
+    </p>
+  </div>
 <% end %>
+

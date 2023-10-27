@@ -103,7 +103,7 @@ class Deal < ApplicationRecord
   end
   
   def next_event_scheduled
-    events.planned.first rescue nil
+    events.planned.order(:due).detect { |event| event.due.present? } rescue nil
   end
 
   def self.csv_header(account_id)
