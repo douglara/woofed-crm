@@ -54,3 +54,14 @@ $(document).on("turbo:frame-render", function (e) {
   initDismisses();
   initDropdowns();
 })
+
+
+addEventListener("turbo:before-stream-render", (event) => {
+  const originalRender = event.detail.render
+
+  event.detail.render = function (streamElement) {
+    originalRender(streamElement)
+    initFlowbite();
+    lucide.createIcons();
+  }
+})
