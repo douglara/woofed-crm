@@ -6,8 +6,8 @@
       <p class="typography-sub-text-m-lh200 text-dark-gray-palette-p1"><%= deal.name %></p>
       <div class="w-full h-0.5 bg-light-palette-p3">
       </div>
-      <div class="flex items-center justify-between">
-        <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p3"><%= deal.account.name %></p>
+      <div class="flex items-center justify-between gap-2">
+        <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p3 flex-1"><%= deal.contact.full_name %></p>
         <%= render partial: 'accounts/pipelines/deal_event', locals: {event: deal.next_event_scheduled}  if deal.next_event_scheduled? %> 
       </div>
     </div>
