@@ -13,7 +13,6 @@ import "channels"
 import "controllers"
 import lucide from "lucide/dist/umd/lucide"
 
-
 Rails.start()
 ActiveStorage.start()
 require("trix")
@@ -23,6 +22,35 @@ require("bootstrap-daterangepicker/daterangepicker")
 import "flowbite/dist/flowbite.turbo.js";
 
 $(document).on("turbo:load", () => {
+  initLibraries();
+})
+
+// $(document).on("turbo:frame-load", function (e) {
+//   lucide.createIcons();
+//   initDismisses();
+//   initDropdowns();
+// })
+
+$(document).on("turbo:render", function (e) {
+  initLibraries();
+})
+
+$(document).on("turbo:frame-render", function (e) {
+  initLibraries();
+})
+
+
+addEventListener("turbo:before-stream-render", (event) => {
+  const originalRender = event.detail.render
+
+  event.detail.render = function (streamElement) {
+    originalRender(streamElement)
+    initLibraries();
+  }
+})
+
+function initLibraries() {
+  initFlowbite();
   lucide.createIcons();
   // Daterangepicker
   if(jQuery().daterangepicker) {
@@ -35,33 +63,4 @@ $(document).on("turbo:load", () => {
       });
     }
   }
-})
-
-// $(document).on("turbo:frame-load", function (e) {
-//   lucide.createIcons();
-//   initDismisses();
-//   initDropdowns();
-// })
-
-$(document).on("turbo:render", function (e) {
-  lucide.createIcons();
-  initDismisses();
-  initDropdowns();
-})
-
-$(document).on("turbo:frame-render", function (e) {
-  lucide.createIcons();
-  initDismisses();
-  initDropdowns();
-})
-
-
-addEventListener("turbo:before-stream-render", (event) => {
-  const originalRender = event.detail.render
-
-  event.detail.render = function (streamElement) {
-    originalRender(streamElement)
-    initFlowbite();
-    lucide.createIcons();
-  }
-})
+}
