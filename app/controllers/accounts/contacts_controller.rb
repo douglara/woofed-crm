@@ -57,9 +57,10 @@ class Accounts::ContactsController < InternalController
   # POST /contacts or /contacts.json
   def create
     @contact = current_user.account.contacts.new(contact_params)
-
+    chatwoot_id = current_user.account.apps_chatwoots.first.id
     if @contact.save
-      redirect_to account_contact_path(current_user.account, @contact), notice: "Contact was successfully updated."
+      Accounts::Apps::Chatwoots::Webhooks::SendContactWorker.perform_async(chatwoot_id, @contact.to_json)
+      redirect_to account_contact_path(current_user.account, @contact), notice: "Contact was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
