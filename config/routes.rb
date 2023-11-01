@@ -89,7 +89,9 @@ Rails.application.routes.draw do
           resources :events, only: [:create], module: :deals do
           end
         end
-        resources :contacts, only: [:show, :create]
+        resources :contacts, only: [:show, :create] do
+          post 'upsert', on: :collection
+        end
         namespace :apps do
           resources :wpp_connects, only: [] do
             post 'webhook'
