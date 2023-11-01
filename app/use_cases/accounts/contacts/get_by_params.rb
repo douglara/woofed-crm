@@ -8,9 +8,6 @@ class Accounts::Contacts::GetByParams
       query_params << "phone ILIKE '%#{phone_with_9_digit(params['phone'])}%'"
       query_params << "phone ILIKE '%#{phone_number_without_9_digit(params['phone'])}%'"
     end
-    if params.key?('email')
-      query_params << "email ILIKE '%#{params['email']}%'"
-    end
 
     contact = account.contacts.where(query_params.join(' OR ')).first
     return { ok: contact }
