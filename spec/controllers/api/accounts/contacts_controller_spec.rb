@@ -43,17 +43,17 @@ RSpec.describe 'Contacts API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-        context 'create contact' do
-            it do
-            expect do
-            post "/api/v1/accounts/#{account.id}/contacts/upsert",
-            headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
-            params: valid_params
-            end.to change(Contact, :count).by(1)
-    
-            expect(response).to have_http_status(:success)
-            end
-        end
+      context 'create contact' do
+          it do
+          expect do
+          post "/api/v1/accounts/#{account.id}/contacts/upsert",
+          headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
+          params: valid_params
+          end.to change(Contact, :count).by(1)
+  
+          expect(response).to have_http_status(:success)
+          end
+      end
 
       context 'update contact' do
         let(:valid_params) { { full_name: 'Nome novo 123456', phone: contact.phone, email: contact.email } }
@@ -67,6 +67,21 @@ RSpec.describe 'Contacts API', type: :request do
   
           expect(response).to have_http_status(:success)
           expect(contact.reload.full_name).to eq('Nome novo 123456')
+        end
+      end
+
+      context 'invalid params' do
+        let(:valid_params) { { name: 'Nome novo 123456', phone_number: contact.phone } }
+
+        it 'update name' do
+          expect do
+            post "/api/v1/accounts/#{account.id}/contacts/upsert",
+            headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
+            params: valid_params
+          end.to change(Contact, :count).by(0)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body.include?('full_name')).to eq(true)
         end
       end
     end

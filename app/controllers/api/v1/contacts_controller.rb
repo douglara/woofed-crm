@@ -9,6 +9,7 @@ class Api::V1::ContactsController < Api::V1::InternalController
       render json: { errors: @contact.errors.full_messages }, status: :unprocessable_entity
     end
   end
+
   def contact_params
     params.permit(:full_name, :phone, :email)
   end
