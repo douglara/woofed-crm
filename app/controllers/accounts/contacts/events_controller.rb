@@ -18,11 +18,6 @@ class Accounts::Contacts::EventsController < InternalController
   end
 
   def edit
-    # @event.broadcast_replace_to @contact,
-    #                             partial: 'accounts/contacts/events/forms/event_form' ,
-    #                             locals: {contact: @contact, current_user: current_user, event: @event }
-
-
   end
 
   def create
