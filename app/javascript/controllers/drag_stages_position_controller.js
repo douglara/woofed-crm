@@ -4,13 +4,10 @@ import Rails from '@rails/ujs';
 
 export default class extends Controller {
     connect() {
-    // Mover os inputs específicos para suas respectivas divs
     this.moveFormFieldInputsToNestedFields();
     this.Sortable = Sortable.create(this.element, {
       onEnd: this.end.bind(this)
     });
-
-  
   }
 
   moveFormFieldInputsToNestedFields() {
