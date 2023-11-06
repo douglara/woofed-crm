@@ -1,5 +1,6 @@
 
-  <%= form_with(model: event, url: url, namespace: 'wpp_connect') do |form| %>
+
+  <%= form_with(model: event, url: url, namespace: 'wpp_connect', data: { turbo_frame: "events_#{event.contact.id}" }) do |form| %>
     <% if event.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(event.errors.count, "error") %> prohibited this activity kind from being saved:</h2>
