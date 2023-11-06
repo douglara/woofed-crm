@@ -5,7 +5,7 @@ class Accounts::Contacts::EventsController < InternalController
   def new
     #@event = current_user.account.events.new(event_params.merge({contact: @contact}))
     @event = EventBuilder.new(current_user, event_params.merge({contact_id: @contact.id})).build
-    @options = [ 
+    @options = [
       {'name': 'Notas', 'id': 'note'},
       {'name': 'Whatsapp', 'id': 'wpp_connect_message'}
     ]
@@ -42,12 +42,6 @@ class Accounts::Contacts::EventsController < InternalController
     unless @event.update(event_params)
       render :edit, status: :unprocessable_entity
     end
-
-    # if @event.update(event_params)
-    #   render @event
-    # else
-    #   render :edit, status: :unprocessable_entity
-    # end
   end
 
   private

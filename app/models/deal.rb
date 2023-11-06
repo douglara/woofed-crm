@@ -85,7 +85,7 @@ class Deal < ApplicationRecord
   def broadcast_updates
     broadcast_replace_later_to self, partial: "accounts/pipelines/deal"
     if previous_changes.key?('stage_id')
-      previous_changes['stage_id'].each do |stage_id| 
+      previous_changes['stage_id'].each do |stage_id|
         Stage.find(stage_id).broadcast_updates
       end
     end
@@ -101,7 +101,7 @@ class Deal < ApplicationRecord
   def next_event_scheduled?
     next_event_scheduled rescue false
   end
-  
+
   def next_event_scheduled
     events.planned.first rescue nil
   end
