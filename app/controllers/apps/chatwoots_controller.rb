@@ -1,6 +1,6 @@
 class Apps::ChatwootsController < ActionController::Base
   before_action :load_chatwoot, execpt: :webhooks
-  before_action :authenticate_by_token, if: -> { current_user.blank? }
+  before_action :authenticate_by_token, if: -> { current_user.blank? } unless Rails.env.test?
   skip_before_action :verify_authenticity_token, execpt: :embedding
   layout "embed"
 

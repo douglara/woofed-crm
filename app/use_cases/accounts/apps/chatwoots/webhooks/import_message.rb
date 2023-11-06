@@ -31,7 +31,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
 
   def self.is_from_me?(webhook)
     if webhook.dig('sender', 'id').present?
-      if webhook.dig('sender', 'id') == 'user'
+      if webhook.dig('sender', 'type') == 'user'
         return true
       else
         return false
