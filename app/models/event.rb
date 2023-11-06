@@ -39,7 +39,7 @@ class Event < ApplicationRecord
   belongs_to :contact
   belongs_to :account
   belongs_to :deal
-  
+
   # belongs_to :event_kind, default: -> { EventKind }
   # belongs_to :record, polymorphic: true
   belongs_to :app, polymorphic: true, optional: true
@@ -68,7 +68,7 @@ class Event < ApplicationRecord
   }
 
   scope :planned, -> {
-    where('done = false')
+    where('done = false').order(:due)
   }
 
   scope :not_planned_or_done, -> {
