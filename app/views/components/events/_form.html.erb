@@ -83,6 +83,8 @@
     <div data-events-form-target="kindActivity" hidden class="h-full w-full">
       <%= render "components/events/form/activity", event: @event, url: account_contact_events_path(current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id), form_event_edit_cancel_btn: false %>
     </div>
-    <%= render "components/events/form/wpp_connect_message", event: @event, deal: @deal %>
+    <div data-events-form-target="kindWppConnect" hidden class="h-full w-full">
+      <%= render "components/events/form/wpp_connect_message", event: @event, url: account_contact_events_path(current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id), form_event_edit_cancel_btn: false %>
+    </div>
   </div>
 </div>
