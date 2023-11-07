@@ -38,7 +38,6 @@ class Event < ApplicationRecord
   belongs_to :deal, optional: true
   belongs_to :contact
   belongs_to :account
-  belongs_to :deal
 
   # belongs_to :event_kind, default: -> { EventKind }
   # belongs_to :record, polymorphic: true
