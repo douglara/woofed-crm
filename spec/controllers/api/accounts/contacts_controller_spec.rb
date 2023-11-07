@@ -24,7 +24,7 @@ RSpec.describe 'Contacts API', type: :request do
             headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
             params: valid_params
           end.to change(Contact, :count).by(1)
-  
+
           expect(response).to have_http_status(:success)
         end
       end
@@ -50,7 +50,7 @@ RSpec.describe 'Contacts API', type: :request do
           headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
           params: valid_params
           end.to change(Contact, :count).by(1)
-  
+
           expect(response).to have_http_status(:success)
           end
       end
@@ -64,7 +64,7 @@ RSpec.describe 'Contacts API', type: :request do
             headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
             params: valid_params
           end.to change(Contact, :count).by(0)
-  
+
           expect(response).to have_http_status(:success)
           expect(contact.reload.full_name).to eq('Nome novo 123456')
         end
@@ -84,16 +84,16 @@ RSpec.describe 'Contacts API', type: :request do
           expect(response.body.include?('full_name')).to eq(true)
         end
       end
-      context 'email is null' do
-        let(:params) { { full_name: 'Teste contato email', email: nil } }
-      it do
+      context 'email is blank' do
+        let(:params) { { full_name: 'Teste contato email', email: "" } }
+        it do
           expect do
             post "/api/v1/accounts/#{account.id}/contacts/upsert",
             headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
             params: params
           end.to change(Contact, :count).by(0)
           expect(response).to have_http_status(:success)
-          expect(contact.reload.email).to eq("") 
+          expect(contact.reload.email).to eq("")
         end
       end
     end

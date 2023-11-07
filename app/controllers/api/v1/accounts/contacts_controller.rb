@@ -30,7 +30,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::InternalController
       @contact.assign_attributes(contact_params)
       status = :ok
     end
-    @contact.email ||= ''
+
     if @contact.save
       render json: @contact, status: status
     else
