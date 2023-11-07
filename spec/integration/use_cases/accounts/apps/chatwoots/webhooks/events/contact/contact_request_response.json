@@ -1,0 +1,28 @@
+{
+  "payload": {
+      "additional_attributes": {
+          "city": "",
+          "country": "",
+          "description": "",
+          "company_name": "",
+          "country_code": "",
+          "social_profiles": {
+              "github": "",
+              "twitter": "",
+              "facebook": "",
+              "linkedin": "",
+              "instagram": ""
+          }
+      },
+      "availability_status": "offline",
+      "email": "tim@maia.com",
+      "id": 224,
+      "name": "Tim Maia",
+      "phone_number": "+5541996910256",
+      "identifier": null,
+      "thumbnail": "",
+      "custom_attributes": {"cpf":"1234"},
+      "created_at": 1699348201,
+      "contact_inboxes": []
+  }
+}
