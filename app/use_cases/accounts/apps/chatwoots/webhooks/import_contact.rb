@@ -54,7 +54,6 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
       {},
       chatwoot.request_headers
     )
-
     body = JSON.parse(contact_response.body)
     contact = chatwoot.account.contacts.new
     contact = build_contact_att(contact, contact_id, body)
