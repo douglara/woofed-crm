@@ -1,5 +1,6 @@
-<%= turbo_frame_tag "form_#{model.class.name.downcase}_#{model.id}" do %>
+<%= turbo_frame_tag "form_#{model.class.name.downcase}_#{model.id}", data: { controller: "turbo-form-submit-redirect" } do %>
   <%= form_with(model: model, url: update_path) do |form| %>
+  <%= form.hidden_field :deal_page_id, value: params[:deal_page_id] %>
     <% if model.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(model.errors.count, "error") %> prohibited this deal from being saved:</h2>
@@ -12,7 +13,7 @@
       </div>
     <% end %>
     <div class="bg-light-palette-p5 rounded-md mb-4 pb-6">
-      <div class="px-3 flex items-center h-16">
+      <div class=" flex items-center h-16">
         <p class="flex items-center m-0 mr-auto typography-body-s-lh150 text-dark-gray-palette-p1"><%= model_name %></p>
         <%= form.submit 'Salvar alterações', class: 'text-brand-palette-03 py-2 px-4 cursor-pointer  border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250 typography-text-s-lh150', data: { turbo_frame: "form_#{model.class.name.downcase}_#{model.id}" } %>
 
@@ -20,31 +21,38 @@
           <i data-lucide="x" height="16"></i>
         <% end %>
       </div>
-      <div class="px-3 pt-3">
+      <div class="">
         <div>
           <% model.class::FORM_FIELDS.each do | f | %>
             <div class="flex items-center pb-3">
               <%= form.label f, class: 'm-0 typography-text-m-lh150 text-dark-gray-palette-p3' %>
               <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>
-              <%= form.text_field f, class: 'w-64 h-10 rounded-md border-light-palette-p3 bg-light-palette-p4 typography-text-s-lh150 text-dark-gray-palette-p3' %>
+              <%= form.text_field f, class: 'w-64 form-input' %>
             </div>
+            <% if model.class.name == 'Deal' %>
+              <div class="flex items-center pb-3">
+                <%= form.label :stage_id, "Funil", class: "typography-text-m-lh150 text-dark-gray-palette-p3" %>
+                <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>
+                <%= form.select(:stage_id, @stages.map { |stage| ["#{stage.pipeline.name} - #{stage.name}", stage.id] }, {}, { class: 'w-64 form-input' }) %>
+              </div>
+            <% end %>
           <% end %>
           <%= render 'accounts/deals/details/edit_custom_attributes', form: form, model: model %>
         </div>
       </div>
-      <div class="px-3 border-t-2 border-light-palette-p3 py-2">
+      <div class=" border-t-2 border-light-palette-p3 py-2">
         <div class="flex items-center mt-2">
           <label class="flex-grow m-0 mb-auto text-brand-palette-03 typography-text-s-lh150">Adicionar campos</label>
-          <div class="w-64">
+          <div class="w-64 ">
             <% if model.class.name.downcase == 'deal' %>
-              <%= turbo_frame_tag "form_custom_attributes_#{model.class.name.downcase}_#{model.id}" do %>
-                <%= link_to account_deal_edit_custom_attributes_path(current_user.account, model), class: 'd-flex align-items-center justify-content-center h-10 border-2 bg-light-palette-p4 text-dark-gray-palette-p3 rounded-md border-light-palette-p3 hover:border-brand-palette-06 hover:bg-brand-palette-08 hover:border-2 hover:text-brand-palette-03 hover:duration-100' do %>
+              <%= turbo_frame_tag "form_custom_attributes_#{model.class.name.downcase}_#{model.id}" do %>              
+                <%= link_to account_deal_edit_custom_attributes_path(current_user.account, model), class: 'inline-block w-full h-10 flex justify-center items-center select-none border-2 border-2 bg-light-palette-p4 text-dark-gray-palette-p3 rounded-md border-light-palette-p3 hover:border-brand-palette-06 hover:bg-brand-palette-08 hover:border-2 hover:text-brand-palette-03 hover:duration-100' do %>
                   <i data-lucide="plus" height="18"></i>
                 <% end %>
               <% end %>
             <% elsif model.class.name.downcase == 'contact' %>
               <%= turbo_frame_tag "form_custom_attributes_#{model.class.name.downcase}_#{model.id}" do %>
-                <%= link_to account_contact_edit_custom_attributes_path(current_user.account, model), class: 'd-flex align-items-center justify-content-center h-10 border-2 bg-light-palette-p4 text-dark-gray-palette-p3 rounded-md border-light-palette-p3 hover:border-brand-palette-06 hover:bg-brand-palette-08 hover:border-2 hover:text-brand-palette-03 hover:duration-100' do %>
+                <%= link_to account_contact_edit_custom_attributes_path(current_user.account, model, deal_page_id: params[:deal_page_id]), class: 'inline-block w-full h-10 flex justify-center items-center select-none border-2 border-2 bg-light-palette-p4 text-dark-gray-palette-p3 rounded-md border-light-palette-p3 hover:border-brand-palette-06 hover:bg-brand-palette-08 hover:border-2 hover:text-brand-palette-03 hover:duration-100' do %>
                   <i data-lucide="plus" height="18"></i>
                 <% end %>
               <% end %>

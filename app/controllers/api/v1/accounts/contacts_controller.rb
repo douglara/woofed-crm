@@ -19,6 +19,25 @@ class Api::V1::Accounts::ContactsController < Api::V1::InternalController
     end
   end
 
+  def upsert
+    existing_contact = Accounts::Contacts::GetByParams.call(@current_user.account, contact_params.to_h)[:ok]
+
+    if existing_contact.nil?
+      @contact = @current_user.account.contacts.new(contact_params)
+      status = :created
+    else
+      @contact = existing_contact
+      @contact.assign_attributes(contact_params)
+      status = :ok
+    end
+
+    if @contact.save
+      render json: @contact, status: status
+    else
+      render json: @contact.errors, status: :unprocessable_entity
+    end
+  end
+
   def contact_params
     params.permit(:full_name, :phone, :email)
   end
