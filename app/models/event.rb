@@ -130,4 +130,20 @@ class Event < ApplicationRecord
       return 'scheduled'
     end
   end
+
+  ## Events
+
+  include Wisper::Publisher
+  after_commit :publish_created, on: :create
+  after_commit :publish_updated, on: :update
+
+  private
+
+  def publish_created
+    broadcast(:event_created, self)
+  end
+
+  def publish_updated
+    broadcast(:event_updated, self)
+  end
 end

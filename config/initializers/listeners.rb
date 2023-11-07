@@ -5,5 +5,6 @@ Rails.application.config.to_prepare do
     WebhookListener.new, scope: %w(
         Deal
         Contact
+        Event
     ))
 end

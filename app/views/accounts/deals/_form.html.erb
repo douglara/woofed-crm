@@ -2,7 +2,7 @@
   <div class= "grid sm:grid-cols-2 gap-4">
     <div class="flex flex-col gap-1">
       <%= form.label :name, "Título do negócio", class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-      <%= form.text_field :name, placeholder: "Vendas", class: 'form-input', required: 'true' %>
+      <%= form.text_field :name, value: "Negócio com #{@deal.contact.full_name}", placeholder: "Negócio com João", class: 'form-input', required: 'true' %>
     </div>
     <div class="flex flex-col gap-1">
       <%= form.label :stage_id, "Funil", class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
