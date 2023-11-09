@@ -101,6 +101,10 @@ class Event < ApplicationRecord
     end
   end
 
+  def editable?
+    ['note', 'activity'].include?(kind)
+  end
+
   def overdue?
     return false if self.done == true || due.blank?
     DateTime.current > due
