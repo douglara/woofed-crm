@@ -31,6 +31,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
       {},
       chatwoot.request_headers
     )
+
     body = JSON.parse(contact_response.body)
     conversations_tags = body['payload'].map { | c | c['labels'] }.flatten.uniq
     contact.assign_attributes({ chatwoot_conversations_label_list: conversations_tags})
@@ -54,12 +55,10 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
       {},
       chatwoot.request_headers
     )
-
     body = JSON.parse(contact_response.body)
-    chatwoot.account.contacts.new(
-      full_name: body['payload']['name'],
-      additional_attributes: { chatwoot_id: contact_id }
-    )
+    contact = chatwoot.account.contacts.new
+    contact = build_contact_att(contact, contact_id, body)
+    contact
   end
 
 
@@ -71,9 +70,19 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
     )
 
     body = JSON.parse(contact_response.body)
+    contact = build_contact_att(contact, contact_id, body)
+    contact
+  end
+
+  def self.build_contact_att(contact, contact_id, body)
     contact.assign_attributes({
-      full_name: body['payload']['name']
+      full_name: body['payload']['name'],
+      email: "#{body['payload']['email']}",
+      phone: "#{body['payload']['phone_number']}",
     })
+
+    contact.additional_attributes.merge!({ 'chatwoot_id' => contact_id })
+    contact.custom_attributes.merge!(body['payload']['custom_attributes'])
     contact
   end
 end

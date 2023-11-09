@@ -7,6 +7,14 @@ class Accounts::ContactsController < InternalController
     @pagy, @contacts = pagy(@contacts)
   end
 
+  def select_contact
+    @contacts = current_user.account.contacts.order(updated_at: :desc).limit(5)
+  end
+
+  def select_contact_search
+    @contacts = current_user.account.contacts.where('full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search', search: "%#{params[:query]}%").order(updated_at: :desc).limit(5)
+  end
+
   def search
     @contacts = current_user.account.contacts.where('full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search', search: "%#{params[:q]}%").limit(5).map(&:attributes)
     
@@ -40,7 +48,7 @@ class Accounts::ContactsController < InternalController
   def update_custom_attributes
     @contact = current_user.account.contacts.find(params[:contact_id])
     @contact.custom_attributes[params[:contact][:att_key]] = params[:contact][:att_value]
-
+    redirect_to account_deal_path(current_user.account, params[:contact][:deal_page_id]) if params[:contact][:deal_page_id]
     unless @contact.save
       render :edit_custom_attributes, status: :unprocessable_entity
     end
@@ -60,7 +68,13 @@ class Accounts::ContactsController < InternalController
   # PATCH/PUT /contacts/1 or /contacts/1.json
   def update
     if @contact.update(contact_params)
-      render :update, status: :ok
+      flash[:notice] = 'Contato atualizado com sucesso!'
+      if params[:contact][:deal_page_id]
+        redirect_to account_deal_path(current_user.account, params[:contact][:deal_page_id]) 
+      else
+      # redirect_to account_contacts_path(current_user) 
+        render :update, status: :ok
+      end
     else
       render :edit, status: :unprocessable_entity 
     end

@@ -21,18 +21,7 @@ class Accounts::DealsController < InternalController
   def new
     @deal = Deal.new
     @stages = current_user.account.stages
-
-    if params[:deal][:contact_id].present? && params[:deal][:contact_id] != '0'
-      @deal.contact = Contact.find(params[:deal][:contact_id])
-      @deal.contact_id = params[:deal][:contact_id]
-
-
-      # @deal = DealBuilder.new(current_user, 
-      #   {contacts_deals_attributes: [ {contact_id: 1} ]}
-      # ).build
-    else
-      @deal.build_contact
-    end
+    @deal.contact_id = params[:deal][:contact_id]
   end
 
   def new_select_contact
@@ -45,7 +34,7 @@ class Accounts::DealsController < InternalController
 
   def commit_add_contact
     @deal = Deal.find(params[:deal_id])
-    @new_contact = Contact.find(params['deal']['contact_id']) 
+    @new_contact = Contact.find(params['deal']['contact_id'])
     @deal.contacts.push(@new_contact)
 
     if @deal.save
@@ -74,6 +63,7 @@ class Accounts::DealsController < InternalController
 
   # GET /deals/1/edit
   def edit
+    @stages = current_user.account.stages
   end
 
   def edit_custom_attributes

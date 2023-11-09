@@ -27,6 +27,8 @@ Rails.application.routes.draw do
         get 'search', to: 'contacts#search', on: :collection
         get 'edit_custom_attributes'
         patch 'update_custom_attributes'
+        get 'select_contact', on: :collection
+        get 'select_contact_search', on: :collection
         resources :notes, module: :contacts
         resources :events, module: :contacts do
         end
@@ -87,7 +89,9 @@ Rails.application.routes.draw do
           resources :events, only: [:create], module: :deals do
           end
         end
-        resources :contacts, only: [:show, :create]
+        resources :contacts, only: [:show, :create] do
+          post 'upsert', on: :collection
+        end
         namespace :apps do
           resources :wpp_connects, only: [] do
             post 'webhook'

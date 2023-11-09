@@ -15,6 +15,7 @@
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "5.4.2",
     "bootstrap-daterangepicker": "^3.1.0",
+    "debounce": "^1.2.1",
     "flowbite": "^1.8.1",
     "lucide": "^0.263.0",
     "motion": "^10.16.2",
