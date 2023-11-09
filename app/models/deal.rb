@@ -103,7 +103,7 @@ class Deal < ApplicationRecord
   end
 
   def next_event_scheduled
-    events.planned.first rescue nil
+    events.planned.where.not(due: nil).first rescue nil
   end
 
   def self.csv_header(account_id)

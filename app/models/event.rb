@@ -67,12 +67,12 @@ class Event < ApplicationRecord
   }
 
   scope :planned, -> {
-    # where('done = false').where.not(due: nil).order(:due)
     where('done = false').order(:due)
+
   }
 
   scope :not_planned_or_done, -> {
-    where('done IS NULL or done = true')
+    where('done IS NULL or done = true').order(done_at: :desc)
   }
 
   enum kind: {
