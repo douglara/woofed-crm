@@ -27,7 +27,6 @@ export default class extends Controller {
   }
 
   selectChatwootConnect(e) {
-    console.log(this)
     this.selectElement(e, this.kindChatwootConnectTarget)
   }
 

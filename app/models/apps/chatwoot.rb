@@ -91,7 +91,8 @@ class Apps::Chatwoot < ApplicationRecord
     end
 
   rescue Exception => e
-    puts(e.inspect)
+    Rails.logger.error("Chatwoot connection error")
+    Rails.logger.error(e.inspect)
     return false
   end
 
