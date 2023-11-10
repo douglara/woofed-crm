@@ -130,7 +130,9 @@
       </div>
     </div>
     <% if current_user.account.apps_chatwoots.present? %>
-      <%= render "components/events/form/chatwoot_connect_message", event: @event, deal: @deal %>
+    <div data-events-form-target="kindChatwootConnect" hidden class="h-full w-full">
+      <%= render "components/events/form/chatwoot_connect_message", event: @event, url: account_contact_events_path(current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id), edit_event_form: false %>
+    </div>
     <% end %>
     <div data-events-form-target="kindNote" hidden class="h-full w-full pt-3">
      <%= render "components/events/form/note", event: @event, url: account_contact_events_path(current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id), edit_event_form: false %>
