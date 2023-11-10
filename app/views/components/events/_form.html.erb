@@ -129,12 +129,17 @@
         <p></p>
       </div>
     </div>
-
-    <%= render "components/events/form/note" %>
-    <%= render "components/events/form/activity" %>
-    <%= render "components/events/form/wpp_connect_message", event: @event, deal: @deal %>
     <% if current_user.account.apps_chatwoots.present? %>
       <%= render "components/events/form/chatwoot_connect_message", event: @event, deal: @deal %>
     <% end %>
+    <div data-events-form-target="kindNote" hidden class="h-full w-full pt-3">
+     <%= render "components/events/form/note", event: @event, url: account_contact_events_path(current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id), edit_event_form: false %>
+    </div>
+    <div data-events-form-target="kindActivity" hidden class="h-full w-full">
+      <%= render "components/events/form/activity", event: @event, url: account_contact_events_path(current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id), edit_event_form: false %>
+    </div>
+    <div data-events-form-target="kindWppConnect" hidden class="h-full w-full">
+      <%= render "components/events/form/wpp_connect_message", event: @event, url: account_contact_events_path(current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id), edit_event_form: false %>
+    </div>
   </div>
 </div>
