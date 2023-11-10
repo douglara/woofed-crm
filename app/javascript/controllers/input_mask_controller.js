@@ -10,7 +10,7 @@ export default class extends Controller {
             console.log(fieldName)
             if (fieldName === 'contactphone') {
                 new IMask(field, {
-                    mask: '+0000000000000000',
+                    mask: '+000000000000000',
                 });
             }
             if (fieldName === 'contactcustomattributescpf') {
