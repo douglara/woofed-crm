@@ -5,7 +5,7 @@ class Accounts::Contacts::EventsController < InternalController
   def new
     #@event = current_user.account.events.new(event_params.merge({contact: @contact}))
     @event = EventBuilder.new(current_user, event_params.merge({contact_id: @contact.id})).build
-    @options = [ 
+    @options = [
       {'name': 'Notas', 'id': 'note'},
       {'name': 'Whatsapp', 'id': 'wpp_connect_message'}
     ]
@@ -33,11 +33,12 @@ class Accounts::Contacts::EventsController < InternalController
       return render :new, status: :unprocessable_entity
     end
   end
+  def destroy
+    @event.destroy
+  end
 
   def update
     @deal = current_user.account.deals.find(params[:deal_id])
-    @event.update(event_params)
-
     unless @event.update(event_params)
       render :edit, status: :unprocessable_entity
     end
@@ -55,7 +56,7 @@ class Accounts::Contacts::EventsController < InternalController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:content, :done, :title, :due, :kind, :app_type, :app_id, custom_attributes: {})
+      params.require(:event).permit(:content, :done, :title, :due, :kind, :app_type, :deal_id, :app_id, custom_attributes: {})
     rescue
       {}
     end
