@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "form_#{model.class.name.downcase}_#{model.id}", data: { controller: "turbo-form-submit-redirect" } do %>
-  <%= form_with(model: model, url: update_path) do |form| %>
+  <%= form_with(model: model, url: update_path, data:{controller: "input-mask"}) do |form| %>
   <%= form.hidden_field :deal_page_id, value: params[:deal_page_id] %>
     <% if model.errors.any? %>
       <div id="error_explanation">
