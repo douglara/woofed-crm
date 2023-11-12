@@ -24,14 +24,14 @@ class Apps::ChatwootsController < ActionController::Base
     sign_in(user)
     redirect_to embedding_apps_chatwoots_path()
   end
-
   private
 
   def authenticate_by_token
     if @chatwoot.present? && action_name == 'embedding'
       redirect_to embedding_init_authenticate_apps_chatwoots_path(token: params['token']) if action_name != 'embedding_authenticate'
     else
-      render plain: "Unauthorized", status: 400  if @chatwoot.blank?
+      render 'user_not_found', status: 400  if @chatwoot.blank?
+      # render plain: "Unauthorized", status: 400  if @chatwoot.blank?
     end
   end
 
