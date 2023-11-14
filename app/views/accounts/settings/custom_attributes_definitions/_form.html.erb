@@ -15,17 +15,17 @@
     </div>
     <div class="flex flex-col gap-1">
       <%= form.label :attribute_display_name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-      <%= form.text_field :attribute_display_name, placeholder: "Campo 1", class: 'form-input' %>
+      <%= form.text_field :attribute_display_name, placeholder: "CPF", class: 'form-input' %>
     </div>
     <div class="flex flex-col gap-1">
       <%= form.label :attribute_key, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-      <%= form.text_field :attribute_key, placeholder: "21346542", class: 'form-input' %>
+      <%= form.text_field :attribute_key, placeholder: "cpf", class: 'form-input' %>
     </div>
   </div>
 
   <div class="flex flex-col gap-1">
     <%= form.label :attribute_description, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-    <%= form.text_area :attribute_description, placeholder: "Campo específico para .....", class: 'form-input' %>
+    <%= form.text_area :attribute_description, placeholder: "Campo para .....", class: 'form-input' %>
   </div>
 
   <%= form.submit 'Criar', class: 'btn-primary self-end cursor-pointer' %>
