@@ -1,0 +1,127 @@
+{
+  "meta": {
+      "mine_count": 0,
+      "unassigned_count": 1,
+      "all_count": 1
+  },
+  "payload": [
+      {
+          "meta": {
+              "sender": {
+                  "additional_attributes": {},
+                  "availability_status": "offline",
+                  "email": null,
+                  "id": 2,
+                  "name": "Douglas Lara",
+                  "phone_number": "+554196910256",
+                  "identifier": "554196910256@s.whatsapp.net",
+                  "thumbnail": "https://chatwoot.woofedcrm.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBYzQ9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--289b85445d9322da8accad950077ab9a21bcbaa8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--3226d0ab8ca4fb0b85e4d42de6f326c8bab25e2d/218088560_1343083402861493_7003699211785604252_n.jpg",
+                  "custom_attributes": {},
+                  "last_activity_at": 1697569801,
+                  "created_at": 1697300326
+              },
+              "channel": "Channel::Api",
+              "hmac_verified": false
+          },
+          "id": 2,
+          "messages": [
+              {
+                  "id": 193,
+                  "content": "Teste2",
+                  "account_id": 1,
+                  "inbox_id": 2,
+                  "conversation_id": 2,
+                  "message_type": 1,
+                  "created_at": 1697569813,
+                  "updated_at": "2023-10-17T19:10:13.918Z",
+                  "private": false,
+                  "status": "sent",
+                  "source_id": null,
+                  "content_type": "text",
+                  "content_attributes": {},
+                  "sender_type": "User",
+                  "sender_id": 1,
+                  "external_source_ids": {},
+                  "additional_attributes": {},
+                  "processed_message_content": "Teste2",
+                  "sentiment": {},
+                  "conversation": {
+                      "assignee_id": null,
+                      "unread_count": 0,
+                      "last_activity_at": 1697569813,
+                      "contact_inbox": {
+                          "source_id": "8aca2ab4-635e-4496-93cd-6195f575a18c"
+                      }
+                  },
+                  "sender": {
+                      "id": 1,
+                      "name": "Douglas",
+                      "available_name": "Douglas",
+                      "avatar_url": "",
+                      "type": "user",
+                      "availability_status": "offline",
+                      "thumbnail": ""
+                  }
+              }
+          ],
+          "account_id": 1,
+          "uuid": "a405568b-d50a-45ac-9f3a-7961d65c5a51",
+          "additional_attributes": {},
+          "agent_last_seen_at": 1697593918,
+          "assignee_last_seen_at": 0,
+          "can_reply": true,
+          "contact_last_seen_at": 0,
+          "custom_attributes": {},
+          "inbox_id": 2,
+          "labels": [],
+          "muted": false,
+          "snoozed_until": null,
+          "status": "open",
+          "created_at": 1697300327,
+          "timestamp": 1697569813,
+          "first_reply_created_at": 1697300327,
+          "unread_count": 0,
+          "last_non_activity_message": {
+              "id": 193,
+              "content": "Teste2",
+              "account_id": 1,
+              "inbox_id": 2,
+              "conversation_id": 2,
+              "message_type": 1,
+              "created_at": 1697569813,
+              "updated_at": "2023-10-17T19:10:13.918Z",
+              "private": false,
+              "status": "sent",
+              "source_id": null,
+              "content_type": "text",
+              "content_attributes": {},
+              "sender_type": "User",
+              "sender_id": 1,
+              "external_source_ids": {},
+              "additional_attributes": {},
+              "processed_message_content": "Teste2",
+              "sentiment": {},
+              "conversation": {
+                  "assignee_id": null,
+                  "unread_count": 0,
+                  "last_activity_at": 1697569813,
+                  "contact_inbox": {
+                      "source_id": "8aca2ab4-635e-4496-93cd-6195f575a18c"
+                  }
+              },
+              "sender": {
+                  "id": 1,
+                  "name": "Douglas",
+                  "available_name": "Douglas",
+                  "avatar_url": "",
+                  "type": "user",
+                  "availability_status": "offline",
+                  "thumbnail": ""
+              }
+          },
+          "last_activity_at": 1697569813,
+          "priority": null,
+          "waiting_since": 0
+      }
+  ]
+}

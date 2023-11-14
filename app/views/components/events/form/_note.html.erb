@@ -3,7 +3,6 @@
   <% if event.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(event.errors.count, "error") %> prohibited this activity kind from being saved:</h2>
-
       <ul>
         <% event.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,7 +10,6 @@
       </ul>
     </div>
   <% end %>
-
   <%= form.hidden_field :kind, value: 'note' %>
   <%= form.hidden_field :deal_id %>
 
