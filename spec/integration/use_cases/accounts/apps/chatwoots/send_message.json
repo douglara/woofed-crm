@@ -1,0 +1,22 @@
+{
+    "id": 227,
+    "content": "Hi Lorena",
+    "inbox_id": 2,
+    "conversation_id": 10,
+    "message_type": 1,
+    "content_type": "text",
+    "status": "sent",
+    "content_attributes": {},
+    "created_at": 1697599321,
+    "private": false,
+    "source_id": null,
+    "sender": {
+        "id": 1,
+        "name": "Douglas",
+        "available_name": "Douglas",
+        "avatar_url": "",
+        "type": "user",
+        "availability_status": "offline",
+        "thumbnail": ""
+    }
+}

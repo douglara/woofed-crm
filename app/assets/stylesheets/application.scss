@@ -27,8 +27,20 @@
   background-color: #F6F8FE;
 }
 
-// css scroll bar style
+// event icons styles
+.message-circle{
+  height: 15px;
+  width: 15px;
+  stroke: #369EF2;
+  transform: rotate(-101deg);
+}
+.clipboard-list, .menu-square{
+  height: 14px;
+  width: 14px;
+  stroke: #7161DB;
+}
 
+// css scroll bar style
 
 /* width */
 .custom-scroll-list-deal::-webkit-scrollbar {

@@ -91,13 +91,13 @@ class Event < ApplicationRecord
 
   def icon_key
     if kind == 'note'
-      return 'far fa-sticky-note'
+      return 'menu-square'
     elsif kind == 'wpp_connect_message'
       return 'fab fa-whatsapp'
     elsif kind == 'activity'
-      return 'far fa-calendar'
+      return 'clipboard-list'
     elsif kind == 'chatwoot_message'
-      return 'far fa-comments'
+      return 'message-circle'
     end
   end
 

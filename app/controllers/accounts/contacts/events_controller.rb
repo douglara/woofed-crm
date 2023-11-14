@@ -21,7 +21,7 @@ class Accounts::Contacts::EventsController < InternalController
   end
 
   def create
-    @deal = Deal.find(params[:deal_id])
+    @deal = current_user.account.deals.find(params[:deal_id])
     @event = current_user.account.events.new(event_params.merge({contact: @contact}))
     @event.contact = @contact
     @event.deal = @deal
@@ -56,7 +56,7 @@ class Accounts::Contacts::EventsController < InternalController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:content, :done, :title, :due, :kind, :app_type, :deal_id, :app_id, custom_attributes: {})
+      params.require(:event).permit(:content, :done, :title, :due, :kind, :app_type, :app_id, custom_attributes: {}, additional_attributes: {})
     rescue
       {}
     end

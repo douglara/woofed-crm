@@ -1,0 +1,42 @@
+{
+  "meta": {
+      "sender": {
+          "additional_attributes": {},
+          "availability_status": "offline",
+          "email": null,
+          "id": 2,
+          "name": "Douglas Lara",
+          "phone_number": "+554199999999",
+          "identifier": "554199999999@s.whatsapp.net",
+          "thumbnail": "https://chatwoot.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBYzQ9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--289b85445d9322da8accad950077ab9a21bcbaa8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--3226d0ab8ca4fb0b85e4d42de6f326c8bab25e2d/218088560_1343083402861493_7003699211785604252_n.jpg",
+          "custom_attributes": {},
+          "last_activity_at": 1697569801,
+          "created_at": 1697300326
+      },
+      "channel": "Channel::Api",
+      "hmac_verified": false
+  },
+  "id": 10,
+  "messages": [],
+  "account_id": 1,
+  "uuid": "d5b71759-befd-41ea-b49a-fe50f18c7538",
+  "additional_attributes": {},
+  "agent_last_seen_at": 0,
+  "assignee_last_seen_at": 0,
+  "can_reply": true,
+  "contact_last_seen_at": 0,
+  "custom_attributes": {},
+  "inbox_id": 2,
+  "labels": [],
+  "muted": false,
+  "snoozed_until": null,
+  "status": "open",
+  "created_at": 1697596776,
+  "timestamp": 1697596776,
+  "first_reply_created_at": 0,
+  "unread_count": 0,
+  "last_non_activity_message": null,
+  "last_activity_at": 1697596776,
+  "priority": null,
+  "waiting_since": 1697596776
+}

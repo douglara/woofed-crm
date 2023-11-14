@@ -7,6 +7,7 @@
 #  chatwoot_endpoint_url     :string           default(""), not null
 #  chatwoot_user_token       :string           default(""), not null
 #  embedding_token           :string           default(""), not null
+#  inboxes                   :jsonb            not null
 #  name                      :string
 #  status                    :string           default("inactive"), not null
 #  created_at                :datetime         not null
