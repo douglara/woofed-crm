@@ -28,7 +28,6 @@ class Accounts::Contacts::EventsController < InternalController
     @event.from_me = true
 
     if @event.save!
-      Accounts::Contacts::Events::Created.call(@event)
       return redirect_to(new_account_contact_event_path(account_id: current_user.account, contact_id: @contact.id, deal_id: @deal.id))
     else
       return render :new, status: :unprocessable_entity
