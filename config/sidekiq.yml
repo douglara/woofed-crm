@@ -3,3 +3,5 @@
 :queues:
   - default
   - chatwoot_webhooks
+:limits:
+  chatwoot_webhooks: 1
