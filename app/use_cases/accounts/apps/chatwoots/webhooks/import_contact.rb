@@ -56,6 +56,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
       chatwoot.request_headers
     )
     body = JSON.parse(contact_response.body)
+    return nil if body.nil?
     contact = chatwoot.account.contacts.new
     contact = build_contact_att(contact, contact_id, body)
     contact
@@ -70,6 +71,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
     )
 
     body = JSON.parse(contact_response.body)
+    return nil if body.nil?
     contact = build_contact_att(contact, contact_id, body)
     contact
   end
