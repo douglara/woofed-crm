@@ -39,5 +39,10 @@ RSpec.describe Accounts::Contacts::GetByParams, type: :request do
       result = Accounts::Contacts::GetByParams.call(account, {'email': 'tim@maia.com', 'phone': '+554188443322'})
       expect(result[:ok]).to eq(contact)
     end
+
+    it 'should return blank if blank params ' do
+      result = Accounts::Contacts::GetByParams.call(account, {})
+      expect(result[:ok]).to eq(nil)
+    end
   end
 end

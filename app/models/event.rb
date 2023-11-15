@@ -38,6 +38,7 @@ class Event < ApplicationRecord
   belongs_to :deal, optional: true
   belongs_to :contact
   belongs_to :account
+
   # belongs_to :event_kind, default: -> { EventKind }
   # belongs_to :record, polymorphic: true
   belongs_to :app, polymorphic: true, optional: true
@@ -61,13 +62,17 @@ class Event < ApplicationRecord
     broadcast_replace_to [contact_id, 'events'],
     partial: "accounts/contacts/events/event"
   }
+  after_destroy_commit {
+    broadcast_remove_to [contact_id, 'events']
+  }
 
   scope :planned, -> {
-    where('done = false and due IS NOT NULL')
+    where('done = false').order(:due)
+
   }
 
   scope :not_planned_or_done, -> {
-    where('done IS NULL or done = true')
+    where('done IS NULL or done = true').order(done_at: :desc)
   }
 
   enum kind: {
@@ -86,14 +91,18 @@ class Event < ApplicationRecord
 
   def icon_key
     if kind == 'note'
-      return 'far fa-sticky-note'
+      return 'menu-square'
     elsif kind == 'wpp_connect_message'
       return 'fab fa-whatsapp'
     elsif kind == 'activity'
-      return 'far fa-calendar'
+      return 'clipboard-list'
     elsif kind == 'chatwoot_message'
-      return 'far fa-comments'
+      return 'message-circle'
     end
+  end
+
+  def editable?
+    ['note', 'activity'].include?(kind)
   end
 
   def overdue?

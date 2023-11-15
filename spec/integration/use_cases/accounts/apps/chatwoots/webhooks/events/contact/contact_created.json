@@ -1,0 +1,29 @@
+{
+  "account": {
+    "id": 3,
+    "name": "Doug testes"
+  },
+  "additional_attributes": {
+    "city": "",
+    "country": "",
+    "description": "",
+    "company_name": "",
+    "country_code": "",
+    "social_profiles": {
+      "github": "",
+      "twitter": "",
+      "facebook": "",
+      "linkedin": "",
+      "instagram": ""
+    }
+  },
+  "avatar": "",
+  "custom_attributes": {"cpf":"1234"},
+  "email": "tim@maia.com",
+  "id": 224,
+  "identifier": null,
+  "name": "Tim Maia",
+  "phone_number": "+5541996910256",
+  "thumbnail": "",
+  "event": "contact_created"
+}

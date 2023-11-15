@@ -1,4 +1,4 @@
-<div data-controller="sidebar" aria-expanded="true" class="group ease-in duration-300 h-screen border-r-2 border-light-palette-p3 relative p-4 space-y-4 w-[72px] aria-expanded:w-60">
+<div data-controller="element-expanded" aria-expanded="true" class="group ease-in duration-300 h-screen border-r-2 border-light-palette-p3 relative p-4 space-y-4 w-[72px] aria-expanded:w-60" id="element-expand">
   <div class="flex items-center flex-wrap justify-between">
     <%= link_to(root_path()) do %>     
       <%= image_tag "logo.svg", class: 'w-36 block group-aria-[expanded=false]:hidden' %>
@@ -8,7 +8,7 @@
       <%= image_tag "logo-patinha.svg"%>
     </div>
     <% end %> 
-    <button data-action="click->sidebar#toggle" class="group-aria-[expanded=false]:mt-4 group-aria-[expanded=false]:h-[40px] group-aria-[expanded=false]:p-2 border-2 mt-0 h-auto border-light-palette-p3 p-2.5 rounded-md hover:bg-brand-palette-08"><i data-lucide="menu" class="w-5 stroke-dark-gray-palette-p3"></i></button>
+    <button data-action="click->element-expanded#toggle" class="group-aria-[expanded=false]:mt-4 group-aria-[expanded=false]:h-[40px] group-aria-[expanded=false]:p-2 border-2 mt-0 h-auto border-light-palette-p3 p-2.5 rounded-md hover:bg-brand-palette-08"><i data-lucide="menu" class="w-5 stroke-dark-gray-palette-p3"></i></button>
   </div>
   <div class="hidden group-aria-[expanded=false]:block h-[2px] w-full bg-light-palette-p3"></div>
   <ul class="flex flex-col space-y-3 border-b-md">
