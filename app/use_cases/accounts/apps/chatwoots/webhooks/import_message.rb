@@ -25,6 +25,8 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
       from_me: is_from_me?(webhook),
       contact: contact,
       content: webhook['content'],
+      done: true,
+      done_at: webhook['created_at'],
       app: chatwoot
     )
   end
