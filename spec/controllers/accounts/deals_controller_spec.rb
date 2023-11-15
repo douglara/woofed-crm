@@ -97,4 +97,39 @@ RSpec.describe Accounts::DealsController, type: :request do
       end
     end
   end
+  describe 'DELETE /accounts/{account.id}/deals/:id' do
+    let!(:deal) { create(:deal, account: account, stage: stage) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/deals/#{deal.id}"
+
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      context 'delete deal' do 
+        it do
+          delete "/accounts/#{account.id}/deals/#{deal.id}"
+          expect(response).to redirect_to(root_path)
+          expect(Deal.all.count).to eq(0)
+        #   expect do
+        #     delete "/accounts/#{account.id}/deals/#{deal.id}"
+        #   end.to change(Deal, :count).by(0)
+        end
+        it 'with events' do
+          create(:event, account: account, deal: deal)
+          delete "/accounts/#{account.id}/deals/#{deal.id}"
+          expect(response).to redirect_to(root_path)
+          expect(Deal.all.count).to eq(0)
+          expect(Event.all.count).to eq(0)
+        end
+      end
+    end
+  end
 end
