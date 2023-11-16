@@ -18,9 +18,11 @@ class Apps::ChatwootsController < ActionController::Base
 
   def embedding_authenticate
     event = JSON.parse(params['event'])
-    user_email = event['data']['currentAgent']['email']
-    user = User.find_by(email: user_email, account_id: @chatwoot.account_id)
-    return render plain: "User not found", status: 400 if user.blank?
+    @user_email = event['data']['currentAgent']['email']
+    user = User.find_by(email: @user_email, account_id: @chatwoot.account_id)
+    if user.blank?
+      return render 'user_not_found', status: 400
+    end
     sign_in(user)
     redirect_to embedding_apps_chatwoots_path()
   end
@@ -30,8 +32,7 @@ class Apps::ChatwootsController < ActionController::Base
     if @chatwoot.present? && action_name == 'embedding'
       redirect_to embedding_init_authenticate_apps_chatwoots_path(token: params['token']) if action_name != 'embedding_authenticate'
     else
-      render 'user_not_found', status: 400  if @chatwoot.blank?
-      # render plain: "Unauthorized", status: 400  if @chatwoot.blank?
+      render plain: "Unauthorized", status: 400  if @chatwoot.blank?
     end
   end
 
