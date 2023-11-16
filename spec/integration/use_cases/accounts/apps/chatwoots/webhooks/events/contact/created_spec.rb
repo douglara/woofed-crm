@@ -25,12 +25,23 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::Events::Contact, type: :requ
       expect(contact.custom_attributes['cpf']).to eq('1234')
     end
 
-    it 'update contact' do
-      contact = create(:contact, account: account, additional_attributes: {'chatwoot_id': 224})
-      result = described_class.call(chatwoot, JSON.parse(event))
-      expect(result.key?(:ok)).to eq(true)
-      expect(contact.reload.additional_attributes['chatwoot_id']).to eq(224)
-      expect(contact.custom_attributes['cpf']).to eq('1234')
+    context 'update contact' do
+      it 'should update' do
+        contact = create(:contact, account: account, additional_attributes: {'chatwoot_id': 224})
+        result = described_class.call(chatwoot, JSON.parse(event))
+        expect(result.key?(:ok)).to eq(true)
+        expect(contact.reload.additional_attributes['chatwoot_id']).to eq(224)
+        expect(contact.custom_attributes['cpf']).to eq('1234')
+      end
+
+      it 'contact not found in chatwoot' do
+        stub_request(:get, /contacts/).
+        to_return(body: '{"error":"Resource could not be found"}', status: 404, headers: {'Content-Type' => 'application/json'})
+
+        contact = create(:contact, account: account, additional_attributes: {'chatwoot_id': 224})
+        result = described_class.call(chatwoot, JSON.parse(event))
+        expect(result[:ok]).to eq('Contact not found')
+      end
     end
   end
 end

@@ -9,19 +9,37 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
     contact = chatwoot.account.contacts.where(
       "additional_attributes->>'chatwoot_id' = ?", "#{contact_id}"
     ).first
+    contact_att = get_contact(chatwoot, contact_id)
+    return 'Contact not found' if contact_att == false
 
     if contact.present?
-      contact = update_contact(chatwoot, contact_id, contact)
-      contact = import_contact_tags(chatwoot, contact)
-      contact = import_contact_converstions_tags(chatwoot, contact)
-      contact.save
-      return contact
+      contact = update_contact(chatwoot, contact_id, contact, contact_att)
     else
-      contact = import_contact(chatwoot, contact_id)
-      contact = import_contact_tags(chatwoot, contact)
-      contact = import_contact_converstions_tags(chatwoot, contact)
-      contact.save
-      return contact
+      contact = import_contact(chatwoot, contact_id, contact_att)
+    end
+
+    contact = import_contact_tags(chatwoot, contact)
+    contact = import_contact_converstions_tags(chatwoot, contact)
+    contact.save
+    return contact
+  end
+
+  def self.get_contact(chatwoot, contact_id)
+    contact_response = Faraday.get(
+      "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{contact_id}",
+      {},
+      chatwoot.request_headers
+    )
+    if contact_response.status == 200
+      body = JSON.parse(contact_response.body)
+      return body['payload']
+    elsif contact_response.status == 404
+      Rails.logger.info "Contact id #{contact_id} not found in Chatwoot App #{chatwoot.id}"
+      return false
+    else
+      Rails.logger.info "contact_response: #{contact_response.inspect}"
+      Rails.logger.info "contact_response body: #{contact_response.body}"
+      raise "ErrorChatwootGetContact"
     end
   end
 
@@ -49,45 +67,27 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
     return contact
   end
 
-  def self.import_contact(chatwoot, contact_id)
-    contact_response = Faraday.get(
-      "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{contact_id}",
-      {},
-      chatwoot.request_headers
-    )
-    Rails.logger.info "contact_response: #{contact_response.inspect}"
-    Rails.logger.info "contact_response body: #{contact_response.body}"
-
-    body = JSON.parse(contact_response.body)
+  def self.import_contact(chatwoot, contact_id, contact_att)
     contact = chatwoot.account.contacts.new
-    contact = build_contact_att(contact, contact_id, body)
+    contact = build_contact_att(contact, contact_id, contact_att)
     contact
   end
 
 
-  def self.update_contact(chatwoot, contact_id, contact)
-    contact_response = Faraday.get(
-      "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{contact_id}",
-      {},
-      chatwoot.request_headers
-    )
-    Rails.logger.info "contact_response: #{contact_response.inspect}"
-    Rails.logger.info "contact_response body: #{contact_response.body}"
-
-    body = JSON.parse(contact_response.body)
-    contact = build_contact_att(contact, contact_id, body)
+  def self.update_contact(chatwoot, contact_id, contact, contact_att)
+    contact = build_contact_att(contact, contact_id, contact_att)
     contact
   end
 
   def self.build_contact_att(contact, contact_id, body)
     contact.assign_attributes({
-      full_name: body['payload']['name'],
-      email: "#{body['payload']['email']}",
-      phone: "#{body['payload']['phone_number']}",
+      full_name: body['name'],
+      email: "#{body['email']}",
+      phone: "#{body['phone_number']}",
     })
 
     contact.additional_attributes.merge!({ 'chatwoot_id' => contact_id })
-    contact.custom_attributes.merge!(body['payload']['custom_attributes'])
+    contact.custom_attributes.merge!(body['custom_attributes'])
     contact
   end
 end
