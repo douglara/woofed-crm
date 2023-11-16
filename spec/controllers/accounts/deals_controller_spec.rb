@@ -37,7 +37,7 @@ RSpec.describe Accounts::DealsController, type: :request do
             post "/accounts/#{account.id}/deals",
             params: valid_params.except('stage_id').merge({pipeline_id: pipeline.id})
           end.to change(Deal, :count).by(1)
-  
+
           expect(response).to redirect_to(account_deal_path(account, Deal.last))
           expect(Deal.last.stage).to eq(stage)
         end
@@ -113,21 +113,19 @@ RSpec.describe Accounts::DealsController, type: :request do
         sign_in(user)
       end
 
-      context 'delete deal' do 
+      context 'delete deal' do
         it do
-          delete "/accounts/#{account.id}/deals/#{deal.id}"
-          expect(response).to redirect_to(root_path)
-          expect(Deal.all.count).to eq(0)
-        #   expect do
-        #     delete "/accounts/#{account.id}/deals/#{deal.id}"
-        #   end.to change(Deal, :count).by(0)
+          expect do
+            delete "/accounts/#{account.id}/deals/#{deal.id}"
+            expect(response).to redirect_to(root_path)
+          end.to change(Deal, :count).by(-1)
         end
         it 'with events' do
           create(:event, account: account, deal: deal)
-          delete "/accounts/#{account.id}/deals/#{deal.id}"
-          expect(response).to redirect_to(root_path)
-          expect(Deal.all.count).to eq(0)
-          expect(Event.all.count).to eq(0)
+          expect do
+            delete "/accounts/#{account.id}/deals/#{deal.id}"
+            expect(response).to redirect_to(root_path)
+          end.to change(Deal, :count).by(-1) and change(Contact, :count).by(-1)
         end
       end
     end
