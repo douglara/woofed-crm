@@ -2,7 +2,11 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
 
   def self.call(chatwoot, contact_id)
     contact = get_or_import_contact(chatwoot, contact_id)
-    return { ok: contact }
+    if contact.present?
+      return { ok: contact }
+    else 
+      return { ok: false, error: "Não foi possível obter ou importar o contato." }
+    end
   end
 
   def self.get_or_import_contact(chatwoot, contact_id)
@@ -12,12 +16,14 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
 
     if contact.present?
       contact = update_contact(chatwoot, contact_id, contact)
+      return nil unless contact.present?
       contact = import_contact_tags(chatwoot, contact)
       contact = import_contact_converstions_tags(chatwoot, contact)
       contact.save
       return contact
     else
       contact = import_contact(chatwoot, contact_id)
+      return nil unless contact.present?
       contact = import_contact_tags(chatwoot, contact)
       contact = import_contact_converstions_tags(chatwoot, contact)
       contact.save
@@ -56,7 +62,6 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
       chatwoot.request_headers
     )
     body = JSON.parse(contact_response.body)
-    return if body.nil?
     contact = chatwoot.account.contacts.new
     contact = build_contact_att(contact, contact_id, body)
     contact
@@ -69,14 +74,13 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
       {},
       chatwoot.request_headers
     )
-
     body = JSON.parse(contact_response.body)
-    return if body.nil?
     contact = build_contact_att(contact, contact_id, body)
     contact
   end
 
   def self.build_contact_att(contact, contact_id, body)
+    return nil if body.nil?
     contact.assign_attributes({
       full_name: body['payload']['name'],
       email: "#{body['payload']['email']}",
