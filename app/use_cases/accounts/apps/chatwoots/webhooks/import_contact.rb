@@ -55,6 +55,9 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
       {},
       chatwoot.request_headers
     )
+    Rails.logger.info "contact_response: #{contact_response.inspect}"
+    Rails.logger.info "contact_response body: #{contact_response.body}"
+
     body = JSON.parse(contact_response.body)
     contact = chatwoot.account.contacts.new
     contact = build_contact_att(contact, contact_id, body)
@@ -68,6 +71,8 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
       {},
       chatwoot.request_headers
     )
+    Rails.logger.info "contact_response: #{contact_response.inspect}"
+    Rails.logger.info "contact_response body: #{contact_response.body}"
 
     body = JSON.parse(contact_response.body)
     contact = build_contact_att(contact, contact_id, body)
