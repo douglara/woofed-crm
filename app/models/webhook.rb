@@ -17,4 +17,13 @@ class Webhook < ApplicationRecord
 
   validates :account_id, presence: true
   validates :url, presence: true
+  after_update_commit{
+    broadcast_replace_later_to :webhooks, target: self, partial: 'accounts/settings/webhooks/webhook', locals: {webhook: self}
+  }
+  after_create_commit{
+    broadcast_prepend_later_to :webhooks, target: 'webhooks', partial: 'accounts/settings/webhooks/webhook', locals: {webhook: self}
+  }
+  after_destroy_commit{
+    broadcast_remove_to :webhooks, target: self
+  }
 end

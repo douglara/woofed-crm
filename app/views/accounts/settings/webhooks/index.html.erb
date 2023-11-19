@@ -1,61 +1,9 @@
-<section class="section">
-  <div class="section-header">
-    <h1>Web hooks</h1>
-  </div>
-
-  <div class="section-body">
-    <div class="card">
-      <div class="card-header">
-        <h4></h4>
-        <div class="card-header-action">
-          <div class="row">
-            <form hidden>
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search">
-              <div class="input-group-btn">
-                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-              </div>
-            </div>
-          </form>
-          <div class="dropdown ml-5 mr-5">
-            <a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown">Actions</a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <%= link_to new_account_custom_attributes_definition_path(current_user.account), class: 'dropdown-item has-icon' do %>
-                <i class="fas fa-plus"></i> New
-              <% end %>
-            </div>
-          </div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body p-0">
-        <div class="table-responsive">
-          <table class="table table-striped mb-0">
-            <thead>
-              <tr>
-                <th>Tipo</th>
-                <th>Nome</th>
-                <th>Chave</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @custom_attributes_definitions.each do | custom_attributes_definition | %>
-                <tr>
-                  <td>
-                    <%= CustomAttributeDefinition.human_attribute_name(custom_attributes_definition.attribute_model) %>
-                  </td>
-                  <td>
-                    <%= custom_attributes_definition.attribute_display_name %>
-                  </td>
-                  <td>
-                    <%= custom_attributes_definition.attribute_key %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+<section class="m-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md ">
+  <%= turbo_stream_from :webhooks %>
+  <ul class="px-4 py-5 grid" id="webhooks">
+      <%= render partial: 'accounts/settings/webhooks/webhook', collection: @webhooks, as: :webhook %>    
+  </ul>
+  <div class="float-right py-6">
+      <%== pagy_nav(@pagy) %>
+  </div> 
 </section>
