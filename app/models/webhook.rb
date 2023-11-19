@@ -3,6 +3,7 @@
 # Table name: webhooks
 #
 #  id         :bigint           not null, primary key
+#  status     :string
 #  url        :string           default(""), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -17,6 +18,11 @@ class Webhook < ApplicationRecord
 
   validates :account_id, presence: true
   validates :url, presence: true
+  validates :status, presence: true
+  enum status: { 
+    inactive: 'inactive',
+    active: 'active'
+  }
   after_update_commit{
     broadcast_replace_later_to :webhooks, target: self, partial: 'accounts/settings/webhooks/webhook', locals: {webhook: self}
   }

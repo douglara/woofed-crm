@@ -6,7 +6,7 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
     let!(:webhook) { create(:webhook, account: account) }
 
     describe 'POST /accounts/{account.id}/webhooks' do
-        let(:valid_params) { { webhook: { url: 'testeurl.com.br' } } }
+        let(:valid_params) { { webhook: { url: 'testeurl.com.br', status: 'active' } } }
 
         context 'when it is an unauthenticated user' do
         it 'returns unauthorized' do
@@ -36,6 +36,17 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
                     params: invalid_params
                 end.to change(Webhook, :count).by(0)
                 expect(response.body).to include("Url não pode ficar em branco")
+                expect(response).to have_http_status(:unprocessable_entity)
+                end
+            end
+            context 'when status is invalid' do
+                it 'when status is blank' do
+                invalid_params = { webhook: { url: ''}}
+                expect do
+                    post "/accounts/#{account.id}/webhooks",
+                    params: invalid_params
+                end.to change(Webhook, :count).by(0)
+                expect(response.body).to include("Status não pode ficar em branco")
                 expect(response).to have_http_status(:unprocessable_entity)
                 end
             end
@@ -101,6 +112,17 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
                         params: invalid_params
                         expect(Webhook.first.url).to eq('https://woofedcrm.com')
                         expect(response.body).to include("Url não pode ficar em branco")
+                        expect(response).to have_http_status(:unprocessable_entity)
+                    end
+                end
+                context 'when status is invalid' do
+                    it 'when status is blank' do
+                        invalid_params = { webhook: {status: '' } }
+
+                        patch "/accounts/#{account.id}/webhooks/#{webhook.id}",
+                        params: invalid_params
+                        expect(Webhook.first.status).to eq('active')
+                        expect(response.body).to include("Status não pode ficar em branco")
                         expect(response).to have_http_status(:unprocessable_entity)
                     end
                 end

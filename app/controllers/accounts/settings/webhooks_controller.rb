@@ -43,6 +43,6 @@ class Accounts::Settings::WebhooksController < InternalController
   end
 
   def webhook_params
-    params.require(:webhook).permit(:url)
+    params.require(:webhook).permit(:url, :status)
   end
 end
