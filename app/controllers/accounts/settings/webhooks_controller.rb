@@ -39,7 +39,7 @@ class Accounts::Settings::WebhooksController < InternalController
 
   private
   def set_webhook
-    @webhook = Webhook.find(params[:id])
+    @webhook = current_user.account.webhooks.find(params[:id])
   end
 
   def webhook_params

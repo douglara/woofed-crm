@@ -3,7 +3,9 @@ require 'rails_helper'
 RSpec.describe Accounts::Settings::WebhooksController, type: :request do
     let!(:account) { create(:account) }
     let!(:user) { create(:user, account: account) }
+    let!(:account_2) { create(:account) }
     let!(:webhook) { create(:webhook, account: account) }
+    let!(:webhook_2) { create(:webhook, account: account_2, url:'www.webhookaccount2.com') }
 
     describe 'POST /accounts/{account.id}/webhooks' do
         let(:valid_params) { { webhook: { url: 'testeurl.com.br', status: 'active' } } }
@@ -16,9 +18,9 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
         end
 
         context 'when it is an authenticated user' do
-        before do
-            sign_in(user)
-        end
+            before do
+                sign_in(user)
+            end
 
         context 'create webhook' do
             it do
@@ -74,7 +76,6 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
                 expect(response).to have_http_status(200)
             end
             it 'get webhooks by account' do
-            account_2 = create(:account, name: 'account teste')
             create(:webhook, url: 'teste-url.com.br', account_id: account_2.id)
             get "/accounts/#{account.id}/webhooks"
             expect(response.body).to include("https://woofedcrm.com")
@@ -126,6 +127,11 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
                         expect(response).to have_http_status(:unprocessable_entity)
                     end
                 end
+                it "edit webhook from another account" do
+                    patch "/accounts/#{account.id}/webhooks/#{webhook_2.id}", params: valid_params
+                    expect(account_2.webhooks.first.url).to eq('www.webhookaccount2.com')
+                end
+
             end
         end
     end
@@ -140,10 +146,11 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
             before do
                 sign_in(user)
             end
-            context 'delete the user' do
+            context 'delete the webhook' do
                 it do
                     delete "/accounts/#{account.id}/webhooks/#{webhook.id}"
-                    expect(Webhook.count).to eq(0)
+                    expect(Webhook.count).to eq(1)
+                    expect(Webhook.first.account_id).to eq(account_2.id)
                     expect(response.status).to eq(204)
                 end
             end

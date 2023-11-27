@@ -24,12 +24,12 @@ class Webhook < ApplicationRecord
     active: 'active'
   }
   after_update_commit{
-    broadcast_replace_later_to :webhooks, target: self, partial: 'accounts/settings/webhooks/webhook', locals: {webhook: self}
+    broadcast_replace_later_to "webhooks_#{account_id}", target: self, partial: 'accounts/settings/webhooks/webhook', locals: {webhook: self}
   }
   after_create_commit{
-    broadcast_prepend_later_to :webhooks, target: 'webhooks', partial: 'accounts/settings/webhooks/webhook', locals: {webhook: self}
+    broadcast_prepend_later_to "webhooks_#{account_id}", target: 'webhooks', partial: 'accounts/settings/webhooks/webhook', locals: {webhook: self}
   }
   after_destroy_commit{
-    broadcast_remove_to :webhooks, target: self
+    broadcast_remove_to "webhooks_#{account_id}", target: self
   }
 end
