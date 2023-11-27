@@ -28,7 +28,7 @@
     </div>
   </div>
   <div class="flex gap-2 self-end">
-    <%= form.submit 'Cadastrar', class: 'btn-primary cursor-pointer' %>
+    <%= form.submit(method == :post ? 'Cadastrar' : 'Atualizar', class: 'btn-primary cursor-pointer') %>
   </div>
 <% end %>
 
