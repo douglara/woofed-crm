@@ -83,7 +83,7 @@ class Deal < ApplicationRecord
   after_update_commit -> { broadcast_updates }
 
   def broadcast_updates
-    broadcast_replace_later_to self, partial: "accounts/pipelines/deal"
+    broadcast_replace_later_to self, partial: "accounts/pipelines/deal", locals:{pipeline: self.pipeline}
     if previous_changes.key?('stage_id')
       previous_changes['stage_id'].each do |stage_id|
         Stage.find(stage_id).broadcast_updates
