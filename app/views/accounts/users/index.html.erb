@@ -1,5 +1,5 @@
 <section class="m-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md ">
-    <%= turbo_stream_from :users %>
+    <%= turbo_stream_from "users_#{current_user.account.id}" %>
     <ul class="px-4 py-5 grid" id="users">
         <%= render partial: 'accounts/users/user', collection: @users, as: :user %>    
     </ul>
