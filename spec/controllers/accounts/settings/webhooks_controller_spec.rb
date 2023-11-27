@@ -11,10 +11,10 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
         let(:valid_params) { { webhook: { url: 'testeurl.com.br', status: 'active' } } }
 
         context 'when it is an unauthenticated user' do
-        it 'returns unauthorized' do
-            post "/accounts/#{account.id}/webhooks" 
-            expect(response).to redirect_to(new_user_session_path)
-        end
+            it 'returns unauthorized' do
+                post "/accounts/#{account.id}/webhooks" 
+                expect(response).to redirect_to(new_user_session_path)
+            end
         end
 
         context 'when it is an authenticated user' do
