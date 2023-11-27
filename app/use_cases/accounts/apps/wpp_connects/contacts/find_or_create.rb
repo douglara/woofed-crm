@@ -23,7 +23,7 @@ class Accounts::Apps::WppConnects::Contacts::FindOrCreate
   
     return Contact.create(
       full_name: "#{contact_response['name']}",
-      phone: contact_response['id']['user'],
+      phone: "+#{contact_response['id']['user']}",
       app: wpp_connect,
       account: wpp_connect.account,
       additional_attributes: {'wpp_connect_id': contact_response['id']['user'] }
