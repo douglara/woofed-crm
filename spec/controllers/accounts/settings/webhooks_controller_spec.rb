@@ -128,7 +128,9 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
                     end
                 end
                 it "edit webhook from another account" do
-                    patch "/accounts/#{account.id}/webhooks/#{webhook_2.id}", params: valid_params
+                    expect do
+                        patch "/accounts/#{account.id}/webhooks/#{webhook_2.id}", params: valid_params
+                      end.to raise_error(ActiveRecord::RecordNotFound, /Couldn't find Webhook with 'id'=#{webhook_2.id} \[WHERE "webhooks"."account_id" = \$1\]/)                                  
                     expect(account_2.webhooks.first.url).to eq('www.webhookaccount2.com')
                 end
 
