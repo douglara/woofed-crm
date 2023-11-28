@@ -1,4 +1,4 @@
-<%= form_with( model: webhook, url: url, method: method, html:{class: "flex flex-col gap-5"} ) do | form | %>
+<%= form_with( model: webhook, url: url, html:{class: "flex flex-col gap-5"} ) do | form | %>
   <% if webhook.errors.any? %>
     <div>
       <ul>
@@ -20,6 +20,6 @@
     </div>
   </div>
   <div class="flex gap-2 self-end">
-    <%= form.submit(method == :post ? 'Cadastrar' : 'Atualizar', class: 'btn-primary cursor-pointer') %>
+    <%= form.submit class: 'btn-primary cursor-pointer' %>
   </div>
 <% end %>
