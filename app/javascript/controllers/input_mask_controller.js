@@ -7,7 +7,6 @@ export default class extends Controller {
 
         inputFields.forEach(field => {
             const fieldName = field.name.replace(/[\[\]_\s]/g, '').toLowerCase()
-            console.log(fieldName)
             if (fieldName === 'contactphone') {
                 new IMask(field, {
                     mask: '+000000000000000',
