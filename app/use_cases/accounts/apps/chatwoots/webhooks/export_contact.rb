@@ -6,9 +6,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ExportContact
     end
   
     def self.create_or_update_contact(chatwoot, contact)
-      contact_chatwoot_id = contact['additional_attributes']['chatwoot_id']
-      
-  
+      contact_chatwoot_id = contact['additional_attributes']['chatwoot_id']   
       if contact_chatwoot_id.present?
         response = update_contact(chatwoot, contact)
       else
@@ -23,7 +21,6 @@ class Accounts::Apps::Chatwoots::Webhooks::ExportContact
         build_body(contact),
         chatwoot.request_headers
       )
-      
       if request.status == 200
         return { ok: contact }
       else
@@ -38,7 +35,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ExportContact
           build_body(contact),
           chatwoot.request_headers
         )  
-        response_body = JSON.parse(request.body)
+        response_body = JSON.parse(request.body)   
         if request.status == 200
           update_contact_chatwoot_id(contact, response_body['payload']['contact']['id'])
           return { ok: contact }
@@ -51,7 +48,6 @@ class Accounts::Apps::Chatwoots::Webhooks::ExportContact
         contact.update(additional_attributes: { chatwoot_id: chatwoot_id})
     end
   
-
     def self.build_body(contact)
         {
             "name": contact['full_name'],
