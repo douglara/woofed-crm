@@ -37,7 +37,11 @@ class Contact < ApplicationRecord
   end
 
   FORM_FIELDS = [:full_name, :email, :phone]
+  after_commit :export_contact_to_chatwoot, on: [:create, :update]
+  # after_commit :export_contact_to_chatwoot, on: :create, unless: :connected_with_chatwoot?
+  # after_commit :export_contact_to_chatwoot, on: :update
 
+  
   ## Events
 
   include Wisper::Publisher
@@ -45,7 +49,10 @@ class Contact < ApplicationRecord
   after_commit :publish_updated, on: :update
 
   private
-
+  # def export_contact_to_chatwoot
+  #   Rails.logger.debug("Entrou no callback export_contact_to_chatwoot")
+    Accounts::Apps::Chatwoots::Webhooks::ExportContactWorker.perform_async(account.apps_chatwoots.first.id, id)
+  end
   def publish_created
     broadcast(:contact_created, self)
   end
