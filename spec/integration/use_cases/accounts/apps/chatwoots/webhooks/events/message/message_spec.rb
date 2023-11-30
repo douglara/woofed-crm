@@ -16,29 +16,13 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::Events::Message, type: :requ
         stub_request(:get, /conversations/).
         to_return(body: response_conversations, status: 200, headers: {'Content-Type' => 'application/json'})
       end
-      it 'check chatwoot_message' do    
-        result = Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(chatwoot, JSON.parse(event))
-        expect(result.key?(:ok)).to eq(true)
-        expect(Event.last.kind).to eq('chatwoot_message')
-      end
-        it 'check content' do
+      it 'check event chatwoot message' do    
         result = Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(chatwoot, JSON.parse(event))
         expect(result.key?(:ok)).to eq(true)
         expect(Event.last.content.body.to_plain_text).to eq('Teste2')
-      end
-      it 'check message from_me' do
-        result = Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(chatwoot, JSON.parse(event))
-        expect(result.key?(:ok)).to eq(true)
         expect(Event.last.from_me).to eq(true)
-      end
-      it 'check message done' do
-        result = Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(chatwoot, JSON.parse(event))
-        expect(result.key?(:ok)).to eq(true)
         expect(Event.last.done).to eq(true)
-      end
-      it 'check message done_at' do
-        result = Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(chatwoot, JSON.parse(event))
-        expect(result.key?(:ok)).to eq(true)
+        expect(Event.last.kind).to eq('chatwoot_message')
         expect(Event.last.done_at).to eq("2023-07-26T01:59:54.994Z")
       end
     end 
