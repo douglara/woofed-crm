@@ -42,8 +42,10 @@ class WebhookListener
   end
 
   def build_deal_payload(event, deal)
-    deal_json = deal.to_json(:include => :contact)
-    { event: event, data: JSON.parse(deal_json)  }.to_json
+    changed_attributes = extract_changed_attributes(deal)
+
+    deal_json = deal.as_json(:include => :contact).merge({changed_attributes: changed_attributes})
+    { event: event, data: deal_json }.to_json
   end
 
   def build_contact_payload(event, contact)

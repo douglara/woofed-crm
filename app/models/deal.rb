@@ -45,7 +45,7 @@ class Deal < ApplicationRecord
   belongs_to :stage
   belongs_to :pipeline
   acts_as_list scope: :stage
-  has_many :events
+  has_many :events, dependent: :destroy
   has_many :flow_items
   has_many :notes, through: :flow_items
   has_many :activities
@@ -79,13 +79,14 @@ class Deal < ApplicationRecord
       self.stage = self.pipeline.stages.first
     end
   end
+  after_destroy_commit{ broadcast_remove_to self.stage, target: self}
 
   after_update_commit -> { broadcast_updates }
 
   def broadcast_updates
     broadcast_replace_later_to self, partial: "accounts/pipelines/deal"
     if previous_changes.key?('stage_id')
-      previous_changes['stage_id'].each do |stage_id| 
+      previous_changes['stage_id'].each do |stage_id|
         Stage.find(stage_id).broadcast_updates
       end
     end
@@ -101,9 +102,9 @@ class Deal < ApplicationRecord
   def next_event_scheduled?
     next_event_scheduled rescue false
   end
-  
+
   def next_event_scheduled
-    events.planned.first rescue nil
+    events.planned.where.not(due: nil).first rescue nil
   end
 
   def self.csv_header(account_id)

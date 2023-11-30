@@ -34,7 +34,7 @@ class Accounts::DealsController < InternalController
 
   def commit_add_contact
     @deal = Deal.find(params[:deal_id])
-    @new_contact = Contact.find(params['deal']['contact_id']) 
+    @new_contact = Contact.find(params['deal']['contact_id'])
     @deal.contacts.push(@new_contact)
 
     if @deal.save
@@ -63,6 +63,7 @@ class Accounts::DealsController < InternalController
 
   # GET /deals/1/edit
   def edit
+    @stages = current_user.account.stages
   end
 
   def edit_custom_attributes
@@ -123,7 +124,7 @@ class Accounts::DealsController < InternalController
   def destroy
     @deal.destroy
     respond_to do |format|
-      format.html { redirect_to deals_url, notice: "Deal was successfully destroyed." }
+      format.html { redirect_to root_path, notice: "Deal was successfully destroyed." }
       format.json { head :no_content }
     end
   end

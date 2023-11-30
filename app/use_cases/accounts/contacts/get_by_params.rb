@@ -1,7 +1,9 @@
 
 class Accounts::Contacts::GetByParams
-  def self.call(account, params )
+  def self.call(account, params)
     params.stringify_keys!
+    return {error: 'Not found'} if params.blank?
+
     query_params = params.map{ |field, value| "#{field} ILIKE '%#{value}%'" }
     if params.key?('phone')
       query_params << "phone ILIKE '%#{sanitized_phone(params['phone'])}%'"

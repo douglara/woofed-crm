@@ -594,6 +594,8 @@ GEM
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
       redis-client (>= 0.11.0)
+    sidekiq-limit_fetch (4.4.1)
+      sidekiq (>= 6)
     signet (0.18.0)
       addressable (~> 2.8)
       faraday (>= 0.17.5, < 3.a)
@@ -706,6 +708,7 @@ DEPENDENCIES
   sentry-ruby
   sentry-sidekiq
   sidekiq
+  sidekiq-limit_fetch
   spring
   tailwindcss-rails (~> 2.0)
   turbolinks (~> 5)
