@@ -70,6 +70,7 @@ class Accounts::PipelinesController < InternalController
   # GET /pipelines/1/import
   def import
     @pipeline = Pipeline.find(params[:pipeline_id])
+    @stage = Stage.find(params[:stage_id])
 
     respond_to do |format|
       format.turbo_stream
