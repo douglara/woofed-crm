@@ -36,7 +36,7 @@ class Accounts::PipelinesController < InternalController
     path_to_output_csv_file = "#{Rails.root}/tmp/deals-#{Time.current.to_i}.csv"
     line = 0
     CSV.open(path_to_output_csv_file, "w") do |csv_output|
-      
+
       csv.each do |row|
         if line == 0
           csv_output << row.to_h.keys + ['result']
@@ -51,6 +51,7 @@ class Accounts::PipelinesController < InternalController
 
         if deal.save
           csv_output << row.to_h.values + ["Criado com sucesso id #{deal.id}"]
+
         else
           csv_output << row.to_h.values + ["Erro na criação #{deal.errors.messages}"]
         end
@@ -61,7 +62,9 @@ class Accounts::PipelinesController < InternalController
 
     response.headers['Content-Type'] = 'text/csv'
     response.headers['Content-Disposition'] = "attachment; filename=deals.csv"
+    # flash[:notice] = 'Arquivo processado com sucesso.'
     send_file path_to_output_csv_file
+    # redirect_to account_pipeline_path(current_user.id, @pipeline.id), notice: 'Arquivo processado com sucesso.'
   end
 
   # GET /pipelines/1/import
@@ -69,6 +72,7 @@ class Accounts::PipelinesController < InternalController
     @pipeline = Pipeline.find(params[:pipeline_id])
 
     respond_to do |format|
+      format.turbo_stream
       format.html
       format.csv do
         path_to_output_csv_file = "#{Rails.root}/tmp/deals-#{Time.current.to_i}.csv"
@@ -88,7 +92,7 @@ class Accounts::PipelinesController < InternalController
   # GET /pipelines/1/export
   def export
     @deals = current_user.account.deals.where(stage_id: params['stage_id'])
-    
+
     path_to_output_csv_file = "#{Rails.root}/tmp/deals-#{Time.current.to_i}.csv"
     JsonCsv.create_csv_for_json_records(path_to_output_csv_file) do |csv_builder|
       @deals.each do | deal |
@@ -123,7 +127,7 @@ class Accounts::PipelinesController < InternalController
       Event.create(
         deal: deal,
         contact: deal.contact,
-        from_me: true, account: current_user.account, 
+        from_me: true, account: current_user.account,
         kind: 'wpp_connect_message',
         done: false,
         app_id: params['event']['app_id'],
