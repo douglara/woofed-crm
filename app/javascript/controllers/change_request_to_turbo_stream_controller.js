@@ -10,8 +10,6 @@ export default class extends Controller {
   changeHeader(event) {
     event.preventDefault()
     const href = event.currentTarget.href
-    console.log('href')
-    console.log(href)
     fetch(href,{
         headers:{
           Accept: 'text/vnd.turbo-stream.html'
