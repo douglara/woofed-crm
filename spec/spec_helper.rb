@@ -15,7 +15,15 @@
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require 'simplecov'
-SimpleCov.start
+require 'simplecov_json_formatter'
+
+SimpleCov.start do
+  enable_coverage :branch
+  formatter SimpleCov::Formatter::MultiFormatter.new([
+      SimpleCov::Formatter::JSONFormatter,
+      SimpleCov::Formatter::HTMLFormatter
+    ])
+end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
