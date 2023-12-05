@@ -18,11 +18,10 @@ require 'simplecov'
 require 'simplecov_json_formatter'
 
 SimpleCov.start 'rails' do
-  if ENV['CC_TEST_REPORTER_ID']
-    formatter SimpleCov::Formatter::JSONFormatter
-  else
-    formatter SimpleCov::Formatter::HTMLFormatter
-  end
+  formatter SimpleCov::Formatter::MultiFormatter.new([
+      SimpleCov::Formatter::JSONFormatter,
+      SimpleCov::Formatter::HTMLFormatter
+    ])
 end
 
 RSpec.configure do |config|
