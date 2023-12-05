@@ -19,7 +19,7 @@ RSpec.describe Accounts::Apps::Chatwoots::ExportContact, type: :request do
 
       result = Accounts::Apps::Chatwoots::SearchContact.call(chatwoot, contact[:email])
       expect(result["email"]).to eq(contact[:email])
-      expect(result["name"]).to eq(contact[:name])
+      expect(result["name"]).to eq(contact[:full_name])
     end
 
     it 'Chatwoot API seach contact not found' do
