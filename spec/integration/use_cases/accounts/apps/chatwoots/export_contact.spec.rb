@@ -7,6 +7,7 @@ RSpec.describe Accounts::Apps::Chatwoots::ExportContact, type: :request do
     let(:chatwoot) { create(:apps_chatwoots, :skip_validate, account: account) }
     let(:contact) { create(:contact, account: account) }
     let(:contact_chatwoot_id) { create(:contact, account: account, additional_attributes: {'chatwoot_id': 1}) }
+    let(:search_contact_query_response)  { File.read("spec/integration/use_cases/accounts/apps/chatwoots/search_contact.json") }
     let(:contact_create_response) do
         {
           "payload": {
@@ -67,8 +68,15 @@ RSpec.describe Accounts::Apps::Chatwoots::ExportContact, type: :request do
       stub_request(:post, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts")
         .to_return(body: {"message": "Email has already been taken", "attributes": ["email"]}.to_json, status: 422, headers: { 'Content-Type' => 'application/json' })
 
+        stub_request(:get, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/search").with(
+          query: { q: contact[:email] },
+          headers: chatwoot.request_headers
+        )
+          .to_return(body: search_contact_query_response, status: 200, headers: { 'Content-Type' => 'application/json' })
+
       result = Accounts::Apps::Chatwoots::ExportContact.call(chatwoot, contact)
-      expect(result.key?(:error)).to eq(true)
+      expect(result.key?(:ok)).to eq(true)
+      expect(result[:ok][:additional_attributes][:chatwoot_id]).to eq(contact[:additional_attributes][:chatwoot_id])
     end
   end
 end

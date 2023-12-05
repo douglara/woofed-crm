@@ -36,7 +36,11 @@ class Accounts::Apps::Chatwoots::ExportContact
           chatwoot.request_headers
         )  
         response_body = JSON.parse(request.body)   
-        if request.status == 200
+        if response_body['message'] == 'Email has already been taken' && request.status == 422
+          chatwoot_contact = Accounts::Apps::Chatwoots::SearchContact.call(chatwoot, contact['email'])
+          update_contact_chatwoot_id(contact, chatwoot_contact['id'])
+          return { ok: contact }
+        elsif request.status == 200
           update_contact_chatwoot_id(contact, response_body['payload']['contact']['id'])
           return { ok: contact }
         else
@@ -56,5 +60,5 @@ class Accounts::Apps::Chatwoots::ExportContact
             "custom_attributes": contact['custom_attributes']
         }.to_json
     end
-  
+    
 end
