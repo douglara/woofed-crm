@@ -76,7 +76,7 @@ RSpec.describe Accounts::Apps::Chatwoots::ExportContact, type: :request do
 
       result = Accounts::Apps::Chatwoots::ExportContact.call(chatwoot, contact)
       expect(result.key?(:ok)).to eq(true)
-      expect(result[:ok][:additional_attributes][:chatwoot_id]).to eq(contact[:additional_attributes][:chatwoot_id])
+      expect(result[:ok][:additional_attributes]['chatwoot_id']).to eq(contact[:additional_attributes]['chatwoot_id'])
     end
   end
 end
