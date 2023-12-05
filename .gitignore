@@ -39,3 +39,4 @@ yarn-debug.log*
 /config/credentials/production.key
 /app/assets/builds/*
 !/app/assets/builds/.keep
+/coverage
