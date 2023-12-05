@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'webmock/rspec'
 
-RSpec.describe Accounts::Apps::Chatwoots::Webhooks::ExportContact, type: :request do
+RSpec.describe Accounts::Apps::Chatwoots::ExportContact, type: :request do
   describe 'success' do
     let(:account) { create(:account) }
     let(:chatwoot) { create(:apps_chatwoots, :skip_validate, account: account) }
@@ -52,14 +52,14 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::ExportContact, type: :reques
       stub_request(:post, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts")
         .to_return(body: contact_create_response.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
 
-      result = Accounts::Apps::Chatwoots::Webhooks::ExportContact.call(chatwoot, contact)
+      result = Accounts::Apps::Chatwoots::ExportContact.call(chatwoot, contact)
       expect(result.key?(:ok)).to eq(true)
     end
     it 'update contact in Chatwoot API' do
         stub_request(:put, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{contact_chatwoot_id.additional_attributes['chatwoot_id']}")
             .to_return(body: contact_update_response.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
 
-        result = Accounts::Apps::Chatwoots::Webhooks::ExportContact.call(chatwoot, contact_chatwoot_id)
+        result = Accounts::Apps::Chatwoots::ExportContact.call(chatwoot, contact_chatwoot_id)
         expect(result.key?(:ok)).to eq(true)
     end
 
@@ -67,7 +67,7 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::ExportContact, type: :reques
       stub_request(:post, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts")
         .to_return(body: {"message": "Email has already been taken", "attributes": ["email"]}.to_json, status: 422, headers: { 'Content-Type' => 'application/json' })
 
-      result = Accounts::Apps::Chatwoots::Webhooks::ExportContact.call(chatwoot, contact)
+      result = Accounts::Apps::Chatwoots::ExportContact.call(chatwoot, contact)
       expect(result.key?(:error)).to eq(true)
     end
   end

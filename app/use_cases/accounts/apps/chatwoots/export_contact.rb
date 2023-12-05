@@ -1,4 +1,4 @@
-class Accounts::Apps::Chatwoots::Webhooks::ExportContact
+class Accounts::Apps::Chatwoots::ExportContact
 
     def self.call(chatwoot, contact)
       response = create_or_update_contact(chatwoot, contact)
