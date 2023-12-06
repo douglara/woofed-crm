@@ -40,6 +40,10 @@ class Accounts::Apps::Chatwoots::ExportContact
           chatwoot_contact = Accounts::Apps::Chatwoots::SearchContact.call(chatwoot, contact['email'])
           update_contact_chatwoot_id(contact, chatwoot_contact['id'])
           return { ok: contact }
+        elsif response_body['message'] == 'Phone number has already been taken' && request.status == 422
+          chatwoot_contact = Accounts::Apps::Chatwoots::SearchContact.call(chatwoot, contact['phone'])
+          update_contact_chatwoot_id(contact, chatwoot_contact['id'])
+          return { ok: contact }
         elsif request.status == 200
           update_contact_chatwoot_id(contact, response_body['payload']['contact']['id'])
           return { ok: contact }

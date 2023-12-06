@@ -78,5 +78,19 @@ RSpec.describe Accounts::Apps::Chatwoots::ExportContact, type: :request do
       expect(result.key?(:ok)).to eq(true)
       expect(result[:ok][:additional_attributes]['chatwoot_id']).to eq(contact[:additional_attributes]['chatwoot_id'])
     end
+    it 'create contact with phone number that already exists on Chatwoot API' do
+      stub_request(:post, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts")
+        .to_return(body: {"message"=>"Phone number has already been taken", "attributes"=>["phone_number"]}.to_json, status: 422, headers: { 'Content-Type' => 'application/json' })
+
+        stub_request(:get, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/search").with(
+          query: { q: contact[:phone] },
+          headers: chatwoot.request_headers
+        )
+          .to_return(body: search_contact_query_response, status: 200, headers: { 'Content-Type' => 'application/json' })
+
+      result = Accounts::Apps::Chatwoots::ExportContact.call(chatwoot, contact)
+      expect(result.key?(:ok)).to eq(true)
+      expect(result[:ok][:additional_attributes]['chatwoot_id']).to eq(contact[:additional_attributes]['chatwoot_id'])
+    end
   end
 end
