@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_09_215032) do
+ActiveRecord::Schema.define(version: 2023_12_06_035900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -172,7 +172,7 @@ ActiveRecord::Schema.define(version: 2023_10_09_215032) do
     t.string "app_type"
     t.bigint "app_id"
     t.string "kind", default: "note", null: false
-    t.datetime "due"
+    t.datetime "scheduled_at"
     t.boolean "done"
     t.datetime "done_at"
     t.boolean "from_me"
@@ -527,6 +527,7 @@ ActiveRecord::Schema.define(version: 2023_10_09_215032) do
     t.string "url", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status"
     t.index ["account_id"], name: "index_webhooks_on_account_id"
   end
 

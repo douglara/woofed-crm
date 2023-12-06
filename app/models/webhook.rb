@@ -3,6 +3,7 @@
 # Table name: webhooks
 #
 #  id         :bigint           not null, primary key
+#  status     :string
 #  url        :string           default(""), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
