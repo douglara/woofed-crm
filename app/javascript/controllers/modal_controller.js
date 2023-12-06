@@ -3,16 +3,16 @@ import { Modal } from 'flowbite';
 
 export default class extends Controller {
   connect() {
-      this.modal = new Modal(this.element, {
-          closable: false,
-          backdrop: 'static'
-      })
-      this.modal.show()
+		this.modal = new Modal(this.element, {
+			closable: false,
+			backdrop: 'static'
+		})
+		this.modal.show()
   }
-    disconnect() {
-        this.modal.hide()
-    }
-    modalHide() {
-        this.element.remove()
-    }
+	disconnect() {
+		this.modal.hide()
+	}
+	modalHide() {
+		this.modal.hide()
+	}
 }
