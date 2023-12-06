@@ -6,14 +6,13 @@
 #  additional_attributes :jsonb
 #  app_type              :string
 #  custom_attributes     :jsonb
-#  done                  :boolean
 #  done_at               :datetime
 #  from_me               :boolean
 #  kind                  :string           default("note"), not null
 #  scheduled_at          :datetime
 #  status                :integer
-#  title                 :string          default(""), not null
-#  created_at            :datetime          not null
+#  title                 :string           default(""), not null
+#  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :bigint           not null
 #  app_id                :bigint
@@ -38,11 +37,11 @@ class Event < ApplicationRecord
   belongs_to :deal, optional: true
   belongs_to :contact
   belongs_to :account
-
   # belongs_to :event_kind, default: -> { EventKind }
   # belongs_to :record, polymorphic: true
   belongs_to :app, polymorphic: true, optional: true
   has_rich_text :content
+  attribute :done, :boolean
 
   after_create_commit {
     if self.done == false
@@ -57,22 +56,34 @@ class Event < ApplicationRecord
 
     Accounts::Contacts::Events::CreatedWorker.perform_async(self.id)
   }
+  def done
+    done_at.present?
+  end
+
+  def done?
+    done
+  end
   
+  def done=(value)
+    done_at = Time.now if value == true
+  end
+  
+
   after_update_commit {
     broadcast_replace_to [contact_id, 'events'],
     partial: "accounts/contacts/events/event"
   }
+
   after_destroy_commit {
     broadcast_remove_to [contact_id, 'events']
   }
 
   scope :planned, -> {
-    where('done = false').order(:scheduled_at)
-
+    where('done_at IS NULL and scheduled_at IS NOT NULL').order(:scheduled_at)
   }
 
   scope :not_planned_or_done, -> {
-    where('done IS NULL or done = true').order(done_at: :desc)
+    where('scheduled_at IS NULL or done_at IS NOT NULL').order(done_at: :desc)
   }
 
   enum kind: {

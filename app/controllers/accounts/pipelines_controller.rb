@@ -125,7 +125,6 @@ class Accounts::PipelinesController < InternalController
         contact: deal.contact,
         from_me: true, account: current_user.account, 
         kind: 'wpp_connect_message',
-        done: false,
         app_id: params['event']['app_id'],
         app_type: params['event']['app_type'],
         content: params['event']['content'],

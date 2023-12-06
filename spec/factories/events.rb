@@ -6,7 +6,6 @@
 #  additional_attributes :jsonb
 #  app_type              :string
 #  custom_attributes     :jsonb
-#  done                  :boolean
 #  done_at               :datetime
 #  from_me               :boolean
 #  kind                  :string           default("note"), not null

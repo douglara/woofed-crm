@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_12_06_035900) do
+ActiveRecord::Schema.define(version: 2023_12_06_171732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -173,7 +173,6 @@ ActiveRecord::Schema.define(version: 2023_12_06_035900) do
     t.bigint "app_id"
     t.string "kind", default: "note", null: false
     t.datetime "scheduled_at"
-    t.boolean "done"
     t.datetime "done_at"
     t.boolean "from_me"
     t.integer "status"

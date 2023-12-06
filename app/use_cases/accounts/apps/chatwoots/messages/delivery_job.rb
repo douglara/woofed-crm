@@ -14,7 +14,6 @@ class Accounts::Apps::Chatwoots::Messages::DeliveryJob < ApplicationJob
         event.additional_attributes['chatwoot_id'] = result[:ok]['id']
         event.additional_attributes['chatwoot_conversation_id'] = result[:ok]['conversation_id']
         event.done = true
-        event.done_at = Time.current
         event.save!
         return {ok: event}
       else
