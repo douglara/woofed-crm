@@ -5,6 +5,7 @@
 #  id                    :bigint           not null, primary key
 #  additional_attributes :jsonb
 #  app_type              :string
+#  auto_done             :boolean          default(FALSE)
 #  custom_attributes     :jsonb
 #  done_at               :datetime
 #  from_me               :boolean

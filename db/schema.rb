@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_12_06_171732) do
+ActiveRecord::Schema.define(version: 2023_12_06_223813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(version: 2023_12_06_171732) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "title", default: "", null: false
+    t.boolean "auto_done", default: false
     t.index ["account_id"], name: "index_events_on_account_id"
     t.index ["app_type", "app_id"], name: "index_events_on_app"
     t.index ["contact_id"], name: "index_events_on_contact_id"
