@@ -12,8 +12,8 @@
 #  kind                  :string           default("note"), not null
 #  scheduled_at          :datetime
 #  status                :integer
-#  title                 :string           default(""), not null
-#  created_at            :datetime         not null
+#  title                 :string          default(""), not null
+#  created_at            :datetime          not null
 #  updated_at            :datetime         not null
 #  account_id            :bigint           not null
 #  app_id                :bigint
@@ -57,7 +57,7 @@ class Event < ApplicationRecord
 
     Accounts::Contacts::Events::CreatedWorker.perform_async(self.id)
   }
-
+  
   after_update_commit {
     broadcast_replace_to [contact_id, 'events'],
     partial: "accounts/contacts/events/event"
@@ -67,7 +67,7 @@ class Event < ApplicationRecord
   }
 
   scope :planned, -> {
-    where('done = false').order(:due)
+    where('done = false').order(:scheduled_at)
 
   }
 
@@ -84,7 +84,7 @@ class Event < ApplicationRecord
   }
 
   before_validation do
-    if self.due.present? && self.done == nil
+    if self.scheduled_at.present? && self.done == nil
       self.done = false
     end
   end
@@ -106,13 +106,13 @@ class Event < ApplicationRecord
   end
 
   def overdue?
-    return false if self.done == true || due.blank?
-    DateTime.current > due
+    return false if self.done == true || scheduled_at.blank?
+    DateTime.current > scheduled_at
   end
 
   def primary_date
-    if due.present?
-      return due_format
+    if scheduled_at.present?
+      return scheduled_at_format
     else
       return created_at.to_s(:short)
     end

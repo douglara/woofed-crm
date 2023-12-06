@@ -130,7 +130,7 @@ class Accounts::PipelinesController < InternalController
         app_type: params['event']['app_type'],
         content: params['event']['content'],
         custom_attributes: {'wpp_connect_message_to': deal.contact.phone},
-        due: time_start
+        scheduled_at: time_start
       )
     end
   end
