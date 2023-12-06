@@ -6,13 +6,14 @@ class Accounts::Apps::Chatwoots::SearchContact
       chatwoot.request_headers
     )
     body = JSON.parse(request.body)
+
     return body['payload'].first if body['payload'].present?
     return { error: 'Contact not found' }
   end
 
   def self.build_body(content)
-      {
-      "q": content,
-      }
+    {
+    "q": content,
+    }
   end
 end
