@@ -29,6 +29,7 @@
   },
   "version": "0.1.0",
   "devDependencies": {
-    "@webpack-cli/serve": "^1.5.2"
+    "@webpack-cli/serve": "^1.5.2",
+    "localtunnel": "^2.0.2"
   }
 }

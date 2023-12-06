@@ -94,6 +94,8 @@ group :test do
   gem 'rexml', '= 3.2.4'
   gem 'vcr'
   gem 'webmock'
+  gem 'simplecov', require: false
+  gem 'simplecov_json_formatter', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
