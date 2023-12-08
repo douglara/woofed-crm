@@ -66,7 +66,8 @@ class Event < ApplicationRecord
   end
   
   def done=(value)
-    done_at = Time.now if value == true
+    self.done_at = Time.now if value == true
+    self.done_at = '' if value == false
   end
   
 
