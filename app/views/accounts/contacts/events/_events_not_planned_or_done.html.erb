@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "events_not_planned_or_done_#{deal.contact.id}" do %>
+    <% deal.events.not_planned_or_done.each do |event| %>
+        <%= render partial: 'accounts/contacts/events/event', data: { target: 'not_planned_or_done' }, locals: {event: event} %>
+    <% end %>
+<% end %>
