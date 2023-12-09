@@ -4,7 +4,7 @@ class Accounts::Apps::Chatwoots::Messages::DeliveryJob < ApplicationJob
   def perform(event_id)
     event = Event.find(event_id)
     #event.scheduled_at.near?(Time.current, within: 5.minutes)
-    unless event.done? && !((event.scheduled_at - Time.current.in_time_zone).abs <= 30.seconds)
+    if !event.done? && (event.scheduled_at - Time.current.in_time_zone).abs <= 30.seconds
       result = Accounts::Apps::Chatwoots::GetConversationAndSendMessage.call(
         event.app,
         event.contact.additional_attributes['chatwoot_id'],
