@@ -73,8 +73,8 @@ class Event < ApplicationRecord
     Accounts::Contacts::Events::CreatedWorker.perform_at(scheduled_at, id) if auto_done? && scheduled_at?
   end
   def broadcast_done_at_update
-    broadcast_replace_later_to "events_planned_#{contact.id}", target: "events_planned_#{contact.id}", partial: 'accounts/contacts/events/events_planned', locals: {deal: deal} 
-    broadcast_replace_later_to "events_not_planned_or_done_#{contact.id}", target: "events_not_planned_or_done_#{contact.id}", partial: 'accounts/contacts/events/events_not_planned_or_done', locals: {deal: deal} 
+    broadcast_replace_later_to [contact_id, 'events'], target: "events_planned_#{contact.id}", partial: 'accounts/contacts/events/events_planned', locals: {deal: deal} 
+    broadcast_replace_later_to [contact_id, 'events'], target: "events_not_planned_or_done_#{contact.id}", partial: 'accounts/contacts/events/events_not_planned_or_done', locals: {deal: deal} 
   end
   
   after_update_commit {
