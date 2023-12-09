@@ -12,10 +12,10 @@
             <i data-lucide="check" class= "h-[20px] self-center stroke-[#26D367]"></i>
             <!-- <i data-lucide="message-circle" class= "h-[20px] stroke-[#369EF2] -rotate-[101deg] self-center"></i> -->
           </div>
-        <% elsif event.done != nil%>
-          <%= form_with(model: event, url: account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id), data: { turbo_frame: "events_#{event.contact.id}" }) do |form| %>
+        <% elsif event.done != nil %>
+          <%= form_with(model: event, url: account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id)) do |form| %>
             <div class="group-[.event-item-from-contacts]:hidden">
-              <%= form.check_box :done, class: 'w-7 h-7 text-brand-palette-03 rounded-full border-light-palette-p2 focus:ring-transparent cursor-pointer', onclick: 'this.form.querySelector(".check-submit").click()' %>
+              <%= form.check_box :done, class: 'w-7 h-7 text-brand-palette-03 rounded-full border-light-palette-p2 focus:ring-transparent cursor-pointer', onchange: 'confirm("Are you sure?") && this.form.querySelector(".check-submit").click()' %>
               <%= form.submit class: 'check-submit', hidden: true %>
             </div>
   

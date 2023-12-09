@@ -67,7 +67,8 @@ class Event < ApplicationRecord
   end
   
   def done=(value)
-    self.done_at = Time.now if value == true
+    self.done_at = Time.now if value == true || value == '1'
+    self.done_at = nil if value == false || value == '0'
   end
   def new_event_job 
     Accounts::Contacts::Events::CreatedWorker.perform_at(scheduled_at, id) if auto_done? && scheduled_at?
