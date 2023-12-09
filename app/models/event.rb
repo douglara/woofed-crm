@@ -42,6 +42,8 @@ class Event < ApplicationRecord
   # belongs_to :record, polymorphic: true
   belongs_to :app, polymorphic: true, optional: true
   has_rich_text :content
+  after_update :new_event_job, if: -> { saved_change_to_scheduled_at? || saved_change_to_auto_done?}
+  after_update :broadcast_done_at_update, if: -> { saved_change_to_done_at? }
   attribute :done, :boolean
 
   after_create_commit {
@@ -54,8 +56,7 @@ class Event < ApplicationRecord
       partial: "accounts/contacts/events/event",
       target: "events_not_planned_or_done_#{contact.id}"
     end
-
-    Accounts::Contacts::Events::CreatedWorker.perform_async(self.id)
+    Accounts::Contacts::Events::CreatedWorker.perform_at(scheduled_at, id) if auto_done? && scheduled_at?
   }
   def done
     done_at.present?
@@ -67,13 +68,20 @@ class Event < ApplicationRecord
   
   def done=(value)
     self.done_at = Time.now if value == true
-    self.done_at = '' if value == false
+  end
+  def new_event_job 
+    Accounts::Contacts::Events::CreatedWorker.perform_at(scheduled_at, id) if auto_done? && scheduled_at?
+  end
+  def broadcast_done_at_update
+    broadcast_replace_later_to "events_planned_#{contact.id}", target: "events_planned_#{contact.id}", partial: 'accounts/contacts/events/events_planned', locals: {deal: deal} 
+    broadcast_replace_later_to "events_not_planned_or_done_#{contact.id}", target: "events_not_planned_or_done_#{contact.id}", partial: 'accounts/contacts/events/events_not_planned_or_done', locals: {deal: deal} 
   end
   
-
   after_update_commit {
     broadcast_replace_to [contact_id, 'events'],
     partial: "accounts/contacts/events/event"
+    # Accounts::Contacts::Events::CreatedWorker.perform_at(scheduled_at,self.id) if auto_done? && scheduled_at?
+    # Accounts::Contacts::Events::CreatedWorker.perform_async(self.id) if done?
   }
 
   after_destroy_commit {
