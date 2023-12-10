@@ -56,7 +56,7 @@ class Event < ApplicationRecord
       partial: "accounts/contacts/events/event",
       target: "events_not_planned_or_done_#{contact.id}"
     end
-    Accounts::Contacts::Events::CreatedWorker.perform_at(scheduled_at, id) if auto_done? && scheduled_at?
+    new_event_job 
   }
   def done
     done_at.present?
@@ -67,9 +67,10 @@ class Event < ApplicationRecord
   end
   
   def done=(value)
-    self.done_at = Time.now if value == true || value == '1'
-    self.done_at = nil if value == false || value == '0'
+    self.done_at = Time.now if value.in?([true, '1'])
+    self.done_at = nil if value.in?([false, '0'])
   end
+  
   def new_event_job 
     Accounts::Contacts::Events::CreatedWorker.perform_at(scheduled_at, id) if auto_done? && scheduled_at?
   end
@@ -81,8 +82,6 @@ class Event < ApplicationRecord
   after_update_commit {
     broadcast_replace_to [contact_id, 'events'],
     partial: "accounts/contacts/events/event"
-    # Accounts::Contacts::Events::CreatedWorker.perform_at(scheduled_at,self.id) if auto_done? && scheduled_at?
-    # Accounts::Contacts::Events::CreatedWorker.perform_async(self.id) if done?
   }
 
   after_destroy_commit {
