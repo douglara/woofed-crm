@@ -46,12 +46,10 @@ class Accounts::PipelinesController < InternalController
 
         row_params = ActionController::Parameters.new(row_json).merge({"stage_id": params[:stage_id]})
 
-        #deal = current_user.account.deals.new(row_params)
         deal = DealBuilder.new(current_user, row_params).perform
 
         if deal.save
           csv_output << row.to_h.values + ["Criado com sucesso id #{deal.id}"]
-
         else
           csv_output << row.to_h.values + ["Erro na criação #{deal.errors.messages}"]
         end
