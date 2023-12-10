@@ -1,0 +1,24 @@
+<header class="flex py-6 px-8 items-center  bg-light-palette-p5 border-b-2 border-light-palette-p3">
+	<%= image_tag "logo.svg", class: 'w-44' %>
+</header>
+
+<div class="m-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md "> 
+	<h1 class="p-4 typography-title-b-lh150 text-dark-gray-palette-p1">Usuário não encontrado</h1>
+	<div class="w-full h-0.5 bg-light-palette-p3 "></div>
+
+	<div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
+		<p class="typography-body-r-lh150">O usuário de email <%= @user_email %> não esta cadastrado no Woofed CRM</p>
+		<p class="mb-8 typography-body-r-lh150">Para o funcionamento correto crie pelo painel administrativo</p>
+		
+		<div class="flex flex-col space-y-4 sm:flex-row sm:justify-center">
+
+			<%= link_to "http://app-beta.woofedcrm.com", target: :_blank, class: 'inline-flex justify-center items-center  btn-primary' do %>
+				Cadastrar usuário
+				<svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+				</svg>
+			<% end %>
+		</div>
+	</div>
+
+</div>
