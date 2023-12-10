@@ -1,0 +1,132 @@
+{
+  "account": {
+    "id": 3,
+    "name": "Doug testes"
+  },
+  "additional_attributes": {},
+  "content_attributes": {},
+  "content_type": "text",
+  "content": "teste receive",
+  "conversation": {
+    "additional_attributes": {
+      "browser": {
+        "device_name": "Unknown",
+        "browser_name": "Chrome",
+        "platform_name": "Generic Linux",
+        "browser_version": "120.0.0.0",
+        "platform_version": "0"
+      },
+      "referer": "https://cdpn.io/cpe/boomboom/index.html?key=index.html-eccc850e-dee2-720d-ec50-23f17aaac6a6",
+      "initiated_at": {
+        "timestamp": "Sat Dec 09 2023 22:08:18 GMT-0300 (Brasilia Standard Time)"
+      },
+      "browser_language": "pt"
+    },
+    "can_reply": true,
+    "channel": "Channel::WebWidget",
+    "contact_inbox": {
+      "id": 327,
+      "contact_id": 405,
+      "inbox_id": 9,
+      "source_id": "b160de65-d8c0-4969-a6a8-6bb63127e19e",
+      "created_at": "2023-12-10T01:08:12.020Z",
+      "updated_at": "2023-12-10T01:08:12.020Z",
+      "hmac_verified": false,
+      "pubsub_token": "PcfN72S9QgW1tg7FdeYBoCBi"
+    },
+    "id": 6,
+    "inbox_id": 9,
+    "messages": [
+      {
+        "id": 3750,
+        "content": "Seja notificado por e-mail",
+        "account_id": 3,
+        "inbox_id": 9,
+        "conversation_id": 6,
+        "message_type": 3,
+        "created_at": 1702170498,
+        "updated_at": "2023-12-10T01:08:18.763Z",
+        "private": false,
+        "status": "sent",
+        "source_id": null,
+        "content_type": "input_email",
+        "content_attributes": {},
+        "sender_type": null,
+        "sender_id": null,
+        "external_source_ids": {},
+        "additional_attributes": {},
+        "processed_message_content": "Seja notificado por e-mail",
+        "sentiment": {},
+        "conversation": {
+          "assignee_id": 1,
+          "unread_count": 1,
+          "last_activity_at": 1702170498,
+          "contact_inbox": {
+            "source_id": "b160de65-d8c0-4969-a6a8-6bb63127e19e"
+          }
+        }
+      }
+    ],
+    "labels": [],
+    "meta": {
+      "sender": {
+        "additional_attributes": {},
+        "custom_attributes": {},
+        "email": null,
+        "id": 405,
+        "identifier": null,
+        "name": "restless-cloud-54",
+        "phone_number": null,
+        "thumbnail": "",
+        "type": "contact"
+      },
+      "assignee": {
+        "id": 1,
+        "name": "Douglas",
+        "available_name": "Douglas",
+        "avatar_url": "",
+        "type": "user",
+        "availability_status": "offline",
+        "thumbnail": ""
+      },
+      "team": null,
+      "hmac_verified": false
+    },
+    "status": "open",
+    "custom_attributes": {},
+    "snoozed_until": null,
+    "unread_count": 1,
+    "first_reply_created_at": null,
+    "priority": null,
+    "waiting_since": 1702170498,
+    "agent_last_seen_at": 0,
+    "contact_last_seen_at": 0,
+    "timestamp": 1702170498,
+    "created_at": 1702170498
+  },
+  "created_at": "2023-12-10T01:08:18.727Z",
+  "id": 3748,
+  "inbox": {
+    "id": 9,
+    "name": "teste"
+  },
+  "message_type": "incoming",
+  "private": false,
+  "sender": {
+    "account": {
+      "id": 3,
+      "name": "Doug testes"
+    },
+    "additional_attributes": {},
+    "avatar": "",
+    "custom_attributes": {},
+    "email": null,
+    "id": 405,
+    "identifier": null,
+    "name": "restless-cloud-54",
+    "phone_number": null,
+    "thumbnail": ""
+  },
+  "source_id": null,
+  "event": "message_created"
+}

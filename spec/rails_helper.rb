@@ -7,6 +7,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 require 'webmock/rspec'
 require 'devise'
+require 'sidekiq/testing'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -33,6 +34,9 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 RSpec.configure do |config|
+  config.before(:each) do
+    Sidekiq::Worker.clear_all
+  end
   config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::IntegrationHelpers, type: :request
 

@@ -7,10 +7,10 @@
     @apply rounded-md border-light-palette-p2 bg-light-palette-p4
   }
   .event-item-from-me {
-    @apply flex-row-reverse flex pb-3;
+    @apply flex-row-reverse flex my-5;
   }
   .event-from-contacts {
-    @apply flex-row flex pb-3;
+    @apply flex-row flex my-5;
   }
   .typography-title-b-lh150 {
     @apply text-title leading-150 font-bold;

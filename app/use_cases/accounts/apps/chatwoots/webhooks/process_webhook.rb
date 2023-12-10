@@ -14,9 +14,9 @@ class Accounts::Apps::Chatwoots::Webhooks::ProcessWebhook
         chatwoot, webhook
       )
     elsif (webhook['event'].include?('message_'))
-      # Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(
-      #   chatwoot, webhook
-      # )
+      Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(
+        chatwoot, webhook
+      )
     end
 
     return { ok: chatwoot }
