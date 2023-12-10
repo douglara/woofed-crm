@@ -79,6 +79,7 @@ class Deal < ApplicationRecord
       self.stage = self.pipeline.stages.first
     end
   end
+  after_destroy_commit{ broadcast_remove_to self.stage, target: self}
 
   after_update_commit -> { broadcast_updates }
 

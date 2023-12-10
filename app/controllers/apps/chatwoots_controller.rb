@@ -18,13 +18,14 @@ class Apps::ChatwootsController < ActionController::Base
 
   def embedding_authenticate
     event = JSON.parse(params['event'])
-    user_email = event['data']['currentAgent']['email']
-    user = User.find_by(email: user_email, account_id: @chatwoot.account_id)
-    return render plain: "User not found", status: 400 if user.blank?
+    @user_email = event['data']['currentAgent']['email']
+    user = User.find_by(email: @user_email, account_id: @chatwoot.account_id)
+    if user.blank?
+      return render 'user_not_found', status: 400
+    end
     sign_in(user)
     redirect_to embedding_apps_chatwoots_path()
   end
-
   private
 
   def authenticate_by_token
