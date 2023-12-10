@@ -30,11 +30,11 @@
   <div class="border-t border-light-palette-p3 px-3 py-6 mt-4 flex items-center gap-4">
     <div class="radio-button-div flex items-center text-dark-gray-palette-p3 hover:bg-brand-palette-07 gap-5 px-5 py-3 border-2 border-light-palette-p3 rounded-lg cursor-pointer hover:border-transparent aria-checked:border-brand-palette-06 aria-checked:text-brand-palette-03 aria-checked:bg-brand-palette-07" data-action="click->event-send-message-form#toggleRadioButton" aria-checked="true" >
       <%= form.radio_button :send_now, true, checked: true, class: 'rounded-lg text-brand-palette-03 focus:border-transparent focus:ring-0 cursor-pointer', data: {"event-send-message-form-target": "radioButtonSendNowTrue"}, value: true%>
-      <%= form.label :done, "Enviar mensagem no horário atual", class: 'max-w-[10rem] m-0 pr-6 typography-body-s-lh150 cursor-pointer' %>
+      <%= form.label :done, "Enviar mensagem no horário atual", class: 'm-0 pr-6 typography-body-s-lh150 cursor-pointer' %>
     </div>
     <div class="radio-button-div flex items-center hover:bg-brand-palette-07 text-dark-gray-palette-p3 gap-5 px-5 py-3 border-2 border-light-palette-p3 rounded-lg hover:border-transparent cursor-pointer aria-checked:border-brand-palette-06 aria-checked:text-brand-palette-03 aria-checked:bg-brand-palette-07" data-action="click->event-send-message-form#toggleRadioButton"  >
       <%= form.radio_button :send_now, false, class: 'rounded-lg text-brand-palette-03 focus:border-transparent focus:ring-0 cursor-pointer', data: {"event-send-message-form-target": "radioButtonSendNowFalse"}, value: false %>
-      <%= form.label :done, "Agendar mensagem", class: 'max-w-[10rem] m-0 pr-6  typography-body-s-lh150 cursor-pointer' %>
+      <%= form.label :done, "Agendar mensagem", class: 'm-0 pr-6  typography-body-s-lh150 cursor-pointer' %>
     </div>
   </div>
   <div class="border-t border-light-palette-p3 p-3 space-y-2" data-event-send-message-form-target="scheduledAtForm">
