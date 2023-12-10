@@ -24,12 +24,6 @@
         <span class="group-aria-[expanded=false]:hidden inline-block ml-2 typography-text-m-lh150">Contatos</span>
       <% end %>
     </li>
-    <li class="<%= ' bg-brand-palette-08 !border-brand-palette-07 rounded-md !text-brand-palette-03' if request.path.include?('user') or request.path.include?('user') %> text-dark-gray-palette-p3 border-2 border-transparent hover:bg-brand-palette-08 hover:rounded-md group-aria-[expanded=false]:w-full group-aria-[expanded=false]:h-[40px]">
-      <%= link_to(account_users_path(current_user.account), class: 'group-aria-[expanded=false]:p-1 flex space-x-3 p-3 items-center') do %>
-       <i data-lucide="contact-2" class= "group-aria-[expanded=false]:w-4 w-5 <%='!stroke-brand-palette-03 ' if request.path.include?('user') or request.path.include?('user') %> group-aria-[expanded=false]:mx-auto stroke-dark-gray-palette-p3"></i>
-        <span class="group-aria-[expanded=false]:hidden inline-block ml-2 typography-text-m-lh150">Usuários</span>
-      <% end %>
-    </li>
     <div class="h-[2px] w-full bg-light-palette-p3"></div>
     <li class="<%= 'bg-brand-palette-08 !border-brand-palette-07 rounded-md !text-brand-palette-03' if request.path.include?('settings') %> text-dark-gray-palette-p3 border-2 border-transparent icons-button-sidebar mt-auto  absolute bottom-4 right-3 left-3 hover:bg-brand-palette-08 hover:rounded-md">
       <%= link_to(account_settings_path(current_user.account), class: 'icons-link-sidebar flex space-x-3 p-3 items-center') do %>
