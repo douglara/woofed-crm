@@ -28,6 +28,11 @@ class Contact < ApplicationRecord
   has_many :flow_items
   has_many :events
   belongs_to :account
+  validates :phone,
+            allow_blank: true,
+            format: { with: /\+[1-9]\d{1,14}\z/, message: "Número inválido" }
+
+
 
   has_many :deals
   belongs_to :app, polymorphic: true, optional: true
@@ -37,6 +42,7 @@ class Contact < ApplicationRecord
   end
 
   FORM_FIELDS = [:full_name, :email, :phone]
+  after_commit :export_contact_to_chatwoot, on: [:create, :update]
 
   ## Events
 
@@ -46,6 +52,9 @@ class Contact < ApplicationRecord
 
   private
 
+  def export_contact_to_chatwoot
+    account.apps_chatwoots.present? && Accounts::Apps::Chatwoots::ExportContactWorker.perform_async(account.apps_chatwoots.first.id, id)
+  end
   def publish_created
     broadcast(:contact_created, self)
   end
