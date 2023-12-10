@@ -19,7 +19,6 @@ class Accounts::Apps::WppConnects::Sync::Group
     if contact_find == nil
       result = Contact.create(
         full_name: "#{group['name']}",
-        phone: group['id']['user'],
         app: wpp_connect,
         account: wpp_connect.account,
         additional_attributes: {'wpp_connect_id': group['id']['user'] }
