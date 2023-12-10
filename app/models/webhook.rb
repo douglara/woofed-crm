@@ -30,7 +30,7 @@ class Webhook < ApplicationRecord
                                                          locals: { webhook: self }
   end
   after_create_commit do
-    broadcast_prepend_later_to "webhooks_#{account_id}", target: 'webhooks',
+    broadcast_append_later_to "webhooks_#{account_id}", target: 'webhooks',
                                                          partial: 'accounts/settings/webhooks/webhook', locals: { webhook: self }
   end
   after_destroy_commit  do
