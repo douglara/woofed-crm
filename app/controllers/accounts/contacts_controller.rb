@@ -57,9 +57,8 @@ class Accounts::ContactsController < InternalController
   # POST /contacts or /contacts.json
   def create
     @contact = current_user.account.contacts.new(contact_params)
-
     if @contact.save
-      redirect_to account_contact_path(current_user.account, @contact), notice: "Contact was successfully updated."
+      redirect_to account_contact_path(current_user.account, @contact), notice: "Contact was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
