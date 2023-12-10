@@ -17,19 +17,23 @@ class Webhook < ApplicationRecord
   belongs_to :account
 
   validates :account_id, presence: true
-  validates :url, presence: true
+  validates :url, presence: true, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])
   validates :status, presence: true
-  enum status: { 
+
+  enum status: {
     inactive: 'inactive',
     active: 'active'
   }
-  after_update_commit{
-    broadcast_replace_later_to "webhooks_#{account_id}", target: self, partial: 'accounts/settings/webhooks/webhook', locals: {webhook: self}
-  }
-  after_create_commit{
-    broadcast_prepend_later_to "webhooks_#{account_id}", target: 'webhooks', partial: 'accounts/settings/webhooks/webhook', locals: {webhook: self}
-  }
-  after_destroy_commit{
+
+  after_update_commit do
+    broadcast_replace_later_to "webhooks_#{account_id}", target: self, partial: 'accounts/settings/webhooks/webhook',
+                                                         locals: { webhook: self }
+  end
+  after_create_commit do
+    broadcast_prepend_later_to "webhooks_#{account_id}", target: 'webhooks',
+                                                         partial: 'accounts/settings/webhooks/webhook', locals: { webhook: self }
+  end
+  after_destroy_commit  do
     broadcast_remove_to "webhooks_#{account_id}", target: self
-  }
+  end
 end
