@@ -10,6 +10,7 @@ class Accounts::UsersController < InternalController
 
   def update
     params_without_blank_password = user_params.reject { |key, value| value.blank? && key.include?('password') }
+
     if @user.update(params_without_blank_password)
       flash[:notice] = 'Usuário atualizado com sucesso!'
       redirect_to edit_account_user_path(current_user.account, @user)
