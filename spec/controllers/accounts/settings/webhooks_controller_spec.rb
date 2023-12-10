@@ -5,10 +5,10 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
   let!(:user) { create(:user, account: account) }
   let!(:account_2) { create(:account) }
   let!(:webhook) { create(:webhook, account: account) }
-  let!(:webhook_2) { create(:webhook, account: account_2, url: 'www.webhookaccount2.com') }
+  let!(:webhook_2) { create(:webhook, account: account_2, url: 'https://www.webhookaccount2.com') }
 
   describe 'POST /accounts/{account.id}/webhooks' do
-    let(:valid_params) { { webhook: { url: 'testeurl.com.br', status: 'active' } } }
+    let(:valid_params) { { webhook: { url: 'https://testeurl.com.br', status: 'active' } } }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -40,6 +40,16 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
             expect(response.body).to include('Url não pode ficar em branco')
             expect(response).to have_http_status(:unprocessable_entity)
           end
+
+          it 'when url is invalid' do
+            invalid_params = { webhook: { url: 'teste url' } }
+            expect do
+              post "/accounts/#{account.id}/webhooks",
+                   params: invalid_params
+            end.to change(Webhook, :count).by(0)
+            expect(response.body).to include('Url não é válido')
+            expect(response).to have_http_status(:unprocessable_entity)
+          end
         end
         context 'when status is invalid' do
           it 'when status is blank' do
@@ -55,6 +65,7 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
       end
     end
   end
+
   describe 'GET /accounts/{account.id}/webhooks' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -75,15 +86,16 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
           expect(response).to have_http_status(200)
         end
         it 'get webhooks by account' do
-          create(:webhook, url: 'teste-url.com.br', account_id: account_2.id)
+          create(:webhook, url: 'https://teste-url.com.br', account_id: account_2.id)
           get "/accounts/#{account.id}/webhooks"
-          expect(response.body).to include('https://woofedcrm.com')
+          expect(response.body).to_not include('https://teste-url.com.br')
           expect(account.webhooks.count).to eq(1)
         end
       end
     end
   end
-  describe 'PACTH /accounts/{account.id}/users/{webhook.id}' do
+
+  describe 'PATCH /accounts/{account.id}/users/{webhook.id}' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         patch "/accounts/#{account.id}/webhooks/#{webhook.id}"
@@ -97,30 +109,32 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
       end
 
       context 'update webhook' do
-        let(:valid_params) { { webhook: { url: 'www.url-updated.com.br' } } }
+        let(:valid_params) { { webhook: { url: 'https://www.url-updated.com.br' } } }
         it do
           patch "/accounts/#{account.id}/webhooks/#{webhook.id}", params: valid_params
-          expect(Webhook.first.url).to eq('www.url-updated.com.br')
+          expect(webhook.reload.url).to eq('https://www.url-updated.com.br')
           expect(response.body).to redirect_to(edit_account_webhook_path(account.id, webhook.id))
         end
+
         context 'when url is invalid' do
           it 'when url is blank' do
             invalid_params = { webhook: { url: '' } }
 
             patch "/accounts/#{account.id}/webhooks/#{webhook.id}",
                   params: invalid_params
-            expect(Webhook.first.url).to eq('https://woofedcrm.com')
+            expect(webhook.reload.url).to eq('https://woofedcrm.com')
             expect(response.body).to include('Url não pode ficar em branco')
             expect(response).to have_http_status(:unprocessable_entity)
           end
         end
+
         context 'when status is invalid' do
           it 'when status is blank' do
             invalid_params = { webhook: { status: '' } }
 
             patch "/accounts/#{account.id}/webhooks/#{webhook.id}",
                   params: invalid_params
-            expect(Webhook.first.status).to eq('active')
+            expect(webhook.reload.status).to eq('active')
             expect(response.body).to include('Status não pode ficar em branco')
             expect(response).to have_http_status(:unprocessable_entity)
           end
@@ -130,11 +144,12 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
             patch "/accounts/#{account.id}/webhooks/#{webhook_2.id}", params: valid_params
           end.to raise_error(ActiveRecord::RecordNotFound,
                              /Couldn't find Webhook with 'id'=#{webhook_2.id} \[WHERE "webhooks"."account_id" = \$1\]/)
-          expect(account_2.webhooks.first.url).to eq('www.webhookaccount2.com')
+          expect(webhook_2.url).to eq('https://www.webhookaccount2.com')
         end
       end
     end
   end
+
   describe 'DELETE /accounts/{account.id}/webhooks/{webhook.id}' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -142,14 +157,17 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
+
     context 'when it is an authenticated user' do
       before do
         sign_in(user)
       end
+
       context 'delete the webhook' do
         it do
-          delete "/accounts/#{account.id}/webhooks/#{webhook.id}"
-          expect(Webhook.count).to eq(1)
+          expect do
+            delete "/accounts/#{account.id}/webhooks/#{webhook.id}"
+          end.to change(Webhook, :count).by(-1)
           expect(Webhook.first.account_id).to eq(account_2.id)
           expect(response.status).to eq(204)
         end
