@@ -1,0 +1,85 @@
+{
+    "meta": {
+      "count": 1,
+      "current_page": 1
+    },
+    "payload": [
+      {
+        "additional_attributes": {
+          "city": "Campos dos Goytacazes",
+          "country": "Brazil",
+          "description": "",
+          "company_name": "Teste empresa",
+          "country_code": "BR",
+          "social_profiles": {
+            "github": "",
+            "twitter": "",
+            "facebook": "",
+            "linkedin": "",
+            "instagram": ""
+          }
+        },
+        "availability_status": "offline",
+        "email": "tim@maia.com",
+        "id": 64,
+        "name": "Tim Maia",
+        "phone_number": "+5541988443322",
+        "identifier": null,
+        "thumbnail": "",
+        "custom_attributes": {},
+        "created_at": 1697720238,
+        "contact_inboxes": [
+          {
+            "source_id": "54055734-5d24-4657-b9c5-2ddf2cc71b9c",
+            "inbox": {
+              "id": 4,
+              "avatar_url": "",
+              "channel_id": 4,
+              "name": "Teste 2",
+              "channel_type": "Channel::Api",
+              "greeting_enabled": true,
+              "greeting_message": "Teste mensagem boasvindas",
+              "working_hours_enabled": false,
+              "enable_email_collect": true,
+              "csat_survey_enabled": false,
+              "enable_auto_assignment": true,
+              "auto_assignment_config": {},
+              "out_of_office_message": null,
+              "working_hours": [
+                {"day_of_week": 0, "closed_all_day": true, "open_hour": null, "open_minutes": null, "close_hour": null, "close_minutes": null, "open_all_day": false},
+                {"day_of_week": 1, "closed_all_day": false, "open_hour": 9, "open_minutes": 0, "close_hour": 17, "close_minutes": 0, "open_all_day": false},
+                {"day_of_week": 2, "closed_all_day": false, "open_hour": 9, "open_minutes": 0, "close_hour": 17, "close_minutes": 0, "open_all_day": false},
+                {"day_of_week": 3, "closed_all_day": false, "open_hour": 9, "open_minutes": 0, "close_hour": 17, "close_minutes": 0, "open_all_day": false},
+                {"day_of_week": 4, "closed_all_day": false, "open_hour": 9, "open_minutes": 0, "close_hour": 17, "close_minutes": 0, "open_all_day": false},
+                {"day_of_week": 5, "closed_all_day": false, "open_hour": 9, "open_minutes": 0, "close_hour": 17, "close_minutes": 0, "open_all_day": false},
+                {"day_of_week": 6, "closed_all_day": true, "open_hour": null, "open_minutes": null, "close_hour": null, "close_minutes": null, "open_all_day": false}
+              ],
+              "timezone": "UTC",
+              "callback_webhook_url": null,
+              "allow_messages_after_resolved": true,
+              "lock_to_single_conversation": false,
+              "sender_name_type": "friendly",
+              "business_name": null,
+              "widget_color": null,
+              "website_url": null,
+              "hmac_mandatory": false,
+              "welcome_title": null,
+              "welcome_tagline": null,
+              "web_widget_script": null,
+              "website_token": null,
+              "selected_feature_flags": null,
+              "reply_time": null,
+              "messaging_service_sid": null,
+              "phone_number": null,
+              "hmac_token": "UzDkjBspZe7xUpuDqDFoM6s5",
+              "webhook_url": "",
+              "inbox_identifier": "RsZMgRB9hFatcNJnAhTEoF5G",
+              "additional_attributes": {},
+              "provider": null
+            }
+          }
+        ]
+      }
+    ]
+  }
+  
