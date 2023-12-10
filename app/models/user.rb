@@ -29,15 +29,18 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   belongs_to :account
-  after_update_commit {
-    broadcast_replace_later_to "users_#{account_id}", target: self, partial: '/accounts/users/user', locals:{user: self}
-  }
-  after_create_commit {
-    broadcast_prepend_later_to "users_#{account_id}", target: 'users', partial: '/accounts/users/user', locals:{user: self}
-  }
-  after_destroy_commit {
+  after_update_commit do
+    broadcast_replace_later_to "users_#{account_id}", target: self, partial: '/accounts/users/user',
+                                                      locals: { user: self }
+  end
+  after_create_commit do
+    broadcast_append_later_to "users_#{account_id}", target: 'users', partial: '/accounts/users/user',
+                                                     locals: { user: self }
+  end
+  after_destroy_commit do
     broadcast_remove_to "users_#{account_id}", target: self
-  }
+  end
+
   def get_jwt_token
     Users::JsonWebToken.encode_user(self)
   end
