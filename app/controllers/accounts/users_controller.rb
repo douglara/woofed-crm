@@ -1,9 +1,7 @@
 class Accounts::UsersController < InternalController
-  before_action :verify_password, only: %i[update]
   before_action :set_user, only: %i[edit update destroy]
 
   def index
-    # @current_account = current_user.account
     @users = current_user.account.users
     @pagy, @users = pagy(@users)
   end
@@ -11,7 +9,7 @@ class Accounts::UsersController < InternalController
   def edit; end
 
   def update
-    if @user.update(user_params)
+    if @user.update(user_params.compact_blank)
       flash[:notice] = 'Usuário atualizado com sucesso!'
       redirect_to edit_account_user_path(current_user.account, @user)
     else
@@ -45,11 +43,5 @@ class Accounts::UsersController < InternalController
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :full_name)
-  end
-
-  def verify_password
-    if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
-      params[:user].extract!(:password, :password_confirmation)
-    end
   end
 end
