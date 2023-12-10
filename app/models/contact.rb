@@ -45,7 +45,7 @@ class Contact < ApplicationRecord
   after_commit :export_contact_to_chatwoot, on: [:create, :update]
 
   def phone=(value)
-    value = "+#{value}" unless value.start_with?('+')
+    value = "+#{value}" if value.present? && !value.start_with?('+')
     super(value)
   end
 
