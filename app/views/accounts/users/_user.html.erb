@@ -1,36 +1,36 @@
-<!-- <%= turbo_frame_tag user, class: "grid gap-5 border-b-2 border-light-palette-p3 last:border-none py-5 first:pt-0 last:pb-0" do %> -->
 <%= content_tag :div, id: dom_id(user), class: "grid gap-5 border-b-2 border-light-palette-p3 last:border-none py-5 first:pt-0 last:pb-0", data: {controller: 'load-lucid-icons'} do %>
-<li class= "flex items-center gap-4">
-    <div class="p-2.5 rounded-lg border-2 border-light-palette-p3 bg-light-palette-p4">
-    <i data-lucide="user-cog" class="w-5 stroke-dark-gray-palette-p3"></i>
-    </div>
-    <div class="mr-auto">
-    <div class="flex items-center gap-1.5">
-        <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1"><%= user.full_name %></h2>
-        <%= mail_to user.email do %>
-        <p class="typography-text-r-lh150 text-dark-gray-palette-p4 flex items-center gap-0.5 hover:text-dark-gray-palette-p2"><%= user.email %> <i data-lucide="arrow-up-right-square" class="w-3.5"></i>
-        </p>
-        <% end %>
-    </div>
-    </div>
-    <button id="dropdownuserBtn" data-dropdown-toggle="dropdownuserOptions<%= user.id %>" data-dropdown-placement="left-start" class="inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
-    <i data-lucide="more-vertical" class=" stroke-dark-gray-palette-p3"></i>
-    </button>
-    <div id="dropdownuserOptions<%= user.id %>" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
-    <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-        <li>
-        <%= link_to edit_account_user_path(user.account, user), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
-        <i data-lucide="pencil"></i> <p>Editar</p>
-        <% end %>
-        </li>
-        <li>
-        <%= link_to account_user_path(user.account, user), method: :delete, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white', data: { confirm: 'Are you sure?' } do %>
-            <i data-lucide="trash"></i> <p>Excluir</p>
-        <% end %>
-        </li>
-    </ul>
-    </div>
-</li>
-<!-- <div class="w-full h-0.5 bg-light-palette-p3"></div> -->
+	<li class= "flex items-center gap-4">
+		<div class="p-2.5 rounded-lg border-2 border-light-palette-p3 bg-light-palette-p4">
+			<i data-lucide="user-cog" class="w-5 stroke-dark-gray-palette-p3"></i>
+		</div>
+		<div class="mr-auto">
+			<div class="flex items-center gap-1.5">
+				<h2 class="typography-text-s-lh150 text-dark-gray-palette-p1">
+					<%= user.full_name %>
+				</h2>
+				<%= mail_to user.email do %>
+					<p class="typography-text-r-lh150 text-dark-gray-palette-p4 flex items-center gap-0.5 hover:text-dark-gray-palette-p2">
+						<%= user.email %> <i data-lucide="arrow-up-right-square" class="w-3.5"></i>
+					</p>
+				<% end %>
+			</div>
+		</div>
+		<button id="dropdownuserBtn" data-dropdown-toggle="dropdownuserOptions<%= user.id %>" data-dropdown-placement="left-start" class="inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
+			<i data-lucide="more-vertical" class=" stroke-dark-gray-palette-p3"></i>
+		</button>
+		<div id="dropdownuserOptions<%= user.id %>" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
+			<ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+				<li>
+					<%= link_to edit_account_user_path(user.account, user), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
+						<i data-lucide="pencil"></i> <p>Editar</p>
+					<% end %>
+				</li>
+				<li>
+					<%= link_to account_user_path(user.account, user), method: :delete, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white', data: { confirm: 'Are you sure?' } do %>
+						<i data-lucide="trash"></i> <p>Excluir</p>
+					<% end %>
+				</li>
+			</ul>
+		</div>
+	</li>
 <% end %>
-<!-- <% end %> -->

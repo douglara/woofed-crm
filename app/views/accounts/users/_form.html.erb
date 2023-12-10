@@ -1,4 +1,4 @@
-<%= form_with( model: model,url: url, html:{class: "flex flex-col gap-5"} ) do | form | %>
+<%= form_with(model: model, url: url, html:{class: "flex flex-col gap-5"} ) do | form | %>
   <% if model.errors.any? %>
     <div>
       <ul>
@@ -31,7 +31,3 @@
     <%= form.submit class: 'btn-primary cursor-pointer'%>
   </div>
 <% end %>
-
-
-
-
