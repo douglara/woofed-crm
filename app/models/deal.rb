@@ -45,7 +45,7 @@ class Deal < ApplicationRecord
   belongs_to :stage
   belongs_to :pipeline
   acts_as_list scope: :stage
-  has_many :events
+  has_many :events, dependent: :destroy
   has_many :flow_items
   has_many :notes, through: :flow_items
   has_many :activities
@@ -79,6 +79,7 @@ class Deal < ApplicationRecord
       self.stage = self.pipeline.stages.first
     end
   end
+  after_destroy_commit{ broadcast_remove_to self.stage, target: self}
 
   after_update_commit -> { broadcast_updates }
 

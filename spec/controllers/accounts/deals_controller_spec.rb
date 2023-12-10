@@ -37,7 +37,7 @@ RSpec.describe Accounts::DealsController, type: :request do
             post "/accounts/#{account.id}/deals",
             params: valid_params.except('stage_id').merge({pipeline_id: pipeline.id})
           end.to change(Deal, :count).by(1)
-  
+
           expect(response).to redirect_to(account_deal_path(account, Deal.last))
           expect(Deal.last.stage).to eq(stage)
         end
@@ -94,6 +94,39 @@ RSpec.describe Accounts::DealsController, type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(deal.name)
+      end
+    end
+  end
+  describe 'DELETE /accounts/{account.id}/deals/:id' do
+    let!(:deal) { create(:deal, account: account, stage: stage) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/deals/#{deal.id}"
+
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      context 'delete deal' do
+        it do
+          expect do
+            delete "/accounts/#{account.id}/deals/#{deal.id}"
+            expect(response).to redirect_to(root_path)
+          end.to change(Deal, :count).by(-1)
+        end
+        it 'with events' do
+          create(:event, account: account, deal: deal)
+          expect do
+            delete "/accounts/#{account.id}/deals/#{deal.id}"
+            expect(response).to redirect_to(root_path)
+          end.to change(Deal, :count).by(-1) and change(Contact, :count).by(-1)
+        end
       end
     end
   end
