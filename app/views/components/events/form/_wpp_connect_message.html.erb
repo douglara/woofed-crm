@@ -51,15 +51,13 @@
       </div>
     </div>
 
-    <footer class="flex flex-row-reverse border-t border-light-palette-p3 p-3 mt-4">
-      <div class="flex items-center gap-2">
-        <%= form.submit 'Confirmar', class: 'btn-primary cursor-pointer' %>
-        <% if edit_event_form %>
+    <footer class="flex flex border-t border-light-palette-p3 p-3  gap-2 justify-end">
+      <%= form.submit 'Confirmar', class: 'btn-primary cursor-pointer' %>
+      <% if edit_event_form %>
           <%= link_to 'Cancelar', '#', class: 'btn-secondary cursor-pointer', data: { turbo_action: 'replace' } %>
         <% else %>
           <input type="button" value="Cancelar" data-action="click->events-form#selectNone" class="btn-secondary cursor-pointer">
         <% end %>
-      </div>
     </footer>
   <% end %>
 
