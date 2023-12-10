@@ -100,14 +100,15 @@ RSpec.describe Accounts::ContactsController, type: :request do
     end
   end
 
-  context 'GET #new' do
+  context 'GET #show' do
     before do
       sign_in(user)
     end
 
-    it 'create a new contact' do
+    it 'should list contacts' do
       get "/accounts/#{account.id}/contacts"
       expect(response).to have_http_status(200)
+      expect(response.body).to include(contact.full_name)
     end
   end
 
