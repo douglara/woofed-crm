@@ -3,45 +3,15 @@
    <%= form.hidden_field :stage_id, value: params[:stage_id] %>
   <div class="grid gap-1">
     <%= form.label :import_file, "Selecione arquivo", class: "typography-text-m-lh150 text-dark-gray-palette-p1 dark:text-white" %>
-    <!-- <label class="block text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label> -->
     <%= form.file_field :import_file, class: 'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400' %>
-    <!-- <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file"> -->
     </div>
-    <%
-=begin%>
-
-<div class="form-group">
-<label>Etapa</label>
-<select class="form-control">
-  <option>Qualificação</option>
-  <option>Option 2</option>
-  <option>Option 3</option>
-</select>
-</div>
-
-<input id="file" hidden type="file" class="form-control">
-<form onclick="$('#file').click()" action="#" class="dropzone dz-clickable" id="mydropzone">
-
-<div class="dz-default dz-message"><span>Arraste o arquivo aqui.</span></div></form>
-<%
-=end%>
-
-
   <div class="flex justify-end">
     <%= form.submit "Enviar", class: 'btn-primary cursor-pointer', data: { action: 'click->modal#modalHide' } %>
   </div>
 <% end %>
 </div>
 
-    
-
-
-
-<!-- Modal footer -->
 <div class="flex items-center justify-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
    <p class="typography-text-m-lh150 text-dark-gray-palette-p4">Baixe a planilha de exemplo 
   <%= link_to 'aqui', account_pipeline_import_path(current_user.account, params['pipeline_id'] , stage_id: params['stage_id'], format: :csv), class:"typography-text-s-lh150 text-dark-gray-palette-p3 hover:text-dark-gray-palette-p2 hover:underline" %>
 </div>
-
-
-
