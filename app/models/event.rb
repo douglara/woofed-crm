@@ -89,11 +89,11 @@ class Event < ApplicationRecord
   }
 
   scope :planned, -> {
-    where('done_at IS NULL and scheduled_at IS NOT NULL').order(:scheduled_at)
+    where('done_at IS NULL').order(:scheduled_at)
   }
 
   scope :not_planned_or_done, -> {
-    where('scheduled_at IS NULL or done_at IS NOT NULL').order(done_at: :desc)
+    where('done_at IS NOT NULL').order(done_at: :desc)
   }
 
   enum kind: {
