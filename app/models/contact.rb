@@ -44,6 +44,11 @@ class Contact < ApplicationRecord
   FORM_FIELDS = [:full_name, :email, :phone]
   after_commit :export_contact_to_chatwoot, on: [:create, :update]
 
+  def phone=(value)
+    value = "+#{value}" if value.present? && !value.start_with?('+')
+    super(value)
+  end
+
   ## Events
 
   include Wisper::Publisher
