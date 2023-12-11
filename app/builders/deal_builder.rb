@@ -1,7 +1,8 @@
 class DealBuilder
-  def initialize(user, params)
+  def initialize(user, params, contact_search_if_exists = false)
     @params = params
     @user = user
+    @contact_search_if_exists = contact_search_if_exists
   end
 
   def build
@@ -18,7 +19,7 @@ class DealBuilder
   private
 
   def build_contact
-    @contact = ContactBuilder.new(@user, @params[:contact_attributes]).perform
+    @contact = ContactBuilder.new(@user, @params[:contact_attributes], @contact_search_if_exists).perform
     @deal.contact = @contact
   end
 
