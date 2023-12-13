@@ -25,7 +25,7 @@ class Accounts::Apps::ChatwootsController < InternalController
 
   def destroy
     @chatwoot.destroy
-    Accounts::Apps::Chatwoots::RemoveChatwootIdContactsWorker.perform_async(current_user.account.id)
+    Accounts::Apps::Chatwoots::RemoveChatwootIdFromContactsWorker.perform_async(current_user.account.id)
     redirect_to account_settings_path(current_user.account)
   end
 
