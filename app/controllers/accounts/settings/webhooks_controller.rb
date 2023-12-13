@@ -1,53 +1,49 @@
 class Accounts::Settings::WebhooksController < InternalController
-  before_action :set_activity_kind, only: %i[ edit update ]
+  before_action :set_webhook, only: %i[edit update destroy]
 
   def index
     @webhooks = current_user.account.webhooks
+    @pagy, @webhooks = pagy(@webhooks)
   end
 
   def new
-    @custom_attributes_definition = current_user.account.custom_attributes_definitions.new
+    @webhook = Webhook.new
   end
 
   def create
-    @custom_attributes_definition = current_user.account.custom_attributes_definitions.new(custom_attributes_definition_params)
-
-    respond_to do |format|
-      if @custom_attributes_definition.save
-        format.html { redirect_to account_custom_attributes_definitions_path(current_user.account), notice: "Custom attribute was successfully created." }
-        format.json { render :show, status: :created }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @custom_attributes_definition.errors, status: :unprocessable_entity }
-      end
+    @webhook = current_user.account.webhooks.new(webhook_params)
+    if @webhook.save
+      redirect_to account_webhooks_path(current_user.account), notice: 'Webhook was successfully created.'
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
-    respond_to do |format|
-      if @activity_kind.update(activity_kind_params)
-        format.html { redirect_to edit_settings_activity_kind_path(@activity_kind), notice: "Activity kind was successfully updated." }
-        format.json { render :edit, status: :ok, location: @contact }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @activity_kind.errors, status: :unprocessable_entity }
-      end
+    if @webhook.update(webhook_params)
+      redirect_to edit_account_webhook_path(current_user.account, @webhook), notice: 'Webhook updated successfully'
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if @webhook.destroy
+      flash[:notice] = 'webhook has been deleted'
+    else
+      render :index, status: :unprocessable_entity
     end
   end
 
   private
-    def set_activity_kind
-      @activity_kind = ActivityKind.find(params[:id])
-    end
 
-    def custom_attributes_definition_params
-      params.require(:custom_attribute_definition).permit(
-        :attribute_model,
-        :attribute_key,
-        :attribute_display_name,
-        :attribute_description)
-    end
+  def set_webhook
+    @webhook = current_user.account.webhooks.find(params[:id])
+  end
+
+  def webhook_params
+    params.require(:webhook).permit(:url, :status)
+  end
 end

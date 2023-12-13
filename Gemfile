@@ -65,6 +65,7 @@ gem 'sentry-sidekiq', require: false
 gem 'dotenv-rails'
 gem 'highlight_io', require: false
 gem 'june-analytics-ruby', require: false
+gem 'elastic-apm', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

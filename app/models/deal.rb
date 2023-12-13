@@ -79,9 +79,13 @@ class Deal < ApplicationRecord
       self.stage = self.pipeline.stages.first
     end
   end
-  after_destroy_commit{ broadcast_remove_to self.stage, target: self}
+  after_destroy_commit{ broadcast_remove_to stage, target: self}
 
   after_update_commit -> { broadcast_updates }
+  after_create_commit -> { broadcast_replace_later_to stage, target: stage,
+                              partial: "accounts/pipelines/stage",
+                              locals: {stage: stage}
+                          }
 
   def broadcast_updates
     broadcast_replace_later_to self, partial: "accounts/pipelines/deal"

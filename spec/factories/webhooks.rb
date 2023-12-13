@@ -17,5 +17,6 @@ FactoryBot.define do
   factory :webhook do
     account
     url { 'https://woofedcrm.com' }
+    status { 'active' }
   end
 end
