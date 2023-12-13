@@ -7,7 +7,7 @@ class Accounts::Apps::Chatwoots::SyncImportContacts
   def self.create_contact(chatwoot)
     quantity_per_page = 15
     quantity_contacts = get_quantity_contacts(chatwoot)
-    quantity_contacts / quantity_per_page.times do |page|
+    ((quantity_contacts / quantity_per_page.ceil) + 1).times do |page|
       request = Faraday.get(
         "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/",
         { page: page + 1 },
