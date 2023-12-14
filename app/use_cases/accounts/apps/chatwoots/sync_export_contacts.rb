@@ -7,7 +7,7 @@ class Accounts::Apps::Chatwoots::SyncExportContacts
         account.contacts.where("additional_attributes -> 'chatwoot_id' IS NULL").each do |contact|
             Accounts::Apps::Chatwoots::ExportContact.call(account.apps_chatwoots.first, contact)
         end
-        return 'Contact exported successfully'
+        return {ok: 'Contacts exported successfully'}
     end
 end
 
