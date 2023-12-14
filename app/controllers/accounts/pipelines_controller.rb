@@ -112,30 +112,58 @@ class Accounts::PipelinesController < InternalController
   end
 
   def bulk_action
-    @pipeline = Pipeline.find(params[:pipeline_id])
+    @pipeline = current_user.account.pipelines.find(params[:pipeline_id])
+    @stage = current_user.account.stages.find(params[:stage_id])
     @event = Event.new
   end
-
   def create_bulk_action
     @deals = current_user.account.deals.where(stage_id: params['stage_id'], status: 'open')
     time_start = DateTime.current
 
     @result = @deals.each do | deal |
-      time_start = time_start + rand(5..15).seconds
-
+      if params['event']['send_now'] == 'true'
+         time_start = time_start + rand(5..15).seconds 
+      else
+        time_start = nil
+      end
       Event.create(
+        auto_done: params['event']['auto_done'],
         deal: deal,
         contact: deal.contact,
-        from_me: true, account: current_user.account,
-        kind: 'wpp_connect_message',
+        from_me: true, 
+        account: current_user.account,
+        kind: params['event']['kind'],
         app_id: params['event']['app_id'],
         app_type: params['event']['app_type'],
         content: params['event']['content'],
-        custom_attributes: {'wpp_connect_message_to': deal.contact.phone},
-        scheduled_at: time_start
+        additional_attributes: params['event']['additional_attributes'],
+        scheduled_at: time_start || params['event']['scheduled_at']
       )
     end
+    flash[:notice] = 'Envio em massa criado com sucesso!'
   end
+
+  # def create_bulk_action
+  #   @deals = current_user.account.deals.where(stage_id: params['stage_id'], status: 'open')
+  #   time_start = DateTime.current
+
+  #   @result = @deals.each do | deal |
+  #     time_start = time_start + rand(5..15).seconds
+
+  #     Event.create(
+  #       deal: deal,
+  #       contact: deal.contact,
+  #       from_me: true, 
+  #       account: current_user.account,
+  #       kind: 'wpp_connect_message',
+  #       app_id: params['event']['app_id'],
+  #       app_type: params['event']['app_type'],
+  #       content: params['event']['content'],
+  #       custom_attributes: {'wpp_connect_message_to': deal.contact.phone},
+  #       scheduled_at: time_start
+  #     )
+  #   end
+  # end
 
   def bulk_action_2
   end
