@@ -7,6 +7,7 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
     let(:chatwoot) { create(:apps_chatwoots, :skip_validate, account: account) }
     let(:contact_list_page_1) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/get_all_contacts_page_1.json") }
     let(:contact_list_page_2) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/get_all_contacts_page_2.json") }
+    let(:contact_list_page_3) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/get_all_contacts_page_3.json") }
     
     describe 'success' do
       before do 
@@ -22,6 +23,12 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
             headers: chatwoot.request_headers
           )
           .to_return(status: 200, body: contact_list_page_2, headers: { 'Content-Type' => 'application/json' })
+          stub_request(:get, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/")
+          .with(
+            query: { page: 3 },
+            headers: chatwoot.request_headers
+          )
+          .to_return(status: 200, body: contact_list_page_3, headers: { 'Content-Type' => 'application/json' })
       end
       it 'import contact data to Chatwoot API' do
         result = Accounts::Apps::Chatwoots::SyncImportContacts.call(chatwoot)
