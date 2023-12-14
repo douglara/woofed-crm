@@ -140,7 +140,7 @@ class Accounts::PipelinesController < InternalController
         scheduled_at: time_start || params['event']['scheduled_at']
       )
     end
-    flash[:notice] = 'Envio em massa criado com sucesso!'
+    redirect_to account_pipelines_path(current_user.account, @pipeline), notice: 'Envio em massa criado com sucesso!'
   end
 
   # def create_bulk_action
