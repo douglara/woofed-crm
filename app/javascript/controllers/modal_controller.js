@@ -13,6 +13,6 @@ export default class extends Controller {
 		this.modal.hide()
 	}
 	modalHide() {
-		this.modal.hide()
+		this.element.remove()
 	}
 }
