@@ -23,7 +23,7 @@
             </span>
           </div>
             <%= turbo_frame_tag "events_not_planned_or_done_#{@deal.contact.id}" do %>
-              <%= render partial: 'accounts/contacts/events/event', collection: @deal.events.not_planned_or_done, data: { target: 'not_planned_or_done' }%>
+              <%= render partial: 'accounts/contacts/events/event', collection: @events.not_planned_or_done, data: { target: 'not_planned_or_done' }%>
             <% end %>
         </div>
     </div>

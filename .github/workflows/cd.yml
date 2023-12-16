@@ -1,10 +1,6 @@
 name: CI RSpec Tests
 
-on:
-  push:
-    branches:
-      - main
-      - development
+on: [pull_request]
 
 jobs:
   build:

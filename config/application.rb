@@ -22,6 +22,8 @@ if ENV.fetch('SENTRY_DSN', false).present?
   require 'sentry-sidekiq'
 end
 
+require 'elastic-apm' if ENV.fetch('ELASTIC_APM_SECRET_TOKEN', false).present?
+
 module WoofedCrm
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
