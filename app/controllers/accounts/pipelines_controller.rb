@@ -8,9 +8,9 @@ class Accounts::PipelinesController < InternalController
   def index
     pipeline = current_user.account.pipelines.first
     if pipeline
-      redirect_to(account_pipeline_path(current_user.account, current_user.account.pipelines.first))
+      redirect_to(account_pipeline_path(current_user.account, pipeline))
     else
-      redirect_to account_welcome_index_path()
+      redirect_to account_welcome_index_path(current_user.account)
     end
   end
 
