@@ -78,8 +78,13 @@ Rails.application.routes.draw do
         #resources :events, module: :contacts
       end
   end
+  if ENV.fetch('ENABLE_USER_SIGNUP', 'false') == 'true'
+    devise_for :users
+  else
+    devise_for :users, skip: [:registrations]
+  end
  
-  devise_for :users
+
   root to: "accounts/pipelines#index"
 
   namespace :api do

@@ -29,6 +29,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   belongs_to :account
+  accepts_nested_attributes_for :account, reject_if: ->(attributes){ attributes['name'].blank? }
 
   after_update_commit do
     broadcast_replace_later_to "users_#{account_id}", target: self, partial: '/accounts/users/user',
