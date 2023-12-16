@@ -15,12 +15,14 @@
 
     <%= yield :stylesheets %>
   </head>
-  <body class="bg-brand-palette-08">
+  <!-- <body class="bg-brand-palette-08"> -->
+    <body class="">
     <section class="max-w-lg px-5 md:px-0 min-h-screen mx-auto py-20 space-y-10">
       <div class="w-full flex items-center justify-center">
         <%= image_tag('logo.svg', {class: "w-[70%]"}) %>
       </div>
-        <div class="bg-light-palette-p5 p-11  border-2 border-light-palette-p3">
+        <!-- <div class="bg-light-palette-p5 p-11  border-2 border-light-palette-p3 "> -->
+        <div class="">
           <%= yield %>
         </div>
     </section>        
