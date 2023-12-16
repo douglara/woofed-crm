@@ -64,11 +64,17 @@ class Event < ApplicationRecord
   def done?
     done
   end
-  
+
   def done=(value)
-    done_at = Time.now if value == true
+    value_boolean = ActiveRecord::Type::Boolean.new.cast(value)
+    return if value_boolean == done
+
+    if value_boolean == true
+      self.done_at = Time.now
+    else
+      self.done_at = nil
+    end
   end
-  
 
   after_update_commit {
     broadcast_replace_to [contact_id, 'events'],
@@ -79,12 +85,20 @@ class Event < ApplicationRecord
     broadcast_remove_to [contact_id, 'events']
   }
 
+  scope :to_do, -> {
+    where('done_at IS NULL').order(:scheduled_at)
+  }
+
   scope :planned, -> {
-    where('done_at IS NULL and scheduled_at IS NOT NULL').order(:scheduled_at)
+    where('done_at IS NULL and auto_done = false').order(:scheduled_at)
+  }
+
+  scope :scheduled, -> {
+    to_do.where(auto_done: true)
   }
 
   scope :not_planned_or_done, -> {
-    where('scheduled_at IS NULL or done_at IS NOT NULL').order(done_at: :desc)
+    where('done_at IS NOT NULL').order(done_at: :desc)
   }
 
   enum kind: {
