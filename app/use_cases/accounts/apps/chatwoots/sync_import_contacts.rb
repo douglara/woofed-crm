@@ -1,10 +1,10 @@
 class Accounts::Apps::Chatwoots::SyncImportContacts
   def self.call(chatwoot)
-    response = create_contact(chatwoot)
+    response = update_or_create_contact(chatwoot)
     { ok: response }
   end
     
-  def self.create_contact(chatwoot)
+  def self.update_or_create_contact(chatwoot)
     contacts_imported = 0
     contacts_failed = 0
     contacts_updated = 0
