@@ -33,6 +33,7 @@
 #
 class Event < ApplicationRecord
   include Event::Decorators
+  include Deal::Broadcastable
   # default_scope { order('created_at DESC') }
 
   belongs_to :deal, optional: true
@@ -42,22 +43,23 @@ class Event < ApplicationRecord
   # belongs_to :record, polymorphic: true
   belongs_to :app, polymorphic: true, optional: true
   has_rich_text :content
-  after_update :new_event_job, if: -> { saved_change_to_scheduled_at? || saved_change_to_auto_done?}
-  after_update :broadcast_done_at_update, if: -> { saved_change_to_done_at? }
+
   attribute :done, :boolean
 
-  after_create_commit {
-    if self.done == false
-      broadcast_prepend_to [contact_id, 'events'],
-      partial: "accounts/contacts/events/event",
-      target: "events_planned_#{contact.id}"
-    else
-      broadcast_prepend_to [contact_id, 'events'],
-      partial: "accounts/contacts/events/event",
-      target: "events_not_planned_or_done_#{contact.id}"
+  after_commit do
+    if scheduled_delivery_event?
+      Accounts::Contacts::Events::Enqueue.call(self)
     end
-    new_event_job
-  }
+  end
+
+  def changed_scheduled_values?
+    saved_change_to_scheduled_at? || saved_change_to_auto_done?
+  end
+
+  def scheduled_delivery_event?
+    changed_scheduled_values? && ( auto_done == true && scheduled_at.present? && done_at.blank? )
+  end
+
   def done
     done_at.present?
   end
@@ -77,22 +79,6 @@ class Event < ApplicationRecord
     end
   end
 
-  def new_event_job
-    Accounts::Contacts::Events::CreatedWorker.perform_at(scheduled_at, id) if auto_done? && scheduled_at?
-  end
-  def broadcast_done_at_update
-    broadcast_replace_later_to [contact_id, 'events'], target: "events_planned_#{contact.id}", partial: 'accounts/contacts/events/events_planned', locals: {deal: deal}
-    broadcast_replace_later_to [contact_id, 'events'], target: "events_not_planned_or_done_#{contact.id}", partial: 'accounts/contacts/events/events_not_planned_or_done', locals: {deal: deal}
-  end
-
-  after_update_commit {
-    broadcast_replace_to [contact_id, 'events'],
-    partial: "accounts/contacts/events/event"
-  }
-
-  after_destroy_commit {
-    broadcast_remove_to [contact_id, 'events']
-  }
 
   scope :to_do, -> {
     where('done_at IS NULL').order(:scheduled_at)
