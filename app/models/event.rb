@@ -56,7 +56,7 @@ class Event < ApplicationRecord
       partial: "accounts/contacts/events/event",
       target: "events_not_planned_or_done_#{contact.id}"
     end
-    new_event_job 
+    new_event_job
   }
   def done
     done_at.present?
@@ -65,20 +65,26 @@ class Event < ApplicationRecord
   def done?
     done
   end
-  
+
   def done=(value)
-    self.done_at = Time.now if value.in?([true, '1'])
-    self.done_at = nil if value.in?([false, '0'])
+    value_boolean = ActiveRecord::Type::Boolean.new.cast(value)
+    return if value_boolean == done
+
+    if value_boolean == true
+      self.done_at = Time.now
+    else
+      self.done_at = nil
+    end
   end
-  
-  def new_event_job 
+
+  def new_event_job
     Accounts::Contacts::Events::CreatedWorker.perform_at(scheduled_at, id) if auto_done? && scheduled_at?
   end
   def broadcast_done_at_update
-    broadcast_replace_later_to [contact_id, 'events'], target: "events_planned_#{contact.id}", partial: 'accounts/contacts/events/events_planned', locals: {deal: deal} 
-    broadcast_replace_later_to [contact_id, 'events'], target: "events_not_planned_or_done_#{contact.id}", partial: 'accounts/contacts/events/events_not_planned_or_done', locals: {deal: deal} 
+    broadcast_replace_later_to [contact_id, 'events'], target: "events_planned_#{contact.id}", partial: 'accounts/contacts/events/events_planned', locals: {deal: deal}
+    broadcast_replace_later_to [contact_id, 'events'], target: "events_not_planned_or_done_#{contact.id}", partial: 'accounts/contacts/events/events_not_planned_or_done', locals: {deal: deal}
   end
-  
+
   after_update_commit {
     broadcast_replace_to [contact_id, 'events'],
     partial: "accounts/contacts/events/event"
@@ -88,8 +94,16 @@ class Event < ApplicationRecord
     broadcast_remove_to [contact_id, 'events']
   }
 
-  scope :planned, -> {
+  scope :to_do, -> {
     where('done_at IS NULL').order(:scheduled_at)
+  }
+
+  scope :planned, -> {
+    to_do.where('auto_done = false').order(:scheduled_at)
+  }
+
+  scope :scheduled, -> {
+    to_do.where(auto_done: true)
   }
 
   scope :not_planned_or_done, -> {
