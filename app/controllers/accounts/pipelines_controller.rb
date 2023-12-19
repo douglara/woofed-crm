@@ -128,12 +128,11 @@ class Accounts::PipelinesController < InternalController
         contact: deal.contact,
         from_me: true, account: current_user.account,
         kind: 'wpp_connect_message',
-        done: false,
         app_id: params['event']['app_id'],
         app_type: params['event']['app_type'],
         content: params['event']['content'],
         custom_attributes: {'wpp_connect_message_to': deal.contact.phone},
-        due: time_start
+        scheduled_at: time_start
       )
     end
   end
