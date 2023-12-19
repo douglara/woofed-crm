@@ -39,6 +39,8 @@ class Accounts::Contacts::EventsController < InternalController
 
   def update
     @deal = current_user.account.deals.find(params[:deal_id])
+    @events = @deal.contact.events
+
     unless @event.update(event_params)
       render :edit, status: :unprocessable_entity
     end
