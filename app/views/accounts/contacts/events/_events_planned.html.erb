@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "events_planned_#{deal.contact.id}" do %>
-    <% deal.events.planned.each do |event| %>
+    <% deal.events.to_do.each do |event| %>
         <%= render partial: 'accounts/contacts/events/event', locals: {event: event} %>
     <% end %>
 <% end %>
