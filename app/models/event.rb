@@ -5,12 +5,12 @@
 #  id                    :bigint           not null, primary key
 #  additional_attributes :jsonb
 #  app_type              :string
+#  auto_done             :boolean          default(FALSE)
 #  custom_attributes     :jsonb
-#  done                  :boolean
 #  done_at               :datetime
-#  due                   :datetime
 #  from_me               :boolean
 #  kind                  :string           default("note"), not null
+#  scheduled_at          :datetime
 #  status                :integer
 #  title                 :string           default(""), not null
 #  created_at            :datetime         not null

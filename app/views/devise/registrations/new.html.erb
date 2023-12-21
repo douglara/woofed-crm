@@ -24,6 +24,13 @@
       </div> -->
     </div>
     <div class="grid gap-1">
+      <%= f.label :phone, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= f.text_field :phone, autofocus: true, autocomplete: "phone", class: "form-input", data: {controller: 'input-mask--input-phone'} %>
+      <!-- <div class="invalid-feedback typography-body-s-lh150 text-auxiliary-palette-red">
+        Please fill in your email
+      </div> -->
+    </div>
+    <div class="grid gap-1">
       <%= f.label :email, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
       <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input", required: true %>
       <!-- <div class="invalid-feedback typography-body-s-lh150 text-auxiliary-palette-red">
