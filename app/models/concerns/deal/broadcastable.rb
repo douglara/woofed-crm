@@ -6,17 +6,17 @@ module Deal::Broadcastable
       if self.done == false
         broadcast_prepend_to [contact_id, 'events'],
         partial: "accounts/contacts/events/event",
-        target: "events_planned_#{contact.id}"
+        target: "events_to_do_#{contact.id}"
       else
         broadcast_prepend_to [contact_id, 'events'],
         partial: "accounts/contacts/events/event",
-        target: "events_not_planned_or_done_#{contact.id}"
+        target: "events_done_#{contact.id}"
       end
     }
 
     def broadcast_events
-      broadcast_replace_later_to [contact_id, 'events'], target: "events_planned_#{contact.id}", partial: 'accounts/contacts/events/events_planned', locals: {deal: deal}
-      broadcast_replace_later_to [contact_id, 'events'], target: "events_not_planned_or_done_#{contact.id}", partial: 'accounts/contacts/events/events_not_planned_or_done', locals: {deal: deal}
+      broadcast_replace_later_to [contact_id, 'events'], target: "events_to_do_#{contact.id}", partial: 'accounts/contacts/events/events_to_do', locals: {deal: deal}
+      broadcast_replace_later_to [contact_id, 'events'], target: "events_done_#{contact.id}", partial: 'accounts/contacts/events/events_done', locals: {deal: deal}
     end
 
     after_update_commit {

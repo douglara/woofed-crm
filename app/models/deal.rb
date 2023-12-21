@@ -108,7 +108,7 @@ class Deal < ApplicationRecord
   end
 
   def next_event_scheduled
-    events.scheduled.first rescue nil
+    events.planned.first rescue nil
   end
 
   def self.csv_header(account_id)

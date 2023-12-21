@@ -92,7 +92,7 @@ class Event < ApplicationRecord
     to_do.where(auto_done: true)
   }
 
-  scope :not_planned_or_done, -> {
+  scope :done, -> {
     where('done_at IS NOT NULL').order(done_at: :desc)
   }
 
