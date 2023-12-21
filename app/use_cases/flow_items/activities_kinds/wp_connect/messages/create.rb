@@ -25,7 +25,7 @@ class FlowItems::ActivitiesKinds::WpConnect::Messages::Create
 
     if result.key?(:ok)
       new_message.done = true
-      new_message.due = Time.at(result[:ok]['t'])
+      new_message.scheduled_at = Time.at(result[:ok]['t'])
       new_message.source_id = result[:ok]['id']
       return new_message
     else

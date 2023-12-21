@@ -43,11 +43,11 @@
           <h4><%= event.name %></h4>
         <% end %>
       </div>
-      <% if event.has_attribute?(:due) %>
+      <% if event.has_attribute?(:scheduled_at) %>
         <% if event.overdue? %>
-          <span class="time-overdue"><%= event.due_format %></span>
+          <span class="time-overdue"><%= event.scheduled_at_format %></span>
         <% else %>
-          <span><%= event.due_format %></span>
+          <span><%= event.scheduled_at_format %></span>
         <% end %>
       <% else %>
         <span><%= time_ago_in_words(event.updated_at) %> ago</span>

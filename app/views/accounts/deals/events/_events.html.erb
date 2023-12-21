@@ -4,7 +4,7 @@
       <span class="badge badge-light">Planned</span>
     </header>
     <div class="activities">
-      <% events.planned.each do | event | %>
+      <% events.to_do.each do | event | %>
         <%= render "/accounts/deals/events/event", event: event %>
       <% end %>
     </div>

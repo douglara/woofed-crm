@@ -12,6 +12,7 @@
   <% end %>
   <%= form.hidden_field :kind, value: 'note' %>
   <%= form.hidden_field :deal_id %>
+  <%= form.hidden_field :done, value: '1' %>
 
   <div class="p-4 space-y-2">
     <%= form.label :content, 'Nota', class:'typography-text-m-lh150 text-dark-gray-palette-p1'  %>
