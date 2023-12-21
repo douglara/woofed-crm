@@ -1,5 +1,5 @@
 class Accounts::WelcomeController < InternalController
-    def index
+  def index
 
-    end
+  end
 end
