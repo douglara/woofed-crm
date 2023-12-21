@@ -12,7 +12,7 @@ export default class extends Controller {
 	disconnect() {
 		this.modal.hide()
 	}
-	modalHide() {
+	modalRemove() {
 		this.element.remove()
 	}
 }
