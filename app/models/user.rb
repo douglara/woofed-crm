@@ -31,6 +31,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   belongs_to :account
   accepts_nested_attributes_for :account, reject_if: ->(attributes){ attributes['name'].blank? }
+  validates :phone,
+    allow_blank: true,
+    format: { with: /\+[1-9]\d{1,14}\z/, message: "Número inválido" }
 
   after_update_commit do
     broadcast_replace_later_to "users_#{account_id}", target: self, partial: '/accounts/users/user',

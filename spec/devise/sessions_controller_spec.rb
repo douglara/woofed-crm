@@ -53,6 +53,14 @@ RSpec.describe Devise::SessionsController, type: :request do
         end.to change(User, :count).by(0)
         expect(response.body).to include('Confirme sua Senha não é igual a Senha')
       end
+      it 'if phone is invalid' do
+        invalid_params = valid_params.deep_merge(user: { phone: '123456789'  })
+        expect do
+          post '/users',
+               params: invalid_params
+        end.to change(User, :count).by(0)
+        expect(response.body).to include('Telefone (celular) Número inválido')
+      end
     end
   end
 end
