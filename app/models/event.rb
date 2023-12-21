@@ -48,7 +48,7 @@ class Event < ApplicationRecord
 
   after_commit do
     if scheduled_delivery_event?
-      Accounts::Contacts::Events::Enqueue.call(self)
+      Accounts::Contacts::Events::EnqueueWorker.perform_async(id)
     end
   end
 

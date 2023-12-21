@@ -1,5 +1,5 @@
 require 'rails_helper'
-
+require 'sidekiq/testing'
 RSpec.describe Accounts::Contacts::EventsController, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
@@ -8,6 +8,8 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
   let!(:pipeline) { create(:pipeline, account: account) }
   let!(:stage) { create(:stage, account: account, pipeline: pipeline) }
   let!(:deal) { create(:deal, account: account, contact: contact, stage: stage) }
+  let(:conversation_response) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/get_conversations.json") }
+  let(:message_response) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/send_message.json") }
   
   let!(:valid_params) do
     {
@@ -15,8 +17,8 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
       event: {
         account_id: account.id,
         contact_id: contact.id,
-        title: 'Title event',
-        content: 'activity content',
+        title: 'Event 1',
+        content: 'Hi Lorena',
         scheduled_at: Time.now
       }
     }
@@ -32,6 +34,11 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
     context 'when it is an authenticated user' do
       before do
         sign_in(user)
+        stub_request(:post, /messages/).
+        to_return(body: message_response, status: 200, headers: {'Content-Type' => 'application/json'})
+        stub_request(:post, /filter/).
+        to_return(body: conversation_response, status: 200, headers: {'Content-Type' => 'application/json'})
+        
       end
       context 'create event' do
         context 'create activity event' do
@@ -73,11 +80,19 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
         end
         context 'create chatwoot message event' do
           it do
-            params = valid_params.deep_merge(event: { kind: 'chatwoot_message', done: '1', app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1 }).merge(send_now: 'true')
+            params = valid_params.deep_merge(event: { kind: 'chatwoot_message', app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 2 }).merge(send_now: 'true')
             expect do
               post "/accounts/#{account.id}/contacts/#{contact.id}/events", 
                 params: params 
             end.to change(Event, :count).by(1)
+            Sidekiq::Testing.fake! do
+              expect {
+                Accounts::Contacts::Events::EnqueueWorker.perform_async(Event.last.id)
+              }.to change(Accounts::Contacts::Events::EnqueueWorker.jobs, :size).by(1)
+            end
+            Accounts::Contacts::Events::EnqueueWorker.drain
+            job = Accounts::Apps::Chatwoots::Messages::DeliveryJob.new
+            job.perform(Event.last.id)
             expect(response).to redirect_to(new_account_contact_event_path(account_id: 
               account, contact_id: contact, deal_id: deal))
             expect(Event.first.kind).to eq(params[:event][:kind])
