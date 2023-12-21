@@ -39,11 +39,11 @@ class Accounts::Contacts::EventsController < InternalController
     @deal = current_user.account.deals.find(params[:deal_id])
     @events = @deal.contact.events
     if params['event']['send_now'].in?(['true', '1'])
-      unless @event.update(event_params.merge({scheduled_at: Time.now}))
+      unless @event.update(event_params.merge({scheduled_at: Time.now}).except(:send_now))
         render :edit, status: :unprocessable_entity
       end
     else
-      unless @event.update(event_params)
+      unless @event.update(event_params.except(:send_now))
         render :edit, status: :unprocessable_entity
       end
     end
