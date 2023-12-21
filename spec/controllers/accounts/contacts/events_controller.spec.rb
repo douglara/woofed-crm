@@ -67,7 +67,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
         end
         context 'create note event' do
           it do
-            params = valid_params.deep_merge(event: { kind: 'note', done: '1' })
+            params = valid_params.deep_merge(event: { kind: 'note' })
             expect do
               post "/accounts/#{account.id}/contacts/#{contact.id}/events", 
                 params: params 
