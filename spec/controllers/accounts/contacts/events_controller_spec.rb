@@ -37,9 +37,9 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
         stub_request(:post, /messages/).
         to_return(body: message_response, status: 200, headers: {'Content-Type' => 'application/json'})
         stub_request(:post, /filter/).
-        to_return(body: conversation_response, status: 200, headers: {'Content-Type' => 'application/json'})
-        
+        to_return(body: conversation_response, status: 200, headers: {'Content-Type' => 'application/json'})        
       end
+      
       context 'create event' do
         context 'create activity event' do
           it do
@@ -79,36 +79,72 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           end
         end
         context 'create chatwoot message event' do
-          it do
-            params = valid_params.deep_merge(event: { kind: 'chatwoot_message', app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 2 }).merge(send_now: 'true')
-            expect do
-              post "/accounts/#{account.id}/contacts/#{contact.id}/events", 
-                params: params 
-            end.to change(Event, :count).by(1)
-            Sidekiq::Testing.fake! do
-              expect {
-                Accounts::Contacts::Events::EnqueueWorker.perform_async(Event.last.id)
-              }.to change(Accounts::Contacts::Events::EnqueueWorker.jobs, :size).by(1)
+          around(:each) do |example|
+            Sidekiq::Testing.inline! do
+              perform_enqueued_jobs(only: Accounts::Apps::Chatwoots::Messages::DeliveryJob) do
+                example.run
+              end
             end
-            Accounts::Contacts::Events::EnqueueWorker.drain
-            job = Accounts::Apps::Chatwoots::Messages::DeliveryJob.new
-            job.perform(Event.last.id)
-            expect(response).to redirect_to(new_account_contact_event_path(account_id: 
-              account, contact_id: contact, deal_id: deal))
-            expect(Event.first.kind).to eq(params[:event][:kind])
-            expect(Event.first.done?).to eq(true)
           end
+          let(:event_created) { Event.first }
+          it do
+            params = valid_params.deep_merge(event: { kind: 'chatwoot_message', app_type: 'Apps::Chatwoot',
+                                                      app_id: chatwoot.id, chatwoot_inbox_id: 2, send_now: 'true' })
+            
+            expect do
+
+                  post "/accounts/#{account.id}/contacts/#{contact.id}/events",
+                       params: params
+     
+            end.to change(Event, :count).by(1)
+
+            expect(event_created.kind).to eq(params[:event][:kind])
+            expect(event_created.done?).to eq(true)
+          end
+
           it 'when chatwoot message is scheduled' do
-            params = valid_params.deep_merge(event: { kind: 'chatwoot_message', done: '0', app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1, scheduled_at: Time.zone.parse("2024-12-12 12:00:00") }).merge(send_now: 'false')
+            params = valid_params.deep_merge(event: { kind: 'chatwoot_message', done: '0', app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1, scheduled_at: (Time.current + 2.hours).round, send_now: 'false' })
             expect do
               post "/accounts/#{account.id}/contacts/#{contact.id}/events", 
                 params: params 
             end.to change(Event, :count).by(1)
             expect(response).to redirect_to(new_account_contact_event_path(account_id: 
               account, contact_id: contact, deal_id: deal))
-            expect(Event.first.kind).to eq(params[:event][:kind])
-            expect(Event.first.done?).to eq(false)
-            expect(Event.first.scheduled_at).to eq(params[:event][:scheduled_at])
+            expect(event_created.kind).to eq(params[:event][:kind])
+            expect(event_created.done?).to eq(false)
+            expect(event_created.scheduled_at.round).to eq(params[:event][:scheduled_at])
+          end
+
+          context 'when chatwoot message is scheduled and delivered' do
+            around(:each) do |example|
+              Sidekiq::Testing.inline! do
+                example.run
+              end
+            end
+            before do
+              (ActiveJob::Base.descendants + [ActiveJob::Base]).each(&:disable_test_adapter)
+            end
+            it do
+              params = valid_params.deep_merge(event: { kind: 'chatwoot_message', done: '0', app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1, scheduled_at: (Time.current + 2.hours).round, auto_done:true, send_now: 'false' })
+              expect do
+                post "/accounts/#{account.id}/contacts/#{contact.id}/events", 
+                  params: params 
+              end.to change(Event, :count).by(1)
+              expect(response).to redirect_to(new_account_contact_event_path(account_id: 
+                account, contact_id: contact, deal_id: deal))
+              expect(event_created.kind).to eq(params[:event][:kind])
+              expect(event_created.done?).to eq(false)
+              expect(event_created.scheduled_at.round).to eq(params[:event][:scheduled_at])
+              travel(1.hours) do
+                GoodJob.perform_inline
+                expect(event_created.reload.done?).to eq(false)
+              end
+              travel(3.hours) do
+                GoodJob.perform_inline
+                expect(event_created.reload.done?).to eq(true)
+              end
+            end
+            
           end
         end
       end

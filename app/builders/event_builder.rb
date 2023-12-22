@@ -9,8 +9,11 @@ class EventBuilder
   def build
     @event = @user.account.events.new(@params)
     @event.done = true if @event.kind == 'note'
-    @event.scheduled_at = Time.now if @send_now
-    # clean_html_codes()   
+    if @send_now
+      @event.scheduled_at = Time.now
+      @event.auto_done = true
+    end
+    # clean_html_codes()
     @event
   end
 
