@@ -12,6 +12,8 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "controllers"
 import lucide from "lucide/dist/umd/lucide"
+import Tagify from '@yaireo/tagify';
+import '@yaireo/tagify/src/tagify';
 
 Rails.start()
 ActiveStorage.start()
@@ -37,6 +39,7 @@ $(document).on("turbo:render", function (e) {
 
 $(document).on("turbo:frame-render", function (e) {
   initLibraries();
+  new Tagify(document.querySelector('.tag-input'));
 })
 
 
@@ -64,3 +67,4 @@ function initLibraries() {
     }
   }
 }
+new Tagify(document.querySelector('.tag-input'));
