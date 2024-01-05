@@ -12,6 +12,14 @@
     </div>
     <div id="accordion-collapse-<%= "#{model.class.name.downcase}_#{model.id}"%>" class="hidden py-3" aria-labelledby="accordion-collapse-heading-<%= "#{model.class.name.downcase}_#{model.id}"%>">
       <% model.class::FORM_FIELDS.each do | f | %>
+        <% if f.in?([:label_list, :chatwoot_conversations_label_list]) %>
+          <% unless model.send(f).empty? %>
+            <div class="flex flex-col gap-1 pb-4">
+              <label class="typography-text-m-lh150 text-dark-gray-palette-p3"><%= model.class.human_attribute_name(f) %></label>
+              <input class="tag-input !border-none " readonly value='<%= model.labels.join(', ')%>'>
+            </div>
+          <% end %>
+        <% end %>
         <% if model["#{f}"].present? %>
           <div class="flex items-center pb-4">
             <label class="flex-none m-auto typography-text-m-lh150 text-dark-gray-palette-p3"><%= model.class.human_attribute_name(f) %></label>
@@ -20,6 +28,7 @@
           </div>
         <% end %>
       <% end %>
+
       <%= render 'accounts/deals/details/show_custom_attributes', model: model %>
     </div>
   <% end %>

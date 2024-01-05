@@ -41,7 +41,7 @@ class Contact < ApplicationRecord
     additional_attributes['chatwoot_id'].present?
   end
 
-  FORM_FIELDS = [:full_name, :email, :phone]
+  FORM_FIELDS = [:full_name, :email, :phone, :label_list, :chatwoot_conversations_label_list]
   after_commit :export_contact_to_chatwoot, on: [:create, :update]
 
   def phone=(value)
