@@ -27,7 +27,7 @@
             <% if f == :label_list %>
               <div class="flex flex-col gap-1 pb-3">
                 <%= form.label f, 'Marcador', class: "typography-text-m-lh150 text-dark-gray-palette-p3"  %>
-                <%= form.text_field f,  value: model.labels.join(', '), placeholder: "Digite um marcador", class: 'tag-input form-input !border-light-palette-p3'%>
+                <%= form.text_field f,  value: model.labels.join(', '), placeholder: "Digite um marcador", class: 'tag-input form-input !border-light-palette-p3', name:"tag_#{f}"%>
               </div>
             <% end %>
             <% unless f.in?([:label_list, :chatwoot_conversations_label_list]) %>

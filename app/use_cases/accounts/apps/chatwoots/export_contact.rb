@@ -11,6 +11,7 @@ class Accounts::Apps::Chatwoots::ExportContact
     else
       response = create_contact(chatwoot, contact)
     end
+    export_contact_tags(chatwoot, contact)
 
     return response
   end
@@ -28,6 +29,15 @@ class Accounts::Apps::Chatwoots::ExportContact
     end
   end
 
+  def self.export_contact_tags(chatwoot, contact)
+    unless contact.label_list.empty?
+      request = Faraday.post(
+        "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{contact.additional_attributes['chatwoot_id']}/labels",
+        {labels: contact.label_list}.to_json,
+        chatwoot.request_headers
+      )
+    end
+  end
 
   def self.create_contact(chatwoot, contact)
     request = Faraday.post(
