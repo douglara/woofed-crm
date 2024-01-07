@@ -30,7 +30,7 @@ class Accounts::Apps::Chatwoots::ExportContact
   end
 
   def self.export_contact_tags(chatwoot, contact)
-    unless contact.label_list.empty?
+    unless contact.label_list.nil?
       request = Faraday.post(
         "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{contact.additional_attributes['chatwoot_id']}/labels",
         {labels: contact.label_list}.to_json,
