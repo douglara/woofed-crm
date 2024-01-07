@@ -11,7 +11,6 @@ class Accounts::Apps::Chatwoots::ExportContact
     else
       response = create_contact(chatwoot, contact)
     end
-    export_contact_tags(chatwoot, contact)
 
     return response
   end
@@ -23,7 +22,8 @@ class Accounts::Apps::Chatwoots::ExportContact
       chatwoot.request_headers
     )
     if request.status == 200
-      return { ok: contact }
+      export_contact_tags(chatwoot, contact)
+      return { ok: contact}
     else
       return { error: request.body }
     end
@@ -36,6 +36,7 @@ class Accounts::Apps::Chatwoots::ExportContact
         {labels: contact.label_list}.to_json,
         chatwoot.request_headers
       )
+      return JSON.parse(request.body)['payload']
     end
   end
 
@@ -57,6 +58,7 @@ class Accounts::Apps::Chatwoots::ExportContact
       return { ok: contact }
     elsif request.status == 200
       update_contact_chatwoot_id(contact, response_body['payload']['contact']['id'])
+      export_contact_tags(chatwoot, contact)
       return { ok: contact }
     else
       Rails.logger.error(

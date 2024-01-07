@@ -50,11 +50,11 @@ RSpec.describe Accounts::Apps::Chatwoots::ExportContact, type: :request do
           "additional_attributes": {'chatwoot_id': 1}
       } }
 
-
       it 'export contact data to Chatwoot API' do
         stub_request(:post, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts")
           .to_return(body: contact_create_response.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
-
+          stub_request(:post, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{contact_create_response[:payload][:contact][:id]}/labels")
+          .to_return(body: {payload: []}.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
         result = Accounts::Apps::Chatwoots::ExportContact.call(chatwoot, contact)
         expect(result.key?(:ok)).to eq(true)
       end
@@ -62,6 +62,8 @@ RSpec.describe Accounts::Apps::Chatwoots::ExportContact, type: :request do
       it 'update contact in Chatwoot API' do
           stub_request(:put, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{contact_chatwoot_id.additional_attributes['chatwoot_id']}")
               .to_return(body: contact_update_response.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
+              stub_request(:post, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{contact_update_response[:additional_attributes][:chatwoot_id]}/labels")
+              .to_return(body: {payload: []}.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
 
           result = Accounts::Apps::Chatwoots::ExportContact.call(chatwoot, contact_chatwoot_id)
           expect(result.key?(:ok)).to eq(true)
@@ -76,6 +78,8 @@ RSpec.describe Accounts::Apps::Chatwoots::ExportContact, type: :request do
             headers: chatwoot.request_headers
           )
             .to_return(body: search_contact_query_response, status: 200, headers: { 'Content-Type' => 'application/json' })
+            stub_request(:post, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{JSON.parse(search_contact_query_response)['payload'].first['id']}/labels")
+            .to_return(body: {payload: []}.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
 
         result = Accounts::Apps::Chatwoots::ExportContact.call(chatwoot, contact)
         expect(result.key?(:ok)).to eq(true)
@@ -91,10 +95,24 @@ RSpec.describe Accounts::Apps::Chatwoots::ExportContact, type: :request do
             headers: chatwoot.request_headers
           )
             .to_return(body: search_contact_query_response, status: 200, headers: { 'Content-Type' => 'application/json' })
+            stub_request(:post, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{JSON.parse(search_contact_query_response)['payload'].first['id']}/labels")
+            .to_return(body: {payload: []}.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
 
         result = Accounts::Apps::Chatwoots::ExportContact.call(chatwoot, contact)
         expect(result.key?(:ok)).to eq(true)
         expect(result[:ok][:additional_attributes]['chatwoot_id']).to eq(contact[:additional_attributes]['chatwoot_id'])
+      end
+      context 'when contact contains labels' do
+        let(:contact) { create(:contact, account: account, label_list: ['marcador1', 'marcador2']) }
+        it do
+          stub_request(:post, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts")
+          .to_return(body: contact_create_response.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
+          stub_request(:post, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{contact_create_response[:payload][:contact][:id]}/labels")
+          .to_return(body: {payload: ['marcador1', 'marcador2']}.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
+        result = Accounts::Apps::Chatwoots::ExportContact.call(chatwoot, contact)
+        expect(result.key?(:ok)).to eq(true)
+        expect(result[:ok][:label_list]).to eq(['marcador1', 'marcador2'])
+        end
       end
     end
 
@@ -103,7 +121,6 @@ RSpec.describe Accounts::Apps::Chatwoots::ExportContact, type: :request do
         contact.update_column(:email, 'invalid_email')
         stub_request(:post, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts")
           .to_return(body: '{"message":"Email Invalid email","attributes":["email"]}', status: 422, headers: { 'Content-Type' => 'application/json' })
-
         result = Accounts::Apps::Chatwoots::ExportContact.call(chatwoot, contact)
         expect(result.key?(:error)).to eq(true)
       end
@@ -112,7 +129,6 @@ RSpec.describe Accounts::Apps::Chatwoots::ExportContact, type: :request do
         contact.update_columns({email: 'invalid_email', additional_attributes: {'chatwoot_id': 1}})
         stub_request(:put, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/1")
           .to_return(body: '{"message":"Email Invalid email","attributes":["email"]}', status: 422, headers: { 'Content-Type' => 'application/json' })
-
         result = Accounts::Apps::Chatwoots::ExportContact.call(chatwoot, contact)
         expect(result.key?(:error)).to eq(true)
       end
