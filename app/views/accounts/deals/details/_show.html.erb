@@ -16,7 +16,7 @@
           <% unless model.send(f).empty? %>
             <div class="flex flex-col gap-1 pb-4">
               <label class="typography-text-m-lh150 text-dark-gray-palette-p3"><%= model.class.human_attribute_name(f) %></label>
-              <input class="tag-input !border-none " name="tag_<%=f%>" readonly value='<%= model.send(f).join(', ')%>'>
+              <input class="tag-input !border-none " id="contact_<%=f%>" readonly value='<%= model.send(f).join(', ')%>'>
             </div>
           <% end %>
         <% end %>

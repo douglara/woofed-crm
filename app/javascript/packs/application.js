@@ -65,6 +65,6 @@ function initLibraries() {
       });
     }
   }
-  new Tagify(document.querySelector('input[name=tag_label_list]'));
-  new Tagify(document.querySelector('input[name=tag_chatwoot_conversations_label_list]'));
+  new Tagify(document.querySelector('input[id=contact_label_list]'));
+  new Tagify(document.querySelector('input[id=contact_chatwoot_conversations_label_list]'));
 }
