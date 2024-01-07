@@ -39,8 +39,6 @@ $(document).on("turbo:render", function (e) {
 
 $(document).on("turbo:frame-render", function (e) {
   initLibraries();
-  new Tagify(document.querySelector('input[name=tag_label_list]'));
-  new Tagify(document.querySelector('input[name=tag_chatwoot_conversations_label_list]'));
 })
 
 
@@ -67,6 +65,6 @@ function initLibraries() {
       });
     }
   }
+  new Tagify(document.querySelector('input[name=tag_label_list]'));
+  new Tagify(document.querySelector('input[name=tag_chatwoot_conversations_label_list]'));
 }
-new Tagify(document.querySelector('input[name=tag_label_list]'));
-new Tagify(document.querySelector('input[name=tag_chatwoot_conversations_label_list]'));
