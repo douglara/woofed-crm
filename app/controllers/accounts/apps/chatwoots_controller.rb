@@ -16,16 +16,17 @@ class Accounts::Apps::ChatwootsController < InternalController
     result = Accounts::Apps::Chatwoots::Create.call(current_user.account, chatwoot_params)
     @chatwoot = result[result.keys.first]
     if result.key?(:ok)
-      redirect_to edit_account_apps_chatwoot_path(current_user.account, result[:ok])
+      redirect_to edit_account_apps_chatwoot_path(current_user.account, @chatwoot), notice: 'Chatwoot was successfully created.'
     else
       render :new
     end
   end
 
   def destroy
-    @chatwoot.destroy
-    Accounts::Apps::Chatwoots::RemoveChatwootIdFromContactsWorker.perform_async(current_user.account.id)
-    redirect_to account_settings_path(current_user.account)
+    result = Accounts::Apps::Chatwoots::Delete.call(current_user.account, @chatwoot)
+    if result.key?(:ok)
+      redirect_to account_settings_path(current_user.account), notice: "Chatwoot was successfully destroyed."
+    end
   end
 
   def update
