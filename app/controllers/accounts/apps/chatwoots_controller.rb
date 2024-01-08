@@ -13,11 +13,10 @@ class Accounts::Apps::ChatwootsController < InternalController
   end
 
   def create
-    @chatwoot = current_user.account.apps_chatwoots.build(chatwoot_params)
-    if @chatwoot.save
-      Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(@chatwoot.id)
-      Accounts::Apps::Chatwoots::SyncExportContactsWorker.perform_async(current_user.account.id)
-      redirect_to edit_account_apps_chatwoot_path(current_user.account, @chatwoot)
+    result = Accounts::Apps::Chatwoots::Create.call(current_user.account, chatwoot_params)
+    @chatwoot = result[result.keys.first]
+    if result.key?(:ok)
+      redirect_to edit_account_apps_chatwoot_path(current_user.account, result[:ok])
     else
       render :new
     end
