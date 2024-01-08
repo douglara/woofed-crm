@@ -15,8 +15,9 @@
 
     <%= yield :stylesheets %>
   </head>
-  
-  <body class="bg-brand-palette-08">
+
+  <body class="bg-brand-palette-08 relative">
+    <%= render partial: 'components/notifications', locals: { message: flash[:notice] } %>
     <%= content_for?(:content) ? yield(:content) : yield %>
     <%= yield :javascripts %>
   </body>
