@@ -26,9 +26,13 @@ class Accounts::Apps::Chatwoots::SyncImportContacts
                                                                                 'phone').transform_values(&:to_s))
           if contact[:ok]
             update_contact_chatwoot_id(contact[:ok], chatwoot_contact['id'])
+            Accounts::Apps::Chatwoots::Webhooks::ImportContact.import_contact_tags(chatwoot, contact[:ok]).save
+            Accounts::Apps::Chatwoots::Webhooks::ImportContact.import_contact_converstions_tags(chatwoot, contact[:ok]).save
             contacts_updated += 1
           else
             contact = build_contact_att(chatwoot_contact, chatwoot)
+            Accounts::Apps::Chatwoots::Webhooks::ImportContact.import_contact_tags(chatwoot, contact)
+            Accounts::Apps::Chatwoots::Webhooks::ImportContact.import_contact_converstions_tags(chatwoot, contact)
             if contact.save
               contacts_imported += 1
             else
