@@ -33,6 +33,9 @@ begin
 rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
+
+include ActiveJob::TestHelper
+
 RSpec.configure do |config|
   config.before(:each) do
     Sidekiq::Worker.clear_all

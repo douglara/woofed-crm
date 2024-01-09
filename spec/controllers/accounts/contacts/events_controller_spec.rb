@@ -81,11 +81,10 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
         context 'create chatwoot message event' do
           around(:each) do |example|
             Sidekiq::Testing.inline! do
-              perform_enqueued_jobs(only: Accounts::Apps::Chatwoots::Messages::DeliveryJob) do
-                example.run
-              end
+              example.run
             end
           end
+
           let(:event_created) { Event.first }
           it do
             params = valid_params.deep_merge(event: { kind: 'chatwoot_message', app_type: 'Apps::Chatwoot',
@@ -116,14 +115,6 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           end
 
           context 'when chatwoot message is scheduled and delivered' do
-            around(:each) do |example|
-              Sidekiq::Testing.inline! do
-                example.run
-              end
-            end
-            before do
-              (ActiveJob::Base.descendants + [ActiveJob::Base]).each(&:disable_test_adapter)
-            end
             it do
               params = valid_params.deep_merge(event: { kind: 'chatwoot_message', done: '0', app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1, scheduled_at: (Time.current + 2.hours).round, auto_done:true, send_now: 'false' })
               expect do
