@@ -10,7 +10,8 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
   let!(:deal) { create(:deal, account: account, contact: contact, stage: stage) }
   let(:conversation_response) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/get_conversations.json") }
   let(:message_response) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/send_message.json") }
-  
+  let(:event_created) { Event.first }
+
   let!(:valid_params) do
     {
       deal_id: deal.id,
@@ -50,8 +51,9 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             end.to change(Event, :count).by(1)
             expect(response).to redirect_to(new_account_contact_event_path(account_id: 
               account, contact_id: contact, deal_id: deal))
-            expect(Event.first.kind).to eq(params[:event][:kind])
-            expect(Event.first.done?).to eq(false)
+            expect(event_created.kind).to eq(params[:event][:kind])
+            expect(event_created.done?).to eq(false)
+            expect(event_created.deal).to eq(deal)
           end
           it 'when acitvity event is done' do
             params_done = valid_params.deep_merge(event: { done: '1', kind: 'activity' })
