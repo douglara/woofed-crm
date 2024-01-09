@@ -177,6 +177,17 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           expect(Event.first.kind).to eq(params[:event][:kind])
           expect(Event.first.done?).to eq(true)
         end
+
+        it 'update event to done with send_now' do
+          params = valid_params.deep_merge(event: { kind: 'activity', send_now: 'true' })
+          expect do
+            patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}", 
+              params: params 
+          end.to change(Event, :count).by(1)
+          expect(response).to have_http_status(200)
+          expect(event_created.kind).to eq(params[:event][:kind])
+          expect(event_created.reload.done?).to eq(true)
+        end
       end
     end
   end
