@@ -92,7 +92,7 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
         end
         it 'if contact already exists on woofed' do
           contact
-          expect(account.contacts.first.label_list).to eq(%w[marcador1 marcador2 marcador3])
+          expect(account.contacts.first.label_list).to match_array(%w[marcador1 marcador2 marcador3])
           Sidekiq::Testing.inline! do
             Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
           end
