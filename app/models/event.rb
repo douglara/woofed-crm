@@ -136,7 +136,7 @@ class Event < ApplicationRecord
   end
 
   def overdue?
-    return false if self.done == true || scheduled_at.blank?
+    return false if done == true || scheduled_at.blank?
     DateTime.current > scheduled_at
   end
 

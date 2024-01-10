@@ -6,6 +6,6 @@ module Event::Decorators
   end
 
   def scheduled_at_format_distance
-    distance_of_time_in_words(self.scheduled_at - Time.current).sub('aproximadamente', '').strip
+    distance_of_time_in_words(self.scheduled_at - Time.current).sub('aproximadamente', '').strip rescue ''
   end
 end
