@@ -26,13 +26,12 @@ class Accounts::Apps::Chatwoots::SyncImportContacts
                                                                                 'phone').transform_values(&:to_s))
           if contact[:ok]
             update_contact_chatwoot_id(contact[:ok], chatwoot_contact['id'])
-            Accounts::Apps::Chatwoots::Webhooks::ImportContact.import_contact_tags(chatwoot, contact[:ok]).save
-            Accounts::Apps::Chatwoots::Webhooks::ImportContact.import_contact_converstions_tags(chatwoot, contact[:ok]).save
+            import_labels(chatwoot, contact[:ok])
+            contact[:ok].save
             contacts_updated += 1
           else
             contact = build_contact_att(chatwoot_contact, chatwoot)
-            Accounts::Apps::Chatwoots::Webhooks::ImportContact.import_contact_tags(chatwoot, contact)
-            Accounts::Apps::Chatwoots::Webhooks::ImportContact.import_contact_converstions_tags(chatwoot, contact)
+            import_labels(chatwoot, contact)
             if contact.save
               contacts_imported += 1
             else
@@ -49,7 +48,12 @@ class Accounts::Apps::Chatwoots::SyncImportContacts
   end
 
   def self.update_contact_chatwoot_id(contact, chatwoot_id)
-    contact.update(additional_attributes: { chatwoot_id: chatwoot_id })
+    contact.assign_attributes(additional_attributes: { chatwoot_id: chatwoot_id })
+  end
+
+  def self.import_labels(chatwoot, contact)
+    Accounts::Apps::Chatwoots::Webhooks::ImportContact.import_contact_tags(chatwoot, contact)
+    Accounts::Apps::Chatwoots::Webhooks::ImportContact.import_contact_converstions_tags(chatwoot, contact)
   end
 
   def self.build_contact_att(body, chatwoot)

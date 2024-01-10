@@ -68,18 +68,14 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
       end
       context 'if contact exist in woofed but not in chatwoot' do
         let!(:contact) { create(:contact, account: account) }
-        it do
+        it 'should create contact on chatwoot' do
           Sidekiq::Testing.inline! do
             Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
           end
           expect(account.contacts.count).to eq(3)
         end
       end
-      context 'check labels and conversations tags' do
-        let(:contact) do
-          create(:contact, account: account, email: 'bbbb@eamil.com', full_name: 'BBBBBBBBBBBBBBBBBBBBB',
-                           label_list: %w[marcador1 marcador2 marcador3])
-        end
+      context 'check contact tags and conversations tags' do
         it do
           Sidekiq::Testing.inline! do
             Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
@@ -90,31 +86,39 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
           expect(account.contacts.map(&:additional_attributes)).to eq([{ 'chatwoot_id' => 63 },
                                                                        { 'chatwoot_id' => 338 }])
         end
-        it 'if contact already exists on woofed' do
-          contact
-          expect(account.contacts.first.label_list).to match_array(%w[marcador1 marcador2 marcador3])
-          Sidekiq::Testing.inline! do
-            Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
+        context 'if contact already exists in woofed' do
+          let!(:contact) do
+            create(:contact, account: account, email: 'bbbb@eamil.com', full_name: 'BBBBBBBBBBBBBBBBBBBBB',
+                             label_list: %w[marcador1 marcador2 marcador3])
           end
-          expect(account.contacts.count).to eq(2)
-          expect(account.contacts.first.label_list).to eq(['marcador1'])
-          expect(account.contacts.first.chatwoot_conversations_label_list).to eq(['test1'])
-          expect(account.contacts.map(&:additional_attributes)).to eq([{ 'chatwoot_id' => 63 },
-                                                                       { 'chatwoot_id' => 338 }])
-        end
-        it 'if there is no label on chatwoot contact but there is on contact woofed' do
-          stub_request(:get, /labels/)
-            .to_return(body: { payload: [] }.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
-          contact
-          expect(account.contacts.first.label_list).to match_array(%w[marcador1 marcador2 marcador3])
-          Sidekiq::Testing.inline! do
-            Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
+          it 'should replace woofed tags to chatwoot tags' do
+            expect(account.contacts.first.label_list).to match_array(%w[marcador1 marcador2 marcador3])
+            Sidekiq::Testing.inline! do
+              Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
+            end
+            expect(account.contacts.count).to eq(2)
+            expect(account.contacts.first.label_list).to eq(['marcador1'])
+            expect(account.contacts.first.chatwoot_conversations_label_list).to eq(['test1'])
+            expect(account.contacts.map(&:additional_attributes)).to eq([{ 'chatwoot_id' => 63 },
+                                                                         { 'chatwoot_id' => 338 }])
           end
-          expect(account.contacts.count).to eq(2)
-          expect(account.contacts.first.label_list).to eq([])
-          expect(account.contacts.first.chatwoot_conversations_label_list).to eq(['test1'])
-          expect(account.contacts.map(&:additional_attributes)).to eq([{ 'chatwoot_id' => 63 },
-                                                                       { 'chatwoot_id' => 338 }])
+          context 'if there is no tag on chatwoot contact but there is tag on woofed contact' do
+            before do
+              stub_request(:get, /labels/)
+              .to_return(body: { payload: [] }.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
+            end
+            it 'should replace woofed contact tags to chatwoot contact tags ' do
+              expect(account.contacts.first.label_list).to match_array(%w[marcador1 marcador2 marcador3])
+              Sidekiq::Testing.inline! do
+                Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
+              end
+              expect(account.contacts.count).to eq(2)
+              expect(account.contacts.first.label_list).to eq([])
+              expect(account.contacts.first.chatwoot_conversations_label_list).to eq(['test1'])
+              expect(account.contacts.map(&:additional_attributes)).to eq([{ 'chatwoot_id' => 63 },
+                                                                          { 'chatwoot_id' => 338 }])
+            end
+          end
         end
       end
     end
