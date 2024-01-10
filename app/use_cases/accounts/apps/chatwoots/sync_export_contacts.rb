@@ -8,7 +8,7 @@ class Accounts::Apps::Chatwoots::SyncExportContacts
       group.each do |contact|
         Accounts::Apps::Chatwoots::ExportContact.call(account.apps_chatwoots.first, contact)
       end
-      sleep(30)
+      sleep(15)
     end
     return {ok: 'Contacts exported successfully'}
   end
