@@ -45,9 +45,14 @@ class Event < ApplicationRecord
   has_rich_text :content
 
   attribute :done, :boolean
+  attribute :send_now, :boolean
 
   after_commit do
-    if scheduled_delivery_event?
+
+    # To refactory
+    if send_now == true
+      Accounts::Contacts::Events::SendNow.call(self)
+    else scheduled_delivery_event?
       Accounts::Contacts::Events::EnqueueWorker.perform_async(id)
     end
   end
@@ -77,6 +82,10 @@ class Event < ApplicationRecord
     else
       self.done_at = nil
     end
+  end
+
+  def send_now=(value)
+    self[:send_now] = ActiveRecord::Type::Boolean.new.cast(value)
   end
 
 
