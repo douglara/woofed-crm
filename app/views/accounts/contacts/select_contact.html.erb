@@ -13,7 +13,7 @@
     </button>
 
     <!-- Dropdown menu -->
-    <div id="dropdownSearch" class="z-10 hidden bg-white rounded-lg shadow w-60">
+    <div id="dropdownSearch" class="z-10 hidden bg-white rounded-lg shadow w-full">
         <div class="p-3">
           <%= form_tag select_contact_search_account_contacts_path(current_user.account), method: :get, data: { turbo_frame: "select-contact-results", action: 'input->contact-select#submit', 'contact-select-target': 'searchForms' } do | f | %>
             <label for="input-group-search" class="sr-only">Search</label>
@@ -23,7 +23,7 @@
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                 </svg>
               </div>
-              <%= text_field_tag "query", nil, autocomplete: 'off', placeholder: 'Buscar contato', class: 'block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+              <%= text_field_tag "query", nil, autocomplete: 'off', placeholder: 'Buscar contato', class: 'block w-full p-2 pl-10 form-input' %>
             </div>
           <% end %>
         </div>
