@@ -38,14 +38,8 @@ class Accounts::Contacts::EventsController < InternalController
   def update
     @deal = current_user.account.deals.find(params[:deal_id])
     @events = @deal.contact.events
-    if params['event']['send_now'].in?(['true', '1'])
-      unless @event.update(event_params)
-        render :edit, status: :unprocessable_entity
-      end
-    else
-      unless @event.update(event_params)
-        render :edit, status: :unprocessable_entity
-      end
+    unless @event.update(event_params)
+      render :edit, status: :unprocessable_entity
     end
   end
 

@@ -1,15 +1,13 @@
 class EventBuilder
 
   def initialize(user, params)
-    @params = params.except(:send_now)
+    @params = params
     @user = user
-    @send_now = params['send_now'].in?(['true', '1'])
   end
 
   def build
     @event = @user.account.events.new(@params)
     @event.done = true if @event.kind == 'note'
-
     # clean_html_codes()
     @event
   end
