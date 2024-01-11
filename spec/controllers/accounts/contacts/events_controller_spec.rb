@@ -10,6 +10,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
   let!(:deal) { create(:deal, account: account, contact: contact, stage: stage) }
   let(:conversation_response) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/get_conversations.json") }
   let(:message_response) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/send_message.json") }
+
   let(:event_created) { Event.first }
 
   let!(:valid_params) do
@@ -38,18 +39,18 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
         stub_request(:post, /messages/).
         to_return(body: message_response, status: 200, headers: {'Content-Type' => 'application/json'})
         stub_request(:post, /filter/).
-        to_return(body: conversation_response, status: 200, headers: {'Content-Type' => 'application/json'})        
+        to_return(body: conversation_response, status: 200, headers: {'Content-Type' => 'application/json'})
       end
-      
+
       context 'create event' do
         context 'create activity event' do
           it do
             params = valid_params.deep_merge(event: { kind: 'activity' })
             expect do
-              post "/accounts/#{account.id}/contacts/#{contact.id}/events", 
-                params: params 
+              post "/accounts/#{account.id}/contacts/#{contact.id}/events",
+                params: params
             end.to change(Event, :count).by(1)
-            expect(response).to redirect_to(new_account_contact_event_path(account_id: 
+            expect(response).to redirect_to(new_account_contact_event_path(account_id:
               account, contact_id: contact, deal_id: deal))
             expect(event_created.kind).to eq(params[:event][:kind])
             expect(event_created.done?).to eq(false)
@@ -58,10 +59,10 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           it 'when acitvity event is done' do
             params_done = valid_params.deep_merge(event: { done: '1', kind: 'activity' })
             expect do
-              post "/accounts/#{account.id}/contacts/#{contact.id}/events", 
-                params: params_done 
+              post "/accounts/#{account.id}/contacts/#{contact.id}/events",
+                params: params_done
             end.to change(Event, :count).by(1)
-            expect(response).to redirect_to(new_account_contact_event_path(account_id: 
+            expect(response).to redirect_to(new_account_contact_event_path(account_id:
               account, contact_id: contact, deal_id: deal))
             expect(Event.first.kind).to eq(params_done[:event][:kind])
             expect(Event.first.done?).to eq(true)
@@ -71,10 +72,10 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           it do
             params = valid_params.deep_merge(event: { kind: 'note' })
             expect do
-              post "/accounts/#{account.id}/contacts/#{contact.id}/events", 
-                params: params 
+              post "/accounts/#{account.id}/contacts/#{contact.id}/events",
+                params: params
             end.to change(Event, :count).by(1)
-            expect(response).to redirect_to(new_account_contact_event_path(account_id: 
+            expect(response).to redirect_to(new_account_contact_event_path(account_id:
               account, contact_id: contact, deal_id: deal))
             expect(Event.first.kind).to eq(params[:event][:kind])
             expect(Event.first.done?).to eq(true)
@@ -91,12 +92,12 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           it do
             params = valid_params.deep_merge(event: { kind: 'chatwoot_message', app_type: 'Apps::Chatwoot',
                                                       app_id: chatwoot.id, chatwoot_inbox_id: 2, send_now: 'true' })
-            
+
             expect do
 
                   post "/accounts/#{account.id}/contacts/#{contact.id}/events",
                        params: params
-     
+
             end.to change(Event, :count).by(1)
 
             expect(event_created.kind).to eq(params[:event][:kind])
@@ -106,10 +107,10 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           it 'when chatwoot message is scheduled' do
             params = valid_params.deep_merge(event: { kind: 'chatwoot_message', done: '0', app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1, scheduled_at: (Time.current + 2.hours).round, send_now: 'false' })
             expect do
-              post "/accounts/#{account.id}/contacts/#{contact.id}/events", 
-                params: params 
+              post "/accounts/#{account.id}/contacts/#{contact.id}/events",
+                params: params
             end.to change(Event, :count).by(1)
-            expect(response).to redirect_to(new_account_contact_event_path(account_id: 
+            expect(response).to redirect_to(new_account_contact_event_path(account_id:
               account, contact_id: contact, deal_id: deal))
             expect(event_created.kind).to eq(params[:event][:kind])
             expect(event_created.done?).to eq(false)
@@ -120,10 +121,10 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             it do
               params = valid_params.deep_merge(event: { kind: 'chatwoot_message', done: '0', app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1, scheduled_at: (Time.current + 2.hours).round, auto_done:true, send_now: 'false' })
               expect do
-                post "/accounts/#{account.id}/contacts/#{contact.id}/events", 
-                  params: params 
+                post "/accounts/#{account.id}/contacts/#{contact.id}/events",
+                  params: params
               end.to change(Event, :count).by(1)
-              expect(response).to redirect_to(new_account_contact_event_path(account_id: 
+              expect(response).to redirect_to(new_account_contact_event_path(account_id:
                 account, contact_id: contact, deal_id: deal))
               expect(event_created.kind).to eq(params[:event][:kind])
               expect(event_created.done?).to eq(false)
@@ -137,13 +138,17 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
                 expect(event_created.reload.done?).to eq(true)
               end
             end
-            
+
           end
         end
       end
     end
   end
   describe 'PATCH /accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}' do
+    before do
+      stub_request(:post, /conversations/).to_return(body: conversation_response, status: 200, headers: {'Content-Type' => 'application/json'})
+    end
+
     let(:event) { create(:event, account: account, contact: contact, deal: deal) }
     context 'when it is unthenticated user' do
       it 'returns unauthorized' do
@@ -159,8 +164,8 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
         it do
           params = valid_params.deep_merge(event: { kind: 'activity', content: 'content updated' })
           expect do
-            patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}", 
-              params: params 
+            patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
+              params: params
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
           expect(Event.first.kind).to eq(params[:event][:kind])
@@ -170,19 +175,71 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
         it 'update event to done' do
           params = valid_params.deep_merge(event: { kind: 'activity', done: '1' })
           expect do
-            patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}", 
-              params: params 
+            patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
+              params: params
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
           expect(Event.first.kind).to eq(params[:event][:kind])
           expect(Event.first.done?).to eq(true)
         end
-
-        it 'update event to done with send_now' do
+        it 'update overdue activity event to done with send_now' do
           params = valid_params.deep_merge(event: { kind: 'activity', send_now: 'true' })
           expect do
-            patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}", 
-              params: params 
+            patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
+              params: params
+          end.to change(Event, :count).by(1)
+          expect(response).to have_http_status(200)
+          expect(event_created.kind).to eq(params[:event][:kind])
+          expect(event_created.done?).to eq(true)
+        end
+        it 'update scheduled activity event to done with send_now' do
+          params = valid_params.deep_merge(event: { kind: 'activity', send_now: 'true' })
+          expect do
+            patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
+              params: params
+          end.to change(Event, :count).by(1)
+          expect(response).to have_http_status(200)
+          expect(event_created.kind).to eq(params[:event][:kind])
+          expect(event_created.done?).to eq(true)
+        end
+        it 'update planned activity event to done with send_now' do
+          valid_params[:event][:scheduled_at] = Time.current + 5.days
+          params = valid_params.deep_merge(event: { kind: 'activity', send_now: 'true' })
+          expect do
+            patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
+              params: params
+          end.to change(Event, :count).by(1)
+          expect(response).to have_http_status(200)
+          expect(event_created.kind).to eq(params[:event][:kind])
+          expect(event_created.done?).to eq(true)
+        end
+        it 'update planned chatwoot message event to done with send_now' do
+          valid_params[:event].delete(:scheduled_at)
+          params = valid_params.deep_merge(event: { kind: 'chatwoot_message', send_now: 'true', app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1})
+          expect do
+            patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
+              params: params
+          end.to change(Event, :count).by(1)
+          expect(response).to have_http_status(200)
+          expect(event_created.kind).to eq(params[:event][:kind])
+          expect(event_created.done?).to eq(true)
+        end
+        it 'update overdue chatwoot message event to done with send_now' do
+          params = valid_params.deep_merge(event: { kind: 'chatwoot_message', send_now: 'true', app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1})
+          expect do
+            patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
+              params: params
+          end.to change(Event, :count).by(1)
+          expect(response).to have_http_status(200)
+          expect(event_created.kind).to eq(params[:event][:kind])
+          expect(event_created.done?).to eq(true)
+        end
+        it 'update scheduled chatwoot message event to done with send_now' do
+          valid_params[:event][:scheduled_at] = Time.current + 5.days
+          params = valid_params.deep_merge(event: { kind: 'chatwoot_message', send_now: 'true', app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1})
+          expect do
+            patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
+              params: params
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
           expect(event_created.kind).to eq(params[:event][:kind])
@@ -206,7 +263,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
       context 'delete event' do
         it do
           expect do
-            delete "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}", 
+            delete "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
               params: {}
           end.to change(Event, :count).by(0)
           expect(response).to have_http_status(204)
