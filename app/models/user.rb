@@ -30,7 +30,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   belongs_to :account
-  accepts_nested_attributes_for :account, reject_if: ->(attributes){ attributes['name'].blank? }
+  accepts_nested_attributes_for :account
   validates :phone,
     allow_blank: true,
     format: { with: /\+[1-9]\d{1,14}\z/, message: "Número inválido" }
