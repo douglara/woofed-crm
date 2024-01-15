@@ -12,7 +12,6 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "controllers"
 import lucide from "lucide/dist/umd/lucide"
-import Tagify from '@yaireo/tagify';
 import '@yaireo/tagify/src/tagify';
 
 Rails.start()
@@ -65,6 +64,4 @@ function initLibraries() {
       });
     }
   }
-  new Tagify(document.querySelector('input[id=contact_label_list]'));
-  new Tagify(document.querySelector('input[id=contact_chatwoot_conversations_label_list]'));
 }

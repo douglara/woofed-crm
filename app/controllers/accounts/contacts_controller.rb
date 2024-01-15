@@ -101,11 +101,7 @@ class Accounts::ContactsController < InternalController
 
   # Only allow a list of trusted parameters through.
   def contact_params
-    params.require(:contact).permit(:full_name, :phone, :email,
-                                    custom_attributes: {}).merge(label_list: labels_list_formatted_params)
-  end
-
-  def labels_list_formatted_params
-    JSON.parse(params[:contact][:label_list])&.map { _1['value'] } if params[:contact][:label_list].present?
+    params.require(:contact).permit(:full_name, :phone, :email, :label_list,
+                                    custom_attributes: {})
   end
 end
