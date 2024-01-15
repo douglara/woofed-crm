@@ -12,19 +12,15 @@
     </div>
     <div id="accordion-collapse-<%= "#{model.class.name.downcase}_#{model.id}"%>" class="hidden py-3" aria-labelledby="accordion-collapse-heading-<%= "#{model.class.name.downcase}_#{model.id}"%>">
       <% model.class::FORM_FIELDS.each do | f | %>
-        <% if f.in?([:label_list, :chatwoot_conversations_label_list]) %>
-          <% unless model.send(f).empty? %>
-            <div class="flex flex-col gap-1 pb-4">
-              <label class="typography-text-m-lh150 text-dark-gray-palette-p3"><%= model.class.human_attribute_name(f) %></label>
-              <input class="!border-none" readonly value='<%= model.send(f).join(', ')%>' data-controller='tag-input'>
-            </div>
-          <% end %>
-        <% end %>
-        <% if model["#{f}"].present? %>
+        <% if model["#{f}"].present? || model.send(f).present?%>
           <div class="flex items-center pb-4">
-            <label class="flex-none m-auto typography-text-m-lh150 text-dark-gray-palette-p3"><%= model.class.human_attribute_name(f) %></label>
+            <label class="flex-none max-w-[10rem] m-auto typography-text-m-lh150 text-dark-gray-palette-p3"><%= model.class.human_attribute_name(f) %></label>
             <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>
-            <p class="m-0 typography-text-m-lh150 text-dark-gray-palette-p3"><%= model["#{f}"] %></p>
+            <% if f.in?([:label_list, :chatwoot_conversations_label_list]) %>
+              <input class="!border-none w-64" readonly value='<%= model.send(f).join(', ')%>' data-controller='tag-input'>
+             <% else %>
+              <p class="m-0 typography-text-m-lh150 text-dark-gray-palette-p3 w-64"><%= model["#{f}"] %></p>
+            <% end %>
           </div>
         <% end %>
       <% end %>
