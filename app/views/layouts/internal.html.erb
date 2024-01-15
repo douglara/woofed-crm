@@ -16,7 +16,7 @@
     <%= yield :stylesheets %>
   </head>
   <body>
-    <div id="app" class="h-screen relative">
+    <div id="app" class="h-screen">
       <%= render partial: 'components/notifications', locals: { message: flash[:notice] } %>
       <div class="flex h-full">
         <div>
