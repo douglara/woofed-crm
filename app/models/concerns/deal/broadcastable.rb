@@ -4,11 +4,11 @@ module Deal::Broadcastable
 
     after_create_commit {
       if self.done == false
-        broadcast_prepend_to [contact_id, 'events'],
+        broadcast_prepend_later_to [contact_id, 'events'],
         partial: "accounts/contacts/events/event",
         target: "events_to_do_#{contact.id}"
       else
-        broadcast_prepend_to [contact_id, 'events'],
+        broadcast_prepend_later_to [contact_id, 'events'],
         partial: "accounts/contacts/events/event",
         target: "events_done_#{contact.id}"
       end
@@ -23,7 +23,7 @@ module Deal::Broadcastable
       if saved_change_to_done_at?
         broadcast_events()
       else
-        broadcast_replace_to [contact_id, 'events'],
+        broadcast_replace_later_to [contact_id, 'events'],
         partial: "accounts/contacts/events/event"
       end
     }
