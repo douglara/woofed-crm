@@ -95,11 +95,19 @@ class Event < ApplicationRecord
   }
 
   scope :planned, -> {
-    to_do.where('auto_done = false').order(:scheduled_at)
+    to_do.where('auto_done = false AND scheduled_at IS NOT NULL').order(:scheduled_at)
   }
 
   scope :scheduled, -> {
-    to_do.where(auto_done: true)
+    to_do.where('auto_done = true AND scheduled_at IS NOT NULL')
+  }
+
+  scope :planned_overdue, ->{
+    planned.where("scheduled_at < ?", DateTime.current)
+  }
+
+  scope :planned_without_date, ->{
+    to_do.where("auto_done = false AND scheduled_at IS NULL")
   }
 
   scope :done, -> {
@@ -137,7 +145,7 @@ class Event < ApplicationRecord
   end
 
   def overdue?
-    return false if done == true || scheduled_at.blank?
+    return false if done == true || !scheduled_at.present?
     DateTime.current > scheduled_at
   end
 

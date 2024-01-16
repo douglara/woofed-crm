@@ -48,6 +48,21 @@ RSpec.describe Event do
     let!(:event_scheduled_1) do
       create(:event, account: account, auto_done: true, scheduled_at: (Time.current + 2.hour), kind: 'activity')
     end
+    let!(:event_planned_overdue_1) do
+      create(:event, account: account, auto_done: false, scheduled_at: (Time.current - 2.hour), kind: 'activity')
+    end
+    let!(:event_planned_overdue_2) do
+      create(:event, account: account, auto_done: false, scheduled_at: (Time.current - 1.hour), kind: 'activity')
+    end
+    let!(:event_planned_overdue_3) do
+      create(:event, account: account, auto_done: false, scheduled_at: (Time.current - 1.hour), kind: 'activity')
+    end
+    let!(:event_planned_without_date_1) do
+      create(:event, account: account, auto_done: false, scheduled_at: nil, kind: 'activity')
+    end
+    let!(:event_planned_without_date_2) do
+      create(:event, account: account, auto_done: false, scheduled_at: nil, kind: 'activity')
+    end
     describe 'done' do
       it 'returns 1 event' do
         expect(account.events.done.count).to be 1
@@ -55,19 +70,25 @@ RSpec.describe Event do
     end
 
     describe 'planned' do
-      it 'returns 2 events' do
-        expect(account.events.planned.count).to be 2
+      it 'returns 5 events' do
+        expect(account.events.planned.count).to be 5
       end
     end
 
-    skip 'planned overdue' do
+    describe 'planned overdue' do
+      it 'returns 3 events' do
+        expect(account.events.planned_overdue.count).to be 3
+      end
     end
 
-    skip 'planned without date' do
+    describe 'planned without date' do
+      it 'returns 2 events' do
+        expect(account.events.planned_without_date.count).to be 2
+      end
     end
     describe 'to do' do
-      it 'returns 3 events' do
-        expect(account.events.to_do.count).to be 3
+      it 'returns 8 events' do
+        expect(account.events.to_do.count).to be 8
       end
     end
 
