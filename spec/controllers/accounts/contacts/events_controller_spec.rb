@@ -64,8 +64,8 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             end.to change(Event, :count).by(1)
             expect(response).to redirect_to(new_account_contact_event_path(account_id:
               account, contact_id: contact, deal_id: deal))
-            expect(Event.first.kind).to eq(params_done[:event][:kind])
-            expect(Event.first.done?).to eq(true)
+            expect(event_created.kind).to eq(params_done[:event][:kind])
+            expect(event_created.done?).to eq(true)
           end
         end
         context 'create note event' do
@@ -77,8 +77,8 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             end.to change(Event, :count).by(1)
             expect(response).to redirect_to(new_account_contact_event_path(account_id:
               account, contact_id: contact, deal_id: deal))
-            expect(Event.first.kind).to eq(params[:event][:kind])
-            expect(Event.first.done?).to eq(true)
+            expect(event_created.kind).to eq(params[:event][:kind])
+            expect(event_created.done?).to eq(true)
           end
         end
         context 'create chatwoot message event' do
@@ -168,9 +168,9 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
               params: params
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
-          expect(Event.first.kind).to eq(params[:event][:kind])
-          expect(Event.first.content.body.to_plain_text).to eq(params[:event][:content])
-          expect(Event.first.done?).to eq(false)
+          expect(event_created.kind).to eq(params[:event][:kind])
+          expect(event_created.content.body.to_plain_text).to eq(params[:event][:content])
+          expect(event_created.done?).to eq(false)
         end
         it 'update event to done' do
           params = valid_params.deep_merge(event: { kind: 'activity', done: '1' })
@@ -179,8 +179,8 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
               params: params
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
-          expect(Event.first.kind).to eq(params[:event][:kind])
-          expect(Event.first.done?).to eq(true)
+          expect(event_created.kind).to eq(params[:event][:kind])
+          expect(event_created.done?).to eq(true)
         end
         it 'update overdue activity event to done with send_now' do
           params = valid_params.deep_merge(event: { kind: 'activity', send_now: 'true' })
