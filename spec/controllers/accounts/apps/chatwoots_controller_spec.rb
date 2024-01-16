@@ -63,7 +63,7 @@ RSpec.describe Accounts::Apps::ChatwootsController, type: :request do
   end
   describe 'GET /accounts/{account.id}/apps/chatwoots/new' do
     context 'when is unauthenticated user' do
-      it 'returns unautorized' do
+      it 'returns unauthorized' do
         get "/accounts/#{account.id}/apps/chatwoots/new"
         expect(response).to redirect_to(new_user_session_path)
       end
