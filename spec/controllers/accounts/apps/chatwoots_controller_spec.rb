@@ -117,7 +117,7 @@ RSpec.describe Accounts::Apps::ChatwootsController, type: :request do
   describe 'UPDATE /accounts/{account.id}/apps/chatwoots/{chatwoot.id}' do
 
     context 'when is unauthenticated user' do
-      it 'returns unautorized' do
+      it 'returns unauthorized' do
         patch "/accounts/#{account.id}/apps/chatwoots/#{chatwoot.id}"
         expect(response).to redirect_to(new_user_session_path)
       end
