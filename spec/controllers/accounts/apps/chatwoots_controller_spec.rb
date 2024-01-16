@@ -35,7 +35,7 @@ RSpec.describe Accounts::Apps::ChatwootsController, type: :request do
       .to_return(body: inboxes_response, status: 200, headers: { 'Content-Type' => 'application/json'})
     end
     context 'when is unauthenticated user' do
-      it 'returns unautorized' do
+      it 'returns unauthorized' do
         post "/accounts/#{account.id}/apps/chatwoots", params: valid_params
         expect(response).to redirect_to(new_user_session_path)
       end
