@@ -4,7 +4,7 @@ class Accounts::Apps::Chatwoots::RemoveChatwootIdFromContacts
       contact.additional_attributes.delete('chatwoot_id')
       contact.save
     end
-    return { ok: 'Contact chatwoot id was successfully removed.' }
+    return { ok: 'Contacts chatwoot id was successfully removed.' }
   end
 end
   
