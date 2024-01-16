@@ -28,6 +28,11 @@ class Contact < ApplicationRecord
   has_many :flow_items
   has_many :events
   belongs_to :account
+  validates :phone,
+            allow_blank: true,
+            format: { with: /\+[1-9]\d{1,14}\z/, message: "Número inválido" }
+
+
 
   has_many :deals
   belongs_to :app, polymorphic: true, optional: true
@@ -38,6 +43,11 @@ class Contact < ApplicationRecord
 
   FORM_FIELDS = [:full_name, :email, :phone]
   after_commit :export_contact_to_chatwoot, on: [:create, :update]
+
+  def phone=(value)
+    value = "+#{value}" if value.present? && !value.start_with?('+')
+    super(value)
+  end
 
   ## Events
 

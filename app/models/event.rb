@@ -5,12 +5,12 @@
 #  id                    :bigint           not null, primary key
 #  additional_attributes :jsonb
 #  app_type              :string
+#  auto_done             :boolean          default(FALSE)
 #  custom_attributes     :jsonb
-#  done                  :boolean
 #  done_at               :datetime
-#  due                   :datetime
 #  from_me               :boolean
 #  kind                  :string           default("note"), not null
+#  scheduled_at          :datetime
 #  status                :integer
 #  title                 :string           default(""), not null
 #  created_at            :datetime         not null
@@ -38,11 +38,11 @@ class Event < ApplicationRecord
   belongs_to :deal, optional: true
   belongs_to :contact
   belongs_to :account
-
   # belongs_to :event_kind, default: -> { EventKind }
   # belongs_to :record, polymorphic: true
   belongs_to :app, polymorphic: true, optional: true
   has_rich_text :content
+  attribute :done, :boolean
 
   after_create_commit {
     if self.done == false
@@ -57,22 +57,48 @@ class Event < ApplicationRecord
 
     Accounts::Contacts::Events::CreatedWorker.perform_async(self.id)
   }
+  def done
+    done_at.present?
+  end
+
+  def done?
+    done
+  end
+
+  def done=(value)
+    value_boolean = ActiveRecord::Type::Boolean.new.cast(value)
+    return if value_boolean == done
+
+    if value_boolean == true
+      self.done_at = Time.now
+    else
+      self.done_at = nil
+    end
+  end
 
   after_update_commit {
     broadcast_replace_to [contact_id, 'events'],
     partial: "accounts/contacts/events/event"
   }
+
   after_destroy_commit {
     broadcast_remove_to [contact_id, 'events']
   }
 
-  scope :planned, -> {
-    where('done = false').order(:due)
+  scope :to_do, -> {
+    where('done_at IS NULL').order(:scheduled_at)
+  }
 
+  scope :planned, -> {
+    where('done_at IS NULL and auto_done = false').order(:scheduled_at)
+  }
+
+  scope :scheduled, -> {
+    to_do.where(auto_done: true)
   }
 
   scope :not_planned_or_done, -> {
-    where('done IS NULL or done = true').order(done_at: :desc)
+    where('done_at IS NOT NULL').order(done_at: :desc)
   }
 
   enum kind: {
@@ -84,7 +110,7 @@ class Event < ApplicationRecord
   }
 
   before_validation do
-    if self.due.present? && self.done == nil
+    if self.scheduled_at.present? && self.done == nil
       self.done = false
     end
   end
@@ -106,13 +132,13 @@ class Event < ApplicationRecord
   end
 
   def overdue?
-    return false if self.done == true || due.blank?
-    DateTime.current > due
+    return false if self.done == true || scheduled_at.blank?
+    DateTime.current > scheduled_at
   end
 
   def primary_date
-    if due.present?
-      return due_format
+    if scheduled_at.present?
+      return scheduled_at_format
     else
       return created_at.to_s(:short)
     end

@@ -16,7 +16,7 @@ class Accounts::Apps::WppConnects::Events::DeliveryMessage
 
     if result.key?(:ok)
       new_message.done = true
-      new_message.due = Time.at(result[:ok]['t'])
+      new_message.scheduled_at = Time.at(result[:ok]['t'])
       new_message.custom_attributes['source_id'] = result[:ok]['id']
       return new_message
     else

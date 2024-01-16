@@ -19,8 +19,7 @@ class Accounts::Apps::WppConnects::Messages::FindOrCreate
       account: wpp_connect.account,
       kind: 'wpp_connect_message',
       from_me: false,
-      done: true,
-      due: Time.at(message_event['t']),
+      done_at:  Time.at(message_event['t']),
       content: message_event['content'],
       additional_attributes: {'source_id': message_event['id'] }
     )

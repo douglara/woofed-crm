@@ -25,13 +25,15 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
       from_me: is_from_me?(webhook),
       contact: contact,
       content: webhook['content'],
+      done: true,
+      done_at: webhook['created_at'],
       app: chatwoot
     )
   end
 
   def self.is_from_me?(webhook)
     if webhook.dig('sender', 'id').present?
-      if webhook.dig('sender', 'id') == 'user'
+      if webhook.dig('sender', 'type') == 'user'
         return true
       else
         return false

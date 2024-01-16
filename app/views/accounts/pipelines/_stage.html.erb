@@ -6,7 +6,7 @@
   <div class="px-4 pb-4 rounded border-2 border-light-palette-p3 bg-light-palette-p5 relative" data-controller="load-lucid-icons">
     <div class="flex py-3.5 justify-between items-center">
       <h1 class="typography-text-s-lh150 text-dark-gray-palette-p1"><%=stage.name%></h1>
-      <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownDotsHorizontal" class="inline-flex mr-1 items-center p-0.5 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button"> 
+      <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownDotsHorizontal<%=stage.id%>" class="inline-flex mr-1 items-center p-0.5 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button"> 
         <i data-lucide="more-horizontal" class="text-gray-pallete-p3 w-5"></i>
       </button>
       <div class="p-0 w-6 rounded-tr-lg absolute border-t-2 border-r-2 border-light-palette-p3 left-[285px] bg-light-palette-p5 rotate-45">
@@ -14,13 +14,16 @@
       </div>
     </div>
     <!-- Dropdown menu -->
-    <div id="dropdownDotsHorizontal" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
+    <div id="dropdownDotsHorizontal<%=stage.id%>" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
       <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
         <li>
           <a href="#" class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white"><i data-lucide="layers"></i> <p>Ação em massa</p></a>
         </li>
         <li>
-          <a href="#" class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white"> <i data-lucide="file-input"></i> <p>Importar negócios</p></a>
+          <%= link_to account_pipeline_import_path(stage.account.id, stage.pipeline.id, stage_id: stage.id), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white", data: {controller: 'change-request-to-turbo-stream', action: 'click->change-request-to-turbo-stream#changeHeader'} do%>
+            <i data-lucide="file-input"></i> <p>Importar negócios</p></a>
+          <%end%>
+          <!-- <a href="#" class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white"> <i data-lucide="file-input"></i> <p>Importar negócios</p></a> -->
         </li>
         <li>
           <a href="#" class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white" ><i data-lucide="file-output"></i>

@@ -1,5 +1,5 @@
 <%= turbo_frame_tag event do %>
-  <div class="group event-<%= event.scheduled_kind %> event-item-<%= event.from %> my-3">
+  <div class="group event-<%= event.scheduled_kind %> event-item-<%= event.from %> my-3" data-controller="load-lucid-icons">
     <div class="w-3/4 block rounded-lg bg-white border border-light-palette-p3 rounded dark:bg-neutral-700">
       <div class="border-b-2 border-neutral-100 bg-light-palette-p4 px-3 py-2 flex items-center space-x-3">
         <% if event.kind == "chatwoot_message" || event.kind == "wpp_connect_message"%>
@@ -38,7 +38,7 @@
           <% end %> -->
           <!-- <i class="<%= event.icon_key %> mx-2" height="14"></i> -->
          </div>
-          <% if event.due.present? %>
+          <% if event.scheduled_at.present? %>
             <span class="m-0 text-brand-palette-04 group-[.event-scheduled]:font-semibold group-[.event-item-from-contacts]:text-dark-gray-palette-p4">Prazo: <%= event.primary_date %></span>
           <% else %>
             <p class="m-0 typography-subtext-m-lh150 text-dark-gray-palette-p4"><%= event.primary_date %></p>

@@ -5,7 +5,14 @@
 @import "./commons/w-btn-block.scss";
 
 
-
+input[type=file]::file-selector-button {
+  background-color: #FAF9FD;
+  color: #888599
+}
+input[type=file]:hover::file-selector-button {
+  background-color: #EDF1FD;
+  color: #6857D9
+}
 
 .btn-remove {
 	font-size: 12px;
