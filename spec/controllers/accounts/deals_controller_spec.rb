@@ -121,7 +121,7 @@ RSpec.describe Accounts::DealsController, type: :request do
           end.to change(Deal, :count).by(-1)
         end
         it 'with events' do
-          create(:event, account: account, deal: deal)
+          create(:event, account: account, deal: deal, kind: 'activity')
           expect do
             delete "/accounts/#{account.id}/deals/#{deal.id}"
             expect(response).to redirect_to(root_path)

@@ -53,7 +53,7 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
         end
         context 'when status is invalid' do
           it 'when status is blank' do
-            invalid_params = { webhook: { url: '' } }
+            invalid_params = { webhook: { status: '' } }
             expect do
               post "/accounts/#{account.id}/webhooks",
                    params: invalid_params
