@@ -4,15 +4,18 @@
 <div class="m-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md ">
   <h1 class="p-4 typography-title-b-lh150 text-dark-gray-palette-p1">Usuário chatwoot não encontrado!</h1>
   <div class="w-full h-0.5 bg-light-palette-p3 "></div>
-  <p class="p-4 typography-text-m-lh150 text-dark-gray-palette-p4">O usuário de email <strong
+    <svg class="mx-auto mt-8 mb-2 text-gray-400 w-16 h-16 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+    </svg>
+  <p class="p-4 typography-body-s-lh150 text-dark-gray-palette-p4 text-center max-w-[620px] mx-auto">O usuário de email <strong
       class="text-dark-gray-palette-p3">
       <%= @user_email %>
     </strong> não está cadastrado no Woofed. Para o funcionamento correto, crie o usuário pelo menu <strong
     class="text-dark-gray-palette-p3">Empresa</strong> no Woofed
     CRM.
   </p>
-  <div class="pr-4 pb-4 flex items-center justify-end">
-    <%= link_to "http://app-beta.woofedcrm.com/accounts/1/users" , target: :_blank,
+  <div class="pr-4 pt-2 pb-8 flex items-center justify-center">
+    <%= link_to "#{ ENV['FRONTEND_URL']}/accounts/#{@chatwoot.account_id}/users/new" , target: :_blank,
       class: 'inline-flex justify-center items-center  btn-primary' do %>
       Cadastrar usuário
       <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
