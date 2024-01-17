@@ -110,7 +110,7 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
               stub_request(:get, /labels/)
               .to_return(body: { payload: [] }.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
             end
-            it 'should replace woofed contact tags to chatwoot contact tags ' do
+            it 'should replace woofed contact tags from chatwoot contact tags ' do
               expect(account.contacts.first.label_list).to match_array(%w[marcador1 marcador2 marcador3])
               Sidekiq::Testing.inline! do
                 Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
