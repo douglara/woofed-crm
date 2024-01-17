@@ -103,11 +103,11 @@ class Deal < ApplicationRecord
   #   end
   # end
 
-  def next_event_scheduled?
-    next_event_scheduled rescue false
+  def next_event_planned?
+    next_event_planned rescue false
   end
 
-  def next_event_scheduled
+  def next_event_planned
     events.planned.first rescue nil
   end
 
