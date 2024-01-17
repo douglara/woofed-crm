@@ -87,7 +87,6 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncExportContacts, type: :request do
         end
         expect(account.contacts.count).to eq(2)
         expect(account.contacts.where("additional_attributes -> 'chatwoot_id' IS NOT NULL").count).to eq(2)
-        puts "Passado pelo teste #{Time.current}"
       end
     end
   end

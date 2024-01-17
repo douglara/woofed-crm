@@ -68,11 +68,14 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
       end
       context 'if contact exist in woofed but not in chatwoot' do
         let!(:contact) { create(:contact, account: account) }
-        it 'should create contact on chatwoot' do
+        let(:no_chatwoot_id_contacts) { account.contacts.where("additional_attributes ->> 'chatwoot_id' IS NULL") }
+        it 'should ignore contact' do
           Sidekiq::Testing.inline! do
             Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
           end
           expect(account.contacts.count).to eq(3)
+          expect(no_chatwoot_id_contacts.count).to eq(1)
+          expect(no_chatwoot_id_contacts.first.id).to eq(contact.id)
         end
       end
       context 'check contact tags and conversations tags' do

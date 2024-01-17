@@ -95,8 +95,10 @@ RSpec.describe Accounts::Apps::ChatwootsController, type: :request do
       .to_return(body: '', status: 200, headers: { 'Content-Type' => 'application/json'})
     end
     context 'when is unauthenticated user' do
-      it 'returns unauthorized' do
-        delete "/accounts/#{account.id}/apps/chatwoots/#{chatwoot.id}"
+      it 'returns unautorized' do
+        expect do
+          delete "/accounts/#{account.id}/apps/chatwoots/#{chatwoot.id}"
+        end.to change(Apps::Chatwoot, :count).by(1)
         expect(response).to redirect_to(new_user_session_path)
       end
     end
