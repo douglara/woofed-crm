@@ -17,6 +17,11 @@ class Accounts::PipelinesController < InternalController
   # GET /pipelines/1 or /pipelines/1.json
   def show
     @pipelines = current_user.account.pipelines
+    if params[:filter_status_deal].present?
+      @status = params[:filter_status_deal]
+    else
+      @status = 'open'
+    end
   end
 
   # GET /pipelines/new
