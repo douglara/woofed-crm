@@ -4,13 +4,7 @@
         <div class="border-b-2 border-neutral-100 bg-light-palette-p4 px-6 py-4 flex items-center">
             <h1 class="typography-body-s-lh150 text-dark-gray-palette-p1">Editar <%=  @event.title %></h1>
         </div>
-        <% if @event.kind == 'chatwoot_message' %>
-            <%= render "components/events/form/chatwoot_connect_message", event: @event, url: account_contact_event_path(current_user.account, contact_id: @event.contact.id, deal_id: @event.deal_id), edit_event_form: true  %>
-        <% elsif @event.kind == 'wpp_connect' %>
-            <%= render "components/events/form/wpp_connect_message", event: @event, url: account_contact_event_path(current_user.account, contact_id: @event.contact.id, deal_id: @event.deal_id), edit_event_form: true  %>
-        <% else %>
-            <%= render "components/events/form/#{@event.kind}", event: @event, url: account_contact_event_path(current_user.account, contact_id: @event.contact.id, deal_id: @event.deal_id), edit_event_form: true  %>
-        <%end%>
+        <%= render "components/events/form/#{@event.kind}", event: @event, url: account_contact_event_path(current_user.account, contact_id: @event.contact.id, deal_id: @event.deal_id), edit_event_form: true  %>
     </div>
 </div>
 <%end%>
