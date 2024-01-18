@@ -7,6 +7,7 @@ RSpec.describe Accounts::DealsController, type: :request do
   let!(:stage) { create(:stage, account: account, pipeline: pipeline) }
   let!(:stage_2) { create(:stage, account: account, pipeline: pipeline, name: 'Stage 2') }
   let!(:contact) { create(:contact, account: account) }
+  let(:event) {create(:event, account: account, deal: deal, kind: 'activity')}
 
   describe 'POST /accounts/{account.id}/deals' do
     let(:valid_params) { { deal: { name: 'Deal 1', contact_id: contact.id, stage_id: stage.id } } }
@@ -121,11 +122,12 @@ RSpec.describe Accounts::DealsController, type: :request do
           end.to change(Deal, :count).by(-1)
         end
         it 'with events' do
-          create(:event, account: account, deal: deal, kind: 'activity')
+          event
           expect do
             delete "/accounts/#{account.id}/deals/#{deal.id}"
             expect(response).to redirect_to(root_path)
           end.to change(Deal, :count).by(-1) and change(Contact, :count).by(-1)
+          expect(account.events.count).to eq(0)
         end
       end
     end
