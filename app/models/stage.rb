@@ -28,6 +28,6 @@ class Stage < ApplicationRecord
   after_update_commit -> { broadcast_updates }  
 
   def broadcast_updates
-    broadcast_replace_later_to self, partial: 'accounts/pipelines/stage'
+    broadcast_replace_later_to self, partial: 'accounts/pipelines/stage', locals:{status: 'open'}
   end
 end

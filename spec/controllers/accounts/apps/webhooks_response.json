@@ -1,0 +1,19 @@
+{
+    "payload": {
+        "webhook": {
+            "id": 206,
+            "url": "https://chatwoot.test.com/apps/chatwoots/webhooks?token=f66b6dad0f8af85d9cfe",
+            "account_id": 2,
+            "subscriptions": [
+                "contact_created",
+                "contact_updated",
+                "conversation_created",
+                "conversation_status_changed",
+                "conversation_updated",
+                "message_created",
+                "message_updated",
+                "webwidget_triggered"
+            ]
+        }
+    }
+}
