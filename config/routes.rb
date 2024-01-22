@@ -80,7 +80,9 @@ Rails.application.routes.draw do
       end
   end
   if ENV.fetch('ENABLE_USER_SIGNUP', 'false') == 'true'
-    devise_for :users
+    devise_for :users, controllers: {
+      registrations: 'users/registrations'
+    }
   else
     devise_for :users, skip: [:registrations]
   end
