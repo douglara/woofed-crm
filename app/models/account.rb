@@ -10,7 +10,6 @@
 class Account < ApplicationRecord
   validates :name, presence: true
   validates :name, length: { maximum: 255 }
-
   has_many :events, dependent: :destroy_async
   has_many :apps, dependent: :destroy_async
   has_many :users, dependent: :destroy_async

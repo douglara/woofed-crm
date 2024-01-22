@@ -14,6 +14,7 @@
 					</p>
 				<% end %>
 			</div>
+      <%= link_to user.phone, "tel:#{user.phone}", class:"typography-sub-text-s-lh150 text-dark-gray-palette-p4 hover:text-dark-gray-palette-p3"  unless user.phone.nil?%>
 		</div>
 		<button id="dropdownuserBtn" data-dropdown-toggle="dropdownuserOptions<%= user.id %>" data-dropdown-placement="left-start" class="inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
 			<i data-lucide="more-vertical" class=" stroke-dark-gray-palette-p3"></i>

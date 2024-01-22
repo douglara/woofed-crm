@@ -6,7 +6,7 @@ RSpec.describe Accounts::UsersController, type: :request do
 
   describe 'POST /accounts/{account.id}/users' do
     let(:valid_params) do
-      { user: { full_name: 'Yukio', email: 'yukio@email.com', password: '123456', password_confirmation: '123456' } }
+      { user: { full_name: 'Yukio', email: 'yukio@email.com', password: '123456', password_confirmation: '123456', phone: '+5522998813788' } }
     end
 
     context 'when it is an unauthenticated user' do
