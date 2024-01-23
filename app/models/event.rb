@@ -141,7 +141,7 @@ class Event < ApplicationRecord
   end
 
   def editable?
-    ['note', 'activity'].include?(kind)
+    ['note', 'activity'].include?(kind) || !((self.chatwoot_message? || self.wpp_connect_message? ) && self.done?)
   end
 
   def overdue?

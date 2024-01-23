@@ -98,4 +98,21 @@ RSpec.describe Event do
       end
     end
   end
+  context 'editable?' do
+    let(:account) { create(:account) }
+    let!(:event_done) { create(:event, done: true, scheduled_at: Time.current, kind: 'note', account: account) }
+    let!(:event_activity) do
+      create(:event, account: account, auto_done: false, scheduled_at: (Time.current + 1.hour), kind: 'activity')
+    end
+    let!(:event_chatwoot_message) do
+      create(:event, account: account, auto_done: false, scheduled_at: (Time.current + 2.hour), kind: 'chatwoot_message')
+    end
+    let!(:event_chatwoot_message_done) do
+      create(:event, account: account, done: true, kind: 'chatwoot_message')
+    end
+    let(:events_editable) { Event.all.select(&:editable?) }
+    it 'should return 3 events' do
+      expect(events_editable.count).to be 3
+    end
+  end
 end
