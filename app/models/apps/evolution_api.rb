@@ -2,16 +2,17 @@
 #
 # Table name: apps_evolution_apis
 #
-#  id           :bigint           not null, primary key
-#  active       :boolean
-#  endpoint_url :string
-#  name         :string
-#  phone        :string
-#  status       :string
-#  token        :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  account_id   :bigint           not null
+#  id                    :bigint           not null, primary key
+#  active                :boolean
+#  additional_attributes :jsonb
+#  endpoint_url          :string
+#  name                  :string
+#  phone                 :string
+#  status                :string
+#  token                 :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  account_id            :bigint           not null
 #
 # Indexes
 #
