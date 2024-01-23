@@ -29,6 +29,7 @@ FactoryBot.define do
     account
     full_name { 'Belchior' }
     email { 'belchior@show.com.br' }
+    phone { '+5522998813788' }
     password { 'Password1!' }
   end
 end
