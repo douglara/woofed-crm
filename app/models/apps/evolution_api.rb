@@ -34,4 +34,8 @@ class Apps::EvolutionApi < ApplicationRecord
     'sync': 'sync',
     'pair': 'pair',
   }
+
+  def request_headers
+    {'apiKey': "#{ENV['EVOLUTION_API_ENDPOINT_TOKEN']}", 'Content-Type': 'application/json'}
+  end
 end
