@@ -9,7 +9,7 @@
 #  custom_attributes     :jsonb
 #  done_at               :datetime
 #  from_me               :boolean
-#  kind                  :string           default("note"), not null
+#  kind                  :string           not null
 #  scheduled_at          :datetime
 #  status                :integer
 #  title                 :string           default(""), not null
