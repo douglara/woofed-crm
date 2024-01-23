@@ -21,7 +21,7 @@ RSpec.describe Accounts::Apps::EvolutionApi::Instance::Create, type: :request do
     describe 'success' do
       before do
         stub_request(:post, /instance/)
-          .to_return(body: create_instance_response, status: 200, headers: { 'Content-Type' => 'application/json' })
+          .to_return(body: create_instance_response, status: 201, headers: { 'Content-Type' => 'application/json' })
       end
       it 'create instance' do
         result = described_class.call(evolution_api)

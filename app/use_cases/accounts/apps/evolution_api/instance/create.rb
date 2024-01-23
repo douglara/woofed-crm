@@ -4,9 +4,9 @@ class Accounts::Apps::EvolutionApi::Instance::Create
     request = Faraday.post(
       "#{ENV['EVOLUTION_API_ENDPOINT']}/instance/create",
       build_body(evolution_api).to_json,
-      evolution_api.request_headers
+      {'apiKey': "#{ENV['EVOLUTION_API_ENDPOINT_TOKEN']}", 'Content-Type': 'application/json'}
     )
-    if request.status == 200
+    if request.status == 201
       return { ok: JSON.parse(request.body) }
     else
       return { error: JSON.parse(request.body) }
@@ -18,7 +18,12 @@ class Accounts::Apps::EvolutionApi::Instance::Create
       "instanceName": evolution_api.name,
       "token": evolution_api.token,
       "qrcode": true,
-      "number": evolution_api.phone
+      "number": evolution_api.phone,
+      "webhook": ENV['FRONTEND_URL'],
+      "events": [
+        "APPLICATION_STARTUP",
+        "QRCODE_UPDATED"
+      ]
     }
   end
 end

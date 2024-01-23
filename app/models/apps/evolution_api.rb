@@ -35,7 +35,10 @@ class Apps::EvolutionApi < ApplicationRecord
     'pair': 'pair',
   }
 
-  def request_headers
-    {'apiKey': "#{ENV['EVOLUTION_API_ENDPOINT_TOKEN']}", 'Content-Type': 'application/json'}
+  def generate_token(field)
+    loop do
+      security_token = SecureRandom.hex(10)
+      break security_token unless Apps::EvolutionApi.where(field => security_token).exists?
+    end
   end
 end
