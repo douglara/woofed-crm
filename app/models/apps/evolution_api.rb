@@ -36,6 +36,10 @@ class Apps::EvolutionApi < ApplicationRecord
     'pair': 'pair',
   }
 
+  def request_instance_headers
+    {'apiKey': "#{key}", 'Content-Type': 'application/json'}
+  end
+
   def generate_token(field)
     loop do
       security_token = SecureRandom.hex(10)
