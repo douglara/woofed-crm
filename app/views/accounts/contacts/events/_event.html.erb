@@ -3,21 +3,19 @@
     <div class="w-3/4 block rounded-lg bg-white border border-light-palette-p3 rounded dark:bg-neutral-700">
       <div class="border-b-2 border-neutral-100 bg-light-palette-p4 px-3 py-2 flex items-center space-x-3">
         <% if event.from_me? %>
-          <% if event.editable? %>
-            <% if event.note? %>
-              <div class="flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7]">
+          <% if event.note? %>
+            <div class="flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7]">
+              <i data-lucide="check" class= "h-[20px] self-center stroke-[#26D367]"></i>
+            </div>
+          <% elsif event.activity? %>
+            <% if event.done? %>
+              <%= link_to account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: false}) ,method: :put, data: {confirm: "Are you sure?"}, class:'flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7] hover:bg-[#DEFFE9] cursor-pointer'  do %>
                 <i data-lucide="check" class= "h-[20px] self-center stroke-[#26D367]"></i>
-              </div>
-            <% elsif event.activity? %>
-              <% if event.done? %>
-                <%= link_to account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: false}) ,method: :put, data: {confirm: "Are you sure?"}, class:'flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7] hover:bg-[#DEFFE9] cursor-pointer'  do %>
-                  <i data-lucide="check" class= "h-[20px] self-center stroke-[#26D367]"></i>
-                <% end %>
-              <% else %>
-                <%= link_to '' ,account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: true}) ,method: :put, data: {confirm: "Are you sure?"}, class: 'h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p2 bg-light-palette-p5 hover:bg-light-palette-p3 cursor-pointer' %>
               <% end %>
+            <% else %>
+              <%= link_to '' ,account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: true}) ,method: :put, data: {confirm: "Are you sure?"}, class: 'h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p2 bg-light-palette-p5 hover:bg-light-palette-p3 cursor-pointer' %>
             <% end %>
-          <% else %>
+          <% elsif event.chatwoot_message? %>
             <% if event.done? %>
               <div class="flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7]">
                 <i data-lucide="check-check" class= "h-[20px] self-center stroke-[#26D367]"></i>
