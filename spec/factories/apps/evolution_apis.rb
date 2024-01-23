@@ -23,12 +23,12 @@
 #
 FactoryBot.define do
   factory :apps_evolution_api, class: 'Apps::EvolutionApi' do
-    account { nil }
-    status { "MyString" }
+    account
+    status { "inactive" }
     active { false }
-    endpoint_url { "MyString" }
-    token { "MyString" }
-    phone { "MyString" }
-    name { "MyString" }
+    endpoint_url { ENV['EVOLUTION_API_ENDPOINT'] }
+    token { "woofedtoken" }
+    phone { "5522999999999" }
+    name { "Woofed EvolutionApi test" }
   end
 end
