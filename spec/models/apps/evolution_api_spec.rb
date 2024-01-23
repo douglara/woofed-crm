@@ -24,6 +24,12 @@
 #
 require 'rails_helper'
 
-RSpec.describe Apps::EvolutionApi, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe Event do
+  context 'generate_token' do
+    it 'should return a token' do
+      evolution_api = Apps::EvolutionApi.new
+      result = evolution_api.generate_token('token')
+      expect(result.length).to eq(20)
+    end
+  end
 end

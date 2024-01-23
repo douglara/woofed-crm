@@ -11,8 +11,8 @@ class Accounts::Apps::EvolutionApi::Instance::Create
     else
       return { error: JSON.parse(request.body) }
     end
-
   end
+
   def self.build_body(evolution_api)
     {
       "instanceName": evolution_api.name,
@@ -26,4 +26,5 @@ class Accounts::Apps::EvolutionApi::Instance::Create
       ]
     }
   end
+
 end
