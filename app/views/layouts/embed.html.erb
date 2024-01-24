@@ -16,7 +16,7 @@
     <%= yield :stylesheets %>
   </head>
 
-  <body class="<%= controller_name == 'chatwoot_embed' ? 'bg-brand-palette-08' : '' %>">
+  <body class="bg-brand-palette-08">
     <%= render partial: 'components/notifications', locals: { message: flash[:notice] } %>
     <%= content_for?(:content) ? yield(:content) : yield %>
     <%= yield :javascripts %>
