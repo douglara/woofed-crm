@@ -52,8 +52,7 @@ class Event < ApplicationRecord
     # To refactory
     if send_now == true
       Accounts::Contacts::Events::SendNow.call(self)
-    else
-      scheduled_delivery_event?
+    elsif scheduled_delivery_event?
       Accounts::Contacts::Events::EnqueueWorker.perform_async(id)
     end
   end
