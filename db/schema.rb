@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_01_16_175319) do
+ActiveRecord::Schema.define(version: 2024_01_23_203201) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -94,6 +94,20 @@ ActiveRecord::Schema.define(version: 2024_01_16_175319) do
     t.datetime "updated_at", precision: 6, null: false
     t.jsonb "inboxes", default: [], null: false
     t.index ["account_id"], name: "index_apps_chatwoots_on_account_id"
+  end
+
+  create_table "apps_evolution_apis", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "status"
+    t.boolean "active"
+    t.string "endpoint_url"
+    t.string "token"
+    t.string "phone"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "additional_attributes"
+    t.index ["account_id"], name: "index_apps_evolution_apis_on_account_id"
   end
 
   create_table "apps_wpp_connects", force: :cascade do |t|
@@ -545,6 +559,7 @@ ActiveRecord::Schema.define(version: 2024_01_16_175319) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "apps_evolution_apis", "accounts"
   add_foreign_key "deals", "contacts"
   add_foreign_key "deals", "stages"
   add_foreign_key "events", "accounts"

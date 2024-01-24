@@ -49,11 +49,11 @@ class Event < ApplicationRecord
   validates :kind, presence: true
 
   after_commit do
-
     # To refactory
     if send_now == true
       Accounts::Contacts::Events::SendNow.call(self)
-    else scheduled_delivery_event?
+    else
+      scheduled_delivery_event?
       Accounts::Contacts::Events::EnqueueWorker.perform_async(id)
     end
   end
@@ -63,7 +63,7 @@ class Event < ApplicationRecord
   end
 
   def scheduled_delivery_event?
-    changed_scheduled_values? && ( auto_done == true && scheduled_at.present? && done_at.blank? )
+    changed_scheduled_values? && (auto_done == true && scheduled_at.present? && done_at.blank?)
   end
 
   def done
@@ -78,39 +78,34 @@ class Event < ApplicationRecord
     value_boolean = ActiveRecord::Type::Boolean.new.cast(value)
     return if value_boolean == done
 
-    if value_boolean == true
-      self.done_at = Time.now
-    else
-      self.done_at = nil
-    end
+    self.done_at = (Time.now if value_boolean == true)
   end
 
   def send_now=(value)
     self[:send_now] = ActiveRecord::Type::Boolean.new.cast(value)
   end
 
-
-  scope :to_do, -> {
+  scope :to_do, lambda {
     where('done_at IS NULL').order(:scheduled_at)
   }
 
-  scope :planned, -> {
+  scope :planned, lambda {
     to_do.where('auto_done = false AND scheduled_at IS NOT NULL').order(:scheduled_at)
   }
 
-  scope :scheduled, -> {
+  scope :scheduled, lambda {
     to_do.where('auto_done = true AND scheduled_at IS NOT NULL')
   }
 
-  scope :planned_overdue, ->{
-    planned.where("scheduled_at < ?", DateTime.current)
+  scope :planned_overdue, lambda  {
+    planned.where('scheduled_at < ?', DateTime.current)
   }
 
-  scope :planned_without_date, ->{
-    to_do.where("auto_done = false AND scheduled_at IS NULL")
+  scope :planned_without_date, lambda  {
+    to_do.where('auto_done = false AND scheduled_at IS NULL')
   }
 
-  scope :done, -> {
+  scope :done, lambda {
     where('done_at IS NOT NULL').order(done_at: :desc)
   }
 
@@ -119,47 +114,43 @@ class Event < ApplicationRecord
     'wpp_connect_message': 'wpp_connect_message',
     'wpp_connect_information': 'wpp_connect_information',
     'activity': 'activity',
-    'chatwoot_message': 'chatwoot_message',
+    'chatwoot_message': 'chatwoot_message'
   }
 
   before_validation do
-    if self.scheduled_at.present? && self.done == nil
-      self.done = false
-    end
+    self.done = false if scheduled_at.present? && done.nil?
   end
 
   def icon_key
     if kind == 'note'
-      return 'menu-square'
+      'menu-square'
     elsif kind == 'wpp_connect_message'
-      return 'fab fa-whatsapp'
+      'fab fa-whatsapp'
     elsif kind == 'activity'
-      return 'clipboard-list'
+      'clipboard-list'
     elsif kind == 'chatwoot_message'
-      return 'message-circle'
+      'message-circle'
     end
   end
 
   def editable?
+    return true if %w[note activity].include?(kind)
+    return true if %w[chatwoot_message wpp_connect_message].include?(kind) && !done?
 
-  def editable?
-    return true if ['note', 'activity'].include?(kind)
-    return true if ['chatwoot_message', 'wpp_connect_message'].include?(kind) && !done?
-    return false
-  end
-
+    false
   end
 
   def overdue?
-    return false if done == true || !scheduled_at.present?
+    return false if done == true || scheduled_at.blank?
+
     DateTime.current > scheduled_at
   end
 
   def primary_date
     if scheduled_at.present?
-      return scheduled_at_format
+      scheduled_at_format
     else
-      return created_at.to_s(:short)
+      created_at.to_s(:short)
     end
   end
 
@@ -172,10 +163,10 @@ class Event < ApplicationRecord
   end
 
   def scheduled_kind
-    if self.done == true
-      return 'done'
+    if done == true
+      'done'
     else
-      return 'scheduled'
+      'scheduled'
     end
   end
 
