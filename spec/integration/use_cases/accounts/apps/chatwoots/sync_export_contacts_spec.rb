@@ -77,6 +77,8 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncExportContacts, type: :request do
           .to_return(body: contact_create_response.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
         stub_request(:put, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{contact_create_response[:payload][:contact][:id]}")
           .to_return(body: contact_update_response.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
+        stub_request(:post, /labels/)
+        .to_return(body: {}.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
       end
       before(:each) do
         allow_any_instance_of(Object).to receive(:sleep)
