@@ -4,7 +4,7 @@ RSpec.describe Accounts::Apps::Chatwoots::CreateConversation, type: :request do
   describe 'success' do
     let(:account) { create(:account) }
     let(:chatwoot) { create(:apps_chatwoots, :skip_validate)}
-    let(:event) { create(:event, app: chatwoot, account: account, content: 'Hi Lorena', from_me: true, done: false)}
+    let(:event) { create(:event, app: chatwoot, account: account, content: 'Hi Lorena', from_me: true, scheduled_at: Time.now, kind: 'chatwoot_message')}
 
     let(:conversation_response) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/get_conversations.json") }
     let(:message_response) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/send_message.json") }

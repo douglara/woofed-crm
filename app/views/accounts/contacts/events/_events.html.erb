@@ -11,8 +11,8 @@
               <i data-lucide="calendar" height="18" class="mr-2"></i> Agendado
             </span>
           </div>
-          <%= turbo_frame_tag "events_planned_#{@deal.contact.id}" do %>
-            <%= render partial: 'accounts/contacts/events/event', collection: @deal.events.to_do %>
+          <%= turbo_frame_tag "events_to_do_#{@deal.contact.id}" do %>
+            <%= render partial: 'accounts/contacts/events/events_to_do', locals: {deal: @deal}%>
           <% end %>
         </div>
 
@@ -22,8 +22,8 @@
               <i data-lucide="check-circle-2" height="18" class="mr-2"></i> Concluído
             </span>
           </div>
-            <%= turbo_frame_tag "events_not_planned_or_done_#{@deal.contact.id}" do %>
-              <%= render partial: 'accounts/contacts/events/event', collection: @events.not_planned_or_done, data: { target: 'not_planned_or_done' }%>
+            <%= turbo_frame_tag "events_done_#{@deal.contact.id}" do %>
+              <%= render partial: 'accounts/contacts/events/events_done', locals: {deal: @deal}%>
             <% end %>
         </div>
     </div>

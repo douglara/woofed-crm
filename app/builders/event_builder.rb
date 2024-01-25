@@ -7,7 +7,8 @@ class EventBuilder
 
   def build
     @event = @user.account.events.new(@params)
-    # clean_html_codes()   
+    @event.done = true if @event.kind == 'note'
+    # clean_html_codes()
     @event
   end
 

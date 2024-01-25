@@ -1,14 +1,13 @@
 <%= content_tag :li, id: dom_id(deal), 'data-id': deal.id, 'data-account-id': deal.account_id do %>
   <%= turbo_stream_from deal %>
- 
-  <%= link_to account_deal_path(deal.account, deal.id), data: { turbo: false } do %>
+  <%= link_to account_deal_path(deal.account, deal.id), data: {turbo: false} do %>
     <div class="rounded cursor-pointer border-2 border-light-palette-p3 bg-light-palette-p4 py-2 px-4 space-y-2">
       <p class="typography-sub-text-m-lh200 text-dark-gray-palette-p1"><%= deal.name %></p>
       <div class="w-full h-0.5 bg-light-palette-p3">
       </div>
       <div class="flex items-center justify-between gap-2">
         <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p3 flex-1"><%= deal.contact.full_name %></p>
-        <%= render partial: 'accounts/pipelines/deal_event', locals: {event: deal.next_event_scheduled}  if deal.next_event_scheduled? %> 
+        <%= render partial: 'accounts/pipelines/deal_event', locals: {event: deal.next_event_planned}  if deal.next_event_planned? %>
       </div>
     </div>
   <% end %>
