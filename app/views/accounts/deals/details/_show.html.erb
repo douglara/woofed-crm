@@ -17,9 +17,7 @@
             <label class="flex-none max-w-[10rem] m-auto typography-text-m-lh150 text-dark-gray-palette-p3"><%= model.class.human_attribute_name(f) %></label>
             <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>
             <% if f.in?([:label_list, :chatwoot_conversations_label_list]) %>
-            <ul class="max-w-[14rem] flex justify-end flex-wrap gap-2">
-              <%= render 'components/labels.html.erb', labels: model.send(f) %>
-            </ul>
+              <%= render 'components/list_labels', labels: model.send(f), max_width: '14rem', justify_content: 'end' %>
              <% else %>
               <p class="m-0 typography-text-m-lh150 text-dark-gray-palette-p3 max-w-[14rem]"><%= model["#{f}"] %></p>
             <% end %>

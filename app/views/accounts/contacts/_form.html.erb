@@ -42,9 +42,7 @@
   <% if contact.chatwoot_conversations_labels.empty? %>
     <p class="typography-text-m-lh150 text-dark-gray-palette-p1">Não há marcador de conversas</p>
   <% else %>
-  <ul class="flex justify-start flex-wrap gap-2">
-    <%= render 'components/labels.html.erb', labels: contact.chatwoot_conversations_label_list %>
-  </ul>
+    <%= render 'components/list_labels', labels: contact.chatwoot_conversations_label_list, max_width: 'none', justify_content: 'start' %>
   <% end %>
   <div class="h-0.5 w-full bg-light-palette-p3"></div>
   <%= render 'accounts/custom_attributes', m: contact, f: form %>
