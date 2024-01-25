@@ -40,7 +40,7 @@ class Apps::EvolutionApi < ApplicationRecord
   }
 
   def request_instance_headers
-    {'apiKey': "#{key}", 'Content-Type': 'application/json'}
+    {'apiKey': "#{token}", 'Content-Type': 'application/json'}
   end
 
   def generate_token(field)
