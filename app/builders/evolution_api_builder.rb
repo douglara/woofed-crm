@@ -6,8 +6,9 @@ class EvolutionApiBuilder
 
   def build
     @evolution_api = @user.account.apps_evolution_apis.new(@params)
-    @evolution_api.name = @evolution_api.generate_token('name')
+    @evolution_api.instance = @evolution_api.generate_token('instance')
     @evolution_api.token = @evolution_api.generate_token('token')
+    @evolution_api.endpoint_url = ENV['EVOLUTION_API_ENDPOINT_TOKEN']
     @evolution_api
   end
 end
