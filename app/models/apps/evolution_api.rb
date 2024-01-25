@@ -26,7 +26,10 @@
 class Apps::EvolutionApi < ApplicationRecord
   include Applicable
 
-
+  validates :endpoint_url, presence: true
+  validates :token, presence: true
+  validates :name, presence: true
+  validates :instance, presence: true
   scope :actives, -> { where(active: true) }
 
   enum connection_status: {
