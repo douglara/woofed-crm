@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "count": 2,
+    "current_page": "2"
+  },
+  "payload": [
+    {
+      "additional_attributes": {},
+      "availability_status": "offline",
+      "email": "l29/11@email.com",
+      "id": 338,
+      "name": "l29/11",
+      "phone_number": "",
+      "identifier": null,
+      "thumbnail": "",
+      "custom_attributes": {
+        "CPF": "",
+        "Cpf": "",
+        "cep": "",
+        "Cnpj": "",
+        "TEste": "",
+        "hgfhfgh": "",
+        "Endereço de casa": ""
+      },
+      "created_at": 1701274823,
+      "contact_inboxes": []
+    }
+  ]
+}

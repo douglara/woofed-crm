@@ -9,7 +9,7 @@
     </div>
   <% end %>
   <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">Dados do usuário</h2>
-  <div class= "grid lg:grid-cols-2 gap-4">
+  <div class= "grid lg:grid-cols-3 gap-4">
     <div class="flex flex-col gap-1">
       <%= form.label :full_name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
       <%= form.text_field :full_name, placeholder: "João Paulo", class: 'form-input' %>
@@ -18,6 +18,12 @@
       <%= form.label :email, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
       <%= form.text_field :email, placeholder: "joão@email.com", class: 'form-input' %>
     </div>
+    <div class="flex flex-col gap-1">
+      <%= form.label :phone, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
+      <%= form.text_field :phone, placeholder: "+5522999999999", class: 'form-input',  data: {controller: 'input-mask--input-phone'}%>
+    </div>
+  </div>
+  <div class="grid lg:grid-cols-2 gap-4">
     <div class="flex flex-col gap-1">
       <%= form.label :password, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
       <%= form.password_field :password, placeholder: "123456", class: 'form-input' %>

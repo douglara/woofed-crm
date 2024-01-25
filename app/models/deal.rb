@@ -88,7 +88,7 @@ class Deal < ApplicationRecord
                           }
 
   def broadcast_updates
-    broadcast_replace_later_to self, partial: "accounts/pipelines/deal"
+    broadcast_replace_later_to self, partial: "accounts/pipelines/deal", locals:{pipeline: self.pipeline}
     if previous_changes.key?('stage_id')
       previous_changes['stage_id'].each do |stage_id|
         Stage.find(stage_id).broadcast_updates
@@ -103,12 +103,12 @@ class Deal < ApplicationRecord
   #   end
   # end
 
-  def next_event_scheduled?
-    next_event_scheduled rescue false
+  def next_event_planned?
+    next_event_planned rescue false
   end
 
-  def next_event_scheduled
-    events.scheduled.first rescue nil
+  def next_event_planned
+    events.planned.first rescue nil
   end
 
   def self.csv_header(account_id)

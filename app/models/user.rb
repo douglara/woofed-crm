@@ -6,6 +6,7 @@
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  full_name              :string           default(""), not null
+#  phone                  :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
@@ -29,6 +30,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   belongs_to :account
+  accepts_nested_attributes_for :account
+  validates :phone,
+    allow_blank: true,
+    format: { with: /\+[1-9]\d{1,14}\z/, message: "Número inválido" }
 
   after_update_commit do
     broadcast_replace_later_to "users_#{account_id}", target: self, partial: '/accounts/users/user',

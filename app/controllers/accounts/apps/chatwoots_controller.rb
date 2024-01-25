@@ -13,17 +13,20 @@ class Accounts::Apps::ChatwootsController < InternalController
   end
 
   def create
-    @chatwoot = current_user.account.apps_chatwoots.build(chatwoot_params)
-    if @chatwoot.save
-      redirect_to edit_account_apps_chatwoot_path(current_user.account, @chatwoot)
+    result = Accounts::Apps::Chatwoots::Create.call(current_user.account, chatwoot_params)
+    @chatwoot = result[result.keys.first]
+    if result.key?(:ok)
+      redirect_to edit_account_apps_chatwoot_path(current_user.account, @chatwoot), notice: 'Chatwoot was successfully created.'
     else
       render :new
     end
   end
 
   def destroy
-    @chatwoot.destroy
-    redirect_to account_settings_path(current_user.account)
+    result = Accounts::Apps::Chatwoots::Delete.call(current_user.account, @chatwoot)
+    if result.key?(:ok)
+      redirect_to account_settings_path(current_user.account), notice: "Chatwoot was successfully destroyed."
+    end
   end
 
   def update
