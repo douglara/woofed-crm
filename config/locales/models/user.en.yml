@@ -1,0 +1,16 @@
+en:
+  activerecord:
+    models:
+      user:
+        one: User
+        other: Users
+    attributes:
+      user:
+        email: Email
+        email2: Confirm Your Email
+        email_confirmation: Confirm Your Email
+        password: Password
+        password2: Confirm Your Password
+        password_confirmation: Confirm Your Password
+        full_name: Full Name
+        phone: Phone (cell)
