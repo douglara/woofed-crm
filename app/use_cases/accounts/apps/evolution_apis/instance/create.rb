@@ -1,4 +1,4 @@
-class Accounts::Apps::EvolutionApi::Instance::Create
+class Accounts::Apps::EvolutionApis::Instance::Create
 
   def self.call(evolution_api)
     request = Faraday.post(

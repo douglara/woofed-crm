@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'webmock/rspec'
 
-RSpec.describe Accounts::Apps::EvolutionApi::Instance::Create, type: :request do
+RSpec.describe Accounts::Apps::EvolutionApis::Instance::Create, type: :request do
   describe '.call' do
     let(:account) { create(:account) }
     let(:evolution_api) { create(:apps_evolution_api, account: account) }
