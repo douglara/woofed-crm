@@ -1,10 +1,14 @@
 class Accounts::ContactsController < InternalController
-  before_action :set_contact, only: %i[ show edit update destroy ]
+  before_action :set_contact, only: %i[ show edit update destroy]
 
   # GET /contacts or /contacts.json
   def index
     @contacts = current_user.account.contacts
     @pagy, @contacts = pagy(@contacts)
+  end
+
+  def deals
+    @contact = Contact.find(params[:contact_id])
   end
 
   def select_contact

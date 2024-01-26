@@ -15,14 +15,19 @@
           </div>
         <%= link_to contact.phone, "tel:#{contact.phone}", class:"typography-sub-text-s-lh150 text-dark-gray-palette-p4 hover:text-dark-gray-palette-p3" %>
         </div>
-        <button id="dropdownContactBtn" data-dropdown-toggle="dropdownContactOptions" data-dropdown-placement="left-start" class="inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
+        <button id="dropdownContactBtn" data-dropdown-toggle="dropdownContactOptions<%= contact.id %>" data-dropdown-placement="left-start" class="inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
           <i data-lucide="more-vertical" class=" stroke-dark-gray-palette-p3"></i>
         </button>
-        <div id="dropdownContactOptions" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
+        <div id="dropdownContactOptions<%= contact.id %>" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
           <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
             <li>
-              <%= link_to account_contact_path(current_user.account, contact), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
+              <%= link_to account_contact_path(current_user.account.id, contact.id), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
               <i data-lucide="info"></i> <p>Detalhes</p>
+              <% end %>
+            </li>
+            <li>
+              <%= link_to account_contact_deals_path(current_user.account.id, contact.id), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
+              <i data-lucide="heart-handshake"></i> <p>Negócios</p>
               <% end %>
             </li>
             <li>
@@ -36,7 +41,7 @@
       <div class="w-full h-0.5 bg-light-palette-p3 last:hidden"></div>
     <% end %>
   </ul>
-
+ 
   <div class="float-right py-6">
     <%== pagy_nav(@pagy) %>
   </div> 
