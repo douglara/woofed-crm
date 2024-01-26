@@ -1,0 +1,65 @@
+# Additional translations at https://github.com/heartcombo/devise/wiki/I18n
+
+es:
+  devise:
+    confirmations:
+      confirmed: "Tu dirección de correo electrónico ha sido confirmada con éxito."
+      send_instructions: "Recibirás un correo electrónico con instrucciones sobre cómo confirmar tu dirección de correo electrónico en unos minutos."
+      send_paranoid_instructions: "Si tu dirección de correo electrónico existe en nuestra base de datos, recibirás un correo electrónico con instrucciones sobre cómo confirmar tu dirección de correo electrónico en unos minutos."
+    failure:
+      already_authenticated: "Ya has iniciado sesión."
+      inactive: "Tu cuenta aún no ha sido activada."
+      invalid: " %{authentication_keys} o contraseña incorrecta."
+      locked: "Tu cuenta está bloqueada."
+      last_attempt: "Tienes un intento más antes de que tu cuenta se bloquee."
+      not_found_in_database: " %{authentication_keys} o contraseña incorrecta."
+      timeout: "Tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar."
+      unauthenticated: "Debes iniciar sesión o registrarte antes de continuar."
+      unconfirmed: "Debes confirmar tu dirección de correo electrónico antes de continuar."
+    mailer:
+      confirmation_instructions:
+        subject: "Instrucciones de confirmación"
+      reset_password_instructions:
+        subject: "Instrucciones para restablecer la contraseña"
+      unlock_instructions:
+        subject: "Instrucciones de desbloqueo"
+      email_changed:
+        subject: "Email Cambiado"
+      password_change:
+        subject: "Contraseña Cambiada"
+    omniauth_callbacks:
+      failure: "No se pudo autenticar desde %{kind} debido a \"%{reason}\"."
+      success: "Autenticado con éxito desde la cuenta %{kind}."
+    passwords:
+      no_token: "No puedes acceder a esta página sin venir de un correo electrónico de restablecimiento de contraseña. Si vienes de un correo electrónico de restablecimiento de contraseña, asegúrate de usar la URL completa proporcionada."
+      send_instructions: "Recibirás un correo electrónico con instrucciones sobre cómo restablecer tu contraseña en unos minutos."
+      send_paranoid_instructions: "Si tu dirección de correo electrónico existe en nuestra base de datos, recibirás un enlace de recuperación de contraseña en tu dirección de correo electrónico en unos minutos."
+      updated: "Tu contraseña ha sido cambiada con éxito. Ahora estás conectado."
+      updated_not_active: "Tu contraseña ha sido cambiada con éxito."
+    registrations:
+      destroyed: "¡Adiós! Tu cuenta ha sido cancelada con éxito. Esperamos verte nuevamente pronto."
+      signed_up: "¡Bienvenido! Te has registrado con éxito."
+      signed_up_but_inactive: "Te has registrado con éxito. Sin embargo, no pudimos iniciar sesión porque tu cuenta aún no está activada."
+      signed_up_but_locked: "Te has registrado con éxito. Sin embargo, no pudimos iniciar sesión porque tu cuenta está bloqueada."
+      signed_up_but_unconfirmed: "Se ha enviado un correo electrónico con un enlace de confirmación a tu dirección de correo electrónico. Por favor, sigue el enlace para activar tu cuenta."
+      update_needs_confirmation: "Has actualizado tu cuenta con éxito, pero necesitamos verificar tu nueva dirección de correo electrónico. Por favor, verifica tu correo electrónico y sigue el enlace de confirmación para confirmar tu nueva dirección de correo electrónico."
+      updated: "Tu cuenta ha sido actualizada con éxito."
+      updated_but_not_signed_in: "Tu cuenta ha sido actualizada con éxito, pero como se cambió tu contraseña, debes iniciar sesión nuevamente."
+    sessions:
+      signed_in: "Inicio de sesión exitoso."
+      signed_out: "Cierre de sesión exitoso."
+      already_signed_out: "Cierre de sesión exitoso."
+    unlocks:
+      send_instructions: "Recibirás un correo electrónico con instrucciones sobre cómo desbloquear tu cuenta en unos minutos."
+      send_paranoid_instructions: "Si tu cuenta existe, recibirás un correo electrónico con instrucciones sobre cómo desbloquearla en unos minutos."
+      unlocked: "Tu cuenta ha sido desbloqueada con éxito. Por favor, inicia sesión para continuar."
+  errors:
+    messages:
+      already_confirmed: "ya ha sido confirmado, por favor, intenta iniciar sesión"
+      confirmation_period_expired: "debe ser confirmado dentro de %{period}, por favor, solicita uno nuevo"
+      expired: "ha expirado, por favor, solicita uno nuevo"
+      not_found: "no encontrado"
+      not_locked: "no estaba bloqueado"
+      not_saved:
+        one: "1 error impidió que este(a) %{resource} se guardara:"
+        other: "%{count} errores impidieron que este(a) %{resource} se guardara:"
