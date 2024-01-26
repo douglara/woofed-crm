@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Woofed CRM</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= action_cable_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'application' %>
+    <%= javascript_pack_tag 'application', defer: true, 'data-turbo-track': 'reload' %>
+    <%= render "layouts/shared/analytics_scripts" %>
+
+    <%= yield :stylesheets %>
+  </head>
+  <!-- <body class="bg-brand-palette-08"> -->
+    <body class="">
+    <section class="max-w-lg px-5 md:px-0 min-h-screen mx-auto py-20 space-y-10">
+      <div class="w-full flex items-center justify-center">
+        <%= image_tag('logo.svg', {class: "w-[70%]"}) %>
+      </div>
+        <!-- <div class="bg-light-palette-p5 p-11  border-2 border-light-palette-p3 "> -->
+        <div class="">
+          <%= yield %>
+        </div>
+    </section>
+  </body>
+</html>

@@ -1,36 +1,50 @@
-import { Controller } from "stimulus"
+import { Controller } from "stimulus";
 
 export default class extends Controller {
-    static targets = ["scheduledAtForm", "radioButtonSendNowFalse", "radioButtonSendNowTrue", 'checkBoxAutoDone', "dateFieldScheduletAt"]
-    connect() {
-        this.scheduledAtFormTarget.classList.add("hidden");
-        this.checkBoxAutoDoneTarget.checked = true
+  static targets = [
+    "scheduledAtForm",
+    "radioButtonSendNowFalse",
+    "radioButtonSendNowTrue",
+    "checkBoxAutoDone",
+    "dateFieldScheduletAt",
+  ];
+  connect() {
+    this.handleScheduledAtFormVisibility()
+  }
+
+  toggleRadioButton(event) {
+    this.resetAllSendNowWrapper();
+    event.currentTarget.ariaChecked = "true";
+    var currentSendNowRadioButton = event.currentTarget.querySelector(
+      'input[type="radio"]'
+    );
+    var isSendNowTrue = currentSendNowRadioButton.value === "true";
+    this.toggleRadionButtonsChecked(isSendNowTrue)
+    this.handleScheduledAtFormVisibility()
+    this.handleSendNow(isSendNowTrue);
+  }
+  handleSendNow(isSendNowTrue) {
+    if (isSendNowTrue) {
+      this.checkBoxAutoDoneTarget.checked = isSendNowTrue;
+      this.dateFieldScheduletAtTarget.value = "";
     }
 
-    toggleRadioButton(event) {
-        this.resetCheckRadioDiv() 
-        event.currentTarget.ariaChecked = 'true'
-        var doneInput = event.currentTarget.querySelector('input[type="radio"]');
-        var done = doneInput.value === 'true';
-        this.radioButtonSendNowTrueTarget.checked = done;
-        this.radioButtonSendNowFalseTarget.checked = !done;
-        if (done) {
-            // this.scheduledAtFormTarget.style.display = 'none';
-            this.scheduledAtFormTarget.classList.add("hidden");
-            this.checkBoxAutoDoneTarget.checked = true
-            this.dateFieldScheduletAtTarget.value = ''
-            
-        } else {
-            // this.scheduledAtFormTarget.style.display = '';
-            this.scheduledAtFormTarget.classList.remove("hidden");
-            this.checkBoxAutoDoneTarget.checked = false
-        }
-
+  }
+  toggleRadionButtonsChecked(value) {
+    this.radioButtonSendNowTrueTarget.checked = value;
+    this.radioButtonSendNowFalseTarget.checked = !value;
+  }
+  handleScheduledAtFormVisibility() {
+    if (this.radioButtonSendNowTrueTarget.checked) {
+      this.scheduledAtFormTarget.classList.add("hidden");
+    } else {
+      this.scheduledAtFormTarget.classList.remove("hidden");
     }
-    resetCheckRadioDiv() {
-        this.element.querySelectorAll('.radio-button-div').forEach((x) => {
-            x.setAttribute('aria-checked', 'false');
-        });
-    }
+  }
 
+  resetAllSendNowWrapper() {
+    this.element.querySelectorAll(".send-now-wrapper").forEach((x) => {
+      x.setAttribute("aria-checked", "false");
+    });
+  }
 }

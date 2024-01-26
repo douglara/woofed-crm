@@ -6,12 +6,22 @@ class Accounts::PipelinesController < InternalController
 
   # GET /pipelines or /pipelines.json
   def index
-    redirect_to(account_pipeline_path(current_user.account, current_user.account.pipelines.first))
+    pipeline = current_user.account.pipelines.first
+    if pipeline
+      redirect_to(account_pipeline_path(current_user.account, pipeline))
+    else
+      redirect_to account_welcome_index_path(current_user.account)
+    end
   end
 
   # GET /pipelines/1 or /pipelines/1.json
   def show
     @pipelines = current_user.account.pipelines
+    if params[:filter_status_deal].present?
+      @status = params[:filter_status_deal]
+    else
+      @status = 'open'
+    end
   end
 
   # GET /pipelines/new
@@ -208,7 +218,7 @@ class Accounts::PipelinesController < InternalController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_pipeline
-      @pipeline = Pipeline.find(params[:id])
+      @pipeline = current_user.account.pipelines.find(params[:id]) 
     end
 
     # Only allow a list of trusted parameters through.

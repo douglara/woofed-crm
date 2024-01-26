@@ -22,11 +22,9 @@ class Accounts::Contacts::EventsController < InternalController
 
   def create
     @deal = current_user.account.deals.find(params[:deal_id])
-    @event = current_user.account.events.new(event_params.merge({contact: @contact}))
-    @event.contact = @contact
+    @event = EventBuilder.new(current_user, event_params.merge({contact: @contact})).build
     @event.deal = @deal
     @event.from_me = true
-    @event.scheduled_at = Time.now if params['event']['send_now'] == 'true' 
     if @event.save
       return redirect_to(new_account_contact_event_path(account_id: current_user.account, contact_id: @contact.id, deal_id: @deal.id))
     else
@@ -39,15 +37,9 @@ class Accounts::Contacts::EventsController < InternalController
 
   def update
     @deal = current_user.account.deals.find(params[:deal_id])
-    # @event.scheduled_at = Time.now if params['event']['send_now'] == 'true'
-    if params['event']['send_now'].in?(['true', '1'])
-      unless @event.update(event_params.merge({scheduled_at: Time.now}))
-        render :edit, status: :unprocessable_entity
-      end
-    else
-      unless @event.update(event_params)
-        render :edit, status: :unprocessable_entity
-      end
+    @events = @deal.contact.events
+    unless @event.update(event_params)
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -63,7 +55,7 @@ class Accounts::Contacts::EventsController < InternalController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:content, :done, :auto_done, :title, :scheduled_at, :kind, :app_type, :app_id, custom_attributes: {}, additional_attributes: {})
+      params.require(:event).permit(:content, :send_now, :done, :auto_done, :title, :scheduled_at, :kind, :app_type, :app_id, custom_attributes: {}, additional_attributes: {})
     rescue
       {}
     end

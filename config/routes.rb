@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :accounts, module: :accounts do
     resources :settings, only: [:index]
+    resources :welcome, only: [:index]
         resources :custom_attributes_definitions, module: :settings do
 
         end
@@ -78,8 +79,15 @@ Rails.application.routes.draw do
         #resources :events, module: :contacts
       end
   end
+  if ENV.fetch('ENABLE_USER_SIGNUP', 'false') == 'true'
+    devise_for :users, controllers: {
+      registrations: 'users/registrations'
+    }
+  else
+    devise_for :users, skip: [:registrations]
+  end
  
-  devise_for :users
+
   root to: "accounts/pipelines#index"
 
   namespace :api do

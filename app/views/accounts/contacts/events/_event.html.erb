@@ -2,45 +2,32 @@
   <div class="group event-<%= event.scheduled_kind %> event-item-<%= event.from %> my-3" data-controller="load-lucid-icons">
     <div class="w-3/4 block rounded-lg bg-white border border-light-palette-p3 rounded dark:bg-neutral-700">
       <div class="border-b-2 border-neutral-100 bg-light-palette-p4 px-3 py-2 flex items-center space-x-3">
-        <% if event.kind == "chatwoot_message" || event.kind == "wpp_connect_message"%>
-        <% unless event.done? %>
-          <%= form_with(model: event, url: account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id)) do |form| %>
-          <div class="group-[.event-item-from-contacts]:hidden">
-            <!-- onclick: 'this.form.querySelector(".check-submit").click()' -->
-            <%= form.check_box :send_now, class: 'w-7 h-7 text-brand-palette-03 rounded-full border-light-palette-p2 focus:ring-transparent cursor-pointer', onchange: 'confirm("Are you sure?") && this.form.querySelector(".check-submit").click()' %>
-            <%= form.hidden_field :auto_done, value: true%>
-            <%= form.submit class: 'check-submit', hidden: true %>
-          </div>
-
+        <% if event.from_me? %>
+          <% if event.note? %>
+            <div class="flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7]">
+              <i data-lucide="check" class= "h-[20px] self-center stroke-[#26D367]"></i>
+            </div>
+          <% elsif event.activity? %>
+            <% if event.done? %>
+              <%= link_to account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: false}) ,method: :put, data: {confirm: "Are you sure?"}, class:'flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7] hover:bg-[#DEFFE9] cursor-pointer'  do %>
+                <i data-lucide="check" class= "h-[20px] self-center stroke-[#26D367]"></i>
+              <% end %>
+            <% else %>
+              <%= link_to '' ,account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: true}) ,method: :put, data: {confirm: "Are you sure?"}, class: 'h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p2 bg-light-palette-p5 hover:bg-light-palette-p3 cursor-pointer' %>
+            <% end %>
+          <% elsif event.chatwoot_message? %>
+            <% if event.done? %>
+              <div class="flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7]">
+                <i data-lucide="check-check" class= "h-[20px] self-center stroke-[#26D367]"></i>
+              </div>
+            <% else %>
+              <%= link_to '' ,account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{send_now: true}) ,method: :put, data: {confirm: "Are you sure?"}, class: 'h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p2 bg-light-palette-p5 hover:bg-light-palette-p3 cursor-pointer' %>
+            <% end %>
+          <% end %>
+        <% else %>
           <div class="flex items-center rounded-full border-light-palette-p3 border h-8 w-8 bg-light-palette-p5 group-[.event-item-from-me]:hidden">
             <i class="m-auto text-auxiliary-palette-blue" data-lucide="user" height="20"></i>
           </div>
-          <% end %>
-        <% else %>
-          <div class="flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7]">
-            <i data-lucide="check-check" class= "h-[20px] self-center stroke-[#26D367]"></i>
-            <!-- <i data-lucide="message-circle" class= "h-[20px] stroke-[#369EF2] -rotate-[101deg] self-center"></i> -->
-          </div>
-        <% end %>
-        <% elsif event.kind == "note"%>
-          <div class="flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7]">
-            <i data-lucide="check" class= "h-[20px] self-center stroke-[#26D367]"></i>
-            <!-- <i data-lucide="message-circle" class= "h-[20px] stroke-[#369EF2] -rotate-[101deg] self-center"></i> -->
-          </div>
-        <% elsif event.done != nil %>
-          <%= form_with(model: event, url: account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id)) do |form| %>
-            <div class="group-[.event-item-from-contacts]:hidden">
-              <%= form.check_box :done, class: 'w-7 h-7 text-brand-palette-03 rounded-full border-light-palette-p2 focus:ring-transparent cursor-pointer', onchange: 'confirm("Are you sure?") && this.form.querySelector(".check-submit").click()' %>
-              <%= form.submit class: 'check-submit', hidden: true %>
-            </div>
-  
-            <div class="flex items-center rounded-full border-light-palette-p3 border h-8 w-8 bg-light-palette-p5 group-[.event-item-from-me]:hidden">
-              <i class="m-auto text-auxiliary-palette-blue" data-lucide="user" height="20"></i>
-            </div>
-          <% end %>
-        <!-- <i data-lucide="check"></i> -->
-        <!-- <i data-lucide="check-check"></i> -->
-
         <% end %>
         <div class="flex-grow py-1">
          <div class="flex items-center gap-2">
@@ -48,10 +35,6 @@
             <%= event.kind == 'activity' ? event.title : Event.human_attribute_name(event.kind) %>
           </span>
           <i data-lucide="<%= event.icon_key %>" class="<%= event.icon_key %> self-center"></i>
-          <!-- <% if event.kind == "chatwoot_message" %>
-            <i data-lucide="message-circle" class= "h-[15px] w-[15px] stroke-[#369EF2] -rotate-[101deg]"></i>
-          <% end %> -->
-          <!-- <i class="<%= event.icon_key %> mx-2" height="14"></i> -->
          </div>
           <% if event.scheduled_at.present? %>
             <span class="m-0 text-brand-palette-04 group-[.event-scheduled]:font-semibold group-[.event-item-from-contacts]:text-dark-gray-palette-p4">Prazo: <%= event.primary_date %></span>
@@ -61,28 +44,28 @@
         </div>
         <% unless (event.kind == "chatwoot_message" || event.kind == "wpp_connect_message") && event.done? %>
           <div class="mb-auto">
-            <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownMenuActions<%= event.id %>" class="inline-flex mr-1 items-center p-1 text-sm font-medium text-center text-gray-900 bg-transparent rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button"> 
+            <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownMenuActions<%= event.id %>" class="inline-flex mr-1 items-center p-1 text-sm font-medium text-center text-gray-900 bg-transparent rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
               <i data-lucide="more-horizontal" class="text-gray-pallete-p3"></i>
             </button>
           </div>
         <% end %>
       </div>
-        <!-- Dropdown menu -->        
+        <!-- Dropdown menu -->
       <div id="dropdownMenuActions<%= event.id %>" class="z-10 hidden w-48 left-16  bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
         <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
           <li>
             <%= link_to edit_account_contact_event_path(event.account, event.contact, event), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do%>
               <i data-lucide="file-edit"></i> <p>Editar</p>
-            <%end%> 
+            <%end%>
           </li>
           <li>
             <%= link_to account_contact_event_path(event.account, event.contact, event), method: :delete, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do%>
             <i data-lucide="trash-2"></i>
               <p>Excluir</p></a>
-          <%end%> 
+          <%end%>
           </li>
         </ul>
-      </div>        
+      </div>
       <div class="p-6">
         <p class="m-0 typography-text-m-lh200 text-dark-gray-palette-p3">
           <%= event.content %>

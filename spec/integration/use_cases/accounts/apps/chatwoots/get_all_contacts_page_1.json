@@ -1,0 +1,253 @@
+{
+  "meta": {
+    "count": 2,
+    "current_page": 1
+  },
+  "payload": [
+    {
+      "additional_attributes": {
+        "city": "Campos",
+        "country": "Brazil",
+        "description": "",
+        "company_name": "Empresa teste",
+        "country_code": "BR",
+        "social_profiles": {
+          "github": "",
+          "twitter": "",
+          "facebook": "",
+          "linkedin": "",
+          "instagram": ""
+        }
+      },
+      "availability_status": "offline",
+      "email": "bbbb@eamil.com",
+      "id": 63,
+      "name": "BBBBBBBBBBBBBBBBBBBBB",
+      "phone_number": "+5522998813788",
+      "identifier": null,
+      "thumbnail": "",
+      "custom_attributes": {
+        "CPF": "",
+        "Cpf": "",
+        "cep": "",
+        "Cnpj": "",
+        "TEste": "",
+        "hgfhfgh": "",
+        "Endereço de casa": ""
+      },
+      "created_at": 1697719861,
+      "contact_inboxes": [
+        {
+          "source_id": "3430a8c6-01c4-4a04-90e8-2e1d8be1ce4e",
+          "inbox": {
+            "id": 4,
+            "avatar_url": "",
+            "channel_id": 4,
+            "name": "Teste 2",
+            "channel_type": "Channel: : Api",
+            "greeting_enabled": true,
+            "greeting_message": "Teste mensagem boasvindas",
+            "working_hours_enabled": false,
+            "enable_email_collect": true,
+            "csat_survey_enabled": false,
+            "enable_auto_assignment": true,
+            "auto_assignment_config": {},
+            "out_of_office_message": null,
+            "working_hours": [
+              {
+                "day_of_week": 0,
+                "closed_all_day": true,
+                "open_hour": null,
+                "open_minutes": null,
+                "close_hour": null,
+                "close_minutes": null,
+                "open_all_day": false
+              },
+              {
+                "day_of_week": 1,
+                "closed_all_day": false,
+                "open_hour": 9,
+                "open_minutes": 0,
+                "close_hour": 17,
+                "close_minutes": 0,
+                "open_all_day": false
+              },
+              {
+                "day_of_week": 2,
+                "closed_all_day": false,
+                "open_hour": 9,
+                "open_minutes": 0,
+                "close_hour": 17,
+                "close_minutes": 0,
+                "open_all_day": false
+              },
+              {
+                "day_of_week": 3,
+                "closed_all_day": false,
+                "open_hour": 9,
+                "open_minutes": 0,
+                "close_hour": 17,
+                "close_minutes": 0,
+                "open_all_day": false
+              },
+              {
+                "day_of_week": 4,
+                "closed_all_day": false,
+                "open_hour": 9,
+                "open_minutes": 0,
+                "close_hour": 17,
+                "close_minutes": 0,
+                "open_all_day": false
+              },
+              {
+                "day_of_week": 5,
+                "closed_all_day": false,
+                "open_hour": 9,
+                "open_minutes": 0,
+                "close_hour": 17,
+                "close_minutes": 0,
+                "open_all_day": false
+              },
+              {
+                "day_of_week": 6,
+                "closed_all_day": true,
+                "open_hour": null,
+                "open_minutes": null,
+                "close_hour": null,
+                "close_minutes": null,
+                "open_all_day": false
+              }
+            ],
+            "timezone": "UTC",
+            "callback_webhook_url": null,
+            "allow_messages_after_resolved": true,
+            "lock_to_single_conversation": false,
+            "sender_name_type": "friendly",
+            "business_name": null,
+            "widget_color": null,
+            "website_url": null,
+            "hmac_mandatory": false,
+            "welcome_title": null,
+            "welcome_tagline": null,
+            "web_widget_script": null,
+            "website_token": null,
+            "selected_feature_flags": null,
+            "reply_time": null,
+            "messaging_service_sid": null,
+            "phone_number": null,
+            "hmac_token": "UzDkjBspZe7xUpuDqDFoM6s5",
+            "webhook_url": "",
+            "inbox_identifier": "RsZMgRB9hFatcNJnAhTEoF5G",
+            "additional_attributes": {},
+            "provider": null
+          }
+        },
+        {
+          "source_id": "d3cb6e80-c889-4bb5-99ad-60228b1c4859",
+          "inbox": {
+            "id": 5,
+            "avatar_url": "",
+            "channel_id": 5,
+            "name": "Teste",
+            "channel_type": "Channel: : Api",
+            "greeting_enabled": false,
+            "greeting_message": null,
+            "working_hours_enabled": false,
+            "enable_email_collect": true,
+            "csat_survey_enabled": false,
+            "enable_auto_assignment": true,
+            "auto_assignment_config": {},
+            "out_of_office_message": null,
+            "working_hours": [
+              {
+                "day_of_week": 0,
+                "closed_all_day": true,
+                "open_hour": null,
+                "open_minutes": null,
+                "close_hour": null,
+                "close_minutes": null,
+                "open_all_day": false
+              },
+              {
+                "day_of_week": 1,
+                "closed_all_day": false,
+                "open_hour": 9,
+                "open_minutes": 0,
+                "close_hour": 17,
+                "close_minutes": 0,
+                "open_all_day": false
+              },
+              {
+                "day_of_week": 2,
+                "closed_all_day": false,
+                "open_hour": 9,
+                "open_minutes": 0,
+                "close_hour": 17,
+                "close_minutes": 0,
+                "open_all_day": false
+              },
+              {
+                "day_of_week": 3,
+                "closed_all_day": false,
+                "open_hour": 9,
+                "open_minutes": 0,
+                "close_hour": 17,
+                "close_minutes": 0,
+                "open_all_day": false
+              },
+              {
+                "day_of_week": 4,
+                "closed_all_day": false,
+                "open_hour": 9,
+                "open_minutes": 0,
+                "close_hour": 17,
+                "close_minutes": 0,
+                "open_all_day": false
+              },
+              {
+                "day_of_week": 5,
+                "closed_all_day": false,
+                "open_hour": 9,
+                "open_minutes": 0,
+                "close_hour": 17,
+                "close_minutes": 0,
+                "open_all_day": false
+              },
+              {
+                "day_of_week": 6,
+                "closed_all_day": true,
+                "open_hour": null,
+                "open_minutes": null,
+                "close_hour": null,
+                "close_minutes": null,
+                "open_all_day": false
+              }
+            ],
+            "timezone": "UTC",
+            "callback_webhook_url": null,
+            "allow_messages_after_resolved": true,
+            "lock_to_single_conversation": false,
+            "sender_name_type": "friendly",
+            "business_name": null,
+            "widget_color": null,
+            "website_url": null,
+            "hmac_mandatory": false,
+            "welcome_title": null,
+            "welcome_tagline": null,
+            "web_widget_script": null,
+            "website_token": null,
+            "selected_feature_flags": null,
+            "reply_time": null,
+            "messaging_service_sid": null,
+            "phone_number": null,
+            "hmac_token": "owPT5YGT7vo1LyJyNMNNhabT",
+            "webhook_url": "",
+            "inbox_identifier": "idJXX1Cu1VeVTikmH6eYAr6M",
+            "additional_attributes": {},
+            "provider": null
+          }
+        }
+      ]
+    }
+  ]
+}
