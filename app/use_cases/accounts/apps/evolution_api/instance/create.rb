@@ -18,7 +18,7 @@ class Accounts::Apps::EvolutionApi::Instance::Create
       "instanceName": evolution_api.instance,
       "token": evolution_api.token,
       "qrcode": true,
-      "webhook": ENV['FRONTEND_URL'],
+      "webhook": evolution_api.woofedcrm_webhooks_url,
       "events": [
         "QRCODE_UPDATED",
         "MESSAGES_DELETE",

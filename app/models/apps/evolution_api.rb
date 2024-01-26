@@ -43,6 +43,10 @@ class Apps::EvolutionApi < ApplicationRecord
     {'apiKey': "#{token}", 'Content-Type': 'application/json'}
   end
 
+  def woofedcrm_webhooks_url
+    "#{ENV['FRONTEND_URL']}/apps/evolution_apis/webhooks"
+  end
+
   def generate_token(field)
     loop do
       security_token = SecureRandom.hex(10)
