@@ -143,9 +143,6 @@ Rails.application.routes.draw do
     resources :evolution_apis do
       collection do
         post 'webhooks'
-        get 'embedding'
-        get 'embedding_init_authenticate'
-        post 'embedding_authenticate'
       end
     end
   end
