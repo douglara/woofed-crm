@@ -1,0 +1,37 @@
+{
+  "instance": {
+    "instanceName": "woofedinstance",
+    "instanceId": "04b89318-6b1c-4276-b013-c1c16533dc55",
+    "status": "created"
+  },
+  "hash": {
+    "apikey": "woofedtoken"
+  },
+  "webhook": {
+    "webhook": "https://app-beta.woofedcrm.com/",
+    "events": [
+      "APPLICATION_STARTUP",
+      "QRCODE_UPDATED"
+    ]
+  },
+  "websocket": {},
+  "rabbitmq": {},
+  "sqs": {},
+  "typebot": {
+    "enabled": false
+  },
+  "settings": {
+    "reject_call": false,
+    "msg_call": "",
+    "groups_ignore": true,
+    "always_online": false,
+    "read_messages": false,
+    "read_status": false
+  },
+  "qrcode": {
+    "pairingCode": "9WFRDRZS",
+    "code": "2@tmXZIEo2dfM7Tmy7+jNZ5vo5rKPmN5wOCS0fJbGC5uIFdauqx9l76ZUnsuSbgEHTh1FAhCTQmyaheQ==,OWViPWgU3wkSeCKOA/JtaJ1AKJxUeCEj24ocX4C0IEs=,3lyDzYPxoxiO+MwosLPUpO0bfxErPbYjCfE6R5HvOnc=,H8Ogxd0V+KgoM7F3TwkjwVRoXy2ifCr7y1FC5iKi9sg=",
+    "base64": "qrcode",
+    "count": 1
+  }
+}
