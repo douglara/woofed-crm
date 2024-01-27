@@ -1,6 +1,15 @@
 # Additional translations at https://github.com/heartcombo/devise/wiki/I18n
 
 pt-BR:
+  motor:
+    edit: Editar
+    remove: Remover
+    details: Detalhes
+    audits: Auditoria
+    notes: Notas
+    reports: Relatórios
+    forms: Formulários
+    password: Senha
   devise:
     confirmations:
       confirmed: "Seu endereço de email foi confirmado com sucesso."
