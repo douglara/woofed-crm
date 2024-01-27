@@ -1,37 +1,16 @@
 {
-  "instance": {
-    "instanceName": "woofedinstance",
-    "instanceId": "04b89318-6b1c-4276-b013-c1c16533dc55",
-    "status": "created"
+  "event": "qrcode.updated",
+  "instance": "woofedinstance",
+  "data": {
+    "qrcode": {
+      "instance": "woofedinstance",
+      "pairingCode": "V37R3T7X",
+      "code": "2@xCLTLQpXqmnR1jld2wKbVGmXchdVSFR3QHQa+6BNF8EK8VeoKUTYklFySHt0rrgknAPgwBkD7y1IIQ==,Xl787d38Gmn0wbPMtlvd47VIqs1xzfsZQTTLgePiYmA=,XQTEs9Fx080JHolGhWrlheRKQo8WCPj0DqCbrrMLiU8=,r8hWahUUJqu7BJFq1l1dQopW2r3lEbOrWOyQJfmmZdY=",
+      "base64": "qrcode"
+    }
   },
-  "hash": {
-    "apikey": "woofedtoken"
-  },
-  "webhook": {
-    "webhook": "https://app-beta.woofedcrm.com/",
-    "events": [
-      "APPLICATION_STARTUP",
-      "QRCODE_UPDATED"
-    ]
-  },
-  "websocket": {},
-  "rabbitmq": {},
-  "sqs": {},
-  "typebot": {
-    "enabled": false
-  },
-  "settings": {
-    "reject_call": false,
-    "msg_call": "",
-    "groups_ignore": true,
-    "always_online": false,
-    "read_messages": false,
-    "read_status": false
-  },
-  "qrcode": {
-    "pairingCode": "9WFRDRZS",
-    "code": "2@tmXZIEo2dfM7Tmy7+jNZ5vo5rKPmN5wOCS0fJbGC5uIFdauqx9l76ZUnsuSbgEHTh1FAhCTQmyaheQ==,OWViPWgU3wkSeCKOA/JtaJ1AKJxUeCEj24ocX4C0IEs=,3lyDzYPxoxiO+MwosLPUpO0bfxErPbYjCfE6R5HvOnc=,H8Ogxd0V+KgoM7F3TwkjwVRoXy2ifCr7y1FC5iKi9sg=",
-    "base64": "qrcode",
-    "count": 1
-  }
+  "destination": "https://webhook.com/",
+  "date_time": "2024-01-27T02:35:43.230Z",
+  "server_url": "https://server.com",
+  "apikey": "woofedtoken"
 }

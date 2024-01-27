@@ -9,6 +9,9 @@ RSpec.describe Accounts::Apps::EvolutionApis::Webhooks::ProcessWebhookWorker, ty
     let(:qrcode_updated_webhook_event) do
       File.read('spec/integration/use_cases/accounts/apps/evolution_api/webhooks/events/qrcode_updated_event.json')
     end
+    let(:created_connection_event) do
+      File.read('spec/integration/use_cases/accounts/apps/evolution_api/webhooks/events/created_connection_event.json')
+    end
     let(:evolution_api_additional_attributes) { evolution_api.reload.additional_attributes }
 
     describe 'when is qrcode_update event' do
@@ -22,6 +25,20 @@ RSpec.describe Accounts::Apps::EvolutionApis::Webhooks::ProcessWebhookWorker, ty
           expect(evolution_api.reload.additional_attributes).to eq({ 'qrcode' => 'qrcode',
                                                                      'expiration_date' => (Time.new(2024, 1, 27, 0, 0,
                                                                                                     0) + 50.seconds).to_s })
+        end
+      end
+    end
+    describe 'when is created_connection event' do
+      context 'success' do
+        it 'should update evolution_api status and phone' do
+          evolution_api.update(additional_attributes: {qrcode: 'qrcode', expiration_date: Time.current})
+          Sidekiq::Testing.inline! do
+            described_class.perform_async(created_connection_event)
+          end
+          expect(evolution_api.reload.connection_status).to eq('active')
+          expect(evolution_api.reload.phone).to be_truthy
+          expect(evolution_api.reload.additional_attributes).not_to include('qrcode', 'expired_date')
+
         end
       end
     end
