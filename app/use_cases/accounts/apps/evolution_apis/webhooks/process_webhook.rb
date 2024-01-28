@@ -6,22 +6,22 @@ class Accounts::Apps::EvolutionApis::Webhooks::ProcessWebhook
         evolution_api, webhook['data']['qrcode']['base64']
       )
     elsif webhook['event'] == 'connection.update'
-      if connection_created
+      if connection_created(webhook)
         Accounts::Apps::EvolutionApis::Webhooks::Events::ConnectionCreated.call(evolution_api,
                                                                                 webhook['sender'].gsub(/\D/, ''))
 
-      elsif connection_deleted
+      elsif connection_deleted(webhook)
         Accounts::Apps::EvolutionApis::Webhooks::Events::ConnectionDeleted.call(evolution_api)
       end
     end
     { ok: evolution_api }
   end
 
-  def connection_created
+  def self.connection_created(webhook)
     webhook['data']['statusReason'] == '200' && webhook['data']['state'] == 'open'
   end
 
-  def connection_deleted
+  def self.connection_deleted(webhook)
     webhook['data']['statusReason'] == '401' && webhook['data']['state'] == 'close'
   end
 end
