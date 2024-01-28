@@ -3,7 +3,6 @@ require 'webmock/rspec'
 require 'sidekiq/testing'
 
 RSpec.describe Apps::EvolutionApisController, type: :request do
-
   let(:account) { create(:account) }
   let(:evolution_api) { create(:apps_evolution_api, account: account) }
   let(:qrcode_updated_webhook_event) { load_webhook_event('qrcode_updated_event.json') }
