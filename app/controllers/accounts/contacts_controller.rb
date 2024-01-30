@@ -17,7 +17,7 @@ class Accounts::ContactsController < InternalController
 
   def search
     @contacts = current_user.account.contacts.where('full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search', search: "%#{params[:q]}%").limit(5).map(&:attributes)
-    
+
     @results = @contacts.each do | c |
       c[:text] = "#{c['full_name']} - #{c['email']} - #{c['phone']}"
       c
@@ -69,13 +69,13 @@ class Accounts::ContactsController < InternalController
     if @contact.update(contact_params)
       flash[:notice] = 'Contato atualizado com sucesso!'
       if params[:contact][:deal_page_id]
-        redirect_to account_deal_path(current_user.account, params[:contact][:deal_page_id]) 
+        redirect_to account_deal_path(current_user.account, params[:contact][:deal_page_id])
       else
-      # redirect_to account_contacts_path(current_user) 
+      # redirect_to account_contacts_path(current_user)
         render :update, status: :ok
       end
     else
-      render :edit, status: :unprocessable_entity 
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -83,7 +83,7 @@ class Accounts::ContactsController < InternalController
   def destroy
     @contact.destroy
     respond_to do |format|
-      format.html { redirect_to contacts_url, notice: "Contact was successfully destroyed." }
+      format.html { redirect_to account_contacts_path(current_user.account), notice: "Contact was successfully destroyed." }
       format.json { head :no_content }
     end
   end
