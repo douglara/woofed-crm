@@ -75,7 +75,6 @@ class Accounts::ContactsController < InternalController
       if params[:contact][:deal_page_id]
         redirect_to account_deal_path(current_user.account, params[:contact][:deal_page_id])
       else
-        # redirect_to account_contacts_path(current_user)
         render :update, status: :ok
       end
     else
@@ -87,7 +86,7 @@ class Accounts::ContactsController < InternalController
   def destroy
     @contact.destroy
     respond_to do |format|
-      format.html { redirect_to contacts_url, notice: 'Contact was successfully destroyed.' }
+      format.html { redirect_to account_contacts_path(current_user.account), notice: "Contact was successfully destroyed." }
       format.json { head :no_content }
     end
   end

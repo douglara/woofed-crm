@@ -13,13 +13,16 @@ Woofed CRM is a Open source CRM Software.
 ## Let's try
 
 You can try the development version through the link:
-https://woofed-crm-development.herokuapp.com
+[woofedcrm.com](https://woofedcrm.com/)
+
+## API
+
+[Documentation](https://www.postman.com/dark-shuttle-5185/workspace/woofed-crm-api/collection/905262-e0bb0d71-a634-4fa2-8b03-4ae4c6dde690)
 
 ## Setup development environment
 
 Requeriments for project:
 ```
-python 2.7.13
 ruby 3.0.0
 nodejs 16.16.0
 ```
