@@ -129,14 +129,16 @@ class Accounts::PipelinesController < InternalController
 
   def create_bulk_action
     @deals = current_user.account.deals.where(stage_id: params['stage_id'], status: 'open')
-    time_start = DateTime.current
 
-    @result = @deals.each do | deal |
-      if params['event']['send_now'] == 'true'
-        time_start = time_start + rand(5..15).seconds
-      else
-        time_start = nil
-      end
+    if params['event']['send_now'] == 'true'
+      time_start = DateTime.current
+    else
+      time_start = params['event']['scheduled_at']
+    end
+
+    @result = @deals.each do
+      time_start = time_start + rand(5..15).seconds
+    end
 
       Event.create(
         deal: deal,
@@ -148,11 +150,10 @@ class Accounts::PipelinesController < InternalController
         app_type: params['event']['app_type'],
         content: params['event']['content'],
         additional_attributes: params['event']['additional_attributes'],
-        scheduled_at: time_start || params['event']['scheduled_at'],
+        scheduled_at: time_start,
         auto_done: params['event']['auto_done'],
-        send_now: params['event']['send_now']
+        send_now: false
       )
-    end
     redirect_to account_pipelines_path(current_user.account, @pipeline), notice: 'Envio em massa criado com sucesso!'
   end
 
