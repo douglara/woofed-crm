@@ -22,12 +22,21 @@ class Accounts::Apps::Chatwoots::ExportContact
       chatwoot.request_headers
     )
     if request.status == 200
-      return { ok: contact }
+      export_contact_tags(chatwoot, contact)
+      return { ok: contact}
     else
       return { error: request.body }
     end
   end
 
+  def self.export_contact_tags(chatwoot, contact)
+    request = Faraday.post(
+      "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{contact.additional_attributes['chatwoot_id']}/labels",
+      {labels: contact.label_list}.to_json,
+      chatwoot.request_headers
+    )
+    return JSON.parse(request.body)['payload']
+  end
 
   def self.create_contact(chatwoot, contact)
     request = Faraday.post(
@@ -47,6 +56,7 @@ class Accounts::Apps::Chatwoots::ExportContact
       return { ok: contact }
     elsif request.status == 200
       update_contact_chatwoot_id(contact, response_body['payload']['contact']['id'])
+      export_contact_tags(chatwoot, contact)
       return { ok: contact }
     else
       Rails.logger.error(

@@ -1,0 +1,9 @@
+<ul class="max-w-[<%=max_width%>] flex justify-<%=justify_content%> flex-wrap gap-2">
+  <% labels.each do |label|  %>
+    <li class="label-v1">
+      <div class="w-[8px] h-[8px] bg-brand-palette-03 shadow-inner rounded-lg"></div>
+      <p class="typography-sub-text-m-lh150"><%= label %></p>
+    </li>
+  <% end %>
+</ul>
+

@@ -1,5 +1,5 @@
 class Accounts::ContactsController < InternalController
-  before_action :set_contact, only: %i[ show edit update destroy ]
+  before_action :set_contact, only: %i[show edit update destroy]
 
   # GET /contacts or /contacts.json
   def index
@@ -12,20 +12,24 @@ class Accounts::ContactsController < InternalController
   end
 
   def select_contact_search
-    @contacts = current_user.account.contacts.where('full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search', search: "%#{params[:query]}%").order(updated_at: :desc).limit(5)
+    @contacts = current_user.account.contacts.where(
+      'full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search', search: "%#{params[:query]}%"
+    ).order(updated_at: :desc).limit(5)
   end
 
   def search
-    @contacts = current_user.account.contacts.where('full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search', search: "%#{params[:q]}%").limit(5).map(&:attributes)
+    @contacts = current_user.account.contacts.where(
+      'full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search', search: "%#{params[:q]}%"
+    ).limit(5).map(&:attributes)
 
-    @results = @contacts.each do | c |
+    @results = @contacts.each do |c|
       c[:text] = "#{c['full_name']} - #{c['email']} - #{c['phone']}"
       c
     end
 
-    @results.insert(0, {"id": 0, "text": "New contact"})
+    @results.insert(0, { "id": 0, "text": 'New contact' })
 
-    json =  {
+    json = {
       "results": @results
     }
     render json: json
@@ -37,8 +41,7 @@ class Accounts::ContactsController < InternalController
   end
 
   # GET /contacts/1/edit
-  def edit
-  end
+  def edit; end
 
   def edit_custom_attributes
     @contact = current_user.account.contacts.find(params[:contact_id])
@@ -48,17 +51,18 @@ class Accounts::ContactsController < InternalController
   def update_custom_attributes
     @contact = current_user.account.contacts.find(params[:contact_id])
     @contact.custom_attributes[params[:contact][:att_key]] = params[:contact][:att_value]
-    redirect_to account_deal_path(current_user.account, params[:contact][:deal_page_id]) if params[:contact][:deal_page_id]
-    unless @contact.save
-      render :edit_custom_attributes, status: :unprocessable_entity
+    if params[:contact][:deal_page_id]
+      redirect_to account_deal_path(current_user.account,
+                                    params[:contact][:deal_page_id])
     end
+    render :edit_custom_attributes, status: :unprocessable_entity unless @contact.save
   end
 
   # POST /contacts or /contacts.json
   def create
     @contact = current_user.account.contacts.new(contact_params)
     if @contact.save
-      redirect_to account_contact_path(current_user.account, @contact), notice: "Contact was successfully created."
+      redirect_to account_contact_path(current_user.account, @contact), notice: 'Contact was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -71,7 +75,6 @@ class Accounts::ContactsController < InternalController
       if params[:contact][:deal_page_id]
         redirect_to account_deal_path(current_user.account, params[:contact][:deal_page_id])
       else
-      # redirect_to account_contacts_path(current_user)
         render :update, status: :ok
       end
     else
@@ -89,13 +92,15 @@ class Accounts::ContactsController < InternalController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_contact
-      @contact = Contact.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def contact_params
-      params.require(:contact).permit(:full_name, :phone, :email, custom_attributes: {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_contact
+    @contact = Contact.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def contact_params
+    params.require(:contact).permit(:full_name, :phone, :email, :label_list,
+                                    custom_attributes: {})
+  end
 end
