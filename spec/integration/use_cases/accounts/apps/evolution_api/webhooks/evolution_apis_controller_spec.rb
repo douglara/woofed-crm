@@ -8,7 +8,7 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
   let(:qrcode_updated_webhook_event) { load_webhook_event('qrcode_updated_event.json') }
   let(:created_connection_event) { load_webhook_event('created_connection_event.json') }
   let(:deleted_connection_event) { load_webhook_event('deleted_connection_event.json') }
-  let(:evolution_api_additional_attributes) { evolution_api.reload.additional_attributes }
+  let(:evolution_api_qrcode_info) { evolution_api.reload.qrcode_info }
 
   def load_webhook_event(filename)
     File.read(Rails.root.join('spec/integration/use_cases/accounts/apps/evolution_api/webhooks/events', filename))
@@ -26,12 +26,12 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
   describe 'POST /apps/evolution_apis/webhooks' do
     describe 'when is qrcode_update event' do
       context 'success' do
-        it 'should update additional_attributes' do
+        it 'should update qrcode_info' do
           allow(Time).to receive(:current).and_return(Time.new(2024, 1, 27, 0, 0, 0))
           evolution_api
           post_webhook(qrcode_updated_webhook_event)
           expect_success
-          expect(evolution_api.reload.additional_attributes).to eq({ 'qrcode' => 'qrcode',
+          expect(evolution_api.reload.qrcode_info).to eq({ 'qrcode' => 'qrcode',
                                                                      'expiration_date' => (Time.new(2024, 1, 27, 0, 0,
                                                                                                     0) + 50.seconds).to_s })
         end
@@ -40,12 +40,12 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
     describe 'when is created_connection event' do
       context 'success' do
         it 'should update evolution_api status and phone' do
-          evolution_api.update(additional_attributes: { qrcode: 'qrcode', expiration_date: Time.current })
+          evolution_api.update(qrcode_info: { qrcode: 'qrcode', expiration_date: Time.current })
           post_webhook(created_connection_event)
           expect_success
           expect(evolution_api.reload.connection_status).to eq('active')
           expect(evolution_api.reload.phone).to be_truthy
-          expect(evolution_api.reload.additional_attributes).not_to include('qrcode', 'expired_date')
+          expect(evolution_api.reload.qrcode_info).not_to include('qrcode', 'expired_date')
         end
       end
     end

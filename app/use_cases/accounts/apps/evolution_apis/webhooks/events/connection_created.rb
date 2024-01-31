@@ -13,8 +13,8 @@ class Accounts::Apps::EvolutionApis::Webhooks::Events::ConnectionCreated
   end
 
   def self.remove_qrcode(evolution_api)
-    evolution_api.additional_attributes.delete('qrcode')
-    evolution_api.additional_attributes.delete('expired_date')
+    evolution_api.qrcode_info.delete('qrcode')
+    evolution_api.qrcode_info.delete('expired_date')
     evolution_api
   end
 end

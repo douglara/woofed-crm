@@ -10,6 +10,7 @@
 #  instance              :string           default(""), not null
 #  name                  :string           default(""), not null
 #  phone                 :string           default(""), not null
+#  qrcode_info           :jsonb
 #  token                 :string           default(""), not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
