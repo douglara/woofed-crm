@@ -41,7 +41,7 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
           evolution_api.update(qrcode: 'qrcode')
           post_webhook(created_connection_event)
           expect_success
-          expect(evolution_api.reload.connection_status).to eq('active')
+          expect(evolution_api.reload.connection_status).to eq('connected')
           expect(evolution_api.phone).to be_present
           expect(evolution_api.qrcode).not_to be_present
         end
@@ -57,7 +57,7 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
           evolution_api_connected
           post_webhook(deleted_connection_event)
           expect_success
-          expect(evolution_api.reload.connection_status).to eq('inactive')
+          expect(evolution_api.reload.connection_status).to eq('disconnected')
         end
       end
     end

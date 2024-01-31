@@ -34,10 +34,9 @@ class Apps::EvolutionApi < ApplicationRecord
   scope :actives, -> { where(active: true) }
 
   enum connection_status: {
-    'inactive': 'inactive',
-    'active': 'active',
+    'disconnected': 'disconnected',
+    'connected': 'connected',
     'sync': 'sync',
-    'pair': 'pair',
     'connecting': 'connecting'
   }
 

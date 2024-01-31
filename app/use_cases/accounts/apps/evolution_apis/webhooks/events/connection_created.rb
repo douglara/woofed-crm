@@ -5,7 +5,7 @@ class Accounts::Apps::EvolutionApis::Webhooks::Events::ConnectionCreated
   end
 
   def self.update_evolution_api(evolution_api, phone)
-    evolution_api.connection_status = 'active'
+    evolution_api.connection_status = 'connected'
     evolution_api.phone = "+#{phone}"
     evolution_api.qrcode = ''
     evolution_api.save

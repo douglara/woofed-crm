@@ -6,7 +6,7 @@ class Accounts::Apps::EvolutionApis::Webhooks::Events::ConnectionDeleted
   end
 
   def self.update_connection_status(evolution_api)
-    evolution_api.connection_status = 'inactive'
+    evolution_api.connection_status = 'disconnected'
     evolution_api.save
     evolution_api
   end

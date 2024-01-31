@@ -34,7 +34,7 @@ FactoryBot.define do
     instance { "woofedinstance" }
     trait :connected do
       phone { '+5522999999999' }
-      connection_status { 'active' }
+      connection_status { 'connected' }
     end
   end
 end
