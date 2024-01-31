@@ -24,6 +24,8 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
           .to_return(body: response_conversations, status: 200, headers: { 'Content-Type' => 'application/json' })
         stub_request(:get, /labels/)
           .to_return(body: { payload: ['marcador1'] }.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
+        stub_request(:post, /labels/)
+          .to_return(body: { payload: ['marcador1'] }.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
         stub_request(:put, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{JSON.parse(contact_list_page_1)['payload'].first['id']}")
           .to_return(status: 200, body: contact_list_page_1, headers: { 'Content-Type' => 'application/json' })
         stub_request(:put, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{JSON.parse(contact_list_page_2)['payload'].first['id']}")

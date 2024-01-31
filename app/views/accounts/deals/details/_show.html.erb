@@ -12,14 +12,19 @@
     </div>
     <div id="accordion-collapse-<%= "#{model.class.name.downcase}_#{model.id}"%>" class="hidden py-3" aria-labelledby="accordion-collapse-heading-<%= "#{model.class.name.downcase}_#{model.id}"%>">
       <% model.class::FORM_FIELDS.each do | f | %>
-        <% if model["#{f}"].present? %>
+        <% if model.send(f).present? %>
           <div class="flex items-center pb-4">
-            <label class="flex-none m-auto typography-text-m-lh150 text-dark-gray-palette-p3"><%= model.class.human_attribute_name(f) %></label>
+            <label class="flex-none max-w-[10rem] m-auto typography-text-m-lh150 text-dark-gray-palette-p3"><%= model.class.human_attribute_name(f) %></label>
             <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>
-            <p class="m-0 typography-text-m-lh150 text-dark-gray-palette-p3"><%= model["#{f}"] %></p>
+            <% if f.in?([:label_list, :chatwoot_conversations_label_list]) %>
+              <%= render 'components/list_labels', labels: model.send(f), max_width: '14rem', justify_content: 'end' %>
+             <% else %>
+              <p class="m-0 typography-text-m-lh150 text-dark-gray-palette-p3 max-w-[14rem]"><%= model["#{f}"] %></p>
+            <% end %>
           </div>
         <% end %>
       <% end %>
+
       <%= render 'accounts/deals/details/show_custom_attributes', model: model %>
     </div>
   <% end %>

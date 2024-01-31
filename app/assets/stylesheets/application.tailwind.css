@@ -109,4 +109,20 @@
   .page.active {
     @apply border border-brand-palette-07 rounded-md z-10  bg-brand-palette-08 text-brand-palette-03 typography-text-m-lh150 relative inline-flex items-center px-4 py-2 focus:z-20 pointer-events-none;
   }
+
+  .label-v1{
+    @apply odd:bg-brand-palette-06 odd:text-brand-palette-02 even:bg-brand-palette-07 even:text-brand-palette-03 py-1 px-1.5 flex rounded cursor-default flex gap-1.5 items-center
+  }
+
+  .label-v2{
+    @apply odd:bg-light-palette-p2 odd:text-dark-gray-palette-p2 even:bg-light-palette-p3 even:text-dark-gray-palette-p1 py-1 px-1.5 flex rounded cursor-default flex gap-1.5 items-center
+  }
+
+  .label-v3{
+    @apply odd:bg-brand-palette-07 odd:text-brand-palette-03 even:bg-brand-palette-08 even:text-brand-palette-04 py-1 px-1.5 flex rounded cursor-default flex gap-1.5 items-center
+  }
+
+  .label-v4{
+    @apply odd:bg-[#5440D2] odd:text-light-palette-p4 even:bg-brand-palette-03 even:text-light-palette-p4 py-1 px-1.5 flex rounded cursor-default flex gap-1.5 items-center
+  }
 }
