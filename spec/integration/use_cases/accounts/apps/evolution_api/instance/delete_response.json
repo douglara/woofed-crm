@@ -1,0 +1,7 @@
+{
+  "status": "SUCCESS",
+  "error": false,
+  "response": {
+      "message": "Instance deleted"
+  }
+}

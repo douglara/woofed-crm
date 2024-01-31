@@ -5,6 +5,6 @@ class Accounts::Apps::EvolutionApis::Webhooks::ProcessWebhookWorker
 
   def perform(event)
     event_hash = JSON.parse(event)
-    Accounts::Apps::EvolutionApis::Webhooks::ProcessWebhook.call(event_hash)
+  Accounts::Apps::EvolutionApis::Webhooks::ProcessWebhook.call(event_hash)
   end
 end
