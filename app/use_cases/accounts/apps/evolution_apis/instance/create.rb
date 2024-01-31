@@ -7,6 +7,7 @@ class Accounts::Apps::EvolutionApis::Instance::Create
       {'apiKey': "#{ENV['EVOLUTION_API_ENDPOINT_TOKEN']}", 'Content-Type': 'application/json'}
     )
     if request.status == 201
+      evolution_api.update(connection_status: 'connecting')
       return { ok: JSON.parse(request.body) }
     else
       return { error: JSON.parse(request.body) }

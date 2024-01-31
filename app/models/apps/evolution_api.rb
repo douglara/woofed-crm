@@ -38,6 +38,7 @@ class Apps::EvolutionApi < ApplicationRecord
     'active': 'active',
     'sync': 'sync',
     'pair': 'pair',
+    'connecting': 'connecting'
   }
 
   def request_instance_headers

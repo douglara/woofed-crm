@@ -32,5 +32,9 @@ FactoryBot.define do
     token { "woofedtoken" }
     name { "Woofed EvolutionApi test" }
     instance { "woofedinstance" }
+    trait :connected do
+      phone { '+5522999999999' }
+      connection_status { 'active' }
+    end
   end
 end

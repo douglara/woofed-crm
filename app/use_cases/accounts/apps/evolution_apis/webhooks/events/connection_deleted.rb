@@ -1,7 +1,7 @@
 class Accounts::Apps::EvolutionApis::Webhooks::Events::ConnectionDeleted
   def self.call(evolution_api)
     response = update_connection_status(evolution_api)
-
+    Accounts::Apps::EvolutionApis::Instance::Logout.call(evolution_api)
     { ok: response }
   end
 

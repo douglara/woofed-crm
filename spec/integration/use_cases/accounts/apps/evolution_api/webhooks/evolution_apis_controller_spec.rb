@@ -5,6 +5,7 @@ require 'sidekiq/testing'
 RSpec.describe Apps::EvolutionApisController, type: :request do
   let(:account) { create(:account) }
   let(:evolution_api) { create(:apps_evolution_api, account: account) }
+  let(:evolution_api_connected) { create(:apps_evolution_api, :connected, account: account) }
   let(:qrcode_updated_webhook_event) { load_webhook_event('qrcode_updated_event.json') }
   let(:created_connection_event) { load_webhook_event('created_connection_event.json') }
   let(:deleted_connection_event) { load_webhook_event('deleted_connection_event.json') }
@@ -44,15 +45,19 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
           post_webhook(created_connection_event)
           expect_success
           expect(evolution_api.reload.connection_status).to eq('active')
-          expect(evolution_api.reload.phone).to be_truthy
-          expect(evolution_api.reload.qrcode_info).not_to include('qrcode', 'expired_date')
+          expect(evolution_api.phone).to be_truthy
+          expect(evolution_api.qrcode_info).not_to include('qrcode', 'expired_date')
         end
       end
     end
     describe 'when is deleted_connection event' do
+      before do
+        stub_request(:delete, /logout/)
+        .to_return(body: {}.to_json, status: 200, headers: {'Content-Type' => 'application/json'})
+      end
       context 'success' do
         it 'should update evolution_api status and phone' do
-          evolution_api.update(phone: '+5522999999999', connection_status: 'active')
+          evolution_api_connected
           post_webhook(deleted_connection_event)
           expect_success
           expect(evolution_api.reload.connection_status).to eq('inactive')

@@ -22,6 +22,6 @@ class Accounts::Apps::EvolutionApis::Webhooks::ProcessWebhook
   end
 
   def self.connection_deleted(webhook)
-    webhook['data']['statusReason'] == '401' && webhook['data']['state'] == 'close'
+    (webhook['data']['statusReason'] == '401' || webhook['data']['statusReason'] == '428') && webhook['data']['state'] == 'close'
   end
 end
