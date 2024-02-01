@@ -29,8 +29,6 @@ class Accounts::Apps::EvolutionApisController < InternalController
   end
 
   def pair_qr_code
-
-
     # respond_to do |format|
     #   if result.key?(:ok)
     #     @whatsapp = result[:ok][:wp_connect]
@@ -43,32 +41,6 @@ class Accounts::Apps::EvolutionApisController < InternalController
     #     format.html { redirect_to account_apps_wpp_connects_path(current_user.account), status: :unprocessable_entity }
     #   end
     # end
-  end
-
-  def new_connection_status
-    status = Accounts::Apps::WppConnects::Connection::Status.call(@wpp_connect.id)
-
-    respond_to do |format|
-      if status.key?(:ok)
-        format.json { render json: {'connceted': true }, status: :ok }
-      else
-        format.json { render json: {'connceted': false, qr_code: status[:error]['qrcode'] }, status: :ok }
-      end
-    end
-  end
-
-  def disable
-    @whatsapp.enabled = false
-
-    respond_to do |format|
-      if @whatsapp.save
-        format.html { redirect_to settings_whatsapp_index_path()}
-        format.json { render :edit, status: :ok, location: @whatsapp }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @whatsapp.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   private
