@@ -11,8 +11,6 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
   let(:created_connection_event) { load_webhook_event('created_connection_event.json') }
   let(:deleted_connection_event) { load_webhook_event('deleted_connection_event.json') }
   let(:delete_instance_response) { File.read("spec/integration/use_cases/accounts/apps/evolution_api/instance/delete_response.json") }
-  let(:evolution_api_qrcode_info) { evolution_api.reload.qrcode_info }
-
 
   def load_webhook_event(filename)
     File.read(Rails.root.join('spec/integration/use_cases/accounts/apps/evolution_api/webhooks/events', filename))
@@ -38,16 +36,16 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
         end
       end
       context 'when evolution_api is disconnected' do
+        let!(:evolution_api) { create(:apps_evolution_api, account: account) }
         it 'evolution_api should not be changed' do
-          evolution_api
           post_webhook(qrcode_updated_webhook_event)
           expect_success
           expect(evolution_api.reload.changed?).to be_falsey
         end
       end
       context 'when evolution_api is connected' do
+        let!(:evolution_api_connected) { create(:apps_evolution_api, :connected, account: account) }
         it 'evolution_api should not be changed' do
-          evolution_api_connected
           post_webhook(qrcode_updated_webhook_event)
           expect_success
           expect(evolution_api_connected.reload.changed?).to be_falsey
@@ -55,25 +53,26 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
       end
     end
     describe 'when is created_connection event' do
+      let!(:evolution_api_connecting) { create(:apps_evolution_api, :connecting, account: account) }
       context 'success' do
         it 'should update evolution_api status, phone and qrcode' do
-          evolution_api.update(qrcode: 'qrcode')
           post_webhook(created_connection_event)
           expect_success
-          expect(evolution_api.reload.connected?).to be_truthy
-          expect(evolution_api.phone).to be_present
-          expect(evolution_api.qrcode).not_to be_present
+          expect(evolution_api_connecting.reload.connected?).to be_truthy
+          expect(evolution_api_connecting.phone).to be_present
+          expect(evolution_api_connecting.qrcode).not_to be_present
         end
       end
     end
     describe 'when is deleted_connection event' do
       before do
-        stub_request(:delete, /delete/)
-        .to_return(body: delete_instance_response.to_json, status: 200, headers: {'Content-Type' => 'application/json'})
+
       end
       context 'success' do
         context 'when evolution_api is connected' do
           it 'should update evolution_api status' do
+            stub_request(:delete, /delete/)
+            .to_return(body: delete_instance_response.to_json, status: 200, headers: {'Content-Type' => 'application/json'})
             evolution_api_connected
             post_webhook(deleted_connection_event)
             expect_success
@@ -81,8 +80,8 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
           end
         end
         context 'when evolution_api is disconnected' do
+          let!(:evolution_api) { create(:apps_evolution_api, account: account) }
           it 'evolution_api should not be changed' do
-            evolution_api
             post_webhook(deleted_connection_event)
             expect_success
             expect(evolution_api.reload.changed?).to be_falsey
@@ -90,6 +89,8 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
         end
         context 'when evolution_api is connecting' do
           it 'should update evolution_api status' do
+            stub_request(:delete, /delete/)
+            .to_return(body: delete_instance_response.to_json, status: 200, headers: {'Content-Type' => 'application/json'})
             evolution_api_connected
             post_webhook(deleted_connection_event)
             expect_success

@@ -38,6 +38,7 @@ FactoryBot.define do
     end
     trait :connecting do
       connection_status { 'connecting' }
+      qrcode { 'qrcode_connecting' }
     end
   end
 end
