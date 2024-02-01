@@ -30,21 +30,39 @@ class Apps::EvolutionApi < ApplicationRecord
   validates :token, presence: true
   validates :name, presence: true
   validates :instance, presence: true
+  # validate :validate_evolution_api, on: :create
+  after_create :create_instance
+  after_commit :broadcast_update_qrcode, if: -> { saved_change_to_name? }
   scope :actives, -> { where(active: true) }
 
   enum connection_status: {
     'inactive': 'inactive',
     'active': 'active',
     'sync': 'sync',
-    'pair': 'pair',
+    'pair': 'pair'
   }
 
+  def broadcast_update_qrcode
+    broadcast_replace_to "qrcode_#{account.id}", target: self, partial: 'accounts/apps/evolution_apis/qrcode',
+                                                 locals: { evolution_api: self }
+  end
+
   def request_instance_headers
-    {'apiKey': "#{token}", 'Content-Type': 'application/json'}
+    { 'apiKey': token.to_s, 'Content-Type': 'application/json' }
   end
 
   def woofedcrm_webhooks_url
     "#{ENV['FRONTEND_URL']}/apps/evolution_apis/webhooks"
+  end
+
+  # def validate_evolution_api
+  #   result = Accounts::Apps::EvolutionApis::Instance::Create.call(self)
+  #   if result.key?(:error)
+  #     errors.add(:error, "#{result[:error]['response']['message']}")
+  #   end
+  # end
+  def create_instance
+    Accounts::Apps::EvolutionApis::Instance::Create.call(self)
   end
 
   def generate_token(field)
