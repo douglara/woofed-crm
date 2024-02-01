@@ -1,3 +1,4 @@
+<%= turbo_stream_from "evolution_apis_#{@evolution_api.account.id}" %>
 <section class="m-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md ">
 	<%= turbo_stream_from "evolution_apis_#{current_user.account.id}" %>
 	<ul class="px-4 py-5 grid" id="evolution_apis">

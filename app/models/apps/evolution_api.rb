@@ -42,6 +42,20 @@ class Apps::EvolutionApi < ApplicationRecord
     'pair': 'pair'
   }
 
+  after_update_commit do
+    broadcast_replace_later_to "evolution_apis_#{account_id}", target: self, partial: '/accounts/apps/evolution_apis/evolution_api',
+                                                      locals: { evolution_api: self }
+  end
+
+  after_create_commit do
+    broadcast_append_later_to "evolution_apis_#{account_id}", target: 'evolution_apis', partial: '/accounts/apps/evolution_apis/evolution_api',
+    locals: { evolution_api: self }
+  end
+
+  after_destroy_commit do
+    broadcast_remove_to "evolution_apis_#{account_id}", target: self
+  end
+
   def broadcast_update_qrcode
     broadcast_replace_to "qrcode_#{account.id}", target: self, partial: 'accounts/apps/evolution_apis/qrcode',
                                                  locals: { evolution_api: self }
