@@ -57,7 +57,7 @@ class Apps::EvolutionApi < ApplicationRecord
   end
 
   def broadcast_update_qrcode
-    broadcast_replace_to "qrcode_#{account.id}", target: self, partial: 'accounts/apps/evolution_apis/qrcode',
+    broadcast_replace_later_to "qrcode_#{account.id}", target: self, partial: 'accounts/apps/evolution_apis/qrcode',
                                                  locals: { evolution_api: self }
   end
 
