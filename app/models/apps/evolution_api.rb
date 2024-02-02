@@ -25,6 +25,7 @@
 #
 class Apps::EvolutionApi < ApplicationRecord
   include Applicable
+  include Rails.application.routes.url_helpers
 
   validates :endpoint_url, presence: true
   validates :token, presence: true
@@ -43,8 +44,12 @@ class Apps::EvolutionApi < ApplicationRecord
   }
 
   after_update_commit do
+    if saved_change_to_connection_status?(from: 'inactive', to: 'active')
+        broadcast_replace_later_to "qrcode_#{self.id}", target: self, partial: '/components/redirect_page',
+      locals: { path: Rails.application.routes.url_helpers.account_apps_evolution_apis_path(self.account) }
+    end
     broadcast_replace_later_to "evolution_apis_#{account_id}", target: self, partial: '/accounts/apps/evolution_apis/evolution_api',
-                                                      locals: { evolution_api: self }
+    locals: { evolution_api: self }
   end
 
   after_create_commit do
@@ -57,7 +62,7 @@ class Apps::EvolutionApi < ApplicationRecord
   end
 
   def broadcast_update_qrcode
-    broadcast_replace_later_to "qrcode_#{account.id}", target: self, partial: 'accounts/apps/evolution_apis/qrcode',
+    broadcast_replace_later_to "qrcode_#{self.id}", target: self, partial: 'accounts/apps/evolution_apis/qrcode',
                                                  locals: { evolution_api: self }
   end
 
