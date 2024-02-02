@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_01_23_014507) do
+ActiveRecord::Schema.define(version: 2024_01_31_212319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 2024_01_23_014507) do
 
   create_table "apps_evolution_apis", force: :cascade do |t|
     t.bigint "account_id", null: false
-    t.string "connection_status", default: "inactive", null: false
+    t.string "connection_status", default: "disconnected", null: false
     t.boolean "active", default: true, null: false
     t.string "endpoint_url", default: "", null: false
     t.string "token", default: "", null: false
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 2024_01_23_014507) do
     t.jsonb "additional_attributes", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "qrcode", default: "", null: false
     t.index ["account_id"], name: "index_apps_evolution_apis_on_account_id"
   end
 

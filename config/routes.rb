@@ -55,7 +55,7 @@ Rails.application.routes.draw do
         get 'bulk_action'
         post 'create_bulk_action'
       end
-      
+
       resources :deals do
         post 'create_whatsapp'
         get 'add_contact'
@@ -86,7 +86,7 @@ Rails.application.routes.draw do
   else
     devise_for :users, skip: [:registrations]
   end
- 
+
 
   root to: "accounts/pipelines#index"
 
@@ -112,7 +112,7 @@ Rails.application.routes.draw do
       namespace :flow_items do
         resources :wp_connects do
           post 'webhook'
-        end  
+        end
       end
       resources :contacts, only: [:create] do
         resources :wp_connects, only: [] do
@@ -137,7 +137,12 @@ Rails.application.routes.draw do
         post 'webhooks'
         get 'embedding'
         get 'embedding_init_authenticate'
-        post 'embedding_authenticate'  
+        post 'embedding_authenticate'
+      end
+    end
+    resources :evolution_apis do
+      collection do
+        post 'webhooks'
       end
     end
   end

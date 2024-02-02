@@ -1,0 +1,16 @@
+{
+  "event": "qrcode.updated",
+  "instance": "woofedinstance",
+  "data": {
+    "qrcode": {
+      "instance": "woofedinstance",
+      "pairingCode": "V37R3T7X",
+      "code": "2@xCLTLQpXqmnR1jld2wKbVGmXchdVSFR3QHQa+6BNF8EK8VeoKUTYklFySHt0rrgknAPgwBkD7y1IIQ==,Xl787d38Gmn0wbPMtlvd47VIqs1xzfsZQTTLgePiYmA=,XQTEs9Fx080JHolGhWrlheRKQo8WCPj0DqCbrrMLiU8=,r8hWahUUJqu7BJFq1l1dQopW2r3lEbOrWOyQJfmmZdY=",
+      "base64": "qrcode"
+    }
+  },
+  "destination": "https://webhook.com/",
+  "date_time": "2024-01-27T02:35:43.230Z",
+  "server_url": "https://server.com",
+  "apikey": "woofedtoken"
+}

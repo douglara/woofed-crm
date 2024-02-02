@@ -5,11 +5,12 @@
 #  id                    :bigint           not null, primary key
 #  active                :boolean          default(TRUE), not null
 #  additional_attributes :jsonb
-#  connection_status     :string           default("inactive"), not null
+#  connection_status     :string           default("disconnected"), not null
 #  endpoint_url          :string           default(""), not null
 #  instance              :string           default(""), not null
 #  name                  :string           default(""), not null
 #  phone                 :string           default(""), not null
+#  qrcode                :string           default(""), not null
 #  token                 :string           default(""), not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
@@ -33,10 +34,10 @@ class Apps::EvolutionApi < ApplicationRecord
   scope :actives, -> { where(active: true) }
 
   enum connection_status: {
-    'inactive': 'inactive',
-    'active': 'active',
+    'disconnected': 'disconnected',
+    'connected': 'connected',
     'sync': 'sync',
-    'pair': 'pair',
+    'connecting': 'connecting'
   }
 
   def request_instance_headers
