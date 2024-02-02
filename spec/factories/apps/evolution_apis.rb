@@ -24,16 +24,18 @@
 #
 #  fk_rails_...  (account_id => accounts.id)
 #
+require 'faker'
+
 FactoryBot.define do
   factory :apps_evolution_api, class: 'Apps::EvolutionApi' do
     account
     active { false }
     endpoint_url { ENV['EVOLUTION_API_ENDPOINT'] }
-    token { "woofedtoken" }
-    name { "Woofed EvolutionApi test" }
-    instance { "woofedinstance" }
+    token { Faker::Alphanumeric.alpha(number: 20) }
+    name { Faker::Name.name }
+    instance { Faker::Alphanumeric.alpha(number: 20) }
     trait :connected do
-      phone { '+5522999999999' }
+      phone { Faker::PhoneNumber.cell_phone_in_e164 }
       connection_status { 'connected' }
     end
     trait :connecting do
