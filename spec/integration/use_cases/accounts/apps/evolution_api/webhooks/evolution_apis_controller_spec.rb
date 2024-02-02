@@ -56,15 +56,15 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
   describe 'POST /apps/evolution_apis/webhooks' do
     describe 'when evolution_api is connecting' do
       let!(:evolution_api_connecting) { create(:apps_evolution_api, :connecting, account: account) }
-      context 'when is qrcode_update event ' do
+      context 'when is qrcode_update event' do
         it 'should update qrcode' do
           expect do
             post_webhook(qrcode_updated_webhook_event_params(evolution_api_connecting))
-          end.to change { evolution_api_connecting.reload.qrcode }
+          end.to change { evolution_api_connecting.reload.qrcode }.from('qrcode_connecting').to('qrcode')
           expect_success
         end
       end
-      context 'when is created_connection event' do
+      context 'when   is created_connection event' do
         it 'should update evolution_api status, phone and qrcode' do
           post_webhook(connection_event_params(evolution_api_connecting, 200))
           expect_success
@@ -77,9 +77,9 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
         it 'should update evolution_api status' do
           stub_request(:delete, /delete/)
             .to_return(body: delete_instance_response.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
-          post_webhook(connection_event_params(evolution_api_connecting, 401))
+          post_webhook(connection_event_params(evolution_api_connecting, 401, 'close'))
           expect_success
-          expect(evolution_api_connecting.reload.connection_status).to be_truthy
+          expect(evolution_api_connecting.reload.disconnected?).to be_truthy
         end
       end
     end
