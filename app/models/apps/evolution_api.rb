@@ -33,7 +33,7 @@ class Apps::EvolutionApi < ApplicationRecord
   validates :instance, presence: true
   # validate :validate_evolution_api, on: :create
   after_create :create_instance
-  after_commit :broadcast_update_qrcode, if: -> { saved_change_to_name? }
+  after_commit :broadcast_update_qrcode, if: -> { saved_change_to_qrcode? }
   scope :actives, -> { where(active: true) }
 
   enum connection_status: {
