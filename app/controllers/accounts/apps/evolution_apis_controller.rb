@@ -1,5 +1,5 @@
 class Accounts::Apps::EvolutionApisController < InternalController
-  before_action :set_evolution_api, only: %i[ edit pair_qr_code]
+  before_action :set_evolution_api, only: %i[ edit update ]
 
   def new
     @evolution_api = Apps::EvolutionApi.new
@@ -28,24 +28,22 @@ class Accounts::Apps::EvolutionApisController < InternalController
   def edit
   end
 
-  def pair_qr_code
-    # respond_to do |format|
-    #   if result.key?(:ok)
-    #     @whatsapp = result[:ok][:wp_connect]
-    #     @qr_code = result[:ok][:qr_code]
+  def update
+    if @evolution_api.update(evolution_api_params)
+      flash[:notice] = 'Whatsapp updated successfully!'
+      redirect_to edit_account_apps_evolution_api_path(current_user.account, @evolution_api)
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
 
-    #     format.html { render :pair_qr_code, status: :ok }
-    #     format.json { render :pair_qr_code, status: :ok }
-    #   else
-    #     puts(result.inspect)
-    #     format.html { redirect_to account_apps_wpp_connects_path(current_user.account), status: :unprocessable_entity }
-    #   end
-    # end
+  def pair_qr_code
+    @evolution_api = current_user.account.apps_evolution_apis.find(params['evolution_api_id'])
   end
 
   private
     def set_evolution_api
-      @evolution_api = Apps::EvolutionApi.find(params['evolution_api_id'])
+      @evolution_api = current_user.account.apps_evolution_apis.find(params[:id])
     end
 
     def evolution_api_params
