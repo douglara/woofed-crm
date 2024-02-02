@@ -1,0 +1,14 @@
+{
+  "event": "connection.update",
+  "instance": "woofedinstance",
+  "data": {
+    "instance": "woofedinstance",
+    "state": "close",
+    "statusReason": 401
+  },
+  "destination": "https://webhook.com/",
+  "date_time": "2024-01-27T01:19:47.979Z",
+  "sender": "5522999999999@s.whatsapp.net",
+  "server_url": "https://app-beta.woofedcrm.com/",
+  "apikey": "woofedtoken"
+}

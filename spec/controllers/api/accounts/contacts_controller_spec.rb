@@ -4,9 +4,10 @@ RSpec.describe 'Contacts API', type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let!(:contact) { create(:contact, account: account) }
+  let(:last_contact) { Contact.last }
 
   describe 'POST /api/v1/accounts/{account.id}/contacts' do
-    let(:valid_params) { { full_name: contact.full_name, phone: contact.phone, email: contact.email } }
+    let(:valid_params) { { full_name: contact.full_name, phone: contact.phone, email: contact.email, custom_attributes: {"cpf": "123"} } }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -26,6 +27,7 @@ RSpec.describe 'Contacts API', type: :request do
           end.to change(Contact, :count).by(1)
 
           expect(response).to have_http_status(:success)
+          expect(last_contact.custom_attributes['cpf']).to eq('123')
         end
       end
     end

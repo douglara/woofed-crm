@@ -39,6 +39,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::InternalController
   end
 
   def contact_params
-    params.permit(:full_name, :phone, :email)
+    params.permit(:full_name, :phone, :email, :label_list,
+                  custom_attributes: {})
   end
 end
