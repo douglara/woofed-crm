@@ -74,7 +74,7 @@ Rails.application.routes.draw do
           post 'new_connection_status'
           post 'disable'
         end
-        resources :evolution_apis do
+        resources :evolution_apis, except: [:destroy] do
           get 'pair_qr_code'
         end
         resources :chatwoots
