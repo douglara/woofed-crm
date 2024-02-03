@@ -7,7 +7,7 @@ class Accounts::Apps::EvolutionApis::Instance::Delete
       evolution_api.request_instance_headers
     )
     if request.status == 200
-      evolution_api.update(connection_status: 'disconnected')
+      evolution_api.update(connection_status: 'disconnected', qrcode: '')
       return { ok: JSON.parse(request.body) }
     else
       return { error: JSON.parse(request.body) }

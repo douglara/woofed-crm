@@ -1,15 +1,16 @@
 class Accounts::Apps::EvolutionApis::Instance::Create
 
   def self.call(evolution_api)
+    evolution_api.update(connection_status: 'connecting')
     request = Faraday.post(
       "#{evolution_api.endpoint_url}/instance/create",
       build_body(evolution_api).to_json,
       {'apiKey': "#{ENV['EVOLUTION_API_ENDPOINT_TOKEN']}", 'Content-Type': 'application/json'}
     )
     if request.status == 201
-      evolution_api.update(connection_status: 'connecting')
       return { ok: JSON.parse(request.body) }
     else
+      evolution_api.update(connection_status: 'disconnected')
       return { error: JSON.parse(request.body) }
     end
   end
