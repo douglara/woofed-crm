@@ -1,5 +1,6 @@
 class Accounts::Apps::EvolutionApisController < InternalController
-  before_action :set_evolution_api, only: %i[ edit update ]
+  before_action :set_evolution_api, only: %i[edit update]
+  before_action :set_evolution_api_qrcode_pages, only: %i[refresh_qr_code pair_qr_code]
 
   def new
     @evolution_api = Apps::EvolutionApi.new
@@ -10,7 +11,9 @@ class Accounts::Apps::EvolutionApisController < InternalController
     @evolution_api = result[result.keys.first]
     respond_to do |format|
       if result.key?(:ok)
-        format.html { redirect_to account_apps_evolution_api_pair_qr_code_path(current_user.account, @evolution_api.id) }
+        format.html do
+          redirect_to account_apps_evolution_api_pair_qr_code_path(current_user.account, @evolution_api.id)
+        end
         format.json { render :create, status: :created }
       else
         @evolution_api = result[:error]
@@ -25,8 +28,7 @@ class Accounts::Apps::EvolutionApisController < InternalController
     @pagy, @evolution_apis = pagy(@evolution_apis)
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @evolution_api.update(evolution_api_params)
@@ -37,16 +39,23 @@ class Accounts::Apps::EvolutionApisController < InternalController
     end
   end
 
-  def pair_qr_code
+  def refresh_qr_code
+    Accounts::Apps::EvolutionApis::Instance::Create.call(@evolution_api)
+  end
+
+  def pair_qr_code; end
+
+  private
+
+  def set_evolution_api
+    @evolution_api = current_user.account.apps_evolution_apis.find(params[:id])
+  end
+
+  def set_evolution_api_qrcode_pages
     @evolution_api = current_user.account.apps_evolution_apis.find(params['evolution_api_id'])
   end
 
-  private
-    def set_evolution_api
-      @evolution_api = current_user.account.apps_evolution_apis.find(params[:id])
-    end
-
-    def evolution_api_params
-      params.require(:apps_evolution_api).permit(:name, :token, :instance, :endpoint_url)
-    end
+  def evolution_api_params
+    params.require(:apps_evolution_api).permit(:name, :token, :instance, :endpoint_url)
+  end
 end

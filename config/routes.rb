@@ -76,6 +76,7 @@ Rails.application.routes.draw do
         end
         resources :evolution_apis, except: [:destroy] do
           get 'pair_qr_code'
+          post 'refresh_qr_code'
         end
         resources :chatwoots
         #resources :events, module: :contacts

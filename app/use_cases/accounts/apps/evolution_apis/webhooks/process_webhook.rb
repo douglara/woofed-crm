@@ -18,10 +18,10 @@ class Accounts::Apps::EvolutionApis::Webhooks::ProcessWebhook
   end
 
   def self.connection_created?(webhook)
-    webhook['data']['statusReason'] == '200' && webhook['data']['state'] == 'open'
+    webhook['data']['statusReason'].to_i == 200 && webhook['data']['state'] == 'open'
   end
 
   def self.connection_deleted?(webhook)
-    (webhook['data']['statusReason'] == '401' || webhook['data']['statusReason'] == '428') && webhook['data']['state'] == 'close'
+    (webhook['data']['statusReason'].to_i == 401 || webhook['data']['statusReason'].to_i == 428) && webhook['data']['state'] == 'close'
   end
 end
