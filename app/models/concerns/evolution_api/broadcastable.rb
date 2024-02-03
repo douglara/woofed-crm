@@ -17,10 +17,6 @@ module EvolutionApi::Broadcastable
       locals: { evolution_api: self }
     end
 
-    after_destroy_commit do
-      broadcast_remove_to "evolution_apis_#{account_id}", target: self
-    end
-
     def broadcast_update_qrcode
       broadcast_replace_later_to "qrcode_#{self.id}_#{self.account.id}", target: self, partial: 'accounts/apps/evolution_apis/qrcode',
                                                    locals: { evolution_api: self }

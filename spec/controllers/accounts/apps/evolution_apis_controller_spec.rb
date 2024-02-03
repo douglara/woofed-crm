@@ -87,6 +87,13 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
         expect(response).to redirect_to(edit_account_apps_evolution_api_path(account, evolution_api))
         expect(flash[:notice]).to eq('Whatsapp updated successfully!')
       end
+      context 'when update with invalid params' do
+        it 'should not update' do
+          patch "/accounts/#{account.id}/apps/evolution_apis/#{evolution_api.id}", params: invalid_params
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include('Name não pode ficar em branco')
+        end
+      end
     end
   end
 
