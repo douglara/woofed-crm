@@ -24,7 +24,7 @@
       <div class="w-full space-y-2">
         <%= form.fields_for(:custom_attributes) do |ca| %>
           <%= ca.label :wpp_connect_message_to, 'Para', class:'typography-text-m-lh150 text-dark-gray-palette-p1 ' %>
-          <%= ca.text_field :wpp_connect_message_to, value: event.contact.phone , class: 'form-input w-full h-10' %>
+          <%= ca.text_field :wpp_connect_message_to, value: event.contact&.phone , class: 'form-input w-full h-10' %>
         <% end %>
       </div>
     </div>

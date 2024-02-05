@@ -132,26 +132,18 @@ class Accounts::PipelinesController < InternalController
     time_start = DateTime.current
 
     @result = @deals.each do | deal |
-      if params['event']['send_now'] == 'true'
-        time_start = time_start + rand(5..15).seconds
-      else
-        time_start = nil
+      if params['event']['kind'] == 'chatwoot_message'
+        if params['event']['send_now'] == 'true'
+          params['event']['scheduled_at'] = time_start + rand(5..15).seconds
+          params['event']['send_now'] = 'false'
+        # else
+        #   params['event']['scheduled_at'] = (params['event']['scheduled_at'].to_datetime + rand(5..15).seconds)
+        end
       end
-
-      Event.create(
-        deal: deal,
-        contact: deal.contact,
-        from_me: true,
-        account: current_user.account,
-        kind: params['event']['kind'],
-        app_id: params['event']['app_id'],
-        app_type: params['event']['app_type'],
-        content: params['event']['content'],
-        additional_attributes: params['event']['additional_attributes'],
-        scheduled_at: time_start || params['event']['scheduled_at'],
-        auto_done: params['event']['auto_done'],
-        send_now: params['event']['send_now']
-      )
+      @event = EventBuilder.new(current_user, event_params.merge({contact: deal.contact})).build
+      @event.from_me = true
+      @event.deal = deal
+      @event.save
     end
     redirect_to account_pipelines_path(current_user.account, @pipeline), notice: 'Envio em massa criado com sucesso!'
   end
@@ -216,7 +208,7 @@ class Accounts::PipelinesController < InternalController
     end
 
     def event_params
-      params.require(:event).permit(:content, :kind, :app_type, :app_id, custom_attributes: {})
+      params.require(:event).permit(:content, :send_now, :done, :auto_done, :title, :scheduled_at, :kind, :app_type, :app_id, custom_attributes: {}, additional_attributes: {})
     rescue
       {}
     end

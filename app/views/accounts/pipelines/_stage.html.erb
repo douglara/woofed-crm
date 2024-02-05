@@ -16,28 +16,11 @@
     <!-- Dropdown menu -->
     <div id="dropdownDotsHorizontal<%=stage.id%>" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
       <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-        <% if current_user.account.apps_chatwoots.present? %>
-          <li>
-            <%= link_to account_pipeline_bulk_action_path(stage.account.id, stage.pipeline.id, stage_id: stage.id), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white", data: {controller: 'change-request-to-turbo-stream', action: 'click->change-request-to-turbo-stream#changeHeader'} do%>
+        <li>
+          <%= link_to account_pipeline_bulk_action_path(stage.account.id, stage.pipeline.id, stage_id: stage.id), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white", data: {controller: 'change-request-to-turbo-stream', action: 'click->change-request-to-turbo-stream#changeHeader'} do%>
             <i data-lucide="layers"></i> <p>Ação em massa</p></a>
           <% end %>
-          </li>
-        <% else %>
-          <li>
-            <a data-popover-target="popover-default-chatwoot-mobile" data-popover-placement="left" type="button" class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white cursor-pointer">
-              <i data-lucide="layers"></i> <p>Ação em massa</p></a>
-            </a>
-          </li>
-          <div data-popover id="popover-default-chatwoot-mobile" data-popover-placement="left" role="tooltip" class="absolute z-[1000] invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
-            <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
-                <h3 class="font-semibold text-gray-900 dark:text-white">Envio em massa</h3>
-            </div>
-            <div class="px-3 py-2">
-                <p>É necessário que o Woofed esteja conectado com o chatwoot.</p>
-            </div>
-            <div data-popper-arrow></div>
-          </div>
-        <% end %>
+        </li>
         <li>
           <%= link_to account_pipeline_import_path(stage.account.id, stage.pipeline.id, stage_id: stage.id), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white", data: {controller: 'change-request-to-turbo-stream', action: 'click->change-request-to-turbo-stream#changeHeader'} do%>
             <i data-lucide="file-input"></i> <p>Importar negócios</p></a>
