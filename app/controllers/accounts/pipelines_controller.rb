@@ -129,16 +129,21 @@ class Accounts::PipelinesController < InternalController
 
   def create_bulk_action
     @deals = current_user.account.deals.where(stage_id: params['stage_id'], status: 'open')
+    if params['event']['send_now'] == 'true'
+      time_start = DateTime.current
+    else
+      time_start = params['event']['scheduled_at'].to_time
+    end
     @result = @deals.each do | deal |
       if params['event']['kind'] == 'chatwoot_message'
         if params['event']['send_now'] == 'true'
-          params['event']['scheduled_at'] = time_start + rand(5..15).seconds
+          time_start = time_start + rand(5..15).seconds
           params['event']['send_now'] = 'false'
-        # else
-        #   params['event']['scheduled_at'] = (params['event']['scheduled_at'].to_datetime + rand(5..15).seconds)
+        elsif !time_start.nil?
+          time_start = time_start + rand(5..15).seconds
         end
       end
-      @event = EventBuilder.new(current_user, event_params.merge({contact: deal.contact})).build
+      @event = EventBuilder.new(current_user, event_params.merge({contact: deal.contact, scheduled_at: time_start})).build
       @event.from_me = true
       @event.deal = deal
       @event.save
@@ -206,7 +211,7 @@ class Accounts::PipelinesController < InternalController
     end
 
     def event_params
-      params.require(:event).permit(:content, :send_now, :done, :auto_done, :title, :scheduled_at, :kind, :app_type, :app_id, custom_attributes: {}, additional_attributes: {})
+      params.require(:event).permit(:content, :send_now, :done, :auto_done, :title, :kind, :app_type, :app_id, custom_attributes: {}, additional_attributes: {})
     rescue
       {}
     end
