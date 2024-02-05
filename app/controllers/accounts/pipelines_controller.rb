@@ -129,8 +129,6 @@ class Accounts::PipelinesController < InternalController
 
   def create_bulk_action
     @deals = current_user.account.deals.where(stage_id: params['stage_id'], status: 'open')
-    time_start = DateTime.current
-
     @result = @deals.each do | deal |
       if params['event']['kind'] == 'chatwoot_message'
         if params['event']['send_now'] == 'true'
