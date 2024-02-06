@@ -40,7 +40,7 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
           post "/accounts/#{account.id}/apps/evolution_apis", params: valid_params
         end.to change(Apps::EvolutionApi, :count).by(1)
         expect(response).to have_http_status(302)
-        expect(response).to redirect_to(account_apps_evolution_api_pair_qr_code_path(app_evolution_api_created.account, app_evolution_api_created.id))
+        expect(response).to redirect_to(pair_qr_code_account_apps_evolution_api_path(app_evolution_api_created.account, app_evolution_api_created.id))
       end
       it 'create app evolution_apis process failed' do
         expect do
@@ -134,8 +134,8 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
         it "should show connect button link" do
           get "/accounts/#{account.id}/apps/evolution_apis"
           expect(response).to have_http_status(200)
-          expect(response.body).to include(account_apps_evolution_api_pair_qr_code_path(account, evolution_api))
-          expect(response.body).to include(account_apps_evolution_api_pair_qr_code_path(account, evolution_api_connecting))
+          expect(response.body).to include(pair_qr_code_account_apps_evolution_api_path(account, evolution_api))
+          expect(response.body).to include(pair_qr_code_account_apps_evolution_api_path(account, evolution_api_connecting))
         end
       end
       context 'when there is evolution_api connected' do
@@ -143,7 +143,7 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
         it "should not show connect button link" do
           get "/accounts/#{account.id}/apps/evolution_apis"
           expect(response).to have_http_status(200)
-          expect(response.body).not_to include(account_apps_evolution_api_pair_qr_code_path(account, evolution_api_connected))
+          expect(response.body).not_to include(pair_qr_code_account_apps_evolution_api_path(account, evolution_api_connected))
         end
       end
     end

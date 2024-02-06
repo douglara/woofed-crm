@@ -33,7 +33,6 @@ class Apps::EvolutionApi < ApplicationRecord
   validates :token, presence: true
   validates :name, presence: true
   validates :instance, presence: true
-  # validate :validate_evolution_api, on: :create
   scope :actives, -> { where(active: true) }
 
   enum connection_status: {

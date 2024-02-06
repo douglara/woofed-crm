@@ -23,10 +23,24 @@ class Accounts::Apps::EvolutionApis::Instance::Create
       "webhook": evolution_api.woofedcrm_webhooks_url,
       "events": [
         "QRCODE_UPDATED",
+        "MESSAGES_SET",
+        "MESSAGES_UPSERT",
+        "MESSAGES_UPDATE",
         "MESSAGES_DELETE",
         "SEND_MESSAGE",
+        "CONTACTS_SET",
+        "CONTACTS_UPSERT",
+        "CONTACTS_UPDATE",
+        "PRESENCE_UPDATE",
+        "CHATS_SET",
+        "CHATS_UPSERT",
+        "CHATS_UPDATE",
+        "CHATS_DELETE",
+        "GROUPS_UPSERT",
+        "GROUP_UPDATE",
+        "GROUP_PARTICIPANTS_UPDATE",
         "CONNECTION_UPDATE",
-        "MESSAGES_UPSERT",
+         "CALL"
       ]
     }
   end
