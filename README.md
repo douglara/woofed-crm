@@ -63,7 +63,8 @@ Access `http://127.0.0.1:3001` and use user `user1@email.com` password: `123456`
 
 ## Community 🔔
 
-+ [WhatsApp](https://chat.whatsapp.com/BFCtnmHgNtJHnIBFBgqud7){target="_blank"}
++ [WhatsApp](https://chat.whatsapp.com/BFCtnmHgNtJHnIBFBgqud7)
++ [link](https://chat.whatsapp.com/BFCtnmHgNtJHnIBFBgqud7){:target="_blank"}
 + [Instagram](https://www.instagram.com/woofedcrm/)
 + [Discord](https://discord.gg/MQPNNCC6aq)
 
