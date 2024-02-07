@@ -64,7 +64,7 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
           expect_success
         end
       end
-      context 'when   is created_connection event' do
+      context 'when is created_connection event' do
         it 'should update evolution_api status, phone and qrcode' do
           post_webhook(connection_event_params(evolution_api_connecting, 200))
           expect_success

@@ -1,0 +1,21 @@
+<%= form_with(model: model, url: url, html:{class: "flex flex-col gap-5"} ) do | form | %>
+  <% if model.errors.any? %>
+    <div>
+      <ul>
+        <% model.errors.each do |error| %>
+          <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">Dados da conexão</h2>
+  <div class= "grid gap-4">
+    <div class="flex flex-col gap-1">
+      <%= form.label :name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.text_field :name, placeholder: "João Paulo", class: 'form-input' %>
+    </div>
+  </div>
+  <div class="flex gap-2 self-end">
+    <%= form.submit class: 'btn-primary cursor-pointer'%>
+  </div>
+<% end %>

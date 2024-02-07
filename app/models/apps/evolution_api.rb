@@ -26,6 +26,8 @@
 #
 class Apps::EvolutionApi < ApplicationRecord
   include Applicable
+  include Rails.application.routes.url_helpers
+  include EvolutionApi::Broadcastable
 
   validates :endpoint_url, presence: true
   validates :token, presence: true
@@ -41,12 +43,13 @@ class Apps::EvolutionApi < ApplicationRecord
   }
 
   def request_instance_headers
-    {'apiKey': "#{token}", 'Content-Type': 'application/json'}
+    { 'apiKey': token.to_s, 'Content-Type': 'application/json' }
   end
 
   def woofedcrm_webhooks_url
     "#{ENV['FRONTEND_URL']}/apps/evolution_apis/webhooks"
   end
+
 
   def generate_token(field)
     loop do

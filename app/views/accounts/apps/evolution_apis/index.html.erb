@@ -1,0 +1,9 @@
+<%= turbo_stream_from "evolution_apis_#{current_user.account.id}" %>
+<section class="m-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md ">
+	<ul class="px-4 py-5 grid" id="evolution_apis">
+		<%= render partial: 'accounts/apps/evolution_apis/evolution_api', collection: @evolution_apis, as: :evolution_api %>
+	</ul>
+	<div class="float-right py-6">
+		<%== pagy_nav(@pagy) %>
+	</div>
+</section>

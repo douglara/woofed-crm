@@ -1,0 +1,13 @@
+<div id="<%= dom_id(evolution_api) %>" class="self-center">
+  <% if evolution_api.disconnected? %>
+    <%= link_to refresh_qr_code_account_apps_evolution_api_path(evolution_api.account, evolution_api), method: :post, class:"bg-[#5FC8BC] h-64 w-64 rounded-full mx-auto lg:m-0 flex justify-center items-center cursor-pointer" do%>
+      <div class="grid place-items-center gap-2.5" data-controller="load-lucid-icons">
+        <i data-lucide="rotate-cw" class="stroke-light-palette-p5" style="width: 50px;
+        height: 50px;"></i>
+        <p class="typography-body-s-lh150 text-center text-light-palette-p5 uppercase max-w-[13rem]">Click here to refresh qr code</p>
+      </div>
+    <% end %>
+  <% else %>
+    <img src="<%= evolution_api.qrcode %>" alt="" class="mx-auto lg:m-0">
+  <% end %>
+</div>

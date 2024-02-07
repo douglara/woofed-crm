@@ -3,5 +3,6 @@
 :queues:
   - default
   - chatwoot_webhooks
+  - evolution_api_webhooks
 :limits:
   chatwoot_webhooks: 1

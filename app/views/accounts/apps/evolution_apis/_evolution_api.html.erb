@@ -1,0 +1,36 @@
+<%= content_tag :div, id: dom_id(evolution_api), class: "grid gap-5 border-b-2 border-light-palette-p3 last:border-none py-5 first:pt-0 last:pb-0", data: {controller: 'load-lucid-icons'} do %>
+	<li class= "flex items-center gap-4">
+    <div class="p-2.5 rounded-lg border-2 border-light-palette-p3 bg-[#f4fdf7]">
+      <%= embedded_svg('icon-whtass.svg', {class: "w-5 fill-[#26D367]"}) %>
+    </div>
+		<div class="mr-auto">
+			<div class="flex items-center gap-1.5">
+				<h2 class="typography-text-s-lh150 text-dark-gray-palette-p1">
+					<%= evolution_api.name %>
+				</h2>
+        <p class="typography-sub-text-r-lh150 text-dark-gray-palette-p4">
+          <%= evolution_api.connection_status %>
+        </p>
+			</div>
+      <%= link_to evolution_api.phone, "tel:#{evolution_api.phone}", class:"typography-sub-text-s-lh150 text-dark-gray-palette-p4 hover:text-dark-gray-palette-p3"  if evolution_api.phone.present? %>
+		</div>
+    <% unless evolution_api.connected? %>
+      <%= link_to 'Conectar', pair_qr_code_account_apps_evolution_api_path(evolution_api.account, evolution_api.id), class: 'btn-secondary' %>
+    <% end %>
+		<button id="dropdownuserBtn" data-dropdown-toggle="dropdownuserOptions<%= evolution_api.id %>" data-dropdown-placement="bottom" class="inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
+			<i data-lucide="more-vertical" class=" stroke-dark-gray-palette-p3"></i>
+		</button>
+		<div id="dropdownuserOptions<%= evolution_api.id %>" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700 z-50">
+			<ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+				<li>
+          <%= link_to edit_account_apps_evolution_api_path(evolution_api.account, evolution_api), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white ' do %>
+            <i data-lucide="pencil"></i> <p>Editar</p>
+          <% end %>
+				</li>
+				<li>
+
+				</li>
+			</ul>
+		</div>
+	</li>
+<% end %>
