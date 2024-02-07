@@ -4,6 +4,7 @@ class Accounts::Contacts::GetByParams
     params.stringify_keys!
     return {error: 'Not found'} if params.blank?
 
+    params = params.slice('email', 'phone')
     query_params = params.map{ |field, value| "#{field} ILIKE '%#{value}%'" }
     if params.key?('phone')
       query_params << "phone ILIKE '%#{sanitized_phone(params['phone'])}%'"
@@ -44,4 +45,3 @@ class Accounts::Contacts::GetByParams
     return cleaned_phone_number
   end
 end
-
