@@ -37,6 +37,7 @@ export default class extends Controller {
   handleScheduledAtFormVisibility() {
     if (this.radioButtonSendNowTrueTarget.checked) {
       this.scheduledAtFormTarget.classList.add("hidden");
+      this.checkBoxAutoDoneTarget.checked = 'true';
     } else {
       this.scheduledAtFormTarget.classList.remove("hidden");
     }
