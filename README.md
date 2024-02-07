@@ -6,12 +6,11 @@ Woofed CRM is a Open source CRM Software.
 
 ## ❗Under development ❗
 
-![logo](https://github.com/bernardo140109/readme-dougg/assets/95757666/78010549-0754-4c01-b26a-98530052799f)
-
-
 ## Let's try 🌟
 
 You can try the development version through the link: [WoofedCRM](https://woofedcrm.com)
+
+![logo](https://github.com/bernardo140109/readme-dougg/assets/95757666/78010549-0754-4c01-b26a-98530052799f)
 
 ## API 🔥
 
