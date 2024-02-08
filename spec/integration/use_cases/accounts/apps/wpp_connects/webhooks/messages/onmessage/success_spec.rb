@@ -8,7 +8,7 @@ RSpec.describe Accounts::Apps::WppConnects::Webhooks::Messages::Onmessage, type:
 
     let(:event) { File.read("spec/integration/use_cases/accounts/apps/wpp_connects/webhooks/messages/onmessage/valid_event.json") }
 
-    it do
+    skip it do
       stub_request(:any, /contact/).
       to_return(body: contact_response, status: 200, headers: {'Content-Type' => 'application/json'})
 

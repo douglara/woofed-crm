@@ -4,6 +4,10 @@ require 'sidekiq/testing'
 
 RSpec.describe Apps::EvolutionApisController, type: :request do
   let(:account) { create(:account) }
+  let!(:contact) { create(:contact, account: account) }
+  let(:deal) { create(:deal, account: account) }
+  let(:stage) {create(:stage, account: account, pipeline: pipeline) }
+  let(:deal) { create(:deal, account: account, contact: contact, stage: stage) }
   let(:delete_instance_response) do
     File.read('spec/integration/use_cases/accounts/apps/evolution_api/instance/delete_response.json')
   end
@@ -25,6 +29,78 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
       "server_url": 'https://server.com',
       "apikey": evolution_api.token
     }
+  end
+
+  def import_conversation_message_params(evolution_api, contact_name, contact_phone)
+    {
+      "event": "messages.upsert",
+      "instance": evolution_api.instance,
+      "data": {
+        "key": {
+          "remoteJid": "#{evolution_api.phone.sub(/\+/, "")}@s.whatsapp.net",
+          "fromMe": true,
+          "id": "3A58500B6F6FDA9A5576"
+        },
+        "pushName": contact_name,
+        "message": {
+          "conversation": "Teste"
+        },
+        "messageType": "conversation",
+        "messageTimestamp": 1707368285,
+        "owner": evolution_api.instance,
+        "source": "ios"
+      },
+      "destination": "https://webhookwoofed.site",
+      "date_time": "2024-02-08T01:58:05.737Z",
+      "sender": "#{contact_phone.sub(/\+/, "")}@s.whatsapp.net",
+      "server_url": evolution_api.endpoint_url,
+      "apikey": evolution_api.token
+    }
+
+  end
+
+  def import_extended_text_message_params(evolution_api, contact_name, contact_phone)
+    {
+      "event": "messages.upsert",
+      "instance": evolution_api.instance,
+      "data": {
+        "key": {
+          "remoteJid": "#{evolution_api.phone.sub(/\+/, "")}@s.whatsapp.net",
+          "fromMe": false,
+          "id": "1AECB65CE8AC2CB38486D898090B5C87"
+        },
+        "pushName": contact_name,
+        "message": {
+          "extendedTextMessage": {
+            "text": "Teste",
+            "previewType": "NONE",
+            "contextInfo": {
+              "entryPointConversionSource": "global_search_new_chat",
+              "entryPointConversionApp": "whatsapp",
+              "entryPointConversionDelaySeconds": 2
+            },
+            "inviteLinkGroupTypeV2": "DEFAULT"
+          },
+          "messageContextInfo": {
+            "deviceListMetadata": {
+              "recipientKeyHash": "PWJRRJVMiX4NIQ==",
+              "recipientTimestamp": "1707339780"
+            },
+            "deviceListMetadataVersion": 2
+          }
+        },
+        "messageType": "extendedTextMessage",
+        "messageTimestamp": 1707339876,
+        "owner": evolution_api.instance,
+        "source": "android"
+      },
+      "destination": "https://webhookwoofed.site/",
+      "date_time": "2024-02-07T18:04:36.189Z",
+      "sender": "#{contact_phone.sub(/\+/, "")}@s.whatsapp.net",
+      "server_url": evolution_api.endpoint_url,
+      "apikey": evolution_api.token
+    }
+
   end
 
   def connection_event_params(evolution_api, status_reason, status = 'open')
@@ -101,6 +177,32 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
           expect(evolution_api_connected.reload.disconnected?).to be_truthy
         end
       end
+      context 'when is messages_upset event' do
+        context 'when is extended text message webhook' do
+          it 'should create an event' do
+            post_webhook(import_extended_text_message_params(evolution_api_connected, contact.full_name, contact.phone))
+            expect_success
+            expect(contact.reload.events.count).to eq(1)
+            expect(contact.events.first.evolution_api_message?).to be_truthy
+          end
+          context 'when contact does not exist' do
+            it 'should not create event' do
+              post_webhook(import_extended_text_message_params(evolution_api_connected, 'contact test not exist', '5522998813788'))
+              expect_success
+              expect(contact.reload.events.count).to eq(0)
+              expect(Event.all.count).to eq(0)
+            end
+          end
+        end
+        context 'when is conversation message webhook' do
+          it 'should create an event' do
+            post_webhook(import_conversation_message_params(evolution_api_connected, contact.full_name, contact.phone))
+            expect_success
+            expect(contact.reload.events.count).to eq(1)
+            expect(contact.events.first.evolution_api_message?).to be_truthy
+          end
+        end
+      end
     end
     describe 'when evolution_api is disconnected' do
       let!(:evolution_api) { create(:apps_evolution_api, account: account) }
@@ -116,6 +218,22 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
           post_webhook(connection_event_params(evolution_api, 401, 'close'))
           expect_success
           expect(evolution_api.reload.changed?).to be_falsey
+        end
+      end
+      context 'when is messages_upset event' do
+        context 'when is extended text message webhook' do
+          it 'should not create event' do
+            post_webhook(import_extended_text_message_params(evolution_api, contact.full_name, contact.phone))
+            expect_success
+            expect(contact.reload.events.count).to eq(0)
+          end
+        end
+        context 'when is conversation message webhook' do
+          it 'should not create event' do
+            post_webhook(import_conversation_message_params(evolution_api, contact.full_name, contact.phone))
+            expect_success
+            expect(contact.reload.events.count).to eq(0)
+          end
         end
       end
     end
