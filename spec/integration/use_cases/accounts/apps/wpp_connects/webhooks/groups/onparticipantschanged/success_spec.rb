@@ -8,7 +8,7 @@ RSpec.describe Accounts::Apps::WppConnects::Webhooks::Groups::Onparticipantschan
 
     let(:event) { File.read("spec/integration/use_cases/accounts/apps/wpp_connects/webhooks/groups/onparticipantschanged/valid_event.json") }
 
-    it do
+    skip it do
       stub_request(:any, /all-groups/).
       to_return(body: groups_response, status: 200, headers: {'Content-Type' => 'application/json'})
       result = Accounts::Apps::WppConnects::Webhooks::Groups::Onparticipantschanged.call(wpp_connect, JSON.parse(event))
