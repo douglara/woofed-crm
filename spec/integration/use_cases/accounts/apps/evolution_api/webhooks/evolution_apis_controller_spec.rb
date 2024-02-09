@@ -37,7 +37,7 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
       "instance": evolution_api.instance,
       "data": {
         "key": {
-          "remoteJid": "#{evolution_api.phone.sub(/\+/, "")}@s.whatsapp.net",
+          "remoteJid": "#{contact_phone.sub(/\+/, "")}@s.whatsapp.net",
           "fromMe": true,
           "id": "3A58500B6F6FDA9A5576"
         },
@@ -52,7 +52,7 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
       },
       "destination": "https://webhookwoofed.site",
       "date_time": "2024-02-08T01:58:05.737Z",
-      "sender": "#{contact_phone.sub(/\+/, "")}@s.whatsapp.net",
+      "sender": "#{evolution_api.phone.sub(/\+/, "")}@s.whatsapp.net",
       "server_url": evolution_api.endpoint_url,
       "apikey": evolution_api.token
     }
@@ -65,7 +65,7 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
       "instance": evolution_api.instance,
       "data": {
         "key": {
-          "remoteJid": "#{evolution_api.phone.sub(/\+/, "")}@s.whatsapp.net",
+          "remoteJid": "#{contact_phone.sub(/\+/, "")}@s.whatsapp.net",
           "fromMe": false,
           "id": "1AECB65CE8AC2CB38486D898090B5C87"
         },
@@ -96,7 +96,7 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
       },
       "destination": "https://webhookwoofed.site/",
       "date_time": "2024-02-07T18:04:36.189Z",
-      "sender": "#{contact_phone.sub(/\+/, "")}@s.whatsapp.net",
+      "sender": "#{evolution_api.phone.sub(/\+/, "")}@s.whatsapp.net",
       "server_url": evolution_api.endpoint_url,
       "apikey": evolution_api.token
     }

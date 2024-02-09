@@ -6,6 +6,7 @@ class Accounts::Apps::EvolutionApis::Message::Import
 
   def self.create_evolution_api_message_event(evolution_api, webhook, content)
     contact = find_contact_by_phone_number(evolution_api, webhook)
+
     if contact.present?
       import_message(evolution_api, content, contact, webhook)
     else
@@ -14,7 +15,7 @@ class Accounts::Apps::EvolutionApis::Message::Import
   end
 
   def self.find_contact_by_phone_number(evolution_api, webhook)
-    phone_number = '+' + webhook['sender'].gsub(/\D/, '')
+    phone_number = '+' + webhook['data']['key']['remoteJid'].gsub(/\D/, '')
     Accounts::Contacts::GetByParams.call(evolution_api.account, { phone: phone_number })[:ok]
   end
 
@@ -27,8 +28,7 @@ class Accounts::Apps::EvolutionApis::Message::Import
       content: content,
       done: true,
       done_at: webhook['date_time'],
-      app: evolution_api,
-      app_type: 'Apps::EvolutionApi'
+      app: evolution_api
     )
   end
 end
