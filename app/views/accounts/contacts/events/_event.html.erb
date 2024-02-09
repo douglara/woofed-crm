@@ -15,7 +15,7 @@
             <% else %>
               <%= link_to '' ,account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: true}) ,method: :put, data: {confirm: "Are you sure?"}, class: 'h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p2 bg-light-palette-p5 hover:bg-light-palette-p3 cursor-pointer' %>
             <% end %>
-          <% elsif event.chatwoot_message? || event.evolution_api_message? %>
+          <% elsif event.kind_message? %>
             <% if event.done? %>
               <div class="flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7]">
                 <i data-lucide="check-check" class= "h-[20px] self-center stroke-[#26D367]"></i>

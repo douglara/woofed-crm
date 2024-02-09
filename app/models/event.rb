@@ -137,6 +137,9 @@ class Event < ApplicationRecord
 
     false
   end
+  def kind_message?
+    chatwoot_message? || evolution_api_message?
+  end
 
   def overdue?
     return false if done == true || scheduled_at.blank?
