@@ -186,11 +186,13 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
             expect(contact.events.first.evolution_api_message?).to be_truthy
           end
           context 'when contact does not exist' do
-            it 'should not create event' do
-              post_webhook(import_extended_text_message_params(evolution_api_connected, 'contact test not exist', '5522998813788'))
+            it 'should create contact and event' do
+              expect do
+                post_webhook(import_extended_text_message_params(evolution_api_connected, 'contact test not exist', '5522998813788'))
+              end.to change(Contact, :count).to eq(2)
               expect_success
-              expect(contact.reload.events.count).to eq(0)
-              expect(Event.all.count).to eq(0)
+              expect(Event.all.count).to eq(1)
+              expect(Contact.where("full_name = ? and phone = ? ", 'contact test not exist', '+5522998813788').count).to eq(1)
             end
           end
         end
