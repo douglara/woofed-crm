@@ -110,8 +110,7 @@ class Event < ApplicationRecord
 
   enum kind: {
     'note': 'note',
-    'wpp_connect_message': 'wpp_connect_message',
-    'wpp_connect_information': 'wpp_connect_information',
+    'evolution_api_message': 'evolution_api_message',
     'activity': 'activity',
     'chatwoot_message': 'chatwoot_message'
   }

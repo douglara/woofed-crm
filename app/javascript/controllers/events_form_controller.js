@@ -3,7 +3,7 @@ import lucide from "lucide/dist/umd/lucide"
 import { animate } from "motion"
 
 export default class extends Controller {
-  static targets = ['kindNone', 'kindNote', 'kindActivity', 'forms', 'kindChatwootConnect', 'kindWppConnect']
+  static targets = ['kindNone', 'kindNote', 'kindActivity', 'forms', 'kindChatwootConnect', 'kindEvolutionApiConnect']
 
   connect() {
     lucide.createIcons();
@@ -19,8 +19,8 @@ export default class extends Controller {
   selectActivity(e) {
     this.selectElement(e, this.kindActivityTarget)
   }
-  selectWppConnect(e) {
-    this.selectElement(e, this.kindWppConnectTarget)
+  selectEvolutionApiConnect(e) {
+    this.selectElement(e, this.kindEvolutionApiConnectTarget)
   }
   selectNote(e) {
     this.selectElement(e, this.kindNoteTarget)
@@ -42,7 +42,7 @@ export default class extends Controller {
     catch { }
     btnToActive.classList.add('btn-active')
   }
-  
+
   changeForm(elementToActive, elementToInactive) {
     this.animationBlurAndMove(elementToActive, elementToInactive)
   }
@@ -55,7 +55,7 @@ export default class extends Controller {
         { height:0, y: [0, -elementToInactiveHeight], opacity: [1, 0]},
         { duration: 0.2 }
       ).finished.then(() => {
-      
+
         elementToInactive.classList.remove('events-form-active')
         elementToInactive.hidden = true
         animate(elementToInactive, { height: "auto", opacity: 1 })
@@ -81,7 +81,7 @@ export default class extends Controller {
         elementToInactive,
         { filter: [ "blur(10px)", "blur(0px)"], opacity: [1, 0]},
         { duration: 0.3 }
-      )  
+      )
     } catch { }
     try {
       elementToActive.classList.add('events-form-active')
@@ -103,7 +103,7 @@ export default class extends Controller {
         elementToInactive,
         { x: [0, -20], filter: [ "blur(10px)", "blur(0px)"], opacity: [1, 0]},
         { duration: 0.3 }
-      )  
+      )
     } catch { }
     try {
       elementToActive.classList.add('events-form-active')
