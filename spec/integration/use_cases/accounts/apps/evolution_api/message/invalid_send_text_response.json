@@ -1,0 +1,12 @@
+{
+  "status": 400,
+  "error": "Bad Request",
+  "response": {
+    "message": [
+      {
+        "jid": "+@s.whatsapp.net",
+        "exists": false
+      }
+    ]
+  }
+}

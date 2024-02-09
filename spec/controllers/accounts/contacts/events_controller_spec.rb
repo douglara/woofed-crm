@@ -12,6 +12,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
   let(:conversation_response) { File.read('spec/integration/use_cases/accounts/apps/chatwoots/get_conversations.json') }
   let(:message_response) { File.read('spec/integration/use_cases/accounts/apps/chatwoots/send_message.json') }
   let(:send_text_response) { File.read('spec/integration/use_cases/accounts/apps/evolution_api/message/send_text_response.json')}
+  let(:invalid_send_text_response) { File.read('spec/integration/use_cases/accounts/apps/evolution_api/message/invalid_send_text_response.json')}
 
   let(:event_created) { Event.first }
 
@@ -152,6 +153,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           end
         end
         let(:event_created) { Event.first }
+
         it do
           params = valid_params.deep_merge(event: { kind: 'evolution_api_message', app_type: 'Apps::EvolutionApi',
                                                     app_id: evolution_api_connected.id, send_now: 'true' })
@@ -163,6 +165,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           expect(event_created.kind).to eq(params[:event][:kind])
           expect(event_created.done?).to eq(true)
         end
+
 
         it 'when evolution_api message is scheduled' do
           params = valid_params.deep_merge(event: { kind: 'evolution_api_message', done: '0', app_type: 'Apps::EvolutionApi',
@@ -176,6 +179,24 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           expect(event_created.kind).to eq(params[:event][:kind])
           expect(event_created.done?).to eq(false)
           expect(event_created.scheduled_at.round).to eq(params[:event][:scheduled_at])
+        end
+        context 'when contact there is not phone number' do
+          before do
+            stub_request(:post, /sendText/)
+            .to_return(body: invalid_send_text_response, status: 400, headers: { 'Content-Type' => 'application/json' })
+          end
+          let(:contact_no_phone) { create(:contact, account: account, phone: '') }
+          it 'done should return false' do
+            params = valid_params.deep_merge(event: { kind: 'evolution_api_message', app_type: 'Apps::EvolutionApi',
+              app_id: evolution_api_connected.id, send_now: 'true' })
+
+            expect do
+            post "/accounts/#{account.id}/contacts/#{contact_no_phone.id}/events",
+            params: params
+            end.to change(Event, :count).by(1)
+            expect(event_created.kind).to eq(params[:event][:kind])
+            expect(event_created.done?).to eq(false)
+          end
         end
 
         context 'when evolution_api message is scheduled and delivered' do
