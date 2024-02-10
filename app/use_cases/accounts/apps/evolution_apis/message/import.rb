@@ -27,7 +27,8 @@ class Accounts::Apps::EvolutionApis::Message::Import
       content: content,
       done: true,
       done_at: webhook['date_time'],
-      app: evolution_api
+      app: evolution_api,
+      additional_attributes: { message_id: webhook['data']['key']['id'] }
     )
   end
 end
