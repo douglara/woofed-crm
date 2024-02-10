@@ -1,4 +1,4 @@
-class Accounts::Apps::EvolutionApis::Message::Export
+class Accounts::Apps::EvolutionApis::Message::Send
   def self.call(evolution_api, phone, content)
     request = Faraday.post(
       "#{evolution_api.endpoint_url}/message/sendText/#{evolution_api.instance}",

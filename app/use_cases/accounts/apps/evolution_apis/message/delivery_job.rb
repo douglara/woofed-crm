@@ -4,7 +4,7 @@ class Accounts::Apps::EvolutionApis::Message::DeliveryJob < ApplicationJob
   def perform(event_id)
     event = Event.find(event_id)
     if should_delivery?(event)
-      result = Accounts::Apps::EvolutionApis::Message::Export.call(
+      result = Accounts::Apps::EvolutionApis::Message::Send.call(
         event.app,
         event.contact.phone,
         event.content.body.to_plain_text
