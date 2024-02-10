@@ -11,6 +11,7 @@ class Accounts::Apps::EvolutionApis::Message::DeliveryJob < ApplicationJob
       )
       if result.key?(:ok)
         event.done = true
+        event.additional_attributes.merge!({ 'message_id' => result[:ok]['key']['id']})
         event.save!
         return { ok: event }
       else
