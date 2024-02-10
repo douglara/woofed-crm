@@ -63,9 +63,12 @@ RSpec.describe Event do
     let!(:event_planned_without_date_2) do
       create(:event, account: account, auto_done: false, scheduled_at: nil, kind: 'activity')
     end
+    let!(:event_wpp_message) do
+      create(:event, account: account, done: true, additional_attributes: { message_id: 'id'}, scheduled_at: nil, kind: 'evolution_api_message')
+    end
     describe 'done' do
       it 'returns 1 event' do
-        expect(account.events.done.count).to be 1
+        expect(account.events.done.count).to be 2
       end
     end
 
@@ -95,6 +98,12 @@ RSpec.describe Event do
     describe 'scheduled' do
       it 'returns 1 events' do
         expect(account.events.scheduled.count).to be 1
+      end
+    end
+
+    describe 'by_message_id' do
+      it 'returns 1 events' do
+        expect(account.events.by_message_id('id').count).to be 1
       end
     end
   end

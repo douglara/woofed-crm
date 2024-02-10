@@ -108,6 +108,10 @@ class Event < ApplicationRecord
     where('done_at IS NOT NULL').order(done_at: :desc)
   }
 
+  scope :by_message_id, -> (message_id) {
+    where("additional_attributes ->> 'message_id' = ?", message_id)
+  }
+
   enum kind: {
     'note': 'note',
     'evolution_api_message': 'evolution_api_message',
