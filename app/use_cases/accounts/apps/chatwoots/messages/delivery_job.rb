@@ -3,6 +3,10 @@ class Accounts::Apps::Chatwoots::Messages::DeliveryJob < ApplicationJob
   self.queue_adapter = :good_job
   def perform(event_id)
     event = Event.find(event_id)
+
+    puts("Debug 3: #{event.inspect}")
+    puts("Debug 4: #{should_delivery?(event)}")
+
     if should_delivery?(event)
       result = Accounts::Apps::Chatwoots::GetConversationAndSendMessage.call(
         event.app,
@@ -10,6 +14,7 @@ class Accounts::Apps::Chatwoots::Messages::DeliveryJob < ApplicationJob
         event.additional_attributes['chatwoot_inbox_id'],
         event.content.body.to_plain_text
       )
+      puts("Debug 5: #{result.inspect}")
       if result.key?(:ok)
         event.additional_attributes['chatwoot_id'] = result[:ok]['id']
         event.additional_attributes['chatwoot_conversation_id'] = result[:ok]['conversation_id']
