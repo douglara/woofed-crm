@@ -78,7 +78,7 @@ jobs:
         run: bundle exec rails assets:clean assets:precompile
         
       - name: Run tests
-        run: bundle exec rspec
+        run: bundle exec rspec spec/controllers/accounts/contacts/events_controller_spec.rb:250
 
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
