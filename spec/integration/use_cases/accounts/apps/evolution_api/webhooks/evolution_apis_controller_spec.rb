@@ -184,6 +184,7 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
             expect_success
             expect(contact.reload.events.count).to eq(1)
             expect(contact.events.first.evolution_api_message?).to be_truthy
+            expect(contact.events.first.additional_attributes).to include({ 'message_id'=> '1AECB65CE8AC2CB38486D898090B5C87'})
           end
           context 'when contact does not exist' do
             it 'should create contact and event' do
