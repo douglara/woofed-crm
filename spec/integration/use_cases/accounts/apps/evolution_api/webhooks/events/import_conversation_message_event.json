@@ -1,0 +1,24 @@
+{
+  "event": "messages.upsert",
+  "instance": "b86cc92f59858d7fb814",
+  "data": {
+    "key": {
+      "remoteJid": "5522998813788@s.whatsapp.net",
+      "fromMe": true,
+      "id": "3A58500B6F6FDA9A5576"
+    },
+    "pushName": "Yukio",
+    "message": {
+      "conversation": "Teste"
+    },
+    "messageType": "conversation",
+    "messageTimestamp": 1707368285,
+    "owner": "b86cc92f59858d7fb814",
+    "source": "ios"
+  },
+  "destination": "https://webhook.site/2aeff334-4363-4e04-a9cf-f24399250e40",
+  "date_time": "2024-02-08T01:58:05.737Z",
+  "sender": "5522998813788@s.whatsapp.net",
+  "server_url": "https://evolution-api-staging.server3.woofedcrm.com",
+  "apikey": "gfhfghfghfg"
+}

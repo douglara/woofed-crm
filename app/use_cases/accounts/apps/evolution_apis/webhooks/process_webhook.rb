@@ -13,6 +13,14 @@ class Accounts::Apps::EvolutionApis::Webhooks::ProcessWebhook
       elsif connection_deleted?(webhook)
         Accounts::Apps::EvolutionApis::Webhooks::Events::ConnectionDeleted.call(evolution_api)
       end
+    elsif webhook['event'] == 'messages.upsert'
+      if  webhook['data']['messageType'] == 'extendedTextMessage'
+        Accounts::Apps::EvolutionApis::Webhooks::Events::ImportMessage.call(evolution_api, webhook,
+                                                                            webhook['data']['message']['extendedTextMessage']['text'])
+      elsif webhook['data']['messageType'] == 'conversation'
+        Accounts::Apps::EvolutionApis::Webhooks::Events::ImportMessage.call(evolution_api, webhook,
+                                                                            webhook['data']['message']['conversation'])
+      end
     end
     { ok: evolution_api }
   end
