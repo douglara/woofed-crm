@@ -126,7 +126,7 @@ class Event < ApplicationRecord
   def icon_key
     if kind == 'note'
       'menu-square'
-    elsif kind == 'wpp_connect_message'
+    elsif kind == 'evolution_api_message'
       'fab fa-whatsapp'
     elsif kind == 'activity'
       'clipboard-list'
@@ -137,9 +137,12 @@ class Event < ApplicationRecord
 
   def editable?
     return true if %w[note activity].include?(kind)
-    return true if %w[chatwoot_message wpp_connect_message].include?(kind) && !done?
+    return true if %w[chatwoot_message evolution_api_message].include?(kind) && !done?
 
     false
+  end
+  def kind_message?
+    chatwoot_message? || evolution_api_message?
   end
 
   def overdue?
