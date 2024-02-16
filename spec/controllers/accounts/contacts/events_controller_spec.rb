@@ -237,6 +237,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           expect(event_created.done?).to eq(true)
         end
         it 'update scheduled chatwoot message event to done with send_now' do
+          puts("Debug -1: #{Time.current}")
           valid_params[:event][:scheduled_at] = Time.current + 5.days
           params = valid_params.deep_merge(event: { kind: 'chatwoot_message', send_now: 'true',
                                                     app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1 })
@@ -245,8 +246,9 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
                   params: params
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
+          GoodJob.perform_inline
           expect(event_created.kind).to eq(params[:event][:kind])
-          puts("Debug: #{event_created.inspect}")
+          puts("Debug final: #{event_created.inspect}")
           expect(event_created.done?).to eq(true)
         end
       end
