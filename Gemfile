@@ -39,7 +39,7 @@ gem 'faraday'
 gem 'html2text'
 gem 'cocoon'
 gem 'sidekiq'
-gem "good_job", "~> 3.14"
+gem "good_job", "3.14.2"
 gem 'jsonb_accessor', '1.3.2'
 gem 'jwt', '2.2.3'
 gem 'rails-i18n', '~> 7.0.0'

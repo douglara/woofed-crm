@@ -724,7 +724,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   faraday
-  good_job (~> 3.14)
+  good_job (= 3.14.2)
   google-cloud-storage
   highlight_io
   hotwire-rails
