@@ -34,7 +34,7 @@ RSpec.describe Accounts::Contacts::GetByParams, type: :request do
       result = Accounts::Contacts::GetByParams.call(account, {'phone': '+554188443322'})
       expect(result[:ok]).to eq(contact)
     end
-    
+
     it 'should find by phone without 9 digit and email' do
       result = Accounts::Contacts::GetByParams.call(account, {'email': 'tim@maia.com', 'phone': '+554188443322'})
       expect(result[:ok]).to eq(contact)
@@ -42,6 +42,12 @@ RSpec.describe Accounts::Contacts::GetByParams, type: :request do
 
     it 'should return blank if blank params ' do
       result = Accounts::Contacts::GetByParams.call(account, {})
+      expect(result[:ok]).to eq(nil)
+    end
+
+    it 'with others fields' do
+      params = {"full_name"=>"User Name", "phone"=>"+5561111111111", "email"=>"email@email.com", "custom_attributes"=>{"lead_origin"=>"Testing"}, "account_id"=>"13", "contact"=>{"full_name"=>"User name"}}
+      result = Accounts::Contacts::GetByParams.call(account, params)
       expect(result[:ok]).to eq(nil)
     end
   end
