@@ -246,7 +246,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
                   params: params
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
-          GoodJob.perform_inline
+          #GoodJob.perform_inline
           expect(event_created.kind).to eq(params[:event][:kind])
           puts("Debug final: #{event_created.inspect}")
           expect(event_created.done?).to eq(true)
