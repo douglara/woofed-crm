@@ -15,6 +15,7 @@ class Accounts::Apps::Chatwoots::Messages::DeliveryJob < ApplicationJob
         event.additional_attributes['chatwoot_conversation_id'] = result[:ok]['conversation_id']
         event.done = true
         event.save!
+        SendMessageEventNotifier.with(event: event).deliver(event.account)
         return {ok: event}
       else
         return {error: result[:error]}
