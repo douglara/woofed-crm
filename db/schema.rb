@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_01_31_212319) do
+ActiveRecord::Schema.define(version: 2024_02_17_055233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -548,6 +548,18 @@ ActiveRecord::Schema.define(version: 2024_01_31_212319) do
     t.index ["account_id"], name: "index_webhooks_on_account_id"
   end
 
+  create_table "webpush_subscriptions", force: :cascade do |t|
+    t.string "endpoint", default: "", null: false
+    t.string "auth_key", default: "", null: false
+    t.string "p256dh_key", default: "", null: false
+    t.bigint "user_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_webpush_subscriptions_on_account_id"
+    t.index ["user_id"], name: "index_webpush_subscriptions_on_user_id"
+  end
+
   create_table "wp_connects", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.boolean "enabled", default: false, null: false
@@ -575,4 +587,6 @@ ActiveRecord::Schema.define(version: 2024_01_31_212319) do
   add_foreign_key "stages", "pipelines"
   add_foreign_key "taggings", "tags"
   add_foreign_key "users", "accounts"
+  add_foreign_key "webpush_subscriptions", "accounts"
+  add_foreign_key "webpush_subscriptions", "users"
 end
