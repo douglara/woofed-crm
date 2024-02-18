@@ -1,0 +1,14 @@
+{
+  "key": {
+      "remoteJid": "5522998813788@s.whatsapp.net",
+      "fromMe": true,
+      "id": "BAE55A31F9329575"
+  },
+  "message": {
+      "extendedTextMessage": {
+          "text": "Plain text message, sent with the *Evolution-API* 🚀.\n\nHere you can send texts in *bold*, _italic_, ~strikethrough~ and ```monospaced```.\n\nYou can also use any available emoticon on WhatsApp, like these examples below:\n\n😉🤣🤩🤝👏👍🙏"
+      }
+  },
+  "messageTimestamp": "1707467504",
+  "status": "PENDING"
+}

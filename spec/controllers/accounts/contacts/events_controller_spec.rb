@@ -5,11 +5,14 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
   let!(:user) { create(:user, account: account) }
   let!(:contact) { create(:contact, account: account) }
   let(:chatwoot) { create(:apps_chatwoots, :skip_validate, account: account) }
+  let(:evolution_api_connected) { create(:apps_evolution_api, :connected, account: account) }
   let!(:pipeline) { create(:pipeline, account: account) }
   let!(:stage) { create(:stage, account: account, pipeline: pipeline) }
   let!(:deal) { create(:deal, account: account, contact: contact, stage: stage) }
   let(:conversation_response) { File.read('spec/integration/use_cases/accounts/apps/chatwoots/get_conversations.json') }
   let(:message_response) { File.read('spec/integration/use_cases/accounts/apps/chatwoots/send_message.json') }
+  let(:send_text_response) { File.read('spec/integration/use_cases/accounts/apps/evolution_api/message/send_text_response.json')}
+  let(:invalid_send_text_response) { File.read('spec/integration/use_cases/accounts/apps/evolution_api/message/invalid_send_text_response.json')}
 
   let(:event_created) { Event.first }
 
@@ -40,6 +43,8 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           .to_return(body: message_response, status: 200, headers: { 'Content-Type' => 'application/json' })
         stub_request(:post, /filter/)
           .to_return(body: conversation_response, status: 200, headers: { 'Content-Type' => 'application/json' })
+        stub_request(:post, /sendText/)
+          .to_return(body: send_text_response, status: 201, headers: { 'Content-Type' => 'application/json' })
       end
 
       context 'create event' do
@@ -141,8 +146,86 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           end
         end
       end
+      context 'create evolution api message event' do
+        around(:each) do |example|
+          Sidekiq::Testing.inline! do
+            example.run
+          end
+        end
+        let(:event_created) { Event.first }
+
+        it do
+          params = valid_params.deep_merge(event: { kind: 'evolution_api_message', app_type: 'Apps::EvolutionApi',
+                                                    app_id: evolution_api_connected.id, send_now: 'true' })
+
+          expect do
+            post "/accounts/#{account.id}/contacts/#{contact.id}/events",
+                 params: params
+          end.to change(Event, :count).by(1)
+          expect(event_created.kind).to eq(params[:event][:kind])
+          expect(event_created.done?).to eq(true)
+        end
+
+
+        it 'when evolution_api message is scheduled' do
+          params = valid_params.deep_merge(event: { kind: 'evolution_api_message', done: '0', app_type: 'Apps::EvolutionApi',
+                                                    app_id: evolution_api_connected.id, scheduled_at: (Time.current + 2.hours).round, send_now: 'false' })
+          expect do
+            post "/accounts/#{account.id}/contacts/#{contact.id}/events",
+                 params: params
+          end.to change(Event, :count).by(1)
+          expect(response).to redirect_to(new_account_contact_event_path(account_id:
+            account, contact_id: contact, deal_id: deal))
+          expect(event_created.kind).to eq(params[:event][:kind])
+          expect(event_created.done?).to eq(false)
+          expect(event_created.scheduled_at.round).to eq(params[:event][:scheduled_at])
+        end
+        context 'when contact there is not phone number' do
+          before do
+            stub_request(:post, /sendText/)
+            .to_return(body: invalid_send_text_response, status: 400, headers: { 'Content-Type' => 'application/json' })
+          end
+          let(:contact_no_phone) { create(:contact, account: account, phone: '') }
+          it 'done should return false' do
+            params = valid_params.deep_merge(event: { kind: 'evolution_api_message', app_type: 'Apps::EvolutionApi',
+              app_id: evolution_api_connected.id, send_now: 'true' })
+
+            expect do
+            post "/accounts/#{account.id}/contacts/#{contact_no_phone.id}/events",
+            params: params
+            end.to change(Event, :count).by(1)
+            expect(event_created.kind).to eq(params[:event][:kind])
+            expect(event_created.done?).to eq(false)
+          end
+        end
+
+        context 'when evolution_api message is scheduled and delivered' do
+          it do
+            params = valid_params.deep_merge(event: { kind: 'evolution_api_message', done: '0',
+                                                      app_type: 'Apps::EvolutionApi', app_id: evolution_api_connected.id, scheduled_at: (Time.current + 2.hours).round, auto_done: true, send_now: 'false' })
+            expect do
+              post "/accounts/#{account.id}/contacts/#{contact.id}/events",
+                   params: params
+            end.to change(Event, :count).by(1)
+            expect(response).to redirect_to(new_account_contact_event_path(account_id:
+              account, contact_id: contact, deal_id: deal))
+            expect(event_created.kind).to eq(params[:event][:kind])
+            expect(event_created.done?).to eq(false)
+            expect(event_created.scheduled_at.round).to eq(params[:event][:scheduled_at])
+            travel(1.hours) do
+              GoodJob.perform_inline
+              expect(event_created.reload.done?).to eq(false)
+            end
+            travel(3.hours) do
+              GoodJob.perform_inline
+              expect(event_created.reload.done?).to eq(true)
+            end
+          end
+        end
+      end
     end
   end
+
   describe 'PATCH /accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}' do
     before do
       stub_request(:post, /conversations/).to_return(body: conversation_response, status: 200,
