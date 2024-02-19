@@ -9,7 +9,8 @@ class DeliveryMethods::WebPushSendMessageEvent < ApplicationDeliveryMethod
         sub.send_notification({
           title: "#{Event.human_attribute_name(event.kind)} sended",
           body: "Mensagem enviada para: #{event.contact.full_name}. Negócio: #{event.deal.name}",
-          icon: "#{ENV['FRONTEND_URL']}#{ActionController::Base.helpers.image_url("logo-patinha.svg")}"
+          icon: "#{ENV['FRONTEND_URL']}#{ActionController::Base.helpers.image_url("logo-patinha.svg")}",
+          url: event.get_show_deal_path
         })
       end
     end

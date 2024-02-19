@@ -34,6 +34,7 @@
 class Event < ApplicationRecord
   include Event::Decorators
   include Deal::Broadcastable
+  include Rails.application.routes.url_helpers
   # default_scope { order('created_at DESC') }
 
   belongs_to :deal, optional: true
@@ -181,6 +182,11 @@ class Event < ApplicationRecord
       'scheduled'
     end
   end
+
+  def get_show_deal_path
+    "#{ENV['FRONTEND_URL']}#{account_deal_path(self.account, self.deal)}"
+  end
+
 
   ## Events
 
