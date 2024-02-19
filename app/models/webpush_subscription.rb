@@ -1,5 +1,6 @@
 class WebpushSubscription < ApplicationRecord
   belongs_to :user
+  belongs_to :account
 
   def send_notification(message)
     begin
