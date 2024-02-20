@@ -38,6 +38,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::InternalController
     end
   end
 
+  def search
+    contacts = @current_user.account.contacts.ransack(params[:query])
+
+    @pagy, @contacts = pagy(contacts.result, metadata: %i[page items count pages from last to prev next])
+    render json: { data: @contacts,
+                   pagination: pagy_metadata(@pagy) }
+  end
+
   def contact_params
     params.permit(:full_name, :phone, :email, :label_list,
                   custom_attributes: {})
