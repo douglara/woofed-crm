@@ -1,4 +1,5 @@
 import { Controller } from "stimulus"
+import { FetchRequest } from '@rails/request.js'
 
 export default class extends Controller {
   static values = {
@@ -17,14 +18,14 @@ export default class extends Controller {
           .subscribe({
             userVisibleOnly: true,
             applicationServerKey: vapidPublicKey
-          }).then(async function(sub){
-            const data = await fetch(url, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(sub)
-            })
+          }).then(async function (sub) {
+            const request = new FetchRequest('post',
+              url,
+              {
+                body: JSON.stringify(sub)
+              }
+            )
+            const response = await request.perform()
           });
         });
       });

@@ -1,4 +1,4 @@
-class Accounts::WebpushSubscriptionsController < Api::V1::PublicController
+class Accounts::WebpushSubscriptionsController < InternalController
 
   def create
     webpush_subscription = WebpushSubscription.find_by(auth_key: params[:keys][:auth])
