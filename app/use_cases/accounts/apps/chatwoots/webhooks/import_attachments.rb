@@ -18,6 +18,11 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportAttachments
   end
 
   def self.import_attachments(chatwoot, contact, webhook, attachment_params)
+    event = create_event(chatwoot, contact, webhook, attachment_params)
+    create_attachment(event, attachment_params)
+  end
+
+  def self.create_event(chatwoot, contact, webhook, attachment_params)
     event = contact.events.create(
       account: chatwoot.account,
       kind: 'chatwoot_message',
@@ -27,13 +32,17 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportAttachments
       done_at: webhook['created_at'],
       app: chatwoot
     )
+    event.additional_attributes.merge!({ 'chatwoot_id' => attachment_params['message_id'] })
+    event
+  end
 
+  def self.create_attachment(event, attachment_params)
     attachment = event.build_attachment(
       file_type: attachment_params['file_type']
     )
-    attachment.file.attach(io: open(attachment_data['data_url']), filename: "attachment_#{attachment_params['file_type']}_#{attachment.id}")
+    attachment.file.attach(io: open(attachment_params['data_url']),
+                           filename: "attachment_#{attachment_params['file_type']}_#{event.additional_attributes['chatwoot_id']}")
     attachment.save
     attachment
   end
-
 end
