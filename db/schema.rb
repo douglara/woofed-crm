@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_02_20_162201) do
+ActiveRecord::Schema.define(version: 2024_02_21_210910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -127,11 +127,12 @@ ActiveRecord::Schema.define(version: 2024_02_20_162201) do
   end
 
   create_table "attachments", force: :cascade do |t|
-    t.bigint "event_id", null: false
+    t.string "attachable_type", null: false
+    t.bigint "attachable_id", null: false
     t.integer "file_type", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["event_id"], name: "index_attachments_on_event_id"
+    t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -606,7 +607,6 @@ ActiveRecord::Schema.define(version: 2024_02_20_162201) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "apps_evolution_apis", "accounts"
-  add_foreign_key "attachments", "events"
   add_foreign_key "deals", "contacts"
   add_foreign_key "deals", "stages"
   add_foreign_key "events", "accounts"
