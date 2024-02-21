@@ -37,6 +37,10 @@ class Contact < ApplicationRecord
   has_many :deals
   belongs_to :app, polymorphic: true, optional: true
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["additional_attributes", "app_id", "app_type", "created_at", "custom_attributes", "email", "full_name", "id", "phone", "updated_at"]
+  end
+
   def connected_with_chatwoot?
     additional_attributes['chatwoot_id'].present?
   end
