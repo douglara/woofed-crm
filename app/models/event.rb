@@ -47,7 +47,7 @@ class Event < ApplicationRecord
   attribute :done, :boolean
   attribute :send_now, :boolean
   validates :kind, presence: true
-  has_many :attachments
+  has_one :attachment
 
   after_commit do
     # To refactory
