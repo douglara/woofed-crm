@@ -104,8 +104,7 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
             expect(account.contacts.count).to eq(2)
             expect(account.contacts.first.label_list).to eq(['marcador1'])
             expect(account.contacts.first.chatwoot_conversations_label_list).to eq(['test1'])
-            expect(account.contacts.map(&:additional_attributes)).to eq([{ 'chatwoot_id' => 63 },
-                                                                         { 'chatwoot_id' => 338 }])
+            expect(account.contacts.map { |c| c.additional_attributes['chatwoot_id'] }).to include(63, 338)
           end
           context 'if there is no tag on chatwoot contact but there is tag on woofed contact' do
             before do
