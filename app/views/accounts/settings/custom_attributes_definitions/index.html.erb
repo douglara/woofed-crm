@@ -4,7 +4,7 @@
     <%= link_to 'Novo campo personalizado', new_account_custom_attributes_definition_path(current_user.account), class: 'btn-secondary'%>
   </header>
   <ul class="px-4 py-5 grid" id="custom_attributes_definitions">
-    <%= render partial: 'accounts/settings/custom_attributes_definitions/custom_attribute_definition.html.erb', collection: @custom_attributes_definitions, as: :custom_attributes_definition %>
+    <%= render partial: 'accounts/settings/custom_attributes_definitions/custom_attribute_definition', collection: @custom_attributes_definitions, as: :custom_attributes_definition %>
   </ul>
 </section>
 
