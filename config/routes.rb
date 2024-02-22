@@ -105,6 +105,7 @@ Rails.application.routes.draw do
         end
         resources :contacts, only: [:show, :create] do
           post 'upsert', on: :collection
+          match 'search', on: :collection, via: [:get, :post]
         end
         namespace :apps do
           resources :wpp_connects, only: [] do

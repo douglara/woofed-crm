@@ -15,4 +15,18 @@ describe WebhookListener do
       }.to change(WebhookWorker.jobs, :size).by(1)
     end
   end
+
+  describe '#event_created' do
+    let!(:account) { create(:account) }
+    let!(:webhook) { create(:webhook, account: account) }
+    let!(:contact) { create(:contact, account: account) }
+    let!(:deal) { create(:deal, contact:contact, account: account) }
+    let(:event) { build(:event, account: account, deal: deal, contact: contact) }
+
+    it 'adds system users' do
+      expect {
+        event.save
+      }.to change(WebhookWorker.jobs, :size).by(1)
+    end
+  end
 end

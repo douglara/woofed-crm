@@ -50,6 +50,7 @@ gem 'motor-admin'
 gem 'acts-as-taggable-on', '~> 9.0'
 gem 'acts_as_list'
 gem 'sidekiq-limit_fetch'
+gem 'ransack', '4.1.1'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
