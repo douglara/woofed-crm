@@ -30,6 +30,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
     )
     message.additional_attributes.merge!({ 'chatwoot_id' => webhook['conversation']['messages'].first['id'] })
     message.save
+    message
   end
 
   def self.is_from_me?(webhook)
