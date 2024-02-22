@@ -1,25 +1,24 @@
 class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
-
   def self.call(chatwoot, contact, webhook)
     message = get_or_import_message(chatwoot, contact, webhook)
-    return { ok: contact }
+    { ok: contact }
   end
 
   def self.get_or_import_message(chatwoot, contact, webhook)
     message = contact.events.where(
-      "? <@ additional_attributes", { chatwoot_id: webhook['id'] }.to_json
+      '? <@ additional_attributes', { chatwoot_id: webhook['id'] }.to_json
     ).first
 
     if message.present?
-      return message
+      message
     else
       message = import_message(chatwoot, contact, webhook)
-      return contact
+      contact
     end
   end
 
   def self.import_message(chatwoot, contact, webhook)
-    contact.events.create(
+    message = contact.events.new(
       account: chatwoot.account,
       kind: 'chatwoot_message',
       from_me: is_from_me?(webhook),
@@ -29,17 +28,11 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
       done_at: webhook['created_at'],
       app: chatwoot
     )
+    message.additional_attributes.merge!({ 'chatwoot_id' => webhook['conversation']['messages'].first['id'] })
+    message.save
   end
 
   def self.is_from_me?(webhook)
-    if webhook.dig('sender', 'id').present?
-      if webhook.dig('sender', 'type') == 'user'
-        return true
-      else
-        return false
-      end
-    else
-      return nil
-    end
+    webhook.dig('sender', 'type') == 'user' if webhook.dig('sender', 'id').present?
   end
 end
