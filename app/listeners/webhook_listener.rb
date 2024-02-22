@@ -77,6 +77,6 @@ class WebhookListener
     changed_attributes = extract_changed_attributes(event_model)
 
     event_json = event_model.as_json(:include => [:deal, :contact]).merge({changed_attributes: changed_attributes})
-    { event: event, data: event_model }.to_json
+    { event: event, data: event_json }.to_json
   end
 end
