@@ -34,6 +34,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportAttachments
     )
     event.additional_attributes.merge!({ 'chatwoot_id' => attachment_params['message_id'] })
     event.save
+    event
   end
 
   def self.create_attachment(event, attachment_params)
@@ -43,5 +44,6 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportAttachments
     attachment.file.attach(io: open(attachment_params['data_url']),
                            filename: "attachment_#{attachment_params['file_type']}_#{event.additional_attributes['chatwoot_id']}")
     attachment.save
+    attachment
   end
 end
