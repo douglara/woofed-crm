@@ -1,7 +1,7 @@
 class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
   def self.call(chatwoot, contact, webhook)
     message = get_or_import_message(chatwoot, contact, webhook)
-    { ok: contact }
+    { ok: message }
   end
 
   def self.get_or_import_message(chatwoot, contact, webhook)
@@ -13,7 +13,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
       message
     else
       message = import_message(chatwoot, contact, webhook)
-      contact
+      message
     end
   end
 
