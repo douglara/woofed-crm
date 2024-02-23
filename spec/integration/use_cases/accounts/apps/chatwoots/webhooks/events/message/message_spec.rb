@@ -8,6 +8,7 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::Events::Message, type: :requ
     let(:event_message_receive) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/webhooks/events/message/event_message_receive.json") }
     let(:contact_response) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/webhooks/events/response_contact.json") }
     let(:response_conversations) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/webhooks/events/response_conversations.json") }
+    let(:event_first) { Event.first}
 
     context "receive event" do
       before do
@@ -19,20 +20,22 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::Events::Message, type: :requ
         to_return(body: response_conversations, status: 200, headers: {'Content-Type' => 'application/json'})
       end
 
-      it 'import event about chatwoot send message' do
+      it 'import event chatwoot send message' do
         result = Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(chatwoot, JSON.parse(event_message_sent))
         expect(result.key?(:ok)).to eq(true)
-        expect(Event.last.content.body.to_plain_text).to eq('Teste2')
-        expect(Event.last.from_me).to eq(true)
-        expect(Event.last.done).to eq(true)
-        expect(Event.last.kind).to eq('chatwoot_message')
-        expect(Event.last.done_at).to eq("2023-07-26T01:59:54.994Z")
+        expect(event_first.content.body.to_plain_text).to eq('Teste2')
+        expect(event_first.from_me).to eq(true)
+        expect(event_first.done).to eq(true)
+        expect(event_first.kind).to eq('chatwoot_message')
+        expect(event_first.done_at).to eq("2023-07-26T01:59:54.994Z")
+        expect(event_first.additional_attributes).to include({'chatwoot_id' => 99523})
       end
-      it 'import event about chatwoot receive message' do
+      it 'import event chatwoot receive message' do
         result = Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(chatwoot, JSON.parse(event_message_receive))
         expect(result.key?(:ok)).to eq(true)
-        expect(Event.last.content.body.to_plain_text).to eq('teste receive')
-        expect(Event.last.from_me).to eq(false)
+        expect(event_first.content.body.to_plain_text).to eq('teste receive')
+        expect(event_first.from_me).to eq(false)
+        expect(event_first.additional_attributes).to include({'chatwoot_id' => 3750})
       end
     end
   end

@@ -16,7 +16,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
   end
 
   def self.import_message(chatwoot, contact, webhook)
-    contact.events.create(
+    message = contact.events.new(
       account: chatwoot.account,
       kind: 'chatwoot_message',
       from_me: is_from_me?(webhook),
@@ -26,6 +26,9 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
       done_at: webhook['created_at'],
       app: chatwoot
     )
+    message.additional_attributes.merge!({ 'chatwoot_id' => webhook['conversation']['messages'].first['id'] })
+    message.save
+    message
   end
 
   def self.is_from_me?(webhook)
