@@ -1,4 +1,6 @@
 class Accounts::Apps::Chatwoots::Webhooks::ImportAttachments
+  require 'open-uri'
+
   def self.call(chatwoot, contact, webhook)
     attachments = get_or_import_attachments(chatwoot, contact, webhook)
     { ok: attachments }
@@ -7,20 +9,24 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportAttachments
   def self.get_or_import_attachments(chatwoot, contact, webhook)
     return 'Attachments can not be blank' if webhook['attachments'].blank?
 
-    webhook['attachments'].map do |attachment|
-      attachment = contact.events.where(
-        '? <@ additional_attributes', { chatwoot_id: webhook['id'] }.to_json
-      ).first
-
-      attachment = import_attachments(chatwoot, contact, webhook, attachment) if attachment.nil?
-      attachment
+    attachments = contact.events.where(
+      '? <@ additional_attributes', { chatwoot_id: webhook['attachments'].first['message_id'] }.to_json
+    )
+    if attachments.empty?
+      remove_first_attachment(webhook['attachments'])
+      attachments = webhook['attachments'].map do |attachment|
+        attachment = import_attachments(chatwoot, contact, webhook, attachment)
+        attachment
+      end
     end
+    attachments
   end
 
   def self.import_attachments(chatwoot, contact, webhook, attachment_params)
     event = create_event(chatwoot, contact, webhook, attachment_params)
     create_attachment(event, attachment_params)
   end
+
 
   def self.create_event(chatwoot, contact, webhook, attachment_params)
     event = contact.events.new(
@@ -38,10 +44,11 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportAttachments
   end
 
   def self.create_attachment(event, attachment_params)
+    downloaded_file = URI.open(attachment_params['data_url'])
     attachment = event.build_attachment(
       file_type: attachment_params['file_type']
     )
-    attachment.file.attach(io: open(attachment_params['data_url']),
+    attachment.file.attach(io: downloaded_file,
                            filename: "attachment_#{attachment_params['file_type']}_#{event.additional_attributes['chatwoot_id']}")
     attachment.save
     attachment
