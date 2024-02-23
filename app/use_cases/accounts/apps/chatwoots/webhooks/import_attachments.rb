@@ -9,24 +9,17 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportAttachments
   def self.get_or_import_attachments(chatwoot, contact, webhook)
     return 'Attachments can not be blank' if webhook['attachments'].blank?
 
-    attachments = contact.events.where(
-      '? <@ additional_attributes', { chatwoot_id: webhook['attachments'].first['message_id'] }.to_json
-    )
-    if attachments.empty?
-      remove_first_attachment(webhook['attachments'])
-      attachments = webhook['attachments'].map do |attachment|
-        attachment = import_attachments(chatwoot, contact, webhook, attachment)
-        attachment
-      end
+    remove_first_attachment(webhook['attachments'])
+    webhook['attachments'].map do |attachment|
+      attachment = import_attachments(chatwoot, contact, webhook, attachment)
+      attachment
     end
-    attachments
   end
 
   def self.import_attachments(chatwoot, contact, webhook, attachment_params)
     event = create_event(chatwoot, contact, webhook, attachment_params)
     create_attachment(event, attachment_params)
   end
-
 
   def self.create_event(chatwoot, contact, webhook, attachment_params)
     event = contact.events.new(
@@ -41,6 +34,10 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportAttachments
     event.additional_attributes.merge!({ 'chatwoot_id' => attachment_params['message_id'] })
     event.save
     event
+  end
+
+  def self.remove_first_attachment(attachments)
+    attachments.shift
   end
 
   def self.create_attachment(event, attachment_params)

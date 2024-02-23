@@ -3,9 +3,6 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
 
   def self.call(chatwoot, contact, webhook)
     message = get_or_import_message(chatwoot, contact, webhook)
-    if should_import_other_attachment?(webhook)
-      Accounts::Apps::Chatwoots::Webhooks::ImportAttachments(chatwoot, contact, webhook)
-    end
     { ok: message }
   end
 
@@ -13,8 +10,14 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
     message = contact.events.where(
       '? <@ additional_attributes', { chatwoot_id: webhook['conversation']['messages'].first['id'] }.to_json
     ).first
-
-    message = import_message(chatwoot, contact, webhook) if message.nil?
+    if message.nil?
+      if has_multiple_attachments?(webhook)
+        Accounts::Apps::Chatwoots::Webhooks::ImportAttachments.call(chatwoot, contact, webhook)
+        message = import_message(chatwoot, contact, webhook)
+      else
+        message = import_message(chatwoot, contact, webhook)
+      end
+    end
     message
   end
 
@@ -42,10 +45,10 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
       file_type: attachment_params['file_type']
     )
     attachment.file.attach(io: downloaded_file,
-      filename: "attachment_#{attachment_params['file_type']}_#{event.additional_attributes['chatwoot_id']}")
+                           filename: "attachment_#{attachment_params['file_type']}_#{event.additional_attributes['chatwoot_id']}")
   end
 
-  def self.should_import_other_attachment?(webhook)
+  def self.has_multiple_attachments?(webhook)
     webhook['attachments'].present? && webhook['attachments'].count > 1
   end
 
