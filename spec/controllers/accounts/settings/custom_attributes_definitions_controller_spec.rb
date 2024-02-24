@@ -150,7 +150,7 @@ RSpec.describe Accounts::Settings::CustomAttributesDefinitionsController, type: 
         sign_in(user)
       end
 
-      context 'delete the webhook' do
+      context 'delete custom_attribute_definiton' do
         it do
           expect do
             delete "/accounts/#{account.id}/custom_attributes_definitions/#{custom_attribute_definition.id}"
