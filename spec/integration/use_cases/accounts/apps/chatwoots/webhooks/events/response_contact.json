@@ -1,155 +1,155 @@
 {
   "payload": {
-      "additional_attributes": {
-          "source_id": "email:CAHco2v7Smo9R+5AKTCnLq5pTbJfuHtQL6jhrNV-1h18md63v_A@mail.gmail.com",
-          "created_at_ip": "191.177.185.103"
-      },
-      "availability_status": "offline",
-      "email": "doug@zimobi.com.br",
-      "id": 715,
-      "name": "doug",
-      "phone_number": null,
-      "identifier": null,
-      "thumbnail": "",
-      "custom_attributes": {},
-      "last_activity_at": 1683204167,
-      "created_at": 1683202047,
-      "contact_inboxes": [
-          {
-              "source_id": "92c0cfe2-a2fc-4165-bb49-c1143939baf5",
-              "inbox": {
-                  "id": 36,
-                  "avatar_url": "",
-                  "channel_id": 3,
-                  "name": "Teste",
-                  "channel_type": "Channel::WebWidget",
-                  "greeting_enabled": false,
-                  "greeting_message": "",
-                  "working_hours_enabled": false,
-                  "enable_email_collect": true,
-                  "csat_survey_enabled": false,
-                  "enable_auto_assignment": true,
-                  "auto_assignment_config": {},
-                  "out_of_office_message": null,
-                  "working_hours": [
-                      {
-                          "day_of_week": 0,
-                          "closed_all_day": true,
-                          "open_hour": null,
-                          "open_minutes": null,
-                          "close_hour": null,
-                          "close_minutes": null,
-                          "open_all_day": false
-                      },
-                      {
-                          "day_of_week": 1,
-                          "closed_all_day": false,
-                          "open_hour": 9,
-                          "open_minutes": 0,
-                          "close_hour": 17,
-                          "close_minutes": 0,
-                          "open_all_day": false
-                      },
-                      {
-                          "day_of_week": 2,
-                          "closed_all_day": false,
-                          "open_hour": 9,
-                          "open_minutes": 0,
-                          "close_hour": 17,
-                          "close_minutes": 0,
-                          "open_all_day": false
-                      },
-                      {
-                          "day_of_week": 3,
-                          "closed_all_day": false,
-                          "open_hour": 9,
-                          "open_minutes": 0,
-                          "close_hour": 17,
-                          "close_minutes": 0,
-                          "open_all_day": false
-                      },
-                      {
-                          "day_of_week": 4,
-                          "closed_all_day": false,
-                          "open_hour": 9,
-                          "open_minutes": 0,
-                          "close_hour": 17,
-                          "close_minutes": 0,
-                          "open_all_day": false
-                      },
-                      {
-                          "day_of_week": 5,
-                          "closed_all_day": false,
-                          "open_hour": 9,
-                          "open_minutes": 0,
-                          "close_hour": 17,
-                          "close_minutes": 0,
-                          "open_all_day": false
-                      },
-                      {
-                          "day_of_week": 6,
-                          "closed_all_day": true,
-                          "open_hour": null,
-                          "open_minutes": null,
-                          "close_hour": null,
-                          "close_minutes": null,
-                          "open_all_day": false
-                      }
-                  ],
-                  "timezone": "UTC",
-                  "callback_webhook_url": null,
-                  "allow_messages_after_resolved": true,
-                  "lock_to_single_conversation": false,
-                  "widget_color": "#009CE0",
-                  "website_url": "teste.com.br",
-                  "hmac_mandatory": false,
-                  "welcome_title": "",
-                  "welcome_tagline": "",
-                  "web_widget_script": "\n    <script>\n      (function(d,t) {\n        var BASE_URL=\"https://chat.zimobi.com.br\";\n        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];\n        g.src=BASE_URL+\"/packs/js/sdk.js\";\n        g.defer = true;\n        g.async = true;\n        s.parentNode.insertBefore(g,s);\n        g.onload=function(){\n          window.chatwootSDK.run({\n            websiteToken: 'XGhZAT13fms1fi24gtmhvsYf',\n            baseUrl: BASE_URL\n          })\n        }\n      })(document,\"script\");\n    </script>\n    ",
-                  "website_token": "XGhZAT13fms1fi24gtmhvsYf",
-                  "selected_feature_flags": [
-                      "attachments",
-                      "emoji_picker",
-                      "end_conversation"
-                  ],
-                  "reply_time": "in_a_few_minutes",
-                  "hmac_token": "ixspMr2b9Kg7WsDYdB8HS661",
-                  "pre_chat_form_enabled": false,
-                  "pre_chat_form_options": {
-                      "pre_chat_fields": [
-                          {
-                              "name": "emailAddress",
-                              "type": "email",
-                              "label": "Email Id",
-                              "enabled": false,
-                              "required": true,
-                              "field_type": "standard"
-                          },
-                          {
-                              "name": "fullName",
-                              "type": "text",
-                              "label": "Full name",
-                              "enabled": false,
-                              "required": false,
-                              "field_type": "standard"
-                          },
-                          {
-                              "name": "phoneNumber",
-                              "type": "text",
-                              "label": "Phone number",
-                              "enabled": false,
-                              "required": false,
-                              "field_type": "standard"
-                          }
-                      ],
-                      "pre_chat_message": "Share your queries or comments here."
-                  },
-                  "continuity_via_email": true,
-                  "messaging_service_sid": null,
-                  "phone_number": null,
-                  "provider": null
+    "additional_attributes": {
+      "source_id": "email:CAHco2v7Smo9R+5AKTCnLq5pTbJfuHtQL6jhrNV-1h18md63v_A@mail.gmail.com",
+      "created_at_ip": "191.177.185.103"
+    },
+    "availability_status": "offline",
+    "email": "doug@zimobi.com.br",
+    "id": 715,
+    "name": "doug",
+    "phone_number": null,
+    "identifier": null,
+    "thumbnail": "",
+    "custom_attributes": {},
+    "last_activity_at": 1683204167,
+    "created_at": 1683202047,
+    "contact_inboxes": [
+      {
+        "source_id": "92c0cfe2-a2fc-4165-bb49-c1143939baf5",
+        "inbox": {
+          "id": 36,
+          "avatar_url": "",
+          "channel_id": 3,
+          "name": "Teste",
+          "channel_type": "Channel::WebWidget",
+          "greeting_enabled": false,
+          "greeting_message": "",
+          "working_hours_enabled": false,
+          "enable_email_collect": true,
+          "csat_survey_enabled": false,
+          "enable_auto_assignment": true,
+          "auto_assignment_config": {},
+          "out_of_office_message": null,
+          "working_hours": [
+            {
+              "day_of_week": 0,
+              "closed_all_day": true,
+              "open_hour": null,
+              "open_minutes": null,
+              "close_hour": null,
+              "close_minutes": null,
+              "open_all_day": false
+            },
+            {
+              "day_of_week": 1,
+              "closed_all_day": false,
+              "open_hour": 9,
+              "open_minutes": 0,
+              "close_hour": 17,
+              "close_minutes": 0,
+              "open_all_day": false
+            },
+            {
+              "day_of_week": 2,
+              "closed_all_day": false,
+              "open_hour": 9,
+              "open_minutes": 0,
+              "close_hour": 17,
+              "close_minutes": 0,
+              "open_all_day": false
+            },
+            {
+              "day_of_week": 3,
+              "closed_all_day": false,
+              "open_hour": 9,
+              "open_minutes": 0,
+              "close_hour": 17,
+              "close_minutes": 0,
+              "open_all_day": false
+            },
+            {
+              "day_of_week": 4,
+              "closed_all_day": false,
+              "open_hour": 9,
+              "open_minutes": 0,
+              "close_hour": 17,
+              "close_minutes": 0,
+              "open_all_day": false
+            },
+            {
+              "day_of_week": 5,
+              "closed_all_day": false,
+              "open_hour": 9,
+              "open_minutes": 0,
+              "close_hour": 17,
+              "close_minutes": 0,
+              "open_all_day": false
+            },
+            {
+              "day_of_week": 6,
+              "closed_all_day": true,
+              "open_hour": null,
+              "open_minutes": null,
+              "close_hour": null,
+              "close_minutes": null,
+              "open_all_day": false
+            }
+          ],
+          "timezone": "UTC",
+          "callback_webhook_url": null,
+          "allow_messages_after_resolved": true,
+          "lock_to_single_conversation": false,
+          "widget_color": "#009CE0",
+          "website_url": "teste.com.br",
+          "hmac_mandatory": false,
+          "welcome_title": "",
+          "welcome_tagline": "",
+          "web_widget_script": "\n    <script>\n      (function(d,t) {\n        var BASE_URL=\"https://chat.zimobi.com.br\";\n        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];\n        g.src=BASE_URL+\"/packs/js/sdk.js\";\n        g.defer = true;\n        g.async = true;\n        s.parentNode.insertBefore(g,s);\n        g.onload=function(){\n          window.chatwootSDK.run({\n            websiteToken: 'XGhZAT13fms1fi24gtmhvsYf',\n            baseUrl: BASE_URL\n          })\n        }\n      })(document,\"script\");\n    </script>\n    ",
+          "website_token": "XGhZAT13fms1fi24gtmhvsYf",
+          "selected_feature_flags": [
+            "attachments",
+            "emoji_picker",
+            "end_conversation"
+          ],
+          "reply_time": "in_a_few_minutes",
+          "hmac_token": "ixspMr2b9Kg7WsDYdB8HS661",
+          "pre_chat_form_enabled": false,
+          "pre_chat_form_options": {
+            "pre_chat_fields": [
+              {
+                "name": "emailAddress",
+                "type": "email",
+                "label": "Email Id",
+                "enabled": false,
+                "required": true,
+                "field_type": "standard"
+              },
+              {
+                "name": "fullName",
+                "type": "text",
+                "label": "Full name",
+                "enabled": false,
+                "required": false,
+                "field_type": "standard"
+              },
+              {
+                "name": "phoneNumber",
+                "type": "text",
+                "label": "Phone number",
+                "enabled": false,
+                "required": false,
+                "field_type": "standard"
               }
-          }
-      ]
+            ],
+            "pre_chat_message": "Share your queries or comments here."
+          },
+          "continuity_via_email": true,
+          "messaging_service_sid": null,
+          "phone_number": null,
+          "provider": null
+        }
+      }
+    ]
   }
 }

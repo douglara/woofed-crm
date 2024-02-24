@@ -1,134 +1,134 @@
 {
   "payload": [
-      {
-          "meta": {
-              "sender": {
-                  "additional_attributes": {
-                      "source_id": "email:CAHco2v7Smo9R+5AKTCnLq5pTbJfuHtQL6jhrNV-1h18md63v_A@mail.gmail.com",
-                      "created_at_ip": "191.177.185.103"
-                  },
-                  "availability_status": "offline",
-                  "email": "doug@zimobi.com.br",
-                  "id": 715,
-                  "name": "doug",
-                  "phone_number": null,
-                  "identifier": null,
-                  "thumbnail": "",
-                  "custom_attributes": {},
-                  "last_activity_at": 1683204167,
-                  "created_at": 1683202047
-              },
-              "channel": "Channel::WebWidget",
-              "assignee": {
-                  "id": 1,
-                  "account_id": 5,
-                  "availability_status": "offline",
-                  "auto_offline": true,
-                  "confirmed": true,
-                  "email": "doug@zimobi.com.br",
-                  "available_name": "Douglas",
-                  "name": "Douglas",
-                  "role": "administrator",
-                  "thumbnail": ""
-              },
-              "hmac_verified": false
-          },
-          "id": 49,
-          "messages": [
-              {
-                  "id": 96126,
-                  "content": "Douglas Teste adicionou test1",
-                  "account_id": 5,
-                  "inbox_id": 36,
-                  "conversation_id": 49,
-                  "message_type": 2,
-                  "created_at": 1690256354,
-                  "updated_at": "2023-07-25T03:39:14.915Z",
-                  "private": false,
-                  "status": "sent",
-                  "source_id": null,
-                  "content_type": "text",
-                  "content_attributes": {},
-                  "sender_type": null,
-                  "sender_id": null,
-                  "external_source_ids": {},
-                  "additional_attributes": {},
-                  "processed_message_content": "Douglas Teste adicionou test1",
-                  "conversation": {
-                      "assignee_id": 1,
-                      "unread_count": 0,
-                      "last_activity_at": 1690256354
-                  }
-              }
-          ],
-          "account_id": 5,
-          "uuid": "4e7435e9-0f6f-4ee3-94e8-40483abaaba6",
+    {
+      "meta": {
+        "sender": {
           "additional_attributes": {
-              "browser": {
-                  "device_name": "Unknown",
-                  "browser_name": "Chrome",
-                  "platform_name": "Generic Linux",
-                  "browser_version": "114.0.0.0",
-                  "platform_version": "0"
-              },
-              "referer": "https://cdpn.io/cpe/boomboom/index.html?key=index.html-b97d0740-a49f-5035-1c2e-40377bb51e54",
-              "initiated_at": {
-                  "timestamp": "Thu Jun 29 2023 01:11:46 GMT-0300 (Horário Padrão de Brasília)"
-              },
-              "browser_language": "pt"
+            "source_id": "email:CAHco2v7Smo9R+5AKTCnLq5pTbJfuHtQL6jhrNV-1h18md63v_A@mail.gmail.com",
+            "created_at_ip": "191.177.185.103"
           },
-          "agent_last_seen_at": 1690256389,
-          "assignee_last_seen_at": 1689677168,
-          "can_reply": true,
-          "contact_last_seen_at": 1688011906,
+          "availability_status": "offline",
+          "email": "doug@zimobi.com.br",
+          "id": 715,
+          "name": "doug",
+          "phone_number": null,
+          "identifier": null,
+          "thumbnail": "",
           "custom_attributes": {},
+          "last_activity_at": 1683204167,
+          "created_at": 1683202047
+        },
+        "channel": "Channel::WebWidget",
+        "assignee": {
+          "id": 1,
+          "account_id": 5,
+          "availability_status": "offline",
+          "auto_offline": true,
+          "confirmed": true,
+          "email": "doug@zimobi.com.br",
+          "available_name": "Douglas",
+          "name": "Douglas",
+          "role": "administrator",
+          "thumbnail": ""
+        },
+        "hmac_verified": false
+      },
+      "id": 49,
+      "messages": [
+        {
+          "id": 96126,
+          "content": "Douglas Teste adicionou test1",
+          "account_id": 5,
           "inbox_id": 36,
-          "labels": [
-              "test1"
-          ],
-          "muted": false,
-          "snoozed_until": null,
-          "status": "open",
-          "created_at": 1688011906,
-          "timestamp": 1690256354,
-          "first_reply_created_at": 1690236970,
+          "conversation_id": 49,
+          "message_type": 2,
+          "created_at": 1690256354,
+          "updated_at": "2023-07-25T03:39:14.915Z",
+          "private": false,
+          "status": "sent",
+          "source_id": null,
+          "content_type": "text",
+          "content_attributes": {},
+          "sender_type": null,
+          "sender_id": null,
+          "external_source_ids": {},
+          "additional_attributes": {},
+          "processed_message_content": "Douglas Teste adicionou test1",
+          "conversation": {
+            "assignee_id": 1,
+            "unread_count": 0,
+            "last_activity_at": 1690256354
+          }
+        }
+      ],
+      "account_id": 5,
+      "uuid": "4e7435e9-0f6f-4ee3-94e8-40483abaaba6",
+      "additional_attributes": {
+        "browser": {
+          "device_name": "Unknown",
+          "browser_name": "Chrome",
+          "platform_name": "Generic Linux",
+          "browser_version": "114.0.0.0",
+          "platform_version": "0"
+        },
+        "referer": "https://cdpn.io/cpe/boomboom/index.html?key=index.html-b97d0740-a49f-5035-1c2e-40377bb51e54",
+        "initiated_at": {
+          "timestamp": "Thu Jun 29 2023 01:11:46 GMT-0300 (Horário Padrão de Brasília)"
+        },
+        "browser_language": "pt"
+      },
+      "agent_last_seen_at": 1690256389,
+      "assignee_last_seen_at": 1689677168,
+      "can_reply": true,
+      "contact_last_seen_at": 1688011906,
+      "custom_attributes": {},
+      "inbox_id": 36,
+      "labels": [
+        "test1"
+      ],
+      "muted": false,
+      "snoozed_until": null,
+      "status": "open",
+      "created_at": 1688011906,
+      "timestamp": 1690256354,
+      "first_reply_created_at": 1690236970,
+      "unread_count": 0,
+      "last_non_activity_message": {
+        "id": 95925,
+        "content": "teste",
+        "account_id": 5,
+        "inbox_id": 36,
+        "conversation_id": 49,
+        "message_type": 1,
+        "created_at": 1690236970,
+        "updated_at": "2023-07-24T22:16:10.631Z",
+        "private": false,
+        "status": "sent",
+        "source_id": null,
+        "content_type": "text",
+        "content_attributes": {},
+        "sender_type": "User",
+        "sender_id": 95,
+        "external_source_ids": {},
+        "additional_attributes": {},
+        "processed_message_content": "teste",
+        "conversation": {
+          "assignee_id": 1,
           "unread_count": 0,
-          "last_non_activity_message": {
-              "id": 95925,
-              "content": "teste",
-              "account_id": 5,
-              "inbox_id": 36,
-              "conversation_id": 49,
-              "message_type": 1,
-              "created_at": 1690236970,
-              "updated_at": "2023-07-24T22:16:10.631Z",
-              "private": false,
-              "status": "sent",
-              "source_id": null,
-              "content_type": "text",
-              "content_attributes": {},
-              "sender_type": "User",
-              "sender_id": 95,
-              "external_source_ids": {},
-              "additional_attributes": {},
-              "processed_message_content": "teste",
-              "conversation": {
-                  "assignee_id": 1,
-                  "unread_count": 0,
-                  "last_activity_at": 1690256354
-              },
-              "sender": {
-                  "id": 95,
-                  "name": "Douglas Teste",
-                  "available_name": "Douglas Teste",
-                  "avatar_url": "",
-                  "type": "user",
-                  "availability_status": "online",
-                  "thumbnail": ""
-              }
-          },
-          "last_activity_at": 1690256354,
-          "priority": null
-      }
+          "last_activity_at": 1690256354
+        },
+        "sender": {
+          "id": 95,
+          "name": "Douglas Teste",
+          "available_name": "Douglas Teste",
+          "avatar_url": "",
+          "type": "user",
+          "availability_status": "online",
+          "thumbnail": ""
+        }
+      },
+      "last_activity_at": 1690256354,
+      "priority": null
+    }
   ]
 }
