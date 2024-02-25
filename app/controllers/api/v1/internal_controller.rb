@@ -1,4 +1,6 @@
 class Api::V1::InternalController < ActionController::API
+  include Pagy::Backend
+
   before_action :authenticate_user
 
   def authenticate_user

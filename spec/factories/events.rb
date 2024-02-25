@@ -38,5 +38,6 @@ FactoryBot.define do
     deal
     title { 'Event 1' }
     content { 'Hi Lorena' }
+    kind { 'activity' }
   end
 end
