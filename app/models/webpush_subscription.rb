@@ -1,6 +1,9 @@
 class WebpushSubscription < ApplicationRecord
   belongs_to :user
   belongs_to :account
+  validates :endpoint, presence: true
+  validates :p256dh_key, presence: true
+  validates :auth_key, presence: true, uniqueness: true
 
   def send_notification(message)
     begin

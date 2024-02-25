@@ -23,9 +23,10 @@
 #
 FactoryBot.define do
   factory :webpush_subscription do
-    endpoint { "MyString" }
-    auth_key { "MyString" }
-    p256dh_key { "MyString" }
-    user { nil }
+    user
+    account
+    endpoint { "endpoint test" }
+    auth_key { "auth_key" }
+    p256dh_key { "p256dh_key" }
   end
 end
