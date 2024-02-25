@@ -56,7 +56,6 @@ class Event < ApplicationRecord
     elsif scheduled_delivery_event?
       Accounts::Contacts::Events::EnqueueWorker.perform_async(id)
     end
-    schedule_webpush_notification_alert
   end
 
   def changed_scheduled_values?
@@ -79,6 +78,10 @@ class Event < ApplicationRecord
 
   def done?
     done
+  end
+
+  def should_delivery_message_scheduled?
+    !self.done? && (Time.current.in_time_zone > self.scheduled_at)
   end
 
   def done=(value)
