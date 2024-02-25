@@ -13,6 +13,7 @@ class Accounts::Apps::EvolutionApis::Message::DeliveryJob < ApplicationJob
         event.done = true
         event.additional_attributes.merge!({ 'message_id' => result[:ok]['key']['id']})
         event.save!
+        SendMessageEventNotifier.with(event: event).deliver(event.account)
         return { ok: event }
       else
         return {error: result[:error]}

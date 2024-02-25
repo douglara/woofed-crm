@@ -56,6 +56,7 @@ class Event < ApplicationRecord
     elsif scheduled_delivery_event?
       Accounts::Contacts::Events::EnqueueWorker.perform_async(id)
     end
+    schedule_webpush_notification_alert_activity_event
   end
 
   def changed_scheduled_values?
@@ -66,9 +67,9 @@ class Event < ApplicationRecord
     changed_scheduled_values? && (auto_done == true && scheduled_at.present? && done_at.blank?)
   end
 
-  def schedule_webpush_notification_alert
+  def schedule_webpush_notification_alert_activity_event
     if scheduled_at.present? && saved_change_to_scheduled_at? && self.activity?
-      AlertEventNotifier.with(event: self).deliver_later(self.account, wait_until: self.scheduled_at - 3.minutes)
+      Accounts::WebpushNotifications::AlertEventNotifier::DeliveryJob.set(wait_until: self.scheduled_at).perform_later(self.id)
     end
   end
 

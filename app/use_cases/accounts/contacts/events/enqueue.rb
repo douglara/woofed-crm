@@ -1,6 +1,7 @@
 class Accounts::Contacts::Events::Enqueue
 
   def self.call(event)
+    Accounts::WebpushNotifications::AlertEventNotifier::DeliveryJob.set(wait_until: event.scheduled_at).perform_later(event.id)
     if event.chatwoot_message?
       Accounts::Apps::Chatwoots::Messages::DeliveryJob.set(wait_until: event.scheduled_at).perform_later(event.id)
     elsif event.evolution_api_message?
