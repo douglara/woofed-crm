@@ -15,7 +15,7 @@
 
     <%= yield :stylesheets %>
   </head>
-  <body data-controller="webpush-subscription" data-webpush-subscription-url-value='<%= account_webpush_subscriptions_path(current_user.account) %>' data-webpush-subscription-vapid-public-key-value='<%= Base64.urlsafe_decode64(ENV['WEBPUSH_PUBLIC_KEY']).bytes %>'>
+  <body data-controller="webpush-subscription" data-webpush-subscription-url-value='<%= account_webpush_subscriptions_path(current_user.account) %>' data-webpush-subscription-vapid-public-key-value='<%= Base64.urlsafe_decode64(ENV['VAPID_PUBLIC_KEY']).bytes %>'>
     <div id="app" class="h-screen">
       <%= render partial: 'components/notifications', locals: { message: flash[:notice] } %>
       <div class="flex h-full">

@@ -10,8 +10,8 @@ class WebpushSubscription < ApplicationRecord
         p256dh: p256dh_key,
         auth: auth_key,
         vapid: {
-          private_key: ENV['WEBPUSH_PRIVATE_KEY'],
-          public_key: ENV['WEBPUSH_PUBLIC_KEY']
+          private_key: ENV['VAPID_PRIVATE_KEY'],
+          public_key: ENV['VAPID_PUBLIC_KEY']
         }
       )
     rescue Webpush::ExpiredSubscription => e
