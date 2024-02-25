@@ -1,4 +1,4 @@
-class Accounts::WebpushNotifications::AlertEventNotifier::DeliveryJob < ApplicationJob
+class Accounts::WebPushNotifications::AlertEventNotifier::DeliveryJob < ApplicationJob
 
   self.queue_adapter = :good_job
   def perform(event_id)

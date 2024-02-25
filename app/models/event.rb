@@ -69,7 +69,7 @@ class Event < ApplicationRecord
 
   def schedule_webpush_notification_alert_activity_event
     if scheduled_at.present? && saved_change_to_scheduled_at? && send_now == false
-      Accounts::WebpushNotifications::AlertEventNotifier::DeliveryJob.set(wait_until: self.scheduled_at).perform_later(self.id)
+      Accounts::WebPushNotifications::AlertEventNotifier::DeliveryJob.set(wait_until: self.scheduled_at).perform_later(self.id)
     end
   end
 
