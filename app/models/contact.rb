@@ -34,7 +34,7 @@ class Contact < ApplicationRecord
 
 
 
-  has_many :deals
+  has_many :deals, dependent: :destroy
   belongs_to :app, polymorphic: true, optional: true
 
   def self.ransackable_attributes(auth_object = nil)
