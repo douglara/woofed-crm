@@ -16,6 +16,7 @@
 class Attachment < ApplicationRecord
   belongs_to :attachable, polymorphic: true
   has_one_attached :file
+  validates :file, presence: true
   enum file_type: { image: 0, audio: 1, video: 2, file: 3, location: 4, fallback: 5, share: 6, story_mention: 7,
                     contact: 8 }
 end
