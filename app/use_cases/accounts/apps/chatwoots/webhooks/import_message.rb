@@ -29,7 +29,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
       contact: contact,
       content: webhook['content'],
       done: true,
-      done_at: webhook['created_at'],
+      done_at: webhook['created_at'].to_time + 1.seconds,
       app: chatwoot
     )
 

@@ -176,6 +176,13 @@ class Event < ApplicationRecord
     end
   end
 
+  def has_attached_image?
+    attachment && attachment.image?
+  end
+  def has_attached_audio?
+    attachment && attachment.audio?
+  end
+
   ## Events
 
   include Wisper::Publisher
