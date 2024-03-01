@@ -130,6 +130,9 @@ GEM
       rexml
     crass (1.0.6)
     date (3.3.3)
+    debug (1.9.1)
+      irb (~> 1.10)
+      reline (>= 0.3.8)
     declarative (0.0.20)
     devise (4.9.0)
       bcrypt (~> 3.0)
@@ -252,6 +255,10 @@ GEM
     image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
+    io-console (0.7.2)
+    irb (1.11.2)
+      rdoc
+      reline (>= 0.4.2)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -512,6 +519,8 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.4.6)
+    psych (5.1.2)
+      stringio
     public_suffix (5.0.1)
     puma (6.4.2)
       nio4r (~> 2.0)
@@ -562,10 +571,14 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    rdoc (6.6.2)
+      psych (>= 4.0.0)
     redis (4.8.1)
     redis-client (0.12.2)
       connection_pool
     regexp_parser (2.7.0)
+    reline (0.4.3)
+      io-console (~> 0.5)
     representable (3.2.0)
       declarative (< 0.1.0)
       trailblazer-option (>= 0.1.1, < 0.2.0)
@@ -662,6 +675,7 @@ GEM
       sprockets (>= 3.0.0)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
+    stringio (3.1.0)
     tailwindcss-rails (2.0.30-x86_64-linux)
       railties (>= 6.0.0)
     thor (1.2.1)
@@ -722,6 +736,7 @@ DEPENDENCIES
   byebug
   capybara (>= 3.26)
   cocoon
+  debug (= 1.9.1)
   devise
   dotenv-rails
   elastic-apm
