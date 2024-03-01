@@ -70,6 +70,22 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::Events::Message, type: :requ
           expect(Attachment.count).to eq(3)
         end
       end
+
+      context 'when receive event with not found attachment' do
+        let(:event_message_with_one_attachment) { File. read("spec/integration/use_cases/accounts/apps/chatwoots/webhooks/events/message/event_message_with_one_attachment.json") }
+
+        it 'should crete one event with one attachment' do
+          stub_request(:any, /chatwoot\.server3\.woofedcrm\.com/).
+          to_return(status: 404)
+
+          expect do
+            Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(chatwoot, JSON.parse(event_message_with_one_attachment))
+          end.to change(Event, :count).by(1)
+          expect(event_first.additional_attributes).to include({'chatwoot_id' => 8633})
+          expect(event_first.status).to eq('failed')
+          expect(Attachment.count).to eq(0)
+        end
+      end
     end
   end
 end

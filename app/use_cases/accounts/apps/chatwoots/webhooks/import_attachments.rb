@@ -32,11 +32,15 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportAttachments
   end
 
   def self.create_attachment(event, attachment_params)
-    downloaded_file = URI.open(attachment_params['data_url'])
-    attachment = event.build_attachment(
-      file_type: attachment_params['file_type']
-    )
-    attachment.file.attach(io: downloaded_file,
-                           filename: "attachment_#{attachment_params['file_type']}_#{event.additional_attributes['chatwoot_id']}")
+    begin
+      downloaded_file = URI.open(attachment_params['data_url'])
+      attachment = event.build_attachment(
+        file_type: attachment_params['file_type']
+      )
+      attachment.file.attach(io: downloaded_file,
+                             filename: "attachment_#{attachment_params['file_type']}_#{event.additional_attributes['chatwoot_id']}")
+    rescue
+      event.status = 'failed'
+    end
   end
 end
