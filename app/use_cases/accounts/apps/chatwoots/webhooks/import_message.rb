@@ -34,7 +34,11 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
     )
 
     message.additional_attributes.merge!({ 'chatwoot_id' => webhook['conversation']['messages'].first['id'] })
-    import_attachment(message, webhook['attachments'].first) if webhook['attachments'].present?
+    if webhook['attachments'].present?
+      Accounts::Apps::Chatwoots::Webhooks::ImportAttachments.create_attachment(message,
+                                                                               webhook['attachments'].first)
+    end
+
     message.save
     message
   end
