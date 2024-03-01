@@ -12,7 +12,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
     ).first
     if message.nil?
       if has_multiple_attachments?(webhook)
-        Accounts::Apps::Chatwoots::Webhooks::ImportAttachments.call(chatwoot, contact, webhook)
+        Accounts::Apps::Chatwoots::Webhooks::ImportAttachmentsSkipFirst.call(chatwoot, contact, webhook)
         message = import_message(chatwoot, contact, webhook)
       else
         message = import_message(chatwoot, contact, webhook)
@@ -35,7 +35,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
 
     message.additional_attributes.merge!({ 'chatwoot_id' => webhook['conversation']['messages'].first['id'] })
     if webhook['attachments'].present?
-      Accounts::Apps::Chatwoots::Webhooks::ImportAttachments.create_attachment(message,
+      Accounts::Apps::Chatwoots::Webhooks::ImportAttachmentsSkipFirst.create_attachment(message,
                                                                                webhook['attachments'].first)
     end
 
