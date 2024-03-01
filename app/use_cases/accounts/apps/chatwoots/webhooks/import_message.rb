@@ -29,7 +29,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
       contact: contact,
       content: webhook['content'],
       done: true,
-      done_at: webhook['created_at'].to_time + 1.seconds,
+      done_at: build_done_at(webhook),
       app: chatwoot
     )
 
@@ -41,6 +41,18 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
 
     message.save
     message
+  end
+
+  def self.build_done_at(webhook)
+    if webhook['attachments'].present?
+      webhook['created_at'].to_time + miliseconds(1)
+    else
+      webhook['created_at']
+    end
+  end
+
+  def self.miliseconds(miliseconds)
+    miliseconds/1000.0
   end
 
   def self.has_multiple_attachments?(webhook)

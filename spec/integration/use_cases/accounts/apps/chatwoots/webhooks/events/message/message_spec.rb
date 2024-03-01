@@ -27,7 +27,7 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::Events::Message, type: :requ
         expect(event_first.from_me).to eq(true)
         expect(event_first.done).to eq(true)
         expect(event_first.kind).to eq('chatwoot_message')
-        expect(event_first.done_at).to eq("2023-07-26T01:59:54.994Z".to_time + 1.seconds)
+        expect(event_first.done_at).to eq("2023-07-26T01:59:54.994Z")
         expect(event_first.additional_attributes).to include({'chatwoot_id' => 99523})
       end
       it 'import event chatwoot receive message' do
