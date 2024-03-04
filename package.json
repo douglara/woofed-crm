@@ -11,7 +11,7 @@
     "@rails/actioncable": "^6.0.0",
     "@rails/actiontext": "^6.1.4-1",
     "@rails/activestorage": "^6.0.0",
-    "@rails/request.js": "^0.0.8",
+    "@rails/request.js": "^0.0.9",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "5.4.2",
     "@yaireo/tagify": "^4.17.9",

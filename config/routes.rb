@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :accounts, module: :accounts do
     resources :settings, only: [:index]
+    resources :webpush_subscriptions, only: [:create]
     resources :welcome, only: [:index]
         resources :custom_attributes_definitions, module: :settings do
 

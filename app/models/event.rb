@@ -34,6 +34,7 @@
 class Event < ApplicationRecord
   include Event::Decorators
   include Deal::Broadcastable
+  include Rails.application.routes.url_helpers
   # default_scope { order('created_at DESC') }
 
   belongs_to :deal, optional: true
@@ -55,6 +56,7 @@ class Event < ApplicationRecord
     elsif scheduled_delivery_event?
       Accounts::Contacts::Events::EnqueueWorker.perform_async(id)
     end
+    schedule_webpush_notification_alert_activity_event
   end
 
   def changed_scheduled_values?
@@ -65,12 +67,22 @@ class Event < ApplicationRecord
     changed_scheduled_values? && (auto_done == true && scheduled_at.present? && done_at.blank?)
   end
 
+  def schedule_webpush_notification_alert_activity_event
+    if scheduled_at.present? && saved_change_to_scheduled_at? && send_now == false
+      Accounts::WebPushNotifications::AlertEventNotifier::DeliveryJob.set(wait_until: self.scheduled_at).perform_later(self.id)
+    end
+  end
+
   def done
     done_at.present?
   end
 
   def done?
     done
+  end
+
+  def should_delivery_message_scheduled?
+    !self.done? && (Time.current.in_time_zone > self.scheduled_at)
   end
 
   def done=(value)
@@ -174,6 +186,11 @@ class Event < ApplicationRecord
       'scheduled'
     end
   end
+
+  def get_show_deal_path
+    "#{ENV['FRONTEND_URL']}#{account_deal_path(self.account, self.deal)}"
+  end
+
 
   ## Events
 

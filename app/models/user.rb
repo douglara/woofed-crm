@@ -31,6 +31,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   belongs_to :account
   accepts_nested_attributes_for :account
+  has_many :webpush_subscriptions
+  has_many :notifications, as: :recipient, class_name: "Noticed::Notification"
   validates :phone,
     allow_blank: true,
     format: { with: /\+[1-9]\d{1,14}\z/, message: "Número inválido" }
