@@ -74,7 +74,7 @@ Rails.application.configure do
 
   config.hosts = nil
 
-  config.action_controller.default_url_options = { host: 'http://127.0.0.1', port: 3001 }
+  config.action_controller.default_url_options = { host: ENV['FRONTEND_URL'], protocol: 'https' }
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true

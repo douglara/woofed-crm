@@ -37,11 +37,6 @@ module WoofedCrm
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    if Rails.env.production?
-      Rails.application.routes.default_url_options = { host: ENV['HOST_URL'], protocol: 'https' }
-    elsif Rails.env.development?
-      Rails.application.routes.default_url_options = { host: ENV['HOST_URL'], protocol: 'http' }
-    end
 
     # Disable serving static files from the `/public` folder by default since
     # Apache or NGINX already handles this.
@@ -59,5 +54,6 @@ module WoofedCrm
     config.host = nil
 
     config.assets.css_compressor = nil
+    config.active_storage.service_urls_expire_in = 1.hour
   end
 end
