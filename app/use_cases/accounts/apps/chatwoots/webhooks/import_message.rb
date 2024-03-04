@@ -45,7 +45,8 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
 
   def self.build_done_at(webhook)
     if webhook['attachments'].present?
-      webhook['created_at'].to_time + miliseconds(1)
+      created_at = webhook['created_at'].dup
+      created_at.to_time + miliseconds(1)
     else
       webhook['created_at']
     end
