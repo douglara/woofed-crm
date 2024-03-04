@@ -1,7 +1,5 @@
 <section class="px-4 py-5 m-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md">
-
-  <%= render 'form', custom_attributes_definition: @custom_attributes_definition %>
-
+  <%= render 'form', url: account_custom_attributes_definitions_path(current_user.account), custom_attributes_definition: @custom_attributes_definition %>
 </section>
 
 

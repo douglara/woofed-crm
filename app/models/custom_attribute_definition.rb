@@ -13,10 +13,10 @@
 #
 # Indexes
 #
-#  attribute_key_model_index                         (attribute_key,attribute_model) UNIQUE
 #  index_custom_attribute_definitions_on_account_id  (account_id)
 #
 class CustomAttributeDefinition < ApplicationRecord
+  include CustomAttributeDefinition::Broadcastable
   scope :with_attribute_model, ->(attribute_model) { attribute_model.presence && where(attribute_model: attribute_model) }
 
   validates :attribute_display_name, presence: true
