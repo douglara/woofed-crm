@@ -38,7 +38,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportAttachmentsSkipFirst
         file_type: attachment_params['file_type']
       )
       attachment.file.attach(io: downloaded_file,
-                             filename: "attachment_#{attachment_params['file_type']}_#{event.additional_attributes['chatwoot_id']}")
+                             filename: File.basename(attachment_params['data_url']))
     rescue OpenURI::HTTPError
       event.status = 'failed'
     end
