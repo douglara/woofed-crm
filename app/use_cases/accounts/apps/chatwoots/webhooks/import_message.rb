@@ -79,7 +79,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
       created_at = @webhook['created_at'].dup
       created_at.to_time + miliseconds(order)
     else
-      @webhook['created_at']
+      @webhook['created_at'].to_time
     end
   end
 
