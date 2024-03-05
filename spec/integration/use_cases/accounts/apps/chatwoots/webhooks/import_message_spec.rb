@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Accounts::Apps::Chatwoots::Webhooks::Events::Message, type: :request do
+RSpec.describe Accounts::Apps::Chatwoots::Webhooks::ImportMessage, type: :request do
   describe 'success' do
     let(:account) { create(:account) }
     let(:chatwoot) { create(:apps_chatwoots, :skip_validate)}
@@ -65,7 +65,10 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::Events::Message, type: :requ
           expect do
             Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(chatwoot, JSON.parse(event_message_with_three_attachments))
           end.to change(Event, :count).by(3)
+          expect(Event.last.attachment.file.filename.to_s).to eq("bob_esponja.png")
           expect(Event.last.content.to_plain_text).to eq("Message with attachments")
+          expect(Event.first.attachment.file.filename.to_s).to eq("lula.png")
+          expect(Event.first.content.to_plain_text).to eq("")
           expect(Event.all.map(&:additional_attributes)).to include({'chatwoot_id' => 8637}).exactly(Event.count).times
           expect(Attachment.count).to eq(3)
         end
