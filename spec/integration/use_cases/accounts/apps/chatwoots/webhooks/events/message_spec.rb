@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Accounts::Apps::Chatwoots::Webhooks::ImportMessage, type: :request do
+RSpec.describe Accounts::Apps::Chatwoots::Webhooks::Events::Message, type: :request do
   describe 'success' do
     let(:account) { create(:account) }
     let(:chatwoot) { create(:apps_chatwoots, :skip_validate)}
@@ -21,7 +21,7 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::ImportMessage, type: :reques
       end
 
       it 'import event chatwoot send message' do
-        result = Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(chatwoot, JSON.parse(event_message_sent))
+        result = described_class.call(chatwoot, JSON.parse(event_message_sent))
         expect(result.key?(:ok)).to eq(true)
         expect(event_first.content.body.to_plain_text).to eq('Teste2')
         expect(event_first.from_me).to eq(true)
@@ -31,7 +31,7 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::ImportMessage, type: :reques
         expect(event_first.additional_attributes).to include({'chatwoot_id' => 99523})
       end
       it 'import event chatwoot receive message' do
-        result = Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(chatwoot, JSON.parse(event_message_receive))
+        result = described_class.call(chatwoot, JSON.parse(event_message_receive))
         expect(result.key?(:ok)).to eq(true)
         expect(event_first.content.body.to_plain_text).to eq('teste receive')
         expect(event_first.from_me).to eq(false)
@@ -53,7 +53,7 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::ImportMessage, type: :reques
         let(:event_message_with_one_attachment) { File. read("spec/integration/use_cases/accounts/apps/chatwoots/webhooks/events/message/event_message_with_one_attachment.json") }
         it 'should crete one event with one attachment' do
           expect do
-            Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(chatwoot, JSON.parse(event_message_with_one_attachment))
+            described_class.call(chatwoot, JSON.parse(event_message_with_one_attachment))
           end.to change(Event, :count).by(1)
           expect(event_first.additional_attributes).to include({'chatwoot_id' => 8633})
           expect(Attachment.count).to eq(1)
@@ -63,7 +63,7 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::ImportMessage, type: :reques
         let(:event_message_with_three_attachments) { File. read("spec/integration/use_cases/accounts/apps/chatwoots/webhooks/events/message/event_message_with_three_attachments.json") }
         it 'should create 3 events and 3 attachments' do
           expect do
-            Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(chatwoot, JSON.parse(event_message_with_three_attachments))
+            described_class.call(chatwoot, JSON.parse(event_message_with_three_attachments))
           end.to change(Event, :count).by(3)
           expect(Event.last.attachment.file.filename.to_s).to eq("bob_esponja.png")
           expect(Event.last.content.to_plain_text).to eq("Message with attachments")
@@ -82,7 +82,7 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::ImportMessage, type: :reques
           to_return(status: 404)
 
           expect do
-            Accounts::Apps::Chatwoots::Webhooks::Events::Message.call(chatwoot, JSON.parse(event_message_with_one_attachment))
+            described_class.call(chatwoot, JSON.parse(event_message_with_one_attachment))
           end.to change(Event, :count).by(1)
           expect(event_first.additional_attributes).to include({'chatwoot_id' => 8633})
           expect(event_first.status).to eq('failed')
