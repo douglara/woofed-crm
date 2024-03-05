@@ -1,0 +1,206 @@
+{
+  "account": {
+    "id": 2,
+    "name": "Yukio Testes"
+  },
+  "additional_attributes": {},
+  "content_attributes": {},
+  "content_type": "text",
+  "content": "Message with attachments",
+  "conversation": {
+    "additional_attributes": {},
+    "can_reply": true,
+    "channel": "Channel::Api",
+    "contact_inbox": {
+      "id": 198,
+      "contact_id": 195,
+      "inbox_id": 4,
+      "source_id": "639f12b2-8e5c-478d-8a83-33d99da07457",
+      "created_at": "2023-11-09T14:59:55.947Z",
+      "updated_at": "2023-11-09T14:59:55.947Z",
+      "hmac_verified": false,
+      "pubsub_token": "[FILTERED]"
+    },
+    "id": 9,
+    "inbox_id": 4,
+    "messages": [
+      {
+        "id": 8637,
+        "content": null,
+        "account_id": 2,
+        "inbox_id": 4,
+        "conversation_id": 9,
+        "message_type": 1,
+        "created_at": 1708452686,
+        "updated_at": "2024-02-20T18:11:26.328Z",
+        "private": false,
+        "status": "sent",
+        "source_id": null,
+        "content_type": "text",
+        "content_attributes": {},
+        "sender_type": "User",
+        "sender_id": 2,
+        "external_source_ids": {},
+        "additional_attributes": {},
+        "processed_message_content": null,
+        "sentiment": {},
+        "conversation": {
+          "assignee_id": 2,
+          "unread_count": 0,
+          "last_activity_at": 1708452686,
+          "contact_inbox": {
+            "source_id": "639f12b2-8e5c-478d-8a83-33d99da07457"
+          }
+        },
+        "attachments": [
+          {
+            "id": 1225,
+            "message_id": 8637,
+            "file_type": "image",
+            "account_id": 2,
+            "extension": null,
+            "data_url": "http://chatwoot.server3.woofedcrm.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaVUzIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--de992923325633d6dbd546cd8a6c6e51b8dbb905/Captura%20de%20Tela%20(19).png",
+            "thumb_url": "http://chatwoot.server3.woofedcrm.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaVUzIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--de992923325633d6dbd546cd8a6c6e51b8dbb905/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--87aec6c89ddb8fb0db919201603f3410be9cad37/Captura%20de%20Tela%20(19).png",
+            "file_size": 514533
+          },
+          {
+            "id": 1226,
+            "message_id": 8637,
+            "file_type": "image",
+            "account_id": 2,
+            "extension": null,
+            "data_url": "http://chatwoot.server3.woofedcrm.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaVkzIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--b91b81f141d94d12cc2b4cdf8565255246079190/Captura%20de%20Tela%20(18).png",
+            "thumb_url": "http://chatwoot.server3.woofedcrm.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaVkzIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--b91b81f141d94d12cc2b4cdf8565255246079190/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--87aec6c89ddb8fb0db919201603f3410be9cad37/Captura%20de%20Tela%20(18).png",
+            "file_size": 430766
+          },
+          {
+            "id": 1227,
+            "message_id": 8637,
+            "file_type": "image",
+            "account_id": 2,
+            "extension": null,
+            "data_url": "http://chatwoot.server3.woofedcrm.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaWMzIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2a2fb9ce5fc3c9e54ee0820ed481013430efb9c9/Captura%20de%20Tela%20(15).png",
+            "thumb_url": "http://chatwoot.server3.woofedcrm.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaWMzIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2a2fb9ce5fc3c9e54ee0820ed481013430efb9c9/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--87aec6c89ddb8fb0db919201603f3410be9cad37/Captura%20de%20Tela%20(15).png",
+            "file_size": 758301
+          }
+        ],
+        "sender": {
+          "id": 2,
+          "name": "Yukio",
+          "available_name": "Yukio",
+          "avatar_url": "",
+          "type": "user",
+          "availability_status": "online",
+          "thumbnail": ""
+        }
+      }
+    ],
+    "labels": [
+      "marcador2",
+      "marcador1"
+    ],
+    "meta": {
+      "sender": {
+        "additional_attributes": {
+          "city": "",
+          "country": "",
+          "description": "",
+          "company_name": "",
+          "country_code": "",
+          "social_profiles": {
+            "github": "",
+            "twitter": "",
+            "facebook": "",
+            "linkedin": "",
+            "instagram": ""
+          }
+        },
+        "custom_attributes": {
+          "cpf": "173.677.888-91"
+        },
+        "email": "fsdfgsd@dfghdfg.com",
+        "id": 195,
+        "identifier": null,
+        "name": "Envio de msgs",
+        "phone_number": "",
+        "thumbnail": "",
+        "type": "contact"
+      },
+      "assignee": {
+        "id": 2,
+        "name": "Yukio",
+        "available_name": "Yukio",
+        "avatar_url": "",
+        "type": "user",
+        "availability_status": "online",
+        "thumbnail": ""
+      },
+      "team": null,
+      "hmac_verified": false
+    },
+    "status": "open",
+    "custom_attributes": {},
+    "snoozed_until": null,
+    "unread_count": 0,
+    "first_reply_created_at": "2023-11-09T14:59:56.691Z",
+    "priority": null,
+    "waiting_since": 0,
+    "agent_last_seen_at": 1708452685,
+    "contact_last_seen_at": 0,
+    "timestamp": 1708452686,
+    "created_at": 1699541995
+  },
+  "created_at": "2024-02-20T18:11:26.328Z",
+  "id": 8637,
+  "inbox": {
+    "id": 4,
+    "name": "Teste 2"
+  },
+  "message_type": "outgoing",
+  "private": false,
+  "sender": {
+    "id": 2,
+    "name": "Yukio",
+    "email": "yukioarie@gmail.com",
+    "type": "user"
+  },
+  "source_id": null,
+  "attachments": [
+    {
+      "id": 1225,
+      "message_id": 8637,
+      "file_type": "image",
+      "account_id": 2,
+      "extension": null,
+      "data_url": "http://chatwoot.server3.woofedcrm.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaVUzIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--de992923325633d6dbd546cd8a6c6e51b8dbb905/bob_esponja.png",
+      "thumb_url": "http://chatwoot.server3.woofedcrm.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaVUzIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--de992923325633d6dbd546cd8a6c6e51b8dbb905/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--87aec6c89ddb8fb0db919201603f3410be9cad37/Captura%20de%20Tela%20(19).png",
+      "file_size": 514533
+    },
+    {
+      "id": 1226,
+      "message_id": 8637,
+      "file_type": "image",
+      "account_id": 2,
+      "extension": null,
+      "data_url": "http://chatwoot.server3.woofedcrm.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaVkzIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--b91b81f141d94d12cc2b4cdf8565255246079190/patrick.png",
+      "thumb_url": "http://chatwoot.server3.woofedcrm.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaVkzIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--b91b81f141d94d12cc2b4cdf8565255246079190/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--87aec6c89ddb8fb0db919201603f3410be9cad37/Captura%20de%20Tela%20(18).png",
+      "file_size": 430766
+    },
+    {
+      "id": 1227,
+      "message_id": 8637,
+      "file_type": "image",
+      "account_id": 2,
+      "extension": null,
+      "data_url": "http://chatwoot.server3.woofedcrm.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaWMzIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2a2fb9ce5fc3c9e54ee0820ed481013430efb9c9/lula.png",
+      "thumb_url": "http://chatwoot.server3.woofedcrm.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaWMzIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2a2fb9ce5fc3c9e54ee0820ed481013430efb9c9/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--87aec6c89ddb8fb0db919201603f3410be9cad37/Captura%20de%20Tela%20(15).png",
+      "file_size": 758301
+    }
+  ],
+  "event": "message_created",
+  "token": "[FILTERED]",
+  "chatwoot": {
+    "id": 8637,
+    "created_at": "2024-02-20T18:11:26.328Z"
+  }
+}

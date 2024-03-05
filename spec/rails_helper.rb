@@ -36,6 +36,12 @@ end
 
 include ActiveJob::TestHelper
 
+if ENV['ALLOW_HTTP'] == 'true'
+  WebMock.allow_net_connect!(net_http_connect_on_start: true)
+else
+  WebMock.disable_net_connect!(allow_localhost: true)
+end
+
 RSpec.configure do |config|
   config.before(:each) do
     Sidekiq::Worker.clear_all

@@ -47,6 +47,7 @@ class Event < ApplicationRecord
   attribute :done, :boolean
   attribute :send_now, :boolean
   validates :kind, presence: true
+  has_one :attachment, as: :attachable
 
   after_commit do
     # To refactory
@@ -119,6 +120,8 @@ class Event < ApplicationRecord
     'chatwoot_message': 'chatwoot_message'
   }
 
+  enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
+
   before_validation do
     self.done = false if scheduled_at.present? && done.nil?
   end
@@ -173,6 +176,13 @@ class Event < ApplicationRecord
     else
       'scheduled'
     end
+  end
+
+  def has_attached_image?
+    attachment && attachment.image?
+  end
+  def has_attached_audio?
+    attachment && attachment.audio?
   end
 
   ## Events

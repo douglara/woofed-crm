@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_01_31_212319) do
+ActiveRecord::Schema.define(version: 2024_02_21_210910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -124,6 +124,15 @@ ActiveRecord::Schema.define(version: 2024_01_31_212319) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "status", default: "inactive", null: false
     t.index ["account_id"], name: "index_apps_wpp_connects_on_account_id"
+  end
+
+  create_table "attachments", force: :cascade do |t|
+    t.string "attachable_type", null: false
+    t.bigint "attachable_id", null: false
+    t.integer "file_type", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable"
   end
 
   create_table "contacts", force: :cascade do |t|
