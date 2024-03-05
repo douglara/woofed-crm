@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+
   include Pagy::Backend
   if ENV['HIGHLIGHT_PROJECT_ID'].present?
     require "highlight"

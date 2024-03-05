@@ -1,0 +1,5 @@
+          <audio controls>
+            <source src="<%= rails_blob_path(event.attachment.file) %>" type="audio/mpeg" >
+          </audio>
+          <a href="<%= rails_blob_path(event.attachment.file) %>" download="filename.mp3">DownloadButton</a>
+          <%= image_tag 'play.svg', data:{ 'wavesurfer-target': 'playIcon' }%>

@@ -178,11 +178,14 @@ class Event < ApplicationRecord
     end
   end
 
-  def has_attached_image?
-    attachment && attachment.image?
+  [:image, :audio, :file, :video].each do |type|
+    define_method "has_attached_#{type}?" do
+      attachment && attachment.send("#{type}?")
+    end
   end
-  def has_attached_audio?
-    attachment && attachment.audio?
+
+  def has_media_attachment?
+    has_attached_image? || has_attached_file? || has_attached_video?
   end
 
   ## Events
