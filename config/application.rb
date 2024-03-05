@@ -58,7 +58,11 @@ module WoofedCrm
     if Rails.env.production?
       Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'], protocol: 'https' }
     elsif Rails.env.development?
-      Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'], protocol: 'https' }
+      if ENV['FRONTEND_URL'].present?
+        Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'], protocol: 'https' }
+      else
+        Rails.application.routes.default_url_options = { host: 'http://127.0.0.1:3001/', protocol: 'http' }
+      end
     end
   end
 end
