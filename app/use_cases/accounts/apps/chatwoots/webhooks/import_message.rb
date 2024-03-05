@@ -14,7 +14,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
 
   def get_or_import_message()
     message = @contact.events.where(
-      '? <@ additional_attributes', { chatwoot_id: @webhook['conversation']['messages'].first['id'] }.to_json
+      '? <@ additional_attributes', { chatwoot_id: @webhook['id'] }.to_json
     ).first
     if message.nil?
       if attachments?
