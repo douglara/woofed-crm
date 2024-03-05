@@ -55,14 +55,10 @@ module WoofedCrm
 
     config.assets.css_compressor = nil
     config.active_storage.service_urls_expire_in = 1.hour
-    if Rails.env.production?
-      Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'], protocol: 'https' }
-    elsif Rails.env.development?
-      if ENV['FRONTEND_URL'].present?
-        Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'], protocol: 'https' }
-      else
-        Rails.application.routes.default_url_options = { host: 'http://127.0.0.1:3001/', protocol: 'http' }
-      end
+
+    Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
+    if ENV['FRONTEND_URL'].present? && ENV['FRONTEND_URL'].include?('https')
+      Rails.application.routes.default_url_options.merge!({ protocol: 'https' })
     end
   end
 end
