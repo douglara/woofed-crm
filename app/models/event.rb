@@ -109,7 +109,7 @@ class Event < ApplicationRecord
     where('done_at IS NOT NULL').order(done_at: :desc)
   }
 
-  scope :by_message_id, -> (message_id) {
+  scope :by_message_id, lambda { |message_id|
     where("additional_attributes ->> 'message_id' = ?", message_id)
   }
 
@@ -144,6 +144,7 @@ class Event < ApplicationRecord
 
     false
   end
+
   def kind_message?
     chatwoot_message? || evolution_api_message?
   end
@@ -178,14 +179,8 @@ class Event < ApplicationRecord
     end
   end
 
-  [:image, :audio, :file, :video].each do |type|
-    define_method "has_attached_#{type}?" do
-      attachment && attachment.send("#{type}?")
-    end
-  end
-
   def has_media_attachment?
-    has_attached_image? || has_attached_file? || has_attached_video?
+    attachment.image? || attachment.file? || attachment.video? if attachment.present?
   end
 
   ## Events

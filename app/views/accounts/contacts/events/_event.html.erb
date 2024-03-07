@@ -30,13 +30,13 @@
           </div>
         <% end %>
         <div class="flex-grow py-1">
-         <div class="flex items-center gap-2">
-          <span class="m-0 text-dark-gray-palette-p1 typography-text-s-lh150 flex items-center gap-1.5">
-            <%= event.kind == 'activity' ? event.title : Event.human_attribute_name(event.kind) %>
-          </span>
-          <%= embedded_svg('icon-whtass.svg', {class: "w-3.5 fill-[#26D367]"}) if event.evolution_api_message? %>
-          <i data-lucide="<%= event.icon_key %>" class="<%= event.icon_key %> self-center"></i>
-         </div>
+          <div class="flex items-center gap-2">
+            <span class="m-0 text-dark-gray-palette-p1 typography-text-s-lh150 flex items-center gap-1.5">
+              <%= event.kind == 'activity' ? event.title : Event.human_attribute_name(event.kind) %>
+            </span>
+            <%= embedded_svg('icon-whtass.svg', {class: "w-3.5 fill-[#26D367]"}) if event.evolution_api_message? %>
+            <i data-lucide="<%= event.icon_key %>" class="<%= event.icon_key %> self-center"></i>
+          </div>
           <% if event.scheduled_at.present? %>
             <span class="m-0 text-brand-palette-04 group-[.event-scheduled]:font-semibold group-[.event-item-from-contacts]:text-dark-gray-palette-p4">Prazo: <%= event.primary_date %></span>
           <% else %>
@@ -51,82 +51,28 @@
           </div>
         <% end %>
       </div>
-        <!-- Dropdown menu -->
+      <!-- Dropdown menu -->
       <div id="dropdownMenuActions<%= event.id %>" class="z-10 hidden w-48 left-16  bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
         <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
           <li>
             <%= link_to edit_account_contact_event_path(event.account, event.contact, event), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do%>
-              <i data-lucide="file-edit"></i> <p>Editar</p>
+              <i data-lucide="file-edit"></i>
+              <p>Editar</p>
             <%end%>
           </li>
           <li>
             <%= link_to account_contact_event_path(event.account, event.contact, event), method: :delete, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do%>
-            <i data-lucide="trash-2"></i>
-              <p>Excluir</p></a>
+              <i data-lucide="trash-2"></i>
+              <p>Excluir</p>
+            </a>
           <%end%>
-          </li>
-        </ul>
-      </div>
-      <div class="py-3 px-4 space-y-3">
-        <%= event.content %>
-        <% if event.has_attached_image? %>
-          <div class="flex items-center justify-center" data-controller="lightbox">
-            <%= link_to rails_blob_url(event.attachment.file) do %>
-              <%= image_tag event.attachment.file, class: 'rounded-lg max-w-[440px]' %>
-            <% end %>
-          </div>
-        <% end %>
-        <% if event.has_attached_audio? %>
-          <div data-controller="wavesurfer" data-wavesurfer-event-id-value="<%= event.id %>" data-wavesurfer-audio-url-value="<%= rails_blob_path(event.attachment.file) %>" data-wavesurfer-pause-svg-url-value="<%= asset_path('pause-solid.svg') %>" data-wavesurfer-play-svg-url-value="<%= asset_path('play-solid.svg') %>" data-wavesurfer-volume-high-svg-url-value="<%= asset_path('volume-high-solid.svg') %>" data-wavesurfer-volume-muted-svg-url-value="<%= asset_path('volume-muted-solid.svg') %>" class="space-y-4">
-            <div class="flex items-center gap-5">
-              <button data-wavesurfer-target="playBtn">
-                <img src="<%= asset_path('play-solid.svg') %>" alt="" class="w-7" data-wavesurfer-target="playIcon">
-              </button>
-              <div id="waveform<%= event.id %>" class="w-full flex items-center justify-center">
-                <div data-wavesurfer-target="loading">
-                  <%= render 'components/loading' %>
-                </div>
-              </div>
-              <p class="typography-body-m-lh150 text-dark-gray-palette-p3" data-wavesurfer-target="duration"></p>
-            </div>
-            <div class="flex items-center justify-between">
-              <button data-popover-target="popover-no-arrow-<%= event.id %>" data-popover-placement="right" type="button" class="typography-text-s-lh150 text-dark-gray-palette-p3 hover:text-brand-palette-03 focus:text-brand-palette-03 w-6 h-6" data-wavesurfer-target="toggleMute" aria-disabled="true">
-                <img src="/assets/volume-high-solid.svg" alt="" class="w-5" data-wavesurfer-target="volumeIcon">
-              </button>
-              <div data-popover id="popover-no-arrow-<%= event.id %>" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
-                <div class="px-3 py-2">
-                  <input id="small-range" data-wavesurfer-target="volumeRange" type="range" class="w-full h-1 bg-gray-200 rounded-lg accent-slate-500 cursor-pointer range-sm dark:bg-gray-700">
-                </div>
-              </div>
-              <div class="flex gap-2.5 speed-wrapper">
-                <button class="btn-secondary aria-selected:cursor-default aria-selected:bg-brand-palette-07 aria-selected:text-brand-palette-03" data-wavesurfer-target="speed1x" aria-selected="true">1x</button>
-                <button class="btn-secondary aria-selected:cursor-default aria-selected:bg-brand-palette-07 aria-selected:text-brand-palette-03" data-wavesurfer-target="speedHalfx">1.5x</button>
-                <button class="btn-secondary aria-selected:cursor-default aria-selected:bg-brand-palette-07 aria-selected:text-brand-palette-03" data-wavesurfer-target="speed2x">2x</button>
-              </div>
-              <%= link_to rails_blob_path(event.attachment.file), class: "btn-secondary p-2.5",  download: true do %>
-                <i data-lucide="download" style="width: 20px;
-                height: 20px;"></i>
-              <%end%>
-            </div>
-          </div>
-        <% end %>
-        <% if event.has_attached_file? %>
-        <div class="flex gap-3">
-          <i data-lucide="file" style="width: 40px; height: 40px" class=" stroke-dark-gray-palette-p3"></i>
-          <div>
-            <p class="typography-text-s-lh150 text-dark-gray-palette-p3">
-              <%= event.attachment.file.filename.to_s %>
-            </p>
-            <%= link_to 'Download', rails_blob_path(event.attachment.file), class: "typography-text-r-lh150 text-dark-gray-palette-p3 underline",  download: true %>
-          </div>
-        </div>
-        <% end %>
-        <% if event.has_attached_video? %>
-          <div class="flex items-center justify-center">
-            <%= video_tag rails_blob_url(event.attachment.file), size:'300x300', controls: true, data: { controller: 'lightbox'}, class: 'rounded-lg' %>
-          </div>
-        <% end %>
-      </div>
+        </li>
+      </ul>
+    </div>
+    <div class="py-3 px-4 space-y-3">
+      <%= event.content %>
+      <%= render 'accounts/contacts/events/attachment', event: event %>
     </div>
   </div>
+</div>
 <% end %>
