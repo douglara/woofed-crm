@@ -33,6 +33,11 @@ input[type=file]:hover::file-selector-button {
   font-size: .938rem;
   line-height: 200%;
   color: #888599;
+  overflow-wrap: break-word;
+}
+
+.trix-button-group.trix-button-group--file-tools {
+  display:none;
 }
 
 .embed {

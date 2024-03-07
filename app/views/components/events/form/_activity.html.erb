@@ -1,4 +1,3 @@
-
 <%= form_with(model: event, url: url, namespace: 'activity', data: { turbo_frame: edit_event_form ? "events_#{event.contact&.id}" : nil }) do |form| %>
   <% if event.errors.any? %>
     <div id="error_explanation">
@@ -10,25 +9,20 @@
       </ul>
     </div>
   <% end %>
-
   <%= form.hidden_field :kind, value: 'activity' %>
   <%= form.hidden_field :deal_id %>
-
   <div class="space-y-2 p-4">
     <%= form.label :title, 'Tipo', class:'py-1 typography-text-m-lh150 text-dark-gray-palette-p1' %>
     <%= form.text_field :title, class: 'form-input w-full' %>
   </div>
-
   <div class="border-t border-light-palette-p3 p-4 space-y-2">
     <%= form.label :content, 'Descrição', class:'typography-text-m-lh150 text-dark-gray-palette-p1' %>
     <%= form.rich_text_area :content, class: 'form-input' %>
   </div>
-
   <div class="border-t border-light-palette-p3 p-3 space-y-2">
     <%= form.label :scheduled_at, 'Agendar', class:'typography-text-m-lh150 text-dark-gray-palette-p1' %>
     <%= form.datetime_local_field :scheduled_at, class: 'form-input w-full' %>
   </div>
-
   <div class="flex justify-between border-t border-light-palette-p3 p-4">
     <div class=" flex items-center">
       <%= form.check_box :done, class: 'rounded text-brand-palette-03 focus:border-transparent focus:ring-0' %>
