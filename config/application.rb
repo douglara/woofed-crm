@@ -1,6 +1,6 @@
-require_relative "boot"
+require_relative 'boot'
 
-require "rails/all"
+require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -37,7 +37,6 @@ module WoofedCrm
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-
     # Disable serving static files from the `/public` folder by default since
     # Apache or NGINX already handles this.
     config.public_file_server.enabled = true
@@ -46,25 +45,26 @@ module WoofedCrm
     config.assets.compile = true
     config.serve_static_assets = true
 
-
     # Location and Timezone
     config.i18n.default_locale = 'pt-BR'
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales','**' ,'*.{rb,yml}').to_s]
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
     config.time_zone = 'Brasilia'
     config.host = nil
 
     config.assets.css_compressor = nil
     config.active_storage.service_urls_expire_in = 1.hour
+    unless Rails.env.test? do
+      Rails.application.default_url_options = { host: ENV['FRONTEND_URL'] }
+      if ENV['FRONTEND_URL'].present? && ENV['FRONTEND_URL'].include?('https')
+        Rails.application.default_url_options.merge!({ protocol: 'https' })
+      else
+        Rails.application.default_url_options.merge!({ protocol: 'http', port: ENV['PORT'].to_i })
+      end
 
-    Rails.application.default_url_options = { host: ENV['FRONTEND_URL'] }
-    if ENV['FRONTEND_URL'].present? && ENV['FRONTEND_URL'].include?('https')
-      Rails.application.default_url_options.merge!({ protocol: 'https' })
-    else
-      Rails.application.default_url_options.merge!({ protocol: 'http', port: ENV['PORT'].to_i })
+      config.action_controller.default_url_options = Rails.application.default_url_options.dup
+      config.action_mailer.default_url_options = Rails.application.default_url_options.dup
+      Rails.application.routes.default_url_options = Rails.application.default_url_options.dup
     end
-
-    config.action_controller.default_url_options = Rails.application.default_url_options.dup
-    config.action_mailer.default_url_options = Rails.application.default_url_options.dup
-    Rails.application.routes.default_url_options =  Rails.application.default_url_options.dup
+    end
   end
 end
