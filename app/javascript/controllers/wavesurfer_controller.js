@@ -18,9 +18,9 @@ export default class extends Controller {
     "volumeRange",
     "toggleMute",
     "volumeIcon",
-    "speed1x",
-    "speedHalfx",
-    "speed2x",
+    "speed1xButton",
+    "speedHalfxButton",
+    "speed2xButton",
     "duration",
     "loading",
   ];
@@ -57,20 +57,14 @@ export default class extends Controller {
       this.togglePlayIcon();
     };
 
-    this.speed1xTarget.onclick = () => {
-      this.resetAllSpeedButtonAriaSelected();
-      wavesurfer.setPlaybackRate(1);
-      this.speed1xTarget.ariaSelected = true;
+    this.speed1xButtonTarget.onclick = () => {
+      this.setPlaybackRateAndSelectButtonWithAria(1, this.speed1xButtonTarget, wavesurfer);
     };
-    this.speedHalfxTarget.onclick = () => {
-      this.resetAllSpeedButtonAriaSelected();
-      wavesurfer.setPlaybackRate(1.5);
-      this.speedHalfxTarget.ariaSelected = true;
+    this.speedHalfxButtonTarget.onclick = () => {
+      this.setPlaybackRateAndSelectButtonWithAria(1.5, this.speedHalfxButtonTarget, wavesurfer);
     };
-    this.speed2xTarget.onclick = () => {
-      this.resetAllSpeedButtonAriaSelected();
-      wavesurfer.setPlaybackRate(2);
-      this.speed2xTarget.ariaSelected = true;
+    this.speed2xButtonTarget.onclick = () => {
+      this.setPlaybackRateAndSelectButtonWithAria(2, this.speed2xButtonTarget, wavesurfer);
     };
 
     this.volumeRangeTarget.oninput = () => {
@@ -125,5 +119,10 @@ export default class extends Controller {
     } else {
       this.volumeIconTarget.setAttribute("src", this.volumeHighSvgUrlValue);
     }
+  }
+  setPlaybackRateAndSelectButtonWithAria(speed, button, wavesurfer) {
+    this.resetAllSpeedButtonAriaSelected();
+    wavesurfer.setPlaybackRate(speed);
+    button.ariaSelected = true;
   }
 }
