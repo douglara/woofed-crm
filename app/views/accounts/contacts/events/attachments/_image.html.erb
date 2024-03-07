@@ -1,0 +1,6 @@
+
+<div class="flex items-center justify-center" data-controller="lightbox">
+  <%= link_to rails_blob_url(event.attachment.file) do %>
+    <%= image_tag event.attachment.file, class: 'rounded-lg max-w-[440px]' %>
+  <% end %>
+</div>
