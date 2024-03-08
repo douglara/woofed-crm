@@ -180,7 +180,7 @@ class Event < ApplicationRecord
   end
 
   def has_media_attachment?
-    attachment.image? || attachment.file? || attachment.video? if attachment.present?
+    attachment.present? && (attachment.image? || attachment.file? || attachment.video?)
   end
 
   ## Events
