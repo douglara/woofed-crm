@@ -71,7 +71,7 @@
     </div>
     <div class="py-3 px-4 space-y-3">
       <%= event.content %>
-      <%= render 'accounts/contacts/events/attachment', event: event %>
+      <%= render 'accounts/contacts/events/attachment', event: event if event.attachment.present? %>
     </div>
   </div>
 </div>
