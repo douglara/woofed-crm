@@ -23,7 +23,7 @@ class Accounts::Apps::WppConnects::Events::DeliveryMessage
       new_message.done = false
     end
 
-    rescue 
+    rescue
       new_message.done = false
       return new_message
   end
@@ -43,7 +43,7 @@ class Accounts::Apps::WppConnects::Events::DeliveryMessage
       "#{wpp_connect.endpoint_url}/api/#{wpp_connect.session}/send-message",
       message_params.merge({
         "phone": "#{event.custom_attributes['wpp_connect_message_to']}",
-        "message": "#{event.content.to_plain_text}",
+        "message": "#{event.content}",
       }).to_json,
       {'Authorization': "Bearer #{wpp_connect.token}", 'Content-Type': 'application/json'}
     )
@@ -59,7 +59,7 @@ class Accounts::Apps::WppConnects::Events::DeliveryMessage
       return { error: response }
     end
 
-    rescue 
+    rescue
       { error: false }
   end
 end

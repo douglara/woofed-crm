@@ -8,7 +8,7 @@ class Accounts::Apps::Chatwoots::Messages::DeliveryJob < ApplicationJob
         event.app,
         event.contact.additional_attributes['chatwoot_id'],
         event.additional_attributes['chatwoot_inbox_id'],
-        event.content.body.to_plain_text
+        event.content
       )
       if result.key?(:ok)
         event.additional_attributes['chatwoot_id'] = result[:ok]['id']

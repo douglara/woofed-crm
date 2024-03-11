@@ -7,7 +7,7 @@ class Accounts::Apps::EvolutionApis::Message::DeliveryJob < ApplicationJob
       result = Accounts::Apps::EvolutionApis::Message::Send.call(
         event.app,
         event.contact.phone,
-        event.content.body.to_plain_text
+        event.content
       )
       if result.key?(:ok)
         event.done = true

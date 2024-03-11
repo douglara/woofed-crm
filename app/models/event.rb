@@ -43,6 +43,7 @@ class Event < ApplicationRecord
   # belongs_to :record, polymorphic: true
   belongs_to :app, polymorphic: true, optional: true
   has_rich_text :content
+  alias original_content content
 
   attribute :done, :boolean
   attribute :send_now, :boolean
@@ -56,6 +57,22 @@ class Event < ApplicationRecord
     elsif scheduled_delivery_event?
       Accounts::Contacts::Events::EnqueueWorker.perform_async(id)
     end
+  end
+
+  def content=(value)
+    original_content.body = value
+  end
+
+  def content
+    if text_content? && original_content.body.present?
+      original_content.body.to_plain_text
+    else
+      original_content
+    end
+  end
+
+  def text_content?
+    chatwoot_message? || evolution_api_message?
   end
 
   def changed_scheduled_values?
