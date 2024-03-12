@@ -43,6 +43,7 @@ class Event < ApplicationRecord
   # belongs_to :record, polymorphic: true
   belongs_to :app, polymorphic: true, optional: true
   has_rich_text :content
+  alias original_content content
 
   attribute :done, :boolean
   attribute :send_now, :boolean
@@ -56,6 +57,22 @@ class Event < ApplicationRecord
     elsif scheduled_delivery_event?
       Accounts::Contacts::Events::EnqueueWorker.perform_async(id)
     end
+  end
+
+  def content=(value)
+    original_content.body = value
+  end
+
+  def content
+    if text_content? && original_content.body.present?
+      original_content.body.to_plain_text
+    else
+      original_content
+    end
+  end
+
+  def text_content?
+    chatwoot_message? || evolution_api_message?
   end
 
   def changed_scheduled_values?
@@ -109,7 +126,7 @@ class Event < ApplicationRecord
     where('done_at IS NOT NULL').order(done_at: :desc)
   }
 
-  scope :by_message_id, -> (message_id) {
+  scope :by_message_id, lambda { |message_id|
     where("additional_attributes ->> 'message_id' = ?", message_id)
   }
 
@@ -144,6 +161,7 @@ class Event < ApplicationRecord
 
     false
   end
+
   def kind_message?
     chatwoot_message? || evolution_api_message?
   end
@@ -178,11 +196,8 @@ class Event < ApplicationRecord
     end
   end
 
-  def has_attached_image?
-    attachment && attachment.image?
-  end
-  def has_attached_audio?
-    attachment && attachment.audio?
+  def has_media_attachment?
+    attachment.present? && (attachment.image? || attachment.file? || attachment.video?)
   end
 
   ## Events

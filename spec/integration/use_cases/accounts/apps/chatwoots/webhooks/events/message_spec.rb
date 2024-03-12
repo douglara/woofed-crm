@@ -23,7 +23,7 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::Events::Message, type: :requ
       it 'import event chatwoot send message' do
         result = described_class.call(chatwoot, JSON.parse(event_message_sent))
         expect(result.key?(:ok)).to eq(true)
-        expect(event_first.content.body.to_plain_text).to eq('Teste2')
+        expect(event_first.content).to eq('Teste2')
         expect(event_first.from_me).to eq(true)
         expect(event_first.done).to eq(true)
         expect(event_first.kind).to eq('chatwoot_message')
@@ -33,7 +33,7 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::Events::Message, type: :requ
       it 'import event chatwoot receive message' do
         result = described_class.call(chatwoot, JSON.parse(event_message_receive))
         expect(result.key?(:ok)).to eq(true)
-        expect(event_first.content.body.to_plain_text).to eq('teste receive')
+        expect(event_first.content).to eq('teste receive')
         expect(event_first.from_me).to eq(false)
         expect(event_first.additional_attributes).to include({'chatwoot_id' => 3750})
       end
@@ -66,7 +66,7 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::Events::Message, type: :requ
             described_class.call(chatwoot, JSON.parse(event_message_with_three_attachments))
           end.to change(Event, :count).by(3)
           expect(Event.last.attachment.file.filename.to_s).to eq("bob_esponja.png")
-          expect(Event.last.content.to_plain_text).to eq("Message with attachments")
+          expect(Event.last.content).to eq("Message with attachments")
           expect(Event.first.attachment.file.filename.to_s).to eq("lula.png")
           expect(Event.first.content.to_plain_text).to eq("")
           expect(Event.all.map(&:additional_attributes)).to include({'chatwoot_id' => 8637}).exactly(Event.count).times

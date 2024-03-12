@@ -1,6 +1,6 @@
 <%= turbo_frame_tag event do %>
   <div class="group event-<%= event.scheduled_kind %> event-item-<%= event.from %> my-3" data-controller="load-lucid-icons">
-    <div class="w-3/4 block rounded-lg bg-white border border-light-palette-p3 rounded dark:bg-neutral-700">
+    <div class="<%= event.has_media_attachment? ? 'w-[500px]' : 'w-[956px]' %> block rounded-lg bg-white border border-light-palette-p3 rounded dark:bg-neutral-700">
       <div class="border-b-2 border-neutral-100 bg-light-palette-p4 px-3 py-2 flex items-center space-x-3">
         <% if event.from_me? %>
           <% if event.note? %>
@@ -30,13 +30,13 @@
           </div>
         <% end %>
         <div class="flex-grow py-1">
-         <div class="flex items-center gap-2">
-          <span class="m-0 text-dark-gray-palette-p1 typography-text-s-lh150 flex items-center gap-1.5">
-            <%= event.kind == 'activity' ? event.title : Event.human_attribute_name(event.kind) %>
-          </span>
-          <%= embedded_svg('icon-whtass.svg', {class: "w-3.5 fill-[#26D367]"}) if event.evolution_api_message? %>
-          <i data-lucide="<%= event.icon_key %>" class="<%= event.icon_key %> self-center"></i>
-         </div>
+          <div class="flex items-center gap-2">
+            <span class="m-0 text-dark-gray-palette-p1 typography-text-s-lh150 flex items-center gap-1.5">
+              <%= event.kind == 'activity' ? event.title : Event.human_attribute_name(event.kind) %>
+            </span>
+            <%= embedded_svg('icon-whtass.svg', {class: "w-3.5 fill-[#26D367]"}) if event.evolution_api_message? %>
+            <i data-lucide="<%= event.icon_key %>" class="<%= event.icon_key %> self-center"></i>
+          </div>
           <% if event.scheduled_at.present? %>
             <span class="m-0 text-brand-palette-04 group-[.event-scheduled]:font-semibold group-[.event-item-from-contacts]:text-dark-gray-palette-p4">Prazo: <%= event.primary_date %></span>
           <% else %>
@@ -51,27 +51,28 @@
           </div>
         <% end %>
       </div>
-        <!-- Dropdown menu -->
+      <!-- Dropdown menu -->
       <div id="dropdownMenuActions<%= event.id %>" class="z-10 hidden w-48 left-16  bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
         <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
           <li>
             <%= link_to edit_account_contact_event_path(event.account, event.contact, event), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do%>
-              <i data-lucide="file-edit"></i> <p>Editar</p>
+              <i data-lucide="file-edit"></i>
+              <p>Editar</p>
             <%end%>
           </li>
           <li>
             <%= link_to account_contact_event_path(event.account, event.contact, event), method: :delete, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do%>
-            <i data-lucide="trash-2"></i>
-              <p>Excluir</p></a>
+              <i data-lucide="trash-2"></i>
+              <p>Excluir</p>
+            </a>
           <%end%>
-          </li>
-        </ul>
-      </div>
-      <div class="p-6">
-        <p class="m-0 typography-text-m-lh200 text-dark-gray-palette-p3">
-          <%= event.content %>
-        </p>
-      </div>
+        </li>
+      </ul>
+    </div>
+    <div class="py-3 px-4 space-y-3">
+      <%= event.content %>
+      <%= render 'accounts/contacts/events/attachment', event: event if event.attachment.present? %>
     </div>
   </div>
+</div>
 <% end %>

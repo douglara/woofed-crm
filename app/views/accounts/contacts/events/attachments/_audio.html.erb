@@ -1,0 +1,32 @@
+<div data-controller="wavesurfer" data-wavesurfer-event-id-value="<%= event.id %>" data-wavesurfer-audio-url-value="<%= rails_blob_path(event.attachment.file) %>" data-wavesurfer-pause-svg-url-value="<%= asset_path('pause-solid.svg') %>" data-wavesurfer-play-svg-url-value="<%= asset_path('play-solid.svg') %>" data-wavesurfer-volume-high-svg-url-value="<%= asset_path('volume-high-solid.svg') %>" data-wavesurfer-volume-muted-svg-url-value="<%= asset_path('volume-muted-solid.svg') %>" class="space-y-4">
+  <div class="flex items-center gap-5">
+    <button data-wavesurfer-target="playBtn">
+      <img src="<%= asset_path('play-solid.svg') %>" alt="" class="w-7" data-wavesurfer-target="playIcon">
+    </button>
+    <div id="waveform<%= event.id %>" class="w-full flex items-center justify-center">
+      <div data-wavesurfer-target="loading">
+        <%= render 'components/loading' %>
+      </div>
+    </div>
+    <p class="typography-body-m-lh150 text-dark-gray-palette-p3" data-wavesurfer-target="duration"></p>
+  </div>
+  <div class="flex items-center justify-between">
+    <button data-popover-target="popover-no-arrow-<%= event.id %>" data-popover-placement="right" type="button" class="typography-text-s-lh150 text-dark-gray-palette-p3 hover:text-brand-palette-03 focus:text-brand-palette-03 w-6 h-6" data-wavesurfer-target="toggleMute" aria-disabled="true">
+      <img src="/assets/volume-high-solid.svg" alt="" class="w-5" data-wavesurfer-target="volumeIcon">
+    </button>
+    <div data-popover id="popover-no-arrow-<%= event.id %>" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+      <div class="px-3 py-2">
+        <input id="small-range" data-wavesurfer-target="volumeRange" type="range" class="w-full h-1 bg-gray-200 rounded-lg accent-slate-500 cursor-pointer range-sm dark:bg-gray-700">
+      </div>
+    </div>
+    <div class="flex gap-2.5 speed-wrapper">
+      <button class="btn-secondary aria-selected:cursor-default aria-selected:bg-brand-palette-07 aria-selected:text-brand-palette-03" data-wavesurfer-target="speed1xButton" aria-selected="true">1x</button>
+      <button class="btn-secondary aria-selected:cursor-default aria-selected:bg-brand-palette-07 aria-selected:text-brand-palette-03" data-wavesurfer-target="speedHalfxButton">1.5x</button>
+      <button class="btn-secondary aria-selected:cursor-default aria-selected:bg-brand-palette-07 aria-selected:text-brand-palette-03" data-wavesurfer-target="speed2xButton">2x</button>
+    </div>
+    <%= link_to rails_blob_path(event.attachment.file), class: "btn-secondary p-2.5",  download: true do %>
+      <i data-lucide="download" style="width: 20px;
+                                          height: 20px;"></i>
+    <%end%>
+  </div>
+</div>

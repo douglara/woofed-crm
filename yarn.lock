@@ -4122,6 +4122,11 @@ last-call-webpack-plugin@^3.0.0:
     lodash "^4.17.5"
     webpack-sources "^1.1.0"
 
+lightgallery.js@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/lightgallery.js/-/lightgallery.js-1.4.0.tgz#f4b43b01b2acce43bd7e6d8dbcf1d5541cd2fb03"
+  integrity sha512-TK7auNMSz0sPjotq/VtKH/fe8GPkVRlmFf8F3zVsbFccLJL4r3U1VON+IggyE8Wy04QwbFQxTIIMqL7blibGSA==
+
 lines-and-columns@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
@@ -6475,6 +6480,13 @@ static-extend@^0.1.1:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
   integrity sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
 
+stimulus-lightbox@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/stimulus-lightbox/-/stimulus-lightbox-2.0.0.tgz#bb7b07260c52aee9069b28d6a7aed5e0e674324a"
+  integrity sha512-AqJXptNC59/LyY4y0tFtmPUEDbFwG7oJe8wDN7ULnC1mrqEpA8LFy3ROsHhnQTqpzH7otebPu1/OTdSKnaVF2w==
+  dependencies:
+    lightgallery.js "^1.4.0"
+
 stimulus-notification@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/stimulus-notification/-/stimulus-notification-1.0.0.tgz#7ac60078899c391807b57f219dfd44a8349019e0"
@@ -7039,6 +7051,11 @@ watchpack@^1.7.4:
   optionalDependencies:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"
+
+wavesurfer.js@^7.7.3:
+  version "7.7.3"
+  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-7.7.3.tgz#f0fe8415abf29fdfcbb8d9b1ef0dedc7c70cd246"
+  integrity sha512-TC7cQb0RVggtNC+Dl05gcnhSFL5U+fww3ZYJUuqgfR+r9oY+bh/hChCipDFDjs5cWtuek3GEtsPXWa93a9XYxw==
 
 wbuf@^1.1.0, wbuf@^1.7.3:
   version "1.7.3"

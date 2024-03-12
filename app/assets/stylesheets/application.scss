@@ -27,6 +27,15 @@ input[type=file]:hover::file-selector-button {
   max-height: 30px;
   margin-left: 15px;
 }
+
+.trix-content{
+  font-weight: 500;
+  font-size: .938rem;
+  line-height: 200%;
+  color: #888599;
+  overflow-wrap: break-word;
+}
+
 .embed {
   .main-content {
     padding-top: 0px !important;

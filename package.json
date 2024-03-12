@@ -23,9 +23,11 @@
     "motion": "^10.16.2",
     "sortablejs": "^1.15.0",
     "stimulus": "^2.0.0",
+    "stimulus-lightbox": "2.0.0",
     "stimulus-notification": "1.0.0",
     "trix": "^1.2.0",
     "turbolinks": "^5.2.0",
+    "wavesurfer.js": "^7.7.3",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "3.11.2"
