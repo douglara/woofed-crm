@@ -21,12 +21,13 @@ class Accounts::Contacts::EventsController < InternalController
   def create
     @deal = current_user.account.deals.find(params[:deal_id])
     result = Accounts::Contacts::Events::Create.call(current_user, event_params, params, @contact, @deal)
-    has_error = result.any? { |hash| hash.key?(:error) }
-    if has_error
-      render :new, status: :unprocessable_entity
-    else
+    if result.key?(:ok)
       redirect_to(new_account_contact_event_path(account_id: current_user.account, contact_id: @contact.id,
                                                  deal_id: @deal.id))
+    else
+      new
+      flash.now[:notice] = 'Failed to create event'
+      render :new, status: :unprocessable_entity
     end
   end
 

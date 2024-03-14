@@ -1,10 +1,16 @@
 class Accounts::Contacts::Events::Create
   def self.call(user, event_params, params, contact, deal)
-    if params['event']['files'].present?
-      build_event_attachments(user, event_params, params, contact, deal)
-    else
-      [create_and_save_event(user, event_params, contact, deal)]
+    ActiveRecord::Base.transaction do
+      if params['event']['files'].present?
+        events = build_event_attachments(user, event_params, params, contact, deal)
+        { ok: events }
+      else
+        event = create_and_save_event(user, event_params, contact, deal)
+        { ok: event }
+      end
     end
+  rescue StandardError => e
+    { error: e.message }
   end
 
   def self.build_event_attachments(user, event_params, params, contact, deal)
@@ -26,7 +32,8 @@ class Accounts::Contacts::Events::Create
   end
 
   def self.create_and_save_event(user, event_params, contact, deal)
-    event = EventBuilder.new(user, event_params.merge({ contact: contact })).build
+    event = EventBuilder.new(user,
+                             event_params.merge({ contact: contact })).build
     build_and_save_event(event, deal)
   end
 
@@ -34,9 +41,9 @@ class Accounts::Contacts::Events::Create
     event.deal = deal
     event.from_me = true
     if event.save
-      { ok: event }
+      event
     else
-      { error: event.errors.full_messages.join(', ') }
+      raise StandardError, event.errors.full_messages.join(', ')
     end
   end
 end
