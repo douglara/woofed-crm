@@ -40,5 +40,5 @@ Sidekiq.configure_server do |config|
 end
 
 Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
-  [user, password] == [ENV.fetch('SIDEKIQ_USER'){ 'user' } , ENV.fetch('SIDEKIQ_PASSWORD'){ 'password' }]
+  [user, password] == [ENV.fetch('MOTOR_AUTH_USERNAME'){ 'user' } , ENV.fetch('MOTOR_AUTH_PASSWORD'){ 'password' }]
 end
