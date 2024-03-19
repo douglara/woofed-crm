@@ -44,7 +44,7 @@
       <% if action_name.include?('bulk_action') %>
         <%= link_to 'Cancelar', account_pipeline_new_bulk_action_path(current_user.account, pipeline, stage_id: stage.id) , class: 'btn-secondary cursor-pointer' %>
       <% else %>
-        <%= link_to 'Cancelar', new_account_contact_event_path(current_user.account, event.contact) , class: 'btn-secondary cursor-pointer' %>
+        <%= link_to 'Cancelar', new_account_contact_event_path(current_user.account, event.contact, deal_id: event.deal.id) , class: 'btn-secondary cursor-pointer' %>
       <% end %>
     <% end %>
   </footer>
