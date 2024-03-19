@@ -2,7 +2,9 @@ require 'csv'
 require 'json_csv'
 
 class Accounts::PipelinesController < InternalController
-  before_action :set_pipeline, only: %i[show edit update destroy]
+  before_action :set_pipeline, only: %i[show edit update destroy bulk_action new_bulk_action]
+  before_action :set_bulk_action_event, only: %i[bulk_action new_bulk_action]
+  before_action :set_stage, only: %i[bulk_action new_bulk_action]
 
   # GET /pipelines or /pipelines.json
   def index
@@ -116,19 +118,9 @@ class Accounts::PipelinesController < InternalController
     end
   end
 
-  def bulk_action
-    @pipeline = current_user.account.pipelines.find(params[:pipeline_id])
-    @stage = current_user.account.stages.find(params[:stage_id])
-    @event = EventBuilder.new(current_user,
-                              { kind: params[:kind] }).build
-  end
+  def bulk_action; end
 
-  def new_bulk_action
-    @pipeline = current_user.account.pipelines.find(params[:pipeline_id])
-    @stage = current_user.account.stages.find(params[:stage_id])
-    @event = EventBuilder.new(current_user,
-                              { kind: params[:kind] }).build
-  end
+  def new_bulk_action; end
 
   def create_bulk_action
     @deals = current_user.account.deals.where(stage_id: params['event']['stage_id'], status: 'open')
@@ -217,6 +209,15 @@ class Accounts::PipelinesController < InternalController
   # Only allow a list of trusted parameters through.
   def pipeline_params
     params.require(:pipeline).permit(:name, stages_attributes: %i[id name _destroy account_id position])
+  end
+
+  def set_bulk_action_event
+    @event = EventBuilder.new(current_user,
+                              { kind: params[:kind] }).build
+  end
+
+  def set_stage
+    @stage = current_user.account.stages.find(params[:stage_id])
   end
 
   def deal_params(params)
