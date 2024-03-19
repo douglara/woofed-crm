@@ -4,7 +4,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.0.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
-gem 'rails', '~> 6.1.4'
+gem 'rails', '6.1.7.7'
+# Rails 6.1.7.7 compatibility
+gem 'loofah', '< 2.21.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 # Use Puma as the app server
@@ -67,6 +69,7 @@ gem 'dotenv-rails'
 gem 'highlight_io', require: false
 gem 'june-analytics-ruby', require: false
 gem 'elastic-apm', require: false
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
