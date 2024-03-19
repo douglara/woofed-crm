@@ -1,5 +1,8 @@
-
-
-<%= turbo_frame_tag "new-event-form" do %>
-  <%= render "components/events/form", event: @event %>
-<% end %>
+<%= render partial: '/components/events/form', locals: {
+  turbo_frame_id: dom_id(@event),
+  event: @event,
+  header_evolution_api_message_url: new_account_contact_event_path(@event.account, @event.contact, kind: 'evolution_api_message', pipeline: @event.deal.stage.pipeline, deal_id: @event.deal.id),
+  header_activity_url: new_account_contact_event_path(@event.account, @event.contact, kind: 'activity', pipeline: @event.deal.stage.pipeline, deal_id: @event.deal.id),
+  header_note_url: new_account_contact_event_path(@event.account, @event.contact, kind: 'note', pipeline: @event.deal.stage.pipeline, deal_id: @event.deal.id),
+  header_chatwoot_message_url: new_account_contact_event_path(@event.account, @event.contact, kind: 'chatwoot_message', pipeline: @event.deal.stage.pipeline, deal_id: @event.deal.id)
+} %>
