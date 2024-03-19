@@ -276,7 +276,7 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
-    loofah (2.21.1)
+    loofah (2.20.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.8.1)
@@ -756,6 +756,7 @@ DEPENDENCIES
   june-analytics-ruby
   jwt (= 2.2.3)
   listen (~> 3.3)
+  loofah (< 2.21.0)
   motor-admin
   newrelic-sidekiq-metrics
   newrelic_rpm
