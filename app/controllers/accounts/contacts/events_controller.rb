@@ -6,12 +6,7 @@ class Accounts::Contacts::EventsController < InternalController
     # @event = current_user.account.events.new(event_params.merge({contact: @contact}))
     @event = EventBuilder.new(current_user,
                               event_params.merge({ contact_id: @contact.id, kind: params[:kind],
-                                                   deal: params[:deal] })).build
-
-    if params[:deal_id].present?
-      @event.deal_id = params[:deal_id]
-      @deal = Deal.find(params[:deal_id])
-    end
+                                                   deal_id: params[:deal_id] })).build
   end
 
   def edit; end
@@ -45,11 +40,11 @@ class Accounts::Contacts::EventsController < InternalController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_event
-    @event = Event.find(params[:id])
+    @event = current_user.account.events.find(params[:id])
   end
 
   def set_contact
-    @contact = Contact.find(params[:contact_id])
+    @contact = current_user.account.contacts.find(params[:contact_id])
   end
 
   # Only allow a list of trusted parameters through.
