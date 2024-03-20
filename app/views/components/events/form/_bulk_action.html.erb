@@ -1,5 +1,5 @@
 <% if event.chatwoot_message? %>
-  <%= render "components/events/form/chatwoot_message", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline), edit_event_form: false %>
+  <%= render "components/events/form/chatwoot_message", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage), edit_event_form: false %>
 <% elsif event.activity? %>
   <%= render "components/events/form/activity", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage), edit_event_form: false %>
 <% elsif event.note? %>
