@@ -1,7 +1,5 @@
 <%= turbo_frame_tag dom_id(Event.new, 'bulk_action'), src: new_bulk_action_account_pipeline_path(event.account, pipeline, stage_id: stage.id), loading: :lazy do %>
-  <div class='py-5'>
-    <%= render '/components/loading' %>
-  </div>
+  <%= render '/components/skeleton/event_form' %>
 <% end %>
 <div class=" justify-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
   <p class="typography-text-m-lh150 text-dark-gray-palette-p4 text-center">Para prevenir possíveis banimentos do número que enviará a mensagem, será introduzido um pequeno atraso no envio das mensagens. No entanto, é importante observar que o número ainda está sujeito a banimento. A ação em massa só está diponível para negócios com status em aberto.</p>
