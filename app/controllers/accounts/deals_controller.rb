@@ -1,10 +1,12 @@
 class Accounts::DealsController < InternalController
-  before_action :set_deal, only: %i[ show edit update destroy ]
+  before_action :set_deal, only: %i[show edit update destroy events]
 
   # GET /deals or /deals.json
   def index
     @deals = current_user.account.deals
   end
+
+  def events; end
 
   # GET /deals/1 or /deals/1.json
   def show
@@ -42,9 +44,8 @@ class Accounts::DealsController < InternalController
     else
       render :add_contact, status: :unprocessable_entity
     end
-
-    rescue
-      render :add_contact, status: :unprocessable_entity
+  rescue StandardError
+    render :add_contact, status: :unprocessable_entity
   end
 
   def remove_contact
@@ -56,9 +57,8 @@ class Accounts::DealsController < InternalController
     else
       render :show, status: :unprocessable_entity
     end
-
-    rescue
-      render :show, status: :unprocessable_entity
+  rescue StandardError
+    render :show, status: :unprocessable_entity
   end
 
   # GET /deals/1/edit
@@ -98,7 +98,7 @@ class Accounts::DealsController < InternalController
 
   def create_whatsapp
     @deal = Deal.find(params['deal_id'])
-    result = FlowItems::ActivitiesKinds::WpConnect::Messages::Create.call(whatsapp_params.merge({'contact_id': @deal.contact.id}))
+    result = FlowItems::ActivitiesKinds::WpConnect::Messages::Create.call(whatsapp_params.merge({ 'contact_id': @deal.contact.id }))
 
     respond_to do |format|
       if result.key?(:ok)
@@ -124,29 +124,30 @@ class Accounts::DealsController < InternalController
   def destroy
     @deal.destroy
     respond_to do |format|
-      format.html { redirect_to root_path, notice: "Deal was successfully destroyed." }
+      format.html { redirect_to root_path, notice: 'Deal was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_deal
-      @deal = current_user.account.deals.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def deal_params
-      params.require(:deal).permit(
-        :name, :status, :stage_id, :contact_id, :position,
-        contact_attributes: [ :id, :full_name, :phone, :email ],
-        custom_attributes: {}
-      )
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_deal
+    @deal = current_user.account.deals.find(params[:id])
+  end
 
-    def whatsapp_params
-      params.require(:flow_item).permit(
-        :content, :kind_id
-      )
-    end
+  # Only allow a list of trusted parameters through.
+  def deal_params
+    params.require(:deal).permit(
+      :name, :status, :stage_id, :contact_id, :position,
+      contact_attributes: %i[id full_name phone email],
+      custom_attributes: {}
+    )
+  end
+
+  def whatsapp_params
+    params.require(:flow_item).permit(
+      :content, :kind_id
+    )
+  end
 end
