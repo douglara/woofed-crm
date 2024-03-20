@@ -1,12 +1,10 @@
 class Accounts::DealsController < InternalController
-  before_action :set_deal, only: %i[show edit update destroy events]
+  before_action :set_deal, only: %i[show edit update destroy events events_to_do events_done]
 
   # GET /deals or /deals.json
   def index
     @deals = current_user.account.deals
   end
-
-  def events; end
 
   # GET /deals/1 or /deals/1.json
   def show
@@ -128,6 +126,10 @@ class Accounts::DealsController < InternalController
       format.json { head :no_content }
     end
   end
+
+  def events_to_do; end
+
+  def events_done; end
 
   private
 

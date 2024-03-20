@@ -1,0 +1,44 @@
+<div class="group <%= from_me == true ? 'event-item-from-me' : '' %>  animate-pulse my-3" data-controller="load-lucid-icons">
+  <div class="w-[956px] block rounded-lg bg-white border border-light-palette-p3 rounded dark:bg-neutral-700">
+    <div class="border-b-2 border-neutral-100 bg-light-palette-p4 px-3 py-2 flex items-center space-x-3">
+      <% if from_me %>
+        <% if done %>
+          <div class="flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7]">
+            <i data-lucide="check-check" class= "h-[20px] self-center stroke-[#26D367]"></i>
+          </div>
+        <% else %>
+          <div class='h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p2 bg-light-palette-p5 bg-light-palette-p3'>
+            <p></p>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="flex items-center rounded-full border-light-palette-p3 border h-8 w-8 bg-light-palette-p5 group-[.event-item-from-me]:hidden">
+          <i class="m-auto text-auxiliary-palette-blue" data-lucide="user" height="20"></i>
+        </div>
+      <% end %>
+      <div class="flex-grow py-1">
+        <div class="flex items-center">
+          <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Dropdown menu -->
+    <div class="py-3 px-4 space-y-3">
+      <div class="flex items-center w-full">
+        <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32"></div>
+        <div class="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-24"></div>
+        <div class="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-full"></div>
+      </div>
+      <div class="flex items-center w-full max-w-[480px]">
+        <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full"></div>
+        <div class="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-full"></div>
+        <div class="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-24"></div>
+      </div>
+      <div class="flex items-center w-full max-w-[400px]">
+        <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-full"></div>
+        <div class="h-2.5 ms-2 bg-gray-200 rounded-full dark:bg-gray-700 w-80"></div>
+        <div class="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-full"></div>
+      </div>
+    </div>
+  </div>
+</div>
