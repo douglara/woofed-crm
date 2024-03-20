@@ -58,6 +58,13 @@ Rails.application.routes.draw do
     end
 
     resources :deals do
+      get 'bulk_action'
+      post 'create_bulk_action'
+    end
+
+    resources :deals do
+      get 'events_to_do', on: :member
+      get 'events_done', on: :member
       post 'create_whatsapp'
       get 'add_contact'
       post 'commit_add_contact'
