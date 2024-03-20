@@ -5,7 +5,7 @@ class Apps::ChatwootsController < ActionController::Base
   layout "embed"
 
   def webhooks
-    Accounts::Apps::Chatwoots::Webhooks::ProcessWebhookWorker.perform_async(params.to_json)
+    Accounts::Apps::Chatwoots::Webhooks::ProcessWebhookJob.perform_later(params.to_json, params['token'])
     render json: { ok: true }, status: 200
   end
 

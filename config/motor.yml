@@ -1,0 +1,41 @@
+---
+engine_version: 0.4.20
+file_version: 2024-03-15 02:30:44.467470000 Z
+resources: []
+configs:
+- key: header.links
+  value:
+  - conditions: []
+    type: header
+    name: Relatórios
+    link_type: reports
+  - conditions: []
+    type: header
+    name: Formulários
+    link_type: forms
+  - conditions: []
+    type: header
+    name: "⭐ Star Woofed on GitHub"
+    path: https://github.com/douglara/woofed-crm
+  - conditions: []
+    type: header
+    name: Sidekiq
+    path: "/sidekiq"
+    link_type: header
+  - conditions: []
+    type: header
+    name: Good Job
+    path: "/good_job"
+    link_type: header
+  updated_at: 2024-03-14 23:30:44.467470000 -03:00
+queries: []
+dashboards: []
+forms: []
+alerts: []
+api_configs:
+- id: 1
+  name: origin
+  url: "/"
+  preferences: {}
+  description: 
+  updated_at: 2024-03-05 17:10:35.445989000 -03:00
