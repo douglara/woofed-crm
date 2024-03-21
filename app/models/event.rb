@@ -59,6 +59,34 @@ class Event < ApplicationRecord
     end
   end
 
+  attribute :files, default: []
+  attribute :files_events, default: []
+  attribute :invalid_files
+
+  validate :validate_invalid_files
+
+  def validate_invalid_files
+    if invalid_files == true
+      errors.add(:files, "Invalid files")
+    end
+  end
+
+  def save
+    ActiveRecord::Base.transaction do
+      @result = super
+
+      if files_events.present?
+        files_events.each do | file_event |
+          file_event.save!
+        end
+      end
+    end
+
+    @result
+  rescue
+    false
+  end
+
   def content=(value)
     original_content.body = value
   end

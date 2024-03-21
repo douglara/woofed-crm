@@ -1,6 +1,6 @@
 class Accounts::Contacts::EventsController < InternalController
   before_action :set_event, only: %i[show edit update destroy]
-  before_action :set_contact, only: %i[show edit update destroy new create]
+  before_action :set_contact, only: %i[show edit update destroy new]
 
   def new
     # @event = current_user.account.events.new(event_params.merge({contact: @contact}))
@@ -12,9 +12,9 @@ class Accounts::Contacts::EventsController < InternalController
   def edit; end
 
   def create
-    result = Accounts::Contacts::Events::Create.call(current_user, event_params, params, @contact)
-    if result.key?(:ok)
-      @event = result[:ok]
+    @event = EventBuilder.new(current_user, event_params).build
+
+    if @event.save
       respond_to do |format|
         format.html do
           redirect_to(new_account_contact_event_path(account_id: current_user.account, contact_id: @event.deal.contact.id,
@@ -50,8 +50,8 @@ class Accounts::Contacts::EventsController < InternalController
 
   # Only allow a list of trusted parameters through.
   def event_params
-    params.require(:event).permit(:content, :send_now, :done, :deal_id, :auto_done, :title, :scheduled_at, :from_me, :kind, :app_type,
-                                  :app_id, custom_attributes: {}, additional_attributes: {})
+    params.require(:event).permit(:content, :contact_id, :send_now, :done, :deal_id, :auto_done, :title, :scheduled_at, :from_me, :kind, :app_type,
+                                  :app_id, files: [], custom_attributes: {}, additional_attributes: {})
   rescue StandardError
     {}
   end

@@ -5,7 +5,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let!(:contact) { create(:contact, account: account) }
-  let(:chatwoot) { create(:apps_chatwoots, :skip_validate, account: account) }
+  let!(:chatwoot) { create(:apps_chatwoots, :skip_validate, account: account) }
   let(:evolution_api_connected) { create(:apps_evolution_api, :connected, account: account) }
   let!(:pipeline) { create(:pipeline, account: account) }
   let!(:stage) { create(:stage, account: account, pipeline: pipeline) }
@@ -105,7 +105,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             end
             context 'when there are 1 valid file and 1 invalid file' do
               it 'should not create events' do
-                files = [get_file('patrick.png'), 'invalid_file']
+                files =  [ get_file('patrick.png'), 'invalid_file']
                 params = valid_params.deep_merge(event: { kind: 'activity',
                                                           files: files })
                 expect do
@@ -340,6 +340,10 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           expect(event_created.done?).to eq(true)
         end
         it 'update planned chatwoot message event to done with send_now' do
+          #debugger
+          puts(account.inspect)
+          puts(chatwoot.inspect)
+
           valid_params[:event].delete(:scheduled_at)
           params = valid_params.deep_merge(event: { kind: 'chatwoot_message', send_now: 'true',
                                                     app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1 })
