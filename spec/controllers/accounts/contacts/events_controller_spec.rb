@@ -105,7 +105,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             end
             context 'when there are 1 valid file and 1 invalid file' do
               it 'should not create events' do
-                files =  [ get_file('patrick.png'), 'invalid_file']
+                files =  [get_file('patrick.png'), 'invalid_file']
                 params = valid_params.deep_merge(event: { kind: 'activity',
                                                           files: files })
                 expect do
@@ -340,7 +340,6 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           expect(event_created.done?).to eq(true)
         end
         it 'update planned chatwoot message event to done with send_now' do
-          #debugger
           puts(account.inspect)
           puts(chatwoot.inspect)
 

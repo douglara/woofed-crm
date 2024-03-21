@@ -66,25 +66,21 @@ class Event < ApplicationRecord
   validate :validate_invalid_files
 
   def validate_invalid_files
-    if invalid_files == true
-      errors.add(:files, "Invalid files")
-    end
+    errors.add(:files, 'Invalid files') if invalid_files == true
   end
 
   def save
+    return false if invalid?
+
     ActiveRecord::Base.transaction do
       @result = super
-
       if files_events.present?
-        files_events.each do | file_event |
+        files_events.each do |file_event|
           file_event.save!
         end
       end
     end
-
     @result
-  rescue
-    false
   end
 
   def content=(value)
