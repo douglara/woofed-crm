@@ -5,6 +5,7 @@
   <%= form.hidden_field :from_me, value: true %>
   <%= form.hidden_field :app_id, value: current_user.account.apps_chatwoots.last.id %>
   <%= form.hidden_field :deal_id %>
+  <%= form.hidden_field :contact_id %>
   <%= form.hidden_field :stage_id, value: params[:stage_id] %>
   <div class="p-3 mt-4 flex">
     <div class="w-full space-y-2">
