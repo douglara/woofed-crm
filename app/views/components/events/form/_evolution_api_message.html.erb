@@ -6,7 +6,7 @@
   <%= form.hidden_field :deal_id %>
   <%= form.hidden_field :stage_id, value: params[:stage_id] %>
   <div class="p-3 mt-4 flex">
-    <div class="w-full pr-3 space-y-2">
+    <div class="w-full space-y-2">
       <%= form.label :app_id, 'De', class:'typography-text-m-lh150 text-dark-gray-palette-p1 ' %>
       <%= form.select(:app_id, current_user.account.apps_evolution_apis.connected.map { | instance | [ "#{instance.name} - #{instance.phone}", instance.id ]  } , {}, {class: 'form-input w-full', required: true} ) %>
     </div>
