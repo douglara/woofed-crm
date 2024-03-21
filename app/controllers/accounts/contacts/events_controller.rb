@@ -12,13 +12,13 @@ class Accounts::Contacts::EventsController < InternalController
   def edit; end
 
   def create
-    result = Accounts::Contacts::Events::Create.call(current_user, event_params, params, @contact, @deal)
+    result = Accounts::Contacts::Events::Create.call(current_user, event_params, params, @contact)
     if result.key?(:ok)
-      event = result[:ok].first
+      @event = result[:ok]
       respond_to do |format|
         format.html do
-          redirect_to(new_account_contact_event_path(account_id: current_user.account, contact_id: event.deal.contact.id,
-                                                     deal_id: event.deal.id))
+          redirect_to(new_account_contact_event_path(account_id: current_user.account, contact_id: @event.deal.contact.id,
+                                                     deal_id: @event.deal.id))
         end
         format.turbo_stream
       end
