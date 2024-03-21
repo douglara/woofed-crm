@@ -13,7 +13,6 @@ import "channels";
 import "controllers";
 import lucide from "lucide/dist/umd/lucide";
 import "lightgallery.js/dist/css/lightgallery.css";
-import "dropzone/src/dropzone.scss";
 
 Rails.start();
 ActiveStorage.start();
@@ -26,6 +25,7 @@ import "flowbite/dist/flowbite.turbo.js";
 $(document).on("turbo:load", () => {
   initLibraries();
 });
+//
 
 // $(document).on("turbo:frame-load", function (e) {
 //   lucide.createIcons();

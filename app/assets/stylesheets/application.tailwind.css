@@ -125,12 +125,4 @@
   .label-v4{
     @apply odd:bg-[#5440D2] odd:text-light-palette-p4 even:bg-brand-palette-03 even:text-light-palette-p4 py-1 px-1.5 flex rounded cursor-default flex gap-1.5 items-center
   }
-
-  .dropzone{
-    @apply !border-2 !border-gray-300 !border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100
-  }
-
-  .dropzone .dz-preview.dz-image-preview{
-    @apply !bg-inherit
-  }
 }
