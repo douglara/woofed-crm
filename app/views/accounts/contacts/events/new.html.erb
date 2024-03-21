@@ -1,5 +1,4 @@
 <%= render partial: '/components/events/form', locals: {
-  turbo_frame_id: dom_id(@event),
   event: @event,
   header_evolution_api_message_url: new_account_contact_event_path(@event.account, @event.contact, kind: 'evolution_api_message', pipeline: @event.deal.pipeline, deal_id: @event.deal.id),
   header_activity_url: new_account_contact_event_path(@event.account, @event.contact, kind: 'activity', pipeline: @event.deal.pipeline, deal_id: @event.deal.id),
