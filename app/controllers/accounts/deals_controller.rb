@@ -7,15 +7,7 @@ class Accounts::DealsController < InternalController
   end
 
   # GET /deals/1 or /deals/1.json
-  def show
-    @note = Note.new
-    @activity = Activity.new
-    @event = Event.new
-
-    @events = @deal.contact.events
-    # @events = @deal.primary_contact.events
-    @pagy, @events = pagy(@events)
-  end
+  def show; end
 
   # GET /deals/new
   def new
