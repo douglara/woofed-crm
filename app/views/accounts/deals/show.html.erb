@@ -20,7 +20,11 @@
       </div>
       <div class="">
         <div class="gap-8">
-          <%= turbo_frame_tag "new-event-form", src: new_account_contact_event_path(account_id: current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id) %>
+          <div class="bg-light-palette-p5 border-2 border-neutral-150 border-light-palette-p3 rounded ">
+            <%= turbo_frame_tag dom_id(Event.new), src: new_account_contact_event_path(account_id: current_user.account, contact_id: @deal.contact.id, deal_id: @deal.id), loading: :lazy do %>
+              <%= render '/components/skeleton/event_form' %>
+            <% end %>
+          </div>
         </div>
         <div class="mt-8">
           <%= render '/accounts/deals/events', deal: @deal %>

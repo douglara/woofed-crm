@@ -50,8 +50,11 @@ Rails.application.routes.draw do
       get 'import'
       post 'import_file'
       get 'export'
-      get 'bulk_action'
-      post 'create_bulk_action'
+      member do
+        get 'new_bulk_action'
+        get 'bulk_action'
+        post 'create_bulk_action'
+      end
     end
 
     resources :deals do

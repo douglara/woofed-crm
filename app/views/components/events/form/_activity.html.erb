@@ -1,16 +1,9 @@
 <%= form_with(model: event, url: url, namespace: 'activity', data: { turbo_frame: edit_event_form ? "events_#{event.contact&.id}" : nil }) do |form| %>
-  <% if event.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(event.errors.count, "error") %> prohibited this activity kind from being saved:</h2>
-      <ul>
-        <% event.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render '/components/events/form/message_errors', model: event %>
   <%= form.hidden_field :kind, value: 'activity' %>
+  <%= form.hidden_field :from_me, value: true %>
   <%= form.hidden_field :deal_id %>
+  <%= form.hidden_field :stage_id, value: params[:stage_id] %>
   <div class="space-y-2 p-4">
     <%= form.label :title, 'Tipo', class:'py-1 typography-text-m-lh150 text-dark-gray-palette-p1' %>
     <%= form.text_field :title, class: 'form-input w-full' %>
@@ -33,7 +26,11 @@
       <% if edit_event_form %>
         <%= link_to 'Cancelar', '#', class: 'btn-secondary cursor-pointer', data: { turbo_action: 'replace' } %>
       <% else %>
-        <input type="button" value="Cancelar" data-action="click->events-form#selectNone" class="btn-secondary cursor-pointer">
+        <% if action_name.include?('bulk_action') %>
+          <%= link_to 'Cancelar', new_bulk_action_account_pipeline_path(current_user.account, pipeline, stage_id: stage.id) , class: 'btn-secondary cursor-pointer' %>
+        <% else %>
+          <%= link_to 'Cancelar', new_account_contact_event_path(current_user.account, event.contact, deal_id: event.deal.id) , class: 'btn-secondary cursor-pointer' %>
+        <% end %>
       <% end %>
     </div>
   </div>
