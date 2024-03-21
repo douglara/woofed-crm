@@ -4,29 +4,25 @@ class Accounts::Contacts::EventsController < InternalController
 
   def new
     # @event = current_user.account.events.new(event_params.merge({contact: @contact}))
-    @event = EventBuilder.new(current_user, event_params.merge({ contact_id: @contact.id })).build
-    @options = [
-      { 'name': 'Notas', 'id': 'note' },
-      { 'name': 'Whatsapp', 'id': 'wpp_connect_message' }
-    ]
-
-    if params[:deal_id].present?
-      @event.deal_id = params[:deal_id]
-      @deal = Deal.find(params[:deal_id])
-    end
+    @event = EventBuilder.new(current_user,
+                              event_params.merge({ contact_id: @contact.id, kind: params[:kind],
+                                                   deal_id: params[:deal_id] })).build
   end
 
   def edit; end
 
   def create
-    @deal = current_user.account.deals.find(params[:deal_id])
     result = Accounts::Contacts::Events::Create.call(current_user, event_params, params, @contact, @deal)
     if result.key?(:ok)
-      redirect_to(new_account_contact_event_path(account_id: current_user.account, contact_id: @contact.id,
-                                                 deal_id: @deal.id))
+      event = result[:ok].first
+      respond_to do |format|
+        format.html do
+          redirect_to(new_account_contact_event_path(account_id: current_user.account, contact_id: event.deal.contact.id,
+                                                     deal_id: event.deal.id))
+        end
+        format.turbo_stream
+      end
     else
-      new
-      flash.now[:notice] = 'Failed to create event'
       render :new, status: :unprocessable_entity
     end
   end
@@ -54,7 +50,7 @@ class Accounts::Contacts::EventsController < InternalController
 
   # Only allow a list of trusted parameters through.
   def event_params
-    params.require(:event).permit(:content, :send_now, :done, :auto_done, :title, :scheduled_at, :kind, :app_type,
+    params.require(:event).permit(:content, :send_now, :done, :deal_id, :auto_done, :title, :scheduled_at, :from_me, :kind, :app_type,
                                   :app_id, custom_attributes: {}, additional_attributes: {})
   rescue StandardError
     {}

@@ -2,7 +2,9 @@ require 'csv'
 require 'json_csv'
 
 class Accounts::PipelinesController < InternalController
-  before_action :set_pipeline, only: %i[show edit update destroy]
+  before_action :set_pipeline, only: %i[show edit update destroy bulk_action new_bulk_action]
+  before_action :set_bulk_action_event, only: %i[bulk_action new_bulk_action]
+  before_action :set_stage, only: %i[bulk_action new_bulk_action]
 
   # GET /pipelines or /pipelines.json
   def index
@@ -116,20 +118,19 @@ class Accounts::PipelinesController < InternalController
     end
   end
 
-  def bulk_action
-    @pipeline = current_user.account.pipelines.find(params[:pipeline_id])
-    @stage = current_user.account.stages.find(params[:stage_id])
-    @event = Event.new
-  end
+  def bulk_action; end
+
+  def new_bulk_action; end
 
   def create_bulk_action
-    @deals = current_user.account.deals.where(stage_id: params['stage_id'], status: 'open')
+    @deals = current_user.account.deals.where(stage_id: params['event']['stage_id'], status: 'open')
+    @stage = current_user.account.stages.find(params['event']['stage_id'])
     if params['event']['send_now'] == 'true'
       time_start = DateTime.current
     elsif !params['event']['scheduled_at'].nil?
       time_start = params['event']['scheduled_at'].to_time
     end
-    @result = @deals.each do |deal|
+    @result = @deals.each_with_index do |deal, index|
       if params['event']['kind'] == 'chatwoot_message'
         if params['event']['send_now'] == 'true'
           time_start += rand(5..15).seconds
@@ -140,11 +141,17 @@ class Accounts::PipelinesController < InternalController
       end
       @event = EventBuilder.new(current_user,
                                 event_params.merge({ contact: deal.contact, scheduled_at: time_start })).build
-      @event.from_me = true
       @event.deal = deal
+
+      if !@event.valid? && index == 0
+        render :new_bulk_action, status: :unprocessable_entity
+        return
+      end
       @event.save
     end
-    redirect_to account_pipelines_path(current_user.account, @pipeline), notice: 'Envio em massa criado com sucesso!'
+    respond_to do |format|
+      format.turbo_stream
+    end
   end
 
   def bulk_action_2; end
@@ -204,6 +211,15 @@ class Accounts::PipelinesController < InternalController
     params.require(:pipeline).permit(:name, stages_attributes: %i[id name _destroy account_id position])
   end
 
+  def set_bulk_action_event
+    @event = EventBuilder.new(current_user,
+                              { kind: params[:kind] }).build
+  end
+
+  def set_stage
+    @stage = current_user.account.stages.find(params[:stage_id])
+  end
+
   def deal_params(params)
     params.permit(
       :name, :status, :stage_id, :contact_id,
@@ -213,7 +229,7 @@ class Accounts::PipelinesController < InternalController
   end
 
   def event_params
-    params.require(:event).permit(:content, :send_now, :done, :auto_done, :title, :kind, :app_type, :app_id,
+    params.require(:event).permit(:content, :send_now, :done, :auto_done, :title, :kind, :app_type, :app_id, :from_me,
                                   custom_attributes: {}, additional_attributes: {})
   rescue StandardError
     {}

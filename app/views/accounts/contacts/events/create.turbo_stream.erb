@@ -1,0 +1,16 @@
+<%= turbo_stream.replace dom_id(Event.new) do %>
+  <%= turbo_frame_tag dom_id(Event.new), src: new_account_contact_event_path(account_id: current_user.account, contact_id: @event.contact.id, deal_id: @event.deal.id) do %>
+    <div class='py-5'>
+      <%= render '/components/loading' %>
+    </div>
+  <% end %>
+<% end %>
+<% if @event.done? %>
+  <%= turbo_stream.prepend "events_done_#{@event.contact.id}" do %>
+    <%= render partial: "accounts/contacts/events/event", locals: { event: @event } %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.prepend "events_to_do_#{@event.contact.id}" do %>
+    <%= render partial: "accounts/contacts/events/event", locals: { event: @event } %>
+  <% end %>
+<% end %>

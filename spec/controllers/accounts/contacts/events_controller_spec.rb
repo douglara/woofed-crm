@@ -31,6 +31,8 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
         contact_id: contact.id,
         title: 'Event 1',
         content: 'Hi Lorena',
+        from_me: true,
+        deal_id: deal.id,
         scheduled_at: Time.now
       }
     }
