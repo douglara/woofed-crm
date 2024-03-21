@@ -82,20 +82,20 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             expect(event_created.done?).to eq(true)
           end
           context 'when there are files' do
-            context 'when there are 4 valid files' do
-              it 'should create 4 events with and 4 attachments' do
+            context 'when there are 6 valid files' do
+              it 'should create 6 events with and 6 attachments' do
                 files = [get_file('patrick.png'), get_file('audio_test.oga'),
-                         get_file('video_test.mp4')]
+                         get_file('video_test.mp4'), get_file('hello_world.txt'), get_file('hello_world.rar'), get_file('hello_world.json')]
                 params = valid_params.deep_merge(event: { kind: 'activity',
                                                           files: files })
                 expect do
                   post "/accounts/#{account.id}/contacts/#{contact.id}/events",
                        params: params
-                end.to change(Event, :count).by(3)
+                end.to change(Event, :count).by(6)
                 expect(response).to redirect_to(new_account_contact_event_path(account_id:
                   account, contact_id: contact, deal_id: deal))
-                expect(Attachment.count).to eq(3)
-                expect(Attachment.pluck(:file_type)).to match_array(%w[image audio video])
+                expect(Attachment.count).to eq(6)
+                expect(Attachment.pluck(:file_type)).to match_array(%w[image audio video file file file])
                 events_with_content = Event.select do |event|
                   event&.content&.body&.to_plain_text == params[:event][:content]
                 end

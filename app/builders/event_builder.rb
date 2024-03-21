@@ -1,5 +1,4 @@
 class EventBuilder
-
   def initialize(user, params)
     @params = params
     @user = user
@@ -17,9 +16,7 @@ class EventBuilder
   end
 
   def clean_html_codes
-    if @event.content.present? && @event.kind != 'note'
-      @event.content.body = ''
-    end
+    @event.content.body = '' if @event.content.present? && @event.kind != 'note'
   end
 
   def set_contact
@@ -43,7 +40,7 @@ class EventBuilder
         next
       else
         file_event_params = @params.except(:content, :files)
-        file_event = EventBuilder.new(@user,file_event_params).build
+        file_event = EventBuilder.new(@user, file_event_params).build
         file_event = set_attachment(file_event, file)
         file_event
       end
@@ -53,15 +50,13 @@ class EventBuilder
   end
 
   def set_attachment(event, file)
-    begin
-      attachment = event.build_attachment
-      attachment.file = file
-      attachment.file_type = attachment.file.content_type.split('/').first
-      return event
-    rescue
-      @event.invalid_files = true
+    attachment = event.build_attachment
+    attachment.file = file
+    attachment.file_type = attachment.check_file_type
+    event
+  rescue StandardError
+    @event.invalid_files = true
 
-      return event
-    end
+    event
   end
 end
