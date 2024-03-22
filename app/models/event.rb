@@ -99,6 +99,18 @@ class Event < ApplicationRecord
     chatwoot_message? || evolution_api_message?
   end
 
+  def generate_content_hash(key, value)
+    if content_is_blank?(value)
+      { key.to_s => '' }
+    else
+      { key.to_s => value }
+    end
+  end
+
+  def content_is_blank?(value)
+    value.respond_to?(:body)
+  end
+
   def changed_scheduled_values?
     saved_change_to_scheduled_at? || saved_change_to_auto_done?
   end

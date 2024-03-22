@@ -12,22 +12,20 @@ class Accounts::Apps::Chatwoots::SendMessage
     if event.attachment.present?
       build_message_attachment(event)
     else
-      build_message_text(event.content)
+      build_message_text(event)
     end
   end
 
-  def self.build_message_text(content)
-    {
-      "content": content
-    }
+  def self.build_message_text(event)
+    event.generate_content_hash('content', event.content)
   end
 
   def self.build_message_attachment(event)
-    {
+    attachment_hash = {
       "attachments[]": event.attachment.file.download,
-      "content": event.content,
       "file_type": event.attachment.file_type
     }
+    attachment_hash.merge(event.generate_content_hash('content', event.content))
   end
 
   def self.request_headers(event, chatwoot)
