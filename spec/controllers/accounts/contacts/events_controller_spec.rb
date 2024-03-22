@@ -164,7 +164,6 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             expect(event_created.done?).to eq(false)
             expect(event_created.scheduled_at.round).to eq(params[:event][:scheduled_at])
           end
-
           context 'when chatwoot message is scheduled and delivered' do
             it do
               params = valid_params.deep_merge(event: { kind: 'chatwoot_message', done: '0',
