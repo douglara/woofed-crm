@@ -2,8 +2,13 @@ import { Controller } from "stimulus";
 import { DirectUpload } from "@rails/activestorage";
 
 export default class extends Controller {
+  static values = {
+    xmarkSvgUrl: String,
+  };
   static targets = ["fileInput", "preview"];
-  connect() {}
+  connect() {
+    console.log(this.xmarkSvgUrlValue);
+  }
   trigger(event) {
     event.stopPropagation();
     this.fileInputTarget.click();
@@ -18,7 +23,7 @@ export default class extends Controller {
     });
   }
   removeFile(event) {
-    const divToDelete = event.target.parentElement;
+    const divToDelete = event.target.closest('[id^="upload"]');
     divToDelete.remove();
   }
 
@@ -59,12 +64,12 @@ export default class extends Controller {
     const fileInfoWrapper = document.createElement("div");
     const fileThumb = document.createElement("img");
     const linkThumb = document.createElement("a");
-    const deleteFile = document.createElement("div");
-    const deleteDescription = `<p class="">Remove</p>`;
+    const iconDelete = `<div class="p-2.5 cursor-pointer" data-action="click->upload-files#removeFile"><img src="${this.xmarkSvgUrlValue}" alt="" class="w-4" ></div>`;
+    // test.setAttribute("src", this.xmarkSvgUrlValue);
     // const iconDelete = `<i data-lucide="x"></i>`;
     fileInfoWrapper.setAttribute("data-controller", "lightbox");
-    deleteFile.setAttribute("data-action", "click->upload-files#removeFile");
-    deleteFile.className = "stroke-brand-palette-03";
+    // deleteFile.setAttribute("data-action", "click->upload-files#removeFile");
+    // deleteFile.className = "stroke-brand-palette-03";
     // deleteFile.setAttribute("data-lucide", "x");
     let reader = new FileReader();
     reader.onloadend = function () {
@@ -75,24 +80,25 @@ export default class extends Controller {
 
     fileWrapper.id = `upload_${upload.id}`;
     fileWrapper.className =
-      "p-1 pr-4 border border-light-palette-p3 rounded-lg flex items-center justify-between";
+      "p-1 pr-2 border border-light-palette-p3 rounded-lg flex items-center justify-between";
     fileName.className =
       "text-dark-gray-palette-p1 typography-text-m-lh150 max-w-[300px] truncate";
     fileThumb.className = "w-10 h-10 rounded-lg object-cover";
     linkThumb.className = "flex gap-4 items-center";
     // deleteFile.className = "stroke-brand-palette-03";
-    deleteFile.textContent = "Remove";
+    // deleteFile.textContent = "Remove";
     linkThumb.appendChild(fileThumb);
     linkThumb.appendChild(fileName);
     fileInfoWrapper.appendChild(linkThumb);
-    deleteFile.className =
-      "typography-text-r-lh150 cursor-pointer text-dark-gray-palette-p3 hover:text-dark-gray-palette-p2";
+    // deleteFile.className =
+    //   "typography-text-r-lh150 cursor-pointer text-dark-gray-palette-p3 hover:text-dark-gray-palette-p2";
 
     fileName.textContent = upload.file.name;
     fileWrapper.appendChild(fileInfoWrapper);
     // deleteFile.insertAdjacentHTML("afterbegin", deleteDescription);
     // deleteFile.appendChild(iconDelete);
-    fileWrapper.appendChild(deleteFile);
+    fileWrapper.insertAdjacentHTML("beforeend", iconDelete);
+    // fileWrapper.appendChild(test);
 
     // const progressWrapper = document.createElement("div");
     // progressWrapper.className =
