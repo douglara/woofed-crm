@@ -70,10 +70,10 @@ class Event < ApplicationRecord
   end
 
   def save
-    return false if invalid?
-
     ActiveRecord::Base.transaction do
       @result = super
+      return @result if @result == false
+
       if files_events.present?
         files_events.each do |file_event|
           file_event.save!
