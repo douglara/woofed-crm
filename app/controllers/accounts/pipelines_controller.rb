@@ -47,7 +47,7 @@ class Accounts::PipelinesController < InternalController
 
     path_to_output_csv_file = "#{Rails.root}/tmp/deals-#{Time.current.to_i}.csv"
     line = 0
-    CSV.open(path_to_output_csv_file, 'w') do |csv_output|
+    CSV.open(path_to_output_csv_file, 'wb') do |csv_output|
       csv.each do |row|
         csv_output << row.to_h.keys + ['result'] if line == 0
 
