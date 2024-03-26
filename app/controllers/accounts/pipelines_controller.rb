@@ -55,7 +55,11 @@ class Accounts::PipelinesController < InternalController
 
         row_params = ActionController::Parameters.new(row_json).merge({ "stage_id": params[:stage_id] })
 
-        deal = DealBuilder.new(current_user, row_params, true).perform
+        deal = if contact_exists?(@pipeline, row_params)
+                 DealBuilder.new(current_user, row_params, true).perform
+               else
+                 DealBuilder.new(current_user, row_params, false).perform
+               end
 
         csv_output << if deal.save
                         row.to_h.values + ["Criado com sucesso id #{deal.id}"]
@@ -204,6 +208,11 @@ class Accounts::PipelinesController < InternalController
   # Use callbacks to share common setup or constraints between actions.
   def set_pipeline
     @pipeline = current_user.account.pipelines.find(params[:id])
+  end
+
+  def contact_exists?(pipeline, params)
+    Accounts::Contacts::GetByParams.call(pipeline.account,
+                                         params['contact_attributes'].permit(:phone).to_h)[:ok].present?
   end
 
   # Only allow a list of trusted parameters through.
