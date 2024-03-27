@@ -5,14 +5,39 @@ export default class extends Controller {
   static values = {
     xmarkSvgUrl: String,
   };
-  static targets = ["fileInput"];
+  static targets = ["fileInput", "dragAlert"];
 
+  connect(e) {
+    this.element.addEventListener("dragover", this.preventDragDefaults);
+    this.element.addEventListener("dragenter", this.preventDragDefaults);
+    this.element.addEventListener("dragleave", this.preventDragDefaults);
+  }
+
+  disconnect() {
+    this.element.removeEventListener("dragover", this.preventDragDefaults);
+    this.element.removeEventListener("dragenter", this.preventDragDefaults);
+    this.element.addEventListener("dragleave", this.preventDragDefaults);
+  }
+  preventDragDefaults(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  showDragAlert(e) {
+    this.lastTarget = e.target;
+    this.dragAlertTarget.style.display = "flex";
+  }
+  removeDragAlert(e) {
+    if (e.target === this.lastTarget || e.target === document) {
+      this.dragAlertTarget.style.display = "none";
+    }
+  }
   trigger(event) {
     event.stopPropagation();
     this.fileInputTarget.click();
   }
   acceptFiles(event) {
     event.preventDefault();
+    this.dragAlertTarget.style.display = "none";
     const files = event.dataTransfer
       ? event.dataTransfer.files
       : event.target.files;
