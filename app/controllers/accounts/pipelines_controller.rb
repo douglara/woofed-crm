@@ -238,8 +238,8 @@ class Accounts::PipelinesController < InternalController
   end
 
   def event_params
-    params.require(:event).permit(:content, :send_now, :done, :auto_done, :title, :kind, :app_type, :app_id, :from_me,
-                                  custom_attributes: {}, additional_attributes: {})
+    params.require(:event).permit(:content, :send_now, :done, :auto_done, :title, :kind, :app_type, :app_id, :from_me, files: [],
+                                                                                                                       custom_attributes: {}, additional_attributes: {})
   rescue StandardError
     {}
   end

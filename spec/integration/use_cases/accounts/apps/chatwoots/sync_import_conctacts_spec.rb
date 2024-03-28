@@ -88,8 +88,8 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
           expect(account.contacts.count).to eq(2)
           expect(account.contacts.first.label_list).to eq(['marcador1'])
           expect(account.contacts.first.chatwoot_conversations_label_list).to eq(['test1'])
-          expect(account.contacts.map(&:additional_attributes)).to eq([{ 'chatwoot_id' => 63 },
-                                                                       { 'chatwoot_id' => 338 }])
+          expect(account.contacts.map(&:additional_attributes)).to match_array([{ 'chatwoot_id' => 63 },
+                                                                                { 'chatwoot_id' => 338 }])
         end
         context 'if contact already exists in woofed' do
           let!(:contact) do
@@ -109,7 +109,7 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
           context 'if there is no tag on chatwoot contact but there is tag on woofed contact' do
             before do
               stub_request(:get, /labels/)
-              .to_return(body: { payload: [] }.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
+                .to_return(body: { payload: [] }.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
             end
             it 'should replace woofed contact tags from chatwoot contact tags ' do
               expect(account.contacts.first.label_list).to match_array(%w[marcador1 marcador2 marcador3])

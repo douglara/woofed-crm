@@ -13,13 +13,14 @@ class Accounts::Apps::EvolutionApis::Message::Import
     phone_number = '+' + webhook['data']['key']['remoteJid'].gsub(/\D/, '')
     contact = Accounts::Contacts::GetByParams.call(evolution_api.account, { phone: phone_number })[:ok]
     if contact.blank?
-      contact = Contact.create(full_name: webhook['data']['pushName'], phone: phone_number, account: evolution_api.account)
+      contact = Contact.create(full_name: webhook['data']['pushName'], phone: phone_number,
+                               account: evolution_api.account)
     end
     contact
   end
 
   def self.import_message(evolution_api, content, contact, webhook)
-    contact.events.create(
+    Event.create(
       account: evolution_api.account,
       kind: 'evolution_api_message',
       from_me: webhook['data']['key']['fromMe'],

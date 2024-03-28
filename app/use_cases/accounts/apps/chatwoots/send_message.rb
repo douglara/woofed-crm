@@ -1,16 +1,39 @@
 class Accounts::Apps::Chatwoots::SendMessage
-  def self.call(chatwoot, conversation_id, content)
+  def self.call(chatwoot, conversation_id, event)
     request = Faraday.post(
       "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/conversations/#{conversation_id}/messages",
-      build_body(content).to_json,
-      chatwoot.request_headers
+      build_body(event).to_json,
+      request_headers(event, chatwoot)
     )
-    return { ok: JSON.parse(request.body) }
+    { ok: JSON.parse(request.body) }
   end
 
-  def self.build_body(content)
-    {
-      "content": content,
+  def self.build_body(event)
+    if event.attachment.present?
+      build_message_attachment(event)
+    else
+      build_message_text(event)
+    end
+  end
+
+  def self.build_message_text(event)
+    event.generate_content_hash('content', event.content)
+  end
+
+  def self.build_message_attachment(event)
+    attachment_hash = {
+      "attachments[]": event.attachment.file.download,
+      "file_type": event.attachment.file_type
     }
+    attachment_hash.merge(event.generate_content_hash('content', event.content))
+  end
+
+  def self.request_headers(event, chatwoot)
+    if event.attachment.present?
+      { 'api_access_token': chatwoot.chatwoot_user_token.to_s,
+        'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary' }
+    else
+      chatwoot.request_headers
+    end
   end
 end
