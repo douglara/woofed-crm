@@ -1,0 +1,9 @@
+es:
+  activerecord:
+    models:
+      deal:
+        one: Negocio
+        other: Negocios
+    attributes:
+      deal:
+        name: Nombre

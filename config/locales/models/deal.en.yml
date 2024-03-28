@@ -1,0 +1,9 @@
+en:
+  activerecord:
+    models:
+      deal:
+        one: Deal
+        other: Deals
+    attributes:
+      deal:
+        name: Name

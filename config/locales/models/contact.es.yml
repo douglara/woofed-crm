@@ -1,0 +1,10 @@
+es:
+  activerecord:
+    models:
+      contact:
+        one: Contacto
+        other: Contactos
+    attributes:
+      contact:
+        full_name: Nombre Completo
+        phone: Teléfono (celular)

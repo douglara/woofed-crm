@@ -1,0 +1,10 @@
+en:
+  activerecord:
+    models:
+      contact:
+        one: Contact
+        other: Contacts
+    attributes:
+      contact:
+        full_name: Full Name
+        phone: Phone (cell)
