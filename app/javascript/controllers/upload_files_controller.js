@@ -2,9 +2,6 @@ import { Controller } from "stimulus";
 import { DirectUpload } from "@rails/activestorage";
 
 export default class extends Controller {
-  static values = {
-    xmarkSvgUrl: String,
-  };
   static targets = ["fileInput", "dragAlert"];
 
   connect() {
@@ -49,7 +46,7 @@ export default class extends Controller {
       ? event.dataTransfer.files
       : event.target.files;
     [...files].forEach((file) => {
-      new Upload(file, this.xmarkSvgUrlValue, this.fileInputTarget).process();
+      new Upload(file, this.fileInputTarget).process();
     });
   }
   removeFile(event) {
@@ -58,19 +55,18 @@ export default class extends Controller {
   }
 }
 class Upload {
-  constructor(file, xmarkSvgUrl, fileInput) {
+  constructor(file, fileInput) {
     this.directUpload = new DirectUpload(
       file,
       "/rails/active_storage/direct_uploads",
       this
     );
-    this.xmarkSvgUrl = xmarkSvgUrl;
     this.fileInput = fileInput;
   }
 
   process() {
     const fileWrapper = this.insertUpload();
-    const progressBar = fileWrapper.querySelector(".progress-wrapper");
+    const progressBar = fileWrapper.querySelector("#progressWrapper");
     this.directUpload.create((error, blob) => {
       progressBar.remove();
       if (error) {
@@ -89,7 +85,7 @@ class Upload {
   updateProgress(event) {
     const percentage = (event.loaded / event.total) * 100;
     const progress = document.querySelector(
-      `#upload_${this.directUpload.id}_info .progress-wrapper .progress-bar`
+      `#upload_${this.directUpload.id}_info #progressWrapper #progressBar`
     );
     progress.style.width = `${percentage}%`;
   }
@@ -102,38 +98,15 @@ class Upload {
     inputWrapper.appendChild(input);
   }
   insertUpload() {
-    const fileWrapper = document.createElement("div");
-    const fileName = document.createElement("p");
-    const fileInfoWrapper = document.createElement("div");
-    const fileThumb = document.createElement("img");
-    const linkThumb = document.createElement("a");
-    const iconDelete = `<div class="p-2.5 cursor-pointer" data-action="click->upload-files#removeFile"><img src="${this.xmarkSvgUrl}" alt="" class="w-4" ></div>`;
-    const uploadInfo = document.createElement("div");
-    const progress = `<div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 flex-1 progress-wrapper">
-    <div class="bg-brand-palette-03 h-2.5 rounded-full progress-bar" style="width: 0%"></div>
-  </div>`;
-
+    const fileWrapper = document.querySelector("#fileWrapper").cloneNode(true);
+    const uploadInfo = fileWrapper.querySelector("#uploadInfo");
+    const fileName = fileWrapper.querySelector("#fileName");
+    fileWrapper.classList.remove("hidden");
     fileWrapper.id = `upload_${this.directUpload.id}`;
     uploadInfo.id = `upload_${this.directUpload.id}_info`;
-    fileInfoWrapper.className = "file-info-wrapper";
-    uploadInfo.className = "flex-1 w-full";
-    fileWrapper.className =
-      "p-1 pr-2 border border-light-palette-p3 rounded-lg flex items-center gap-10 file-wrapper";
-    fileName.className =
-      "text-dark-gray-palette-p1 typography-text-m-lh150 w-56 truncate file-name";
-    fileThumb.className = "w-10 h-10 rounded-lg object-cover file-thumb";
-    linkThumb.className = "flex gap-4 items-center link-thumb";
     fileName.textContent = this.directUpload.file.name;
-    uploadInfo.insertAdjacentHTML("beforeend", progress);
-    linkThumb.appendChild(fileThumb);
-    linkThumb.appendChild(fileName);
-    fileInfoWrapper.appendChild(linkThumb);
-    fileWrapper.appendChild(fileInfoWrapper);
-    fileWrapper.appendChild(uploadInfo);
-    fileWrapper.insertAdjacentHTML("beforeend", iconDelete);
     this.setLinkFileThumb(fileWrapper);
     this.addFileToUploadList(fileWrapper);
-
     return fileWrapper;
   }
   addFileToUploadList(file) {
@@ -142,9 +115,9 @@ class Upload {
   }
   setLinkFileThumb(fileWrapper) {
     let reader = new FileReader();
-    const fileInfoWrapper = fileWrapper.querySelector(".file-info-wrapper");
-    const fileThumb = fileWrapper.querySelector(".file-thumb");
-    const linkThumb = fileWrapper.querySelector(".link-thumb");
+    const fileInfoWrapper = fileWrapper.querySelector("#fileInfoWrapper");
+    const fileThumb = fileWrapper.querySelector("#fileThumb");
+    const linkThumb = fileWrapper.querySelector("#linkThumb");
 
     reader.readAsDataURL(this.directUpload.file);
     reader.onloadend = () => {
@@ -153,7 +126,7 @@ class Upload {
         fileThumb.src = reader.result;
         linkThumb.href = reader.result;
       } else {
-        this.showErrorMessage("Can not upload file", fileWrapper);
+        linkThumb.classList.add("pointer-events-none");
       }
     };
   }
