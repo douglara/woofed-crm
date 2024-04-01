@@ -67,16 +67,28 @@ class Upload {
   process() {
     const fileWrapper = this.insertUpload();
     const progressBar = fileWrapper.querySelector("#progressWrapper");
-    this.directUpload.create((error, blob) => {
+    if (this.isFileSizeExceeded()) {
       progressBar.remove();
-      if (error) {
-        this.showErrorMessage(error, fileWrapper);
-      } else {
-        this.createHiddenBlobInput(blob, this.directUpload.id);
-      }
-    });
+      this.showErrorMessage(
+        "The file exceeds the allowed size limit (40MB).",
+        fileWrapper
+      );
+    } else {
+      this.directUpload.create((error, blob) => {
+        progressBar.remove();
+        if (error) {
+          this.showErrorMessage(error, fileWrapper);
+        } else {
+          this.createHiddenBlobInput(blob, this.directUpload.id);
+        }
+      });
+    }
   }
-
+  isFileSizeExceeded() {
+    const fileSize = this.directUpload.file.size;
+    const fileSizeLimit = 41943040;
+    return fileSize > fileSizeLimit;
+  }
   directUploadWillStoreFileWithXHR(request) {
     request.upload.addEventListener("progress", (event) =>
       this.updateProgress(event)
@@ -121,14 +133,17 @@ class Upload {
 
     reader.readAsDataURL(this.directUpload.file);
     reader.onloadend = () => {
-      if (reader.result !== null) {
+      if (reader.result !== null && this.fileTypeIs("image")) {
         fileInfoWrapper.setAttribute("data-controller", "lightbox");
         fileThumb.src = reader.result;
         linkThumb.href = reader.result;
-      } else {
-        linkThumb.classList.add("pointer-events-none");
+        linkThumb.classList.remove("pointer-events-none");
       }
     };
+  }
+  fileTypeIs(type) {
+    const fileType = this.directUpload.file.type.split("/")[0];
+    return fileType === type;
   }
   showErrorMessage(message, fileWrapper) {
     const uploadInfo = fileWrapper.querySelector(
