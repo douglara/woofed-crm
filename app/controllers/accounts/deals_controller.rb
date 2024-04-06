@@ -128,11 +128,11 @@ class Accounts::DealsController < InternalController
   end
 
   def events_to_do
-    @pagy, @events = pagy(@deal.contact.events.to_do.limit(5))
+    @pagy, @events = pagy(@deal.contact.events.to_do, items: 5)
   end
 
   def events_done
-    @pagy, @events = pagy(@deal.contact.events.done.limit(5))
+    @pagy, @events = pagy(@deal.contact.events.done, items: 5)
   end
 
   private
