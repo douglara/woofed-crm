@@ -19,7 +19,7 @@ module Deal::Broadcastable
       broadcast_replace_later_to [contact_id, 'events'], target: "events_to_do_#{contact.id}",
                                                          partial: 'accounts/contacts/events/events_to_do', locals: { deal: deal, events: events_to_do, pagy: 1 }
       broadcast_replace_later_to [contact_id, 'events'], target: "events_done_#{contact.id}",
-                                                         partial: 'accounts/contacts/events/events_done', locals: { deal: deal, events: events_done }
+                                                         partial: 'accounts/contacts/events/events_done', locals: { deal: deal, events: events_done, pagy: 1 }
     end
 
     after_update_commit do

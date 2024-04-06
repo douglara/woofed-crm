@@ -137,6 +137,10 @@ class Accounts::DealsController < InternalController
 
   def events_done
     @pagy, @events = pagy(@deal.contact.events.done, items: 5)
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+    end
   end
 
   private
