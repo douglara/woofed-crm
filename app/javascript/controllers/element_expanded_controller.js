@@ -3,26 +3,25 @@ import Rails from "@rails/ujs";
 
 export default class extends Controller {
   static targets = ["sidebar"];
+  connect() {
+    if (this.hasSidebarTarget && localStorage.getItem("sidebar_expanded")) {
+      this.setAriaExpanded(localStorage.getItem("sidebar_expanded"));
+    }
+  }
   toggle() {
     var element = document.getElementById("element-expand");
     var expanded = element.ariaExpanded === "true";
     element.ariaExpanded = !expanded;
 
     if (this.hasSidebarTarget) {
-      const currentUrl = window.location.href;
-      const url = new URL(currentUrl);
-      url.searchParams.set("sidebar_expanded", !expanded);
-      console.log(url);
-      this.updateSidebarExpanded(!expanded);
+      this.setLocalStorageSidebarExpanded(!expanded);
     }
   }
-  async updateSidebarExpanded(expanded) {
-    const currentUrl = window.location.href;
-    const url = new URL(currentUrl);
-    url.searchParams.set("sidebar_expanded", expanded);
-    Rails.ajax({
-      url: url,
-      type: "GET",
-    });
+  setLocalStorageSidebarExpanded(value) {
+    localStorage.setItem("sidebar_expanded", value);
+    this.setAriaExpanded(value);
+  }
+  setAriaExpanded(value) {
+    this.element.setAttribute("aria-expanded", value);
   }
 }
