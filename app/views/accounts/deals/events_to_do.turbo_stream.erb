@@ -1,0 +1,15 @@
+<%= turbo_stream.append "events_to_do_#{@deal.contact.id}" do %>
+  <% @events.each do |event| %>
+    <%= render partial: 'accounts/contacts/events/event', locals: {event: event} %>
+  <% end %>
+  <% if @pagy.next.present? %>
+    <%= turbo_frame_tag :pagination_events_to_do, src: events_to_do_account_deal_path(@deal.account, @deal, page: @pagy.next, format: :turbo_stream), loading: :lazy do  %>
+      <div class='py-5'>
+        <%= render '/components/loading' %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+<% unless @pagy.next.present? %>
+  <%= turbo_stream.remove :pagination_events_to_do %>
+<% end %>
