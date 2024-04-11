@@ -168,7 +168,7 @@ RSpec.describe Accounts::DealsController, type: :request do
               create(:event, account: account, deal: deal, kind: 'activity', title: 'event to do', contact: contact)
             end
             get "/accounts/#{account.id}/deals/#{deal.id}/events_to_do"
-            expect(response.body).to include('id="pagination"')
+            expect(response.body).to include('id="pagination_events_to_do"')
           end
         end
       end
@@ -199,7 +199,7 @@ RSpec.describe Accounts::DealsController, type: :request do
                              done_at: Time.current - 3.minutes, contact: contact)
             end
             get "/accounts/#{account.id}/deals/#{deal.id}/events_done"
-            expect(response.body).to include('id="pagination"')
+            expect(response.body).to include('id="pagination_events_done"')
           end
         end
       end
