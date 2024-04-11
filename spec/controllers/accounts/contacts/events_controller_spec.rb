@@ -339,9 +339,6 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           expect(event_created.done?).to eq(true)
         end
         it 'update planned chatwoot message event to done with send_now' do
-          puts(account.inspect)
-          puts(chatwoot.inspect)
-
           valid_params[:event].delete(:scheduled_at)
           params = valid_params.deep_merge(event: { kind: 'chatwoot_message', send_now: 'true',
                                                     app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1 })
