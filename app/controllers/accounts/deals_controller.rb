@@ -150,7 +150,7 @@ class Accounts::DealsController < InternalController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_event
-    @event = Event.find(params[:event_id]) if params[:event_id].present?
+    @event = current_user.account.events.find(params[:event_id]) if params[:event_id].present?
   end
 
   def set_deal
