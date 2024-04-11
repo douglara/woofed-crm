@@ -38,8 +38,12 @@
   </div>
   <footer class="flex flex border-t border-light-palette-p3 p-3  gap-2 justify-end">
     <%= form.submit 'Confirmar', class: 'btn-primary cursor-pointer' %>
-    <% if edit_event_form %>
-      <%= link_to 'Cancelar', '#', class: 'btn-secondary cursor-pointer', data: { turbo_action: 'replace' } %>
+    <% if action_name == 'edit' %>
+      <% if event.done? %>
+        <%= link_to 'Cancelar', events_done_account_deal_path(current_user.account, event.deal), class: 'btn-secondary cursor-pointer'%>
+      <% else %>
+        <%= link_to 'Cancelar', events_to_do_account_deal_path(current_user.account, event.deal), class: 'btn-secondary cursor-pointer'%>
+      <% end %>
     <% else %>
       <% if action_name.include?('bulk_action') %>
         <%= link_to 'Cancelar', new_bulk_action_account_pipeline_path(current_user.account, pipeline, stage_id: stage.id) , class: 'btn-secondary cursor-pointer' %>

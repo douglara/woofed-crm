@@ -1,5 +1,6 @@
 class Accounts::DealsController < InternalController
   before_action :set_deal, only: %i[show edit update destroy events events_to_do events_done]
+  before_action :set_event, only: %i[events_to_do events_done]
 
   # GET /deals or /deals.json
   def index
@@ -129,6 +130,7 @@ class Accounts::DealsController < InternalController
 
   def events_to_do
     @pagy, @events = pagy(@deal.contact.events.to_do, items: 5)
+    @events += [@event] if @event.present?
     respond_to do |format|
       format.turbo_stream
       format.html
@@ -137,6 +139,7 @@ class Accounts::DealsController < InternalController
 
   def events_done
     @pagy, @events = pagy(@deal.contact.events.done, items: 5)
+    @events += [@event] if @event.present?
     respond_to do |format|
       format.turbo_stream
       format.html
@@ -146,6 +149,10 @@ class Accounts::DealsController < InternalController
   private
 
   # Use callbacks to share common setup or constraints between actions.
+  def set_event
+    @event = Event.find(params[:event_id]) if params[:event_id].present?
+  end
+
   def set_deal
     @deal = current_user.account.deals.find(params[:id])
   end
