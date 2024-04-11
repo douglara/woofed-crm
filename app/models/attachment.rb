@@ -30,4 +30,11 @@ class Attachment < ApplicationRecord
       'file'
     end
   end
+
+  def file_download
+    file_url = Rails.application.routes.url_helpers.rails_blob_url(file)
+    file_temp = Down.download(file_url)
+    FileUtils.mv(file_temp.path, "tmp/#{file_temp.original_filename}")
+    File.open("tmp/#{file_temp.original_filename}")
+  end
 end
