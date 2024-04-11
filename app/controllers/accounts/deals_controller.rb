@@ -119,9 +119,21 @@ class Accounts::DealsController < InternalController
     end
   end
 
-  def events_to_do; end
+  def events_to_do
+    @pagy, @events = pagy(@deal.contact.events.to_do, items: 5)
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+    end
+  end
 
-  def events_done; end
+  def events_done
+    @pagy, @events = pagy(@deal.contact.events.done, items: 5)
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+    end
+  end
 
   private
 

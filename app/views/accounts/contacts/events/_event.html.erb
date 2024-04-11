@@ -1,5 +1,5 @@
 <%= turbo_frame_tag event do %>
-  <div class="group event-<%= event.scheduled_kind %> event-item-<%= event.from %> my-3" data-controller="load-lucid-icons">
+  <div class="group event-<%= event.scheduled_kind %> event-item-<%= event.from %> my-3" data-controller="load-lucid-icons load-flowbite">
     <div class="<%= event.has_media_attachment? ? 'w-[500px]' : 'w-[956px]' %> block rounded-lg bg-white border border-light-palette-p3 rounded dark:bg-neutral-700">
       <div class="border-b-2 border-neutral-100 bg-light-palette-p4 px-3 py-2 flex items-center space-x-3">
         <% if event.from_me? %>
