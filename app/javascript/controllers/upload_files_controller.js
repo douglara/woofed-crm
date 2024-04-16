@@ -281,7 +281,7 @@ class Upload {
     return fileWrapper;
   }
   createFileWrapper() {
-    fileWrapper = document.querySelector("#fileWrapper").cloneNode(true);
+    const fileWrapper = document.querySelector("#fileWrapper").cloneNode(true);
     const uploadInfo = fileWrapper.querySelector("#uploadInfo");
     const fileName = fileWrapper.querySelector("#fileName");
     fileWrapper.classList.remove("hidden");
