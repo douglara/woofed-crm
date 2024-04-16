@@ -1,4 +1,4 @@
-<%= form_with(model: event, url: url, namespace: 'evolution_api', data: {controller: 'event-send-message-form upload-files',  upload_files_xmark_svg_url_value: asset_path('xmark-solid.svg'), action: edit_event_form ? '' : "drop->upload-files#acceptFiles dragenter->upload-files#showDragAlert dragleave->upload-files#removeDragAlert" }, class:"relative z-0 ") do |form| %>
+<%= form_with(model: event, url: url, namespace: 'evolution_api', data: {controller: 'event-send-message-form upload-files',   upload_files_pause_record_svg_url_value: asset_path('pause-record.svg'),  upload_files_pause_wave_svg_url_value: asset_path('pause-white.svg'),  upload_files_play_wave_svg_url_value: asset_path('play-solid-white.svg') , upload_files_mic_svg_url_value: asset_path('mic.svg'), action: edit_event_form ? '' : "drop->upload-files#acceptFiles dragenter->upload-files#showDragAlert dragleave->upload-files#removeDragAlert" }, class:"relative z-0 ") do |form| %>
   <%= render '/components/events/drag_and_drop' %>
   <%= render '/components/events/form/message_errors', model: event %>
   <%= form.hidden_field :app_type, value: 'Apps::EvolutionApi' %>
