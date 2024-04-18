@@ -529,6 +529,8 @@ GEM
     raabro (1.4.0)
     racc (1.7.3)
     rack (2.2.8.1)
+    rack-cors (2.0.2)
+      rack (>= 2.0.0)
     rack-mini-profiler (2.3.4)
       rack (>= 1.2.0)
     rack-proxy (0.7.6)
@@ -769,6 +771,7 @@ DEPENDENCIES
   pagy (~> 3.5)
   pg (~> 1.1)
   puma (= 6.4.2)
+  rack-cors
   rack-mini-profiler (~> 2.0)
   rails (= 6.1.7.7)
   rails-i18n (~> 7.0.0)
