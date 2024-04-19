@@ -8,7 +8,7 @@ class Accounts::Apps::EvolutionApis::Instance::Create
       {'apiKey': "#{ENV['EVOLUTION_API_ENDPOINT_TOKEN']}", 'Content-Type': 'application/json'}
     )
     if request.status == 201
-      set_settings(evolution_api)
+      # set_settings(evolution_api)
       return { ok: JSON.parse(request.body) }
     else
       evolution_api.update(connection_status: 'disconnected')
