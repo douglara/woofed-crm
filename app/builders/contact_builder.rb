@@ -12,7 +12,7 @@ class ContactBuilder
       @contact = @user.account.contacts.new()
     end
 
-    @contact.assign_attributes(@params.permit(:full_name, :phone, :email))
+    @contact.assign_attributes(@params.permit(:full_name, :phone, :email, additional_attributes: {}))
     @contact
   end
 end

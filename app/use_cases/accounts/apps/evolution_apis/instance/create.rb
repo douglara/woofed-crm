@@ -8,11 +8,26 @@ class Accounts::Apps::EvolutionApis::Instance::Create
       {'apiKey': "#{ENV['EVOLUTION_API_ENDPOINT_TOKEN']}", 'Content-Type': 'application/json'}
     )
     if request.status == 201
+      set_settings(evolution_api)
       return { ok: JSON.parse(request.body) }
     else
       evolution_api.update(connection_status: 'disconnected')
       return { error: JSON.parse(request.body) }
     end
+  end
+
+  def self.set_settings(evolution_api)
+    Faraday.post(
+      "#{evolution_api.endpoint_url}/settings/set/#{evolution_api.instance}",
+      {
+        "reject_call": false,
+        "groups_ignore": false,
+        "always_online": false,
+        "read_messages": false,
+        "read_status": false
+      }.to_json,
+      evolution_api.request_instance_headers
+    )
   end
 
   def self.build_body(evolution_api)
