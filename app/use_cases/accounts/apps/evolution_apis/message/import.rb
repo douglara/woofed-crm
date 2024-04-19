@@ -37,7 +37,8 @@ class Accounts::Apps::EvolutionApis::Message::Import
 
     contact = evolution_api.account.contacts.where('additional_attributes @> ?', { group_id: group_id }.to_json).first
     if contact.present?
-      contact.assign_attributes(contact_params)
+      contact.full_name = contact_params[:full_name]
+      contact.additional_attributes = contact.additional_attributes.merge(contact_params[:additional_attributes])
     else
       contact = ContactBuilder.new(
         evolution_api.account.users.first,
