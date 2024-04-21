@@ -6,12 +6,12 @@ class Accounts::Settings::CustomAttributesDefinitionsController < InternalContro
   end
 
   def new
-    @custom_attributes_definition = current_user.account.custom_attributes_definitions.new
+    @custom_attribute_definition = current_user.account.custom_attributes_definitions.new
   end
 
   def create
-    @custom_attributes_definition = current_user.account.custom_attributes_definitions.new(custom_attribute_definition_params)
-    if @custom_attributes_definition.save
+    @custom_attribute_definition = current_user.account.custom_attributes_definitions.new(custom_attribute_definition_params)
+    if @custom_attribute_definition.save
       redirect_to account_custom_attributes_definitions_path(current_user.account),
                   notice: 'Custom attribute was successfully created.'
     else
@@ -22,8 +22,8 @@ class Accounts::Settings::CustomAttributesDefinitionsController < InternalContro
   def edit; end
 
   def update
-    if @custom_attributes_definition.update(custom_attribute_definition_params)
-      redirect_to edit_account_custom_attributes_definition_path(current_user.account, @custom_attributes_definition),
+    if @custom_attribute_definition.update(custom_attribute_definition_params)
+      redirect_to edit_account_custom_attributes_definition_path(current_user.account, @custom_attribute_definition),
                   notice: 'Activity kind was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
@@ -31,17 +31,13 @@ class Accounts::Settings::CustomAttributesDefinitionsController < InternalContro
   end
 
   def destroy
-    if @custom_attributes_definition.destroy
-      flash[:notice] = 'Custom attributes definitions were successfully deleted'
-    else
-      render :index, status: :unprocessable_entity
-    end
+    render :index, status: :unprocessable_entity unless @custom_attribute_definition.destroy
   end
 
   private
 
   def set_custom_attribute_deffinition
-    @custom_attributes_definition = current_user.account.custom_attribute_definitions.find(params[:id])
+    @custom_attribute_definition = current_user.account.custom_attribute_definitions.find(params[:id])
   end
 
   def custom_attribute_definition_params
