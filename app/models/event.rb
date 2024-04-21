@@ -88,11 +88,9 @@ class Event < ApplicationRecord
   end
 
   def content
-    if text_content? && original_content.body.present?
-      original_content.body.to_plain_text
-    else
-      original_content
-    end
+    original_content.body.to_plain_text
+  rescue
+    original_content
   end
 
   def text_content?
