@@ -29,11 +29,11 @@ describe WebhookListener do
     end
 
     it 'should delivery event created' do
-      expect {
+      expect do
         event.save
-      }.to change(WebhookWorker.jobs, :size).by(1)
+      end.to change(WebhookWorker.jobs, :size).by(1)
       expect(webhook_payload['event']).to eq('event_created')
-      expect(webhook_payload['data']['content']).to eq('Hi Lorena')
+      expect(webhook_payload['data']['content']['body']).to eq('Hi Lorena')
     end
   end
 end
