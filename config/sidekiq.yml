@@ -4,5 +4,7 @@
   - default
   - chatwoot_webhooks
   - evolution_api_webhooks
-:limits:
-  chatwoot_webhooks: 1
+
+# TODO: Fix webhooks queue to FIFO order
+# :limits:
+#   chatwoot_webhooks: 1

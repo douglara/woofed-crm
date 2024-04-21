@@ -11,6 +11,12 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
   let(:delete_instance_response) do
     File.read('spec/integration/use_cases/accounts/apps/evolution_api/instance/delete_response.json')
   end
+  let(:group_message) do
+    message_hash = JSON.parse(File.read('spec/integration/use_cases/accounts/apps/evolution_api/webhooks/events/group_import_conversation_message_event.json'))
+    message_hash['instance'] = evolution_api_connected.instance
+    message_hash['apikey'] = evolution_api_connected.token
+    message_hash
+  end
 
   def qrcode_updated_webhook_event_params(evolution_api)
     {
@@ -203,6 +209,23 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
             expect_success
             expect(contact.reload.events.count).to eq(1)
             expect(contact.events.first.evolution_api_message?).to be_truthy
+          end
+        end
+        context 'when is group message' do
+          let!(:user) { create(:user, account: account) }
+          let!(:contact) { create(:contact, account: account, phone: '', additional_attributes: {group_id: '120363103459410972@g.us'}) }
+
+          it 'should create an event' do
+            stub_request(:get, /findGroupInfos/)
+              .to_return(body: '{"id":"120363103459410972@g.us","subject":"Teste 32","subjectOwner":"554196910256@s.whatsapp.net","subjectTime":1713478239,"size":2,"creation":1679567724,"owner":"554192342890@s.whatsapp.net","restrict":false,"announce":false,"isCommunity":false,"isCommunityAnnounce":false,"memberAddMode":false,"participants":[{"id":"554192342890@s.whatsapp.net","admin":"superadmin"},{"id":"554196910256@s.whatsapp.net","admin":null}]}',
+                         status: 200, headers: { 'Content-Type' => 'application/json' })
+
+            post_webhook(group_message)
+            expect_success
+            expect(contact.reload.events.count).to eq(1)
+            expect(contact.events.first.evolution_api_message?).to be_truthy
+            expect(contact.additional_attributes['group_id']).to eq('120363103459410972@g.us')
+            expect(contact.reload.full_name).to eq('Teste 32 - Grupo')
           end
         end
       end

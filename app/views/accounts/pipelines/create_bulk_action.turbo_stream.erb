@@ -1,0 +1,4 @@
+<%= turbo_stream.update 'modal', '' %>
+<%= turbo_stream.replace dom_id(@stage) do %>
+  <%= render partial: '/accounts/pipelines/stage', locals: {stage: @stage, status: 'open'} %>
+<% end%>

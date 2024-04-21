@@ -70,7 +70,7 @@ class Accounts::Apps::Chatwoots::ExportContact
   end
 
   def self.update_contact_chatwoot_id(contact, chatwoot_id)
-    contact.update(additional_attributes: { chatwoot_id: chatwoot_id})
+    contact.update(additional_attributes: contact['additional_attributes'].merge({ chatwoot_id: chatwoot_id }))
   end
 
   def self.build_body(contact)

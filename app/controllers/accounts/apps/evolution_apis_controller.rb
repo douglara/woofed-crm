@@ -33,6 +33,11 @@ class Accounts::Apps::EvolutionApisController < InternalController
   end
 
   def refresh_qr_code
+    @evolution_api.update({
+                            instance: @evolution_api.generate_token('instance'),
+                            token: @evolution_api.generate_token('token')
+                          })
+
     Accounts::Apps::EvolutionApis::Instance::Create.call(@evolution_api)
   end
 

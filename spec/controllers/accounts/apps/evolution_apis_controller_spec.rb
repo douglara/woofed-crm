@@ -24,6 +24,10 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
     before do
       stub_request(:post, /instance/)
         .to_return(body: create_instance_response, status: 201, headers: { 'Content-Type' => 'application/json' })
+
+      stub_request(:post, /settings/)
+        .to_return(status: 200, body: '{"settings":{"instanceName":"3d3841c43940e8e60704","settings":{"reject_call":false,"groups_ignore":false,"always_online":false,"read_messages":false,"read_status":false}}}',
+                   headers: { 'Content-Type' => 'application/json' })
     end
     context 'when is unauthenticated user' do
       it 'returns unauthorized' do
@@ -191,6 +195,9 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
     before do
       stub_request(:post, /instance/)
         .to_return(body: create_instance_response, status: 201, headers: { 'Content-Type' => 'application/json' })
+      stub_request(:post, /settings/)
+        .to_return(status: 201, body: '{"settings":{"instanceName":"3d3841c43940e8e60704","settings":{"reject_call":false,"groups_ignore":false,"always_online":false,"read_messages":false,"read_status":false}}}',
+                   headers: { 'Content-Type' => 'application/json' })
     end
     context 'when is unauthenticated user' do
       it 'returns unauthorized' do

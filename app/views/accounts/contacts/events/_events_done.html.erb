@@ -1,5 +1,12 @@
 <%= turbo_frame_tag "events_done_#{deal.contact.id}" do %>
-    <% deal.contact.events.done.each do |event| %>
-        <%= render partial: 'accounts/contacts/events/event', data: { target: 'not_planned_or_done' }, locals: {event: event} %>
+  <% events.each do |event| %>
+    <%= render partial: 'accounts/contacts/events/event', data: { target: 'not_planned_or_done' }, locals: {event: event} %>
+  <% end %>
+  <% if pagy.next.present? %>
+    <%= turbo_frame_tag :pagination_events_done, src: events_done_account_deal_path(deal.account, deal, page: pagy.next, format: :turbo_stream), loading: :lazy do  %>
+      <div class='py-5'>
+        <%= render '/components/loading' %>
+      </div>
     <% end %>
+  <% end %>
 <% end %>

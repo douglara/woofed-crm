@@ -1,0 +1,21 @@
+<%= turbo_stream.replace dom_id(Event.new) do %>
+  <%= turbo_frame_tag dom_id(Event.new), src: new_account_contact_event_path(account_id: current_user.account, contact_id: @event.contact.id, deal_id: @event.deal.id) do %>
+    <%= render '/components/skeleton/event_form' %>
+  <% end %>
+<% end %>
+<% if @event.done? %>
+  <%= turbo_stream.replace "events_done_#{@event.contact.id}" do %>
+    <%= turbo_frame_tag "events_done_#{@event.contact.id}", src: events_done_account_deal_path(current_user.account, @event.deal), loading: :lazy do  %>
+      <%= render '/components/skeleton/event_card', from_me: true, done: true %>
+      <%= render '/components/skeleton/event_card', from_me: false, done: true %>
+      <%= render '/components/skeleton/event_card', from_me: true, done: true %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.replace "events_to_do_#{@event.contact.id}" do %>
+    <%= turbo_frame_tag "events_to_do_#{@event.deal.contact.id}", src: events_to_do_account_deal_path(current_user.account, @event.deal), loading: :lazy do  %>
+      <%= render '/components/skeleton/event_card', from_me: true, done: false %>
+      <%= render '/components/skeleton/event_card', from_me: true, done: false %>
+    <% end %>
+  <% end %>
+<% end %>

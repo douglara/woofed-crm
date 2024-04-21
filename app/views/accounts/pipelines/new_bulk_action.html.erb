@@ -1,0 +1,8 @@
+<%= render partial: '/components/events/form', locals: {
+  event: @event,
+  stage: @stage,
+  header_evolution_api_message_url: new_bulk_action_account_pipeline_path(@event.account, @stage.pipeline, kind: 'evolution_api_message', stage_id: @stage.id),
+  header_activity_url: new_bulk_action_account_pipeline_path(@event.account, @stage.pipeline, kind: 'activity', stage_id: @stage.id),
+  header_note_url: new_bulk_action_account_pipeline_path(@event.account, @stage.pipeline, kind: 'note', stage_id: @stage.id),
+  header_chatwoot_message_url: new_bulk_action_account_pipeline_path(@event.account, @stage.pipeline, kind: 'chatwoot_message', stage_id: @stage.id)
+} %>

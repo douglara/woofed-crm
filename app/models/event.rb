@@ -43,10 +43,12 @@ class Event < ApplicationRecord
   # belongs_to :record, polymorphic: true
   belongs_to :app, polymorphic: true, optional: true
   has_rich_text :content
+  alias original_content content
 
   attribute :done, :boolean
   attribute :send_now, :boolean
   validates :kind, presence: true
+  has_one :attachment, as: :attachable
 
   after_commit do
     # To refactory
@@ -55,6 +57,58 @@ class Event < ApplicationRecord
     elsif scheduled_delivery_event?
       Accounts::Contacts::Events::EnqueueWorker.perform_async(id)
     end
+  end
+
+  attribute :files, default: []
+  attribute :files_events, default: []
+  attribute :invalid_files
+
+  validate :validate_invalid_files
+
+  def validate_invalid_files
+    errors.add(:files, 'Invalid files') if invalid_files == true
+  end
+
+  def save
+    ActiveRecord::Base.transaction do
+      @result = super
+      return @result if @result == false
+
+      if files_events.present?
+        files_events.each do |file_event|
+          file_event.save!
+        end
+      end
+    end
+    @result
+  end
+
+  def content=(value)
+    original_content.body = value
+  end
+
+  def content
+    if text_content? && original_content.body.present?
+      original_content.body.to_plain_text
+    else
+      original_content
+    end
+  end
+
+  def text_content?
+    chatwoot_message? || evolution_api_message?
+  end
+
+  def generate_content_hash(key, value)
+    if content_is_blank?(value)
+      { key.to_s => '' }
+    else
+      { key.to_s => value }
+    end
+  end
+
+  def content_is_blank?(value)
+    value.respond_to?(:body)
   end
 
   def changed_scheduled_values?
@@ -108,7 +162,7 @@ class Event < ApplicationRecord
     where('done_at IS NOT NULL').order(done_at: :desc)
   }
 
-  scope :by_message_id, -> (message_id) {
+  scope :by_message_id, lambda { |message_id|
     where("additional_attributes ->> 'message_id' = ?", message_id)
   }
 
@@ -118,6 +172,8 @@ class Event < ApplicationRecord
     'activity': 'activity',
     'chatwoot_message': 'chatwoot_message'
   }
+
+  enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
 
   before_validation do
     self.done = false if scheduled_at.present? && done.nil?
@@ -141,6 +197,7 @@ class Event < ApplicationRecord
 
     false
   end
+
   def kind_message?
     chatwoot_message? || evolution_api_message?
   end
@@ -173,6 +230,10 @@ class Event < ApplicationRecord
     else
       'scheduled'
     end
+  end
+
+  def has_media_attachment?
+    attachment.present? && (attachment.image? || attachment.file? || attachment.video?)
   end
 
   ## Events

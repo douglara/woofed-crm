@@ -1,0 +1,34 @@
+{
+  "event": "messages.upsert",
+  "instance": "instance_id",
+  "data": {
+    "key": {
+      "remoteJid": "120363103459410972@g.us",
+      "fromMe": false,
+      "id": "3EB093D47FD50031F2D488",
+      "participant": "554196910256@s.whatsapp.net"
+    },
+    "pushName": "Douglas Lara",
+    "message": {
+      "conversation": "teste6",
+      "messageContextInfo": {
+        "deviceListMetadata": {
+          "senderKeyHash": "13M+IjN9KdzkGg==",
+          "senderTimestamp": "1713037463",
+          "recipientKeyHash": "BQ+epoCXW1AErA==",
+          "recipientTimestamp": "1713436985"
+        },
+        "deviceListMetadataVersion": 2
+      }
+    },
+    "messageType": "conversation",
+    "messageTimestamp": 1713478671,
+    "owner": "b86cc92f59858d7fb814",
+    "source": "android"
+  },
+  "destination": "https://woofedcrm.com",
+  "date_time": "2024-04-18T19:17:51.166Z",
+  "sender": "554192342890@s.whatsapp.net",
+  "server_url": "https://woofedcrm.com",
+  "apikey": "instance_key"
+}

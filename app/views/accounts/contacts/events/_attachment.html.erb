@@ -1,0 +1,12 @@
+<% if event.attachment.image? %>
+  <%= render 'accounts/contacts/events/attachments/image', event: event %>
+<% end %>
+<% if event.attachment.audio? %>
+  <%= render 'accounts/contacts/events/attachments/audio', event: event %>
+<% end %>
+<% if event.attachment.file? %>
+  <%= render 'accounts/contacts/events/attachments/file', event: event %>
+<% end %>
+<% if event.attachment.video? %>
+  <%= render 'accounts/contacts/events/attachments/video', event: event %>
+<% end %>

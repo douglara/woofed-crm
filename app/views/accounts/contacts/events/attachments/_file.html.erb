@@ -1,0 +1,9 @@
+<div class="flex gap-3">
+  <i data-lucide="file" style="width: 40px; height: 40px" class=" stroke-dark-gray-palette-p3"></i>
+  <div>
+    <p class="typography-text-s-lh150 text-dark-gray-palette-p3">
+      <%= event.attachment.file.filename.to_s %>
+    </p>
+    <%= link_to 'Download', rails_blob_path(event.attachment.file), class: "typography-text-r-lh150 text-dark-gray-palette-p3 underline",  download: true %>
+  </div>
+</div>
