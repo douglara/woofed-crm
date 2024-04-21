@@ -24,7 +24,7 @@ class Accounts::Settings::CustomAttributesDefinitionsController < InternalContro
   def update
     if @custom_attribute_definition.update(custom_attribute_definition_params)
       redirect_to edit_account_custom_attributes_definition_path(current_user.account, @custom_attribute_definition),
-                  notice: 'Activity kind was successfully updated.'
+                  notice: 'Custom attribyte was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end
