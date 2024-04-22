@@ -6,7 +6,7 @@
 #  additional_attributes :jsonb
 #  amount                :integer          default(0), not null
 #  custom_attributes     :jsonb
-#  description           :string           default(""), not null
+#  description           :text             default(""), not null
 #  identifier            :string           default(""), not null
 #  name                  :string           default(""), not null
 #  quantity_available    :integer          default(0), not null

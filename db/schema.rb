@@ -170,7 +170,6 @@ ActiveRecord::Schema.define(version: 2024_04_19_183543) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
-    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
   end
 
   create_table "deals", force: :cascade do |t|
@@ -482,30 +481,6 @@ ActiveRecord::Schema.define(version: 2024_04_19_183543) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "noticed_events", force: :cascade do |t|
-    t.string "type"
-    t.string "record_type"
-    t.bigint "record_id"
-    t.jsonb "params"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "notifications_count"
-    t.index ["record_type", "record_id"], name: "index_noticed_events_on_record"
-  end
-
-  create_table "noticed_notifications", force: :cascade do |t|
-    t.string "type"
-    t.bigint "event_id", null: false
-    t.string "recipient_type", null: false
-    t.bigint "recipient_id", null: false
-    t.datetime "read_at"
-    t.datetime "seen_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["event_id"], name: "index_noticed_notifications_on_event_id"
-    t.index ["recipient_type", "recipient_id"], name: "index_noticed_notifications_on_recipient"
-  end
-
   create_table "pipelines", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.string "name", default: "", null: false
@@ -518,7 +493,7 @@ ActiveRecord::Schema.define(version: 2024_04_19_183543) do
     t.string "identifier", default: "", null: false
     t.integer "amount", default: 0, null: false
     t.integer "quantity_available", default: 0, null: false
-    t.string "description", default: "", null: false
+    t.text "description", default: "", null: false
     t.string "name", default: "", null: false
     t.jsonb "custom_attributes", default: {}
     t.jsonb "additional_attributes", default: {}
@@ -595,18 +570,6 @@ ActiveRecord::Schema.define(version: 2024_04_19_183543) do
     t.index ["account_id"], name: "index_webhooks_on_account_id"
   end
 
-  create_table "webpush_subscriptions", force: :cascade do |t|
-    t.string "endpoint", default: "", null: false
-    t.string "auth_key", default: "", null: false
-    t.string "p256dh_key", default: "", null: false
-    t.bigint "user_id", null: false
-    t.bigint "account_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id"], name: "index_webpush_subscriptions_on_account_id"
-    t.index ["user_id"], name: "index_webpush_subscriptions_on_user_id"
-  end
-
   create_table "wp_connects", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.boolean "enabled", default: false, null: false
@@ -635,6 +598,4 @@ ActiveRecord::Schema.define(version: 2024_04_19_183543) do
   add_foreign_key "stages", "pipelines"
   add_foreign_key "taggings", "tags"
   add_foreign_key "users", "accounts"
-  add_foreign_key "webpush_subscriptions", "accounts"
-  add_foreign_key "webpush_subscriptions", "users"
 end
