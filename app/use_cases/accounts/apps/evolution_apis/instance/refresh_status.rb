@@ -10,6 +10,7 @@ class Accounts::Apps::EvolutionApis::Instance::RefreshStatus
   def inactive?
     request = Faraday.get(
       "#{@evolution_api.endpoint_url}/instance/connectionState/#{@evolution_api.instance}",
+      {},
       @evolution_api.request_instance_headers
     )
 
