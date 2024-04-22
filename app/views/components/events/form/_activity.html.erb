@@ -1,5 +1,4 @@
-
-<%= form_with(model: event, url: url, namespace: 'activity', data: { turbo_frame: edit_event_form ? "events_#{event.contact&.id}" : nil, controller: 'upload-files', upload_files_pause_record_svg_url_value: asset_path('pause-record.svg'),  upload_files_pause_wave_svg_url_value: asset_path('pause-white.svg'),  upload_files_play_wave_svg_url_value: asset_path('play-solid-white.svg') , upload_files_mic_svg_url_value: asset_path('mic.svg'), action: edit_event_form ? '' :  "drop->upload-files#acceptFiles dragenter->upload-files#showDragAlert dragleave->upload-files#removeDragAlert" }, class:"relative z-0 ") do |form| %>
+<%= form_with(model: event, url: url, namespace: 'activity', data: { turbo_frame: action_name == 'edit' ? "events_#{event.contact&.id}" : nil, controller: 'upload-files', upload_files_pause_record_svg_url_value: asset_path('pause-record.svg'),  upload_files_pause_wave_svg_url_value: asset_path('pause-white.svg'),  upload_files_play_wave_svg_url_value: asset_path('play-solid-white.svg') , upload_files_mic_svg_url_value: asset_path('mic.svg'), action: action_name == 'edit' ? '' :  "drop->upload-files#acceptFiles dragenter->upload-files#showDragAlert dragleave->upload-files#removeDragAlert" }, class:"relative z-0 ") do |form| %>
   <%= render '/components/events/drag_and_drop'%>
   <%= render '/components/events/form/message_errors', model: event %>
   <%= form.hidden_field :kind, value: 'activity' %>
@@ -31,7 +30,7 @@
         <% if event.done? %>
           <%= link_to 'Cancelar', events_done_account_deal_path(current_user.account, event.deal, event_id: event), class: 'btn-secondary cursor-pointer', data: {turbo_frame_tag: "events_done_#{event.deal.contact.id}"}%>
         <% else %>
-          <%= link_to 'Cancelar', events_to_do_account_deal_path(current_user.account, event.deal, event_id: event), class: 'btn-secondary cursor-pointer', data: {turbo_frame_tag: "events_to_do_#{event.deal.contact.id}"}%>
+          <%= link_to 'Cancelar', events_to_do_account_deal_path(current_user.account, event.deal, page: page), class: 'btn-secondary cursor-pointer', data: {turbo_frame_tag: "events_to_do_#{event.deal.contact.id}"}%>
         <% end %>
       <% else %>
         <% if action_name.include?('bulk_action') %>
