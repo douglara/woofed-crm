@@ -145,10 +145,12 @@ GEM
       rake (>= 12.0.0, < 14.0.0)
     docile (1.4.0)
     domain_name (0.6.20231109)
-    dotenv (2.8.1)
-    dotenv-rails (2.8.1)
-      dotenv (= 2.8.1)
-      railties (>= 3.2)
+    dotenv (3.1.0)
+    dotenv-rails (3.1.0)
+      dotenv (= 3.1.0)
+      railties (>= 6.1)
+    down (5.4.1)
+      addressable (~> 2.8)
     elastic-apm (4.7.0)
       concurrent-ruby (~> 1.0)
       http (>= 3.0)
@@ -527,6 +529,8 @@ GEM
     raabro (1.4.0)
     racc (1.7.3)
     rack (2.2.8.1)
+    rack-cors (2.0.2)
+      rack (>= 2.0.0)
     rack-mini-profiler (2.3.4)
       rack (>= 1.2.0)
     rack-proxy (0.7.6)
@@ -740,6 +744,7 @@ DEPENDENCIES
   debug (= 1.9.1)
   devise
   dotenv-rails
+  down (~> 5.0)
   elastic-apm
   factory_bot_rails
   faker
@@ -766,6 +771,7 @@ DEPENDENCIES
   pagy (~> 3.5)
   pg (~> 1.1)
   puma (= 6.4.2)
+  rack-cors
   rack-mini-profiler (~> 2.0)
   rails (= 6.1.7.7)
   rails-i18n (~> 7.0.0)

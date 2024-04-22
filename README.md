@@ -42,7 +42,7 @@ cp .env.sample .env
 
 4 - Up containers
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 5 - Configure database

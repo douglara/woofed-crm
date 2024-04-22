@@ -39,5 +39,17 @@ FactoryBot.define do
     title { 'Event 1' }
     content { 'Hi Lorena' }
     kind { 'activity' }
+
+    trait :with_file do
+      after(:build) do |event|
+        attachment = event.build_attachment
+        attachment.file.attach(
+          io: Rails.root.join('spec/fixtures/files/patrick.png').open,
+          filename: 'patrick.png',
+          content_type: 'image/png'
+          )
+        attachment.file_type = attachment.check_file_type
+      end
+    end
   end
 end

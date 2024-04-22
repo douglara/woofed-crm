@@ -64,7 +64,8 @@ RSpec.describe Event do
       create(:event, account: account, auto_done: false, scheduled_at: nil, kind: 'activity')
     end
     let!(:event_wpp_message) do
-      create(:event, account: account, done: true, additional_attributes: { message_id: 'id'}, scheduled_at: nil, kind: 'evolution_api_message')
+      create(:event, account: account, done: true, additional_attributes: { message_id: 'id' }, scheduled_at: nil,
+                     kind: 'evolution_api_message')
     end
     describe 'done' do
       it 'returns 1 event' do
@@ -107,6 +108,25 @@ RSpec.describe Event do
       end
     end
   end
+  context 'generate_content_hash' do
+    context 'when is chatwoot_message event' do
+      let(:account) { create(:account) }
+      let!(:event_content_blank) do
+        create(:event, done: true, scheduled_at: Time.current, kind: 'chatwoot_message', account: account, content: '')
+      end
+      let!(:event) do
+        create(:event, done: true, scheduled_at: Time.current, kind: 'chatwoot_message', account: account,
+                       content: 'Hello world!')
+      end
+      it 'should return with contents blank' do
+        expect(event.generate_content_hash('content', event_content_blank.content)).to eq('content' => '')
+      end
+      it 'should generate hash and content should not be blank' do
+        expect(event.generate_content_hash('content',
+                                           event.content)).to eq('content' => 'Hello world!')
+      end
+    end
+  end
   context 'editable?' do
     let(:account) { create(:account) }
     let!(:event_done) { create(:event, done: true, scheduled_at: Time.current, kind: 'note', account: account) }
@@ -114,7 +134,8 @@ RSpec.describe Event do
       create(:event, account: account, auto_done: false, scheduled_at: (Time.current + 1.hour), kind: 'activity')
     end
     let!(:event_chatwoot_message) do
-      create(:event, account: account, auto_done: false, scheduled_at: (Time.current + 2.hour), kind: 'chatwoot_message')
+      create(:event, account: account, auto_done: false, scheduled_at: (Time.current + 2.hour),
+                     kind: 'chatwoot_message')
     end
     let!(:event_chatwoot_message_done) do
       create(:event, account: account, done: true, kind: 'chatwoot_message')

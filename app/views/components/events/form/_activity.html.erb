@@ -1,8 +1,11 @@
-<%= form_with(model: event, url: url, namespace: 'activity', data: { turbo_frame: action_name == 'edit' ? "events_#{event.contact&.id}" : nil }) do |form| %>
+
+<%= form_with(model: event, url: url, namespace: 'activity', data: { turbo_frame: edit_event_form ? "events_#{event.contact&.id}" : nil, controller: 'upload-files', upload_files_pause_record_svg_url_value: asset_path('pause-record.svg'),  upload_files_pause_wave_svg_url_value: asset_path('pause-white.svg'),  upload_files_play_wave_svg_url_value: asset_path('play-solid-white.svg') , upload_files_mic_svg_url_value: asset_path('mic.svg'), action: edit_event_form ? '' :  "drop->upload-files#acceptFiles dragenter->upload-files#showDragAlert dragleave->upload-files#removeDragAlert" }, class:"relative z-0 ") do |form| %>
+  <%= render '/components/events/drag_and_drop'%>
   <%= render '/components/events/form/message_errors', model: event %>
   <%= form.hidden_field :kind, value: 'activity' %>
   <%= form.hidden_field :from_me, value: true %>
   <%= form.hidden_field :deal_id %>
+  <%= form.hidden_field :contact_id %>
   <%= form.hidden_field :stage_id, value: params[:stage_id] %>
   <div class="space-y-2 p-4">
     <%= form.label :title, 'Tipo', class:'py-1 typography-text-m-lh150 text-dark-gray-palette-p1' %>
@@ -16,6 +19,7 @@
     <%= form.label :scheduled_at, 'Agendar', class:'typography-text-m-lh150 text-dark-gray-palette-p1' %>
     <%= form.datetime_local_field :scheduled_at, class: 'form-input w-full' %>
   </div>
+  <%= render 'components/events/form/attachments', form: form %>
   <div class="flex justify-between border-t border-light-palette-p3 p-4">
     <div class=" flex items-center">
       <%= form.check_box :done, class: 'rounded text-brand-palette-03 focus:border-transparent focus:ring-0' %>

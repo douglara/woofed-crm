@@ -1,10 +1,11 @@
 require 'rails_helper'
 require 'sidekiq/testing'
+
 RSpec.describe Accounts::Contacts::EventsController, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let!(:contact) { create(:contact, account: account) }
-  let(:chatwoot) { create(:apps_chatwoots, :skip_validate, account: account) }
+  let!(:chatwoot) { create(:apps_chatwoots, :skip_validate, account: account) }
   let(:evolution_api_connected) { create(:apps_evolution_api, :connected, account: account) }
   let!(:pipeline) { create(:pipeline, account: account) }
   let!(:stage) { create(:stage, account: account, pipeline: pipeline) }
@@ -17,7 +18,9 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
   let(:invalid_send_text_response) do
     File.read('spec/integration/use_cases/accounts/apps/evolution_api/message/invalid_send_text_response.json')
   end
-
+  def get_file(name)
+    Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/files/#{name}")
+  end
   let(:event_created) { Event.first }
 
   let!(:valid_params) do
@@ -78,6 +81,41 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             expect(event_created.kind).to eq(params_done[:event][:kind])
             expect(event_created.done?).to eq(true)
           end
+          context 'when there are files' do
+            context 'when there are 6 valid files' do
+              it 'should create 6 events with and 6 attachments' do
+                files = [get_file('patrick.png'), get_file('audio_test.oga'),
+                         get_file('video_test.mp4'), get_file('hello_world.txt'), get_file('hello_world.rar'), get_file('hello_world.json')]
+                params = valid_params.deep_merge(event: { kind: 'activity',
+                                                          files: files })
+                expect do
+                  post "/accounts/#{account.id}/contacts/#{contact.id}/events",
+                       params: params
+                end.to change(Event, :count).by(6)
+                expect(response).to redirect_to(new_account_contact_event_path(account_id:
+                  account, contact_id: contact, deal_id: deal))
+                expect(Attachment.count).to eq(6)
+                expect(Attachment.pluck(:file_type)).to match_array(%w[image audio video file file file])
+                events_with_content = Event.select do |event|
+                  event&.content&.body&.to_plain_text == params[:event][:content]
+                end
+                expect(events_with_content.size).to eq(1)
+                expect(events_with_content.sample).to eq(Event.first)
+              end
+            end
+            context 'when there are 1 valid file and 1 invalid file' do
+              it 'should not create events' do
+                files =  [get_file('patrick.png'), 'invalid_file']
+                params = valid_params.deep_merge(event: { kind: 'activity',
+                                                          files: files })
+                expect do
+                  post "/accounts/#{account.id}/contacts/#{contact.id}/events",
+                       params: params
+                end.to change(Event, :count).by(0)
+                expect(response).to have_http_status(:unprocessable_entity)
+              end
+            end
+          end
         end
         context 'create note event' do
           it do
@@ -126,7 +164,6 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             expect(event_created.done?).to eq(false)
             expect(event_created.scheduled_at.round).to eq(params[:event][:scheduled_at])
           end
-
           context 'when chatwoot message is scheduled and delivered' do
             it do
               params = valid_params.deep_merge(event: { kind: 'chatwoot_message', done: '0',
