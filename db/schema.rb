@@ -9,7 +9,9 @@
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
+
 ActiveRecord::Schema.define(version: 2024_02_22_150305) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -479,30 +481,6 @@ ActiveRecord::Schema.define(version: 2024_02_22_150305) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "noticed_events", force: :cascade do |t|
-    t.string "type"
-    t.string "record_type"
-    t.bigint "record_id"
-    t.jsonb "params"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "notifications_count"
-    t.index ["record_type", "record_id"], name: "index_noticed_events_on_record"
-  end
-
-  create_table "noticed_notifications", force: :cascade do |t|
-    t.string "type"
-    t.bigint "event_id", null: false
-    t.string "recipient_type", null: false
-    t.bigint "recipient_id", null: false
-    t.datetime "read_at"
-    t.datetime "seen_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["event_id"], name: "index_noticed_notifications_on_event_id"
-    t.index ["recipient_type", "recipient_id"], name: "index_noticed_notifications_on_recipient"
-  end
-
   create_table "pipelines", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.string "name", default: "", null: false
@@ -578,18 +556,6 @@ ActiveRecord::Schema.define(version: 2024_02_22_150305) do
     t.index ["account_id"], name: "index_webhooks_on_account_id"
   end
 
-  create_table "webpush_subscriptions", force: :cascade do |t|
-    t.string "endpoint", default: "", null: false
-    t.string "auth_key", default: "", null: false
-    t.string "p256dh_key", default: "", null: false
-    t.bigint "user_id", null: false
-    t.bigint "account_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id"], name: "index_webpush_subscriptions_on_account_id"
-    t.index ["user_id"], name: "index_webpush_subscriptions_on_user_id"
-  end
-
   create_table "wp_connects", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.boolean "enabled", default: false, null: false
@@ -617,6 +583,4 @@ ActiveRecord::Schema.define(version: 2024_02_22_150305) do
   add_foreign_key "stages", "pipelines"
   add_foreign_key "taggings", "tags"
   add_foreign_key "users", "accounts"
-  add_foreign_key "webpush_subscriptions", "accounts"
-  add_foreign_key "webpush_subscriptions", "users"
 end
