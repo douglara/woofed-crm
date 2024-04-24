@@ -4,7 +4,7 @@
 #
 #  id                    :bigint           not null, primary key
 #  additional_attributes :jsonb
-#  amount                :integer          default(0), not null
+#  amount_in_cents       :integer          default(0), not null
 #  custom_attributes     :jsonb
 #  description           :text             default(""), not null
 #  identifier            :string           default(""), not null

@@ -45,7 +45,7 @@ class Accounts::ProductsController < InternalController
   end
 
   def product_params
-    params.require(:product).permit(:identifier, :amount, :quantity_available, :description, :name,
+    params.require(:product).permit(:identifier, :amount_in_cents, :quantity_available, :description, :name,
                                     custom_attributes: {}, additional_attributes: {})
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_04_19_183543) do
+ActiveRecord::Schema.define(version: 2024_04_24_182512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -491,7 +491,7 @@ ActiveRecord::Schema.define(version: 2024_04_19_183543) do
 
   create_table "products", force: :cascade do |t|
     t.string "identifier", default: "", null: false
-    t.integer "amount", default: 0, null: false
+    t.integer "amount_in_cents", default: 0, null: false
     t.integer "quantity_available", default: 0, null: false
     t.text "description", default: "", null: false
     t.string "name", default: "", null: false
