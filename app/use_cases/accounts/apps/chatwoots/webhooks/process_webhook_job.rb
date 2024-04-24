@@ -8,7 +8,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ProcessWebhookJob < ApplicationJob
   good_job_control_concurrency_with(
     # Maximum number of jobs with the concurrency key to be
     # concurrently performed (excludes enqueued jobs)
-    perform_limit: 5,
+    perform_limit: 1,
     key: -> { "#{self.class.name}-#{arguments.last}" }
   )
 
