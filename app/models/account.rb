@@ -23,5 +23,5 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy
   has_many :pipelines, dependent: :destroy
   has_many :stages, dependent: :destroy
-
+  has_many :products, dependent: :destroy
 end

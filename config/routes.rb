@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     #   end
     # end
     resources :users
+    resources :products
     resources :contacts do
       get 'search', to: 'contacts#search', on: :collection
       get 'edit_custom_attributes'

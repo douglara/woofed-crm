@@ -23,6 +23,7 @@
 #  fk_rails_...  (account_id => accounts.id)
 #
 class Product < ApplicationRecord
+  include Product::Broadcastable
   belongs_to :account
   has_many :attachment, as: :attachable
 end

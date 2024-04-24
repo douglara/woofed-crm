@@ -1,0 +1,23 @@
+<%= turbo_stream_from [current_user.account.id, :product] %>
+<section class="m-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md">
+  <div class='pb-5 '>
+    <div class='w-full grid gap-2.5'>
+      <div class='flex py-4 gap-2.5 border-b-2 border-light-palette-p3'>
+        <p class='w-[10%] typography-body-s-lh150 text-dark-gray-palette-p1 truncate pl-4'>Fotos</p>
+        <p class='w-[29%] typography-body-s-lh150 text-dark-gray-palette-p1 truncate'>Nome do produto</p>
+        <p class='w-[11%] typography-body-s-lh150 text-dark-gray-palette-p1 truncate'>Valor</p>
+        <p class='w-[11%] typography-body-s-lh150 text-dark-gray-palette-p1 truncate'>Quantidade</p>
+        <p class='w-[16%] typography-body-s-lh150 text-dark-gray-palette-p1 truncate'>Código</p>
+        <p class='w-[17%] typography-body-s-lh150 text-dark-gray-palette-p1 truncate'>Data do anúncio</p>
+        <div class='w-[6%] pr-4'></div>
+      </div>
+      <ul class='w-full grid' id="products" >
+        <%= render partial: '/accounts/products/product', collection: @products, as: :product %>
+      </ul>
+    </div>
+  </div>
+  <div class="float-right py-6">
+    <%== pagy_nav(@pagy) %>
+  </div>
+</section>
+<%# 25.times{ |index| Product.create(name: "produto #{index}", identifier: "LFD#{index}ADSSA", quantity_available: 10, description: "Descrição #{index}", amount: "1#{index}00".to_i)} %>
