@@ -170,7 +170,6 @@ ActiveRecord::Schema.define(version: 2024_04_19_183543) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
-    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
   end
 
   create_table "deals", force: :cascade do |t|
