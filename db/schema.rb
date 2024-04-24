@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_02_22_150305) do
+ActiveRecord::Schema.define(version: 2024_04_19_183543) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -489,6 +489,20 @@ ActiveRecord::Schema.define(version: 2024_02_22_150305) do
     t.index ["account_id"], name: "index_pipelines_on_account_id"
   end
 
+  create_table "products", force: :cascade do |t|
+    t.string "identifier", default: "", null: false
+    t.integer "amount", default: 0, null: false
+    t.integer "quantity_available", default: 0, null: false
+    t.text "description", default: "", null: false
+    t.string "name", default: "", null: false
+    t.jsonb "custom_attributes", default: {}
+    t.jsonb "additional_attributes", default: {}
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_products_on_account_id"
+  end
+
   create_table "stages", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.bigint "account_id", null: false
@@ -580,6 +594,7 @@ ActiveRecord::Schema.define(version: 2024_02_22_150305) do
   add_foreign_key "motor_note_tag_tags", "motor_note_tags", column: "tag_id"
   add_foreign_key "motor_note_tag_tags", "motor_notes", column: "note_id"
   add_foreign_key "motor_taggable_tags", "motor_tags", column: "tag_id"
+  add_foreign_key "products", "accounts"
   add_foreign_key "stages", "pipelines"
   add_foreign_key "taggings", "tags"
   add_foreign_key "users", "accounts"
