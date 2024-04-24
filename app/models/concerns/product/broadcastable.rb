@@ -2,8 +2,8 @@ module Product::Broadcastable
   extend ActiveSupport::Concern
   included do
     after_create_commit do
-      broadcast_append_later [account.id, :product], target: 'products', partial: '/accounts/products/product',
-                                                     locals: { product: self }
+      broadcast_prepend_later_to [account.id, :product], target: 'products', partial: '/accounts/products/product',
+                                                         locals: { product: self }
     end
 
     after_update_commit do

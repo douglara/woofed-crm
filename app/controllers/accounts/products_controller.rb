@@ -7,7 +7,7 @@ class Accounts::ProductsController < InternalController
   def create
     @product = current_user.account.products.new(product_params)
     if @product.save
-      redirect_to account_products_path(current_user.account)
+      redirect_to account_products_path(current_user.account), notice: 'Product was successfully created'
     else
       render :new, status: :unprocessable_entity
     end
