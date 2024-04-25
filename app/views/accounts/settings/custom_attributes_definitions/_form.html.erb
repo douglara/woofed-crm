@@ -1,8 +1,8 @@
-<%= form_with(model: custom_attributes_definition, url: account_custom_attributes_definitions_path(current_user.account), method: :post, data: {turbo: false}, id: 'formId', class: "flex flex-col gap-5") do |form| %>
-  <% if custom_attributes_definition.errors.any? %>
+<%= form_with(model: custom_attribute_definition, url: url, data: {turbo: false}, id: 'formId', class: "flex flex-col gap-5") do |form| %>
+  <% if custom_attribute_definition.errors.any? %>
     <div>
       <ul>
-        <% custom_attributes_definition.errors.each do |error| %>
+        <% custom_attribute_definition.errors.each do |error| %>
           <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
         <% end %>
       </ul>
@@ -26,5 +26,5 @@
     <%= form.label :attribute_description, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
     <%= form.text_area :attribute_description, placeholder: "Campo para .....", class: 'form-input' %>
   </div>
-  <%= form.submit 'Criar', class: 'btn-primary self-end cursor-pointer' %>
+  <%= form.submit class: 'btn-primary self-end cursor-pointer' %>
 <% end %>
