@@ -4,6 +4,7 @@ import IMask from "imask";
 export default class extends Controller {
   connect() {
     this.formatExhibitionNumberField();
+    this.configMaskField();
   }
   configMaskField() {
     new IMask(this.element, {
@@ -22,12 +23,10 @@ export default class extends Controller {
   }
 
   formatExhibitionNumberField() {
-    if (this.element.value !== 0) {
-      this.element.value = this.formatNumber(this.element.value);
-    }
+    this.element.value = this.formatToCurrencyNumber(this.element.value);
   }
 
-  formatNumber(amount) {
+  formatToCurrencyNumber(amount) {
     const parts = (amount / 100).toFixed(2).split(".");
     const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     const decimalPart = parts[1];
