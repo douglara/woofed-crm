@@ -32,6 +32,11 @@ class Product < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0, message: 'Can not be negative' }
   validate :validate_invalid_files
 
+  def amount_in_cents=(amount)
+    self[:amount_in_cents] = amount.gsub(/[^\d-]/, '').to_i if amount.is_a?(String)
+    super(self[:amount_in_cents])
+  end
+
   def validate_invalid_files
     errors.add(:files, 'Invalid files') if invalid_files == true
   end
