@@ -151,4 +151,23 @@ RSpec.describe Accounts::UsersController, type: :request do
       end
     end
   end
+  describe 'GET /accounts/{account.id}/products/new' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/products/new"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+      context 'new product page' do
+        it do
+          get "/accounts/#{account.id}/products/new"
+          expect(response).to have_http_status(200)
+        end
+      end
+    end
+  end
 end
