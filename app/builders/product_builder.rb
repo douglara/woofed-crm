@@ -6,7 +6,7 @@ class ProductBuilder
 
   def build
     @product = @user.account.products.new(@params)
-    @product.amount_in_cents = convert_amount_in_cents
+    @product.amount_in_cents = convert_amount_in_cents if @params[:amount_in_cents].present?
     build_files if @params.key?('files')
     @product
   end
