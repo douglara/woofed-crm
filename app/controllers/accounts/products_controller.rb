@@ -5,7 +5,8 @@ class Accounts::ProductsController < InternalController
   end
 
   def create
-    @product = current_user.account.products.new(product_params)
+    @product = ProductBuilder.new(current_user, product_params).perform
+    # @product = current_user.account.products.new(product_params)
     if @product.save
       redirect_to account_products_path(current_user.account), notice: 'Product was successfully created'
     else
@@ -46,6 +47,6 @@ class Accounts::ProductsController < InternalController
 
   def product_params
     params.require(:product).permit(:identifier, :amount_in_cents, :quantity_available, :description, :name,
-                                    custom_attributes: {}, additional_attributes: {})
+                                    custom_attributes: {}, additional_attributes: {}, files: [])
   end
 end

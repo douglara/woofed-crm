@@ -26,6 +26,13 @@ class Product < ApplicationRecord
   include Product::Broadcastable
   belongs_to :account
   has_many :attachment, as: :attachable
+  attribute :invalid_files
+  attribute :files, default: []
   validates :quantity_available, :amount_in_cents,
             numericality: { greater_than_or_equal_to: 0, message: 'Can not be negative' }
+  validate :validate_invalid_files
+
+  def validate_invalid_files
+    errors.add(:files, 'Invalid files') if invalid_files == true
+  end
 end
