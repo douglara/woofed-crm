@@ -17,7 +17,8 @@ class Accounts::ProductsController < InternalController
   def edit; end
 
   def update
-    if @product.update(product_params)
+    @product = ProductBuilder.new(current_user, product_params).perform
+    if @product.save
       redirect_to account_products_path(current_user.account)
     else
       render :edit, status: :unprocessable_entity
