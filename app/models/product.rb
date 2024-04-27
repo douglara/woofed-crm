@@ -33,8 +33,8 @@ class Product < ApplicationRecord
   validate :validate_invalid_files
 
   def amount_in_cents=(amount)
-    self[:amount_in_cents] = amount.gsub(/[^\d-]/, '').to_i if amount.is_a?(String)
-    super(self[:amount_in_cents])
+    amount = amount.gsub(/[^\d-]/, '').to_i if amount.is_a?(String)
+    super
   end
 
   def validate_invalid_files
