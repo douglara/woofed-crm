@@ -9,53 +9,24 @@ class Accounts::Apps::EvolutionApis::Message::Send
     if @event.attachment.present?
       send_message_with_attachment
     else
-      send_message_without_attachment
+      send_request('sendText', build_message_text_body)
     end
   end
 
   def send_message_with_attachment
     if @event.attachment.audio?
-      send_message_audio
+      send_request('sendWhatsAppAudio', build_message_audio_body)
     else
-      send_message_file
+      send_request('sendMedia', build_message_file_body)
     end
   end
 
-  def send_message_audio
+  def send_request(type, body)
     request = Faraday.post(
-      "#{@evolution_api.endpoint_url}/message/sendWhatsAppAudio/#{@evolution_api.instance}",
-      build_message_audio_body.to_json,
+      "#{@evolution_api.endpoint_url}/message/#{type}/#{@evolution_api.instance}",
+      body.to_json,
       @evolution_api.request_instance_headers
     )
-    if request.status == 201
-      { ok: JSON.parse(request.body) }
-
-    else
-      { error: JSON.parse(request.body) }
-    end
-  end
-
-  def send_message_file
-    request = Faraday.post(
-      "#{@evolution_api.endpoint_url}/message/sendMedia/#{@evolution_api.instance}",
-      build_message_file_body.to_json,
-      @evolution_api.request_instance_headers
-    )
-    if request.status == 201
-      { ok: JSON.parse(request.body) }
-
-    else
-      { error: JSON.parse(request.body) }
-    end
-  end
-
-  def send_message_without_attachment
-    request = Faraday.post(
-      "#{@evolution_api.endpoint_url}/message/sendText/#{@evolution_api.instance}",
-      build_message_text_body.to_json,
-      @evolution_api.request_instance_headers
-    )
-
     if request.status == 201
       { ok: JSON.parse(request.body) }
 
@@ -80,7 +51,7 @@ class Accounts::Apps::EvolutionApis::Message::Send
       },
       "mediaMessage": {
         "mediatype": file_media_type,
-        "caption": @event.generate_content_hash('content', event.content)['content'],
+        "caption": @event.generate_content_hash('content', @event.content)['content'],
         "media": file_url
       }
     }
