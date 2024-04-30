@@ -5,11 +5,9 @@ class Accounts::Apps::EvolutionApis::Message::DeliveryJob < ApplicationJob
     if should_delivery?(@event)
       phone_id = group? ? @event.contact.additional_attributes['group_id'] : @event.contact.phone
 
-      result = Accounts::Apps::EvolutionApis::Message::Send.call(
-        @event.app,
-        phone_id,
-        @event
-      )
+      result = Accounts::Apps::EvolutionApis::Message::Send.new(@event.app,
+                                                                phone_id,
+                                                                @event).call
       if result.key?(:ok)
         @event.done = true
         @event.additional_attributes.merge!({ 'message_id' => result[:ok]['key']['id'] })

@@ -1,17 +1,59 @@
 class Accounts::Apps::EvolutionApis::Message::Send
-  def self.call(evolution_api, phone, event)
-    if event.attachment.present?
-      send_message_with_attachment(evolution_api, phone, event)
+  def initialize(evolution_api, phone, event)
+    @evolution_api = evolution_api
+    @phone = phone
+    @event = event
+  end
+
+  def call
+    if @event.attachment.present?
+      send_message_with_attachment
     else
-      send_message_without_attachment(evolution_api, phone, event)
+      send_message_without_attachment
     end
   end
 
-  def self.send_message_with_attachment(evolution_api, phone, event)
+  def send_message_with_attachment
+    if @event.attachment.audio?
+      send_message_audio
+    else
+      send_message_file
+    end
+  end
+
+  def send_message_audio
     request = Faraday.post(
-      "#{evolution_api.endpoint_url}/message/sendMedia/#{evolution_api.instance}",
-      build_message_attachment_body(phone, event).to_json,
-      evolution_api.request_instance_headers
+      "#{@evolution_api.endpoint_url}/message/sendWhatsAppAudio/#{@evolution_api.instance}",
+      build_message_audio_body.to_json,
+      @evolution_api.request_instance_headers
+    )
+    if request.status == 201
+      { ok: JSON.parse(request.body) }
+
+    else
+      { error: JSON.parse(request.body) }
+    end
+  end
+
+  def send_message_file
+    request = Faraday.post(
+      "#{@evolution_api.endpoint_url}/message/sendMedia/#{@evolution_api.instance}",
+      build_message_file_body.to_json,
+      @evolution_api.request_instance_headers
+    )
+    if request.status == 201
+      { ok: JSON.parse(request.body) }
+
+    else
+      { error: JSON.parse(request.body) }
+    end
+  end
+
+  def send_message_without_attachment
+    request = Faraday.post(
+      "#{@evolution_api.endpoint_url}/message/sendText/#{@evolution_api.instance}",
+      build_message_text_body.to_json,
+      @evolution_api.request_instance_headers
     )
 
     if request.status == 201
@@ -22,62 +64,53 @@ class Accounts::Apps::EvolutionApis::Message::Send
     end
   end
 
-  def self.send_message_without_attachment(evolution_api, phone, event)
-    request = Faraday.post(
-      "#{evolution_api.endpoint_url}/message/sendText/#{evolution_api.instance}",
-      build_message_text_body(phone, event.content).to_json,
-      evolution_api.request_instance_headers
-    )
-    if request.status == 201
-      { ok: JSON.parse(request.body) }
-
-    else
-      { error: JSON.parse(request.body) }
-    end
-  end
-
-  def self.build_message_attachment_body(phone, event)
-    file_url = Rails.application.routes.url_helpers.rails_blob_url(event.attachment.file)
+  def build_message_file_body
+    file_url = Rails.application.routes.url_helpers.rails_blob_url(@event.attachment.file)
+    file_media_type = if @event.attachment.image? || @event.attachment.video?
+                        @event.attachment.file_type
+                      else
+                        'document'
+                      end
     {
-      "number": phone.sub(/^\+/, ''),
+      "number": @phone.sub(/^\+/, ''),
       "options": {
         "delay": 1200,
         "presence": 'composing',
         "linkPreview": false
       },
       "mediaMessage": {
-        "mediatype": event.attachment.file_type,
-        "caption": event.content,
+        "mediatype": file_media_type,
+        "caption": @event.generate_content_hash('content', event.content)['content'],
         "media": file_url
       }
     }
   end
 
-  def self.build_message_audio_body(phone, event)
-    file_url = Rails.application.routes.url_helpers.rails_blob_url(event.attachment.file)
+  def build_message_audio_body
+    file_url = Rails.application.routes.url_helpers.rails_blob_url(@event.attachment.file)
     {
-      "number": phone.sub(/^\+/, ''),
+      "number": @phone.sub(/^\+/, ''),
       "options": {
         "delay": 1200,
         "presence": 'recording',
         "linkPreview": false
       },
-      "mediaMessage": {
+      "audioMessage": {
         "audio": file_url
       }
     }
   end
 
-  def self.build_message_text_body(phone, event)
+  def build_message_text_body
     {
-      "number": phone.sub(/^\+/, ''),
+      "number": @phone.sub(/^\+/, ''),
       "options": {
         "delay": 1200,
         "presence": 'composing',
         "linkPreview": false
       },
       "textMessage": {
-        "text": event
+        "text": @event.content
       }
     }
   end
