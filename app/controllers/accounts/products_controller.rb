@@ -6,7 +6,6 @@ class Accounts::ProductsController < InternalController
 
   def create
     @product = ProductBuilder.new(current_user, product_params).perform
-    # @product = current_user.account.products.new(product_params)
     if @product.save
       redirect_to account_products_path(current_user.account), notice: 'Product was successfully created'
     else
