@@ -78,10 +78,13 @@ RSpec.describe Accounts::Apps::EvolutionApis::Message::DeliveryJob, type: :reque
   describe 'failed' do
     let(:account) { create(:account) }
     let(:evolution_api_connected) { create(:apps_evolution_api, :connected, account: account) }
+    let(:contact) do
+      create(:contact, account: account, phone: '', additional_attributes: { group_id: '120363103459410972@g.us' })
+    end
     context 'send message' do
       let(:event) do
-        create(:event, :with_audio, app: evolution_api_connected, content: 'Hi Lorena', account: account, from_me: true,
-                                    scheduled_at: Time.now, kind: 'evolution_api_message')
+        create(:event, app: evolution_api_connected, content: 'Hi Lorena', account: account, from_me: true,
+                       scheduled_at: Time.now, kind: 'evolution_api_message')
       end
       it 'should fail' do
         stub_request(:post, /sendText/)
