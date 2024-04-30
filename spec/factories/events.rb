@@ -47,7 +47,29 @@ FactoryBot.define do
           io: Rails.root.join('spec/fixtures/files/patrick.png').open,
           filename: 'patrick.png',
           content_type: 'image/png'
-          )
+        )
+        attachment.file_type = attachment.check_file_type
+      end
+    end
+    trait :with_audio do
+      after(:build) do |event|
+        attachment = event.build_attachment
+        attachment.file.attach(
+          io: Rails.root.join('spec/fixtures/files/audio_test.oga').open,
+          filename: 'audio_test.oga',
+          content_type: 'audio/oga'
+        )
+        attachment.file_type = attachment.check_file_type
+      end
+    end
+    trait :with_zip_file do
+      after(:build) do |event|
+        attachment = event.build_attachment
+        attachment.file.attach(
+          io: Rails.root.join('spec/fixtures/files/hello_world.rar').open,
+          filename: 'hello_world.rar',
+          content_type: 'application/x-rar-compressed;version=5'
+        )
         attachment.file_type = attachment.check_file_type
       end
     end
