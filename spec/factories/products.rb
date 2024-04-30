@@ -32,7 +32,7 @@ FactoryBot.define do
     quantity_available { Faker::Number.within(range: 1..100) }
     description { Faker::Lorem.sentence(word_count: 10) }
     name { Faker::Commerce.product_name }
-    custom_attributes { '' }
-    additional_attributes { '' }
+    custom_attributes { {} }
+    additional_attributes { {} }
   end
 end
