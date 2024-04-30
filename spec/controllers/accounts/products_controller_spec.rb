@@ -38,6 +38,7 @@ RSpec.describe Accounts::UsersController, type: :request do
           expect(product_first.description).to eq('Product description')
           expect(product_first.account_id).to eq(account.id)
         end
+
         context 'when quantity_available is invalid' do
           it 'when quantity_available is negative' do
             invalid_params = { product: { name: 'Product name', identifier: 'id123', amount_in_cents: '150099', quantity_available: '-10',
