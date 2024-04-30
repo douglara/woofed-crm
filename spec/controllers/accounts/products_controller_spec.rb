@@ -67,6 +67,7 @@ RSpec.describe Accounts::UsersController, type: :request do
       end
     end
   end
+
   describe 'GET /accounts/{account.id}/products' do
     let!(:product) { create(:product, account: account) }
     let!(:account_2) { create(:account) }
