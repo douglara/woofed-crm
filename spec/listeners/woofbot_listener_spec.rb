@@ -6,7 +6,7 @@ require 'sidekiq/testing'
 describe WoofbotListener do
   # include ActiveJob::TestHelper
   describe '#event_created' do
-    let!(:account) { create(:account) }
+    let!(:account) { create(:account, woofbot_auto_reply: true) }
     let!(:contact) { create(:contact, account: account) }
     let!(:deal) { create(:deal, contact: contact, account: account) }
     let(:event) { build(:event, account: account, deal: deal, contact: contact) }
