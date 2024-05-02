@@ -17,15 +17,17 @@
 #
 class CustomAttributeDefinition < ApplicationRecord
   include CustomAttributeDefinition::Broadcastable
-  scope :with_attribute_model, ->(attribute_model) { attribute_model.presence && where(attribute_model: attribute_model) }
+  scope :with_attribute_model, lambda { |attribute_model|
+                                 attribute_model.presence && where(attribute_model: attribute_model)
+                               }
 
   validates :attribute_display_name, presence: true
   validates :attribute_key,
             presence: true,
-            uniqueness: { scope: [:account_id, :attribute_model] }
+            uniqueness: { scope: %i[account_id attribute_model] }
   validates :attribute_model, presence: true
 
-  enum attribute_model: { contact_attribute: 0, deal_attribute: 1 }
+  enum attribute_model: { contact_attribute: 0, deal_attribute: 1, product_attribute: 2 }
 
   belongs_to :account
 end

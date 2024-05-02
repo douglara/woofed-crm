@@ -4,7 +4,7 @@
 #
 #  id                    :bigint           not null, primary key
 #  additional_attributes :jsonb
-#  amount                :integer          default(0), not null
+#  amount_in_cents       :integer          default(0), not null
 #  custom_attributes     :jsonb
 #  description           :text             default(""), not null
 #  identifier            :string           default(""), not null
@@ -22,15 +22,17 @@
 #
 #  fk_rails_...  (account_id => accounts.id)
 #
+require 'faker'
+
 FactoryBot.define do
   factory :product do
-    identifier { "MyString" }
-    amount { 1 }
-    quantity_available { 1 }
-    description { "MyString" }
-    name { "MyString" }
-    custom_attributes { "" }
-    additional_attributes { "" }
-    account { nil }
+    account
+    identifier { Faker::Alphanumeric.alphanumeric(number: 10) }
+    amount_in_cents { Faker::Number.between(from: 1, to: 10_000) }
+    quantity_available { Faker::Number.within(range: 1..100) }
+    description { Faker::Lorem.sentence(word_count: 10) }
+    name { Faker::Commerce.product_name }
+    custom_attributes { {} }
+    additional_attributes { {} }
   end
 end

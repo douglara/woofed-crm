@@ -508,7 +508,7 @@ ActiveRecord::Schema.define(version: 2024_05_01_044326) do
 
   create_table "products", force: :cascade do |t|
     t.string "identifier", default: "", null: false
-    t.integer "amount", default: 0, null: false
+    t.integer "amount_in_cents", default: 0, null: false
     t.integer "quantity_available", default: 0, null: false
     t.text "description", default: "", null: false
     t.string "name", default: "", null: false
