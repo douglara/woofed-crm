@@ -44,6 +44,10 @@ class Account < ApplicationRecord
   end
 
   def embed_company_site
-    Accounts::Create::EmbedCompanySiteJob.perform_later(id) if site_url.present?
+    Accounts::Create::EmbedCompanySiteJob.perform_later(id) if site_url.present? && ai_active?
+  end
+
+  def ai_active?
+    ENV['OPENAI_API_KEY'].present?
   end
 end
