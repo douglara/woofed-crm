@@ -5,17 +5,23 @@ class Accounts::Contacts::Events::GenerateAiResponse
   end
 
   def call
+    return '' if @account.exceeded_account_limit?
+
     question = @event.content.to_s
     context = get_context(question)
     data = prepare_data(context, question)
     response = post_request(data)
     response_body = JSON.parse(response.body)
-    # Save account usage
-    # @account.ai_usage['tokens'] = response_body['usage']['total_tokens']
+    update_ai_usage(response_body['usage']['total_tokens'])
     content = response_body.dig('choices', 0, 'message', 'content').gsub(/```json\n?|```/, '')
     JSON.parse(content)['response']
   rescue StandardError
     ''
+  end
+
+  def update_ai_usage(tokens)
+    @account.ai_usage['tokens'] += tokens
+    @account.save
   end
 
   def get_context(query)

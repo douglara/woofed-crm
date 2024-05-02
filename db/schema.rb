@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 2024_05_01_044326) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "site_url", default: "", null: false
     t.boolean "woofbot_auto_reply", default: false, null: false
-    t.jsonb "ai_usage", default: {"limit"=>0, "tokens"=>0}, null: false
+    t.jsonb "ai_usage", default: {"limit"=>16666667, "tokens"=>0}, null: false
   end
 
   create_table "action_text_rich_texts", force: :cascade do |t|

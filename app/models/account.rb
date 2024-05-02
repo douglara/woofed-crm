@@ -50,4 +50,8 @@ class Account < ApplicationRecord
   def ai_active?
     ENV['OPENAI_API_KEY'].present?
   end
+
+  def exceeded_account_limit?
+    ai_usage['tokens'] >= ai_usage['limit']
+  end
 end
