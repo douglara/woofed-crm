@@ -30,7 +30,7 @@ RSpec.describe Accounts::Contacts::Events::Woofbot, type: :request do
     it 'should generate ai response' do
       response_event = subject.call
       expect(response_event.content.to_s).to eq(
-        "https://www.postman.com/dark-shuttle-5185/workspace/woofed-crm-api/collection/905262-e0bb0d71-a634-4fa2-8b03-4ae4c6dde690\n🤖 Mensagem automática"
+        "https://www.postman.com/dark-shuttle-5185/workspace/woofed-crm-api/collection/905262-e0bb0d71-a634-4fa2-8b03-4ae4c6dde690\n\n🤖 Mensagem automática"
       )
       expect(response_event.from_me).to eq(true)
     end

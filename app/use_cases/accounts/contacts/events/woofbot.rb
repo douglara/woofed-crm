@@ -21,7 +21,7 @@ class Accounts::Contacts::Events::Woofbot
       app_id: @event.app_id,
       from_me: true,
       send_now: true,
-      content: "#{@woofbot_response}\n🤖 Mensagem automática"
+      content: "#{@woofbot_response}\n\n🤖 Mensagem automática"
     }
 
     event_params.merge!({ deal_id: @event.deal_id }) if @event.deal_id.present?
