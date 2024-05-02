@@ -1,8 +1,9 @@
 version: '3.7'                                                                                                                                                                                 
                                                                                                                                                                                                
 services:                                                                                                                                                                                          
-  postgres:                                                                                                                                                                                    
-    image: postgres:13.3-alpine                                                                                                                                                                  
+  postgres:              
+    image: pgvector/pgvector:pg16                                                                                                                                                                      
+    #image: postgres:13.3-alpine                                                                                                                                                                  
     volumes:                                                                                                                                                                                   
       - woofed-crm-pg-volume:/var/lib/postgresql/data                                                                                                                                               
     environment:                                                                                                                                                                                  

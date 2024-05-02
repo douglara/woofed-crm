@@ -2,10 +2,13 @@
 #
 # Table name: accounts
 #
-#  id         :bigint           not null, primary key
-#  name       :string           default(""), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                 :bigint           not null, primary key
+#  ai_usage           :jsonb            not null
+#  name               :string           default(""), not null
+#  site_url           :string           default(""), not null
+#  woofbot_auto_reply :boolean          default(FALSE), not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
 #
 class Account < ApplicationRecord
   validates :name, presence: true
@@ -23,5 +26,24 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy
   has_many :pipelines, dependent: :destroy
   has_many :stages, dependent: :destroy
+  has_many :products, dependent: :destroy
+  has_many :embedding_documments, dependent: :destroy
 
+  after_create :embed_company_site
+
+  def site_url=(url)
+    super(normalize_url(url))
+  end
+
+  def normalize_url(url)
+    unless url.match?(/\Ahttp(s)?:\/\//)
+      url = "https://#{url}"
+    end
+
+    url
+  end
+
+  def embed_company_site
+    Accounts::Create::EmbedCompanySiteJob.perform_later(id) if site_url.present?
+  end
 end
