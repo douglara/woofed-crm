@@ -1,3 +1,4 @@
+<% if product.attachments.present? %>
 <div id="default-carousel" class="relative h-24 w-full" data-carousel="static">
   <!-- Carousel wrapper -->
   <div class="relative h-24  overflow-hidden rounded-lg ">
@@ -28,3 +29,8 @@
     </span>
   </button>
 </div>
+<% else %>
+  <div class="border-2 bg-brand-palette-08 rounded-md h-16 w-16 flex items-center">
+    <i data-lucide="image" class='stroke-dark-gray-palette-p4 m-auto'></i>
+  </div>
+<% end %>
