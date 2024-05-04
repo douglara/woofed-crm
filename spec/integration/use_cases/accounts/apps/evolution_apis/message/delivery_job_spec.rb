@@ -75,6 +75,7 @@ RSpec.describe Accounts::Apps::EvolutionApis::Message::DeliveryJob, type: :reque
       end
     end
   end
+
   describe 'failed' do
     let(:account) { create(:account) }
     let(:evolution_api_connected) { create(:apps_evolution_api, :connected, account: account) }
