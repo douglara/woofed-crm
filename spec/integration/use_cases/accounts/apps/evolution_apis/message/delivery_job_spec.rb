@@ -82,6 +82,7 @@ RSpec.describe Accounts::Apps::EvolutionApis::Message::DeliveryJob, type: :reque
     let(:contact) do
       create(:contact, account: account, phone: '', additional_attributes: { group_id: '120363103459410972@g.us' })
     end
+
     context 'send message' do
       let(:event) do
         create(:event, app: evolution_api_connected, content: 'Hi Lorena', account: account, from_me: true,
