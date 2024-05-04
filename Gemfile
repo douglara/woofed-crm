@@ -38,6 +38,7 @@ gem 'devise'
 
 gem 'pagy', '~> 3.5'
 gem 'faraday'
+gem 'faraday-follow_redirects'
 gem 'html2text'
 gem 'cocoon'
 gem 'sidekiq'
@@ -71,6 +72,10 @@ gem 'june-analytics-ruby', require: false
 gem 'elastic-apm', require: false
 gem "down", "~> 5.0"
 gem 'rack-cors'
+gem 'neighbor'
+gem 'pgvector'
+gem 'reverse_markdown'
+gem 'text_splitters'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

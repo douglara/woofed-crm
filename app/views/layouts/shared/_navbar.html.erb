@@ -6,7 +6,7 @@
   <% elsif controller_path == 'accounts/deals' && ['show'].exclude?(action_name) %>
     <%= render "layouts/shared/navbar_new_deal" %>
   <% elsif controller_path == 'accounts/contacts' %>
-      <%= render "layouts/shared/navbar_contact" %>
+    <%= render "layouts/shared/navbar_contact" %>
   <% elsif controller_path == 'accounts/settings' %>
     <%= render "layouts/shared/navbar_setting" %>
   <% elsif controller_path == 'accounts/settings/custom_attributes_definitions'  %>
@@ -19,6 +19,7 @@
     <%= render "layouts/shared/navbar_users" %>
   <% elsif controller_path == 'accounts/apps/evolution_apis'  %>
     <%= render "layouts/shared/navbar_evolution_api" %>
+  <% elsif controller_path == 'accounts/products'  %>
+    <%= render "layouts/shared/navbar_product" %>
   <% end %>
 </nav>
-
