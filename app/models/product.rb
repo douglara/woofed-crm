@@ -31,6 +31,7 @@ class Product < ApplicationRecord
   validates :quantity_available, :amount_in_cents,
             numericality: { greater_than_or_equal_to: 0, message: 'Can not be negative' }
   validate :validate_invalid_files
+  has_many :deal_products
 
   def amount_in_cents=(amount)
     amount = amount.gsub(/[^\d-]/, '').to_i if amount.is_a?(String)
