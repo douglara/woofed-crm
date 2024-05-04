@@ -1,8 +1,8 @@
 class Accounts::Apps::EvolutionApis::Message::Send
-  def initialize(evolution_api, phone, event)
-    @evolution_api = evolution_api
-    @phone = phone
+  def initialize(event)
     @event = event
+    @evolution_api = event.account.apps_evolution_apis.first
+    @phone = sending_to_group? ? event.contact.additional_attributes['group_id'] : @event.contact.phone
   end
 
   def call
@@ -43,7 +43,7 @@ class Accounts::Apps::EvolutionApis::Message::Send
                         'document'
                       end
     {
-      "number": @phone.sub(/^\+/, ''),
+      "number": normalize_phone,
       "options": {
         "delay": 1200,
         "presence": 'composing',
@@ -60,7 +60,7 @@ class Accounts::Apps::EvolutionApis::Message::Send
   def build_message_audio_body
     file_url = Rails.application.routes.url_helpers.rails_blob_url(@event.attachment.file)
     {
-      "number": @phone.sub(/^\+/, ''),
+      "number": normalize_phone,
       "options": {
         "delay": 1200,
         "presence": 'recording',
@@ -74,7 +74,7 @@ class Accounts::Apps::EvolutionApis::Message::Send
 
   def build_message_text_body
     {
-      "number": @phone.sub(/^\+/, ''),
+      "number": normalize_phone,
       "options": {
         "delay": 1200,
         "presence": 'composing',
@@ -84,5 +84,13 @@ class Accounts::Apps::EvolutionApis::Message::Send
         "text": @event.content
       }
     }
+  end
+
+  def normalize_phone
+    @phone.sub(/^\+/, '')
+  end
+
+  def sending_to_group?
+    @event.contact.additional_attributes['group_id'].present?
   end
 end

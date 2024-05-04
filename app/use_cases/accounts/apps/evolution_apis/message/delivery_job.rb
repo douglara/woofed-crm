@@ -3,11 +3,8 @@ class Accounts::Apps::EvolutionApis::Message::DeliveryJob < ApplicationJob
   def perform(event_id)
     @event = Event.find(event_id)
     if should_delivery?(@event)
-      phone_id = group? ? @event.contact.additional_attributes['group_id'] : @event.contact.phone
 
-      result = Accounts::Apps::EvolutionApis::Message::Send.new(@event.app,
-                                                                phone_id,
-                                                                @event).call
+      result = Accounts::Apps::EvolutionApis::Message::Send.new(@event).call
       if result.key?(:ok)
         @event.done = true
         @event.additional_attributes.merge!({ 'message_id' => result[:ok]['key']['id'] })
@@ -21,9 +18,5 @@ class Accounts::Apps::EvolutionApis::Message::DeliveryJob < ApplicationJob
 
   def should_delivery?(event)
     !event.done? && (Time.current.in_time_zone > event.scheduled_at)
-  end
-
-  def group?
-    @event.contact.additional_attributes['group_id'].present?
   end
 end
