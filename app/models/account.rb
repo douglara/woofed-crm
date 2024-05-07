@@ -28,6 +28,7 @@ class Account < ApplicationRecord
   has_many :stages, dependent: :destroy
   has_many :products, dependent: :destroy
   has_many :embedding_documments, dependent: :destroy
+  has_many :deal_products
 
   after_create :embed_company_site
 
