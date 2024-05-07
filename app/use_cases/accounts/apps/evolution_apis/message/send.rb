@@ -1,7 +1,7 @@
 class Accounts::Apps::EvolutionApis::Message::Send
   def initialize(event)
     @event = event
-    @evolution_api = event.account.apps_evolution_apis.first
+    @evolution_api = event.app
     @phone = sending_to_group? ? event.contact.additional_attributes['group_id'] : @event.contact.phone
   end
 
