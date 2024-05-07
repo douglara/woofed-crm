@@ -36,7 +36,6 @@ class Accounts::Apps::EvolutionApis::Message::Send
   end
 
   def build_message_file_body
-    file_url = Rails.application.routes.url_helpers.rails_blob_url(@event.attachment.file)
     file_media_type = if @event.attachment.image? || @event.attachment.video?
                         @event.attachment.file_type
                       else
@@ -52,13 +51,12 @@ class Accounts::Apps::EvolutionApis::Message::Send
       "mediaMessage": {
         "mediatype": file_media_type,
         "caption": @event.generate_content_hash('content', @event.content)['content'],
-        "media": file_url
+        "media": @event.attachment.download_url
       }
     }
   end
 
   def build_message_audio_body
-    file_url = Rails.application.routes.url_helpers.rails_blob_url(@event.attachment.file)
     {
       "number": normalize_phone,
       "options": {
@@ -67,7 +65,7 @@ class Accounts::Apps::EvolutionApis::Message::Send
         "linkPreview": false
       },
       "audioMessage": {
-        "audio": file_url
+        "audio": @event.attachment.download_url
       }
     }
   end
