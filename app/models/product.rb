@@ -25,6 +25,7 @@
 class Product < ApplicationRecord
   include Product::Broadcastable
   include Product::Presenters
+  include CustomAttributes
   belongs_to :account
   has_many :attachment, as: :attachable
   attribute :invalid_files

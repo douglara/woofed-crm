@@ -20,5 +20,8 @@
     <div class="p-1 bg-light-palette-p5 min-[1400px]:rounded-b-md border-x-2 border-b-2 border-light-palette-p3">
       <%= render "/accounts/deals/details/show", model: @deal.contact, model_name: 'Contato', edit_path: edit_account_contact_path(current_user.account, @deal.contact, deal_page_id: @deal.id) %>
     </div>
+    <div class="p-1 bg-light-palette-p5 min-[1400px]:rounded-b-md border-x-2 border-b-2 border-light-palette-p3">
+      <%= render '/accounts/deals/details/deal_products/show', deal_products: @deal.deal_products %>
+    </div>
   </div>
 </div>
