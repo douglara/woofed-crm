@@ -1,0 +1,23 @@
+{
+  "key": {
+      "remoteJid": "5522998813788@s.whatsapp.net",
+      "fromMe": true,
+      "id": "BAE5E0E12CC32CC2"
+  },
+  "message": {
+      "audioMessage": {
+          "url": "https://mmg.whatsapp.net/v/t62.7114-24/31238904_2002973603433766_7516998916066718160_n.enc?ccb=11-4&oh=01_Q5AaIJ0SrIo8O7OlGncsH-vE2AIXQuwXMgT_09yz6uinNEbL&oe=6657B848&_nc_sid=5e03e0&mms3=true",
+          "mimetype": "audio/mp4",
+          "fileSha256": "9gAg85yo8szE2mFn9ZO4wG+P3wilP3txBR7uPVjvRj4=",
+          "fileLength": "326006",
+          "seconds": 19,
+          "ptt": true,
+          "mediaKey": "THzm70Qtyvjwntqt4y574EycEuuqu/4VQWxRh6sszeM=",
+          "fileEncSha256": "xGLgGSaqTD/piODqzjbTRYLtwMHADZJqZb3ts75KZqY=",
+          "directPath": "/v/t62.7114-24/31238904_2002973603433766_7516998916066718160_n.enc?ccb=11-4&oh=01_Q5AaIJ0SrIo8O7OlGncsH-vE2AIXQuwXMgT_09yz6uinNEbL&oe=6657B848&_nc_sid=5e03e0",
+          "mediaKeyTimestamp": "1714440469"
+      }
+  },
+  "messageTimestamp": "1714440469",
+  "status": "PENDING"
+}
