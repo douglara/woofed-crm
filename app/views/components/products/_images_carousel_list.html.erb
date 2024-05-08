@@ -1,7 +1,7 @@
 <% if product.attachments.present? %>
-  <div id="default-carousel" class="relative h-24 w-full" data-carousel="static">
+  <div id="default-carousel" class="relative h-full w-full" data-carousel="static">
     <!-- Carousel wrapper -->
-    <div class="relative h-<%= height %>  overflow-hidden rounded-lg ">
+    <div class="relative h-full overflow-hidden rounded-lg ">
       <!-- Items -->
       <% product.attachments.each do |attachment| %>
         <div class="hidden duration-700 ease-in-out" data-carousel-item data-controller='lightbox'>
@@ -10,9 +10,9 @@
       <% end %>
     </div>
     <!-- Slider indicators -->
-    <div class="absolute z-30 flex -translate-x-1/2 bottom-1 left-1/2 space-x-3 rtl:space-x-reverse">
+    <div class="absolute z-30 flex flex-wrap justify-center w-full -translate-x-1/2 bottom-1 left-1/2 gap-1.5 rtl:space-x-reverse">
       <% product.attachments.count.times do |index| %>
-        <button type="button" class="w-2 h-2 rounded-full bg-dark-gray-palette-p5 hover:bg-light-palette-p2 focus:bg-dark-gray-palette-p3" aria-current="true" data-carousel-slide-to=<%= index.to_s %>>
+        <button type="button" class="w-1.5 h-1.5 rounded-full bg-dark-gray-palette-p5 hover:bg-light-palette-p2 focus:bg-dark-gray-palette-p3" aria-current="true" data-carousel-slide-to=<%= index.to_s %>>
         </button>
       <% end %>
     </div>
@@ -30,7 +30,7 @@
     </button>
   </div>
 <% else %>
-  <div class="border-2 bg-brand-palette-08 rounded-md h-<%= height %> w-full flex items-center">
+  <div class="border-2 bg-brand-palette-08 rounded-md h-full w-full flex items-center">
     <i data-lucide="image" class='stroke-dark-gray-palette-p4 m-auto'></i>
   </div>
 <% end %>
