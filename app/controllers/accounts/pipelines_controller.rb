@@ -135,7 +135,7 @@ class Accounts::PipelinesController < InternalController
       time_start = params['event']['scheduled_at'].to_time
     end
     @result = @deals.each_with_index do |deal, index|
-      if params['event']['kind'] == 'chatwoot_message'
+      if params['event']['kind'] == 'chatwoot_message' || params['event']['kind'] == 'evolution_api_message'
         if params['event']['send_now'] == 'true'
           time_start += rand(5..15).seconds
           params['event']['send_now'] = 'false'

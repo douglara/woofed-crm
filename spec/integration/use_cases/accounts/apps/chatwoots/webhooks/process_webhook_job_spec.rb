@@ -37,7 +37,7 @@ RSpec.describe Accounts::Apps::Chatwoots::Webhooks::ProcessWebhookJob, type: :re
         .to_return(body: response_conversations, status: 200, headers: { 'Content-Type' => 'application/json' })
     end
 
-    it 'should run max 5 concurrency jobs peer chatwoot app' do
+    it 'should run max 1 concurrency jobs peer chatwoot app' do
       10.times do
         Accounts::Apps::Chatwoots::Webhooks::ProcessWebhookJob.perform_later(
           chatwoot_event.merge({ 'token': chatwoot_1.embedding_token }).to_json, chatwoot_1.embedding_token

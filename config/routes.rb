@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
     resources :webhooks, module: :settings do
     end
+    resources :ai, module: :settings, only: %i[edit update]
+
     # namespace :settings do
     #   get 'index' #, controller: "accounts/settings"
     #   resources :activity_kinds
@@ -23,6 +25,7 @@ Rails.application.routes.draw do
     #   end
     # end
     resources :users
+    resources :products
     resources :contacts do
       get 'search', to: 'contacts#search', on: :collection
       get 'edit_custom_attributes'

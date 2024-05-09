@@ -1,0 +1,26 @@
+{
+    "key": {
+        "remoteJid": "5522998813788@s.whatsapp.net",
+        "fromMe": true,
+        "id": "BAE548E8E5CB0ED6"
+    },
+    "message": {
+        "imageMessage": {
+            "url": "https://mmg.whatsapp.net/o1/v/t62.7118-24/f1/m234/up-oil-image-ec84f756-d346-4ac3-b870-7f72f9ca25dc?ccb=9-4&oh=01_Q5AaINZ717PDm7OA8GEQxicun4GH8LW8NXtHYY-hqKY36CzT&oe=66566424&_nc_sid=000000&mms3=true",
+            "mimetype": "image/jpeg",
+            "caption": "This is an example JPG image file sent by Evolution-API via URL.",
+            "fileSha256": "8VXLU/xZb6avXAocU65TB8PYu2hqBYA7GR1SKNcF8rs=",
+            "fileLength": "54005",
+            "height": 482,
+            "width": 1728,
+            "mediaKey": "+muaM61aaqj6yAOe0iZGRlPQ5oqrisBNKzNgbjOZ7fA=",
+            "fileEncSha256": "WVqypAEIKk0HgE0L4All+dtJLw/RVKeFZYNkRAtYDrM=",
+            "directPath": "/o1/v/t62.7118-24/f1/m234/up-oil-image-ec84f756-d346-4ac3-b870-7f72f9ca25dc?ccb=9-4&oh=01_Q5AaINZ717PDm7OA8GEQxicun4GH8LW8NXtHYY-hqKY36CzT&oe=66566424&_nc_sid=000000",
+            "mediaKeyTimestamp": "1714355622",
+            "jpegThumbnail": "/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAAJACADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAAG/8QAIxAAAQMDAgcAAAAAAAAAAAAAAgABAwQRIRNBEhQiI2Fxwf/EABYBAQEBAAAAAAAAAAAAAAAAAAACA//EABgRAQEBAQEAAAAAAAAAAAAAAAEAEQJB/9oADAMBAAIRAxEAPwDW1c8vMygJzAQC2iwBcTLzj0k61Sw5pmcr7FhJUlmcIrsZp6m73pcbdbKglqzk7tOMYZzx3ff5ZJUlYZ7f/9k=",
+            "contextInfo": {}
+        }
+    },
+    "messageTimestamp": "1714355624",
+    "status": "PENDING"
+}
