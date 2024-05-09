@@ -27,11 +27,7 @@
     <div class="flex items-center gap-2">
       <%= form.submit 'Confirmar', class: 'btn-primary cursor-pointer' %>
       <% if action_name == 'edit' %>
-        <% if event.done? %>
-          <%= link_to 'Cancelar', events_done_account_deal_path(current_user.account, event.deal, event_id: event), class: 'btn-secondary cursor-pointer', data: {turbo_frame_tag: "events_done_#{event.deal.contact.id}"}%>
-        <% else %>
-          <%= link_to 'Cancelar', events_to_do_account_deal_path(current_user.account, event.deal, event_id: event), class: 'btn-secondary cursor-pointer', data: {turbo_frame_tag: "events_to_do_#{event.deal.contact.id}"}%>
-        <% end %>
+        <%= link_to 'Cancelar', account_contact_event_path(current_user.account, event.deal.contact, event), class: 'btn-secondary cursor-pointer'%>
       <% else %>
         <% if action_name.include?('bulk_action') %>
           <%= link_to 'Cancelar', new_bulk_action_account_pipeline_path(current_user.account, pipeline, stage_id: stage.id) , class: 'btn-secondary cursor-pointer' %>
