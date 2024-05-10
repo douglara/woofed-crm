@@ -1,54 +1,18 @@
 <div class="bg-light-palette-p5 px-3 pb-2">
-  <%# action_name %>
-  <%# controller_path %>
-  <%= turbo_frame_tag :products do %>
-    <div class="flex items-center h-12">
-      <p class="m-0 mr-auto typography-body-s-lh150 text-dark-gray-palette-p1">Produtos</p>
-      <%= link_to 'teste', class: 'flex items-center h-8 p-1 mx-2 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
-        <i data-lucide="plus" height="18"></i>
-      <% end %>
+  <div class="flex items-center h-12">
+    <p class="m-0 mr-auto typography-body-s-lh150 text-dark-gray-palette-p1">Produtos</p>
+    <%# link_to 'teste', class: 'flex items-center h-8 p-1 mx-2 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
+      <%# <i data-lucide="plus" height="18"></i> %>
+      <%# end %>
       <button type="button" class="flex bg-transparent items-center h-8 p-1 border-[1.5px] border-[#e5e7eb00]  dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250 dark:hover:bg-gray-800" data-accordion-target="#accordion-collapse-products" aria-expanded="true" aria-controls="accordion-collapse-products ">
         <i data-accordion-icon data-lucide="chevron-down" class="rotate-180 shrink-0" height="16"></i>
       </button>
     </div>
-    <div id="accordion-collapse-products" class="hidden py-3 grid gap-2.5" aria-labelledby="accordion-collapse-heading-products">
-      <% deal_products.each do |deal_product|%>
-        <%= turbo_frame_tag deal_product.product do %>
-          <div class='border-[1px] px-2 py-4 border-brand-palette-07 rounded-lg'>
-            <div class= "flex items-center gap-4 mb-4">
-              <div class="border-2 bg-brand-palette-08 rounded-md h-16 w-16 flex items-center">
-                <i data-lucide="image" class='stroke-dark-gray-palette-p4 m-auto'></i>
-              </div>
-              <div class="mr-auto">
-                <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1">
-                  <%= deal_product.product.amount_in_cents_at_format %>
-                </h2>
-                <p class='typography-sub-text-s-lh150 text-dark-gray-palette-p4 '>
-                  1 Item
-                </p>
-              </div>
-              <div class='flex items-center gap-2 self-start' >
-                <%= link_to edit_account_product_path(deal_product.account, deal_product.product, deal_product_id: deal_product.id), class: 'flex items-center h-8 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
-                  <i data-lucide="pencil" height="16"></i>
-                <% end %>
-                <%= link_to '#', class: 'flex items-center h-8 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
-                  <i data-lucide="trash-2" height="16"></i>
-                <% end %>
-              </div>
-            </div>
-            <% deal_product.product.class::FORM_FIELDS.each do | f | %>
-              <% if deal_product.product.send(f).present? %>
-                <div class="flex items-center pb-4 last:pb-0">
-                  <label class="flex-none max-w-[10rem] m-auto typography-text-m-lh150 text-dark-gray-palette-p3"><%= deal_product.product.class.human_attribute_name(f) %></label>
-                  <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>
-                  <p class="m-0 typography-text-m-lh150 text-dark-gray-palette-p3 max-w-[14rem] "><%= f == :amount_in_cents ? deal_product.product.amount_in_cents_at_format : deal_product.product["#{f}"] %></p>
-                </div>
-              <% end %>
-            <% end %>
-            <%= render 'accounts/deals/details/show_custom_attributes', model: deal_product.product %>
-          </div>
-        <% end %>
+    <div id="accordion-collapse-products"  class="hidden py-3" aria-labelledby="accordion-collapse-heading-products">
+      <%= turbo_frame_tag :deal_products, class:'grid gap-2.5', src: account_deal_deal_products_path(current_user.account, deal), loading: :lazy do  %>
+        <%= render '/components/skeleton/deal_product_card'%>
+        <%= render '/components/skeleton/deal_product_card'%>
+        <%= render '/components/skeleton/deal_product_card'%>
       <% end %>
     </div>
-  <% end %>
-</div>
+  </div>

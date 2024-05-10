@@ -1,5 +1,5 @@
 <% if @deal_product.present? %>
-  <%= turbo_frame_tag @product do %>
+  <%= turbo_frame_tag @deal_product do %>
     <%= render "/accounts/deals/details/deal_products/edit",
   deal_product: @deal_product,
   product: @product,

@@ -75,6 +75,7 @@ Rails.application.routes.draw do
       patch 'update_custom_attributes'
       resources :activities, module: :deals
       resources :flow_items, only: [:destroy], module: :deals
+      resources :deal_products, only: %i[create destroy index], module: :deals
     end
 
     namespace :apps do

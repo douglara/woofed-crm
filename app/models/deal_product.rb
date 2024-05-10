@@ -22,6 +22,8 @@
 #  fk_rails_...  (product_id => products.id)
 #
 class DealProduct < ApplicationRecord
+  include DealProduct::Broadcastable
+
   belongs_to :product
   belongs_to :deal
   belongs_to :account
