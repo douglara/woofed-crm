@@ -1,5 +1,5 @@
 class Accounts::DealsController < InternalController
-  before_action :set_deal, only: %i[show edit update destroy events events_to_do events_done]
+  before_action :set_deal, only: %i[show edit update destroy events events_to_do events_done deal_products]
 
   # GET /deals or /deals.json
   def index
@@ -133,6 +133,10 @@ class Accounts::DealsController < InternalController
       format.turbo_stream
       format.html
     end
+  end
+
+  def deal_products
+    @deal_products = @deal.deal_products
   end
 
   private

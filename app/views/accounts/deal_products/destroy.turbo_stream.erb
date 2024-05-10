@@ -1,0 +1,4 @@
+<%= turbo_stream.remove @deal_product %>
+<%= turbo_stream.replace :notification do %>
+  <%= render partial: 'components/notifications', locals: { message: 'Product was successfully deleted' } %>
+<% end %>

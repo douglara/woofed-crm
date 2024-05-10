@@ -9,7 +9,7 @@
       </button>
     </div>
     <div id="accordion-collapse-products"  class="hidden py-3" aria-labelledby="accordion-collapse-heading-products">
-      <%= turbo_frame_tag :deal_products, class:'grid gap-2.5', src: account_deal_deal_products_path(current_user.account, deal), loading: :lazy do  %>
+      <%= turbo_frame_tag :deal_products, class:'grid gap-2.5', src: deal_products_account_deal_path(deal.account, deal), loading: :lazy do  %>
         <%= render '/components/skeleton/deal_product_card'%>
         <%= render '/components/skeleton/deal_product_card'%>
         <%= render '/components/skeleton/deal_product_card'%>
