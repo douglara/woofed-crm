@@ -98,4 +98,4 @@ jobs:
           file: Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ env.DOCKER_TAG }},${{ env.DOCKER_TAG_LATEST }},latest
+          tags: ${{ env.DOCKER_TAG }},${{ env.DOCKER_TAG_LATEST }},${{ secrets.DOCKERHUB_USERNAME }}/woofedcrm:latest
