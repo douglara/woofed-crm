@@ -9,7 +9,6 @@ on:
 
 jobs:
   publish:
-    needs: build
     runs-on: ubuntu-latest
     env:
       GIT_REF: ${{ github.head_ref || github.ref_name }} # ref_name to get tags/branches
