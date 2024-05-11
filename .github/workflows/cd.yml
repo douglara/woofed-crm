@@ -7,65 +7,7 @@ on:
       - development
 
 jobs:
-  build:
-    name: CI
-    runs-on: ubuntu-latest
-    container:
-      image: ruby:3.0.0
-
-    services:
-      postgres:
-        image: pgvector/pgvector:pg16
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: "password"
-          POSTGRES_DB: postgres
-        ports: ["5432:5432"]
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-      redis:
-        image: redis
-        ports: ["6379:6379"]
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: 'true'
-
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '16.16.0'
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Load Env variables
-        uses: cardinalby/export-env-action@v1
-        with:
-          envFile: '.env.github'    
-          expand: 'true'
-
-      - run: |
-          apt-get update
-          apt-get install -y libnss3-dev libgdk-pixbuf2.0-dev libgtk-3-dev libxss-dev libasound2 sudo
-
-
-      - name: Bundle install
-        run: |
-          gem install bundler
-          bundle install --jobs 4 --retry 3 --path vendor/bundle
-
-      - name: Install yarn
-        run: npm install -g yarn
-
-      - name: Yarn build
-        run: yarn build
-
-      - name: Setup Database
-        run: bin/rails db:create db:schema:load
-
-      - name: Setup assets
-        run: bundle exec rails assets:clean assets:precompile
-        
   publish:
-    needs: build
     runs-on: ubuntu-latest
     env:
       GIT_REF: ${{ github.head_ref || github.ref_name }} # ref_name to get tags/branches
