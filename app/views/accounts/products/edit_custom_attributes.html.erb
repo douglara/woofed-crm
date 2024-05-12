@@ -1,7 +1,7 @@
 <%= turbo_frame_tag [:form_custom_attributes, dom_id(@product)] do %>
   <%= form_with(
     model: @product,
-    url: update_custom_attributes_account_product_path(current_user.account, @product, deal_product_id: @deal_product.id),
+    url: update_custom_attributes_account_product_path(current_user.account, @product),
     data: { turbo_frame: dom_id(@product)}
     ) do |form| %>
     <div class="h-full w-full" data-controller="custom-attributes-add">

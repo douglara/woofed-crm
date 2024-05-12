@@ -1,6 +1,6 @@
 class Accounts::ProductsController < InternalController
   before_action :set_product, only: %i[edit destroy update edit_custom_attributes update_custom_attributes]
-  before_action :set_deal_product, only: %i[edit update edit_custom_attributes update_custom_attributes]
+  before_action :set_deal_product, only: %i[edit update]
   def new
     @product = current_user.account.products.new
   end
@@ -35,10 +35,6 @@ class Accounts::ProductsController < InternalController
 
   def update_custom_attributes
     @product.custom_attributes[params[:product][:att_key]] = params[:product][:att_value]
-    if @deal_product.present?
-      redirect_to account_deal_path(current_user.account,
-                                    @deal_product.deal)
-    end
     render :edit_custom_attributes, status: :unprocessable_entity unless @product.save
   end
 

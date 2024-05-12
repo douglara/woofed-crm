@@ -212,7 +212,7 @@ RSpec.describe Accounts::UsersController, type: :request do
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get "/accounts/#{account.id}/products/#{product.id}/edit_custom_attributes?deal_product_id=#{deal_product.id}"
+        get "/accounts/#{account.id}/products/#{product.id}/edit_custom_attributes"
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -222,7 +222,7 @@ RSpec.describe Accounts::UsersController, type: :request do
       end
       context 'edit product custom attributes page' do
         it do
-          get "/accounts/#{account.id}/products/#{product.id}/edit_custom_attributes?deal_product_id=#{deal_product.id}"
+          get "/accounts/#{account.id}/products/#{product.id}/edit_custom_attributes"
           expect(response).to have_http_status(200)
           expect(response.body).to include(custom_attribute_definition.attribute_display_name)
           expect(response.body).not_to include(contact_custom_attribute_definition.attribute_display_name)
