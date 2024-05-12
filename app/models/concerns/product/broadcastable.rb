@@ -1,6 +1,7 @@
 module Product::Broadcastable
   extend ActiveSupport::Concern
   included do
+    after_update_commit { deal_product_broadcast }
     after_create_commit do
       broadcast_prepend_later_to [account.id, :product], target: 'products', partial: '/accounts/products/product',
                                                          locals: { product: self }
@@ -12,6 +13,13 @@ module Product::Broadcastable
     end
     after_destroy_commit do
       broadcast_remove_to [account.id, :product], target: self
+    end
+
+    def deal_product_broadcast
+      deal_products.each do |deal_product|
+        broadcast_replace_later_to [account.id, :deal], target: deal_product,
+                                                        partial: '/accounts/deals/details/deal_products/deal_product', locals: { deal_product: deal_product }
+      end
     end
   end
 end

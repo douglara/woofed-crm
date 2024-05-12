@@ -34,13 +34,6 @@ class Product < ApplicationRecord
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
   FORM_FIELDS = %i[name amount_in_cents quantity_available identifier]
 
-  after_update_commit do
-    deal_products.each do |deal_product|
-      broadcast_replace_later_to [account.id, :deal], target: deal_product,
-                                                      partial: '/accounts/deals/details/deal_products/deal_product', locals: { deal_product: deal_product }
-    end
-  end
-
   def amount_in_cents=(amount)
     amount = amount.gsub(/[^\d-]/, '').to_i if amount.is_a?(String)
     super
