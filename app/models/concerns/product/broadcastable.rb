@@ -15,7 +15,7 @@ module Product::Broadcastable
       broadcast_remove_to [account.id, :product], target: self
     end
 
-    def deal_product_broadcast
+    def deal_products_broadcasts
       deal_products.each do |deal_product|
         broadcast_replace_later_to [account.id, :deal], target: deal_product,
                                                         partial: '/accounts/deals/details/deal_products/deal_product', locals: { deal_product: deal_product }
