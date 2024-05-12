@@ -58,6 +58,7 @@ RUN gem install bundler
 ## Install app
 WORKDIR /app
 COPY . /app
+RUN chmod +x /app/bin/easyinstall
 RUN bundle install
 RUN yarn build
 RUN yarn install --check-files
