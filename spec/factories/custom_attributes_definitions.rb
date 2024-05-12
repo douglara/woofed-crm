@@ -1,14 +1,14 @@
 FactoryBot.define do
   factory :custom_attribute_definition do
     account
-    attribute_key { 'cpf' }
-    attribute_display_name { 'CPF field' }
-    attribute_description { 'Field for cpf' }
+    attribute_key { Faker::Alphanumeric.alpha(number: 10) }
+    attribute_display_name { Faker::Lorem.words(number: 2).join(' ') }
+    attribute_description { Faker::Lorem.sentence }
     trait :contact_attribute do
       attribute_model { 'contact_attribute' }
     end
-    trait :contact_attribute do
-      attribute_model { 'contact_attribute' }
+    trait :product_attribute do
+      attribute_model { 'product_attribute' }
     end
     trait :deal_attribute do
       attribute_model { 'deal_attribute' }

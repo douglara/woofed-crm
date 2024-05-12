@@ -8,6 +8,7 @@ RSpec.describe Accounts::UsersController, type: :request do
   let!(:pipeline) { create(:pipeline, account: account) }
   let!(:stage) { create(:stage, account: account, pipeline: pipeline) }
   let!(:deal) { create(:deal, account: account, stage: stage, contact: contact) }
+  let(:deal_product) { create(:deal_product, account: account, deal: deal, product: product) }
   let(:product_first) { Product.first }
 
   describe 'POST /accounts/{account.id}/products' do
@@ -141,6 +142,16 @@ RSpec.describe Accounts::UsersController, type: :request do
             expect(response.body).to include('Can not be negative')
           end
         end
+        context 'when deal_product_id is present on product update url' do
+          it 'should update product and redirect to deal page' do
+            patch "/accounts/#{account.id}/products/#{product.id}?deal_product_id=#{deal_product.id}",
+                  params: valid_params
+            expect(response.body).to redirect_to(account_deal_path(account.id,
+                                                                   deal_product.deal.id))
+            expect(product_first.name).to eq('Product Updated Name')
+            expect(product_first.amount_in_cents).to eq(6_358_036)
+          end
+        end
       end
     end
   end
@@ -188,6 +199,57 @@ RSpec.describe Accounts::UsersController, type: :request do
         it do
           get "/accounts/#{account.id}/products/new"
           expect(response).to have_http_status(200)
+        end
+      end
+    end
+  end
+
+  describe 'GET /accounts/{account.id}/products/{product.id}/edit_custom_attributes' do
+    let!(:custom_attribute_definition) { create(:custom_attribute_definition, :product_attribute, account: account) }
+    let!(:contact_custom_attribute_definition) do
+      create(:custom_attribute_definition, :contact_attribute, account: account)
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/products/#{product.id}/edit_custom_attributes?deal_product_id=#{deal_product.id}"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+      context 'edit product custom attributes page' do
+        it do
+          get "/accounts/#{account.id}/products/#{product.id}/edit_custom_attributes?deal_product_id=#{deal_product.id}"
+          expect(response).to have_http_status(200)
+          expect(response.body).to include(custom_attribute_definition.attribute_display_name)
+          expect(response.body).not_to include(contact_custom_attribute_definition.attribute_display_name)
+        end
+      end
+    end
+  end
+
+  describe 'PATCH /accounts/{account.id}/products/{product.id}/update_custom_attributes' do
+    let(:valid_params) do
+      { product: { att_value: 'CPF display name', att_key: 'CPF' } }
+    end
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/accounts/#{account.id}/products/#{product.id}/update_custom_attributes"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+      context 'update product custom attributes' do
+        it do
+          patch "/accounts/#{account.id}/products/#{product.id}/update_custom_attributes", params: valid_params
+          expect(response).to have_http_status(204)
+          expect(product.reload.custom_attributes).to match({ 'CPF' => 'CPF display name' })
         end
       end
     end
