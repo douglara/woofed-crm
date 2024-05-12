@@ -1,0 +1,36 @@
+<% if product.attachments.present? %>
+  <div id="default-carousel" class="relative h-full w-full" data-carousel="static">
+    <!-- Carousel wrapper -->
+    <div class="relative h-full overflow-hidden rounded-lg ">
+      <!-- Items -->
+      <% product.attachments.each do |attachment| %>
+        <div class="hidden duration-700 ease-in-out" data-carousel-item data-controller='lightbox'>
+          <%= image_tag attachment.file, data: { src: rails_blob_url(attachment.file), sub_html: attachment.file.filename.to_s }, class:"absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 cursor-pointer object-contain w-full h-full", alt: attachment.file.filename.to_s %>
+        </div>
+      <% end %>
+    </div>
+    <!-- Slider indicators -->
+    <div class="absolute z-30 flex flex-wrap justify-center w-full -translate-x-1/2 bottom-1 left-1/2 gap-1.5 rtl:space-x-reverse">
+      <% product.attachments.count.times do |index| %>
+        <button type="button" class="w-1.5 h-1.5 rounded-full bg-dark-gray-palette-p5 hover:bg-light-palette-p2 focus:bg-dark-gray-palette-p3" aria-current="true" data-carousel-slide-to=<%= index.to_s %>>
+        </button>
+      <% end %>
+    </div>
+    <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-1 cursor-pointer group focus:outline-none" data-carousel-prev>
+      <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+        <i data-lucide="chevron-left" class='stroke-dark-gray-palette-p1'></i>
+        <span class="sr-only">Previous</span>
+      </span>
+    </button>
+    <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-1 cursor-pointer group focus:outline-none" data-carousel-next>
+      <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+        <i data-lucide="chevron-right" class='stroke-dark-gray-palette-p1'></i>
+        <span class="sr-only">Next</span>
+      </span>
+    </button>
+  </div>
+<% else %>
+  <div class="border-2 bg-brand-palette-08 rounded-md h-full w-full flex items-center">
+    <i data-lucide="image" class='stroke-dark-gray-palette-p4 m-auto'></i>
+  </div>
+<% end %>

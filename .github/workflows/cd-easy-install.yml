@@ -1,4 +1,4 @@
-name: Continuous Deployment
+name: Continuous Deployment Easy Install
 
 on:
   push:
@@ -24,8 +24,7 @@ jobs:
 
       - name: Set docker tag
         run: |
-          echo "DOCKER_TAG=${{ secrets.DOCKERHUB_USERNAME }}/woofedcrm:$GIT_REF-$GIT_HASH" >> $GITHUB_ENV
-          echo "DOCKER_TAG_LATEST=${{ secrets.DOCKERHUB_USERNAME }}/woofedcrm:$GIT_REF-latest" >> $GITHUB_ENV
+          echo "DOCKER_TAG=${{ secrets.DOCKERHUB_USERNAME }}/woofedcrm:easy-install-$GIT_REF-$GIT_HASH" >> $GITHUB_ENV
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -37,7 +36,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: Dockerfile
+          file: docker/easy-install/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ env.DOCKER_TAG }},${{ env.DOCKER_TAG_LATEST }},${{ secrets.DOCKERHUB_USERNAME }}/woofedcrm:latest
+          tags: ${{ env.DOCKER_TAG }},${{ secrets.DOCKERHUB_USERNAME }}/woofedcrm:easy-install-latest

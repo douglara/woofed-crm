@@ -1,0 +1,15 @@
+<div class='nested-fields' data-controller="load-lucid-icons">
+  <div class="grid gap-2">
+    <% if f.object.file.attached? %>
+      <div class=' max-w-[200px] max-h-[100px] bg-contain' data-controller='lightbox'>
+        <%= image_tag f.object.file, class: 'cursor-pointer object-contain w-full h-full' , data: { src: rails_blob_url(f.object.file), sub_html: f.object.file.filename.to_s } %>
+      </div>
+    <% else %>
+      <%= f.file_field :file, multiple: false, direct_upload: true , accept: 'image/png,image/gif,image/jpeg', class:'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 max-w-[300px]' %>
+    <% end %>
+    <%= link_to_remove_association f, class: 'btn-secondary flex justify-center items-center gap-1', data: { confirm: 'Are you sure?' } do %>
+      <i data-lucide="trash-2"></i>
+      <p>Remover</p>
+    <% end %>
+  </div>
+</div>
