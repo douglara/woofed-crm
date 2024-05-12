@@ -23,8 +23,8 @@
 #
 FactoryBot.define do
   factory :deal_product do
-    product { nil }
-    deal { nil }
-    account { nil }
+    account
+    deal
+    product
   end
 end

@@ -4,6 +4,10 @@ RSpec.describe Accounts::UsersController, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let(:product) { create(:product, account: account) }
+  let!(:contact) { create(:contact, account: account) }
+  let!(:pipeline) { create(:pipeline, account: account) }
+  let!(:stage) { create(:stage, account: account, pipeline: pipeline) }
+  let!(:deal) { create(:deal, account: account, stage: stage, contact: contact) }
   let(:product_first) { Product.first }
 
   describe 'POST /accounts/{account.id}/products' do
@@ -151,11 +155,20 @@ RSpec.describe Accounts::UsersController, type: :request do
       before do
         sign_in(user)
       end
-      context 'delete the user' do
+      context 'delete the product' do
         it do
           delete "/accounts/#{account.id}/products/#{product.id}"
           expect(response.body).to redirect_to(account_products_path(account.id))
           expect(Product.count).to eq(0)
+        end
+      end
+      context 'when there is product deal_product relationship' do
+        let!(:deal_product) { create(:deal_product, account: account, deal: deal, product: product) }
+        it 'should delete product and deal_product' do
+          delete "/accounts/#{account.id}/products/#{product.id}"
+          expect(response.body).to redirect_to(account_products_path(account.id))
+          expect(Product.count).to eq(0)
+          expect(DealProduct.count).to eq(0)
         end
       end
     end
