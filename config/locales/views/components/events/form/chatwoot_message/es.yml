@@ -1,0 +1,8 @@
+es:
+  views:
+    components:
+      events:
+        form:
+          chatwoot:
+            inbox: "Bandeja de entrada"
+            content: "Contenido del mensaje"

@@ -1,0 +1,15 @@
+en:
+  views:
+    accounts:
+      settings:
+        index:
+          integrate_with_other_apps: 'Integrate Woofed with other applications in your company'
+          whatsapp: 'Whatsapp'
+          whatsapp_configuration: 'Configure your Whatsapp connection'
+          chatwoot: 'Chatwoot'
+          chatwoot_configuration: 'Configure your Chatwoot connection'
+          webhooks: 'Webhooks'
+          webhooks_configuration: 'Configure your Webhooks connection'
+          artificial_intelligence: 'Artificial Intelligence'
+          ai_configuration: 'Configure the use of artificial intelligence'
+          integrations: 'Integrations'

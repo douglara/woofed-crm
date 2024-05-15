@@ -1,0 +1,13 @@
+es:
+  activerecord:
+    models:
+      product:
+        one: Producto
+        other: Productos
+    attributes:
+      product:
+        name: Nombre
+        identifier: Identificador
+        amount_in_cents: Precio
+        quantity_available: Cantidad disponible
+        description: Descripción

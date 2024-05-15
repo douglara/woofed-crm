@@ -1,0 +1,11 @@
+en:
+  components:
+    buttons:
+      confirm: 'Confirm'
+      cancel: 'Cancel'
+      delete: 'Delete'
+      lost: 'Lost'
+      won: 'Won'
+      save_changes: 'Save changes'
+      new_deal: 'New deal'
+      new_pipeline: 'New pipeline'

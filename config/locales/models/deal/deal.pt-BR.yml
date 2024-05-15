@@ -1,0 +1,10 @@
+pt-BR:
+  activerecord:
+    models:
+      deal:
+        one: 'Negócio'
+        other: 'Negócios'
+    attributes:
+      deal:
+        name: Nome
+        stage_id: Estágio

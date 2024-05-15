@@ -2,13 +2,16 @@
   <%= turbo_stream_from deal.contact.id, 'events' %>
   <div class="mb-5 bg-light-palette-p5 border-2 border-neutral-150 border-light-palette-p3 rounded ">
     <div class="border-b-2 border-neutral-100 h-16 flex items-center p-3">
-      <p class="my-auto text-dark-gray-palette-p1 typography-body-s-lh150">Histórico</p>
+      <p class="my-auto text-dark-gray-palette-p1 typography-body-s-lh150">
+        <%= t('views.accounts.contacts.events.status_labels.history') %>
+      </p>
     </div>
     <div class="p-3">
       <div class="border-b pb-6">
         <div class="my-2">
           <span class="text-brand-palette-03 background-transparent typography-text-s-lh150 flex items-center">
-            <i data-lucide="calendar" height="18" class="mr-2"></i> Agendado
+            <i data-lucide="calendar" height="18" class="mr-2"></i>
+            <%= t('views.accounts.contacts.events.status_labels.scheduled') %>
           </span>
         </div>
         <div class='max-h-[630px] overflow-y-scroll scroll-smooth custom-scroll-list-deal'>
@@ -21,7 +24,8 @@
       <div class="">
         <div>
           <span class="pt-4 pb-0 text-auxiliary-palette-green background-transparent typography-text-s-lh150 flex items-center">
-            <i data-lucide="check-circle-2" height="18" class="mr-2"></i> Concluído
+            <i data-lucide="check-circle-2" height="18" class="mr-2"></i>
+            <%= t('views.accounts.contacts.events.status_labels.completed') %>
           </span>
         </div>
         <%= turbo_frame_tag "events_done_#{deal.contact.id}", src: events_done_account_deal_path(current_user.account, deal), loading: :lazy do  %>

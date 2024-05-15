@@ -1,0 +1,7 @@
+pt-BR:
+  views:
+    accounts:
+      deals:
+        details:
+          information: 'Informações'
+          info_examples: 'Resumo, Pessoa, Organização'

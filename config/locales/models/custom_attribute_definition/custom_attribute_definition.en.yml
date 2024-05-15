@@ -1,0 +1,25 @@
+en:
+  activerecord:
+    models:
+      custom_attribute_definition:
+        one: Custom Attribute
+        other: Custom Attributes
+    attributes:
+      custom_attribute_definition:
+        attribute_key: Key
+        attribute_display_name: Display Name
+        attribute_description: Description
+        attribute_model: Model
+        attribute_models:
+          contact_attribute: Contact
+          deal_attribute: Deal
+          product_attribute: Product
+        contact_attribute: Contact
+        deal_attribute: Deal
+        product_attribute: Product
+    enums:
+      custom_attribute_definition:
+        attribute_models:
+          contact_attribute: Contact
+          deal_attribute: Deal
+          product_attribute: Product

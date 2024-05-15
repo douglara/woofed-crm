@@ -1,0 +1,19 @@
+pt-BR:
+  activerecord:
+    models:
+      event:
+        one: Evento
+        other: Eventos
+    attributes:
+      event:
+        kinds:
+          note: Nota
+          evolution_api_message: Mensagem de Whatsapp
+          activity: Atividade
+          chatwoot_message: Mensagem do Chatwoot
+        kind: Tipo
+        content: 'Descrição'
+        scheduled_at: Agendar
+        title: Tipo
+        auto_done: 'Enviar mensagem automaticamente'
+        done: 'Marcar atividade como feita'
