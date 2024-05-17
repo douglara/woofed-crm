@@ -15,10 +15,13 @@ pt-BR:
         attribute_models:
           contact_attribute: Contato
           deal_attribute: Negócio
+          product_attribute: Produto
         contact_attribute: Contato
         deal_attribute: Negócio
+        product_attribute: Produto
     enums:
       custom_attribute_definition:
         attribute_models:
           contact_attribute: Contato
           deal_attribute: Negócio
+          product_attribute: Produto

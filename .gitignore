@@ -41,3 +41,6 @@ yarn-debug.log*
 /app/assets/builds/*
 !/app/assets/builds/.keep
 /coverage
+
+# Ignore zone.identifier files
+Zone.Identifier

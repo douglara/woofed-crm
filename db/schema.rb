@@ -10,16 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_04_25_172322) do
+
+ActiveRecord::Schema.define(version: 2024_05_01_044326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+  enable_extension "vector"
 
   create_table "accounts", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "site_url", default: "", null: false
+    t.boolean "woofbot_auto_reply", default: false, null: false
+    t.jsonb "ai_usage", default: {"limit"=>16666667, "tokens"=>0}, null: false
   end
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -189,6 +194,19 @@ ActiveRecord::Schema.define(version: 2024_04_25_172322) do
     t.index ["contact_id"], name: "index_deals_on_contact_id"
     t.index ["pipeline_id"], name: "index_deals_on_pipeline_id"
     t.index ["stage_id"], name: "index_deals_on_stage_id"
+  end
+
+  create_table "embedding_documments", force: :cascade do |t|
+    t.string "source_type"
+    t.bigint "source_id"
+    t.string "source_reference"
+    t.integer "status", default: 0
+    t.bigint "account_id", null: false
+    t.text "content"
+    t.vector "embedding", limit: 1536
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["source_type", "source_id"], name: "index_embedding_documments_on_source"
   end
 
   create_table "events", force: :cascade do |t|
@@ -493,7 +511,7 @@ ActiveRecord::Schema.define(version: 2024_04_25_172322) do
 
   create_table "products", force: :cascade do |t|
     t.string "identifier", default: "", null: false
-    t.integer "amount", default: 0, null: false
+    t.integer "amount_in_cents", default: 0, null: false
     t.integer "quantity_available", default: 0, null: false
     t.text "description", default: "", null: false
     t.string "name", default: "", null: false

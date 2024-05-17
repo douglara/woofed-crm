@@ -1,5 +1,5 @@
 class Accounts::Contacts::EventsController < InternalController
-  before_action :set_event, only: %i[show edit update destroy]
+  before_action :set_event, only: %i[show edit update destroy show]
   before_action :set_contact, only: %i[show edit update destroy new]
 
   def new
@@ -36,6 +36,8 @@ class Accounts::Contacts::EventsController < InternalController
     @events = @deal.contact.events
     render :edit, status: :unprocessable_entity unless @event.update(event_params)
   end
+
+  def show; end
 
   private
 

@@ -4,7 +4,7 @@
 #
 #  id                    :bigint           not null, primary key
 #  additional_attributes :jsonb
-#  amount                :integer          default(0), not null
+#  amount_in_cents       :integer          default(0), not null
 #  custom_attributes     :jsonb
 #  description           :text             default(""), not null
 #  identifier            :string           default(""), not null
@@ -23,6 +23,15 @@
 #  fk_rails_...  (account_id => accounts.id)
 #
 class Product < ApplicationRecord
+  include Product::Broadcastable
   belongs_to :account
-  has_many :attachment, as: :attachable
+  has_many :attachments, as: :attachable
+  validates :quantity_available, :amount_in_cents,
+            numericality: { greater_than_or_equal_to: 0, message: 'Can not be negative' }
+  accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
+
+  def amount_in_cents=(amount)
+    amount = amount.gsub(/[^\d-]/, '').to_i if amount.is_a?(String)
+    super
+  end
 end
