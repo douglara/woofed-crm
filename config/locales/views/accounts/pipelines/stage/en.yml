@@ -1,0 +1,8 @@
+en:
+  views:
+    accounts:
+      pipelines:
+        stage:
+          bulk_action: 'Bulk action'
+          import_deals: 'Import deals'
+          export_deals: 'Export deals'

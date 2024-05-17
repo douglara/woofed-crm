@@ -1,0 +1,10 @@
+pt-BR:
+  views:
+    layouts:
+      shared:
+        navbar_deal:
+          delete: 'Excluir'
+          lost: 'Perdido'
+          won: 'Ganho'
+
+

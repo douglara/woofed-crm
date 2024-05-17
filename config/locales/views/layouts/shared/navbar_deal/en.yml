@@ -1,0 +1,9 @@
+en:
+  views:
+    layouts:
+      shared:
+        navbar_pipe:
+          delete: 'Delete'
+          lost: 'Lost'
+          won: 'Won'
+

@@ -1,0 +1,7 @@
+es:
+  views:
+    accounts:
+      apps:
+        chatwoots:
+          edit:
+            delete: 'Eliminar'

@@ -1,0 +1,9 @@
+es:
+  views:
+    layouts:
+      shared:
+        navbar_deal:
+          delete: 'Eliminar'
+          lost: 'Perdido'
+          won: 'Ganado'
+

@@ -1,0 +1,7 @@
+es:
+  views:
+    accounts:
+      pipelines:
+        bulk_action:
+          form_modal:
+            warning: "Para prevenir posibles bloqueos del número que enviará el mensaje, se introducirá un pequeño retraso en el envío de los mensajes. Sin embargo, es importante señalar que el número sigue sujeto a bloqueo. La acción masiva solo está disponible para negocios con estado abierto."

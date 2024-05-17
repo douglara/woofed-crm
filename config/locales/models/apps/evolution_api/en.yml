@@ -1,0 +1,19 @@
+en:
+  activerecord:
+    models:
+      apps/evolution_api:
+        one: 'Whatsapp'
+    attributes:
+      apps/evolution_api:
+        account_id: 'Account ID'
+        connection_status: 'Connection Status'
+        active: 'Active'
+        endpoint_url: 'Endpoint URL'
+        token: 'Token'
+        phone: 'Phone'
+        name: 'Name'
+        instance: 'Instance'
+        additional_attributes: 'Additional Attributes'
+        created_at: 'Created at'
+        updated_at: 'Updated at'
+        qrcode: 'QR Code'

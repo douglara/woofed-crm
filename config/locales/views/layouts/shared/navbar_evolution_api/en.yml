@@ -1,0 +1,8 @@
+en:
+  views:
+    layouts:
+      shared:
+        navbar_evolution_api:
+          whatsapp_connections: 'WhatsApp connections'
+          new_whatsapp_integration: 'New WhatsApp integration'
+          add_connection: 'Add connection'

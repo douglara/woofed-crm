@@ -1,0 +1,12 @@
+pt-BR:
+  activerecord:
+    models:
+      deal:
+        one: 'Negócio'
+        other: 'Negócios'
+        new: 'Novo negócio'
+        edit: 'Editar negócio'
+    attributes:
+      deal:
+        name: Nome
+        stage_id: Estágio

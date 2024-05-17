@@ -1,0 +1,11 @@
+en:
+  views:
+    accounts:
+      apps:
+        evolution_apis:
+          pair_qr_code:
+            scan_qr_code: 'Point your phone camera at the QR code'
+            step_one: '1. Open WhatsApp on your phone.'
+            step_two: '2. Tap <b class="text-dark-gray-palette-p2">More options</b> on Android or <b class="text-dark-gray-palette-p2">Settings</b> on iPhone.'
+            step_three: '3. Tap <b class="text-dark-gray-palette-p2">Linked devices</b> and then <b class="text-dark-gray-palette-p2">Link a device</b>.'
+            step_four: '4. Point your phone at this screen to capture the QR code.'

@@ -1,0 +1,6 @@
+en:
+  views:
+    accounts:
+      users:
+        form:
+          user_data: 'User data'

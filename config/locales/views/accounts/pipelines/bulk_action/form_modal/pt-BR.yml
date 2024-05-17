@@ -1,0 +1,6 @@
+pt-BR:
+  views:
+    accounts:
+      pipelines:
+        bulk_action:
+          title: "Ação em massa (Estágio: %{stage})"
