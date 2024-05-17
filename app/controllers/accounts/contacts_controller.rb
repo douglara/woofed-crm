@@ -75,12 +75,14 @@ class Accounts::ContactsController < InternalController
       if params[:contact][:deal_page_id]
         redirect_to account_deal_path(current_user.account, params[:contact][:deal_page_id])
       else
-        render :update, status: :ok
+        redirect_to account_contact_path(current_user.account, @contact)
       end
     else
       render :edit, status: :unprocessable_entity
     end
   end
+
+
 
   # DELETE /contacts/1 or /contacts/1.json
   def destroy
