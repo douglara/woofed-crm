@@ -6,4 +6,6 @@ en:
           delete: 'Delete'
           lost: 'Lost'
           won: 'Won'
+          are_you_sure?: 'Are you sure?'
+
 

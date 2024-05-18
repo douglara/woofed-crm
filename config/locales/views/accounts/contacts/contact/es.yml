@@ -5,3 +5,4 @@ es:
         contact:
           delete: Eliminar
           edit: Editar
+          are_you_sure?: '¿Estas seguro que quieres borrarlo?'

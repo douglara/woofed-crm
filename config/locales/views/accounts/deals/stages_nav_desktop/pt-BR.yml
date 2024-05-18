@@ -1,0 +1,6 @@
+pt-BR:
+  views:
+    accounts:
+      deals:
+        stages_nav_desktop:
+          are_you_sure?: 'Você tem certeza?'

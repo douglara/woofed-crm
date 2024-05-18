@@ -26,7 +26,7 @@
         <% end %>
       </li>
       <li>
-        <%= link_to account_contact_path(current_user.account, contact), method: :delete, data: { confirm: 'Tem certeza que deseja excluir?' }, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
+        <%= link_to account_contact_path(current_user.account, contact), method: :delete, data: { confirm: t('views.accounts.contacts.contact.are_you_sure?') }, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
           <i data-lucide="trash"></i>
           <p>
             <%= t('views.accounts.contacts.contact.delete') %>

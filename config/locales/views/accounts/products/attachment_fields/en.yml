@@ -2,7 +2,5 @@ en:
   views:
     accounts:
       products:
-        product:
-          delete: Delete
-          edit: Edit
+        attachment_fields:
           are_you_sure?: 'Are you sure?'

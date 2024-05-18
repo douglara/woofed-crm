@@ -6,4 +6,6 @@ es:
           delete: 'Eliminar'
           lost: 'Perdido'
           won: 'Ganado'
+          are_you_sure?: '¿Está seguro?'
+
 

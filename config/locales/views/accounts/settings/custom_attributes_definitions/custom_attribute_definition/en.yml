@@ -6,3 +6,5 @@ en:
           custom_attribute_definition:
             delete: Delete
             edit: Edit
+            are_you_sure?: 'Are you sure?'
+

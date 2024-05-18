@@ -6,3 +6,4 @@ es:
           custom_attribute_definition:
             delete: Eliminar
             edit: Editar
+            are_you_sure?: '¿Está seguro?'

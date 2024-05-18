@@ -6,5 +6,6 @@ pt-BR:
           delete: 'Excluir'
           lost: 'Perdido'
           won: 'Ganho'
+          are_you_sure?: 'Você tem certeza?'
 
 

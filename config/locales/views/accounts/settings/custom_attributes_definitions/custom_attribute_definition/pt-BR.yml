@@ -6,4 +6,5 @@ pt-BR:
           custom_attribute_definition:
             delete: Excluir
             edit: Editar
+            are_you_sure?: 'Você tem certeza?'
 

@@ -5,3 +5,4 @@ en:
         chatwoots:
           edit:
             delete: 'Delete'
+            are_you_sure?: 'Are you sure?'

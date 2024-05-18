@@ -6,3 +6,4 @@ es:
           webhook:
             delete: Eliminar
             edit: Editar
+            are_you_sure?: '¿Está seguro?'

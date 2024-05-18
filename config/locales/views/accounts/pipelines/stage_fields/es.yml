@@ -1,0 +1,6 @@
+es:
+  views:
+    accounts:
+      pipelines:
+        stage_fields:
+          are_you_sure?: '¿Está seguro? Todos los acuerdos en esta etapa también se eliminarán.'

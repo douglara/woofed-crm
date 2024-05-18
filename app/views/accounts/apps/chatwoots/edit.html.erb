@@ -2,7 +2,6 @@
   <%= form_with(model: @chatwoot, url: account_apps_chatwoots_path(current_user.account), data: {turbo: false}, id: 'formId', class: 'flex flex-col gap-5') do |form| %>
     <% if @chatwoot.errors.any? %>
       <div id="error_explanation">
-        <h3 class="typography-body-s-lh150 text-auxiliary-palette-red"><%= pluralize(@chatwoot.errors.count, "error") %> prohibited this activity kind from being saved:</h3>
         <ul>
           <% @chatwoot.errors.each do |error| %>
             <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
@@ -23,6 +22,6 @@
       <%= form.text_field :chatwoot_user_token, class: 'form-input', disabled: true %>
     </div>
     <%= link_to t('views.accounts.apps.chatwoots.edit.delete'), account_apps_chatwoot_path(current_user.account, @chatwoot),
-        method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn-primary cursor-pointer self-end' %>
+        method: :delete, data: {confirm: t('views.accounts.apps.chatwoots.edit.are_you_sure?')}, class: 'btn-primary cursor-pointer self-end' %>
   <% end %>
 </section>

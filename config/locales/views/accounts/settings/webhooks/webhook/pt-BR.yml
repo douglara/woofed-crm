@@ -6,4 +6,5 @@ pt-BR:
           webhook:
             delete: Excluir
             edit: Editar
+            are_you_sure?: 'Você tem certeza?'
 

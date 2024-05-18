@@ -5,3 +5,4 @@ pt-BR:
         contact:
           delete: Excluir
           edit: Editar
+          are_you_sure?: 'Você tem certeza que deseja excluir?'

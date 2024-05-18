@@ -1,10 +1,10 @@
 pt-BR:
   views:
     accounts:
-      apps:
-        chatwoots:
-          edit:
-            delete: 'Deletar'
+      contacts:
+        events:
+          event:
             are_you_sure?: 'Você tem certeza?'
+
 
 
