@@ -1,0 +1,7 @@
+en:
+  views:
+    accounts:
+      contacts:
+        contact:
+          delete: Delete
+          edit: Edit

@@ -27,7 +27,7 @@
   </div>
   <div class="flex flex-col gap-1">
     <%= form.label :label_list, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
-    <%= form.text_field :label_list,  value: contact.labels.join(', '), placeholder: t('components.placeholders.enter_a_tag'), class: 'form-input !border-light-palette-p3', data: {controller: 'tag-input'}%>
+    <%= form.text_field :label_list,  value: contact.labels.join(', '), placeholder: t('views.accounts.contacts.form.tag_placeholder'), class: 'form-input !border-light-palette-p3', data: {controller: 'tag-input'}%>
   </div>
   <!-- <div class="grid">
     <label class= "typography-text-m-lh150 text-dark-gray-palette-p1">Labels</label>

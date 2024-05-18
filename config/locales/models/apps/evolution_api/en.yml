@@ -5,6 +5,11 @@ en:
         one: 'Whatsapp'
     attributes:
       apps/evolution_api:
+        connection_statuses:
+          disconnected: Disconnected
+          connected: Connected
+          sync: Sync
+          connecting: Connecting
         account_id: 'Account ID'
         connection_status: 'Connection Status'
         active: 'Active'

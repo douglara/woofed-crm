@@ -1,0 +1,7 @@
+pt-BR:
+  views:
+    components:
+      events:
+        form:
+          activity:
+            confirm: Confirmar

@@ -5,3 +5,4 @@ en:
         form:
           contact_data: Contact data
           chatwoot_conversations_label_list_empty: 'No conversation labels'
+          tag_placeholder: 'Enter tags'

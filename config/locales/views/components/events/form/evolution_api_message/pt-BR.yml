@@ -6,3 +6,4 @@ pt-BR:
           evolution_api_message:
             from: De
             content: "Conteúdo da mensagem"
+            confirm: Confirmar

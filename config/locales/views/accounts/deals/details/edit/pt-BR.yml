@@ -6,3 +6,4 @@ pt-BR:
           edit:
             save_changes: 'Salvar alterações'
             add_custom_attributes: 'Adicionar campos'
+            tag_placeholder: Digite etiquetas

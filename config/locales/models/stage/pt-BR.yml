@@ -1,0 +1,15 @@
+pt-BR:
+  activerecord:
+    models:
+      stage:
+        one: Estágio
+        other: Estágios
+        new: Novo estágio
+    attributes:
+      stage:
+        name: Nome
+        account_id: ID da Conta
+        pipeline_id: ID do Pipeline
+        position: Posição
+        created_at: Criado em
+        updated_at: Atualizado em

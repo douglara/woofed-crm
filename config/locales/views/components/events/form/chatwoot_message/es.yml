@@ -3,6 +3,7 @@ es:
     components:
       events:
         form:
-          chatwoot:
+          chatwoot_message:
             inbox: "Bandeja de entrada"
             content: "Contenido del mensaje"
+            confirm: Confirmar

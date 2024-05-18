@@ -22,13 +22,17 @@
         <li>
           <%= link_to edit_account_custom_attributes_definition_path(custom_attribute_definition.account, custom_attribute_definition), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white ' do %>
             <i data-lucide="pencil"></i>
-            <p>Editar</p>
+            <p>
+              <%= t('views.accounts.settings.custom_attributes_definitions.custom_attribute_definition.edit') %>
+            </p>
           <% end %>
         </li>
         <li>
           <%= link_to account_custom_attributes_definition_path(custom_attribute_definition.account, custom_attribute_definition), method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white ' do %>
             <i data-lucide="trash"></i>
-            <p>Excluir</p>
+            <p>
+              <%= t('views.accounts.settings.custom_attributes_definitions.custom_attribute_definition.delete') %>
+            </p>
           <% end %>
         </li>
       </ul>

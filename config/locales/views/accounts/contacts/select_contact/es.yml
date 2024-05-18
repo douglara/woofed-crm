@@ -1,0 +1,7 @@
+es:
+  views:
+    accounts:
+      contacts:
+        select_contact:
+          select_contact: 'Seleccionar contacto'
+          search_contact: 'Buscar contacto'

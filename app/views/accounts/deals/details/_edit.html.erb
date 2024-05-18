@@ -26,7 +26,7 @@
               <div class="flex items-center pb-3">
                 <%= form.label f, class: 'm-0 max-w-[10rem] typography-text-m-lh150 text-dark-gray-palette-p3' %>
                 <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>
-                <%= form.text_field f, f == :label_list ? { value: model.labels.join(', '), placeholder: t('components.placeholders.enter_a_tag'), class: 'w-64 form-input !border-light-palette-p3', data: {controller: 'tag-input'} } : { class: "w-64 form-input", data: {controller: "input-mask--input-#{f}"} } %>
+                <%= form.text_field f, f == :label_list ? { value: model.labels.join(', '), placeholder: t('views.accounts.deals.details.edit.tag_placeholder'), class: 'w-64 form-input !border-light-palette-p3', data: {controller: 'tag-input'} } : { class: "w-64 form-input", data: {controller: "input-mask--input-#{f}"} } %>
               </div>
               <% if model.class.name == 'Deal' %>
                 <div class="flex items-center pb-3">

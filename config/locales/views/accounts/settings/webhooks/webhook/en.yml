@@ -1,0 +1,8 @@
+en:
+  views:
+    accounts:
+      settings:
+        webhooks:
+          webhook:
+            delete: Delete
+            edit: Edit

@@ -1,0 +1,15 @@
+es:
+  activerecord:
+    models:
+      stage:
+        one: Etapa
+        other: Etapas
+        new: Nueva etapa
+    attributes:
+      stage:
+        name: Nombre
+        account_id: ID de Cuenta
+        pipeline_id: ID de Pipeline
+        position: Posición
+        created_at: Creado en
+        updated_at: Actualizado en

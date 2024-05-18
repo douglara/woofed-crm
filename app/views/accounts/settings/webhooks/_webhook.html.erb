@@ -1,30 +1,36 @@
 <%= content_tag :div, id: dom_id(webhook), class: "grid gap-5 border-b-2 border-light-palette-p3 last:border-none py-5 first:pt-0 last:pb-0", data: {controller: 'load-lucid-icons'} do %>
-	<li class= "flex items-center gap-4">
-		<div class="p-2.5 rounded-lg border-2 border-light-palette-p3 bg-[#FAF5F6]">
-			<i data-lucide="webhook" class="w-5 stroke-[#EA4B71]"></i>
-		</div>
-		<div class="mr-auto">
-			<div class="flex items-center gap-1.5">
-				<h2 class="typography-text-s-lh150 text-dark-gray-palette-p1"><%= webhook.url %></h2>
-			</div>
-			<p class="typography-sub-text-s-lh150 text-dark-gray-palette-p4 hover:text-dark-gray-palette-p3"><%= webhook.active? ? 'Ativo' : 'Inativo'%></p>
-		</div>
-		<button id="dropdownwebhookBtn" data-dropdown-toggle="dropdownwebhookOptions<%= webhook.id %>" data-dropdown-placement="left-start" class="inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
-			<i data-lucide="more-vertical" class=" stroke-dark-gray-palette-p3"></i>
-		</button>
-		<div id="dropdownwebhookOptions<%= webhook.id %>" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
-			<ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-				<li>
-					<%= link_to edit_account_webhook_path(webhook.account, webhook), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
-						<i data-lucide="pencil"></i> <p>Editar</p>
-					<% end %>
-				</li>
-				<li>
-					<%= link_to account_webhook_path(webhook.account, webhook), method: :delete, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white', data: { confirm: 'Are you sure?' } do %>
-						<i data-lucide="trash"></i> <p>Excluir</p>
-					<% end %>
-				</li>
-			</ul>
-		</div>
-	</li>
+  <li class= "flex items-center gap-4">
+    <div class="p-2.5 rounded-lg border-2 border-light-palette-p3 bg-[#FAF5F6]">
+      <i data-lucide="webhook" class="w-5 stroke-[#EA4B71]"></i>
+    </div>
+    <div class="mr-auto">
+      <div class="flex items-center gap-1.5">
+        <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1"><%= webhook.url %></h2>
+      </div>
+      <p class="typography-sub-text-s-lh150 text-dark-gray-palette-p4 hover:text-dark-gray-palette-p3"><%= Webhook.human_enum_name(:status, webhook.status)  %></p>
+    </div>
+    <button id="dropdownwebhookBtn" data-dropdown-toggle="dropdownwebhookOptions<%= webhook.id %>" data-dropdown-placement="left-start" class="inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
+      <i data-lucide="more-vertical" class=" stroke-dark-gray-palette-p3"></i>
+    </button>
+    <div id="dropdownwebhookOptions<%= webhook.id %>" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
+      <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+        <li>
+          <%= link_to edit_account_webhook_path(webhook.account, webhook), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
+            <i data-lucide="pencil"></i>
+            <p>
+              <%= t('views.accounts.settings.webhooks.webhook.edit') %>
+            </p>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to account_webhook_path(webhook.account, webhook), method: :delete, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white', data: { confirm: 'Are you sure?' } do %>
+            <i data-lucide="trash"></i>
+            <p>
+              <%= t('views.accounts.settings.webhooks.webhook.delete') %>
+            </p>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </li>
 <% end %>

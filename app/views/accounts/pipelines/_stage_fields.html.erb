@@ -1,5 +1,5 @@
 <div class='nested-fields' data-controller="load-lucid-icons">
-  <%= f.label :name, "Nome", class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+  <%= f.label :name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
   <div class="flex gap-2">
     <%= f.hidden_field :account_id, value: current_user.account.id %>
     <%= f.text_field :name, placeholer: 'Estágio 1', class: "form-input flex-1" %>
@@ -8,4 +8,3 @@
     <% end %>
   </div>
 </div>
-

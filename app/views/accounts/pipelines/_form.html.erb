@@ -8,10 +8,12 @@
       </ul>
     </div>
   <% end %>
-  <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">Dados do funil</h2>
+  <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">
+    <%= t('views.accounts.pipelines.form.pipeline_data') %>
+  </h2>
   <div class= "grid">
     <div class="flex flex-col gap-1">
-      <%= form.label :name, "Nome", class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.label :name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
       <%= form.text_field :name, class: 'form-input' %>
     </div>
   </div>
@@ -25,7 +27,7 @@
     <% end %>
   </div>
   <div class="flex gap-2 self-end mt-5">
-    <%= link_to_add_association 'Novo estágio', form, :stages, class: "btn-secondary"%>
-    <%= form.submit 'Salvar', class: 'btn-primary self-end cursor-pointer' %>
+    <%= link_to_add_association t('activerecord.models.stage.new'), form, :stages, class: "btn-secondary"%>
+    <%= form.submit  class: 'btn-primary self-end cursor-pointer' %>
   </div>
 <% end %>

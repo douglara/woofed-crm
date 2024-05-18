@@ -1,0 +1,7 @@
+en:
+  views:
+    accounts:
+      products:
+        product:
+          delete: Delete
+          edit: Edit

@@ -1,14 +1,20 @@
 <section class="welcome-bg m-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md px-4 py-5 relative overflow-hidden z-10">
-    <div class="absolute w-80 right-[-7.75rem] bottom-[-7rem] z-0 hidden xl:block">
-        <%= embedded_svg("logo-patinha.svg", class: 'fill-brand-palette-08 ') %>
-    </div>
-    <div class="flex items-center gap-2 text-dark-gray-palette-p1">
-        <h1 class="typography-title-b-lh150">Bem-vindo ao Woofed CRM</h1>
-        <i data-lucide="bone" class="w-7 h-7"></i>
-    </div>
-    <p class="typography-text-s-lh200 text-dark-gray-palette-p3 max-w-2xl mt-10">Bem-vindo ao Woofed CRM! Estamos muito felizes por você se juntar a nós nesta jornada de organização e eficiência nos negócios. Nosso CRM é a ferramenta que vai transformar a maneira como você gerencia suas oportunidades e relacionamentos.</p>
-    <p class="typography-text-s-lh200 text-dark-gray-palette-p3 max-w-2xl mt-7">Então, o que você está esperando? Vamos começar! Clique no botão abaixo para criar seu primeiro pipeline e dar o próximo passo rumo ao sucesso nos negócios.</p>
-    <div class="mt-7">
-        <%= link_to 'Criar pipeline', new_account_pipeline_path(current_user), class: 'btn-primary' %>
-    </div>
+  <div class="absolute w-80 right-[-7.75rem] bottom-[-7rem] z-0 hidden xl:block">
+    <%= embedded_svg("logo-patinha.svg", class: 'fill-brand-palette-08 ') %>
+  </div>
+  <div class="flex items-center gap-2 text-dark-gray-palette-p1">
+    <h1 class="typography-title-b-lh150">
+      <%= t('views.accounts.welcome.index.welcome_header', crm_name: 'Woofed CRM').html_safe %>
+    </h1>
+    <i data-lucide="bone" class="w-7 h-7"></i>
+  </div>
+  <p class="typography-text-s-lh200 text-dark-gray-palette-p3 max-w-2xl mt-10">
+    <%= t('views.accounts.welcome.index.welcome_message', crm_name: 'Woofed CRM').html_safe %>
+  </p>
+  <p class="typography-text-s-lh200 text-dark-gray-palette-p3 max-w-2xl mt-7">
+    <%= t('views.accounts.welcome.index.get_started_message').html_safe %>
+  </p>
+  <div class="mt-7">
+    <%= link_to t('activerecord.models.pipeline.new'), new_account_pipeline_path(current_user), class: 'btn-primary' %>
+  </div>
 </section>

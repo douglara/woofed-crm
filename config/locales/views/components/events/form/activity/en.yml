@@ -1,0 +1,7 @@
+en:
+  views:
+    components:
+      events:
+        form:
+          activity:
+            confirm: Confirm

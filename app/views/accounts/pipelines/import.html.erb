@@ -1,15 +1,16 @@
 <section class="section">
   <div class="section-header">
-    <h1>Importar Negócios</h1>
+    <h1>
+      <%= t('views.accounts.pipelines.import.import_deals', stage_name: @stage.name) %>
+    </h1>
   </div>
-
   <div class="section-body">
     <div class="card">
       <div class="card-body">
         <div class="card-body offset-2 col-sm-8">
-        <%= render 'form_import_deals'%>
+          <%= render 'form_import_deals'%>
           <div class="text-center pt-5">
-            <%= link_to account_pipeline_path(current_user.account, params['pipeline_id'] , stage_id: params['stage_id']), class:"mt-4", data: {turbo: false} do %>
+            <%= link_to account_pipeline_path(current_user.account, params['pipeline_id'] , stage_id: params['stage_id']), class:"mt-4" do %>
               Voltar
             <% end %>
           </div>

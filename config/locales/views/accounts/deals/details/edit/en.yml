@@ -6,3 +6,4 @@ en:
           edit:
             save_changes: 'Save changes'
             add_custom_attributes: 'Add fields'
+            tag_placeholder: 'Enter tags'
