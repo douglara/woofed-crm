@@ -6,21 +6,21 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
   let(:evolution_api) { create(:apps_evolution_api, account: account) }
   let!(:user) { create(:user, account: account) }
   let(:app_evolution_api_created) { Apps::EvolutionApi.first }
-  let(:valid_params){
+  let(:valid_params) do
     { apps_evolution_api: {
-        name: 'woofed whatsapp'
-      }
-    }
-  }
-  let(:invalid_params){
+      name: 'woofed whatsapp'
+    } }
+  end
+  let(:invalid_params) do
     { apps_evolution_api: {
-        name: '',
-      }
-    }
-  }
+      name: ''
+    } }
+  end
 
   describe 'POST /accounts/{account_id}/apps/evolution_apis' do
-    let(:create_instance_response) { File.read('spec/integration/use_cases/accounts/apps/evolution_api/instance/create_response.json')}
+    let(:create_instance_response) do
+      File.read('spec/integration/use_cases/accounts/apps/evolution_api/instance/create_response.json')
+    end
     before do
       stub_request(:post, /instance/)
         .to_return(body: create_instance_response, status: 201, headers: { 'Content-Type' => 'application/json' })
@@ -44,14 +44,15 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
           post "/accounts/#{account.id}/apps/evolution_apis", params: valid_params
         end.to change(Apps::EvolutionApi, :count).by(1)
         expect(response).to have_http_status(302)
-        expect(response).to redirect_to(pair_qr_code_account_apps_evolution_api_path(app_evolution_api_created.account, app_evolution_api_created.id))
+        expect(response).to redirect_to(pair_qr_code_account_apps_evolution_api_path(app_evolution_api_created.account,
+                                                                                     app_evolution_api_created.id))
       end
       it 'create app evolution_apis process failed' do
         expect do
           post "/accounts/#{account.id}/apps/evolution_apis", params: invalid_params
         end.to change(Apps::EvolutionApi, :count).by(0)
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to include('Name não pode ficar em branco')
+        expect(response.body).to match(/Name can&#39;t be blank/)
       end
     end
   end
@@ -69,7 +70,7 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
       it 'should redirect to new apps evolution_apis page' do
         get "/accounts/#{account.id}/apps/evolution_apis/new"
         expect(response).to have_http_status(200)
-        expect(response.body).to include('Dados da conexão')
+        expect(response.body).to include('Connection data')
       end
     end
   end
@@ -95,7 +96,7 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
         it 'should not update' do
           patch "/accounts/#{account.id}/apps/evolution_apis/#{evolution_api.id}", params: invalid_params
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(response.body).to include('Name não pode ficar em branco')
+          expect(response.body).to match(/Name can&#39;t be blank/)
         end
       end
     end
@@ -115,13 +116,12 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
       it 'should redirect to edit evolution_apis page' do
         get "/accounts/#{account.id}/apps/evolution_apis/#{evolution_api.id}/edit"
         expect(response).to have_http_status(200)
-        expect(response.body).to include('Dados da conexão')
+        expect(response.body).to include('Connection data')
       end
     end
   end
 
   describe 'GET /accounts/{account_id}/apps/evolution_apis' do
-
     context 'when is unauthenticated user' do
       it 'returns unauthorized' do
         get "/accounts/#{account.id}/apps/evolution_apis"
@@ -134,20 +134,22 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
       end
       context 'when there are evolution_api disconnected and connecting' do
         let!(:evolution_api) { create(:apps_evolution_api, account: account) }
-        let!(:evolution_api_connecting) { create(:apps_evolution_api, :connecting ,account: account) }
-        it "should show connect button link" do
+        let!(:evolution_api_connecting) { create(:apps_evolution_api, :connecting, account: account) }
+        it 'should show connect button link' do
           get "/accounts/#{account.id}/apps/evolution_apis"
           expect(response).to have_http_status(200)
           expect(response.body).to include(pair_qr_code_account_apps_evolution_api_path(account, evolution_api))
-          expect(response.body).to include(pair_qr_code_account_apps_evolution_api_path(account, evolution_api_connecting))
+          expect(response.body).to include(pair_qr_code_account_apps_evolution_api_path(account,
+                                                                                        evolution_api_connecting))
         end
       end
       context 'when there is evolution_api connected' do
-        let!(:evolution_api_connected) { create(:apps_evolution_api, :connected ,account: account) }
-        it "should not show connect button link" do
+        let!(:evolution_api_connected) { create(:apps_evolution_api, :connected, account: account) }
+        it 'should not show connect button link' do
           get "/accounts/#{account.id}/apps/evolution_apis"
           expect(response).to have_http_status(200)
-          expect(response.body).not_to include(pair_qr_code_account_apps_evolution_api_path(account, evolution_api_connected))
+          expect(response.body).not_to include(pair_qr_code_account_apps_evolution_api_path(account,
+                                                                                            evolution_api_connected))
         end
       end
     end
@@ -176,7 +178,7 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
         it 'should show qrcode refresh link' do
           get "/accounts/#{account.id}/apps/evolution_apis/#{evolution_api.id}/pair_qr_code"
           expect(response).to have_http_status(200)
-          expect(response.body).to include('Click here to refresh qr code')
+          expect(response.body).to include('Click here to load the QR code')
         end
       end
       context 'when evolution_api is connected' do
@@ -191,7 +193,9 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
   end
 
   describe 'POST /accounts/{account_id}/apps/evolution_apis/{evolution_api_id}/refresh_qr_code' do
-    let(:create_instance_response) { File.read('spec/integration/use_cases/accounts/apps/evolution_api/instance/create_response.json')}
+    let(:create_instance_response) do
+      File.read('spec/integration/use_cases/accounts/apps/evolution_api/instance/create_response.json')
+    end
     before do
       stub_request(:post, /instance/)
         .to_return(body: create_instance_response, status: 201, headers: { 'Content-Type' => 'application/json' })

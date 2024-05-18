@@ -30,12 +30,12 @@ RSpec.describe Devise::SessionsController, type: :request do
     context 'failed' do
       it 'email users already registered' do
         user
-        invalid_params = valid_params.deep_merge(user: { email: user.email  })
+        invalid_params = valid_params.deep_merge(user: { email: user.email })
         expect do
           post '/users',
                params: invalid_params
         end.to change(User, :count).by(0)
-        expect(response.body).to include('E-mail já está em uso')
+        expect(response.body).to include('Email has already been taken')
       end
       it 'create users without account' do
         invalid_params = valid_params[:user].except(:account_attributes)
@@ -43,23 +43,23 @@ RSpec.describe Devise::SessionsController, type: :request do
           post '/users',
                params: invalid_params
         end.to change(User, :count).by(0)
-        expect(response.body).to include('Account é obrigatório(a)')
+        expect(response.body).to include('Account must exist')
       end
       it 'if password confirmation is different than password' do
-        invalid_params = valid_params.deep_merge(user: { password: '123456789'  })
+        invalid_params = valid_params.deep_merge(user: { password: '123456789' })
         expect do
           post '/users',
                params: invalid_params
         end.to change(User, :count).by(0)
-        expect(response.body).to include('Confirme sua Senha não é igual a Senha')
+        expect(response.body).to match(/Confirm your password doesn&#39;t match Password/)
       end
       it 'if phone is invalid' do
-        invalid_params = valid_params.deep_merge(user: { phone: '123456789'  })
+        invalid_params = valid_params.deep_merge(user: { phone: '123456789' })
         expect do
           post '/users',
                params: invalid_params
         end.to change(User, :count).by(0)
-        expect(response.body).to include('Telefone (celular) Número inválido')
+        expect(response.body).to include('Phone (cell) is invalid')
       end
     end
   end

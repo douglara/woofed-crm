@@ -24,13 +24,17 @@
         <li>
           <%= link_to edit_account_user_path(user.account, user), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
             <i data-lucide="pencil"></i>
-            <p>Editar</p>
+            <p>
+              <%= t('views.accounts.users.user.edit') %>
+            </p>
           <% end %>
         </li>
         <li>
           <%= link_to account_user_path(user.account, user), method: :delete, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white', data: { confirm: t('views.accounts.users.user.are_you_sure?') } do %>
             <i data-lucide="trash"></i>
-            <p>Excluir</p>
+            <p>
+              <%= t('views.accounts.users.user.delete') %>
+            </p>
           <% end %>
         </li>
       </ul>

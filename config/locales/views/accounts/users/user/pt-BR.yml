@@ -4,6 +4,8 @@ pt-BR:
       users:
         user:
           are_you_sure?: 'Você tem certeza?'
+          delete: Excluir
+          edit: Editar
 
 
 

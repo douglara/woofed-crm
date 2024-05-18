@@ -54,7 +54,7 @@ RSpec.describe Accounts::Apps::ChatwootsController, type: :request do
           post "/accounts/#{account.id}/apps/chatwoots", params: invalid_params
         end.to change(Apps::Chatwoot, :count).by(0)
         expect(response).to have_http_status(200)
-        expect(response.body).to include('Chatwoot endpoint url Invalid Chatwoot configuration')
+        expect(response.body).to include('Chatwoot endpoint URL Invalid Chatwoot configuration')
       end
     end
   end
@@ -72,7 +72,6 @@ RSpec.describe Accounts::Apps::ChatwootsController, type: :request do
       it 'should redirect to new apps chatwoots page' do
         get "/accounts/#{account.id}/apps/chatwoots/new"
         expect(response).to have_http_status(200)
-        expect(response.body).to include('Salvar')
       end
       context 'when apps chatwoots already exist' do
         it 'should redirect to edit page' do

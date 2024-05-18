@@ -5,6 +5,7 @@ pt-BR:
         events:
           event:
             are_you_sure?: 'Você tem certeza?'
+            deadline: Prazo
 
 
 

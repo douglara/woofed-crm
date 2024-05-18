@@ -5,4 +5,5 @@ es:
         events:
           event:
             are_you_sure?: '¿Estás seguro?'
+            deadline: Plazo
 
