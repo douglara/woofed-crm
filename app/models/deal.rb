@@ -50,7 +50,7 @@ class Deal < ApplicationRecord
   has_many :notes, through: :flow_items
   has_many :activities
   has_many :contact_events, through: :primary_contact, source: :events
-  has_many :deal_products
+  has_many :deal_products, dependent: :destroy
   accepts_nested_attributes_for :contact
   # accepts_nested_attributes_for :contacts
   # accepts_nested_attributes_for :contacts_deals
