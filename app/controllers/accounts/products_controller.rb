@@ -7,7 +7,8 @@ class Accounts::ProductsController < InternalController
   def create
     @product = ProductBuilder.new(current_user, product_params).perform
     if @product.save
-      redirect_to account_products_path(current_user.account), notice: 'Product was successfully created'
+      redirect_to account_products_path(current_user.account),
+                  notice: t('flash_messages.created', model: Product.model_name.human)
     else
       render :new, status: :unprocessable_entity
     end
@@ -17,7 +18,8 @@ class Accounts::ProductsController < InternalController
 
   def update
     if @product.update(product_params)
-      redirect_to account_products_path(current_user.account)
+      redirect_to account_products_path(current_user.account),
+                  notice: t('flash_messages.updated', model: Product.model_name.human)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -32,7 +34,8 @@ class Accounts::ProductsController < InternalController
     @product.destroy
     respond_to do |format|
       format.html do
-        redirect_to account_products_path(current_user.account), notice: 'Product was successfully destroyed.'
+        redirect_to account_products_path(current_user.account),
+                    notice: t('flash_messages.deleted', model: Product.model_name.human)
       end
       format.json { head :no_content }
     end

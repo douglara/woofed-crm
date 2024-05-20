@@ -20,7 +20,8 @@ class Accounts::AppsController < InternalController
     @contact = current_user.account.contacts.new(contact_params)
 
     if @contact.save
-      redirect_to account_contact_path(current_user.account, @contact), notice: 'Contact was successfully created.'
+      redirect_to account_contact_path(current_user.account, @contact),
+                  notice: t('flash_messages.created', model: Contact.model_name.human)
     else
       render :new, status: :unprocessable_entity
     end
@@ -30,7 +31,8 @@ class Accounts::AppsController < InternalController
   def update
     respond_to do |format|
       if @contact.update(contact_params)
-        redirect_to account_contact_path(current_user.account, @contact), notice: 'Contact was successfully updated.'
+        redirect_to account_contact_path(current_user.account, @contact),
+                    notice: t('flash_messages.updated', model: Contact.model_name.human)
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @contact.errors, status: :unprocessable_entity }
@@ -42,7 +44,9 @@ class Accounts::AppsController < InternalController
   def destroy
     @contact.destroy
     respond_to do |format|
-      format.html { redirect_to contacts_url, notice: 'Contact was successfully destroyed.' }
+      format.html do
+        redirect_to contacts_url, notice: t('flash_messages.deleted', model: Contact.model_name.human)
+      end
       format.json { head :no_content }
     end
   end

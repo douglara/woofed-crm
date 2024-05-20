@@ -168,7 +168,7 @@ class Accounts::PipelinesController < InternalController
       if @pipeline.save
         format.html do
           redirect_to account_pipeline_path(current_user.account, @pipeline),
-                      notice: 'Pipeline was successfully created.'
+                      notice: t('flash_messages.created', model: Pipeline.model_name.human)
         end
         format.json { render :show, status: :created, location: @pipeline }
       else
@@ -184,7 +184,7 @@ class Accounts::PipelinesController < InternalController
       if @pipeline.update(pipeline_params)
         format.html do
           redirect_to account_pipeline_path(current_user.account, @pipeline),
-                      notice: 'Pipeline was successfully updated.'
+                      notice: t('flash_messages.updated', model: Pipeline.model_name.human)
         end
         format.json { render :show, status: :ok, location: @pipeline }
       else
@@ -198,7 +198,7 @@ class Accounts::PipelinesController < InternalController
   def destroy
     @pipeline.destroy
     respond_to do |format|
-      format.html { redirect_to pipelines_url, notice: 'Pipeline was successfully destroyed.' }
+      format.html { redirect_to pipelines_url, notice: t('flash_messages.deleted', model: Pipeline.model_name.human) }
       format.json { head :no_content }
     end
   end

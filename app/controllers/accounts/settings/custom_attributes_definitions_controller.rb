@@ -13,7 +13,7 @@ class Accounts::Settings::CustomAttributesDefinitionsController < InternalContro
     @custom_attribute_definition = current_user.account.custom_attributes_definitions.new(custom_attribute_definition_params)
     if @custom_attribute_definition.save
       redirect_to account_custom_attributes_definitions_path(current_user.account),
-                  notice: 'Custom attribute was successfully created.'
+                  notice: t('flash_messages.created', model: CustomAttributeDefinition.model_name.human)
     else
       render :new, status: :unprocessable_entity
     end
@@ -24,7 +24,7 @@ class Accounts::Settings::CustomAttributesDefinitionsController < InternalContro
   def update
     if @custom_attribute_definition.update(custom_attribute_definition_params)
       redirect_to edit_account_custom_attributes_definition_path(current_user.account, @custom_attribute_definition),
-                  notice: 'Custom attribyte was successfully updated.'
+                  notice: t('flash_messages.updated', model: CustomAttributeDefinition.model_name.human)
     else
       render :edit, status: :unprocessable_entity
     end
