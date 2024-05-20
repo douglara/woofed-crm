@@ -12,12 +12,10 @@
     <%= stylesheet_link_tag 'application' %>
     <%= javascript_pack_tag 'application', defer: true, 'data-turbo-track': 'reload' %>
     <%= render "layouts/shared/analytics_scripts" %>
-
     <%= yield :stylesheets %>
   </head>
-
   <body class="bg-brand-palette-08">
-    <%= render partial: 'components/notifications', locals: { message: flash[:notice] } %>
+    <%= render partial: 'components/flash_message', locals: { message: flash[:notice] } %>
     <%= content_for?(:content) ? yield(:content) : yield %>
     <%= yield :javascripts %>
   </body>

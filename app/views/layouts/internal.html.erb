@@ -12,19 +12,17 @@
     <%= stylesheet_link_tag 'application' %>
     <%= javascript_pack_tag 'application', defer: true, 'data-turbo-track': 'reload' %>
     <%= render "layouts/shared/analytics_scripts" %>
-
     <%= yield :stylesheets %>
   </head>
   <body>
     <div id="app" class="h-screen">
-      <%= render partial: 'components/notifications', locals: { message: flash[:notice] } %>
+      <%= render partial: 'components/flash_message', locals: { message: flash[:notice] } %>
       <div class="flex h-full">
         <div>
           <% unless controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
             <%= render "layouts/shared/sidebar" %>
           <% end %>
         </div>
-
         <div class="flex flex-col h-full w-full overflow-auto">
           <nav class="h-20">
             <%= render "layouts/shared/navbar" %>
@@ -35,7 +33,7 @@
           </main>
         </div>
       </div>
-    <div>
-    <%= yield :javascripts %>
-  </body>
-</html>
+      <div>
+        <%= yield :javascripts %>
+      </body>
+    </html>
