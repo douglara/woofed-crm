@@ -1,7 +1,8 @@
 class Accounts::DealsController < InternalController
   before_action :set_deal,
-                only: %i[show edit update destroy events events_to_do events_done deal_products edit_product
-                         update_product]
+                only: %i[show edit update destroy events events_to_do events_done deal_products]
+  before_action :set_deal_product, only: %i[edit_product
+                                            update_product]
 
   # GET /deals or /deals.json
   def index
@@ -142,12 +143,11 @@ class Accounts::DealsController < InternalController
   end
 
   def edit_product
-    @deal_product = @deal.deal_products.find(params[:deal_product_id])
+    @product = @deal_product.product
   end
 
   def update_product
-    deal_product = @deal.deal_products.find(params[:deal_product_id])
-    @product = deal_product.product
+    @product = @deal_product.product
     if @product.update(product_params)
       redirect_to account_deal_path(current_user.account,
                                     @deal_product.deal.id)
@@ -161,6 +161,10 @@ class Accounts::DealsController < InternalController
   # Use callbacks to share common setup or constraints between actions.
   def set_deal
     @deal = current_user.account.deals.find(params[:id])
+  end
+
+  def set_deal_product
+    @deal_product = current_user.account.deal_products.find(params[:deal_product_id])
   end
 
   # Only allow a list of trusted parameters through.
