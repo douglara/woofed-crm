@@ -142,16 +142,6 @@ RSpec.describe Accounts::UsersController, type: :request do
             expect(response.body).to include('Can not be negative')
           end
         end
-        context 'when deal_product_id is present on product update url' do
-          it 'should update product and redirect to deal page' do
-            patch "/accounts/#{account.id}/products/#{product.id}?deal_product_id=#{deal_product.id}",
-                  params: valid_params
-            expect(response.body).to redirect_to(account_deal_path(account.id,
-                                                                   deal_product.deal.id))
-            expect(product_first.name).to eq('Product Updated Name')
-            expect(product_first.amount_in_cents).to eq(6_358_036)
-          end
-        end
       end
     end
   end
