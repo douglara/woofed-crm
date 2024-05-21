@@ -10,6 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 2024_05_01_044326) do
 
   # These are extensions that must be enabled in order to support this database
@@ -173,6 +174,8 @@ ActiveRecord::Schema.define(version: 2024_05_01_044326) do
     t.bigint "account_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "attribute_type_field", default: 0
+    t.string "attribute_options_select"
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
   end
 

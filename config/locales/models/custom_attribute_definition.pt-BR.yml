@@ -9,7 +9,9 @@ pt-BR:
         attribute_key: Chave
         attribute_display_name: Nome de exibição
         attribute_description: Descrição
-        attribute_model: Tipo
+        attribute_model: Formulário
+        attribute_type_field: Tipo
+        attribute_options_select: Opções do select
         attribute_models:
           contact_attribute: Contato
           deal_attribute: Negócio

@@ -45,7 +45,9 @@ class Accounts::Settings::CustomAttributesDefinitionsController < InternalContro
       :attribute_model,
       :attribute_key,
       :attribute_display_name,
-      :attribute_description
+      :attribute_description,
+      :attribute_type_field,
+      :attribute_options_select
     )
   end
 end
