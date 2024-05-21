@@ -1,6 +1,5 @@
 class Accounts::ProductsController < InternalController
   before_action :set_product, only: %i[edit destroy update edit_custom_attributes update_custom_attributes]
-  before_action :set_deal_product, only: %i[edit update]
   def new
     @product = current_user.account.products.new
   end
@@ -18,12 +17,7 @@ class Accounts::ProductsController < InternalController
 
   def update
     if @product.update(product_params)
-      if @deal_product.present?
-        redirect_to account_deal_path(current_user.account,
-                                      @deal_product.deal.id)
-      else
-        redirect_to account_products_path(current_user.account)
-      end
+      redirect_to account_products_path(current_user.account)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -57,12 +51,6 @@ class Accounts::ProductsController < InternalController
 
   def set_product
     @product = current_user.account.products.find(params[:id])
-  end
-
-  def set_deal_product
-    @deal_product = current_user.account.deal_products.find(params[:deal_product_id])
-  rescue ActiveRecord::RecordNotFound
-    @deal_product = nil
   end
 
   def product_params

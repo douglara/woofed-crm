@@ -1,5 +1,7 @@
 class Accounts::DealsController < InternalController
-  before_action :set_deal, only: %i[show edit update destroy events events_to_do events_done deal_products]
+  before_action :set_deal,
+                only: %i[show edit update destroy events events_to_do events_done deal_products edit_product
+                         update_product]
 
   # GET /deals or /deals.json
   def index
@@ -139,6 +141,21 @@ class Accounts::DealsController < InternalController
     @deal_products = @deal.deal_products
   end
 
+  def edit_product
+    @deal_product = @deal.deal_products.find(params[:deal_product_id])
+  end
+
+  def update_product
+    deal_product = @deal.deal_products.find(params[:deal_product_id])
+    @product = deal_product.product
+    if @product.update(product_params)
+      redirect_to account_deal_path(current_user.account,
+                                    @deal_product.deal.id)
+    else
+      render :edit_product, status: :unprocessable_entity
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -153,6 +170,11 @@ class Accounts::DealsController < InternalController
       contact_attributes: %i[id full_name phone email],
       custom_attributes: {}
     )
+  end
+
+  def product_params
+    params.require(:product).permit(:identifier, :amount_in_cents, :quantity_available, :description, :name,
+                                    attachments_attributes: %i[file _destroy id], custom_attributes: {}, additional_attributes: {})
   end
 
   def whatsapp_params
