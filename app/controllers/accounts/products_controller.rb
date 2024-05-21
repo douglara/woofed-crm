@@ -1,5 +1,6 @@
 class Accounts::ProductsController < InternalController
   before_action :set_product, only: %i[edit destroy update edit_custom_attributes update_custom_attributes]
+
   def new
     @product = current_user.account.products.new
   end
