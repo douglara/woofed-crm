@@ -1,11 +1,11 @@
 <% if event.chatwoot_message? %>
-  <%= render "components/events/form/chatwoot_message", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage), edit_event_form: false %>
+  <%= render "components/events/form/chatwoot_message", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage)%>
 <% elsif event.activity? %>
-  <%= render "components/events/form/activity", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage), edit_event_form: false %>
+  <%= render "components/events/form/activity", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage)%>
 <% elsif event.note? %>
-  <%= render "components/events/form/note", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage), edit_event_form: false %>
+  <%= render "components/events/form/note", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage)%>
 <% elsif event.evolution_api_message? %>
-  <%= render "components/events/form/evolution_api_message", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage), edit_event_form: false %>
+  <%= render "components/events/form/evolution_api_message", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage)%>
 <% else %>
   <div class="px-4 py-5 items-center text-center events-form-active" >
     <div class="flex justify-center items-center flex-col mt-4">

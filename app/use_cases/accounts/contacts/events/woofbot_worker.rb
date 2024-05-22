@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class Accounts::Contacts::Events::WoofbotJob < ApplicationJob
-  self.queue_adapter = :good_job
+class Accounts::Contacts::Events::WoofbotWorker
+  include Sidekiq::Worker
 
   def perform(event_id)
     event = Event.find(event_id)
