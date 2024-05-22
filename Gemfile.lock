@@ -600,7 +600,8 @@ GEM
     retriable (3.1.2)
     reverse_markdown (2.1.1)
       nokogiri
-    rexml (3.2.4)
+    rexml (3.2.7)
+      strscan (>= 3.0.9)
     rspec-core (3.12.1)
       rspec-support (~> 3.12.0)
     rspec-expectations (3.12.2)
@@ -685,6 +686,7 @@ GEM
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
     stringio (3.1.0)
+    strscan (3.1.0)
     tailwindcss-rails (2.0.30-x86_64-linux)
       railties (>= 6.0.0)
     text_splitters (1.0.0)
@@ -787,7 +789,7 @@ DEPENDENCIES
   redis (~> 4.0)
   requestjs-rails
   reverse_markdown
-  rexml (= 3.2.4)
+  rexml (= 3.2.7)
   rspec-rails (~> 6.0.0)
   rubocop
   sass-rails (>= 6)
