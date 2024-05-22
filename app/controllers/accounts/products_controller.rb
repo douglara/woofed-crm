@@ -1,4 +1,6 @@
 class Accounts::ProductsController < InternalController
+  include ProductConcern
+
   before_action :set_product, only: %i[edit destroy update edit_custom_attributes update_custom_attributes]
 
   def new
@@ -52,10 +54,5 @@ class Accounts::ProductsController < InternalController
 
   def set_product
     @product = current_user.account.products.find(params[:id])
-  end
-
-  def product_params
-    params.require(:product).permit(:identifier, :amount_in_cents, :quantity_available, :description, :name,
-                                    attachments_attributes: %i[file _destroy id], custom_attributes: {}, additional_attributes: {})
   end
 end

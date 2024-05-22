@@ -1,4 +1,6 @@
 class Accounts::DealsController < InternalController
+  include ProductConcern
+
   before_action :set_deal,
                 only: %i[show edit update destroy events events_to_do events_done deal_products]
   before_action :set_deal_product, only: %i[edit_product
@@ -174,11 +176,6 @@ class Accounts::DealsController < InternalController
       contact_attributes: %i[id full_name phone email],
       custom_attributes: {}
     )
-  end
-
-  def product_params
-    params.require(:product).permit(:identifier, :amount_in_cents, :quantity_available, :description, :name,
-                                    attachments_attributes: %i[file _destroy id], custom_attributes: {}, additional_attributes: {})
   end
 
   def whatsapp_params
