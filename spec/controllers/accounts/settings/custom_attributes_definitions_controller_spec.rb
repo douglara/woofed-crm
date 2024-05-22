@@ -49,7 +49,7 @@ RSpec.describe Accounts::Settings::CustomAttributesDefinitionsController, type: 
               create(:custom_attribute_definition, :contact_attribute, account: account)
             end
             it 'should not create' do
-              params = { custom_attribute_definition: { 'attribute_model' => 'contact_attribute', 'attribute_key' => 'cpf',
+              params = { custom_attribute_definition: { 'attribute_model' => custom_attribute_definition.attribute_model, 'attribute_key' => custom_attribute_definition.attribute_key,
                                                         'attribute_display_name' => 'CPF', 'attribute_description' => 'Cpf field' } }
               expect do
                 post "/accounts/#{account.id}/custom_attributes_definitions",
@@ -126,8 +126,8 @@ RSpec.describe Accounts::Settings::CustomAttributesDefinitionsController, type: 
       context 'get custom_attribute_definitions' do
         it 'should return only custom_attribute_deffinitions in currently account' do
           get "/accounts/#{account.id}/custom_attributes_definitions"
-          expect(response.body).to include('CPF field')
-          expect(response.body).not_to include('RG field')
+          expect(response.body).to include(custom_attribute_definition.attribute_display_name)
+          expect(response.body).not_to include(custom_attribute_definition_another_account.attribute_display_name)
           expect(response).to have_http_status(200)
         end
       end

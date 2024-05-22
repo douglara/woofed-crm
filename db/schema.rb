@@ -176,6 +176,17 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
   end
 
+  create_table "deal_products", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "deal_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_deal_products_on_account_id"
+    t.index ["deal_id"], name: "index_deal_products_on_deal_id"
+    t.index ["product_id"], name: "index_deal_products_on_product_id"
+  end
+
   create_table "deals", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "status", default: "open", null: false
@@ -622,6 +633,9 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "apps_evolution_apis", "accounts"
+  add_foreign_key "deal_products", "accounts"
+  add_foreign_key "deal_products", "deals"
+  add_foreign_key "deal_products", "products"
   add_foreign_key "deals", "contacts"
   add_foreign_key "deals", "stages"
   add_foreign_key "events", "accounts"

@@ -25,7 +25,10 @@ Rails.application.routes.draw do
     #   end
     # end
     resources :users
-    resources :products
+    resources :products do
+      get 'edit_custom_attributes', on: :member
+      patch 'update_custom_attributes', on: :member
+    end
     resources :contacts do
       get 'search', to: 'contacts#search', on: :collection
       get 'edit_custom_attributes'
@@ -61,6 +64,9 @@ Rails.application.routes.draw do
     end
 
     resources :deals do
+      patch 'update_product', on: :member
+      get 'edit_product', on: :member
+      get 'deal_products', on: :member
       get 'events_to_do', on: :member
       get 'events_done', on: :member
       post 'create_whatsapp'
@@ -73,6 +79,7 @@ Rails.application.routes.draw do
       resources :activities, module: :deals
       resources :flow_items, only: [:destroy], module: :deals
     end
+    resources :deal_products, only: %i[destroy]
 
     namespace :apps do
       resources :wpp_connects do

@@ -1,11 +1,12 @@
 <li class="flex items-center gap-8 border-b-2 border-light-palette-p3 last:border-none py-2.5 first:pt-0 last:pb-0" id="<%= dom_id(product) %>" data-controller='load-lucid-icons load-flowbite'>
-  <div class='w-[200px] h-28 pl-4 flex'>
-    <div class='w-28 h-28'>
+  <div class='w-32 h-20 pl-4 flex'>
+    <div class='w-20 h-20'>
       <%= render '/components/products/images_carousel_list', product: product%>
     </div>
   </div>
   <p class='w-[32%] typography-body-r-lh150 text-dark-gray-palette-p2 truncate'><%= product.name %></p>
-  <p class='w-[14%] typography-body-r-lh150 text-dark-gray-palette-p2 truncate'><%= number_to_currency(product.amount_in_cents / 100.0, unit: "R$", separator: ",", delimiter: ".")%></p>
+  <p class='w-[14%] typography-body-r-lh150 text-dark-gray-palette-p2 truncate'><%= product.amount_in_cents_at_format
+ %></p>
   <p class='w-[14%] typography-body-r-lh150 text-dark-gray-palette-p2 truncate'><%= product.quantity_available %></p>
   <p class='w-[19%] typography-body-r-lh150 text-dark-gray-palette-p2 truncate'><%= product.identifier %></p>
   <p class='w-[20%] typography-body-r-lh150 text-dark-gray-palette-p2 truncate'><%= product.created_at %></p>

@@ -1,5 +1,8 @@
 class Accounts::ProductsController < InternalController
-  before_action :set_product, only: %i[edit destroy update]
+  include ProductConcern
+
+  before_action :set_product, only: %i[edit destroy update edit_custom_attributes update_custom_attributes]
+
   def new
     @product = current_user.account.products.new
   end
@@ -23,6 +26,15 @@ class Accounts::ProductsController < InternalController
     end
   end
 
+  def edit_custom_attributes
+    @custom_attribute_definitions = current_user.account.custom_attribute_definitions.product_attribute
+  end
+
+  def update_custom_attributes
+    @product.custom_attributes[params[:product][:att_key]] = params[:product][:att_value]
+    render :edit_custom_attributes, status: :unprocessable_entity unless @product.save
+  end
+
   def index
     @products = current_user.account.products.order(created_at: :desc)
     @pagy, @products = pagy(@products)
@@ -42,10 +54,5 @@ class Accounts::ProductsController < InternalController
 
   def set_product
     @product = current_user.account.products.find(params[:id])
-  end
-
-  def product_params
-    params.require(:product).permit(:identifier, :amount_in_cents, :quantity_available, :description, :name,
-                                    attachments_attributes: %i[file _destroy id], custom_attributes: {}, additional_attributes: {})
   end
 end

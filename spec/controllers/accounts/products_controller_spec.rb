@@ -4,6 +4,11 @@ RSpec.describe Accounts::UsersController, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let(:product) { create(:product, account: account) }
+  let!(:contact) { create(:contact, account: account) }
+  let!(:pipeline) { create(:pipeline, account: account) }
+  let!(:stage) { create(:stage, account: account, pipeline: pipeline) }
+  let!(:deal) { create(:deal, account: account, stage: stage, contact: contact) }
+  let(:deal_product) { create(:deal_product, account: account, deal: deal, product: product) }
   let(:product_first) { Product.first }
 
   describe 'POST /accounts/{account.id}/products' do
@@ -151,11 +156,20 @@ RSpec.describe Accounts::UsersController, type: :request do
       before do
         sign_in(user)
       end
-      context 'delete the user' do
+      context 'delete the product' do
         it do
           delete "/accounts/#{account.id}/products/#{product.id}"
           expect(response.body).to redirect_to(account_products_path(account.id))
           expect(Product.count).to eq(0)
+        end
+      end
+      context 'when there is product deal_product relationship' do
+        let!(:deal_product) { create(:deal_product, account: account, deal: deal, product: product) }
+        it 'should delete product and deal_product' do
+          delete "/accounts/#{account.id}/products/#{product.id}"
+          expect(response.body).to redirect_to(account_products_path(account.id))
+          expect(Product.count).to eq(0)
+          expect(DealProduct.count).to eq(0)
         end
       end
     end
@@ -175,6 +189,57 @@ RSpec.describe Accounts::UsersController, type: :request do
         it do
           get "/accounts/#{account.id}/products/new"
           expect(response).to have_http_status(200)
+        end
+      end
+    end
+  end
+
+  describe 'GET /accounts/{account.id}/products/{product.id}/edit_custom_attributes' do
+    let!(:custom_attribute_definition) { create(:custom_attribute_definition, :product_attribute, account: account) }
+    let!(:contact_custom_attribute_definition) do
+      create(:custom_attribute_definition, :contact_attribute, account: account)
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/products/#{product.id}/edit_custom_attributes"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+      context 'edit product custom attributes page' do
+        it do
+          get "/accounts/#{account.id}/products/#{product.id}/edit_custom_attributes"
+          expect(response).to have_http_status(200)
+          expect(response.body).to include(custom_attribute_definition.attribute_display_name)
+          expect(response.body).not_to include(contact_custom_attribute_definition.attribute_display_name)
+        end
+      end
+    end
+  end
+
+  describe 'PATCH /accounts/{account.id}/products/{product.id}/update_custom_attributes' do
+    let(:valid_params) do
+      { product: { att_value: 'CPF display name', att_key: 'CPF' } }
+    end
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/accounts/#{account.id}/products/#{product.id}/update_custom_attributes"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+      context 'update product custom attributes' do
+        it do
+          patch "/accounts/#{account.id}/products/#{product.id}/update_custom_attributes", params: valid_params
+          expect(response).to have_http_status(204)
+          expect(product.reload.custom_attributes).to match({ 'CPF' => 'CPF display name' })
         end
       end
     end
