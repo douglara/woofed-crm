@@ -11,7 +11,7 @@ en:
         status: 'Status'
         embedding_token: 'Embedding token'
         chatwoot_account_id: 'Chatwoot account ID'
-        chatwoot_endpoint_url: 'Chatwoot endpoint URL'
+        chatwoot_endpoint_url: 'Chatwoot URL'
         chatwoot_user_token: 'Chatwoot user token'
         chatwoot_dashboard_app_id: 'Chatwoot dashboard app ID'
         chatwoot_webhook_id: 'Chatwoot webhook ID'
