@@ -1,0 +1,9 @@
+en:
+  views:
+    accounts:
+      settings:
+        ai:
+          form:
+            account_data: Account data
+            ai_answer: 'Automatically answer questions present in the knowledge base'
+            save: Save

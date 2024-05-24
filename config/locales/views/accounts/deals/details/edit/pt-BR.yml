@@ -1,0 +1,9 @@
+pt-BR:
+  views:
+    accounts:
+      deals:
+        details:
+          edit:
+            save_changes: 'Salvar alterações'
+            add_custom_attributes: 'Adicionar campos'
+            tag_placeholder: Digite etiquetas

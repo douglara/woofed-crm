@@ -1,0 +1,11 @@
+en:
+  activerecord:
+    models:
+      pipeline:
+        one: Pipeline
+        other: Pipelines
+        new: 'New pipeline'
+        edit: 'Edit pipeline'
+    attributes:
+      pipeline:
+        name: Name

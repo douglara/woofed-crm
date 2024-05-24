@@ -44,7 +44,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
           post "/accounts/#{account.id}/contacts", params: params
         end.to change(Contact, :count).by(0)
 
-        expect(response.body).to include('Nome completo não pode ficar em branco')
+        expect(response.body).to match(/Name can&#39;t be blank/)
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
@@ -56,7 +56,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
           post "/accounts/#{account.id}/contacts", params: params
         end.to change(Contact, :count).by(0)
 
-        expect(response.body).to include('Nome completo não pode ficar em branco')
+        expect(response.body).to match(/Name can&#39;t be blank/)
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
@@ -69,7 +69,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
             post "/accounts/#{account.id}/contacts", params: params
           end.to change(Contact, :count).by(0)
 
-          expect(response.body).to include('Telefone (celular) Número inválido')
+          expect(response.body).to include('Phone (cell) is invalid')
           expect(response).to have_http_status(:unprocessable_entity)
         end
 
@@ -81,7 +81,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
             post "/accounts/#{account.id}/contacts", params: params
           end.to change(Contact, :count).by(0)
 
-          expect(response.body).to include('Telefone (celular) Número inválido')
+          expect(response.body).to include('Phone (cell) is invalid')
           expect(response).to have_http_status(:unprocessable_entity)
         end
 
@@ -93,7 +93,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
             post "/accounts/#{account.id}/contacts", params: params
           end.to change(Contact, :count).by(0)
 
-          expect(response.body).to include('Telefone (celular) Número inválido')
+          expect(response.body).to include('Phone (cell) is invalid')
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end

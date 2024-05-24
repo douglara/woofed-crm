@@ -1,0 +1,9 @@
+es:
+  views:
+    accounts:
+      pipelines:
+        form_import_deals:
+          send: 'Enviar'
+          download_here: 'Aquí'
+          select_file: 'Seleccione el archivo'
+          download_spreadsheet: 'Descargue la hoja de cálculo de ejemplo'

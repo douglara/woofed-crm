@@ -85,6 +85,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 6.0.0'
   gem 'rubocop', require: false
   gem 'faker'
+  gem 'erb_lint', require: false
 end
 
 group :development do

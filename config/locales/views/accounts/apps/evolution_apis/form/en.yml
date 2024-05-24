@@ -1,0 +1,7 @@
+en:
+  views:
+    accounts:
+      apps:
+        evolution_apis:
+          form:
+            connection_data: 'Connection data'

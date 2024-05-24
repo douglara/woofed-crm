@@ -1,0 +1,8 @@
+pt-BR:
+  views:
+    accounts:
+      apps:
+        evolution_apis:
+          form:
+            connection_data: 'Dados da conexão'
+

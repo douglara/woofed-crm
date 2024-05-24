@@ -7,7 +7,8 @@ class Accounts::Settings::AiController < InternalController
 
   def update
     if @account.update(account_params)
-      redirect_to edit_account_ai_path(current_user.account, current_user.account), notice: 'Configuration updated successfully'
+      redirect_to edit_account_ai_path(current_user.account, current_user.account),
+                  notice: t('flash_messages.updated', model: Account.model_name.human)
     else
       render :edit, status: :unprocessable_entity
     end

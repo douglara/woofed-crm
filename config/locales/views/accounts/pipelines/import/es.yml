@@ -1,0 +1,6 @@
+es:
+  views:
+    accounts:
+      pipelines:
+        import:
+          import_deals: 'Importar negocios (Etapa: %{stage_name})'

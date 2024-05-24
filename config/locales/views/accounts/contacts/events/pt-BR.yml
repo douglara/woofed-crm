@@ -1,0 +1,9 @@
+pt-BR:
+  views:
+    accounts:
+      contacts:
+        events:
+          status_labels:
+            history: 'Histórico'
+            scheduled: 'Agendado'
+            completed: 'Concluído'

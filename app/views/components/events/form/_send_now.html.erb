@@ -1,0 +1,18 @@
+<div class="border-t border-light-palette-p3 px-3 py-6 flex items-center gap-4">
+  <div class="send-now-wrapper flex items-center text-dark-gray-palette-p3 hover:bg-brand-palette-07 gap-5 px-5 py-3 border-2 border-light-palette-p3 rounded-lg cursor-pointer hover:border-transparent aria-checked:border-brand-palette-06 aria-checked:text-brand-palette-03 aria-checked:bg-brand-palette-07" data-action="click->event-send-message-form#toggleRadioButton" aria-checked="<%= ['new', 'new_bulk_action'].include?(action_name) %>" >
+    <%= form.radio_button :send_now, true, checked: ['new', 'new_bulk_action'].include?(action_name), class: 'rounded-lg text-brand-palette-03 focus:border-transparent focus:ring-0 cursor-pointer', data: {"event-send-message-form-target": "radioButtonSendNowTrue"}, value: true%>
+    <%= form.label :done, t('views.components.events.form.send_now.send_message_now'), class: 'm-0 pr-6 typography-body-s-lh150 cursor-pointer' %>
+  </div>
+  <div class="send-now-wrapper flex items-center hover:bg-brand-palette-07 text-dark-gray-palette-p3 gap-5 px-5 py-3 border-2 border-light-palette-p3 rounded-lg hover:border-transparent cursor-pointer aria-checked:border-brand-palette-06 aria-checked:text-brand-palette-03 aria-checked:bg-brand-palette-07" data-action="click->event-send-message-form#toggleRadioButton" aria-checked="<%= (action_name == 'edit') %>"   >
+    <%= form.radio_button :send_now, false, checked: (action_name == 'edit') , class: 'rounded-lg text-brand-palette-03 focus:border-transparent focus:ring-0 cursor-pointer', data: {"event-send-message-form-target": "radioButtonSendNowFalse"}, value: false %>
+    <%= form.label :done, t('views.components.events.form.send_now.schedule_message'), class: 'm-0 pr-6  typography-body-s-lh150 cursor-pointer' %>
+  </div>
+</div>
+<div class="border-t border-light-palette-p3 p-3 space-y-2" data-event-send-message-form-target="scheduledAtForm">
+  <%= form.label :scheduled_at, class:'typography-text-m-lh150 text-dark-gray-palette-p1' %>
+  <%= form.datetime_local_field :scheduled_at, class: 'form-input w-full', data: {"event-send-message-form-target": "dateFieldScheduletAt"} %>
+  <div class=" flex items-center justify-end py-2">
+    <%= form.check_box :auto_done, class: 'rounded text-brand-palette-03 focus:border-transparent focus:ring-0', data: {"event-send-message-form-target": "checkBoxAutoDone"} %>
+    <%= form.label :auto_done, class: 'px-3 m-0 typography-text-m-lh150 text-dark-gray-palette-p1' %>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+es:
+  views:
+    accounts:
+      settings:
+        webhooks:
+          webhook:
+            delete: Eliminar
+            edit: Editar
+            are_you_sure?: '¿Está seguro?'

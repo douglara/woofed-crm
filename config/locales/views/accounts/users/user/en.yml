@@ -1,0 +1,8 @@
+en:
+  views:
+    accounts:
+      users:
+        user:
+          are_you_sure?: 'Are you sure?'
+          delete: Delete
+          edit: Edit

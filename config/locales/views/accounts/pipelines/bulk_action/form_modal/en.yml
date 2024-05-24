@@ -1,0 +1,6 @@
+en:
+  views:
+    accounts:
+      pipelines:
+        bulk_action:
+          title: "Bulk action (Stage: %{stage})"

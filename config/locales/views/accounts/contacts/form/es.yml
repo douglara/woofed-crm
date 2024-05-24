@@ -1,0 +1,8 @@
+es:
+  views:
+    accounts:
+      contacts:
+        form:
+          contact_data: Datos de contacto
+          chatwoot_conversations_label_list_empty: 'No hay etiquetas de conversaciones'
+          tag_placeholder: 'Ingrese etiquetas'

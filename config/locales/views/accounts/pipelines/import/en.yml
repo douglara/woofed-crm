@@ -1,0 +1,6 @@
+en:
+  views:
+    accounts:
+      pipelines:
+        import:
+          import_deals: 'Import deals (Stage: %{stage_name})'

@@ -1,0 +1,9 @@
+en:
+  views:
+    accounts:
+      contacts:
+        events:
+          status_labels:
+            history: 'History'
+            scheduled: 'Scheduled'
+            completed: 'Completed'

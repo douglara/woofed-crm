@@ -1,0 +1,6 @@
+en:
+  views:
+    components:
+      deals:
+        stages_nav:
+          are_you_sure?: 'Are you sure?'

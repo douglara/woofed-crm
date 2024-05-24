@@ -1,0 +1,17 @@
+pt-BR:
+  activerecord:
+    models:
+      account:
+        one: 'Conta'
+        other: 'Contas'
+        new: 'Nova conta'
+        edit: 'Editar conta'
+    attributes:
+      account:
+        id: 'ID'
+        name: 'Nome'
+        created_at: 'Criado em'
+        updated_at: 'Atualizado em'
+        site_url: 'URL do site'
+        woofbot_auto_reply: 'Resposta automática do Woofbot'
+        ai_usage: 'Uso de IA'

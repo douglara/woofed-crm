@@ -1,0 +1,8 @@
+pt-BR:
+  views:
+    components:
+      events:
+        form:
+          send_now:
+            send_message_now: "Enviar agora"
+            schedule_message: "Agendar mensagem"

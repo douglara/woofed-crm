@@ -6,11 +6,11 @@
     ) do |form| %>
     <%= form.hidden_field :deal_page_id, value: params[:deal_page_id]%>
     <div class="h-full w-full" data-controller="custom-attributes-add">
-      <%= form.select :att_key, @custom_attribute_definitions.collect { |att| [att.attribute_display_name, att.attribute_key] }, { prompt: 'Buscar', selected: '', disabled: ''}, { class: 'w-full first:my-0 my-3 form-input select2',  data: { 'custom-attributes-add-target': "select", action: 'change->custom-attributes-add#changed'} } %>
+      <%= form.select :att_key, @custom_attribute_definitions.collect { |att| [att.attribute_display_name, att.attribute_key] }, { prompt: t('views.accounts.contacts.edit_custom_attributes.search'), selected: '', disabled: ''}, { class: 'w-full first:my-0 my-3 form-input select2',  data: { 'custom-attributes-add-target': "select", action: 'change->custom-attributes-add#changed'} } %>
       <div data-custom-attributes-add-target="formFields" hidden="">
-        <%= form.text_field :att_value, class: 'w-full mt-3 form-input', placeholder:"Conteúdo do campo" %>
+        <%= form.text_field :att_value, class: 'w-full mt-3 form-input', placeholder:t('views.accounts.contacts.edit_custom_attributes.field_content') %>
         <div class="flex-auto rounded-md my-3 border-t border-light-palette-p3"></div>
-        <%= form.submit 'Confirmar', class: 'w-full btn-primary cursor-pointer' %>
+        <%= form.submit t('views.accounts.contacts.edit_custom_attributes.confirm'), class: 'w-full btn-primary cursor-pointer' %>
       </div>
     </div>
   <% end %>

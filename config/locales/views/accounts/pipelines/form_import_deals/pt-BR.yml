@@ -1,0 +1,9 @@
+pt-BR:
+  views:
+    accounts:
+      pipelines:
+        form_import_deals:
+          send: 'Enviar'
+          download_here: 'Aqui'
+          select_file: 'Selecione o arquivo'
+          download_spreadsheet: 'Baixe a planilha de exemplo'

@@ -1,0 +1,7 @@
+es:
+  views:
+    components:
+      events:
+        form:
+          attachments:
+            files: "Archivos"

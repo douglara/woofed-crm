@@ -1,0 +1,10 @@
+en:
+  views:
+    accounts:
+      settings:
+        ai:
+          form:
+            account_data: Dados da conta
+            ai_answer: 'Responder automaticamente perguntas presentes na base de conhecimento'
+            save: Salvar
+

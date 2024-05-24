@@ -1,14 +1,14 @@
 <%= form_with(model: deal, url: account_deals_path(current_user.account), class: "flex flex-col gap-5") do |form| %>
   <div class= "grid sm:grid-cols-2 gap-4">
     <div class="flex flex-col gap-1">
-      <%= form.label :name, "Título do negócio", class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-      <%= form.text_field :name, value: "Negócio com #{@deal.contact.full_name}", placeholder: "Negócio com João", class: 'form-input', required: 'true' %>
+      <%= form.label :name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.text_field :name, value: "#{t('views.accounts.deals.form.deal_with')} #{@deal.contact.full_name}", placeholder: "Negócio com João", class: 'form-input', required: 'true' %>
     </div>
     <div class="flex flex-col gap-1">
-      <%= form.label :stage_id, "Funil", class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.label :stage_id, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
       <%= form.select(:stage_id, @stages.map { |stage| ["#{stage.pipeline.name} - #{stage.name}", stage.id] }, {}, { class: 'form-input' }) %>
     </div>
   </div>
   <%= form.hidden_field :contact_id, class: 'form-control' %>
-  <%= form.submit 'Submit', class: 'btn-primary self-end cursor-pointer' %>
+  <%= form.submit class: 'btn-primary self-end cursor-pointer' %>
 <% end %>

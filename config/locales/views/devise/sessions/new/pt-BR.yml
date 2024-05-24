@@ -1,0 +1,12 @@
+pt-BR:
+  views:
+    devise:
+      sessions:
+        new:
+          log_in: "Entrar"
+          forgot_password: "Esqueceu sua senha?"
+          account_answer: "Não possui conta?"
+          crate_account: "Criar conta"
+
+
+
