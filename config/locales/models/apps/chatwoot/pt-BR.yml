@@ -11,7 +11,7 @@ pt-BR:
         status: 'Status'
         embedding_token: 'Token de incorporação'
         chatwoot_account_id: 'ID da conta Chatwoot'
-        chatwoot_endpoint_url: 'URL do endpoint chatwoot'
+        chatwoot_endpoint_url: 'URL do Chatwoot'
         chatwoot_user_token: 'Token de usuário do Chatwoot'
         chatwoot_dashboard_app_id: 'ID do aplicativo do painel Chatwoot'
         chatwoot_webhook_id: 'ID do webhook Chatwoot'
