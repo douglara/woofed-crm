@@ -1,0 +1,9 @@
+pt-BR:
+  views:
+    accounts:
+      users:
+        form:
+          user_data: 'Dados do usuário'
+
+
+

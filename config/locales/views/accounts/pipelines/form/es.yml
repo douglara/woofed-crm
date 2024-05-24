@@ -1,0 +1,6 @@
+es:
+  views:
+    accounts:
+      pipelines:
+        form:
+          pipeline_data: Datos del embudo

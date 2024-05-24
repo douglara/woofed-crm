@@ -9,11 +9,11 @@
             </div>
           <% elsif event.activity? %>
             <% if event.done? %>
-              <%= link_to account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: false}) ,method: :put, data: {confirm: "Are you sure?"}, class:'flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7] hover:bg-[#DEFFE9] cursor-pointer'  do %>
+              <%= link_to account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: false}) ,method: :put, data: {confirm: t('views.accounts.contacts.events.event.are_you_sure?')}, class:'flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7] hover:bg-[#DEFFE9] cursor-pointer'  do %>
                 <i data-lucide="check" class= "h-[20px] self-center stroke-[#26D367]"></i>
               <% end %>
             <% else %>
-              <%= link_to '' ,account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: true}) ,method: :put, data: {confirm: "Are you sure?"}, class: 'h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p2 bg-light-palette-p5 hover:bg-light-palette-p3 cursor-pointer' %>
+              <%= link_to '' ,account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: true}) ,method: :put, data: {confirm: t('views.accounts.contacts.events.event.are_you_sure?')}, class: 'h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p2 bg-light-palette-p5 hover:bg-light-palette-p3 cursor-pointer' %>
             <% end %>
           <% elsif event.kind_message? %>
             <% if event.done? %>
@@ -21,7 +21,7 @@
                 <i data-lucide="check-check" class= "h-[20px] self-center stroke-[#26D367]"></i>
               </div>
             <% else %>
-              <%= link_to '' ,account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{send_now: true}) ,method: :put, data: {confirm: "Are you sure?"}, class: 'h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p2 bg-light-palette-p5 hover:bg-light-palette-p3 cursor-pointer' %>
+              <%= link_to '' ,account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{send_now: true}) ,method: :put, data: {confirm: t('views.accounts.contacts.events.event.are_you_sure?')}, class: 'h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p2 bg-light-palette-p5 hover:bg-light-palette-p3 cursor-pointer' %>
             <% end %>
           <% end %>
         <% else %>
@@ -32,13 +32,13 @@
         <div class="flex-grow py-1">
           <div class="flex items-center gap-2">
             <span class="m-0 text-dark-gray-palette-p1 typography-text-s-lh150 flex items-center gap-1.5">
-              <%= event.kind == 'activity' ? event.title : Event.human_attribute_name(event.kind) %>
+              <%= event.activity? ? event.title : Event.human_enum_name(:kind, event.kind) %>
             </span>
             <%= embedded_svg('icon-whtass.svg', {class: "w-3.5 fill-[#26D367]"}) if event.evolution_api_message? %>
             <i data-lucide="<%= event.icon_key %>" class="<%= event.icon_key %> self-center"></i>
           </div>
           <% if event.scheduled_at.present? %>
-            <span class="m-0 text-brand-palette-04 group-[.event-scheduled]:font-semibold group-[.event-item-from-contacts]:text-dark-gray-palette-p4">Prazo: <%= event.primary_date %></span>
+            <span class="m-0 text-brand-palette-04 group-[.event-scheduled]:font-semibold group-[.event-item-from-contacts]:text-dark-gray-palette-p4"><%= t('views.accounts.contacts.events.event.deadline') %>: <%= event.primary_date %></span>
           <% else %>
             <p class="m-0 typography-subtext-m-lh150 text-dark-gray-palette-p4"><%= event.primary_date %></p>
           <% end %>

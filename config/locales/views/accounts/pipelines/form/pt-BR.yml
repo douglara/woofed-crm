@@ -1,0 +1,8 @@
+pt-BR:
+  views:
+    accounts:
+      pipelines:
+        form:
+          pipeline_data: Dados do funil
+
+

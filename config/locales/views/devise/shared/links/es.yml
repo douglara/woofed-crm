@@ -1,0 +1,11 @@
+es:
+  views:
+    devise:
+      shared:
+        links:
+          log_in: "Iniciar sesión"
+          sign_up: "Regístrate"
+          forgot_password: "¿Olvidaste tu contraseña?"
+          resend_confirmation: "¿No recibiste las instrucciones de confirmación?"
+          resend_unlock: "¿No recibiste las instrucciones de desbloqueo?"
+          sign_in_with: "Iniciar sesión con %{provider}"

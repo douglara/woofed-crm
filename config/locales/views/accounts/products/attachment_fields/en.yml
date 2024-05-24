@@ -1,0 +1,6 @@
+en:
+  views:
+    accounts:
+      products:
+        attachment_fields:
+          are_you_sure?: 'Are you sure?'

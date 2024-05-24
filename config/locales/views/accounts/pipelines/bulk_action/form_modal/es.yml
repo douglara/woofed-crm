@@ -1,0 +1,6 @@
+es:
+  views:
+    accounts:
+      pipelines:
+        bulk_action:
+          title: "Acción masiva (Etapa: %{stage})"

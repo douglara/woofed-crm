@@ -1,0 +1,15 @@
+pt-BR:
+  activerecord:
+    models:
+      product:
+        one: Produto
+        other: Produtos
+        new: 'Novo produto'
+        edit: 'Editar produto'
+    attributes:
+      product:
+        name: Nome
+        identifier: Identificador
+        amount_in_cents: Preço
+        quantity_available: Quantidade disponível
+        description: Descrição

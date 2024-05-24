@@ -1,0 +1,28 @@
+es:
+  activerecord:
+    models:
+      custom_attribute_definition:
+        one: Atributo personalizado
+        other: Atributos personalizados
+        new: Nuevo atributo personalizado
+        edit: Editar atributo personalizado
+        add: Agregar atributo personalizado
+    attributes:
+      custom_attribute_definition:
+        attribute_key: Clave
+        attribute_display_name: Nombre de pantalla
+        attribute_description: Descripción
+        attribute_model: Tipo
+        attribute_models:
+          contact_attribute: Contacto
+          deal_attribute: Negocio
+          product_attribute: Producto
+        contact_attribute: Contacto
+        deal_attribute: Negocio
+        product_attribute: Producto
+    enums:
+      custom_attribute_definition:
+        attribute_models:
+          contact_attribute: Contacto
+          deal_attribute: Negocio
+          product_attribute: Producto

@@ -1,0 +1,8 @@
+en:
+  views:
+    accounts:
+      deals:
+        edit_custom_attributes:
+          search: 'Search'
+          field_content: 'Field content'
+          confirm: 'Confirm'

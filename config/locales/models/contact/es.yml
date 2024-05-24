@@ -1,0 +1,15 @@
+es:
+  activerecord:
+    models:
+      contact:
+        one: Contacto
+        other: Contactos
+        new: Nuevo contacto
+        edit: Editar contacto
+    attributes:
+      contact:
+        full_name: Nombre completo
+        phone: Teléfono (celular)
+        email: Correo electrónico
+        label_list: Etiquetas
+        chatwoot_conversations_label_list: Etiquetas de conversaciones en Chatwoot

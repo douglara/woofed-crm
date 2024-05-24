@@ -1,0 +1,6 @@
+en:
+  views:
+    accounts:
+      pipelines:
+        form:
+          pipeline_data: Pipeline data

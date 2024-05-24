@@ -7,12 +7,10 @@ class Accounts::Apps::Chatwoots::ExportContact
     contact_chatwoot_id = contact['additional_attributes']['chatwoot_id']
 
     if contact_chatwoot_id.present?
-      response = update_contact(chatwoot, contact)
+      update_contact(chatwoot, contact)
     else
-      response = create_contact(chatwoot, contact)
+      create_contact(chatwoot, contact)
     end
-
-    return response
   end
 
   def self.update_contact(chatwoot, contact)
@@ -23,19 +21,19 @@ class Accounts::Apps::Chatwoots::ExportContact
     )
     if request.status == 200
       export_contact_tags(chatwoot, contact)
-      return { ok: contact}
+      { ok: contact }
     else
-      return { error: request.body }
+      { error: request.body }
     end
   end
 
   def self.export_contact_tags(chatwoot, contact)
     request = Faraday.post(
       "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{contact.additional_attributes['chatwoot_id']}/labels",
-      {labels: contact.label_list}.to_json,
+      { labels: contact.label_list }.to_json,
       chatwoot.request_headers
     )
-    return JSON.parse(request.body)['payload']
+    JSON.parse(request.body)['payload']
   end
 
   def self.create_contact(chatwoot, contact)
@@ -49,23 +47,23 @@ class Accounts::Apps::Chatwoots::ExportContact
     if response_body['message'] == 'Email has already been taken' && request.status == 422
       search_chatwoot_contact = Accounts::Apps::Chatwoots::SearchContact.call(chatwoot, contact['email'])
       update_contact_chatwoot_id(contact, search_chatwoot_contact['id'])
-      return { ok: contact }
+      { ok: contact }
     elsif response_body['message'] == 'Phone number has already been taken' && request.status == 422
       search_chatwoot_contact = Accounts::Apps::Chatwoots::SearchContact.call(chatwoot, contact['phone'])
       update_contact_chatwoot_id(contact, search_chatwoot_contact['id'])
-      return { ok: contact }
+      { ok: contact }
     elsif request.status == 200
       update_contact_chatwoot_id(contact, response_body['payload']['contact']['id'])
       export_contact_tags(chatwoot, contact)
-      return { ok: contact }
+      { ok: contact }
     else
       Rails.logger.error(
-        "Error when export contact to chatwoot," +
+        'Error when export contact to chatwoot,' +
         "Chatwoot Apps: #{chatwoot.inspect}," +
         "Chatwoot request: #{request.inspect}," +
         "Chatwoot response: #{request.body}"
-        )
-      return { error: request.body }
+      )
+      { error: request.body }
     end
   end
 

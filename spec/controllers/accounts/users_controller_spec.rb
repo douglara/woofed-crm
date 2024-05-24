@@ -6,7 +6,8 @@ RSpec.describe Accounts::UsersController, type: :request do
 
   describe 'POST /accounts/{account.id}/users' do
     let(:valid_params) do
-      { user: { full_name: 'Yukio', email: 'yukio@email.com', password: '123456', password_confirmation: '123456', phone: '+5522998813788' } }
+      { user: { full_name: 'Yukio', email: 'yukio@email.com', password: '123456', password_confirmation: '123456',
+                phone: '+5522998813788' } }
     end
 
     context 'when it is an unauthenticated user' do
@@ -37,7 +38,7 @@ RSpec.describe Accounts::UsersController, type: :request do
               post "/accounts/#{account.id}/users",
                    params: invalid_params
             end.to change(User, :count).by(0)
-            expect(response.body).to include('E-mail não pode ficar em branco')
+            expect(response.body).to match(/Email can&#39;t be blank/)
             expect(response).to have_http_status(:unprocessable_entity)
           end
           it 'when email is incorrect' do
@@ -47,7 +48,7 @@ RSpec.describe Accounts::UsersController, type: :request do
               post "/accounts/#{account.id}/users",
                    params: invalid_params
             end.to change(User, :count).by(0)
-            expect(response.body).to include('E-mail não é válido')
+            expect(response.body).to include('Email is invalid')
             expect(response).to have_http_status(:unprocessable_entity)
           end
         end
@@ -60,7 +61,7 @@ RSpec.describe Accounts::UsersController, type: :request do
               post "/accounts/#{account.id}/users",
                    params: invalid_params
             end.to change(User, :count).by(0)
-            expect(response.body).to include('Senha não pode ficar em branco')
+            expect(response.body).to match(/Password can&#39;t be blank/)
             expect(response).to have_http_status(:unprocessable_entity)
           end
           it 'when password have less 6 characters' do
@@ -70,7 +71,7 @@ RSpec.describe Accounts::UsersController, type: :request do
               post "/accounts/#{account.id}/users",
                    params: invalid_params
             end.to change(User, :count).by(0)
-            expect(response.body).to include('Senha é muito curto (mínimo: 6 caracteres)')
+            expect(response.body).to include('Password is too short (minimum is 6 characters)')
             expect(response).to have_http_status(:unprocessable_entity)
           end
           it 'when password and password_confirmation is diferent' do
@@ -80,7 +81,7 @@ RSpec.describe Accounts::UsersController, type: :request do
               post "/accounts/#{account.id}/users",
                    params: invalid_params
             end.to change(User, :count).by(0)
-            expect(response.body).to include('Confirme sua Senha não é igual a Senha')
+            expect(response.body).to match(/Confirm your password doesn&#39;t match Password/)
             expect(response).to have_http_status(:unprocessable_entity)
           end
         end
@@ -91,7 +92,7 @@ RSpec.describe Accounts::UsersController, type: :request do
             post "/accounts/#{account.id}/users",
                  params: invalid_params
           end.to change(User, :count).by(0)
-          expect(response.body).to include('E-mail já está em uso')
+          expect(response.body).to include('Email has already been taken')
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end
@@ -158,7 +159,7 @@ RSpec.describe Accounts::UsersController, type: :request do
             patch "/accounts/#{account.id}/users/#{user.id}",
                   params: invalid_params
             expect(User.first.email).to eq('belchior@show.com.br')
-            expect(response.body).to include('E-mail não pode ficar em branco')
+            expect(response.body).to match(/Email can&#39;t be blank/)
             expect(response).to have_http_status(:unprocessable_entity)
           end
           it 'when email is incorrect' do
@@ -167,7 +168,7 @@ RSpec.describe Accounts::UsersController, type: :request do
             patch "/accounts/#{account.id}/users/#{user.id}",
                   params: invalid_params
             expect(User.first.email).to eq('belchior@show.com.br')
-            expect(response.body).to include('E-mail não é válido')
+            expect(response.body).to include('Email is invalid')
             expect(response).to have_http_status(:unprocessable_entity)
           end
         end
@@ -187,7 +188,7 @@ RSpec.describe Accounts::UsersController, type: :request do
             patch "/accounts/#{account.id}/users/#{user.id}",
                   params: invalid_params
 
-            expect(response.body).to include('Senha é muito curto (mínimo: 6 caracteres)')
+            expect(response.body).to include('Password is too short (minimum is 6 characters)')
             expect(response).to have_http_status(:unprocessable_entity)
           end
           it 'when password and password_confirmation is diferent' do
@@ -197,7 +198,7 @@ RSpec.describe Accounts::UsersController, type: :request do
             patch "/accounts/#{account.id}/users/#{user.id}",
                   params: invalid_params
 
-            expect(response.body).to include('Confirme sua Senha não é igual a Senha')
+            expect(response.body).to match(/Confirm your password doesn&#39;t match Password/)
             expect(response).to have_http_status(:unprocessable_entity)
           end
         end

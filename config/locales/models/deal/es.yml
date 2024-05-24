@@ -1,0 +1,12 @@
+es:
+  activerecord:
+    models:
+      deal:
+        one: 'Negocio'
+        other: 'Negocios'
+        new: 'Nuevo negocio'
+        edit: 'Editar negocio'
+    attributes:
+      deal:
+        name: Nombre
+        stage_id: Etapa

@@ -1,0 +1,9 @@
+en:
+  views:
+    accounts:
+      deals:
+        details:
+          edit:
+            save_changes: 'Save changes'
+            add_custom_attributes: 'Add fields'
+            tag_placeholder: 'Enter tags'

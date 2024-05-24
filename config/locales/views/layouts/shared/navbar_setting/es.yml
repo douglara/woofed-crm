@@ -1,0 +1,7 @@
+es:
+  views:
+    layouts:
+      shared:
+        navbar_setting:
+          company: Empresa
+

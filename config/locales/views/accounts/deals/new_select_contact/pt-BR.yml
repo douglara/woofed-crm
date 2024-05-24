@@ -1,0 +1,6 @@
+pt-BR:
+  views:
+    accounts:
+      deals:
+        new_select_contact:
+          continue: Continuar

@@ -1,0 +1,7 @@
+es:
+  views:
+    components:
+      deals:
+        stages_nav:
+          are_you_sure?: '¿Está seguro?'
+

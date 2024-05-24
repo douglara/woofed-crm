@@ -1,0 +1,10 @@
+pt-BR:
+  views:
+    accounts:
+      products:
+        form:
+          product_data: Dados do produto
+          images: Imagens
+          add_images: Adicionar imagens
+
+

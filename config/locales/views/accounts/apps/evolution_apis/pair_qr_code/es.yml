@@ -1,0 +1,11 @@
+es:
+  views:
+    accounts:
+      apps:
+        evolution_apis:
+          pair_qr_code:
+            scan_qr_code: 'Apunta la cámara de tu teléfono al código QR'
+            step_one: '1. Abre WhatsApp en tu teléfono.'
+            step_two: '2. Toca <b class="text-dark-gray-palette-p2">Más opciones</b> en Android o <b class="text-dark-gray-palette-p2">Configuración</b> en iPhone.'
+            step_three: '3. Toca <b class="text-dark-gray-palette-p2">Dispositivos vinculados</b> y luego <b class="text-dark-gray-palette-p2">Vincular un dispositivo</b>.'
+            step_four: '4. Apunta tu teléfono a esta pantalla para capturar el código QR.'

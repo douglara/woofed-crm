@@ -1,0 +1,11 @@
+pt-BR:
+  activerecord:
+    models:
+      pipeline:
+        one: Funil
+        other: Funis
+        new: 'Novo funil'
+        edit: 'Editar funil'
+    attributes:
+      pipeline:
+        name: Nome

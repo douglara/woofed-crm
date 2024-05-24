@@ -1,0 +1,6 @@
+es:
+  views:
+    layouts:
+      shared:
+        navbar_chatwoot:
+          configure_chatwoot: 'Configurar Chatwoot'

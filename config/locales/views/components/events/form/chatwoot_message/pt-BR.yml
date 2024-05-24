@@ -1,0 +1,9 @@
+pt-BR:
+  views:
+    components:
+      events:
+        form:
+          chatwoot_message:
+            inbox: "Caixa de entrada"
+            content: "Conteúdo da mensagem"
+            confirm: Confirmar

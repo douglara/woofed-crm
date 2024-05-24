@@ -1,0 +1,11 @@
+es:
+  activerecord:
+    models:
+      pipeline:
+        one: Embudo
+        other: Embudos
+        new: 'Nuevo embudo'
+        edit: 'Editar embudo'
+    attributes:
+      pipeline:
+        name: Nombre

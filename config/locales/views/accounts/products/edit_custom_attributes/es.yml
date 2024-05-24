@@ -1,0 +1,8 @@
+es:
+  views:
+    accounts:
+      products:
+        edit_custom_attributes:
+          search: 'Buscar'
+          field_content: 'Contenido del campo'
+          confirm: 'Confirmar'

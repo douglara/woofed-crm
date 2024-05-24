@@ -2,22 +2,21 @@
   <nav>
     <ul class="flex flex-col gap-4">
       <li>
-        <%= link_to 'Integrações', '#', class:"inline-block w-full px-4 py-3 border-2 rounded-md border-brand-palette-06 typography-text-m-lh150 text-brand-palette-03 bg-brand-palette-07" %>
-      </li>
-      <!-- <li>
-        <%= link_to 'Campos personalizados', account_custom_attributes_definitions_path(current_user.account), class:"inline-block w-full px-4 py-3 border-2 rounded-md border-brand-palette-06 typography-text-m-lh150 text-brand-palette-03 bg-brand-palette-07" %>
-      </li> -->
-      <li>
-        <%= link_to 'Campos personalizados', account_custom_attributes_definitions_path(current_user.account), class:"inline-block w-full px-4 py-3 border-2 border-transparent rounded-md typography-text-m-lh150 text-dark-gray-palette-p3 bg-transparent hover:bg-brand-palette-07" %>
+        <%= link_to t('views.accounts.settings.index.integrations'), '#', class:"inline-block w-full px-4 py-3 border-2 rounded-md border-brand-palette-06 typography-text-m-lh150 text-brand-palette-03 bg-brand-palette-07" %>
       </li>
       <li>
-        <%= link_to 'Usuários', account_users_path(current_user.account), class:"inline-block w-full px-4 py-3 border-2 border-transparent rounded-md typography-text-m-lh150 text-dark-gray-palette-p3 bg-transparent hover:bg-brand-palette-07" %>
+        <%= link_to t('activerecord.models.custom_attribute_definition.one'), account_custom_attributes_definitions_path(current_user.account), class:"inline-block w-full px-4 py-3 border-2 border-transparent rounded-md typography-text-m-lh150 text-dark-gray-palette-p3 bg-transparent hover:bg-brand-palette-07" %>
+      </li>
+      <li>
+        <%= link_to t('activerecord.models.user.one'), account_users_path(current_user.account), class:"inline-block w-full px-4 py-3 border-2 border-transparent rounded-md typography-text-m-lh150 text-dark-gray-palette-p3 bg-transparent hover:bg-brand-palette-07" %>
       </li>
     </ul>
   </nav>
   <div class="border-2 border-light-palette-p3 rounded-md bg-light-palette-p5">
     <header class="text-dark-gray-palette-p3 px-4 py-5 border-b-2 border-light-palette-p3">
-      <p class="typography-text-m-lh150">Integre o Woofed com outras aplicações da sua empresa</p>
+      <p class="typography-text-m-lh150">
+        <%= t('views.accounts.settings.index.integrate_with_other_apps') %>
+      </p>
     </header>
     <ul class="px-4 py-5 space-y-5">
       <li  class= "flex items-center gap-4">
@@ -25,22 +24,29 @@
           <%= embedded_svg('icon-whtass.svg', {class: "w-5 fill-[#26D367]"}) %>
         </div>
         <div class="mr-auto">
-          <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1 mb-1">Whatsapp</h2>
-          <p class="typography-sub-text-r-lh150 text-dark-gray-palette-p3">Configure sua conexão com whatsapp</p>
+          <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1 mb-1">
+            <%= t('views.accounts.settings.index.whatsapp') %>
+          </h2>
+          <p class="typography-sub-text-r-lh150 text-dark-gray-palette-p3">
+            <%= t('views.accounts.settings.index.whatsapp_configuration') %>
+          </p>
         </div>
         <%= link_to account_apps_evolution_apis_path(current_user.account), class:"inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" do %>
           <i data-lucide="arrow-up-right" class=" stroke-dark-gray-palette-p3"></i>
         <% end %>
       </li>
       <div class="w-full h-0.5 bg-light-palette-p3 "></div>
-
       <li class= "flex items-center gap-4">
         <div class="p-2.5 rounded-lg border-2 border-light-palette-p3 bg-[#f5fafe]">
           <i data-lucide="message-circle" class= "w-5 stroke-[#369EF2] -rotate-[101deg]"></i>
         </div>
         <div class="mr-auto">
-          <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1 mb-1">Chatwoot</h2>
-          <p class="typography-sub-text-r-lh150 text-dark-gray-palette-p3">Configure sua conexão com chatwoot</p>
+          <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1 mb-1">
+            <%= t('views.accounts.settings.index.chatwoot') %>
+          </h2>
+          <p class="typography-sub-text-r-lh150 text-dark-gray-palette-p3">
+            <%= t('views.accounts.settings.index.chatwoot_configuration') %>
+          </p>
         </div>
         <%= link_to new_account_apps_chatwoot_path(current_user.account), class:"inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" do %>
           <i data-lucide="arrow-up-right" class=" stroke-dark-gray-palette-p3"></i>
@@ -52,8 +58,12 @@
           <i data-lucide="webhook" class="w-5 stroke-[#EA4B71]"></i>
         </div>
         <div class="mr-auto">
-          <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1 mb-1">Webhooks</h2>
-          <p class="typography-sub-text-r-lh150 text-dark-gray-palette-p3">Configure sua conexão com webhooks</p>
+          <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1 mb-1">
+            <%= t('views.accounts.settings.index.webhooks') %>
+          </h2>
+          <p class="typography-sub-text-r-lh150 text-dark-gray-palette-p3">
+            <%= t('views.accounts.settings.index.webhooks_configuration') %>
+          </p>
         </div>
         <%= link_to account_webhooks_path(current_user.account), class:"inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" do %>
           <i data-lucide="arrow-up-right" class=" stroke-dark-gray-palette-p3"></i>
@@ -65,8 +75,12 @@
           <i data-lucide="brain" class="w-5 stroke-[#6857D9]"></i>
         </div>
         <div class="mr-auto">
-          <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1 mb-1">Inteligência artificial</h2>
-          <p class="typography-sub-text-r-lh150 text-dark-gray-palette-p3">Configure o uso de inteligência artificial</p>
+          <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1 mb-1">
+            <%= t('views.accounts.settings.index.artificial_intelligence') %>
+          </h2>
+          <p class="typography-sub-text-r-lh150 text-dark-gray-palette-p3">
+            <%= t('views.accounts.settings.index.ai_configuration') %>
+          </p>
         </div>
         <%= link_to edit_account_ai_path(current_user.account, current_user.account), class:"inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" do %>
           <i data-lucide="arrow-up-right" class=" stroke-dark-gray-palette-p3"></i>

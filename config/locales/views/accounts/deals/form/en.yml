@@ -1,0 +1,6 @@
+en:
+  views:
+    accounts:
+      deals:
+        form:
+          deal_with: Deal with

@@ -1,0 +1,10 @@
+en:
+  views:
+    accounts:
+      settings:
+        custom_attributes_definitions:
+          custom_attribute_definition:
+            delete: Delete
+            edit: Edit
+            are_you_sure?: 'Are you sure?'
+

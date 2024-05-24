@@ -1,0 +1,12 @@
+es:
+  views:
+    layouts:
+      shared:
+        navbar_pipe:
+          all_open_deals: 'Todos los negocios abiertos'
+          all_won_deals: 'Todos los negocios ganados'
+          all_lost_deals: 'Todos los negocios perdidos'
+          all_deals: 'Todos los negocios'
+          my_account: 'Mi cuenta'
+          logout: 'Cerrar sesión'
+

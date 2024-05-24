@@ -1,0 +1,9 @@
+en:
+  views:
+    accounts:
+      deals:
+        details:
+          deal_products:
+            edit:
+              save_changes: 'Save changes'
+              add_custom_attributes: 'Add fields'

@@ -119,7 +119,7 @@ class Accounts::DealsController < InternalController
   def destroy
     @deal.destroy
     respond_to do |format|
-      format.html { redirect_to root_path, notice: 'Deal was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: t('flash_messages.deleted', model: Deal.model_name.human) }
       format.json { head :no_content }
     end
   end

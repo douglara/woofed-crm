@@ -1,0 +1,11 @@
+es:
+  views:
+    accounts:
+      welcome:
+        index:
+          welcome_header: 'Bienvenido a %{crm_name}'
+          welcome_message: '¡Bienvenido a <b class="text-dark-gray-palette-p2">%{crm_name}</b>! Estamos muy contentos de que te unas a nosotros en esta jornada de <b class="text-dark-gray-palette-p2">organización y eficiencia en los negocios</b>. Nuestro CRM es la herramienta que transformará la manera en que gestionas tus oportunidades y relaciones.'
+          get_started_message: 'Entonces, ¿qué estás esperando? ¡Vamos a empezar! Haz clic en el botón de abajo para crear tu primer pipeline y dar el siguiente paso hacia el <b class="text-dark-gray-palette-p2"> éxito en los negocios</b>.'
+
+
+

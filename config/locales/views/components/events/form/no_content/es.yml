@@ -1,0 +1,8 @@
+es:
+  views:
+    components:
+      events:
+        form:
+          no_content:
+            add_activity_title: "Agregar actividad"
+            add_activity_instruction: "Haga clic en los campos de arriba para agregar una actividad"

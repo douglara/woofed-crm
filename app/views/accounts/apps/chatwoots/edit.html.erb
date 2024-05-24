@@ -2,8 +2,6 @@
   <%= form_with(model: @chatwoot, url: account_apps_chatwoots_path(current_user.account), data: {turbo: false}, id: 'formId', class: 'flex flex-col gap-5') do |form| %>
     <% if @chatwoot.errors.any? %>
       <div id="error_explanation">
-        <h3 class="typography-body-s-lh150 text-auxiliary-palette-red"><%= pluralize(@chatwoot.errors.count, "error") %> prohibited this activity kind from being saved:</h3>
-
         <ul>
           <% @chatwoot.errors.each do |error| %>
             <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
@@ -11,25 +9,19 @@
         </ul>
       </div>
     <% end %>
-
     <div class="grid gap-2">
-      <%= form.label :chatwoot_endpoint_url, 'Endereço do Chatwoot', class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
+      <%= form.label :chatwoot_endpoint_url, class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
       <%= form.text_field :chatwoot_endpoint_url, class: 'form-input', disabled: true %>
     </div>
-
     <div class="grid gap-2">
-      <%= form.label :chatwoot_account_id, 'Account ID', class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
+      <%= form.label :chatwoot_account_id, class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
       <%= form.text_field :chatwoot_account_id, class: 'form-input', disabled: true %>
     </div>
-
     <div class="grid gap-2">
-      <%= form.label :chatwoot_user_token, 'Token do usuário', class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
+      <%= form.label :chatwoot_user_token, class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
       <%= form.text_field :chatwoot_user_token, class: 'form-input', disabled: true %>
     </div>
-
-
-    <%= link_to 'Excluir', account_apps_chatwoot_path(current_user.account, @chatwoot),
-        method: :delete, data: {confirm: 'Tem certeza?'}, class: 'btn-primary cursor-pointer self-end' %>
-
+    <%= link_to t('views.accounts.apps.chatwoots.edit.delete'), account_apps_chatwoot_path(current_user.account, @chatwoot),
+        method: :delete, data: {confirm: t('views.accounts.apps.chatwoots.edit.are_you_sure?')}, class: 'btn-primary cursor-pointer self-end' %>
   <% end %>
 </section>

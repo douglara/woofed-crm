@@ -1,0 +1,8 @@
+en:
+  views:
+    components:
+      events:
+        form:
+          cancel_button:
+            cancel: 'Cancel'
+

@@ -2,21 +2,23 @@
   <h2 class="typography-body-s-lh150 text-dark-gray-palette-p1"><%= contact.full_name %></h2>
   <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1"><%= contact.account.name %></h1>
   <div class="flex flex-wrap gap-2 sm:gap-4">
-  <div class="flex">
-    <div class="p-2 bg-light-palette-p5 border-2 rounded-l-md border-light-palette-p3">
-      <i data-lucide="mail" class="w-4 h-4 m-0.5 stroke-brand-palette-03"></i>
-    </div>
-    <%= mail_to contact.email, class: "-ml-0.5 py-2 pl-3 pr-4 bg-light-palette-p5 border-2 rounded-r-md border-light-palette-p3 typography-sub-text-m-lh150 text-dark-gray-palette-p3 hover:bg-brand-palette-07 hover:text-brand-palette-03" do %>
-      <%= contact.email %> 
-    <% end %> 
-    </div>
-  
     <div class="flex">
-      <div class="p-2 bg-light-palette-p5 border-2 rounded-l-md border-light-palette-p3">
-        <i data-lucide="phone" class="w-4 h-4 m-0.5 stroke-brand-palette-03"></i>
+      <% if contact.email.present? %>
+        <div class="p-2 bg-light-palette-p5 border-2 rounded-l-md border-light-palette-p3">
+          <i data-lucide="mail" class="w-4 h-4 m-0.5 stroke-brand-palette-03"></i>
+        </div>
+        <%= mail_to contact.email, class: "-ml-0.5 py-2 pl-3 pr-4 bg-light-palette-p5 border-2 rounded-r-md border-light-palette-p3 typography-sub-text-m-lh150 text-dark-gray-palette-p3 hover:bg-brand-palette-07 hover:text-brand-palette-03" do %>
+          <%= contact.email %>
+        <% end %>
       </div>
-      <%= link_to contact.phone, "tel:#{contact.phone}", class:"-ml-0.5 py-2 pl-3 pr-4 bg-light-palette-p5 border-2 rounded-r-md border-light-palette-p3 typography-sub-text-m-lh150 text-dark-gray-palette-p3 hover:bg-brand-palette-07 hover:text-brand-palette-03" %>
+    <% end %>
+    <div class="flex">
+      <% if contact.phone.present? %>
+        <div class="p-2 bg-light-palette-p5 border-2 rounded-l-md border-light-palette-p3">
+          <i data-lucide="phone" class="w-4 h-4 m-0.5 stroke-brand-palette-03"></i>
+        </div>
+        <%= link_to contact.phone, "tel:#{contact.phone}", class:"-ml-0.5 py-2 pl-3 pr-4 bg-light-palette-p5 border-2 rounded-r-md border-light-palette-p3 typography-sub-text-m-lh150 text-dark-gray-palette-p3 hover:bg-brand-palette-07 hover:text-brand-palette-03" %>
+      <% end %>
     </div>
   </div>
 </div>
-

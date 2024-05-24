@@ -1,0 +1,11 @@
+en:
+  views:
+    accounts:
+      products:
+        index:
+          images: Images
+          product_name: Product name
+          amount: Amount
+          quantity: Quantity
+          identifier: Identifier
+          created_at: Created at

@@ -1,0 +1,8 @@
+en:
+  views:
+    accounts:
+      products:
+        form:
+          product_data: 'Product data'
+          images: 'Images'
+          add_images: 'Add Images'

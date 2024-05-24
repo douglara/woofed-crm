@@ -8,11 +8,13 @@
       </ul>
     </div>
   <% end %>
-  <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">Dados do produto</h2>
+  <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">
+    <%= t('views.accounts.products.form.product_data') %>
+  </h2>
   <div class= "grid lg:grid-cols-4 gap-4">
     <div class="flex flex-col gap-1">
       <%= form.label :name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-      <%= form.text_field :name, placeholder: "Produto x", class: 'form-input' %>
+      <%= form.text_field :name, placeholder: "#{t('activerecord.models.product.one')} x", class: 'form-input' %>
     </div>
     <div class="flex flex-col gap-1">
       <%= form.label :identifier, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
@@ -29,17 +31,19 @@
   </div>
   <div class="flex flex-col gap-1">
     <%= form.label :description, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
-    <%= form.text_area :description, placeholder: "Descrição produto", rows: 5 , class: 'form-input !border-light-palette-p3'%>
+    <%= form.text_area :description, placeholder: "#{t('activerecord.models.product.one')} ...", rows: 5 , class: 'form-input !border-light-palette-p3'%>
   </div>
   <div class="h-0.5 w-full bg-light-palette-p3"></div>
   <div>
-    <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1 mb-5">Fotos</h2>
+    <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1 mb-5">
+      <%= t('views.accounts.products.form.image') %>
+    </h2>
     <div class='flex items-end gap-4 flex-wrap'>
       <%= form.fields_for :attachments do |attachment_form| %>
         <%= render 'attachment_fields', :f => attachment_form %>
       <% end %>
       <div class='grid gap-5'>
-        <%= link_to_add_association 'Adicionar fotos', form, :attachments, class: "btn-secondary place-self-start "%>
+        <%= link_to_add_association t('views.accounts.products.form.add_images'), form, :attachments, class: "btn-secondary place-self-start "%>
       </div>
     </div>
   </div>
@@ -48,7 +52,7 @@
   <div class="flex gap-2 self-end">
     <%= link_to account_custom_attributes_definitions_path(current_user.account), class:"btn-secondary flex items-center gap-2" do %>
       <i data-lucide="plus"></i>
-      Adicionar campo personalizado
+      <%= t('activerecord.models.custom_attribute_definition.add') %>
     <% end %>
     <%= form.submit class: 'btn-primary cursor-pointer' %>
   </div>

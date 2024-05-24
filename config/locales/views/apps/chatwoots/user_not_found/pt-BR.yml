@@ -1,0 +1,8 @@
+pt-BR:
+  views:
+    apps:
+      chatwoots:
+        user_not_found:
+          user_not_found: "Usuário chatwoot não encontrado!"
+          description: "O usuário de email <strong class='text-dark-gray-palette-p3'>%{user_email}</strong> não está cadastrado no Woofed. Para o funcionamento correto, crie o usuário pelo menu <strong class='text-dark-gray-palette-p3'>Empresa</strong> no Woofed CRM."
+          register_user: "Cadastrar usuário"

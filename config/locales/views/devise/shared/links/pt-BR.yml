@@ -1,0 +1,14 @@
+pt-BR:
+  views:
+    devise:
+      shared:
+        links:
+          log_in: "Entrar"
+          sign_up: "Cadastrar-se"
+          forgot_password: "Esqueceu sua senha?"
+          resend_confirmation: "Não recebeu as instruções de confirmação?"
+          resend_unlock: "Não recebeu as instruções de desbloqueio?"
+          sign_in_with: "Entrar com %{provider}"
+
+
+

@@ -1,0 +1,7 @@
+pt-BR:
+  views:
+    accounts:
+      pipelines:
+        bulk_action:
+          form_modal:
+            warning: "Para prevenir possíveis banimentos do número que enviará a mensagem, será introduzido um pequeno atraso no envio das mensagens. No entanto, é importante observar que o número ainda está sujeito a banimento. A ação em massa só está disponível para negócios com status em aberto."

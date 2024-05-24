@@ -30,23 +30,22 @@ class Contact < ApplicationRecord
   belongs_to :account
   validates :phone,
             allow_blank: true,
-            format: { with: /\+[1-9]\d{1,14}\z/, message: "Número inválido" }
-
-
+            format: { with: /\+[1-9]\d{1,14}\z/ }
 
   has_many :deals, dependent: :destroy
   belongs_to :app, polymorphic: true, optional: true
 
-  def self.ransackable_attributes(auth_object = nil)
-    ["additional_attributes", "app_id", "app_type", "created_at", "custom_attributes", "email", "full_name", "id", "phone", "updated_at"]
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[additional_attributes app_id app_type created_at custom_attributes email full_name id
+       phone updated_at]
   end
 
   def connected_with_chatwoot?
     additional_attributes['chatwoot_id'].present?
   end
 
-  FORM_FIELDS = [:full_name, :email, :phone, :label_list, :chatwoot_conversations_label_list]
-  after_commit :export_contact_to_chatwoot, on: [:create, :update]
+  FORM_FIELDS = %i[full_name email phone label_list chatwoot_conversations_label_list]
+  after_commit :export_contact_to_chatwoot, on: %i[create update]
 
   def phone=(value)
     value = "+#{value}" if value.present? && !value.start_with?('+')
@@ -62,8 +61,11 @@ class Contact < ApplicationRecord
   private
 
   def export_contact_to_chatwoot
-    account.apps_chatwoots.present? && Accounts::Apps::Chatwoots::ExportContactWorker.perform_async(account.apps_chatwoots.first.id, id)
+    account.apps_chatwoots.present? && Accounts::Apps::Chatwoots::ExportContactWorker.perform_async(
+      account.apps_chatwoots.first.id, id
+    )
   end
+
   def publish_created
     broadcast(:contact_created, self)
   end
