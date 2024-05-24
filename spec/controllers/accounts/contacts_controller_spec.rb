@@ -112,16 +112,39 @@ RSpec.describe Accounts::ContactsController, type: :request do
     end
   end
 
-  #   context "DELETE #destroy" do
-  #     before do
-  #       sign_in(user)
-  #     end
-  #     it "destroy a contact" do
-  #       expect do
-  #         delete "/accounts/#{account.id}/contacts/#{contact.id}"
-  #       end.to change(Contact, :count).by(-1)
-  #       expect(Contact.find_by(id: contact.id)).to be_nil
-  #       expect(response).to have_http_status(302)
-  #     end
-  #   end
+  describe 'GET /accounts/{account.id}/contacts/select_contact_search?query=query' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/contacts/select_contact_search?query=query"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+      context 'select contact search component' do
+        it do
+          get "/accounts/#{account.id}/contacts/select_contact_search"
+          expect(response).to have_http_status(200)
+        end
+        context 'when there is query parameter' do
+          it 'should return product' do
+            get "/accounts/#{account.id}/contacts/select_contact_search?query=#{contact.full_name}"
+            expect(response).to have_http_status(200)
+            expect(response.body).to include(contact.full_name)
+          end
+          context 'when query paramenter is not founded' do
+            it 'should return 0 products' do
+              get "/accounts/#{account.id}/contacts/select_contact_search?query=teste"
+              expect(response).to have_http_status(200)
+              expect(response.body).not_to include('teste')
+              expect(response.body).not_to include(contact.full_name)
+            end
+          end
+        end
+      end
+    end
+  end
 end
