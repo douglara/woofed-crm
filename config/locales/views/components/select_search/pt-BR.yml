@@ -1,0 +1,7 @@
+pt-BR:
+  views:
+    components:
+      select_search:
+        select: 'Selecione %{model}'
+        search: 'Buscar %{model}'
+        new: 'Novo %{model}'

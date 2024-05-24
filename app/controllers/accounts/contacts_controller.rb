@@ -62,8 +62,14 @@ class Accounts::ContactsController < InternalController
   def create
     @contact = current_user.account.contacts.new(contact_params)
     if @contact.save
-      redirect_to account_contact_path(current_user.account, @contact),
-                  notice: t('flash_messages.created', model: Contact.model_name.human)
+      respond_to do |format|
+        format.html do
+          redirect_to account_contact_path(current_user.account, @contact),
+                      notice: t('flash_messages.created', model: Contact.model_name.human)
+        end
+        format.turbo_stream
+      end
+
     else
       render :new, status: :unprocessable_entity
     end

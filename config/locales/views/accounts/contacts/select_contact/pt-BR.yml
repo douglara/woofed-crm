@@ -1,7 +1,0 @@
-pt-BR:
-  views:
-    accounts:
-      contacts:
-        select_contact:
-          select_contact: 'Selecione o contato'
-          search_contact: 'Buscar contato'

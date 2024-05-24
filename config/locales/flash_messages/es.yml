@@ -3,3 +3,4 @@ es:
     created: '%{model} se creó con éxito.'
     deleted: '%{model} se eliminó con éxito.'
     updated: '%{model} se actualizó con éxito.'
+    added: '%{model} añadido con éxito.'

@@ -51,7 +51,7 @@
   <div class="h-0.5 w-full bg-light-palette-p3"></div>
   <%= render 'accounts/custom_attributes', m: contact, f: form %>
   <div class="flex gap-2 self-end">
-    <%= link_to account_custom_attributes_definitions_path(current_user.account), class:"btn-secondary flex items-center gap-2" do %>
+    <%= link_to account_custom_attributes_definitions_path(current_user.account), class:"btn-secondary flex items-center gap-2", data:{ turbo_frame: :_top } do %>
       <i data-lucide="plus"></i>
       <%= t('activerecord.models.custom_attribute_definition.add') %>
     <% end %>

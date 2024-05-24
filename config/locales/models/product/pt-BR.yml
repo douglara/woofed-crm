@@ -6,6 +6,7 @@ pt-BR:
         other: Produtos
         new: 'Novo produto'
         edit: 'Editar produto'
+        add: 'Adicionar produto'
     attributes:
       product:
         name: Nome

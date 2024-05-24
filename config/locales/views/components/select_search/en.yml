@@ -1,0 +1,7 @@
+en:
+  views:
+    components:
+      select_search:
+        select: 'Select %{model}'
+        search: 'Search %{model}'
+        new: 'New %{model}'
