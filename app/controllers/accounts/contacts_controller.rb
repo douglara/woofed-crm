@@ -7,14 +7,14 @@ class Accounts::ContactsController < InternalController
     @pagy, @contacts = pagy(@contacts)
   end
 
-  def select_contact
-    @contacts = current_user.account.contacts.order(updated_at: :desc).limit(5)
-  end
-
   def select_contact_search
-    @contacts = current_user.account.contacts.where(
-      'full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search', search: "%#{params[:query]}%"
-    ).order(updated_at: :desc).limit(5)
+    @contacts = if params[:query].present?
+                  current_user.account.contacts.where(
+                    'full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search', search: "%#{params[:query]}%"
+                  ).order(updated_at: :desc).limit(5)
+                else
+                  current_user.account.contacts.order(updated_at: :desc).limit(5)
+                end
   end
 
   def search
@@ -86,7 +86,9 @@ class Accounts::ContactsController < InternalController
   def destroy
     @contact.destroy
     respond_to do |format|
-      format.html { redirect_to account_contacts_path(current_user.account), notice: "Contact was successfully destroyed." }
+      format.html do
+        redirect_to account_contacts_path(current_user.account), notice: 'Contact was successfully destroyed.'
+      end
       format.json { head :no_content }
     end
   end

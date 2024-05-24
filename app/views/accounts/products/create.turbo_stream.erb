@@ -1,0 +1,6 @@
+<%= turbo_stream.replace :drawer do %>
+  <%= turbo_frame_tag :drawer %>
+<% end %>
+<%= turbo_stream.replace :flash_message do %>
+  <%= render partial: 'components/flash_message', locals: { message: 'Product was successfully created' } %>
+<% end %>

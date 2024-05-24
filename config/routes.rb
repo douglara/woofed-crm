@@ -33,7 +33,6 @@ Rails.application.routes.draw do
       get 'search', to: 'contacts#search', on: :collection
       get 'edit_custom_attributes'
       patch 'update_custom_attributes'
-      get 'select_contact', on: :collection
       get 'select_contact_search', on: :collection
       resources :notes, module: :contacts
       resources :events, module: :contacts do
@@ -79,7 +78,9 @@ Rails.application.routes.draw do
       resources :activities, module: :deals
       resources :flow_items, only: [:destroy], module: :deals
     end
-    resources :deal_products, only: %i[destroy]
+    resources :deal_products, only: %i[destroy new create] do
+      get 'select_product_search', on: :collection
+    end
 
     namespace :apps do
       resources :wpp_connects do

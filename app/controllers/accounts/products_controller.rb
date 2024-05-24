@@ -10,7 +10,12 @@ class Accounts::ProductsController < InternalController
   def create
     @product = ProductBuilder.new(current_user, product_params).perform
     if @product.save
-      redirect_to account_products_path(current_user.account), notice: 'Product was successfully created'
+      respond_to do |format|
+        format.html do
+          redirect_to account_products_path(current_user.account), notice: 'Product was successfully created'
+        end
+        format.turbo_stream
+      end
     else
       render :new, status: :unprocessable_entity
     end
