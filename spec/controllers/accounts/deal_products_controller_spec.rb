@@ -77,7 +77,7 @@ RSpec.describe Accounts::UsersController, type: :request do
               invalid_params = { deal_product: { product_id: product.id } }
               post "/accounts/#{account.id}/deal_products", params: invalid_params
               expect(response).to have_http_status(:unprocessable_entity)
-              expect(response.body).to include('Deal é obrigatório(a)')
+              expect(response.body).to include('Deal must exist')
               expect(DealProduct.count).to eq(0)
             end
           end
@@ -86,7 +86,7 @@ RSpec.describe Accounts::UsersController, type: :request do
               invalid_params = { deal_product: { deal_id: deal.id } }
               post "/accounts/#{account.id}/deal_products", params: invalid_params
               expect(response).to have_http_status(:unprocessable_entity)
-              expect(response.body).to include('Product é obrigatório(a)')
+              expect(response.body).to include('Product must exist')
               expect(DealProduct.count).to eq(0)
             end
           end
