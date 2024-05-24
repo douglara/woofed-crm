@@ -42,7 +42,7 @@ gem 'faraday-follow_redirects'
 gem 'html2text'
 gem 'cocoon'
 gem 'sidekiq'
-gem "good_job", "~> 3.14"
+gem "good_job", "~> 3.28.3"
 gem 'jsonb_accessor', '1.3.2'
 gem 'jwt', '2.2.3'
 gem 'rails-i18n', '~> 7.0.0'
@@ -106,7 +106,7 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
-  gem 'rexml', '= 3.2.4'
+  gem 'rexml', '3.2.7'
   gem 'vcr'
   gem 'webmock'
   gem 'simplecov', require: false

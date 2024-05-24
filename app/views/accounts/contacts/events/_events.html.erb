@@ -14,7 +14,7 @@
             <%= t('views.accounts.contacts.events.status_labels.scheduled') %>
           </span>
         </div>
-        <div class='max-h-[630px] overflow-y-scroll scroll-smooth custom-scroll-list-deal'>
+        <div class='max-h-[630px] overflow-y-auto scroll-smooth custom-scroll-list-deal'>
           <%= turbo_frame_tag "events_to_do_#{deal.contact.id}", src: events_to_do_account_deal_path(current_user.account, deal), loading: :lazy do  %>
             <%= render '/components/skeleton/event_card', from_me: true, done: false %>
             <%= render '/components/skeleton/event_card', from_me: true, done: false %>

@@ -28,6 +28,7 @@ class Account < ApplicationRecord
   has_many :stages, dependent: :destroy
   has_many :products, dependent: :destroy
   has_many :embedding_documments, dependent: :destroy
+  has_many :deal_products, dependent: :destroy
 
   after_create :embed_company_site
 
@@ -36,9 +37,7 @@ class Account < ApplicationRecord
   end
 
   def normalize_url(url)
-    unless url.match?(/\Ahttp(s)?:\/\//)
-      url = "https://#{url}"
-    end
+    url = "https://#{url}" unless url.match?(%r{\Ahttp(s)?://})
 
     url
   end

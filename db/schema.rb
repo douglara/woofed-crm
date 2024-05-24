@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_05_01_044326) do
+ActiveRecord::Schema.define(version: 2024_05_21_104060) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -176,6 +176,17 @@ ActiveRecord::Schema.define(version: 2024_05_01_044326) do
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
   end
 
+  create_table "deal_products", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "deal_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_deal_products_on_account_id"
+    t.index ["deal_id"], name: "index_deal_products_on_deal_id"
+    t.index ["product_id"], name: "index_deal_products_on_product_id"
+  end
+
   create_table "deals", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "status", default: "open", null: false
@@ -256,6 +267,21 @@ ActiveRecord::Schema.define(version: 2024_05_01_044326) do
     t.datetime "finished_at"
   end
 
+  create_table "good_job_executions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.uuid "active_job_id", null: false
+    t.text "job_class"
+    t.text "queue_name"
+    t.jsonb "serialized_params"
+    t.datetime "scheduled_at"
+    t.datetime "finished_at"
+    t.text "error"
+    t.integer "error_event", limit: 2
+    t.text "error_backtrace", array: true
+    t.index ["active_job_id", "created_at"], name: "index_good_job_executions_on_active_job_id_and_created_at"
+  end
+
   create_table "good_job_processes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -287,14 +313,20 @@ ActiveRecord::Schema.define(version: 2024_05_01_044326) do
     t.datetime "cron_at"
     t.uuid "batch_id"
     t.uuid "batch_callback_id"
+    t.boolean "is_discrete"
+    t.integer "executions_count"
+    t.text "job_class"
+    t.integer "error_event", limit: 2
+    t.text "labels", array: true
     t.index ["active_job_id", "created_at"], name: "index_good_jobs_on_active_job_id_and_created_at"
-    t.index ["active_job_id"], name: "index_good_jobs_on_active_job_id"
     t.index ["batch_callback_id"], name: "index_good_jobs_on_batch_callback_id", where: "(batch_callback_id IS NOT NULL)"
     t.index ["batch_id"], name: "index_good_jobs_on_batch_id", where: "(batch_id IS NOT NULL)"
     t.index ["concurrency_key"], name: "index_good_jobs_on_concurrency_key_when_unfinished", where: "(finished_at IS NULL)"
-    t.index ["cron_key", "created_at"], name: "index_good_jobs_on_cron_key_and_created_at"
-    t.index ["cron_key", "cron_at"], name: "index_good_jobs_on_cron_key_and_cron_at", unique: true
+    t.index ["cron_key", "created_at"], name: "index_good_jobs_on_cron_key_and_created_at_cond", where: "(cron_key IS NOT NULL)"
+    t.index ["cron_key", "cron_at"], name: "index_good_jobs_on_cron_key_and_cron_at_cond", unique: true, where: "(cron_key IS NOT NULL)"
     t.index ["finished_at"], name: "index_good_jobs_jobs_on_finished_at", where: "((retried_good_job_id IS NULL) AND (finished_at IS NOT NULL))"
+    t.index ["labels"], name: "index_good_jobs_on_labels", where: "(labels IS NOT NULL)", using: :gin
+    t.index ["priority", "created_at"], name: "index_good_job_jobs_for_candidate_lookup", where: "(finished_at IS NULL)"
     t.index ["priority", "created_at"], name: "index_good_jobs_jobs_on_priority_created_at_when_unfinished", order: { priority: "DESC NULLS LAST" }, where: "(finished_at IS NULL)"
     t.index ["queue_name", "scheduled_at"], name: "index_good_jobs_on_queue_name_and_scheduled_at", where: "(finished_at IS NULL)"
     t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
@@ -601,6 +633,9 @@ ActiveRecord::Schema.define(version: 2024_05_01_044326) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "apps_evolution_apis", "accounts"
+  add_foreign_key "deal_products", "accounts"
+  add_foreign_key "deal_products", "deals"
+  add_foreign_key "deal_products", "products"
   add_foreign_key "deals", "contacts"
   add_foreign_key "deals", "stages"
   add_foreign_key "events", "accounts"

@@ -205,4 +205,101 @@ RSpec.describe Accounts::DealsController, type: :request do
       end
     end
   end
+
+  describe 'GET /accounts/{account.id}/deals/:id/deal_products' do
+    let!(:deal) { create(:deal, account: account, stage: stage, contact: contact) }
+    let(:product) { create(:product, account: account) }
+    let!(:deal_product) { create(:deal_product, account: account, deal: deal, product: product) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/deals/#{deal.id}/deal_products"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      it 'should return only deal_products' do
+        get "/accounts/#{account.id}/deals/#{deal.id}/deal_products"
+        expect(response.body).to include(product.name)
+      end
+    end
+  end
+
+  describe 'GET /accounts/{account.id}/deals/:id/edit_product?deal_product_id={deal_product.id}' do
+    let!(:deal) { create(:deal, account: account, stage: stage, contact: contact) }
+    let(:product) { create(:product, account: account) }
+    let!(:deal_product) { create(:deal_product, account: account, deal: deal, product: product) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/deals/#{deal.id}/edit_product?deal_product_id=#{deal_product.id}"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+      it 'edit product on deal page' do
+        get "/accounts/#{account.id}/deals/#{deal.id}/edit_product?deal_product_id=#{deal_product.id}"
+        expect(response).to have_http_status(200)
+      end
+    end
+  end
+
+  describe 'PATCH /accounts/{account.id}/deals/:id/update_product?deal_product_id={deal_product.id}' do
+    let!(:deal) { create(:deal, account: account, stage: stage, contact: contact) }
+    let(:product) { create(:product, account: account) }
+    let!(:deal_product) { create(:deal_product, account: account, deal: deal, product: product) }
+    let(:valid_params) do
+      { product: { name: 'Product Updated Name', amount_in_cents: '63.580,36' } }
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/accounts/#{account.id}/deals/#{deal.id}/update_product?deal_product_id=#{deal_product.id}"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+      context 'update product' do
+        it do
+          patch "/accounts/#{account.id}/deals/#{deal.id}/update_product?deal_product_id=#{deal_product.id}",
+                params: valid_params
+          expect(response).to have_http_status(302)
+          expect(product.reload.name).to eq('Product Updated Name')
+          expect(product.amount_in_cents).to eq(6_358_036)
+        end
+        context 'when quantity_available is invalid' do
+          it 'when quantity_available is negative' do
+            invalid_params = { product: { quantity_available: '-30' } }
+            patch "/accounts/#{account.id}/deals/#{deal.id}/update_product?deal_product_id=#{deal_product.id}",
+                  params: invalid_params
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response.body).to include('Can not be negative')
+          end
+        end
+
+        context 'when amount_in_cents is invalid' do
+          it 'when amount_in_cents is negative' do
+            invalid_params = { product: { amount_in_cents: '-150000' } }
+            patch "/accounts/#{account.id}/deals/#{deal.id}/update_product?deal_product_id=#{deal_product.id}",
+                  params: invalid_params
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response.body).to include('Can not be negative')
+          end
+        end
+      end
+    end
+  end
 end

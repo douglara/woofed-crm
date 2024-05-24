@@ -11,7 +11,7 @@ describe WoofbotListener do
     let!(:deal) { create(:deal, contact: contact, account: account) }
     let(:event) { build(:event, account: account, deal: deal, contact: contact) }
     let(:jobs) do
-      GoodJob::Job.where("serialized_params ->> 'job_class' = ? ", 'Accounts::Contacts::Events::WoofbotJob')
+      Accounts::Contacts::Events::WoofbotWorker.jobs
     end
 
     it 'should delivery event created' do
