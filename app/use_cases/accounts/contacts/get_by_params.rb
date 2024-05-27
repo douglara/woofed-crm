@@ -1,11 +1,10 @@
-
 class Accounts::Contacts::GetByParams
   def self.call(account, params)
     params.stringify_keys!
-    return {error: 'Not found'} if params.blank?
+    return { error: 'Not found' } if params.blank?
 
     params = params.slice('email', 'phone')
-    query_params = params.map{ |field, value| "#{field} ILIKE '%#{value}%'" }
+    query_params = params.map { |field, value| "#{field} ILIKE '%#{value}%'" }
     if params.key?('phone')
       query_params << "phone ILIKE '%#{sanitized_phone(params['phone'])}%'"
       query_params << "phone ILIKE '%#{phone_with_9_digit(params['phone'])}%'"
@@ -13,27 +12,27 @@ class Accounts::Contacts::GetByParams
     end
 
     contact = account.contacts.where(query_params.join(' OR ')).first
-    return { ok: contact }
+    { ok: contact }
   end
 
   def self.phone_number_without_9_digit(phone)
     sanitized_phone = sanitized_phone(phone)
 
     if sanitized_phone.size == 13
-      return sanitized_phone
+      sanitized_phone
     else
-      phone = "#{sanitized_phone[0..4]}#{sanitized_phone[6..-1]}"
-      return phone
+      "#{sanitized_phone[0..4]}#{sanitized_phone[6..-1]}"
+
     end
   end
 
   def self.phone_with_9_digit(phone)
     sanitized_phone = sanitized_phone(phone)
     if sanitized_phone.size >= 14
-      return sanitized_phone
+      sanitized_phone
     else
-      phone_with_9_digit = "#{sanitized_phone[0..4]}9#{sanitized_phone[5..-1]}"
-      return phone_with_9_digit
+      "#{sanitized_phone[0..4]}9#{sanitized_phone[5..-1]}"
+
     end
   end
 
@@ -42,6 +41,6 @@ class Accounts::Contacts::GetByParams
 
     cleaned_phone_number = phone_number.gsub(/\D/, '')
     cleaned_phone_number.prepend('+')
-    return cleaned_phone_number
+    cleaned_phone_number
   end
 end

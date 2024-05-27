@@ -1,0 +1,6 @@
+pt-BR:
+  views:
+    accounts:
+      deals:
+        form:
+          deal_with: Negócio com

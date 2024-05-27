@@ -1,0 +1,11 @@
+pt-BR:
+  views:
+    layouts:
+      shared:
+        navbar_deal:
+          delete: 'Excluir'
+          lost: 'Perdido'
+          won: 'Ganho'
+          are_you_sure?: 'Você tem certeza?'
+
+

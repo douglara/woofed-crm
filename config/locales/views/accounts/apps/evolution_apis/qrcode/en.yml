@@ -1,0 +1,7 @@
+en:
+  views:
+    accounts:
+      apps:
+        evolution_apis:
+          qrcode:
+            refresh: 'Click here to load the QR code'

@@ -1,7 +1,7 @@
 <%= turbo_stream_from [current_user.account, :custom_attribute_definition] %>
 <section class="m-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md ">
   <header class="flex justify-end items-center text-dark-gray-palette-p3 px-4 py-5 border-b-2 border-light-palette-p3">
-    <%= link_to 'Novo campo personalizado', new_account_custom_attributes_definition_path(current_user.account), class: 'btn-secondary'%>
+    <%= link_to t('activerecord.models.custom_attribute_definition.add'), new_account_custom_attributes_definition_path(current_user.account), class: 'btn-secondary'%>
   </header>
   <ul class="px-4 py-5 grid" id="custom_attributes_definitions">
     <%= render partial: 'accounts/settings/custom_attributes_definitions/custom_attribute_definition', collection: @custom_attributes_definitions, as: :custom_attribute_definition %>

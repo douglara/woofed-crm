@@ -1,0 +1,9 @@
+en:
+  views:
+    accounts:
+      pipelines:
+        form_import_deals:
+          send: 'Send'
+          download_here: 'Here'
+          select_file: 'Select the file'
+          download_spreadsheet: 'Download the example spreadsheet'

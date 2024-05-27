@@ -1,0 +1,5 @@
+es:
+  flash_messages:
+    created: '%{model} se creó con éxito.'
+    deleted: '%{model} se eliminó con éxito.'
+    updated: '%{model} se actualizó con éxito.'

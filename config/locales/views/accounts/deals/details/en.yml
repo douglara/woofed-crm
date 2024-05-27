@@ -1,0 +1,8 @@
+en:
+  views:
+    accounts:
+      deals:
+        details:
+          information: 'Information'
+          info_examples: 'Summary, Person, Organization'
+

@@ -1,0 +1,8 @@
+pt-BR:
+  views:
+    accounts:
+      products:
+        product:
+          delete: Excluir
+          edit: Editar
+          are_you_sure?: 'Você tem certeza?'

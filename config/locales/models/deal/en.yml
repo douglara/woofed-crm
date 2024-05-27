@@ -1,0 +1,12 @@
+en:
+  activerecord:
+    models:
+      deal:
+        one: 'Deal'
+        other: 'Deals'
+        new: 'New deal'
+        edit: 'Edit deal'
+    attributes:
+      deal:
+        name: Name
+        stage_id: Stage

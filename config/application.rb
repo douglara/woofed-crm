@@ -45,25 +45,21 @@ module WoofedCrm
     config.assets.compile = true
     config.serve_static_assets = true
 
-    # Location and Timezone
-    config.i18n.default_locale = 'pt-BR'
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales','**' ,'*.{rb,yml}').to_s]
+    # Location
     config.time_zone = ENV.fetch('DEFAULT_TIMEZONE', 'Brasilia')
+
     config.host = nil
 
     config.assets.css_compressor = nil
     config.active_storage.service_urls_expire_in = 1.hour
 
-
     Rails.application.default_url_options = { host: ENV['FRONTEND_URL'] }
     if ENV['FRONTEND_URL'].present? && ENV['FRONTEND_URL'].include?('https')
       Rails.application.default_url_options.merge!({ protocol: 'https' })
+    elsif Rails.env.test?
+      Rails.application.default_url_options.merge!({ protocol: 'http' })
     else
-      if Rails.env.test?
-        Rails.application.default_url_options.merge!({ protocol: 'http' })
-      else
-        Rails.application.default_url_options.merge!({ protocol: 'http', port: ENV['PORT'].to_i })
-      end
+      Rails.application.default_url_options.merge!({ protocol: 'http', port: ENV['PORT'].to_i })
     end
     config.action_controller.default_url_options = Rails.application.default_url_options.dup
     config.action_mailer.default_url_options = Rails.application.default_url_options.dup

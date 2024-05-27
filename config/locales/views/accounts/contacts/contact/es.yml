@@ -1,0 +1,8 @@
+es:
+  views:
+    accounts:
+      contacts:
+        contact:
+          delete: Eliminar
+          edit: Editar
+          are_you_sure?: '¿Estas seguro que quieres borrarlo?'

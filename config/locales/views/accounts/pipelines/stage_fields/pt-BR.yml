@@ -1,0 +1,9 @@
+pt-BR:
+  views:
+    accounts:
+      pipelines:
+        stage_fields:
+          are_you_sure?: 'Tem certeza? Todas as negociações nesta fase também serão excluídas'
+
+
+

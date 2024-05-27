@@ -1,0 +1,9 @@
+en:
+  views:
+    components:
+      events:
+        form:
+          evolution_api_message:
+            from: From
+            content: "Message content"
+            confirm: Confirm

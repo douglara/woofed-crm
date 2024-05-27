@@ -1,0 +1,10 @@
+es:
+  views:
+    accounts:
+      users:
+        user:
+          user_data: 'Datos del usuario'
+          are_you_sure?: '¿Está seguro?'
+          delete: Eliminar
+          edit: Editar
+

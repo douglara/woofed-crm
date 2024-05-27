@@ -1,0 +1,8 @@
+en:
+  views:
+    accounts:
+      contacts:
+        events:
+          event:
+            are_you_sure?: 'Are you sure?'
+            deadline: Deadline

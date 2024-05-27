@@ -41,7 +41,7 @@ RSpec.describe Accounts::Settings::CustomAttributesDefinitionsController, type: 
               post "/accounts/#{account.id}/custom_attributes_definitions",
                    params: invalid_params
             end.to change(CustomAttributeDefinition, :count).by(0)
-            expect(response.body).to include('Chave não pode ficar em branco')
+            expect(response.body).to match(/Key can&#39;t be blank/)
             expect(response).to have_http_status(:unprocessable_entity)
           end
           context 'when attribute_key already exists in currently account' do
@@ -55,7 +55,7 @@ RSpec.describe Accounts::Settings::CustomAttributesDefinitionsController, type: 
                 post "/accounts/#{account.id}/custom_attributes_definitions",
                      params: params
               end.to change(CustomAttributeDefinition, :count).by(0)
-              expect(response.body).to include('Chave já está em uso')
+              expect(response.body).to include('Key has already been taken')
               expect(response).to have_http_status(:unprocessable_entity)
             end
             context 'when attribute_key already exists with contact_attribute, but not with deal_attribute' do
@@ -100,7 +100,7 @@ RSpec.describe Accounts::Settings::CustomAttributesDefinitionsController, type: 
       it 'should redirect to new custom_attributes_definitions page' do
         get "/accounts/#{account.id}/custom_attributes_definitions/new"
         expect(response).to have_http_status(200)
-        expect(response.body).to include('Criar Atributo personalizado')
+        expect(response.body).to include('Create Custom attribute')
       end
     end
   end
@@ -166,7 +166,7 @@ RSpec.describe Accounts::Settings::CustomAttributesDefinitionsController, type: 
         it 'should not update' do
           patch "/accounts/#{account.id}/custom_attributes_definitions/#{custom_attribute_definition.id}",
                 params: invalid_params
-          expect(response.body).to include('Chave já está em uso')
+          expect(response.body).to include('Key has already been taken')
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end

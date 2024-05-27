@@ -1,0 +1,8 @@
+en:
+  views:
+    components:
+      events:
+        form:
+          send_now:
+            send_message_now: "Send now"
+            schedule_message: "Schedule message"

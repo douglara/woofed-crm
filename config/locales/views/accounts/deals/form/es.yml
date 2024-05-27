@@ -1,0 +1,6 @@
+es:
+  views:
+    accounts:
+      deals:
+        form:
+          deal_with: Negocio con

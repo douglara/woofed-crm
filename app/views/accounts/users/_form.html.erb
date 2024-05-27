@@ -8,7 +8,9 @@
       </ul>
     </div>
   <% end %>
-  <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">Dados do usuário</h2>
+  <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">
+    <%= t('views.accounts.users.form.user_data') %>
+  </h2>
   <div class= "grid lg:grid-cols-3 gap-4">
     <div class="flex flex-col gap-1">
       <%= form.label :full_name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
@@ -29,8 +31,8 @@
       <%= form.password_field :password, placeholder: "123456", class: 'form-input' %>
     </div>
     <div class="flex flex-col gap-1">
-        <%= form.label :password_confirmation, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
-        <%= form.password_field :password_confirmation, placeholder: "123456", class: 'form-input' %>
+      <%= form.label :password_confirmation, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
+      <%= form.password_field :password_confirmation, placeholder: "123456", class: 'form-input' %>
     </div>
   </div>
   <div class="flex gap-2 self-end">

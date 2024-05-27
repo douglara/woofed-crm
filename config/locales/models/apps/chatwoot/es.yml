@@ -1,0 +1,20 @@
+es:
+  activerecord:
+    models:
+      apps/chatwoot:
+        one: 'Chatwoot'
+    attributes:
+      apps/chatwoot:
+        account_id: 'ID de Cuenta'
+        name: 'Nombre'
+        active: 'Activo'
+        status: 'Estado'
+        embedding_token: 'Token de integración'
+        chatwoot_account_id: 'ID de cuenta Chatwoot'
+        chatwoot_endpoint_url: 'URL del endpoint Chatwoot'
+        chatwoot_user_token: 'Token de usuario Chatwoot'
+        chatwoot_dashboard_app_id: 'ID de aplicación del tablero Chatwoot'
+        chatwoot_webhook_id: 'ID del webhook Chatwoot'
+        created_at: 'Creado en'
+        updated_at: 'Actualizado en'
+        inboxes: 'Bandejas de entrada'

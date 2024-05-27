@@ -1,0 +1,12 @@
+pt-BR:
+  views:
+    accounts:
+      apps:
+        evolution_apis:
+          pair_qr_code:
+            scan_qr_code: 'Aponte a câmera do celular no QR code'
+            step_one: '1. Abra o WhatsApp no seu celular.'
+            step_two: '2. Toque em <b class="text-dark-gray-palette-p2">Mais opções</b> no Android ou em <b class="text-dark-gray-palette-p2">Configurações</b> no iPhone.'
+            step_three: '3. Toque em <b class="text-dark-gray-palette-p2">Aparelhos</b> conectados e, em seguida, em <b class="text-dark-gray-palette-p2">Conectar um aparelho</b>.'
+            step_four: '4. Aponte seu celular para esta tela para capturar o QR code.'
+

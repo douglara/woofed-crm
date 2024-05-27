@@ -1,0 +1,9 @@
+es:
+  views:
+    accounts:
+      settings:
+        custom_attributes_definitions:
+          custom_attribute_definition:
+            delete: Eliminar
+            edit: Editar
+            are_you_sure?: '¿Está seguro?'

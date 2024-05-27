@@ -1,0 +1,9 @@
+es:
+  views:
+    accounts:
+      deals:
+        details:
+          deal_products:
+            edit:
+              save_changes: 'Guardar cambios'
+              add_custom_attributes: 'Agregar campos'

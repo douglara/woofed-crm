@@ -1,0 +1,7 @@
+es:
+  views:
+    accounts:
+      settings:
+        webhooks:
+          form:
+            webhook_data: Datos del webhook

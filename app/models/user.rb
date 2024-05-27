@@ -37,8 +37,8 @@ class User < ApplicationRecord
   end
 
   validates :phone,
-    allow_blank: true,
-    format: { with: /\+[1-9]\d{1,14}\z/, message: "Número inválido" }
+            allow_blank: true,
+            format: { with: /\+[1-9]\d{1,14}\z/ }
 
   after_update_commit do
     broadcast_replace_later_to "users_#{account_id}", target: self, partial: '/accounts/users/user',

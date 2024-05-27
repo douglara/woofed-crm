@@ -1,0 +1,11 @@
+en:
+  views:
+    layouts:
+      shared:
+        navbar_deal:
+          delete: 'Delete'
+          lost: 'Lost'
+          won: 'Won'
+          are_you_sure?: 'Are you sure?'
+
+

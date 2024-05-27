@@ -1,0 +1,12 @@
+en:
+  views:
+    layouts:
+      shared:
+        navbar_pipe:
+          all_open_deals: 'All open deals'
+          all_won_deals: 'All won deals'
+          all_lost_deals: 'All lost deals'
+          all_deals: 'All deals'
+          my_account: 'My account'
+          logout: 'Logout'
+

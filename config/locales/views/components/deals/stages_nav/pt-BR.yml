@@ -1,0 +1,7 @@
+pt-BR:
+  views:
+    components:
+      deals:
+        stages_nav:
+          are_you_sure?: 'Você tem certeza?'
+

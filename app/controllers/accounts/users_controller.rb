@@ -26,7 +26,8 @@ class Accounts::UsersController < InternalController
   def create
     @user = current_user.account.users.new(user_params)
     if @user.save
-      redirect_to account_users_path(current_user.account), notice: 'User was successfully created.'
+      redirect_to account_users_path(current_user.account),
+                  notice: t('flash_messages.created', model: User.model_name.human)
     else
       render :new, status: :unprocessable_entity
     end

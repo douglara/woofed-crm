@@ -1,0 +1,9 @@
+es:
+  views:
+    devise:
+      sessions:
+        new:
+          log_in: "Iniciar sesión"
+          forgot_password: "¿Olvidaste tu contraseña?"
+          account_answer: "¿No tienes una cuenta?"
+          create_account: "Crear cuenta"

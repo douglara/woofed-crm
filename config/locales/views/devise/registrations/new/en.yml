@@ -1,0 +1,9 @@
+en:
+  views:
+    devise:
+      registrations:
+        new:
+          register: Register
+          company: Company
+          url_company: Company site
+          password_minimum_characters: '(Minimum %{characters} characters)'

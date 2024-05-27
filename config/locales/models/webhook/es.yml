@@ -1,0 +1,18 @@
+es:
+  activerecord:
+    models:
+      webhook:
+        one: 'Webhook'
+        other: 'Webhooks'
+        new: 'Nuevo webhook'
+    attributes:
+      webhook:
+        statuses:
+          inactive: 'Inactivo'
+          active: 'Activo'
+        id: 'ID'
+        account_id: 'ID de cuenta'
+        url: 'URL'
+        created_at: 'Creado En'
+        updated_at: 'Actualizado En'
+        status: 'Estado'

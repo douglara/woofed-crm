@@ -1,0 +1,8 @@
+es:
+  views:
+    accounts:
+      apps:
+        evolution_apis:
+          evolution_api:
+            connect: Conectar
+            edit: Editar

@@ -1,0 +1,6 @@
+en:
+  views:
+    accounts:
+      pipelines:
+        stage_fields:
+          are_you_sure?: 'Are you sure? All deals in this stage will be deleted too'

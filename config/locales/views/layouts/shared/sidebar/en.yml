@@ -1,0 +1,6 @@
+en:
+  views:
+    layouts:
+      shared:
+        sidebar:
+          company: Company

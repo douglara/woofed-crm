@@ -1,0 +1,8 @@
+es:
+  views:
+    accounts:
+      apps:
+        chatwoots:
+          edit:
+            delete: 'Eliminar'
+            are_you_sure?: '¿Estás seguro?'

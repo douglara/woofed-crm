@@ -1,0 +1,10 @@
+en:
+  views:
+    accounts:
+      settings:
+        webhooks:
+          webhook:
+            delete: Delete
+            edit: Edit
+            are_you_sure?: 'Are you sure?'
+

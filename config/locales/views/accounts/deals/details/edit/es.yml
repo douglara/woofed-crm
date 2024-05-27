@@ -1,0 +1,9 @@
+es:
+  views:
+    accounts:
+      deals:
+        details:
+          edit:
+            save_changes: 'Guardar cambios'
+            add_custom_attributes: 'Agregar campos'
+            tag_placeholder: 'Ingrese etiquetas'
