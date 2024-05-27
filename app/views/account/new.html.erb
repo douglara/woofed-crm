@@ -13,12 +13,12 @@
 
   <div class="grid gap-5">
     <div class="grid gap-1">
-      <%= form.label :name, 'Empresa' , class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-      <%= form.text_field :name, autofocus: true, autocomplete: "Empresa", class: "form-input", required: true %>
+      <%= account_fields.label :name, t('views.devise.registrations.new.company') , class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= account_fields.text_field :name, autofocus: true, autocomplete: "Empresa", class: "form-input", required: true %>
     </div>
     <div class="grid gap-1">
-      <%= form.label :site_url, 'Site da empresa' , class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-      <%= form.text_field :site_url, autofocus: true, autocomplete: "Site da empresa", class: "form-input" %>
+      <%= account_fields.label :site_url, t('views.devise.registrations.new.url_company') , class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= account_fields.text_field :site_url, autofocus: true, autocomplete: "Site da empresa", class: "form-input" %>
     </div>
     <%= form.submit "Cadastrar", class:"btn-primary cursor-pointer" %>
 <% end %>
