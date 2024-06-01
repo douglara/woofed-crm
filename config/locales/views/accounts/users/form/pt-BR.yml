@@ -4,6 +4,9 @@ pt-BR:
       users:
         form:
           user_data: 'Dados do usuário'
-
+          access_token: 'Token de acesso'
+          access_token_info: "Este token pode ser utilizado ao configurar uma integração baseada em API."
+          copy: 'Copiar'
+          copied: 'Copiado'
 
 

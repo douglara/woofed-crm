@@ -4,3 +4,7 @@ en:
       users:
         form:
           user_data: 'User data'
+          access_token: 'Access token'
+          access_token_info: "This token can be used when setting up an API-based integration."
+          copy: 'Copy'
+          copied: 'Copied'
