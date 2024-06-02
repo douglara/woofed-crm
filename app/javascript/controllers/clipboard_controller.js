@@ -3,7 +3,8 @@ import { Controller } from "stimulus";
 export default class extends Controller {
   static targets = ["source", "defaultMessage", "successMessage"];
 
-  copy() {
+  copy(event) {
+    event.preventDefault();
     navigator.clipboard.writeText(this.sourceTarget.value).then(() => {
       this.showSuccess();
       setTimeout(() => {

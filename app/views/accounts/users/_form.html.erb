@@ -35,19 +35,14 @@
       <%= form.password_field :password_confirmation, placeholder: "123456", class: 'form-input' %>
     </div>
   </div>
-  <div class="flex gap-2 self-end">
-    <%= form.submit class: 'btn-primary cursor-pointer'%>
-  </div>
-<% end %>
-<div class='grid gap-5'>
-  <h3 class= "typography-body-s-lh150 text-dark-gray-palette-p1">
+  <h3 class= "typography-body-s-lh150 text-dark-gray-palette-p1 mt-5">
     <%= t('views.accounts.users.form.access_token') %>
   </h3>
   <div class='grid gap-2'>
     <div class="w-full max-w-[48rem]"  data-controller="clipboard">
       <div class="relative">
-        <label for="npm-install-copy-text" class="sr-only">Label</label>
-        <input id="npm-install-copy-text" data-clipboard-target="source" type="password" class="form-input col-span-6 focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<%= model.get_jwt_token %>" disabled readonly>
+        <label for="user-token" class="sr-only">Label</label>
+        <input id="user-token" data-clipboard-target="source" type="password" class="form-input col-span-6 focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<%= model.get_jwt_token %>" disabled readonly>
         <button data-action="clipboard#copy" data-copy-to-clipboard-target="npm-install-copy-text" class="absolute end-2.5 top-1/2 -translate-y-1/2 text-gray-900 dark:text-gray-400 hover:bg-brand-palette-07 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 rounded-lg py-2 px-2.5 inline-flex items-center justify-center bg-white border-brand-palette-06 border">
           <span data-clipboard-target="defaultMessage" class="inline-flex items-center">
             <i data-lucide="clipboard-list" class="w-3.5 h-3.5 me-1.5 stroke-ark-gray-palette-p1"></i>
@@ -64,4 +59,7 @@
       <%= t('views.accounts.users.form.access_token_info') %>
     </p>
   </div>
-</div>
+  <div class="flex gap-2 self-end">
+    <%= form.submit class: 'btn-primary cursor-pointer'%>
+  </div>
+<% end %>
