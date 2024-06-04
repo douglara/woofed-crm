@@ -1,6 +1,5 @@
 FactoryBot.define do
   factory :custom_attribute_definition do
-    account
     attribute_key { Faker::Alphanumeric.alpha(number: 10) }
     attribute_display_name { Faker::Lorem.words(number: 2).join(' ') }
     attribute_description { Faker::Lorem.sentence }

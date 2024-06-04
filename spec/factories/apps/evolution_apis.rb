@@ -14,15 +14,6 @@
 #  token                 :string           default(""), not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
-#  account_id            :bigint           not null
-#
-# Indexes
-#
-#  index_apps_evolution_apis_on_account_id  (account_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id)
 #
 require 'faker'
 

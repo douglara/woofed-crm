@@ -26,7 +26,7 @@ class Accounts::Contacts::Events::GenerateAiResponse
 
   def get_context(query)
     embedding = OpenAi::Embeddings.new.get_embedding(query, 'text-embedding-3-small')
-    documents = EmbeddingDocumment.where(account_id: @account.id).nearest_neighbors(:embedding, embedding, distance: 'cosine').first(6)
+    documents = EmbeddingDocumment.nearest_neighbors(:embedding, embedding, distance: 'cosine').first(6)
     puts("Documents: #{documents.count}")
     documents.pluck(:content, :source_reference)
   end

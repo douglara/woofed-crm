@@ -7,4 +7,11 @@ class ApplicationController < ActionController::Base
     include Highlight::Integrations::Rails
     around_action :with_highlight_context
   end
+  before_action :set_account
+
+  private
+
+  def set_account
+    @account = Current.account
+  end
 end

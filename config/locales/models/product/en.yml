@@ -6,6 +6,7 @@ en:
         other: Products
         new: 'New product'
         edit: 'Edit product'
+        add: 'Add product'
     attributes:
       product:
         name: Name

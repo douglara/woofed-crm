@@ -1,0 +1,7 @@
+en:
+  views:
+    accounts:
+      deal_products:
+        select_product_search_product:
+          quantity: 'Quantity'
+

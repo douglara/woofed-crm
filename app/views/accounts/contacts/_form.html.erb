@@ -11,19 +11,19 @@
   <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">
     <%= t('views.accounts.contacts.form.contact_data') %>
   </h2>
-  <div class= "grid lg:grid-cols-3 gap-4">
-    <div class="flex flex-col gap-1">
+  <div class= "grid 2xl:grid-cols-6 gap-4">
+    <div class="flex flex-col 2xl:col-span-4 gap-1">
       <%= form.label :full_name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
       <%= form.text_field :full_name, placeholder: "João Paulo", class: 'form-input' %>
     </div>
-    <div class="flex flex-col gap-1">
+    <div class="flex flex-col 2xl:col-span-2 gap-1">
       <%= form.label :phone, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
       <%= form.text_field :phone, placeholder: "+5522999999999", class: 'form-input', data: {controller: "input-mask--input-phone"} %>
     </div>
-    <div class="flex flex-col gap-1">
-      <%= form.label :email, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
-      <%= form.text_field :email, placeholder: "joaopaulo@email.com", class: 'form-input' %>
-    </div>
+  </div>
+  <div class="flex flex-col gap-1">
+    <%= form.label :email, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
+    <%= form.text_field :email, placeholder: "joaopaulo@email.com", class: 'form-input' %>
   </div>
   <div class="flex flex-col gap-1">
     <%= form.label :label_list, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
@@ -51,7 +51,7 @@
   <div class="h-0.5 w-full bg-light-palette-p3"></div>
   <%= render 'accounts/custom_attributes', m: contact, f: form %>
   <div class="flex gap-2 self-end">
-    <%= link_to account_custom_attributes_definitions_path(current_user.account), class:"btn-secondary flex items-center gap-2" do %>
+    <%= link_to account_custom_attributes_definitions_path(current_user.account), class:"btn-secondary flex items-center gap-2", data:{ turbo_frame: :_top } do %>
       <i data-lucide="plus"></i>
       <%= t('activerecord.models.custom_attribute_definition.add') %>
     <% end %>
