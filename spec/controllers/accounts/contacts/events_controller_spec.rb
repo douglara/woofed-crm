@@ -2,14 +2,14 @@ require 'rails_helper'
 require 'sidekiq/testing'
 
 RSpec.describe Accounts::Contacts::EventsController, type: :request do
-  let!(:account) { create(:account) }
-  let!(:user) { create(:user, account: account) }
-  let!(:contact) { create(:contact, account: account) }
-  let!(:chatwoot) { create(:apps_chatwoots, :skip_validate, account: account) }
-  let(:evolution_api_connected) { create(:apps_evolution_api, :connected, account: account) }
-  let!(:pipeline) { create(:pipeline, account: account) }
-  let!(:stage) { create(:stage, account: account, pipeline: pipeline) }
-  let!(:deal) { create(:deal, account: account, contact: contact, stage: stage) }
+  let!(:account) { Account.first }
+  let!(:user) { create(:user) }
+  let!(:contact) { create(:contact) }
+  let!(:chatwoot) { create(:apps_chatwoots, :skip_validate) }
+  let(:evolution_api_connected) { create(:apps_evolution_api, :connected) }
+  let!(:pipeline) { create(:pipeline) }
+  let!(:stage) { create(:stage, pipeline: pipeline) }
+  let!(:deal) { create(:deal, contact: contact, stage: stage) }
   let(:conversation_response) { File.read('spec/integration/use_cases/accounts/apps/chatwoots/get_conversations.json') }
   let(:message_response) { File.read('spec/integration/use_cases/accounts/apps/chatwoots/send_message.json') }
   let(:send_text_response) do
@@ -226,8 +226,10 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           before do
             stub_request(:post, /sendText/)
               .to_return(body: invalid_send_text_response, status: 400, headers: { 'Content-Type' => 'application/json' })
-          end
-          let(:contact_no_phone) { create(:contact, account: account, phone: '') }
+            stub_request(:post, /contacts/)
+              .to_return(body: invalid_send_text_response, status: 400, headers: { 'Content-Type' => 'application/json' })
+            end
+          let(:contact_no_phone) { create(:contact, phone: '') }
           it 'done should return false' do
             params = valid_params.deep_merge(event: { kind: 'evolution_api_message', app_type: 'Apps::EvolutionApi',
                                                       app_id: evolution_api_connected.id, send_now: 'true' })
@@ -274,7 +276,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
                                                      headers: { 'Content-Type' => 'application/json' })
     end
 
-    let(:event) { create(:event, account: account, contact: contact, deal: deal, kind: 'activity') }
+    let(:event) { create(:event, contact: contact, deal: deal, kind: 'activity') }
     context 'when it is unthenticated user' do
       it 'returns unauthorized' do
         patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}"
@@ -377,7 +379,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
     end
   end
   describe 'DELETE /accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}' do
-    let(:event) { create(:event, account: account, contact: contact, deal: deal, kind: 'activity') }
+    let(:event) { create(:event, contact: contact, deal: deal, kind: 'activity') }
     context 'when it is unthenticated user' do
       it 'returns unauthorized' do
         delete "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}"
