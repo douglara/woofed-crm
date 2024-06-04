@@ -1,7 +1,3 @@
-<%= turbo_frame_tag "select-contact-results" do %>
-  <ul class="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUsersButton">
-    <% @contacts.each do | contact |%>
-      <%= render "select_contact_contact", contact: contact %>
-    <% end %>
-  </ul>
+<%= turbo_frame_tag :select_contact_search do %>
+  <%= render 'components/select_search', hidden_field_name: "deal[contact_id]", items: @contacts, select_search_url: select_contact_search_account_contacts_path(current_user.account), create_model_url: new_account_contact_path(current_user.account) %>
 <% end %>
