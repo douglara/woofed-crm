@@ -109,8 +109,7 @@ class Deal < ApplicationRecord
   end
 
   def self.csv_header(account_id)
-    custom_fields = CustomAttributeDefinition.where(account_id: account_id,
-                                                    attribute_model: 'deal_attribute').map do |i|
+    custom_fields = CustomAttributeDefinition.where(attribute_model: 'deal_attribute').map do |i|
       "custom_attributes.#{i.attribute_key}"
     end
     column_names.excluding('account_id', 'created_at', 'updated_at', 'id', 'custom_attributes') + custom_fields
