@@ -30,16 +30,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  belongs_to :account, optional: true
+  belongs_to :account, default: -> { Current.account }
   accepts_nested_attributes_for :account
-
-  after_validation do
-    self.account = account
-  end
-
-  def account
-    Current.account
-  end
 
   validates :phone,
             allow_blank: true,
