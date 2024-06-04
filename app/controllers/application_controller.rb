@@ -6,11 +6,6 @@ class ApplicationController < ActionController::Base
     around_action :with_highlight_context
   end
   before_action :set_account
-  before_action :account_setup
-
-  def account_setup
-    redirect_to new_account_path if @account.blank? && controller_name != 'account'
-  end
 
   private
 

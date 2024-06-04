@@ -5,8 +5,6 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
   mount GoodJob::Engine => 'good_job'
 
-  resources :account, only: %i[new create]
-
   resources :accounts, module: :accounts do
     resources :settings, only: [:index]
     resources :welcome, only: [:index]

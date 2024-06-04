@@ -4,6 +4,18 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo: false }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
   <div class="grid gap-5">
+    <% if Current.account.blank? %>
+      <%= f.fields_for :account, resource.build_account do |account_fields| %>
+        <div class="grid gap-1">
+          <%= account_fields.label :name, t('views.devise.registrations.new.company') , class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+          <%= account_fields.text_field :name, autofocus: true, autocomplete: "Empresa", class: "form-input", required: true %>
+        </div>
+        <div class="grid gap-1">
+          <%= account_fields.label :site_url, t('views.devise.registrations.new.url_company') , class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+          <%= account_fields.text_field :site_url, autofocus: true, autocomplete: "Site da empresa", class: "form-input", required: true %>
+        </div>
+      <% end %>
+    <% end %>
     <div class="grid gap-1">
       <%= f.label :full_name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
       <%= f.text_field :full_name, autofocus: true, autocomplete: "full name", class: "form-input", required: true %>
