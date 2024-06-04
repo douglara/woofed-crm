@@ -30,7 +30,7 @@ RSpec.describe Accounts::Settings::CustomAttributesDefinitionsController, type: 
             post "/accounts/#{account.id}/custom_attributes_definitions",
                  params: valid_params
           end.to change(CustomAttributeDefinition, :count).by(1)
-          expect(response).to redirect_to(account_custom_attributes_definitions_path(Account.first))
+          expect(response).to redirect_to(account_custom_attributes_definitions_path(account))
         end
         context 'when attribute_key is invalid' do
           it 'when attribute_key is blank' do
@@ -65,7 +65,7 @@ RSpec.describe Accounts::Settings::CustomAttributesDefinitionsController, type: 
                   post "/accounts/#{account.id}/custom_attributes_definitions",
                        params: params
                 end.to change(CustomAttributeDefinition, :count).by(1)
-                expect(response).to redirect_to(account_custom_attributes_definitions_path(Account.first))
+                expect(response).to redirect_to(account_custom_attributes_definitions_path(account))
               end
             end
           end
@@ -136,7 +136,7 @@ RSpec.describe Accounts::Settings::CustomAttributesDefinitionsController, type: 
           patch "/accounts/#{account.id}/custom_attributes_definitions/#{custom_attribute_definition.id}",
                 params: valid_params
           expect(custom_attribute_definition.reload.attribute_display_name).to eq(valid_params[:custom_attribute_definition][:attribute_display_name])
-          expect(response.body).to redirect_to(edit_account_custom_attributes_definition_path(Account.first, custom_attribute_definition))
+          expect(response.body).to redirect_to(edit_account_custom_attributes_definition_path(account, custom_attribute_definition))
         end
       end
       context 'when updating attribute_key to an existing attribute_key' do

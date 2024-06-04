@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Accounts::UsersController, type: :request do
   let!(:account) { create(:account) }
-  let!(:user) { create(:user, account: account) }
-  let(:product) { create(:product, account: account) }
-  let!(:contact) { create(:contact, account: account) }
-  let!(:pipeline) { create(:pipeline, account: account) }
-  let!(:stage) { create(:stage, account: account, pipeline: pipeline) }
-  let!(:deal) { create(:deal, account: account, stage: stage, contact: contact) }
-  let(:deal_product) { create(:deal_product, account: account, deal: deal, product: product) }
+  let!(:user) { create(:user) }
+  let(:product) { create(:product) }
+  let!(:contact) { create(:contact) }
+  let!(:pipeline) { create(:pipeline) }
+  let!(:stage) { create(:stage, pipeline: pipeline) }
+  let!(:deal) { create(:deal, stage: stage, contact: contact) }
+  let(:deal_product) { create(:deal_product, deal: deal, product: product) }
   let(:product_first) { Product.first }
 
   describe 'POST /accounts/{account.id}/products' do
@@ -35,7 +35,7 @@ RSpec.describe Accounts::UsersController, type: :request do
             post "/accounts/#{account.id}/products",
                  params: valid_params
           end.to change(Product, :count).by(1)
-          expect(response).to redirect_to(account_products_path(Account.first))
+          expect(response).to redirect_to(account_products_path(account))
           expect(product_first.name).to eq('Product name')
           expect(product_first.identifier).to eq('id123')
           expect(product_first.amount_in_cents).to eq(150_099)
@@ -73,7 +73,7 @@ RSpec.describe Accounts::UsersController, type: :request do
   end
 
   describe 'GET /accounts/{account.id}/products' do
-    let!(:product) { create(:product, account: account) }
+    let!(:product) { create(:product) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -117,7 +117,7 @@ RSpec.describe Accounts::UsersController, type: :request do
         end
         it do
           patch "/accounts/#{account.id}/products/#{product.id}", params: valid_params
-          expect(response.body).to redirect_to(account_products_path(Account.first))
+          expect(response.body).to redirect_to(account_products_path(account))
           expect(product_first.name).to eq('Product Updated Name')
           expect(product_first.amount_in_cents).to eq(6_358_036)
         end
@@ -155,15 +155,15 @@ RSpec.describe Accounts::UsersController, type: :request do
       context 'delete the product' do
         it do
           delete "/accounts/#{account.id}/products/#{product.id}"
-          expect(response.body).to redirect_to(account_products_path(Account.first))
+          expect(response.body).to redirect_to(account_products_path(account))
           expect(Product.count).to eq(0)
         end
       end
       context 'when there is product deal_product relationship' do
-        let!(:deal_product) { create(:deal_product, account: account, deal: deal, product: product) }
+        let!(:deal_product) { create(:deal_product, deal: deal, product: product) }
         it 'should delete product and deal_product' do
           delete "/accounts/#{account.id}/products/#{product.id}"
-          expect(response.body).to redirect_to(account_products_path(Account.first))
+          expect(response.body).to redirect_to(account_products_path(account))
           expect(Product.count).to eq(0)
           expect(DealProduct.count).to eq(0)
         end
@@ -191,9 +191,9 @@ RSpec.describe Accounts::UsersController, type: :request do
   end
 
   describe 'GET /accounts/{account.id}/products/{product.id}/edit_custom_attributes' do
-    let!(:custom_attribute_definition) { create(:custom_attribute_definition, :product_attribute, account: account) }
+    let!(:custom_attribute_definition) { create(:custom_attribute_definition, :product_attribute) }
     let!(:contact_custom_attribute_definition) do
-      create(:custom_attribute_definition, :contact_attribute, account: account)
+      create(:custom_attribute_definition, :contact_attribute)
     end
 
     context 'when it is an unauthenticated user' do
