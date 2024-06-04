@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'sidekiq/testing'
 
 RSpec.describe Accounts::Contacts::EventsController, type: :request do
-  let!(:account) { Account.first }
+  let!(:account) { create(:account) }
   let!(:user) { create(:user) }
   let!(:contact) { create(:contact) }
   let!(:chatwoot) { create(:apps_chatwoots, :skip_validate) }
