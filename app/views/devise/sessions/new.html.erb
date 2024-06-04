@@ -25,7 +25,7 @@
     <%= f.submit t('views.devise.sessions.new.log_in'), class: "btn-primary cursor-pointer" %>
   </div>
 <% end %>
-<% if ENV.fetch('ENABLE_USER_SIGNUP', 'false') == 'true' %>
+<% if ENV.fetch('ENABLE_USER_SIGNUP', 'true') == 'true' %>
   <div class="text-center typography-text-m-lh150 text-dark-gray-palette-p1 mt-5">
     <%= t('views.devise.sessions.new.account_answer') %> <%= link_to t('views.devise.sessions.new.create_account'), new_registration_path(resource_name), data: { turbo: false}, class: "text-brand-palette-02 hover:text-brand-palette-01" %>
   </div>
