@@ -20,7 +20,6 @@
 #
 FactoryBot.define do
   factory :deal_product do
-    account
     deal
     product
   end

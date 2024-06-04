@@ -27,7 +27,6 @@
 #
 FactoryBot.define do
   factory :event do
-    account
     contact
     deal
     title { 'Event 1' }

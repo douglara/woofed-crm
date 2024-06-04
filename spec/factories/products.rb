@@ -17,7 +17,6 @@ require 'faker'
 
 FactoryBot.define do
   factory :product do
-    account
     identifier { Faker::Alphanumeric.alphanumeric(number: 10) }
     amount_in_cents { Faker::Number.between(from: 1, to: 10_000) }
     quantity_available { Faker::Number.within(range: 1..100) }
