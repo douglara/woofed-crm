@@ -13,22 +13,70 @@
 class Account < ApplicationRecord
   validates :name, presence: true
   validates :name, length: { maximum: 255 }
-  has_many :events, dependent: :destroy_async
-  has_many :apps, dependent: :destroy_async
-  has_many :users, dependent: :destroy_async
-  has_many :contacts, dependent: :destroy_async
-  has_many :deals, dependent: :destroy_async
-  has_many :custom_attribute_definitions
-  has_many :custom_attributes_definitions, class_name: 'CustomAttributeDefinition', dependent: :destroy_async
-  has_many :apps_wpp_connects, class_name: 'Apps::WppConnect'
-  has_many :apps_chatwoots, class_name: 'Apps::Chatwoot'
-  has_many :apps_evolution_apis, class_name: 'Apps::EvolutionApi'
-  has_many :webhooks, dependent: :destroy
-  has_many :pipelines, dependent: :destroy
-  has_many :stages, dependent: :destroy
-  has_many :products, dependent: :destroy
-  has_many :embedding_documments, dependent: :destroy
-  has_many :deal_products, dependent: :destroy
+
+  def events
+    Event.all
+  end
+
+  def apps
+    App.all
+  end
+
+  def users
+    User.all
+  end
+
+  def contacts
+    Contact.all
+  end
+
+  def deals
+    Deal.all
+  end
+
+  def custom_attribute_definitions
+    CustomAttributeDefinition.all
+  end
+
+  def custom_attributes_definitions
+    custom_attribute_definitions
+  end
+
+  def apps_wpp_connects
+    Apps::WppConnect.all
+  end
+
+  def apps_chatwoots
+    Apps::Chatwoot.all
+  end
+
+  def apps_evolution_apis
+    Apps::EvolutionApi.all
+  end
+
+  def webhooks
+    Webhook.all
+  end
+
+  def pipelines
+    Pipeline.all
+  end
+
+  def stages
+    Stage.all
+  end
+
+  def products
+    Product.all
+  end
+
+  def embedding_documments
+    EmbeddingDocumment.all
+  end
+
+  def deal_products
+    DealProduct.all
+  end
 
   after_create :embed_company_site
 

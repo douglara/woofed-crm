@@ -12,21 +12,14 @@
 #  status                    :string           default("inactive"), not null
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
-#  account_id                :bigint
 #  chatwoot_account_id       :integer          not null
 #  chatwoot_dashboard_app_id :integer          not null
 #  chatwoot_webhook_id       :integer          not null
 #
-# Indexes
-#
-#  index_apps_chatwoots_on_account_id  (account_id)
-#
 class Apps::Chatwoot < ApplicationRecord
-  include Applicable
-
   scope :actives, -> { where(active: true) }
 
-  enum status: { 
+  enum status: {
     'inactive': 'inactive',
     'active': 'active',
     'sync': 'sync',

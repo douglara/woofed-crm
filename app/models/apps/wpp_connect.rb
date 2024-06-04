@@ -12,18 +12,11 @@
 #  token        :string           default(""), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  account_id   :bigint
-#
-# Indexes
-#
-#  index_apps_wpp_connects_on_account_id  (account_id)
 #
 class Apps::WppConnect < ApplicationRecord
-  include Applicable
-
   scope :actives, -> { where(active: true) }
 
-  enum status: { 
+  enum status: {
     'inactive': 'inactive',
     'active': 'active',
     'sync': 'sync',

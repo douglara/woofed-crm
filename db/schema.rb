@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_05_21_104060) do
+ActiveRecord::Schema.define(version: 2024_06_04_031715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -73,18 +73,15 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
   end
 
   create_table "apps", force: :cascade do |t|
-    t.bigint "account_id"
     t.string "name"
     t.string "kind"
     t.boolean "active", default: false, null: false
     t.jsonb "settings", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id"], name: "index_apps_on_account_id"
   end
 
   create_table "apps_chatwoots", force: :cascade do |t|
-    t.bigint "account_id"
     t.string "name"
     t.boolean "active", default: false, null: false
     t.string "status", default: "inactive", null: false
@@ -97,11 +94,9 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.jsonb "inboxes", default: [], null: false
-    t.index ["account_id"], name: "index_apps_chatwoots_on_account_id"
   end
 
   create_table "apps_evolution_apis", force: :cascade do |t|
-    t.bigint "account_id", null: false
     t.string "connection_status", default: "disconnected", null: false
     t.boolean "active", default: true, null: false
     t.string "endpoint_url", default: "", null: false
@@ -113,11 +108,9 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qrcode", default: "", null: false
-    t.index ["account_id"], name: "index_apps_evolution_apis_on_account_id"
   end
 
   create_table "apps_wpp_connects", force: :cascade do |t|
-    t.bigint "account_id"
     t.string "name"
     t.boolean "active", default: false, null: false
     t.string "session", default: "", null: false
@@ -127,7 +120,6 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status", default: "inactive", null: false
-    t.index ["account_id"], name: "index_apps_wpp_connects_on_account_id"
   end
 
   create_table "attachments", force: :cascade do |t|
@@ -140,7 +132,6 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
   end
 
   create_table "contacts", force: :cascade do |t|
-    t.bigint "account_id", null: false
     t.string "full_name", default: "", null: false
     t.string "phone", default: "", null: false
     t.string "email", default: "", null: false
@@ -150,16 +141,13 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
     t.bigint "app_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["app_type", "app_id"], name: "index_contacts_on_app"
   end
 
   create_table "contacts_deals", force: :cascade do |t|
-    t.bigint "account_id"
     t.bigint "contact_id"
     t.bigint "deal_id"
     t.boolean "main", default: true, null: false
-    t.index ["account_id"], name: "index_contacts_deals_on_account_id"
     t.index ["contact_id", "deal_id"], name: "contact_deal_index", unique: true
     t.index ["contact_id"], name: "index_contacts_deals_on_contact_id"
     t.index ["deal_id"], name: "index_contacts_deals_on_deal_id"
@@ -170,19 +158,15 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
     t.string "attribute_key"
     t.string "attribute_display_name"
     t.text "attribute_description"
-    t.bigint "account_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
   end
 
   create_table "deal_products", force: :cascade do |t|
     t.bigint "product_id", null: false
     t.bigint "deal_id", null: false
-    t.bigint "account_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id"], name: "index_deal_products_on_account_id"
     t.index ["deal_id"], name: "index_deal_products_on_deal_id"
     t.index ["product_id"], name: "index_deal_products_on_product_id"
   end
@@ -190,7 +174,6 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
   create_table "deals", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "status", default: "open", null: false
-    t.bigint "account_id", null: false
     t.bigint "stage_id", null: false
     t.bigint "contact_id", null: false
     t.jsonb "custom_attributes", default: {}
@@ -198,7 +181,6 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "pipeline_id"
     t.integer "position", default: 1, null: false
-    t.index ["account_id"], name: "index_deals_on_account_id"
     t.index ["contact_id"], name: "index_deals_on_contact_id"
     t.index ["pipeline_id"], name: "index_deals_on_pipeline_id"
     t.index ["stage_id"], name: "index_deals_on_stage_id"
@@ -209,7 +191,6 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
     t.bigint "source_id"
     t.string "source_reference"
     t.integer "status", default: 0
-    t.bigint "account_id", null: false
     t.text "content"
     t.vector "embedding", limit: 1536
     t.datetime "created_at", precision: 6, null: false
@@ -220,7 +201,6 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
   create_table "events", force: :cascade do |t|
     t.bigint "deal_id"
     t.bigint "contact_id"
-    t.bigint "account_id", null: false
     t.string "app_type"
     t.bigint "app_id"
     t.string "kind", null: false
@@ -234,7 +214,6 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "title", default: "", null: false
     t.boolean "auto_done", default: false
-    t.index ["account_id"], name: "index_events_on_account_id"
     t.index ["app_type", "app_id"], name: "index_events_on_app"
     t.index ["contact_id"], name: "index_events_on_contact_id"
     t.index ["deal_id"], name: "index_events_on_deal_id"
@@ -531,11 +510,9 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
   end
 
   create_table "pipelines", force: :cascade do |t|
-    t.bigint "account_id", null: false
     t.string "name", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id"], name: "index_pipelines_on_account_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -546,20 +523,16 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
     t.string "name", default: "", null: false
     t.jsonb "custom_attributes", default: {}
     t.jsonb "additional_attributes", default: {}
-    t.bigint "account_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id"], name: "index_products_on_account_id"
   end
 
   create_table "stages", force: :cascade do |t|
     t.string "name", default: "", null: false
-    t.bigint "account_id", null: false
     t.bigint "pipeline_id", null: false
     t.integer "position", default: 1, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id"], name: "index_stages_on_account_id"
     t.index ["pipeline_id"], name: "index_stages_on_pipeline_id"
   end
 
@@ -601,22 +574,18 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.bigint "account_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "phone"
-    t.index ["account_id"], name: "index_users_on_account_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   create_table "webhooks", force: :cascade do |t|
-    t.bigint "account_id"
     t.string "url", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status", default: "active"
-    t.index ["account_id"], name: "index_webhooks_on_account_id"
   end
 
   create_table "wp_connects", force: :cascade do |t|
@@ -632,13 +601,10 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "apps_evolution_apis", "accounts"
-  add_foreign_key "deal_products", "accounts"
   add_foreign_key "deal_products", "deals"
   add_foreign_key "deal_products", "products"
   add_foreign_key "deals", "contacts"
   add_foreign_key "deals", "stages"
-  add_foreign_key "events", "accounts"
   add_foreign_key "flow_items", "contacts"
   add_foreign_key "flow_items", "deals"
   add_foreign_key "motor_alert_locks", "motor_alerts", column: "alert_id"
@@ -646,8 +612,6 @@ ActiveRecord::Schema.define(version: 2024_05_21_104060) do
   add_foreign_key "motor_note_tag_tags", "motor_note_tags", column: "tag_id"
   add_foreign_key "motor_note_tag_tags", "motor_notes", column: "note_id"
   add_foreign_key "motor_taggable_tags", "motor_tags", column: "tag_id"
-  add_foreign_key "products", "accounts"
   add_foreign_key "stages", "pipelines"
   add_foreign_key "taggings", "tags"
-  add_foreign_key "users", "accounts"
 end

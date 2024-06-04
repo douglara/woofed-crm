@@ -26,6 +26,15 @@ RSpec.describe Devise::SessionsController, type: :request do
         end.to change(User, :count).by(1)
         expect(response).to redirect_to(root_path)
       end
+
+      it 'create user without account fields' do
+        valid_params[:user].delete(:account_attributes)
+
+        expect do
+          post '/users',
+               params: valid_params
+        end.to change(User, :count).by(1)
+      end
     end
     context 'failed' do
       it 'email users already registered' do
@@ -36,14 +45,6 @@ RSpec.describe Devise::SessionsController, type: :request do
                params: invalid_params
         end.to change(User, :count).by(0)
         expect(response.body).to include('Email has already been taken')
-      end
-      it 'create users without account' do
-        invalid_params = valid_params[:user].except(:account_attributes)
-        expect do
-          post '/users',
-               params: invalid_params
-        end.to change(User, :count).by(0)
-        expect(response.body).to include('Account must exist')
       end
       it 'if password confirmation is different than password' do
         invalid_params = valid_params.deep_merge(user: { password: '123456789' })
