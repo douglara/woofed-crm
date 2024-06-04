@@ -17,11 +17,9 @@
 #  chatwoot_webhook_id       :integer          not null
 #
 class Apps::Chatwoot < ApplicationRecord
-  include Applicable
-
   scope :actives, -> { where(active: true) }
 
-  enum status: { 
+  enum status: {
     'inactive': 'inactive',
     'active': 'active',
     'sync': 'sync',

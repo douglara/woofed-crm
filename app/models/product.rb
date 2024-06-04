@@ -17,7 +17,6 @@ class Product < ApplicationRecord
   include Product::Broadcastable
   include Product::Presenters
   include CustomAttributes
-  belongs_to :account
   has_many :attachments, as: :attachable
   validates :quantity_available, :amount_in_cents,
             numericality: { greater_than_or_equal_to: 0, message: 'Can not be negative' }

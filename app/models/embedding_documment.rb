@@ -17,7 +17,6 @@
 #  index_embedding_documments_on_source  (source_type,source_id)
 #
 class EmbeddingDocumment < ApplicationRecord
-  belongs_to :account
   belongs_to :source, polymorphic: true, optional: true
   has_neighbors :embedding, normalize: true
 end

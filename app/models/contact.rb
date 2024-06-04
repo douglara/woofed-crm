@@ -25,7 +25,6 @@ class Contact < ApplicationRecord
   validates :full_name, presence: true
   has_many :flow_items
   has_many :events
-  belongs_to :account
   validates :phone,
             allow_blank: true,
             format: { with: /\+[1-9]\d{1,14}\z/ }

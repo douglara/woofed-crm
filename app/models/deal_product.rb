@@ -23,5 +23,4 @@ class DealProduct < ApplicationRecord
 
   belongs_to :product
   belongs_to :deal
-  belongs_to :account
 end

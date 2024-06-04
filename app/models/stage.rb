@@ -20,10 +20,9 @@
 class Stage < ApplicationRecord
   belongs_to :pipeline
   acts_as_list scope: :pipeline
-  belongs_to :account
   has_many :deals, dependent: :destroy
 
-  after_update_commit -> { broadcast_updates }  
+  after_update_commit -> { broadcast_updates }
 
   def broadcast_updates
     broadcast_replace_later_to self, partial: 'accounts/pipelines/stage', locals:{status: 'open'}

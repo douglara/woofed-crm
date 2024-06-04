@@ -29,7 +29,6 @@ class Deal < ApplicationRecord
   include CustomAttributes
 
   belongs_to :contact
-  belongs_to :account
 
   # has_and_belongs_to_many :contacts
   # has_many :contacts_deals

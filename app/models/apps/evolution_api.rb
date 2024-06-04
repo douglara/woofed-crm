@@ -16,7 +16,6 @@
 #  updated_at            :datetime         not null
 #
 class Apps::EvolutionApi < ApplicationRecord
-  include Applicable
   include Rails.application.routes.url_helpers
   include EvolutionApi::Broadcastable
 

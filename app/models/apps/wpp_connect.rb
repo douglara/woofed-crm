@@ -14,11 +14,9 @@
 #  updated_at   :datetime         not null
 #
 class Apps::WppConnect < ApplicationRecord
-  include Applicable
-
   scope :actives, -> { where(active: true) }
 
-  enum status: { 
+  enum status: {
     'inactive': 'inactive',
     'active': 'active',
     'sync': 'sync',

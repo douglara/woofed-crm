@@ -23,6 +23,4 @@ class CustomAttributeDefinition < ApplicationRecord
   validates :attribute_model, presence: true
 
   enum attribute_model: { contact_attribute: 0, deal_attribute: 1, product_attribute: 2 }
-
-  belongs_to :account
 end

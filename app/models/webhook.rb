@@ -9,9 +9,6 @@
 #  updated_at :datetime         not null
 #
 class Webhook < ApplicationRecord
-  belongs_to :account
-
-  validates :account_id, presence: true
   validates :url, presence: true, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])
   validates :status, presence: true
 
