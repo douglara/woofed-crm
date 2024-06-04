@@ -9,11 +9,6 @@
 #  attribute_model        :integer          default("contact_attribute")
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  account_id             :bigint
-#
-# Indexes
-#
-#  index_custom_attribute_definitions_on_account_id  (account_id)
 #
 class CustomAttributeDefinition < ApplicationRecord
   include CustomAttributeDefinition::Broadcastable

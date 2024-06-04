@@ -6,11 +6,6 @@
 #  name       :string           default(""), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  account_id :bigint           not null
-#
-# Indexes
-#
-#  index_pipelines_on_account_id  (account_id)
 #
 class Pipeline < ApplicationRecord
   has_many :stages

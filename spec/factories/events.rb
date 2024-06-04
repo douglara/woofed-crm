@@ -15,21 +15,15 @@
 #  title                 :string           default(""), not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
-#  account_id            :bigint           not null
 #  app_id                :bigint
 #  contact_id            :bigint
 #  deal_id               :bigint
 #
 # Indexes
 #
-#  index_events_on_account_id  (account_id)
 #  index_events_on_app         (app_type,app_id)
 #  index_events_on_contact_id  (contact_id)
 #  index_events_on_deal_id     (deal_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id)
 #
 FactoryBot.define do
   factory :event do
