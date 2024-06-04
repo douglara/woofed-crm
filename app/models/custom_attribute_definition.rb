@@ -19,7 +19,7 @@ class CustomAttributeDefinition < ApplicationRecord
   validates :attribute_display_name, presence: true
   validates :attribute_key,
             presence: true,
-            uniqueness: { scope: %i[account_id attribute_model] }
+            uniqueness: { scope: %i[attribute_model] }
   validates :attribute_model, presence: true
 
   enum attribute_model: { contact_attribute: 0, deal_attribute: 1, product_attribute: 2 }

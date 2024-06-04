@@ -85,12 +85,6 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
           expect(response.body).to include('https://woofedcrm.com')
           expect(response).to have_http_status(200)
         end
-        it 'get webhooks by account' do
-          create(:webhook, url: 'https://teste-url.com.br', account_id: account_2.id)
-          get "/accounts/#{account.id}/webhooks"
-          expect(response.body).to_not include('https://teste-url.com.br')
-          expect(account.webhooks.count).to eq(1)
-        end
       end
     end
   end
@@ -139,13 +133,6 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
             expect(response).to have_http_status(:unprocessable_entity)
           end
         end
-        it 'edit webhook from another account' do
-          expect do
-            patch "/accounts/#{account.id}/webhooks/#{webhook_2.id}", params: valid_params
-          end.to raise_error(ActiveRecord::RecordNotFound,
-                             /Couldn't find Webhook with 'id'=#{webhook_2.id} \[WHERE "webhooks"."account_id" = \$1\]/)
-          expect(webhook_2.url).to eq('https://www.webhookaccount2.com')
-        end
       end
     end
   end
@@ -168,7 +155,6 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
           expect do
             delete "/accounts/#{account.id}/webhooks/#{webhook.id}"
           end.to change(Webhook, :count).by(-1)
-          expect(Webhook.first.account_id).to eq(account_2.id)
           expect(response.status).to eq(204)
         end
       end

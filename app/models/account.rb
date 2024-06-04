@@ -39,7 +39,7 @@ class Account < ApplicationRecord
   end
 
   def custom_attributes_definitions
-    CustomAttributeDefinition.all
+    custom_attribute_definitions
   end
 
   def apps_wpp_connects
