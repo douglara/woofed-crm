@@ -1,5 +1,4 @@
 class WebhookListener
-
   def extract_changed_attributes(event)
     changed_attributes = event.previous_changes
     return nil if changed_attributes.blank?
@@ -8,16 +7,16 @@ class WebhookListener
 
   ## Contact
   def contact_updated(contact)
-    if (contact.account.webhooks.present?)
-      contact.account.webhooks.each do | wh |
+    if (Webhook.all.present?)
+      Webhook.all.each do | wh |
         WebhookWorker.perform_async(wh.url, build_contact_payload( 'contact_updated', contact))
       end
     end
   end
 
   def contact_created(contact)
-    if (contact.account.webhooks.present?)
-      contact.account.webhooks.each do | wh |
+    if (Webhook.all.present?)
+      Webhook.all.each do | wh |
         WebhookWorker.perform_async(wh.url, build_contact_payload( 'contact_created', contact))
       end
     end
@@ -26,16 +25,16 @@ class WebhookListener
   ## Deal
 
   def deal_updated(deal)
-    if (deal.account.webhooks.present?)
-      deal.account.webhooks.each do | wh |
+    if (Webhook.all.present?)
+      Webhook.all.each do | wh |
         WebhookWorker.perform_async(wh.url, build_deal_payload( 'deal_updated', deal))
       end
     end
   end
 
   def deal_created(deal)
-    if (deal.account.webhooks.present?)
-      deal.account.webhooks.each do | wh |
+    if (Webhook.all.present?)
+      Webhook.all.each do | wh |
         WebhookWorker.perform_async(wh.url, build_deal_payload( 'deal_created', deal))
       end
     end
@@ -58,16 +57,16 @@ class WebhookListener
   ## Events
 
   def event_created(event)
-    if (event.account.webhooks.present?)
-      event.account.webhooks.each do | wh |
+    if (Webhook.all.present?)
+      Webhook.all.each do | wh |
         WebhookWorker.perform_async(wh.url, build_event_payload( 'event_created', event))
       end
     end
   end
 
   def event_updated(event)
-    if (event.account.webhooks.present?)
-      event.account.webhooks.each do | wh |
+    if (Webhook.all.present?)
+      Webhook.all.each do | wh |
         WebhookWorker.perform_async(wh.url, build_event_payload( 'event_updated', event))
       end
     end
