@@ -6,7 +6,7 @@
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  full_name              :string           default(""), not null
-#  language               :string           default(""), not null
+#  language               :string           default("en"), not null
 #  phone                  :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
