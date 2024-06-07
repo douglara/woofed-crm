@@ -1,4 +1,4 @@
-<%= form_with(model: pipeline, url: pipeline.persisted? ? account_pipeline_path(current_user.account, pipeline) : account_pipelines_path(current_user.account), class: "flex flex-col gap-5") do |form| %>
+<%= form_with(model: pipeline, url: pipeline.persisted? ? account_pipeline_path(Current.account, pipeline) : account_pipelines_path(Current.account), class: "flex flex-col gap-5") do |form| %>
   <% if pipeline.errors.any? %>
     <div>
       <ul>

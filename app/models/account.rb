@@ -58,10 +58,6 @@ class Account < ApplicationRecord
     Webhook.all
   end
 
-  def pipelines
-    Pipeline.all
-  end
-
   def stages
     Stage.all
   end
