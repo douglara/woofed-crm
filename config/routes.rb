@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   mount GoodJob::Engine => 'good_job'
 
   resources :accounts, module: :accounts do
+    resources :webpush_subscriptions, only: [:create]
     resources :settings, only: [:index]
     resources :welcome, only: [:index]
     resources :custom_attributes_definitions, module: :settings do
@@ -165,4 +166,6 @@ Rails.application.routes.draw do
       end
     end
   end
+  get 'service-worker' => 'pwa#service_worker'
+  get 'webmanifest' => 'pwa#manifest'
 end
