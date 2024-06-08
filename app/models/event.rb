@@ -78,7 +78,7 @@ class Event < ApplicationRecord
   end
 
   def schedule_webpush_notifications
-    if scheduled_at.present? && saved_change_to_scheduled_at? && send_now.nil?
+    if scheduled_at.present? && saved_change_to_scheduled_at? && !send_now
       Pwa::SendNotificationsWorker.set(wait_until: scheduled_at).perform_later(id)
     end
   end
