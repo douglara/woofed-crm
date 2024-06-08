@@ -50,6 +50,7 @@ class Event < ApplicationRecord
     elsif scheduled_delivery_event?
       Accounts::Contacts::Events::EnqueueWorker.perform_async(id)
     end
+    schedule_webpush_notifications
   end
 
   attribute :files, default: []
@@ -74,6 +75,12 @@ class Event < ApplicationRecord
       end
     end
     @result
+  end
+
+  def schedule_webpush_notifications
+    if scheduled_at.present? && saved_change_to_scheduled_at? && send_now.nil?
+      Pwa::SendNotificationsWorker.set(wait_until: scheduled_at).perform_later(id)
+    end
   end
 
   def content=(value)
@@ -102,6 +109,10 @@ class Event < ApplicationRecord
 
   def content_is_blank?(value)
     value.respond_to?(:body)
+  end
+
+  def should_delivery_message_scheduled?
+    !done? && (Time.current.in_time_zone > scheduled_at)
   end
 
   def changed_scheduled_values?

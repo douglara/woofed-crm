@@ -1,0 +1,5 @@
+en:
+  use_cases:
+    pwa:
+      send_notifications_worker:
+        body: "The deadline for %{event_kind} (%{event_title}) of the deal (%{deal_name}) has just expired."
