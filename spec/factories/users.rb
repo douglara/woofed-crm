@@ -19,11 +19,16 @@
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
+require 'faker'
+
 FactoryBot.define do
   factory :user do
-    full_name { 'Belchior' }
-    email { 'belchior@show.com.br' }
-    phone { '+5522998813788' }
+    full_name { Faker::Name.name }
+    email { Faker::Internet.email }
+    phone { Faker::PhoneNumber.cell_phone_in_e164 }
     password { 'Password1!' }
+    trait :es_language do
+      language { 'es' }
+    end
   end
 end
