@@ -3,7 +3,7 @@ class Pwa::SendNotificationsWorker < ApplicationJob
   def perform(event_id)
     event = Event.find(event_id)
     if event.present? && event.should_delivery_message_scheduled?
-      WebpushSubscription.all.each do |subscription|
+      WebpushSubscription.find_each do |subscription|
         subscription.send_notification(
           {
             title: "#{Event.human_attribute_name(event.kind)} #{event.title}",
