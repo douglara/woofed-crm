@@ -16,3 +16,5 @@ es:
         password_confirmation: Confirme su contraseña
         full_name: Nombre completo
         phone: Teléfono (celular)
+        webpush_notify_on_event_completion: 'Enviar notificaciones push cuando una acción de negocio expire'
+
