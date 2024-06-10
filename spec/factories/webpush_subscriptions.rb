@@ -20,10 +20,9 @@
 #
 FactoryBot.define do
   factory :webpush_subscription do
-    endpoint { "MyString" }
-    auth_key { "MyString" }
-    p256dh_key { "MyString" }
-    user { nil }
-    account { nil }
+    user
+    endpoint { Faker::Internet.url }
+    auth_key { Faker::Crypto.sha256 }
+    p256dh_key { Faker::Crypto.sha1 }
   end
 end

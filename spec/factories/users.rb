@@ -25,5 +25,8 @@ FactoryBot.define do
     email { 'belchior@show.com.br' }
     phone { '+5522998813788' }
     password { 'Password1!' }
+    trait :push_notifications_enabled do
+      webpush_notify_on_event_completion { true }
+    end
   end
 end
