@@ -18,24 +18,24 @@
       </div>
       <select class="p-2.5 mx-[-2px] border-solid border-2 border-light-palette-p3 w-52 hover:border-light-palette-p2 hover:z-10 hover:cursor-pointer focus:border-light-palette-p2 focus:ring-0 hover:text-brand-palette-04 focus:z-10 typography-text-r-lh150 text-dark-gray-palette-p3" onchange="window.location=this.value">
         <%= @pipelines.each do | pipeline |  %>
-          <option value="<%= account_pipeline_path(current_user.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
+          <option value="<%= account_pipeline_path(Current.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
           <% end %>
         </select>
-        <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline), class: 'p-2.5 border-solid border-2 border-light-palette-p3 rounded-r-lg flex-1 hover:border-light-palette-p2' ) do %>
+        <%= link_to(edit_account_pipeline_path(Current.account, @pipeline), class: 'p-2.5 border-solid border-2 border-light-palette-p3 rounded-r-lg flex-1 hover:border-light-palette-p2' ) do %>
           <%= embedded_svg('pencil-icon.svg', class: 'm-0.5') %>
         <% end %>
       </div>
-      <%= link_to new_select_contact_account_deals_path(current_user.account), class: 'btn-primary leading-none  p-[16.5px]' do %>
+      <%= link_to new_select_contact_account_deals_path(Current.account), class: 'btn-primary leading-none  p-[16.5px]' do %>
         <%= t('activerecord.models.deal.new') %>
       <% end %>
-      <%= link_to new_account_pipeline_path(current_user.account), class: 'btn-secondary leading-none  p-[16.5px]' do %>
+      <%= link_to new_account_pipeline_path(Current.account), class: 'btn-secondary leading-none  p-[16.5px]' do %>
         <%= t('activerecord.models.pipeline.new') %>
       <% end %>
       <div data-controller="filter-select-status-deal">
         <button id="dropdownSortDeals" data-dropdown-toggle="dropdownSort" class="btn-secondary aria-selected:btn-primary aria-selected:p-[0.75rem] p-[0.75rem] " type="button" aria-selected="false" data-filter-select-status-deal-target="button">
           <i data-lucide="filter"></i>
         </button>
-        <%= form_with(url: account_pipeline_path(current_user.account, @pipeline), method: :get, data: {turbo_frame: :stages, 'filter-select-status-deal-target': 'form', turbo_action: 'advance'} ) do |form| %>
+        <%= form_with(url: account_pipeline_path(Current.account, @pipeline), method: :get, data: {turbo_frame: :stages, 'filter-select-status-deal-target': 'form', turbo_action: 'advance'} ) do |form| %>
           <%= hidden_field_tag "filter_status_deal", nil, data: { 'filter-select-status-deal-target': 'status'} %>
           <!-- Dropdown menu -->
           <div id="dropdownSort" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-64 dark:bg-gray-700 dark:divide-gray-600">
@@ -90,7 +90,7 @@
     </div>
     <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3 dark:text-gray-200" aria-labelledby="user-menu-button">
       <li>
-        <%= link_to edit_account_user_path(current_user.account, current_user), class:"flex items-center gap-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white" do %>
+        <%= link_to edit_account_user_path(Current.account, current_user), class:"flex items-center gap-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white" do %>
           <i data-lucide="user-cog" class='w-4 h-4'></i>
           <p>
             <%= t('views.layouts.shared.navbar_pipe.my_account') %>
@@ -112,18 +112,18 @@
       <div class="flex flex-1 h- ">
         <select class="p-2.5 flex-[6_1_160px] mx-[-2px] border-solid border-2 border-light-palette-p3 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04 focus:z-10 typography-text-r-lh150" onchange="window.location=this.value">
           <%= @pipelines.each do | pipeline |  %>
-            <option value="<%= account_pipeline_path(current_user.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
+            <option value="<%= account_pipeline_path(Current.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>><%= pipeline.name %></option>
             <% end %>
           </select>
-          <%= link_to(edit_account_pipeline_path(current_user.account, @pipeline), class: 'p-2.5 border-solid border-2 border-light-palette-p3 rounded-r-lg hover:border-brand-palette-04' ) do %>
+          <%= link_to(edit_account_pipeline_path(Current.account, @pipeline), class: 'p-2.5 border-solid border-2 border-light-palette-p3 rounded-r-lg hover:border-brand-palette-04' ) do %>
             <%= embedded_svg('pencil-icon.svg', class: 'm-0.5') %>
           <% end %>
         </div>
         <div class="flex gap-2 h-">
-          <%= link_to new_select_contact_account_deals_path(current_user.account), class: ' btn-primary  text-center flex items-center' do %>
+          <%= link_to new_select_contact_account_deals_path(Current.account), class: ' btn-primary  text-center flex items-center' do %>
             Novo negócio
           <% end %>
-          <%= link_to new_account_pipeline_path(current_user.account), class: ' btn-secondary  text-center flex items-center' do %>
+          <%= link_to new_account_pipeline_path(Current.account), class: ' btn-secondary  text-center flex items-center' do %>
             Novo funil
           <% end %>
         </div>
