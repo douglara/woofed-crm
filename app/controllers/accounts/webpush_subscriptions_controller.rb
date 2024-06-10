@@ -1,7 +1,6 @@
 class Accounts::WebpushSubscriptionsController < InternalController
   def create
     webpush_subscription = WebpushSubscription.new(
-      account: current_user.account,
       user: current_user,
       endpoint: params[:endpoint],
       auth_key: params[:keys][:auth],

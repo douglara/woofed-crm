@@ -8,22 +8,18 @@
 #  p256dh_key :string           default(""), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  account_id :bigint           not null
 #  user_id    :bigint           not null
 #
 # Indexes
 #
-#  index_webpush_subscriptions_on_account_id  (account_id)
-#  index_webpush_subscriptions_on_user_id     (user_id)
+#  index_webpush_subscriptions_on_user_id  (user_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (account_id => accounts.id)
 #  fk_rails_...  (user_id => users.id)
 #
 class WebpushSubscription < ApplicationRecord
   belongs_to :user
-  belongs_to :account
   validates :endpoint, presence: true
   validates :p256dh_key, presence: true
   validates :auth_key, presence: true, uniqueness: true
