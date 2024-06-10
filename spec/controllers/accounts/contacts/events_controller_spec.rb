@@ -39,7 +39,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
     }
   end
 
-  describe 'POST /accounts/#{account.id}/contacts/#{contact.id}/events' do
+  describe 'POST /accounts/{account.id}/contacts/{contact.id}/events' do
     context 'when it is unthenticated user' do
       it 'returns unauthorized' do
         post "/accounts/#{account.id}/contacts/#{contact.id}/events"
@@ -292,7 +292,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
     # end
   end
 
-  describe 'PATCH /accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}' do
+  describe 'PATCH /accounts/{account.id}/contacts/{contact.id}/events/{event.id}' do
     before do
       stub_request(:post, /conversations/).to_return(body: conversation_response, status: 200,
                                                      headers: { 'Content-Type' => 'application/json' })
@@ -400,7 +400,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
       end
     end
   end
-  describe "DELETE /accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}" do
+  describe 'DELETE /accounts/{account.id}/contacts/{contact.id}/events/{event.id}' do
     let(:event) { create(:event, contact: contact, deal: deal, kind: 'activity') }
     context 'when it is unthenticated user' do
       it 'returns unauthorized' do
