@@ -22,6 +22,7 @@ class Product < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0, message: 'Can not be negative' }
   has_many :deal_products, dependent: :destroy
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
+  attribute :files, default: []
   FORM_FIELDS = %i[name amount_in_cents quantity_available identifier]
 
   def amount_in_cents=(amount)

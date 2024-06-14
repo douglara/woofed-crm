@@ -1,4 +1,5 @@
-<%= form_for([current_user.account, product], html:{class: "flex flex-col gap-5"}) do | form | %>
+<%= form_for([current_user.account, product], html:{class: "flex flex-col gap-5 relative z-0 ", data: {controller: 'upload-files', action: "drop->upload-files#acceptFiles dragenter->upload-files#showDragAlert dragleave->upload-files#removeDragAlert"}}) do | form | %>
+  <%= render '/components/events/drag_and_drop'%>
   <% if product.errors.any? %>
     <div>
       <ul>
@@ -35,21 +36,27 @@
     <%= form.label :description, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
     <%= form.text_area :description, placeholder: "#{t('activerecord.models.product.one')} ...", rows: 5 , class: 'form-input !border-light-palette-p3'%>
   </div>
-  <div class="h-0.5 w-full bg-light-palette-p3"></div>
-  <div>
-    <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1 mb-5">
-      <%= t('views.accounts.products.form.image') %>
-    </h2>
-    <div class='flex items-end gap-4 flex-wrap'>
-      <%= form.fields_for :attachments do |attachment_form| %>
-        <%= render 'attachment_fields', :f => attachment_form %>
-      <% end %>
-      <div class='grid gap-5'>
-        <%= link_to_add_association t('views.accounts.products.form.add_images'), form, :attachments, class: "btn-secondary place-self-start "%>
+  <%= render 'components/events/form/attachments', form: form %>
+  <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1 mb-5">
+    <%= t('views.accounts.products.form.image') %> anexados
+  </h2>
+  <div class='flex items-end gap-4 flex-wrap'>
+    <% product.attachments.each do |attachment| %>
+      <div class='nested-fields' data-controller="load-lucid-icons">
+        <div class="grid gap-2">
+          <% if attachment.image? %>
+            <div class=' max-w-[200px] max-h-[100px] bg-contain' data-controller='lightbox'>
+              <%= image_tag attachment.file, class: 'cursor-pointer object-contain w-full h-full' , data: { src: rails_blob_url(attachment.file), sub_html: attachment.file.filename.to_s } %>
+            </div>
+          <% end %>
+          <%= link_to '#', class: 'btn-secondary flex justify-center items-center gap-1', data: { confirm: t('views.accounts.products.attachment_fields.are_you_sure?') } do %>
+            <i data-lucide="trash-2"></i>
+            <p>Remover</p>
+          <% end %>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
-  <div class="h-0.5 w-full bg-light-palette-p3"></div>
   <%= render 'accounts/custom_attributes', m: product, f: form %>
   <div class="flex gap-2 self-end">
     <%= link_to account_custom_attributes_definitions_path(current_user.account), class:"btn-secondary flex items-center gap-2", data: {turbo_frame: :_top} do %>

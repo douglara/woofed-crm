@@ -49,6 +49,6 @@
         <img src="<%= asset_path('xmark-solid.svg') %>" alt="" class="w-4" >
       </div>
     </div>
-    <input type="file" class="hidden" multiple data-upload-files-target="fileInput" data-action="change->upload-files#acceptFiles" name="event[files][]"/>
+    <input type="file" class="hidden" multiple data-upload-files-target="fileInput" data-action="change->upload-files#acceptFiles" name="<%= form.object.class.name.downcase %>[files][]"/>
   </div>
 </div>
