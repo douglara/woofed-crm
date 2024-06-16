@@ -18,6 +18,7 @@ export default class extends Controller {
     micSvgUrl: String,
     pauseWaveSvgUrl: String,
     playWaveSvgUrl: String,
+    acceptedTypes: Array,
   };
 
   connect() {
@@ -86,7 +87,8 @@ export default class extends Controller {
         file,
         this.fileInputTarget,
         this.pauseWaveSvgUrlValue,
-        this.playWaveSvgUrlValue
+        this.playWaveSvgUrlValue,
+        this.acceptedTypesValue
       ).process();
     });
   }
@@ -96,20 +98,22 @@ export default class extends Controller {
   }
 
   configWaveRecord() {
-    const wavesurfer = WaveSurfer.create({
-      container: this.micWaveTarget,
-      waveColor: "#D9DEFF",
-      progressColor: "#6756D6",
-      height: 37,
-      barHeight: 4,
-    });
-    this.record = wavesurfer.registerPlugin(
-      RecordPlugin.create({
-        scrollingWaveform: false,
-        renderRecordedAudio: false,
-      })
-    );
-    this.bindWaveRecordEvents();
+    try {
+      const wavesurfer = WaveSurfer.create({
+        container: this.micWaveTarget,
+        waveColor: "#D9DEFF",
+        progressColor: "#6756D6",
+        height: 37,
+        barHeight: 4,
+      });
+      this.record = wavesurfer.registerPlugin(
+        RecordPlugin.create({
+          scrollingWaveform: false,
+          renderRecordedAudio: false,
+        })
+      );
+      this.bindWaveRecordEvents();
+    } catch (e) {}
   }
   bindWaveRecordEvents() {
     const updateProgress = (time) => {
@@ -131,18 +135,18 @@ export default class extends Controller {
       const audioFile = new File([blob], fileName, {
         type: "audio/ogg",
       });
-
       new Upload(
         audioFile,
         this.fileInputTarget,
         this.pauseWaveSvgUrlValue,
-        this.playWaveSvgUrlValue
+        this.playWaveSvgUrlValue,
+        this.acceptedTypesValue
       ).process();
     });
   }
 }
 class Upload {
-  constructor(file, fileInput, pauseSvg, playSvg) {
+  constructor(file, fileInput, pauseSvg, playSvg, acceptedTypes) {
     this.directUpload = new DirectUpload(
       file,
       "/rails/active_storage/direct_uploads",
@@ -151,13 +155,17 @@ class Upload {
     this.fileInput = fileInput;
     this.pauseSvg = pauseSvg;
     this.playSvg = playSvg;
+    this.acceptedTypes = acceptedTypes;
   }
 
   process() {
     const fileWrapper = this.insertUpload();
     const progressBar = fileWrapper.querySelector("#progressWrapper");
-
-    if (this.isFileSizeExceeded()) {
+    debugger;
+    if (!this.acceptedTypes.includes(this.getFileType())) {
+      progressBar.remove();
+      this.showErrorMessage("this file type is not allowed", fileWrapper);
+    } else if (this.isFileSizeExceeded()) {
       progressBar.remove();
       this.showErrorMessage(
         "The file exceeds the allowed size limit (40MB).",
@@ -313,8 +321,11 @@ class Upload {
     };
   }
   fileTypeIs(type) {
-    const fileType = this.directUpload.file.type.split("/")[0];
+    const fileType = this.getFileType();
     return fileType === type;
+  }
+  getFileType() {
+    return this.directUpload.file.type.split("/")[0];
   }
   showErrorMessage(message, fileWrapper) {
     const uploadInfo = fileWrapper.querySelector(
