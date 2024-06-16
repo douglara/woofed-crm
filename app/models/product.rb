@@ -25,6 +25,12 @@ class Product < ApplicationRecord
   attribute :files, default: []
   FORM_FIELDS = %i[name amount_in_cents quantity_available identifier]
 
+  %i[image file video].each do |file_type|
+    define_method "#{file_type}_attachments" do
+      attachments.by_file_type(file_type)
+    end
+  end
+
   def amount_in_cents=(amount)
     amount = amount.gsub(/[^\d-]/, '').to_i if amount.is_a?(String)
     super

@@ -19,9 +19,12 @@ class Attachment < ApplicationRecord
   validates :file, presence: true
   enum file_type: { image: 0, audio: 1, video: 2, file: 3, location: 4, fallback: 5, share: 6, story_mention: 7,
                     contact: 8 }
+
   def media_file?(file_content_type)
     file_content_type.start_with?('image/', 'video/', 'audio/')
   end
+
+  scope :by_file_type, ->(file_type) { where(file_type: file_types[file_type]) }
 
   def check_file_type
     if media_file?(file.content_type)
