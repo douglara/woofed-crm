@@ -161,7 +161,6 @@ class Upload {
   process() {
     const fileWrapper = this.insertUpload();
     const progressBar = fileWrapper.querySelector("#progressWrapper");
-    debugger;
     if (!this.acceptedTypes.includes(this.getFileType())) {
       progressBar.remove();
       this.showErrorMessage("this file type is not allowed", fileWrapper);
