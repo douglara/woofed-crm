@@ -5,6 +5,7 @@ class Accounts::ProductsController < InternalController
 
   def new
     @product = current_user.account.products.new
+    @product.attachments.build
   end
 
   def create

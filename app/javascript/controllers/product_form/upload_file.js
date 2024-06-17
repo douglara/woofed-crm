@@ -30,6 +30,7 @@ export default class UploadFile {
       });
     }
   }
+
   isFileSizeExceeded() {
     const fileSize = this.directUpload.file.size;
     const fileSizeLimit = 41943040;
@@ -51,7 +52,7 @@ export default class UploadFile {
     const input = document.createElement("input");
     const inputWrapper = document.getElementById(`upload_${uploadId}`);
     input.type = "hidden";
-    input.name = this.fileInput.name;
+    input.name = `product[attachments_attributes][${this.directUpload.id}][file]`;
     input.value = blob.signed_id;
     inputWrapper.appendChild(input);
   }

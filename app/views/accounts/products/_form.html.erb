@@ -36,7 +36,7 @@
     <%= form.label :description, class: "typography-text-m-lh150 text-dark-gray-palette-p1"  %>
     <%= form.text_area :description, placeholder: "#{t('activerecord.models.product.one')} ...", rows: 5 , class: 'form-input !border-light-palette-p3'%>
   </div>
-  <%= render 'accounts/products/attachments', form: form %>
+  <%= render 'accounts/products/attachments' %>
   <% if product.image_attachments.present? %>
     <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1 ">
       <%= t('views.accounts.products.form.image') %> anexados
