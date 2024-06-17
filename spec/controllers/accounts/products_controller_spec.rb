@@ -10,6 +10,9 @@ RSpec.describe Accounts::UsersController, type: :request do
   let!(:deal) { create(:deal, stage: stage, contact: contact) }
   let(:deal_product) { create(:deal_product, deal: deal, product: product) }
   let(:product_first) { Product.first }
+  def get_file(name)
+    Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/files/#{name}")
+  end
 
   describe 'POST /accounts/{account.id}/products' do
     let(:valid_params) do
@@ -66,6 +69,22 @@ RSpec.describe Accounts::UsersController, type: :request do
             end.to change(Product, :count).by(0)
             expect(response).to have_http_status(:unprocessable_entity)
             expect(response.body).to include('Can not be negative')
+          end
+        end
+        context 'when there are multiple attachments' do
+          it 'should create product and attachemnts' do
+            valid_params = { product: { name: 'Product name', identifier: 'id123', amount_in_cents: '1500,99', quantity_available: '10',
+                                        description: 'Product description', attachments_attributes: [{ file: get_file('patrick.png') }, { file: get_file('video_test.mp4') }, { file: get_file('hello_world.txt') }, { file: get_file('hello_world.rar') }] } }
+            expect do
+              post "/accounts/#{account.id}/products",
+                   params: valid_params
+            end.to change(Product, :count).by(1)
+            expect(response).to redirect_to(account_products_path(account))
+            expect(product_first.name).to eq('Product name')
+            expect(product_first.attachments.count).to eq(4)
+            # expect(product_first.image_attachments.count).to eq(1)
+            # expect(product_first.video_attachments.count).to eq(1)
+            # expect(product_first.file_attachments.count).to eq(2)
           end
         end
       end

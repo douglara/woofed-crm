@@ -44,4 +44,9 @@ class Attachment < ApplicationRecord
   def download_url
     file.attached? ? Rails.application.routes.url_helpers.rails_blob_url(file) : ''
   end
+
+  # def save
+  #   self.file_type = check_file_type
+  #   super
+  # end
 end
