@@ -15,7 +15,12 @@
 #
 FactoryBot.define do
   factory :attachment do
-    attachable { nil }
-    file_type { 1 }
+    trait :for_product do
+      association :attachable, factory: :product
+    end
+    trait :image do
+      file_type { 'image' }
+      file { Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/files/patrick.png") }
+    end
   end
 end
