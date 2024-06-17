@@ -82,9 +82,9 @@ RSpec.describe Accounts::UsersController, type: :request do
             expect(response).to redirect_to(account_products_path(account))
             expect(product_first.name).to eq('Product name')
             expect(product_first.attachments.count).to eq(4)
-            # expect(product_first.image_attachments.count).to eq(1)
-            # expect(product_first.video_attachments.count).to eq(1)
-            # expect(product_first.file_attachments.count).to eq(2)
+            expect(product_first.image_attachments.count).to eq(1)
+            expect(product_first.video_attachments.count).to eq(1)
+            expect(product_first.file_attachments.count).to eq(2)
           end
         end
       end
