@@ -3,16 +3,16 @@
     <%= t('views.components.events.form.attachments.files') %>
   </p>
   <div class='flex gap-2.5 items-center'>
-    <div class='btn-secondary p-2.5 cursor-pointer' data-action="click->upload-files#trigger">
+    <div class='btn-secondary p-2.5 cursor-pointer' data-action="click->event-form--upload-files#trigger">
       <i data-lucide="paperclip"></i>
     </div>
-    <div class='btn-secondary p-2.5 cursor-pointer ' data-action="click->upload-files#recordAudio">
-      <img src="<%= asset_path('mic.svg') %>" alt="" data-upload-files-target="recordIcon">
+    <div class='btn-secondary p-2.5 cursor-pointer ' data-action="click->event-form--upload-files#recordAudio">
+      <img src="<%= asset_path('mic.svg') %>" alt="" data-event-form--upload-files-target="recordIcon">
     </div>
     <div class='flex-1  w-full'>
-      <div class="flex gap-2.5 items-center" data-upload-files-target='micWaveWrapper'>
-        <p class="typography-body-m-lh150 text-dark-gray-palette-p2" data-upload-files-target='progressRecord'></p>
-        <div id='micWave' data-upload-files-target='micWave' class='w-full'></div>
+      <div class="flex gap-2.5 items-center" data-event-form--upload-files-target='micWaveWrapper'>
+        <p class="typography-body-m-lh150 text-dark-gray-palette-p2" data-event-form--upload-files-target='progressRecord'></p>
+        <div id='micWave' data-event-form--upload-files-target='micWave' class='w-full'></div>
       </div>
     </div>
   </div>
@@ -29,7 +29,7 @@
           <div class="bg-brand-palette-03 h-2.5 rounded-full ease-in duration-300" id="progressBar" style="width: 0%"></div>
         </div>
       </div>
-      <div class="p-2.5 cursor-pointer" data-action="click->upload-files#removeFile">
+      <div class="p-2.5 cursor-pointer" data-action="click->event-form--upload-files#removeFile">
         <img src="<%= asset_path('xmark-solid.svg') %>" alt="" class="w-4" >
       </div>
     </div>
@@ -45,10 +45,10 @@
           <div class="bg-brand-palette-03 h-2.5 rounded-full ease-in duration-300" id="progressBar" style="width: 0%"></div>
         </div>
       </div>
-      <div class="p-2.5 cursor-pointer" data-action="click->upload-files#removeFile">
+      <div class="p-2.5 cursor-pointer" data-action="click->event-form--upload-files#removeFile">
         <img src="<%= asset_path('xmark-solid.svg') %>" alt="" class="w-4" >
       </div>
     </div>
-    <input type="file" class="hidden" multiple data-upload-files-target="fileInput" data-action="change->upload-files#acceptFiles" name="<%= form.object.class.name.downcase %>[files][]"/>
+    <input type="file" class="hidden" multiple data-event-form--upload-files-target="fileInput" data-action="change->event-form--upload-files#acceptFiles" name="<%= form.object.class.name.downcase %>[files][]"/>
   </div>
 </div>
