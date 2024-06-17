@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_04_031715) do
+ActiveRecord::Schema.define(version: 2024_06_17_123926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 2024_06_04_031715) do
   create_table "attachments", force: :cascade do |t|
     t.string "attachable_type", null: false
     t.bigint "attachable_id", null: false
-    t.integer "file_type", default: 0, null: false
+    t.integer "file_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable"

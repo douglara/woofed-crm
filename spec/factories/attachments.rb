@@ -4,7 +4,7 @@
 #
 #  id              :bigint           not null, primary key
 #  attachable_type :string           not null
-#  file_type       :integer          default("image"), not null
+#  file_type       :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  attachable_id   :bigint           not null
