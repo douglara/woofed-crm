@@ -1,5 +1,5 @@
-<%= form_for([current_user.account, product], html:{class: "flex flex-col gap-5 relative z-0 ", data: { controller: 'upload-files', action: "drop->upload-files#acceptFiles dragenter->upload-files#showDragAlert dragleave->upload-files#removeDragAlert", upload_files_accepted_types_value: '["text", "video", "image", "application"]' }}) do | form | %>
-  <%= render '/components/events/drag_and_drop'%>
+<%= form_for([current_user.account, product], html:{class: "flex flex-col gap-5 relative z-0 ", data: { controller: 'product-form--upload-files', action: "drop->product-form--upload-files#acceptFiles dragenter->product-form--upload-files#showDragAlert dragleave->product-form--upload-files#removeDragAlert", 'product-form--upload-files-accepted-types-value': '["text", "video", "image", "application"]' }}) do | form | %>
+  <%= render '/accounts/products/drag_and_drop'%>
   <% if product.errors.any? %>
     <div>
       <ul>
