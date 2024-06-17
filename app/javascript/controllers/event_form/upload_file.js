@@ -2,7 +2,7 @@ import { DirectUpload } from "@rails/activestorage";
 import WaveSurfer from "wavesurfer.js";
 import Hover from "wavesurfer.js/dist/plugins/hover.js";
 
-export default class Upload {
+export default class UploadFile {
   constructor(file, fileInput, pauseSvg, playSvg, acceptedTypes) {
     this.directUpload = new DirectUpload(
       file,

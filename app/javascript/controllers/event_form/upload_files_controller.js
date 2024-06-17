@@ -1,7 +1,7 @@
 import { Controller } from "stimulus";
 import WaveSurfer from "wavesurfer.js";
 import RecordPlugin from "wavesurfer.js/dist/plugins/record.esm.js";
-import Upload from "./upload";
+import UploadFile from "./upload_file";
 
 export default class extends Controller {
   static targets = [
@@ -82,7 +82,7 @@ export default class extends Controller {
       ? event.dataTransfer.files
       : event.target.files;
     [...files].forEach((file) => {
-      new Upload(
+      new UploadFile(
         file,
         this.fileInputTarget,
         this.pauseWaveSvgUrlValue,
@@ -134,7 +134,7 @@ export default class extends Controller {
       const audioFile = new File([blob], fileName, {
         type: "audio/ogg",
       });
-      new Upload(
+      new UploadFile(
         audioFile,
         this.fileInputTarget,
         this.pauseWaveSvgUrlValue,
