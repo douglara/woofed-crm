@@ -87,6 +87,33 @@ RSpec.describe Accounts::UsersController, type: :request do
             expect(product_first.file_attachments.count).to eq(2)
           end
         end
+        context 'when there is an invalid file_type attachement' do
+          before do
+            allow_any_instance_of(Attachment).to receive(:check_file_type).and_return(nil)
+          end
+          it 'should return error' do
+            valid_params = { product: { name: 'Product name', identifier: 'id123', amount_in_cents: '1500,99', quantity_available: '10',
+                                        description: 'Product description', attachments_attributes: [{ file: get_file('patrick.png') }, { file: get_file('hello_world.txt') }] } }
+            expect do
+              post "/accounts/#{account.id}/products",
+                   params: valid_params
+            end.to change(Product, :count).by(0)
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response.body).to include('Attachments file type not supported')
+          end
+        end
+        context 'when there is an invalid attachement (size is too big)' do
+          it 'should return error' do
+            valid_params = { product: { name: 'Product name', identifier: 'id123', amount_in_cents: '1500,99', quantity_available: '10',
+                                        description: 'Product description', attachments_attributes: [{ file: get_file('hello_world_41mb.png') }] } }
+            expect do
+              post "/accounts/#{account.id}/products",
+                   params: valid_params
+            end.to change(Product, :count).by(0)
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response.body).to include('Attachments file size is too big')
+          end
+        end
       end
     end
   end
@@ -136,7 +163,7 @@ RSpec.describe Accounts::UsersController, type: :request do
         end
         it do
           patch "/accounts/#{account.id}/products/#{product.id}", params: valid_params
-          expect(response.body).to redirect_to(account_products_path(account))
+          expect(response.body).to redirect_to(edit_account_product_path(account, product_first))
           expect(product_first.name).to eq('Product Updated Name')
           expect(product_first.amount_in_cents).to eq(6_358_036)
         end
