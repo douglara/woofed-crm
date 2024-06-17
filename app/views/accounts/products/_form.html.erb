@@ -43,23 +43,25 @@
     </h2>
     <div class='flex items-end gap-4 flex-wrap'>
       <% product.image_attachments.each do |attachment| %>
-        <div class='grid border-2 rounded-md w-[250px] relative'>
-          <div class=' w-full h-[150px] ' data-controller='lightbox'>
-            <%= image_tag attachment.file, class: 'cursor-pointer object-cover w-full h-full rounded-t-md' , data: { src: rails_blob_url(attachment.file), sub_html: attachment.file.filename.to_s } %>
-          </div>
-          <%= link_to '#', method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 bg-light-palette-p5 rounded-full border-[1px] border-brand-palette-07 hover:border-brand-palette-06 hover:border-[1px] hover:bg-brand-palette-08 hover:rounded-full hover:text-brand-palette-03 transtion ease-in-out delay-250 absolute top-1 right-1' do %>
-            <i data-lucide="trash-2" height="14"></i>
-          <% end %>
-          <div class='bg-brand-palette-08 p-1.5 grid gap-0.5 rounded-b-md'>
-            <p class='typography-sub-text-s-lh150 text-dark-gray-palette-p1 truncate max-w-[180px]'><%= attachment.file.filename.to_s %></p>
-            <div class='flex justify-between items-center'>
-              <p class='typography-micro-m-lh150 text-dark-gray-palette-p4'><%= number_to_human_size(attachment.file.byte_size) %></p>
-              <%= link_to  rails_blob_path(attachment.file), class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
-                <i data-lucide="download" height="15"></i>
-              <% end %>
+        <%= turbo_frame_tag attachment do %>
+          <div class='grid border-2 rounded-md w-[250px] relative'>
+            <div class=' w-full h-[150px] ' data-controller='lightbox'>
+              <%= image_tag attachment.file, class: 'cursor-pointer object-cover w-full h-full rounded-t-md' , data: { src: rails_blob_url(attachment.file), sub_html: attachment.file.filename.to_s } %>
+            </div>
+            <%= link_to account_attachment_path(Current.account, attachment), method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 bg-light-palette-p5 rounded-full border-[1px] border-brand-palette-07 hover:border-brand-palette-06 hover:border-[1px] hover:bg-brand-palette-08 hover:rounded-full hover:text-brand-palette-03 transtion ease-in-out delay-250 absolute top-1 right-1' do %>
+              <i data-lucide="trash-2" height="14"></i>
+            <% end %>
+            <div class='bg-brand-palette-08 p-1.5 grid gap-0.5 rounded-b-md'>
+              <p class='typography-sub-text-s-lh150 text-dark-gray-palette-p1 truncate max-w-[180px]'><%= attachment.file.filename.to_s %></p>
+              <div class='flex justify-between items-center'>
+                <p class='typography-micro-m-lh150 text-dark-gray-palette-p4'><%= number_to_human_size(attachment.file.byte_size) %></p>
+                <%= link_to  rails_blob_path(attachment.file), class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
+                  <i data-lucide="download" height="15"></i>
+                <% end %>
+              </div>
             </div>
           </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
   <% end %>
@@ -69,23 +71,25 @@
     </h2>
     <div class='flex items-end gap-4 flex-wrap'>
       <% product.video_attachments.each do |attachment| %>
-        <div class='grid border-2 rounded-md w-[250px] relative'>
-          <div class=' w-full max-h-[250px] '>
-            <%= video_tag rails_blob_url(attachment.file), size:'250x250', controls: true, class: 'rounded-t-md object-scale-down w-full max-h-[250px]' %>
-          </div>
-          <%= link_to '#', method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 bg-light-palette-p5 rounded-full border-[1px] border-brand-palette-07 hover:border-brand-palette-06 hover:border-[1px] hover:bg-brand-palette-08 hover:rounded-full hover:text-brand-palette-03 transtion ease-in-out delay-250 absolute top-1 right-1' do %>
-            <i data-lucide="trash-2" height="14"></i>
-          <% end %>
-          <div class='bg-brand-palette-08 p-1.5 grid gap-0.5 rounded-b-md'>
-            <p class='typography-sub-text-s-lh150 text-dark-gray-palette-p1 truncate max-w-[180px]'><%= attachment.file.filename.to_s %></p>
-            <div class='flex justify-between items-center'>
-              <p class='typography-micro-m-lh150 text-dark-gray-palette-p4'><%= number_to_human_size(attachment.file.byte_size) %></p>
-              <%= link_to  rails_blob_path(attachment.file), class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
-                <i data-lucide="download" height="15"></i>
-              <% end %>
+        <%= turbo_frame_tag attachment do %>
+          <div class='grid border-2 rounded-md w-[250px] relative'>
+            <div class=' w-full max-h-[250px] '>
+              <%= video_tag rails_blob_url(attachment.file), size:'250x250', controls: true, class: 'rounded-t-md object-scale-down w-full max-h-[250px]' %>
+            </div>
+            <%= link_to account_attachment_path(Current.account, attachment), method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 bg-light-palette-p5 rounded-full border-[1px] border-brand-palette-07 hover:border-brand-palette-06 hover:border-[1px] hover:bg-brand-palette-08 hover:rounded-full hover:text-brand-palette-03 transtion ease-in-out delay-250 absolute top-1 right-1' do %>
+              <i data-lucide="trash-2" height="14"></i>
+            <% end %>
+            <div class='bg-brand-palette-08 p-1.5 grid gap-0.5 rounded-b-md'>
+              <p class='typography-sub-text-s-lh150 text-dark-gray-palette-p1 truncate max-w-[180px]'><%= attachment.file.filename.to_s %></p>
+              <div class='flex justify-between items-center'>
+                <p class='typography-micro-m-lh150 text-dark-gray-palette-p4'><%= number_to_human_size(attachment.file.byte_size) %></p>
+                <%= link_to  rails_blob_path(attachment.file), class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
+                  <i data-lucide="download" height="15"></i>
+                <% end %>
+              </div>
             </div>
           </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
   <% end %>
@@ -95,23 +99,25 @@
     </h2>
     <div class='flex items-end gap-4 flex-wrap'>
       <% product.file_attachments.each do |attachment| %>
-        <div class='grid border-2 rounded-md w-[200px]'>
-          <div class='flex items-center h-[100px] relative'>
-            <i data-lucide="file" style="width: 50px; height: 50px" class=" stroke-dark-gray-palette-p3 m-auto"></i>
-            <%= link_to '#', method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-full hover:text-brand-palette-03 transtion ease-in-out delay-250 absolute top-1 right-1' do %>
-              <i data-lucide="trash-2" height="14"></i>
-            <% end %>
-          </div>
-          <div class='bg-brand-palette-08 p-1.5 grid gap-0.5 rounded-b-md'>
-            <p class='typography-sub-text-s-lh150 text-dark-gray-palette-p1 truncate max-w-[180px]'><%= attachment.file.filename.to_s %></p>
-            <div class='flex justify-between items-center'>
-              <p class='typography-micro-m-lh150 text-dark-gray-palette-p4'><%= number_to_human_size(attachment.file.byte_size) %></p>
-              <%= link_to  rails_blob_path(attachment.file), class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
-                <i data-lucide="download" height="15"></i>
+        <%= turbo_frame_tag attachment do %>
+          <div class='grid border-2 rounded-md w-[200px]'>
+            <div class='flex items-center h-[100px] relative'>
+              <i data-lucide="file" style="width: 50px; height: 50px" class=" stroke-dark-gray-palette-p3 m-auto"></i>
+              <%= link_to account_attachment_path(Current.account, attachment), method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-full hover:text-brand-palette-03 transtion ease-in-out delay-250 absolute top-1 right-1' do %>
+                <i data-lucide="trash-2" height="14"></i>
               <% end %>
             </div>
+            <div class='bg-brand-palette-08 p-1.5 grid gap-0.5 rounded-b-md'>
+              <p class='typography-sub-text-s-lh150 text-dark-gray-palette-p1 truncate max-w-[180px]'><%= attachment.file.filename.to_s %></p>
+              <div class='flex justify-between items-center'>
+                <p class='typography-micro-m-lh150 text-dark-gray-palette-p4'><%= number_to_human_size(attachment.file.byte_size) %></p>
+                <%= link_to  rails_blob_path(attachment.file), class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
+                  <i data-lucide="download" height="15"></i>
+                <% end %>
+              </div>
+            </div>
           </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
   <% end %>
