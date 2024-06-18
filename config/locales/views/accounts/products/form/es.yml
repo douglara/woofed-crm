@@ -4,5 +4,7 @@ es:
       products:
         form:
           product_data: 'Datos del producto'
-          images: 'Imágenes'
+          images_attached: 'Imágenes adjuntas'
+          videos_attached: Videos adjuntos
+          files_attached: Archivos adjuntos
           add_images: 'Agregar Imágenes'

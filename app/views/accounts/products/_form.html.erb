@@ -39,7 +39,7 @@
   <%= render 'accounts/products/attachments' %>
   <% if product.image_attachments.present? %>
     <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1 ">
-      <%= t('views.accounts.products.form.image') %> anexados
+      <%= t('views.accounts.products.form.images_attached') %>
     </h2>
     <div class='flex items-end gap-4 flex-wrap'>
       <% product.image_attachments.each do |attachment| %>
@@ -67,7 +67,7 @@
   <% end %>
   <% if product.video_attachments.present? %>
     <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1 ">
-      Videos anexados
+      <%= t('views.accounts.products.form.videos_attached') %>
     </h2>
     <div class='flex items-end gap-4 flex-wrap'>
       <% product.video_attachments.each do |attachment| %>
@@ -95,7 +95,7 @@
   <% end %>
   <% if product.file_attachments.present? %>
     <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1 ">
-      Arquivos anexados
+      <%= t('views.accounts.products.form.files_attached') %>
     </h2>
     <div class='flex items-end gap-4 flex-wrap'>
       <% product.file_attachments.each do |attachment| %>
