@@ -254,8 +254,8 @@ GEM
       rails (>= 6.0.0)
       stimulus-rails
       turbo-rails
-    html2text (0.3.1)
-      nokogiri (~> 1.10.3)
+    html2text (0.4.0)
+      nokogiri (>= 1.0, < 2.0)
     http (5.1.1)
       addressable (~> 2.8)
       http-cookie (~> 1.0)
@@ -304,7 +304,6 @@ GEM
     method_source (1.0.0)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
-    mini_portile2 (2.4.0)
     minitest (5.22.3)
     motor-admin (0.4.20)
       ar_lazy_preload (~> 1.0)
@@ -332,8 +331,8 @@ GEM
       sidekiq
     newrelic_rpm (8.16.0)
     nio4r (2.7.0)
-    nokogiri (1.10.10)
-      mini_portile2 (~> 2.4.0)
+    nokogiri (1.16.6-x86_64-linux)
+      racc (~> 1.4)
     opentelemetry-api (1.2.3)
     opentelemetry-common (0.20.0)
       opentelemetry-api (~> 1.0)
