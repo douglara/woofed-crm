@@ -10,6 +10,6 @@ Rails.application.configure do
   }
 end
 
-GoodJob::Engine.middleware.use Rack::Auth::Basic, 'Restricted Area' do
-  [ENV.fetch('MOTOR_AUTH_USERNAME', 'lovewoofed'), ENV.fetch('MOTOR_AUTH_PASSWORD', 'lovewoofed')]
+GoodJob::Engine.middleware.use Rack::Auth::Basic, 'Restricted Area' do |user, password|
+  [user, password] == [ENV.fetch('MOTOR_AUTH_USERNAME', 'lovewoofed'), ENV.fetch('MOTOR_AUTH_PASSWORD', 'lovewoofed')]
 end
