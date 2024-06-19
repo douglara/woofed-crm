@@ -221,7 +221,8 @@ RSpec.describe Accounts::UsersController, type: :request do
         it do
           delete "/accounts/#{account.id}/users/#{user.id}"
           expect(User.count).to eq(0)
-          expect(response.status).to eq(204)
+          expect(response.status).to eq(302)
+          expect(flash[:notice]).to include('User was successfully destroyed.')
         end
       end
     end
