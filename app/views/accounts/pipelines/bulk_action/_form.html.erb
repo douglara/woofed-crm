@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "bulk-action-form" do %>
-  <%= form_with(model: event, url: account_pipeline_create_bulk_action_path(current_user.account, @pipeline, stage_id: params['stage_id'])) do |form| %>
+  <%= form_with(model: event, url: account_pipeline_create_bulk_action_path(Current.account, @pipeline, stage_id: params['stage_id'])) do |form| %>
     <% if event.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(event.errors.count, "error") %> prohibited this note from being saved:</h2>
@@ -11,7 +11,7 @@
         </ul>
       </div>
     <% end %>
-    
+
     <div class="form-group">
       <label>Etapa</label>
       <select class="form-control">
@@ -36,7 +36,7 @@
     <%= form.hidden_field :app_type, value: 'Apps::WppConnect' %>
     <div class="form-group">
       <%= form.label :app_id, 'Conexão' %>
-      <%= form.select(:app_id, current_user.account.apps_wpp_connects.actives.map { | wpp | [ wpp.name, wpp.id ]  } , {}, {class: 'form-control', required: true} ) %>
+      <%= form.select(:app_id, Current.account.apps_wpp_connects.actives.map { | wpp | [ wpp.name, wpp.id ]  } , {}, {class: 'form-control', required: true} ) %>
     </div>
 
     <div class="form-check">

@@ -8,17 +8,17 @@ class Accounts::PipelinesController < InternalController
 
   # GET /pipelines or /pipelines.json
   def index
-    pipeline = current_user.account.pipelines.first
+    pipeline = Pipeline.first
     if pipeline
-      redirect_to(account_pipeline_path(current_user.account, pipeline))
+      redirect_to(account_pipeline_path(Current.account, pipeline))
     else
-      redirect_to account_welcome_index_path(current_user.account)
+      redirect_to account_welcome_index_path(Current.account)
     end
   end
 
   # GET /pipelines/1 or /pipelines/1.json
   def show
-    @pipelines = current_user.account.pipelines
+    @pipelines = Pipeline.all
     @status = if params[:filter_status_deal].present?
                 params[:filter_status_deal]
               else
@@ -79,15 +79,15 @@ class Accounts::PipelinesController < InternalController
 
   # GET /pipelines/1/import
   def import
-    @pipeline = current_user.account.pipelines.find(params[:pipeline_id])
-    @stage = current_user.account.stages.find(params[:stage_id])
+    @pipeline = Pipeline.find(params[:pipeline_id])
+    @stage = Stage.find(params[:stage_id])
 
     respond_to do |format|
       format.turbo_stream
       format.html
       format.csv do
         path_to_output_csv_file = "#{Rails.root}/tmp/deals-#{Time.current.to_i}.csv"
-        # headers = Deal.csv_header(current_user.account)
+        # headers = Deal.csv_header(Current.account)
         headers = ['name', 'contact_attributes.full_name', 'contact_attributes.phone']
         CSV.open(path_to_output_csv_file, 'w') do |csv|
           csv << headers
@@ -102,7 +102,7 @@ class Accounts::PipelinesController < InternalController
 
   # GET /pipelines/1/export
   def export
-    @deals = current_user.account.deals.where(stage_id: params['stage_id'])
+    @deals = Deal.where(stage_id: params['stage_id'])
 
     path_to_output_csv_file = "#{Rails.root}/tmp/deals-#{Time.current.to_i}.csv"
     JsonCsv.create_csv_for_json_records(path_to_output_csv_file) do |csv_builder|
@@ -127,8 +127,8 @@ class Accounts::PipelinesController < InternalController
   def new_bulk_action; end
 
   def create_bulk_action
-    @deals = current_user.account.deals.where(stage_id: params['event']['stage_id'], status: 'open')
-    @stage = current_user.account.stages.find(params['event']['stage_id'])
+    @deals = Deal.where(stage_id: params['event']['stage_id'], status: 'open')
+    @stage = Stage.find(params['event']['stage_id'])
     if params['event']['send_now'] == 'true'
       time_start = DateTime.current
     elsif !params['event']['scheduled_at'].nil?
@@ -162,12 +162,12 @@ class Accounts::PipelinesController < InternalController
 
   # POST /pipelines or /pipelines.json
   def create
-    @pipeline = current_user.account.pipelines.new(pipeline_params)
+    @pipeline = Pipeline.new(pipeline_params)
 
     respond_to do |format|
       if @pipeline.save
         format.html do
-          redirect_to account_pipeline_path(current_user.account, @pipeline),
+          redirect_to account_pipeline_path(Current.account, @pipeline),
                       notice: t('flash_messages.created', model: Pipeline.model_name.human)
         end
         format.json { render :show, status: :created, location: @pipeline }
@@ -183,7 +183,7 @@ class Accounts::PipelinesController < InternalController
     respond_to do |format|
       if @pipeline.update(pipeline_params)
         format.html do
-          redirect_to account_pipeline_path(current_user.account, @pipeline),
+          redirect_to account_pipeline_path(Current.account, @pipeline),
                       notice: t('flash_messages.updated', model: Pipeline.model_name.human)
         end
         format.json { render :show, status: :ok, location: @pipeline }
@@ -207,11 +207,11 @@ class Accounts::PipelinesController < InternalController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_pipeline
-    @pipeline = current_user.account.pipelines.find(params[:id])
+    @pipeline = Pipeline.find(params[:id])
   end
 
-  def contact_exists?(pipeline, params)
-    Accounts::Contacts::GetByParams.call(pipeline.account,
+  def contact_exists?(params)
+    Accounts::Contacts::GetByParams.call(Current.account,
                                          params['contact_attributes'].permit(:phone).to_h)[:ok].present?
   end
 
@@ -226,13 +226,13 @@ class Accounts::PipelinesController < InternalController
   end
 
   def set_stage
-    @stage = current_user.account.stages.find(params[:stage_id])
+    @stage = Stage.find(params[:stage_id])
   end
 
   def deal_params(params)
     params.permit(
       :name, :status, :stage_id, :contact_id,
-      contact_attributes: %i[id full_name phone email account_id],
+      contact_attributes: %i[id full_name phone email],
       custom_attributes: {}
     )
   end
