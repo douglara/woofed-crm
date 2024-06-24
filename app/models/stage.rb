@@ -24,7 +24,15 @@ class Stage < ApplicationRecord
 
   after_update_commit -> { broadcast_updates }
 
-  def broadcast_updates
-    broadcast_replace_later_to self, partial: 'accounts/pipelines/stage', locals:{status: 'open'}
+  def broadcast_updates(status = nil)
+    if status
+      broadcast_replace_later_to [:stages, status], target: self, partial: 'accounts/pipelines/stage',
+                                                    locals: { status: status }
+    else
+      ::Deal.statuses.each_value do |statuse|
+        broadcast_replace_later_to [:stages, statuse], target: self, partial: 'accounts/pipelines/stage',
+                                                       locals: { status: statuse }
+      end
+    end
   end
 end
