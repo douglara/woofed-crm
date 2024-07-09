@@ -48,7 +48,8 @@ class Accounts::Create::EmbededCompanySite
 
   def embed_page(page)
     splitter = ::TextSplitters::RecursiveCharacterTextSplitter.new(chunk_size: 1000, chunk_overlap: 100)
-    output = splitter.split(page.body_text_content)
+    page_filter_links = page.body_text_content.gsub(/\[(.*?)\]\(.*?\)/m, '')
+    output = splitter.split(page_filter_links)
 
     output.each do |content_split|
       @account.embedding_documments.create(
