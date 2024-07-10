@@ -6,6 +6,7 @@
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  full_name              :string           default(""), not null
+#  language               :string           default("en"), not null
 #  phone                  :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
@@ -25,7 +26,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   accepts_nested_attributes_for :account
-
+  
+  attribute :language, :string, default: ENV.fetch('LANGUAGE', 'en')
+  
   validates :phone,
             allow_blank: true,
             format: { with: /\+[1-9]\d{1,14}\z/ }

@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Accounts::UsersController, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
+  let(:es_user) { create(:user, :es_language, account: account) }
 
   describe 'POST /accounts/{account.id}/users' do
     let(:valid_params) do
@@ -114,7 +115,7 @@ RSpec.describe Accounts::UsersController, type: :request do
       context 'get users' do
         it do
           get "/accounts/#{account.id}/users"
-          expect(response.body).to include('belchior@show.com.br')
+          expect(response.body).to include(user.email)
           expect(response).to have_http_status(200)
         end
         it 'get users by account' do
@@ -122,7 +123,7 @@ RSpec.describe Accounts::UsersController, type: :request do
           create(:user, full_name: 'Yukio', email: 'yukio@email.com', password: '123456',
                         password_confirmation: '123456', account_id: account_2.id)
           get "/accounts/#{account.id}/users"
-          expect(response.body).to include('belchior@show.com.br')
+          expect(response.body).to include(user.email)
           expect(account.users.count).to eq(2)
           expect(Account.count).to eq(2)
         end
@@ -159,7 +160,7 @@ RSpec.describe Accounts::UsersController, type: :request do
 
             patch "/accounts/#{account.id}/users/#{user.id}",
                   params: invalid_params
-            expect(User.first.email).to eq('belchior@show.com.br')
+            expect(User.first.email).to eq(user.email)
             expect(response.body).to match(/Email can&#39;t be blank/)
             expect(response).to have_http_status(:unprocessable_entity)
           end
@@ -168,7 +169,7 @@ RSpec.describe Accounts::UsersController, type: :request do
                                        password_confirmation: '123456' } }
             patch "/accounts/#{account.id}/users/#{user.id}",
                   params: invalid_params
-            expect(User.first.email).to eq('belchior@show.com.br')
+            expect(User.first.email).to eq(user.email)
             expect(response.body).to include('Email is invalid')
             expect(response).to have_http_status(:unprocessable_entity)
           end
@@ -206,6 +207,76 @@ RSpec.describe Accounts::UsersController, type: :request do
       end
     end
   end
+
+  describe 'PACTH /accounts/{account.id}/users/{es_user.id}' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/accounts/#{account.id}/users/#{es_user.id}"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(es_user)
+      end
+
+      context 'update es_user language' do
+        let(:valid_params) do
+          { user: { language: 'pt-BR' } }
+        end
+        it 'should return update page in pt-BR' do
+          patch "/accounts/#{account.id}/users/#{es_user.id}", params: valid_params
+          expect(es_user.reload.language).to eq('pt-BR')
+          follow_redirect!
+          expect(response.body).to include('Nome Completo')
+        end
+      end
+      context 'update es_user with invalid language' do
+        let(:valid_params) do
+          { user: { language: 'invalid language' } }
+        end
+        it 'should return update page in env language (en)' do
+          patch "/accounts/#{account.id}/users/#{es_user.id}", params: valid_params
+          expect(es_user.reload.language).to eq('invalid language')
+          follow_redirect!
+          expect(response.body).to include('Full name')
+        end
+      end
+    end
+  end
+
+  describe 'GET /accounts/{account.id}/users/new' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/accounts/#{account.id}/users/new"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated es user' do
+      before do
+        sign_in(es_user)
+      end
+
+      it 'visit user es new page' do
+        get "/accounts/#{account.id}/users/new"
+        expect(response.body).to include('Datos del usuario')
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      it 'visit user new en page' do
+        get "/accounts/#{account.id}/users/new"
+        expect(response.body).to include('User data')
+      end
+    end
+  end
+
   describe 'DELETE /accounts/{account.id}/users/{user.id}' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
