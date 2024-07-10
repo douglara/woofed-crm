@@ -1,12 +1,16 @@
-.stage-bar ol a:nth-of-type(1){
-    li{
-        border-bottom-left-radius: 0.5rem;
-        border-top-left-radius: 0.5rem;
-    }
+.stage-bar a:first-of-type {
+  border-bottom-left-radius: 0.5rem;
+  border-top-left-radius: 0.5rem;
 }
-.stage-bar ol a:last-child{
-    li{
-        border-bottom-right-radius: 0.5rem;
-        border-top-right-radius: 0.5rem;
-    }
+
+.stage-bar a:first-of-type {
+  p{
+    padding-left: .625rem
+  }
+}
+
+.stage-bar a:last-of-type {
+  border-bottom-right-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+
 }

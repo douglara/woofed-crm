@@ -17,11 +17,7 @@
             <!-- <div class="flex items-center space-x-1 py-1 p-1 border-2 rounded-lg bg-auxiliary-palette-green-down-2 border-auxiliary-palette-green-down text-auxiliary-palette-green"> -->
             <%= render 'accounts/pipelines/deal_event', event: deal.next_event_planned if deal.next_event_planned? %>
           </div>
-          <nav aria-label="breadcrumb" class="stage-bar">
-            <ol class=" flex space-x-1 items-center text-center" >
-              <%= render 'components/deals/stages_nav', deal: deal  %>
-            </ol>
-          </nav>
+          <%= render 'components/deals/stages_nav', deal: deal  %>
         </div>
         <%= link_to(account_deal_path(deal.account, deal.id), class: "arrow-btn flex items-center p-2 border-2 rounded-md border-light-palette-p3 odd:bg-light-palette-p4 even:bg-light-palette-p5 hover:odd:bg-light-palette-p5 hover:even:bg-light-palette-p4 self-start cursor-pointer") do %>
           <i data-lucide="arrow-up-right" class="w-6 h-6 stroke-dark-gray-palette-p3"></i>
