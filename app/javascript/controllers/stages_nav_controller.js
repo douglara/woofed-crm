@@ -2,91 +2,63 @@ import { Controller } from "stimulus";
 
 export default class extends Controller {
   static outlets = ["gray-element", "green-element"];
-  connect() {}
+
   mouseOver(event) {
+    this.toggleStyles(event, "add");
+  }
+
+  mouseOut(event) {
+    this.toggleStyles(event, "remove");
+  }
+
+  toggleStyles(event, action) {
+    const color = event.target.getAttribute("data-color");
     const stageElementId = event.target.getAttribute("data-name-stage-id");
     const arrowElementId = event.target.getAttribute("data-arrow-stage-id");
     const linkElementId = event.target.getAttribute("data-link-stage-id");
-    if (event.target.getAttribute("data-color") === "green") {
+
+    if (color === "green" || color === "gray") {
+      const colorClass =
+        color === "green" ? "auxiliary-palette-green-down" : "gray-200";
+
       if (stageElementId) {
-        document
-          .querySelector(`[data-arrow-stage-id="${stageElementId}"]`)
-          .classList.add("!border-l-auxiliary-palette-green-down");
+        this.updateClass(
+          `[data-arrow-stage-id="${stageElementId}"]`,
+          `!border-l-${colorClass}`,
+          action
+        );
       }
+
       if (arrowElementId) {
-        event.target.classList.add("!text-auxiliary-palette-green");
+        if (color === "green") {
+          event.target.classList[action]("!text-auxiliary-palette-green");
+        }
+
         const stageName = document.querySelector(
           `[data-name-stage-id="${arrowElementId}"]`
         );
-        stageName.parentNode.classList.add("!bg-auxiliary-palette-green-down");
-        stageName.classList.add("!text-auxiliary-palette-green");
+        if (stageName) {
+          stageName.parentNode.classList[action](`!bg-${colorClass}`);
+          if (color === "green") {
+            stageName.classList[action]("!text-auxiliary-palette-green");
+          }
+        }
       }
+
       if (linkElementId) {
-        document
-          .querySelector(`[data-arrow-stage-id="${linkElementId}"]`)
-          .classList.add("!border-l-auxiliary-palette-green-down");
-      }
-    } else if (event.target.getAttribute("data-color") === "gray") {
-      if (stageElementId) {
-        document
-          .querySelector(`[data-arrow-stage-id="${stageElementId}"]`)
-          .classList.add("!border-l-gray-200");
-      }
-      if (arrowElementId) {
-        const stageName = document.querySelector(
-          `[data-name-stage-id="${arrowElementId}"]`
+        this.updateClass(
+          `[data-arrow-stage-id="${linkElementId}"]`,
+          `!border-l-${colorClass}`,
+          action
         );
-        stageName.parentNode.classList.add("!bg-gray-200");
-      }
-      if (linkElementId) {
-        document
-          .querySelector(`[data-arrow-stage-id="${linkElementId}"]`)
-          .classList.add("!border-l-gray-200");
       }
     }
   }
-  mouseOut(event) {
-    const stageElementId = event.target.getAttribute("data-name-stage-id");
-    const arrowElementId = event.target.getAttribute("data-arrow-stage-id");
-    const linkElementId = event.target.getAttribute("data-link-stage-id");
-    if (event.target.getAttribute("data-color") === "green") {
-      if (stageElementId) {
-        document
-          .querySelector(`[data-arrow-stage-id="${stageElementId}"]`)
-          .classList.remove("!border-l-auxiliary-palette-green-down");
-      }
-      if (arrowElementId) {
-        event.target.classList.remove("!text-auxiliary-palette-green");
-        const stageName = document.querySelector(
-          `[data-name-stage-id="${arrowElementId}"]`
-        );
-        stageName.parentNode.classList.remove(
-          "!bg-auxiliary-palette-green-down"
-        );
-        stageName.classList.remove("!text-auxiliary-palette-green");
-      }
-      if (linkElementId) {
-        document
-          .querySelector(`[data-arrow-stage-id="${linkElementId}"]`)
-          .classList.remove("!border-l-auxiliary-palette-green-down");
-      }
-    } else if (event.target.getAttribute("data-color") === "gray") {
-      if (stageElementId) {
-        document
-          .querySelector(`[data-arrow-stage-id="${stageElementId}"]`)
-          .classList.remove("!border-l-gray-200");
-      }
-      if (arrowElementId) {
-        const stageName = document.querySelector(
-          `[data-name-stage-id="${arrowElementId}"]`
-        );
-        stageName.parentNode.classList.remove("!bg-gray-200");
-      }
-      if (linkElementId) {
-        document
-          .querySelector(`[data-arrow-stage-id="${linkElementId}"]`)
-          .classList.remove("!border-l-gray-200");
-      }
+
+  updateClass(selector, className, action) {
+    const element = document.querySelector(selector);
+    if (element) {
+      element.classList[action](className);
     }
   }
 }
