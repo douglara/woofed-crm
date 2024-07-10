@@ -21,6 +21,7 @@ RSpec.describe ContactBuilder do
         expect(contact_found.full_name).to eq(contact.full_name)
         expect(contact_found.phone).to eq(contact.phone)
         expect(contact_found.email).to eq(contact.email)
+        expect(contact_found.id).to eq(contact.id)
       end
     end
     context 'when there is no contact with params set' do
@@ -36,6 +37,7 @@ RSpec.describe ContactBuilder do
         expect(contact_found.full_name).to eq('')
         expect(contact_found.phone).to eq('+546546546546')
         expect(contact_found.email).to eq('')
+        expect(contact_found.id).to be_nil
       end
     end
   end
@@ -55,6 +57,7 @@ RSpec.describe ContactBuilder do
         expect(contact_found.full_name).to eq('teste')
         expect(contact_found.phone).to eq(contact.phone)
         expect(contact_found.email).to eq(contact.email)
+        expect(contact_found.id).to be_nil
       end
     end
     context 'when there is no contact with params set' do
