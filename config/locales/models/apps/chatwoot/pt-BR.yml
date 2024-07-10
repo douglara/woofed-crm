@@ -18,3 +18,6 @@ pt-BR:
         created_at: 'Criado em'
         updated_at: 'Atualizado em'
         inboxes: 'Caixas de entrada'
+    errors:
+      messages:
+        invalid_chatwoot_configuration: 'Configuração do chatwoot inválida'

@@ -1,7 +1,6 @@
 <div class='nested-fields' data-controller="load-lucid-icons">
   <%= f.label :name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
   <div class="flex gap-2">
-    <%= f.hidden_field :account_id, value: current_user.account.id %>
     <%= f.text_field :name, class: "form-input flex-1" %>
     <%= link_to_remove_association f, class: 'btn-secondary !p-2', data: { confirm: t('views.accounts.pipelines.stage_fields.are_you_sure?') } do %>
       <i data-lucide="trash-2"></i>

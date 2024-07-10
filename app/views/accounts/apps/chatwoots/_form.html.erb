@@ -1,7 +1,6 @@
 <%= form_with(model: chatwoot, url: account_apps_chatwoots_path(current_user.account), data: {turbo: false}, id: 'formId', class: 'flex flex-col gap-5') do |form| %>
   <% if chatwoot.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(chatwoot.errors.count, "error") %> prohibited this activity kind from being saved:</h2>
       <ul>
         <% chatwoot.errors.each do |error| %>
           <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>

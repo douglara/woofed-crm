@@ -12,7 +12,7 @@
           </div>
           <div class="text-center pt-3">
 
-            <%= link_to account_pipeline_export_path(current_user.account, params['pipeline_id'] , stage_id: params['stage_id'], format: :csv), class:"mt-4 bb" do %>
+            <%= link_to account_pipeline_export_path(Current.account, params['pipeline_id'] , stage_id: params['stage_id'], format: :csv), class:"mt-4 bb" do %>
               Baixar planilha
             <% end %>
           </div>

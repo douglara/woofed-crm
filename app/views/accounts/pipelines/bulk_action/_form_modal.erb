@@ -1,4 +1,4 @@
-<%= turbo_frame_tag event, src: new_bulk_action_account_pipeline_path(event.account, pipeline, stage_id: stage.id), loading: :lazy do %>
+<%= turbo_frame_tag event, src: new_bulk_action_account_pipeline_path(Current.account, pipeline, stage_id: stage.id), loading: :lazy do %>
   <%= render '/components/skeleton/event_form' %>
 <% end %>
 <div class=" justify-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">

@@ -10,19 +10,19 @@
       <% end %>
     </div>
     <!-- Slider indicators -->
-    <div class="absolute z-20 flex flex-wrap justify-center w-full -translate-x-1/2 bottom-1 left-1/2 gap-1.5 rtl:space-x-reverse">
+    <div class="absolute z-30 flex flex-wrap justify-center w-full -translate-x-1/2 bottom-1 left-1/2 gap-1.5 rtl:space-x-reverse">
       <% product.image_attachments.count.times do |index| %>
         <button type="button" class="w-1.5 h-1.5 rounded-full bg-dark-gray-palette-p5 hover:bg-light-palette-p2 focus:bg-dark-gray-palette-p3" aria-current="true" data-carousel-slide-to=<%= index.to_s %>>
         </button>
       <% end %>
     </div>
-    <button type="button" class="absolute top-0 start-0 right-[90%] z-20 flex items-center justify-center h-full px-1 cursor-pointer group focus:outline-none" data-carousel-prev>
+    <button type="button" class="absolute top-0 start-0 right-[90%] z-30 flex items-center justify-center h-full px-1 cursor-pointer group focus:outline-none" data-carousel-prev>
       <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-2 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
         <i data-lucide="chevron-left" class='stroke-dark-gray-palette-p1'></i>
         <span class="sr-only">Previous</span>
       </span>
     </button>
-    <button type="button" class="absolute top-0 end-0 left-[90%] z-20 flex items-center justify-center h-full px-1 cursor-pointer group focus:outline-none" data-carousel-next>
+    <button type="button" class="absolute top-0 end-0 left-[90%] z-30 flex items-center justify-center h-full px-1 cursor-pointer group focus:outline-none" data-carousel-next>
       <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-2 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
         <i data-lucide="chevron-right" class='stroke-dark-gray-palette-p1'></i>
         <span class="sr-only">Next</span>

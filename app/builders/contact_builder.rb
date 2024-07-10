@@ -7,12 +7,15 @@ class ContactBuilder
 
   def perform
     if @search_if_exists
-      @contact = Accounts::Contacts::GetByParams.call(@user.account, @params.permit(:phone, :email).to_h)[:ok]
-    else
-      @contact = @user.account.contacts.new()
+      @contact = Accounts::Contacts::GetByParams.call(Current.account, contact_params.slice(:phone, :email).to_h)[:ok]
     end
-
-    @contact.assign_attributes(@params.permit(:full_name, :phone, :email, additional_attributes: {}))
+    @contact ||= Contact.new
+    @contact.assign_attributes(contact_params)
     @contact
+  end
+
+  def contact_params
+    @params.permit(:full_name, :phone, :email, :label_list,
+                   custom_attributes: {}, additional_attributes: {})
   end
 end
