@@ -11,7 +11,7 @@
     </div>
   </button>
   <!-- Dropdown menu -->
-  <div id="dropdownSearch" class="hidden bg-white rounded-lg shadow w-full z-[29]">
+  <div id="dropdownSearch" class="hidden bg-white rounded-lg shadow w-full z-40">
     <div class="p-3">
       <%= form_tag select_search_url, method: :get, data: { turbo_frame: "select_#{items.klass.name.underscore}_resuts", action: 'input->select-search#submit', 'select-search-target': 'searchForms' } do | f | %>
         <label for="input-group-search" class="sr-only">Search</label>

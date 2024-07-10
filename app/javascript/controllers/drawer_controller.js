@@ -8,7 +8,7 @@ export default class extends Controller {
       backdrop: true,
       bodyScrolling: false,
       backdropClasses:
-        "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-30 pointer-events-none",
+        "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-50 pointer-events-none",
     });
     this.drawer.show();
   }
