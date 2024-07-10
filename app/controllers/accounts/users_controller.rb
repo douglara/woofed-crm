@@ -12,7 +12,7 @@ class Accounts::UsersController < InternalController
     params_without_blank_password = user_params.reject { |key, value| value.blank? && key.include?('password') }
 
     if @user.update(params_without_blank_password)
-      flash[:notice] = 'Usuário atualizado com sucesso!'
+      flash[:notice] = t('flash_messages.updated', model: User.model_name.human)
       redirect_to edit_account_user_path(current_user.account, @user)
     else
       render :edit, status: :unprocessable_entity
@@ -34,8 +34,10 @@ class Accounts::UsersController < InternalController
   end
 
   def destroy
-    @user.destroy
-    flash[:notice] = 'User deleted successfully'
+    if @user.destroy
+      redirect_to account_users_path(current_user.account),
+                  notice: t('flash_messages.deleted', model: User.model_name.human)
+    end
   end
 
   private

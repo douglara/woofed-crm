@@ -78,11 +78,11 @@ class Accounts::ContactsController < InternalController
   # PATCH/PUT /contacts/1 or /contacts/1.json
   def update
     if @contact.update(contact_params)
-      flash[:notice] = 'Contato atualizado com sucesso!'
+      flash[:notice] = t('flash_messages.updated', model: Contact.model_name.human)
       if params[:contact][:deal_page_id]
         redirect_to account_deal_path(current_user.account, params[:contact][:deal_page_id])
       else
-        render :update, status: :ok
+        redirect_to account_contact_path(current_user.account, @contact)
       end
     else
       render :edit, status: :unprocessable_entity

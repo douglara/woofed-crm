@@ -54,7 +54,7 @@ RSpec.describe Accounts::Apps::ChatwootsController, type: :request do
           post "/accounts/#{account.id}/apps/chatwoots", params: invalid_params
         end.to change(Apps::Chatwoot, :count).by(0)
         expect(response).to have_http_status(200)
-        expect(response.body).to include('Chatwoot URL Invalid Chatwoot configuration')
+        expect(response.body).to include('Chatwoot URL Invalid chatwoot configuration')
       end
     end
   end

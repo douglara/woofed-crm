@@ -62,9 +62,10 @@ class Accounts::PipelinesController < InternalController
                end
 
         csv_output << if deal.save
-                        row.to_h.values + ["Criado com sucesso id #{deal.id}"]
+                        row.to_h.values + [I18n.t('activerecord.models.deal.import_file_success', deal_id: deal.id)]
                       else
-                        row.to_h.values + ["Erro na criação #{deal.errors.messages}"]
+                        row.to_h.values + [I18n.t('activerecord.models.deal.import_file_failed',
+                                                  message_error: deal.errors.messages)]
                       end
         line += 1
       end

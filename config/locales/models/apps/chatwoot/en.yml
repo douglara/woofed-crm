@@ -18,3 +18,6 @@ en:
         created_at: 'Created at'
         updated_at: 'Updated at'
         inboxes: 'Inboxes'
+    errors:
+      messages:
+        invalid_chatwoot_configuration: 'Invalid chatwoot configuration'
