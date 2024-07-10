@@ -1,7 +1,6 @@
 <div class="hidden md:block mb-8 rounded-s p-3 bg-light-palette-p5 border-2 border-light-palette-p3 rounded" id='stages_nav_desktop' data-controller='load-flowbite stages-nav'>
   <nav aria-label="breadcrumb" class="stage-bar">
     <div class="flex space-x-[-5px]">
-      <%# space-x-[-15px] %>
       <% deal.stage.pipeline.stages.order(:position).each_with_index do | stage, index | %>
         <% if stage == deal.stage or deal.stage.position > stage.position %>
           <%= link_to account_deal_path(deal.account, deal, deal: { status: deal.status, stage_id: stage.id } ), method: :patch, data: { action: 'mouseover->stages-nav#mouseOver mouseout->stages-nav#mouseOut', confirm: t('views.accounts.deals.stages_nav_desktop.are_you_sure?'), tooltip_target:"tooltip-default-#{stage.id}", link_stage_id: stage.id, color: 'green' }, class: "overflow-hidden  first:rounded-l-lg last:rounded-r-lg justify-center flex flex-1 bg-auxiliary-palette-green hover:bg-auxiliary-palette-green-down group before:absolute", aria_current:"page"  do %>
