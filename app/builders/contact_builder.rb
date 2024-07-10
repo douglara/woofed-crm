@@ -6,13 +6,16 @@ class ContactBuilder
   end
 
   def perform
-    @contact = if @search_if_exists
-                 Accounts::Contacts::GetByParams.call(Current.account, @params.permit(:phone, :email).to_h)[:ok]
-               else
-                 Contact.new
-               end
-
-    @contact.assign_attributes(@params.permit(:full_name, :phone, :email, additional_attributes: {}))
+    if @search_if_exists
+      @contact = Accounts::Contacts::GetByParams.call(Current.account, contact_params.slice(:phone, :email).to_h)[:ok]
+    end
+    @contact ||= Contact.new
+    @contact.assign_attributes(contact_params)
     @contact
+  end
+
+  def contact_params
+    @params.permit(:full_name, :phone, :email, :label_list,
+                   custom_attributes: {}, additional_attributes: {})
   end
 end
