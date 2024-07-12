@@ -20,7 +20,7 @@ class Accounts::Apps::EvolutionApis::Message::Import
   def self.find_or_create_person_contact(evolution_api, webhook)
     phone_number = '+' + webhook['data']['key']['remoteJid'].gsub(/\D/, '')
     contact = Accounts::Contacts::GetByParams.call(evolution_api.account, { phone: phone_number })[:ok]
-    contact = create_person_contact(webhook, evolution_api) if contact.blank?
+    contact = create_person_contact(webhook, evolution_api, phone_number) if contact.blank?
     update_contact_name_if_missing(webhook, contact)
     contact
   end
@@ -54,7 +54,7 @@ class Accounts::Apps::EvolutionApis::Message::Import
     contact
   end
 
-  def self.create_person_contact(webhook, evolution_api)
+  def self.create_person_contact(webhook, evolution_api, phone_number)
     if webhook['data']['key']['fromMe'] == true
       Contact.create(phone: phone_number,
                      account: evolution_api.account)
