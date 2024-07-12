@@ -21,6 +21,7 @@ class Contact < ApplicationRecord
   include Labelable
   include ChatwootLabels
   include CustomAttributes
+  include Contact::Presenters
 
   has_many :flow_items
   has_many :events
