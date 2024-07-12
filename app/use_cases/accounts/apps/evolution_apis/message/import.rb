@@ -20,11 +20,15 @@ class Accounts::Apps::EvolutionApis::Message::Import
   def self.find_or_create_person_contact(evolution_api, webhook)
     phone_number = '+' + webhook['data']['key']['remoteJid'].gsub(/\D/, '')
     contact = Accounts::Contacts::GetByParams.call(evolution_api.account, { phone: phone_number })[:ok]
-    if contact.blank?
-      contact = Contact.create(full_name: webhook['data']['pushName'], phone: phone_number,
-                               account: evolution_api.account)
-    end
+    contact = create_person_contact(webhook, evolution_api) if contact.blank?
+    update_contact_name_if_missing(webhook, contact)
     contact
+  end
+
+  def self.update_contact_name_if_missing(webhook, contact)
+    if webhook['data']['key']['fromMe'] == false && contact.full_name.blank?
+      contact.update(full_name: webhook['data']['pushName'])
+    end
   end
 
   def self.find_or_create_group_contact(evolution_api, webhook)
@@ -48,6 +52,16 @@ class Accounts::Apps::EvolutionApis::Message::Import
 
     contact.save!
     contact
+  end
+
+  def self.create_person_contact(webhook, evolution_api)
+    if webhook['data']['key']['fromMe'] == true
+      Contact.create(phone: phone_number,
+                     account: evolution_api.account)
+    else
+      Contact.create(full_name: webhook['data']['pushName'], phone: phone_number,
+                     account: evolution_api.account)
+    end
   end
 
   def self.group_details(evolution_api, group_id)
