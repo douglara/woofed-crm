@@ -31,11 +31,10 @@ export default class extends Controller {
     } else if (event.target.getAttribute("data-color") === "gray") {
       if (stageElementId) {
         try {
-        } catch {
           document
             .querySelector(`[data-arrow-stage-id="${stageElementId}"]`)
             .classList.add("!border-l-gray-200");
-        }
+        } catch {}
       }
       if (arrowElementId) {
         const stageName = document.querySelector(
