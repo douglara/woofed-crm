@@ -20,22 +20,38 @@
   </div>
 </div>
 <div class="hidden sm:flex gap-2">
-  <%= link_to(
+  <% if @deal.open? %>
+    <%= link_to(
     t('views.layouts.shared.navbar_deal.delete'),
     account_deal_path(current_user.account, @deal),
     method: :delete,
     data: { confirm: t('views.layouts.shared.navbar_deal.are_you_sure?') },
     class: 'btn-secondary') %>
-  <%= link_to(
+    <%= link_to(
     t('views.layouts.shared.navbar_deal.lost'),
     account_deal_path(current_user.account, @deal, deal: { status: 'lost'} ),
     method: :patch,
     data: { confirm: t('views.layouts.shared.navbar_deal.are_you_sure?') },
-    class: 'rounded-md px-4 py-2 bg-auxiliary-palette-red-down text-auxiliary-palette-red text-center hover:bg-auxiliary-palette-red hover:text-white hover:no-underline font-semibold') %>
-  <%= link_to(
+    class: 'deal-lost-btn') %>
+    <%= link_to(
     t('views.layouts.shared.navbar_deal.won'),
     account_deal_path(current_user.account, @deal, deal: { status: 'won'}),
     method: :patch,
     data: { confirm: t('views.layouts.shared.navbar_deal.are_you_sure?') },
-    class: 'rounded-md px-4 py-2 bg-auxiliary-palette-green-down text-auxiliary-palette-green text-center hover:bg-auxiliary-palette-green  hover:no-underline font-semibold hover:text-white') %>
+    class: 'deal-won-btn') %>
+  <% else %>
+    <div class="deal-<%= @deal.status %>-btn pointer-events-none"><%= t("views.layouts.shared.navbar_deal.deal_#{@deal.status}") %></div>
+    <%= link_to(
+    t('views.layouts.shared.navbar_deal.reopen'),
+    account_deal_path(current_user.account, @deal, deal: { status: 'open'} ),
+    method: :patch,
+    data: { confirm: t('views.layouts.shared.navbar_deal.are_you_sure?') },
+    class: 'btn-primary') %>
+    <%= link_to(
+    t('views.layouts.shared.navbar_deal.delete'),
+    account_deal_path(current_user.account, @deal),
+    method: :delete,
+    data: { confirm: t('views.layouts.shared.navbar_deal.are_you_sure?') },
+    class: 'btn-secondary') %>
+  <% end %>
 </div>

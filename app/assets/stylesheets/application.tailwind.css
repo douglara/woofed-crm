@@ -125,4 +125,10 @@
   .label-v4{
     @apply odd:bg-[#5440D2] odd:text-light-palette-p4 even:bg-brand-palette-03 even:text-light-palette-p4 py-1 px-1.5 flex rounded cursor-default flex gap-1.5 items-center
   }
+  .deal-won-btn {
+    @apply rounded-md px-4 py-2 bg-auxiliary-palette-green-down text-auxiliary-palette-green text-center hover:bg-auxiliary-palette-green  hover:no-underline font-semibold hover:text-white
+  }
+  .deal-lost-btn {
+    @apply rounded-md px-4 py-2 bg-auxiliary-palette-red-down text-auxiliary-palette-red text-center hover:bg-auxiliary-palette-red hover:text-white hover:no-underline font-semibold
+  }
 }
