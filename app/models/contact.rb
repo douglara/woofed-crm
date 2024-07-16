@@ -21,6 +21,7 @@ class Contact < ApplicationRecord
   include Labelable
   include ChatwootLabels
   include CustomAttributes
+  include Broadcastable
 
   validates :full_name, presence: true
   has_many :flow_items

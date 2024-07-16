@@ -25,8 +25,9 @@
 #  fk_rails_...  (stage_id => stages.id)
 #
 class Deal < ApplicationRecord
-  include Deal::Decorators
+  include Deal::Broadcastable
   include CustomAttributes
+  include Rails.application.routes.url_helpers
 
   belongs_to :contact
 
@@ -71,23 +72,7 @@ class Deal < ApplicationRecord
 
     self.stage = pipeline.stages.first if stage.blank? && pipeline.present?
   end
-  after_destroy_commit { broadcast_remove_to stage, target: self }
 
-  after_update_commit -> { broadcast_updates }
-  after_create_commit lambda {
-                        broadcast_replace_later_to stage, target: stage,
-                                                          partial: 'accounts/pipelines/stage',
-                                                          locals: { stage: stage, status: 'all' }
-                      }
-
-  def broadcast_updates
-    broadcast_replace_later_to self, partial: 'accounts/pipelines/deal', locals: { pipeline: pipeline }
-    if previous_changes.key?('stage_id')
-      previous_changes['stage_id'].each do |stage_id|
-        Stage.find(stage_id).broadcast_updates
-      end
-    end
-  end
   # validate :validate_contact_main
 
   # def validate_contact_main
@@ -108,7 +93,7 @@ class Deal < ApplicationRecord
     nil
   end
 
-  def self.csv_header(account_id)
+  def self.csv_header(_account_id)
     custom_fields = CustomAttributeDefinition.where(attribute_model: 'deal_attribute').map do |i|
       "custom_attributes.#{i.attribute_key}"
     end

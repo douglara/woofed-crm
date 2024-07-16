@@ -16,9 +16,9 @@ module Product::Broadcastable
     end
 
     def deal_products_broadcasts
-      deal_products.each do |deal_product|
-        broadcast_replace_later_to [account.id, :deal], target: deal_product,
-                                                        partial: '/accounts/deals/details/deal_products/deal_product', locals: { deal_product: deal_product }
+      deal_products.find_each do |deal_product|
+        broadcast_replace_later_to deal_product.deal, target: deal_product,
+                                                      partial: '/accounts/deals/details/deal_products/deal_product', locals: { deal_product: deal_product }
       end
     end
   end

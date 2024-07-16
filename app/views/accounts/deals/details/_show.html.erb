@@ -1,4 +1,4 @@
-<div class="bg-light-palette-p5 px-3 pb-2">
+<div class="bg-light-palette-p5 px-3 pb-2" id=<%= dom_id(model) %> data-controller="load-lucid-icons load-flowbite">
   <%= turbo_frame_tag "form_#{model.class.name.downcase}_#{model.id}" do %>
     <div class="flex items-center h-12">
       <p class="m-0 mr-auto typography-body-s-lh150 text-dark-gray-palette-p1"><%= t("activerecord.models.#{model.class.name.downcase}.one") %></p>

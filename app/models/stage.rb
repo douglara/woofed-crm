@@ -18,13 +18,8 @@
 #  fk_rails_...  (pipeline_id => pipelines.id)
 #
 class Stage < ApplicationRecord
+  include Stage::Broadcastable
   belongs_to :pipeline
   acts_as_list scope: :pipeline
   has_many :deals, dependent: :destroy
-
-  after_update_commit -> { broadcast_updates }
-
-  def broadcast_updates
-    broadcast_replace_later_to self, partial: 'accounts/pipelines/stage', locals:{status: 'open'}
-  end
 end
