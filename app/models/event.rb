@@ -27,7 +27,7 @@
 #
 class Event < ApplicationRecord
   include Event::Decorators
-  include Deal::Broadcastable
+  include Event::Broadcastable
   # default_scope { order('created_at DESC') }
 
   belongs_to :deal, optional: true

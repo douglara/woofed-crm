@@ -1,38 +1,34 @@
 module Deal::Broadcastable
   extend ActiveSupport::Concern
   included do
-    after_create_commit do
-      if done == false
-        broadcast_prepend_later_to [contact_id, 'events'],
-                                   partial: 'accounts/contacts/events/event',
-                                   target: "events_to_do_#{contact.id}"
-      else
-        broadcast_prepend_later_to [contact_id, 'events'],
-                                   partial: 'accounts/contacts/events/event',
-                                   target: "events_done_#{contact.id}"
-      end
-    end
-
-    def broadcast_events
-      events_to_do = deal.contact.events.to_do.limit(5).to_a
-      events_done = deal.contact.events.done.limit(5).to_a
-      broadcast_replace_later_to [contact_id, 'events'], target: "events_to_do_#{contact.id}",
-                                                         partial: 'accounts/contacts/events/events_to_do', locals: { deal: deal, events: events_to_do, pagy: 1 }
-      broadcast_replace_later_to [contact_id, 'events'], target: "events_done_#{contact.id}",
-                                                         partial: 'accounts/contacts/events/events_done', locals: { deal: deal, events: events_done, pagy: 1 }
-    end
+    after_destroy_commit { broadcast_remove_to stage, target: self }
 
     after_update_commit do
-      if saved_change_to_done_at?
-        broadcast_events
-      else
-        broadcast_replace_later_to [contact_id, 'events'],
-                                   partial: 'accounts/contacts/events/event'
-      end
+      broadcast_updates
+      broadcast_update_later_to self, html: name, target: 'broadcast_deal_name'
+      broadcast_update_later_to self, html: stage.pipeline.name, target: 'broadcast_pipeline_name'
+      broadcast_update_later_to self, html: stage.name, target: 'broadcast_stage_name'
+      broadcast_replace_later_to self, target: self, partial: 'accounts/deals/details/show',
+                                       locals: { model: self, edit_path: edit_account_deal_path(account, self) }
+      broadcast_replace_later_to self, target: 'stages_nav_desktop',
+                                       partial: 'accounts/deals/stages_nav_desktop'
+      broadcast_replace_later_to self, target: 'stages_nav',
+                                       partial: 'components/deals/stages_nav'
     end
 
-    after_destroy_commit do
-      broadcast_remove_to [contact_id, 'events']
+    after_create_commit do
+      broadcast_replace_later_to stage, target: stage,
+                                        partial: 'accounts/pipelines/stage',
+                                        locals: { stage: stage, status: 'all' }
+    end
+
+    def broadcast_updates
+      # broadcast_replace_later_to self, partial: 'accounts/pipelines/deal', locals: { pipeline: pipeline }
+      if previous_changes.key?('stage_id')
+        previous_changes['stage_id'].each do |stage_id|
+          Stage.find(stage_id).broadcast_updates
+        end
+      end
     end
   end
 end
