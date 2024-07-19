@@ -30,6 +30,7 @@ FactoryBot.define do
     password { 'Password1!' }
     trait :push_notifications_enabled do
       webpush_notify_on_event_completion { true }
+    end
     trait :es_language do
       language { 'es' }
     end
