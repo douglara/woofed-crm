@@ -7,7 +7,9 @@ RSpec.describe 'Contacts API', type: :request do
   let(:last_contact) { Contact.last }
 
   describe 'POST /api/v1/accounts/{account.id}/contacts' do
-    let(:valid_params) { { full_name: contact.full_name, phone: contact.phone, email: contact.email, custom_attributes: {"cpf": "123"} } }
+    let(:valid_params) do
+      { full_name: contact.full_name, phone: contact.phone, email: contact.email, custom_attributes: { "cpf": '123' } }
+    end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -22,8 +24,8 @@ RSpec.describe 'Contacts API', type: :request do
         it do
           expect do
             post "/api/v1/accounts/#{account.id}/contacts",
-            headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
-            params: valid_params
+                 headers: { 'Authorization': "Bearer #{user.get_jwt_token}" },
+                 params: valid_params
           end.to change(Contact, :count).by(1)
 
           expect(response).to have_http_status(:success)
@@ -38,7 +40,9 @@ RSpec.describe 'Contacts API', type: :request do
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        expect { post "/api/v1/accounts/#{account.id}/contacts/upsert", params: valid_params }.not_to change(Contact, :count)
+        expect do
+          post "/api/v1/accounts/#{account.id}/contacts/upsert", params: valid_params
+        end.not_to change(Contact, :count)
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -46,15 +50,15 @@ RSpec.describe 'Contacts API', type: :request do
 
     context 'when it is an authenticated user' do
       context 'create contact' do
-          it do
+        it do
           expect do
-          post "/api/v1/accounts/#{account.id}/contacts/upsert",
-          headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
-          params: valid_params
+            post "/api/v1/accounts/#{account.id}/contacts/upsert",
+                 headers: { 'Authorization': "Bearer #{user.get_jwt_token}" },
+                 params: valid_params
           end.to change(Contact, :count).by(1)
 
           expect(response).to have_http_status(:success)
-          end
+        end
       end
 
       context 'update contact' do
@@ -63,8 +67,8 @@ RSpec.describe 'Contacts API', type: :request do
         it 'update name' do
           expect do
             post "/api/v1/accounts/#{account.id}/contacts/upsert",
-            headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
-            params: valid_params
+                 headers: { 'Authorization': "Bearer #{user.get_jwt_token}" },
+                 params: valid_params
           end.to change(Contact, :count).by(0)
 
           expect(response).to have_http_status(:success)
@@ -72,30 +76,16 @@ RSpec.describe 'Contacts API', type: :request do
         end
       end
 
-      context 'invalid params' do
-        let(:valid_params) { { name: 'Nome novo 123456', phone_number: contact.phone } }
-
-        it 'update name' do
-          expect do
-            post "/api/v1/accounts/#{account.id}/contacts/upsert",
-            headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
-            params: valid_params
-          end.to change(Contact, :count).by(0)
-
-          expect(response).to have_http_status(:unprocessable_entity)
-          expect(response.body.include?('full_name')).to eq(true)
-        end
-      end
       context 'email is blank' do
-        let(:params) { { full_name: 'Teste contato email', email: "" } }
+        let(:params) { { full_name: 'Teste contato email', email: '' } }
         it do
           expect do
             post "/api/v1/accounts/#{account.id}/contacts/upsert",
-            headers: {'Authorization': "Bearer #{user.get_jwt_token}"},
-            params: params
+                 headers: { 'Authorization': "Bearer #{user.get_jwt_token}" },
+                 params: params
           end.to change(Contact, :count).by(0)
           expect(response).to have_http_status(:success)
-          expect(contact.reload.email).to eq("")
+          expect(contact.reload.email).to eq('')
         end
       end
     end
@@ -106,20 +96,22 @@ RSpec.describe 'Contacts API', type: :request do
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        expect { post "/api/v1/accounts/#{account.id}/contacts/search", params: valid_params }.not_to change(Contact, :count)
+        expect do
+          post "/api/v1/accounts/#{account.id}/contacts/search", params: valid_params
+        end.not_to change(Contact, :count)
 
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
-    let(:headers) { {'Authorization': "Bearer #{user.get_jwt_token}", 'Content-Type': 'application/json'} }
+    let(:headers) { { 'Authorization': "Bearer #{user.get_jwt_token}", 'Content-Type': 'application/json' } }
 
     context 'when it is an authenticated user' do
       context 'search contacts' do
         it do
           post "/api/v1/accounts/#{account.id}/contacts/search",
-          headers: headers,
-          params: valid_params.to_json
+               headers: headers,
+               params: valid_params.to_json
 
           result = JSON.parse(response.body)
           expect(response).to have_http_status(:success)
@@ -131,8 +123,8 @@ RSpec.describe 'Contacts API', type: :request do
         let(:params) { { query: { full_name_eq: 'Contact not found' } }.to_json }
         it do
           post "/api/v1/accounts/#{account.id}/contacts/search",
-          headers: headers,
-          params: params
+               headers: headers,
+               params: params
 
           result = JSON.parse(response.body)
           expect(response).to have_http_status(:success)
@@ -147,8 +139,8 @@ RSpec.describe 'Contacts API', type: :request do
         let(:params) { { query: { phone_cont: '99999999' } }.to_json }
         it do
           post "/api/v1/accounts/#{account.id}/contacts/search",
-          headers: headers,
-          params: params
+               headers: headers,
+               params: params
 
           result = JSON.parse(response.body)
           expect(response).to have_http_status(:success)

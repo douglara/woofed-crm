@@ -6,6 +6,7 @@ pt-BR:
         other: Contatos
         new: Novo contato
         edit: Editar contato
+        unknown: Contato desconhecido
     attributes:
       contact:
         full_name: Nome completo

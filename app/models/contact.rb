@@ -21,8 +21,8 @@ class Contact < ApplicationRecord
   include Labelable
   include ChatwootLabels
   include CustomAttributes
+  include Contact::Presenters
 
-  validates :full_name, presence: true
   has_many :flow_items
   has_many :events
   validates :phone,
