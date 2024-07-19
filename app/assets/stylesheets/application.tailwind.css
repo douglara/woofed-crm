@@ -127,7 +127,7 @@
   }
   .checkbox{
     @apply bg-brand-palette-08 rounded text-brand-palette-03 focus:border-light-palette-p3 focus:ring-0 focus:outline-none border-2 border-light-palette-p3
-
+  }
   .deal-won-btn {
     @apply rounded-md px-4 py-2 bg-auxiliary-palette-green-down text-auxiliary-palette-green text-center hover:bg-auxiliary-palette-green  hover:no-underline font-semibold hover:text-white
   }
