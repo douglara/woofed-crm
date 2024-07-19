@@ -2,20 +2,10 @@
 <%= turbo_stream_from [@deal.id, :deal_product] %>
 <div class="relative">
   <div class="stage-bar mb-8 rounded-none md:hidden p-3 bg-light-palette-p5 border-b-2 border-light-palette-p3 rounded">
-    <nav aria-label="breadcrumb" >
-      <ol class="flex space-x-1 items-center text-center" >
-        <%= render "/components/deals/stages_nav", deal: @deal %>
-      </ol>
-    </nav>
+    <%= render "/components/deals/stages_nav", deal: @deal %>
   </div>
   <section class="px-8 md:p-8 bg-brand-palette-08">
-    <div class="hidden md:block mb-8 rounded-s p-3 bg-light-palette-p5 border-2 border-light-palette-p3 rounded">
-      <nav aria-label="breadcrumb" >
-        <ol class="flex space-x-2 items-center text-center" >
-          <%= render "/accounts/deals/stages_nav_desktop", deal: @deal %>
-        </ol>
-      </nav>
-    </div>
+    <%= render "/accounts/deals/stages_nav_desktop", deal: @deal %>
     <div class="grid grid-cols-1 min-[1400px]:grid-cols-[minmax(500px,_1fr)_3fr] gap-8 w-full ">
       <div data-controller="element-expanded">
         <%= render "/accounts/deals/details" %>

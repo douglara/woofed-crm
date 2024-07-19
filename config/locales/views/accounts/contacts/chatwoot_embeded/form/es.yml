@@ -1,0 +1,7 @@
+es:
+  views:
+    accounts:
+      contacts:
+        chatwoot_embeded:
+          form:
+            contact_not_found: 'Este contacto no existe en %{crm_name}. ¿Desea crearlo?'

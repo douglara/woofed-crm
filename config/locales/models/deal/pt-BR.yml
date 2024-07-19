@@ -6,6 +6,8 @@ pt-BR:
         other: 'Negócios'
         new: 'Novo negócio'
         edit: 'Editar negócio'
+        import_file_success: "Criado com sucesso id %{deal_id}"
+        import_file_failed: "Erro na criação %{message_error}"
     attributes:
       deal:
         name: Nome

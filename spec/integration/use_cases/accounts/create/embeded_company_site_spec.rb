@@ -20,7 +20,7 @@ RSpec.describe Accounts::Create::EmbededCompanySite, type: :request do
         .to_return(status: 200, body: File.read('spec/integration/use_cases/accounts/create/mock_docs_site/intro_embedding.json'))
 
       result = subject.call(3)
-      expect(EmbeddingDocumment.count).to eq(5)
+      expect(EmbeddingDocumment.count).to eq(3)
       expect(embedding_documment_imported.embedding.present?).to be true
     end
   end

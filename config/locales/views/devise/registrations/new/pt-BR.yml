@@ -4,7 +4,7 @@ pt-BR:
       registrations:
         new:
           register: Cadastrar
-          companny: Empresa
+          company: Empresa
           url_company: Site da empresa
           password_minimum_characters: '(Mínimo de %{characters} caracteres)'
 

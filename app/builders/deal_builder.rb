@@ -6,7 +6,7 @@ class DealBuilder
   end
 
   def build
-    @deal = @user.account.deals.new(deal_params(@params))
+    @deal = Deal.new(deal_params(@params))
     build_contact
     @deal
   end
@@ -26,7 +26,7 @@ class DealBuilder
   def deal_params(params)
     params.permit(
       :name, :status, :stage_id, :contact_id,
-      contact_attributes: [ :id, :full_name, :phone, :email, :account_id ],
+      contact_attributes: %i[id full_name phone email],
       custom_attributes: {}
     )
   end

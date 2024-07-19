@@ -25,7 +25,7 @@ class Accounts::Apps::EvolutionApisController < InternalController
 
   def update
     if @evolution_api.update(evolution_api_params)
-      flash[:notice] = 'Whatsapp updated successfully!'
+      flash[:notice] = t('flash_messages.updated', model: Apps::EvolutionApi.model_name.human)
       redirect_to edit_account_apps_evolution_api_path(current_user.account, @evolution_api)
     else
       render :edit, status: :unprocessable_entity

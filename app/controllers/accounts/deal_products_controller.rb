@@ -7,7 +7,7 @@ class Accounts::DealProductsController < InternalController
       respond_to do |format|
         format.html do
           redirect_to account_deal_path(current_user.account, @deal_product.deal),
-                      notice: 'Product was successfully deleted'
+                      notice: t('flash_messages.deleted', model: Product.model_name.human)
         end
         format.turbo_stream
       end

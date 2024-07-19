@@ -6,6 +6,8 @@ en:
         other: 'Deals'
         new: 'New deal'
         edit: 'Edit deal'
+        import_file_success: "Successfully created with id %{deal_id}"
+        import_file_failed: "Creation error: %{message_error}"
     attributes:
       deal:
         name: Name

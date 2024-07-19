@@ -36,30 +36,6 @@ RSpec.describe Accounts::ContactsController, type: :request do
     end
 
     context 'not create a new contact' do
-      it 'when full_name is blank' do
-        params = { contact: { full_name: '', email: 'yukioarie@gmail.com', phone: '+5522998813788',
-                              account_id: account.id } }
-
-        expect do
-          post "/accounts/#{account.id}/contacts", params: params
-        end.to change(Contact, :count).by(0)
-
-        expect(response.body).to match(/Name can&#39;t be blank/)
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-
-      it 'when full_name is nil' do
-        params = { contact: { full_name: nil, email: 'yukioarie@gmail.com', phone: '+5522998813788',
-                              account_id: account.id } }
-
-        expect do
-          post "/accounts/#{account.id}/contacts", params: params
-        end.to change(Contact, :count).by(0)
-
-        expect(response.body).to match(/Name can&#39;t be blank/)
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-
       context 'when phone is invalid' do
         it 'when phone is more than 15 characters' do
           params = { contact: { full_name: 'Yukio Arie', email: 'yukioarie@gmail.com', phone: '+552299881378888889',

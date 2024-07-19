@@ -90,7 +90,7 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
         patch "/accounts/#{account.id}/apps/evolution_apis/#{evolution_api.id}", params: valid_params
         expect(response).to have_http_status(302)
         expect(response).to redirect_to(edit_account_apps_evolution_api_path(account, evolution_api))
-        expect(flash[:notice]).to eq('Whatsapp updated successfully!')
+        expect(flash[:notice]).to eq('Whatsapp was successfully updated.')
       end
       context 'when update with invalid params' do
         it 'should not update' do
