@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_04_031715) do
+ActiveRecord::Schema.define(version: 2024_07_23_110251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -108,18 +108,6 @@ ActiveRecord::Schema.define(version: 2024_06_04_031715) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qrcode", default: "", null: false
-  end
-
-  create_table "apps_wpp_connects", force: :cascade do |t|
-    t.string "name"
-    t.boolean "active", default: false, null: false
-    t.string "session", default: "", null: false
-    t.string "token", default: "", null: false
-    t.string "endpoint_url", default: "", null: false
-    t.string "secretkey", default: "", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "status", default: "inactive", null: false
   end
 
   create_table "attachments", force: :cascade do |t|

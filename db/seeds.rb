@@ -36,11 +36,10 @@ if User.all.count == 0
   #event_kind_1 = EventKind.create(name: 'Call', key: 'call', icon_key: 'fas fa-phone', enabled: true)
   #event_kind_2 = EventKind.create(name: 'Email', key: 'email', icon_key: 'far fa-envelope', enabled: true)
   #event_kind_3 = EventKind.create(name: 'Note', key: 'note', icon_key: 'far fa-sticky-note', enabled: true)
-  #event_kind_4 = EventKind.create(name: 'Whatsapp', key: 'whatsapp', icon_key: 'fab fa-whatsapp', enabled: true, settings: {'secretkey': 'THISISMYSECURETOKEN', 'endpoint_url': 'https://wppconnect-server-open-crm.herokuapp.com', 'enabled': false, 'session': '', 'token': ''})
-  
+
   event_1 = Event.create(account: account_1, contact: deal_1.contact, deal: deal_1, kind: 'note', from_me: true )
   event_2 = Event.create(account: account_1, contact: deal_2.contact, deal: deal_2, kind: 'note', from_me: true )
   event_3 = Event.create(account: account_1, contact: deal_3.contact, deal: deal_3, kind: 'note', from_me: true )
-  
-  puts('Created seed data')  
+
+  puts('Created seed data')
 end
