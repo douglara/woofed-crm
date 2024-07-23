@@ -9,10 +9,6 @@ VCR.configure do |config|
   config.default_cassette_options = {
     :record => :new_episodes
   }
-  config.filter_sensitive_data("<WP_CONNECT_TOKEN>") { ENV["WP_CONNECT_TOKEN"] }
-  config.filter_sensitive_data("<WP_CONNECT_ENDPOINT>") { ENV["WP_CONNECT_ENDPOINT"] }
-  config.filter_sensitive_data("<WP_CONNECT_SECRET_KEY>") { ENV["WP_CONNECT_SECRET_KEY"] }
-  config.filter_sensitive_data("<WP_CONNECT_SESSION>") { ENV["WP_CONNECT_SESSION"] }
 end
 
 module WithVCR
