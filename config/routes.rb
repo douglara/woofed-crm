@@ -80,6 +80,7 @@ Rails.application.routes.draw do
       resources :chatwoots
       # resources :events, module: :contacts
     end
+    resources :attachments, only: [:destroy]
   end
   if ENV.fetch('ENABLE_USER_SIGNUP', 'true') == 'true'
     devise_for :users, controllers: {

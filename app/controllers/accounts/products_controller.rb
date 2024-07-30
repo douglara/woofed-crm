@@ -5,6 +5,7 @@ class Accounts::ProductsController < InternalController
 
   def new
     @product = current_user.account.products.new
+    @product.attachments.build
   end
 
   def create
@@ -26,7 +27,7 @@ class Accounts::ProductsController < InternalController
 
   def update
     if @product.update(product_params)
-      redirect_to account_products_path(current_user.account),
+      redirect_to edit_account_product_path(current_user.account, @product),
                   notice: t('flash_messages.updated', model: Product.model_name.human)
     else
       render :edit, status: :unprocessable_entity

@@ -17,12 +17,20 @@ class Product < ApplicationRecord
   include Product::Broadcastable
   include Product::Presenters
   include CustomAttributes
+
   has_many :attachments, as: :attachable
   validates :quantity_available, :amount_in_cents,
             numericality: { greater_than_or_equal_to: 0, message: 'Can not be negative' }
   has_many :deal_products, dependent: :destroy
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
+
   FORM_FIELDS = %i[name amount_in_cents quantity_available identifier]
+
+  %i[image file video].each do |file_type|
+    define_method "#{file_type}_attachments" do
+      attachments.by_file_type(file_type)
+    end
+  end
 
   def amount_in_cents=(amount)
     amount = amount.gsub(/[^\d-]/, '').to_i if amount.is_a?(String)

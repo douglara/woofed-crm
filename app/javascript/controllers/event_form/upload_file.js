@@ -1,148 +1,9 @@
-import { Controller } from "stimulus";
 import { DirectUpload } from "@rails/activestorage";
 import WaveSurfer from "wavesurfer.js";
-import RecordPlugin from "wavesurfer.js/dist/plugins/record.esm.js";
 import Hover from "wavesurfer.js/dist/plugins/hover.js";
 
-export default class extends Controller {
-  static targets = [
-    "fileInput",
-    "dragAlert",
-    "micWave",
-    "recordIcon",
-    "micWaveWrapper",
-    "progressRecord",
-  ];
-  static values = {
-    pauseRecordSvgUrl: String,
-    micSvgUrl: String,
-    pauseWaveSvgUrl: String,
-    playWaveSvgUrl: String,
-  };
-
-  connect() {
-    this.configWaveRecord();
-    this.eventListenerDragAndDrop("add");
-  }
-
-  disconnect() {
-    this.eventListenerDragAndDrop("remove");
-  }
-
-  recordAudio() {
-    if (this.record.isRecording() || this.record.isPaused()) {
-      this.record.stopRecording();
-      this.micWaveWrapperTarget.classList.add("hidden");
-      this.recordIconTarget.src = this.micSvgUrlValue;
-      return;
-    }
-    let recordDevice;
-
-    RecordPlugin.getAvailableAudioDevices().then((devices) => {
-      recordDevice = devices[0].deviceId;
-    });
-    this.record.startRecording({ recordDevice }).then(() => {
-      this.micWaveWrapperTarget.classList.remove("hidden");
-      this.recordIconTarget.src = this.pauseRecordSvgUrlValue;
-    });
-  }
-
-  eventListenerDragAndDrop(state) {
-    if (state === "add") {
-      this.element.addEventListener("dragover", this.preventDragDefaults);
-      this.element.addEventListener("dragenter", this.preventDragDefaults);
-      this.element.addEventListener("dragleave", this.preventDragDefaults);
-    } else {
-      this.element.removeEventListener("dragover", this.preventDragDefaults);
-      this.element.removeEventListener("dragenter", this.preventDragDefaults);
-      this.element.removeEventListener("dragleave", this.preventDragDefaults);
-    }
-  }
-  preventDragDefaults(event) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-  showDragAlert(event) {
-    this.lastTarget = event.target;
-    this.dragAlertTarget.style.display = "flex";
-  }
-  removeDragAlert(event) {
-    if (event.target === this.lastTarget || event.target === document) {
-      this.dragAlertTarget.style.display = "none";
-    }
-  }
-  trigger(event) {
-    event.stopPropagation();
-    this.fileInputTarget.click();
-  }
-  acceptFiles(event) {
-    event.preventDefault();
-    this.dragAlertTarget.style.display = "none";
-    const files = event.dataTransfer
-      ? event.dataTransfer.files
-      : event.target.files;
-    [...files].forEach((file) => {
-      new Upload(
-        file,
-        this.fileInputTarget,
-        this.pauseWaveSvgUrlValue,
-        this.playWaveSvgUrlValue
-      ).process();
-    });
-  }
-  removeFile(event) {
-    const divToDelete = event.target.closest('[id^="upload"]');
-    divToDelete.remove();
-  }
-
-  configWaveRecord() {
-    const wavesurfer = WaveSurfer.create({
-      container: this.micWaveTarget,
-      waveColor: "#D9DEFF",
-      progressColor: "#6756D6",
-      height: 37,
-      barHeight: 4,
-    });
-    this.record = wavesurfer.registerPlugin(
-      RecordPlugin.create({
-        scrollingWaveform: false,
-        renderRecordedAudio: false,
-      })
-    );
-    this.bindWaveRecordEvents();
-  }
-  bindWaveRecordEvents() {
-    const updateProgress = (time) => {
-      const formattedTime = [
-        Math.floor((time % 3600000) / 60000),
-        Math.floor((time % 60000) / 1000),
-      ]
-        .map((v) => (v < 10 ? "0" + v : v))
-        .join(":");
-      this.progressRecordTarget.textContent = formattedTime;
-    };
-    this.record.on("record-progress", (time) => {
-      updateProgress(time);
-    });
-
-    this.record.on("record-end", (blob) => {
-      const timestamp = new Date().getTime();
-      const fileName = `${timestamp}.oga`;
-      const audioFile = new File([blob], fileName, {
-        type: "audio/ogg",
-      });
-
-      new Upload(
-        audioFile,
-        this.fileInputTarget,
-        this.pauseWaveSvgUrlValue,
-        this.playWaveSvgUrlValue
-      ).process();
-    });
-  }
-}
-class Upload {
-  constructor(file, fileInput, pauseSvg, playSvg) {
+export default class UploadFile {
+  constructor(file, fileInput, pauseSvg, playSvg, acceptedTypes) {
     this.directUpload = new DirectUpload(
       file,
       "/rails/active_storage/direct_uploads",
@@ -151,13 +12,16 @@ class Upload {
     this.fileInput = fileInput;
     this.pauseSvg = pauseSvg;
     this.playSvg = playSvg;
+    this.acceptedTypes = acceptedTypes;
   }
 
   process() {
     const fileWrapper = this.insertUpload();
     const progressBar = fileWrapper.querySelector("#progressWrapper");
-
-    if (this.isFileSizeExceeded()) {
+    if (!this.acceptedTypes.includes(this.getFileType())) {
+      progressBar.remove();
+      this.showErrorMessage("this file type is not allowed", fileWrapper);
+    } else if (this.isFileSizeExceeded()) {
       progressBar.remove();
       this.showErrorMessage(
         "The file exceeds the allowed size limit (40MB).",
@@ -313,8 +177,11 @@ class Upload {
     };
   }
   fileTypeIs(type) {
-    const fileType = this.directUpload.file.type.split("/")[0];
+    const fileType = this.getFileType();
     return fileType === type;
+  }
+  getFileType() {
+    return this.directUpload.file.type.split("/")[0];
   }
   showErrorMessage(message, fileWrapper) {
     const uploadInfo = fileWrapper.querySelector(
