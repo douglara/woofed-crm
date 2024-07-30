@@ -103,9 +103,13 @@ RSpec.describe Accounts::UsersController, type: :request do
           end
         end
         context 'when there is an invalid attachement (size is too big)' do
+          before do
+            allow_any_instance_of(Attachment).to receive(:acceptable_file_size).and_return(true)
+          end
+
           it 'should return error' do
             valid_params = { product: { name: 'Product name', identifier: 'id123', amount_in_cents: '1500,99', quantity_available: '10',
-                                        description: 'Product description', attachments_attributes: [{ file: get_file('hello_world_41mb.png') }] } }
+                                        description: 'Product description', attachments_attributes: [{ file: get_file('patrick.png') }] } }
             expect do
               post "/accounts/#{account.id}/products",
                    params: valid_params

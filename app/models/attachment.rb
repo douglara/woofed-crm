@@ -65,6 +65,10 @@ class Attachment < ApplicationRecord
 
   def acceptable_file
     errors.add(:file, I18n.t('activerecord.errors.messages.file_type_not_supported')) if file_type.blank?
-    errors.add(:file, I18n.t('activerecord.errors.messages.file_size_too_big')) if file.byte_size > 40.megabytes
+    errors.add(:file, I18n.t('activerecord.errors.messages.file_size_too_big')) if acceptable_file_size
+  end
+
+  def acceptable_file_size
+    file.byte_size > 40.megabytes
   end
 end
