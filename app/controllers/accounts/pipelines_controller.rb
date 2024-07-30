@@ -55,7 +55,7 @@ class Accounts::PipelinesController < InternalController
 
         row_params = ActionController::Parameters.new(row_json).merge({ "stage_id": params[:stage_id] })
 
-        deal = if contact_exists?(@pipeline, row_params)
+        deal = if contact_exists?(row_params)
                  DealBuilder.new(current_user, row_params, true).perform
                else
                  DealBuilder.new(current_user, row_params, false).perform
