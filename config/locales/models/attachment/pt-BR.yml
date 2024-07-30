@@ -7,6 +7,8 @@ pt-BR:
         new: 'Novo anexo'
         edit: 'Editar anexo'
         add: 'Adicionar anexo'
+        drop_file: 'Solte o arquivo aqui'
+        max_size: 'MÁX. 40MB'
     attributes:
       attachment:
         file: 'Arquivo'

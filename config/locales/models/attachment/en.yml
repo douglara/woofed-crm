@@ -7,6 +7,8 @@ en:
         new: 'New attachment'
         edit: 'Edit attachment'
         add: 'Add attachment'
+        drop_file: 'Drop file here'
+        max_size: 'MAX. 40MB'
     attributes:
       attachment:
         file: 'File'
