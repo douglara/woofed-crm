@@ -6,6 +6,9 @@ en:
           delete: 'Delete'
           lost: 'Lost'
           won: 'Won'
+          deal_lost: 'Deal lost'
+          deal_won: 'Deal won'
           are_you_sure?: 'Are you sure?'
+          reopen: 'Reopen'
 
 

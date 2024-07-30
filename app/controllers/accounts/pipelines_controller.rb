@@ -138,10 +138,10 @@ class Accounts::PipelinesController < InternalController
     @result = @deals.each_with_index do |deal, index|
       if params['event']['kind'] == 'chatwoot_message' || params['event']['kind'] == 'evolution_api_message'
         if params['event']['send_now'] == 'true'
-          time_start += rand(5..15).seconds
+          time_start += rand(10..15).seconds
           params['event']['send_now'] = 'false'
         elsif !time_start.nil?
-          time_start += rand(5..15).seconds
+          time_start += rand(10..15).seconds
         end
       end
       @event = EventBuilder.new(current_user,

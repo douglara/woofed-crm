@@ -614,8 +614,8 @@ GEM
     retriable (3.1.2)
     reverse_markdown (2.1.1)
       nokogiri
-    rexml (3.2.7)
-      strscan (>= 3.0.9)
+    rexml (3.3.2)
+      strscan
     rspec-core (3.12.1)
       rspec-support (~> 3.12.0)
     rspec-expectations (3.12.2)
@@ -805,7 +805,7 @@ DEPENDENCIES
   redis (~> 4.0)
   requestjs-rails
   reverse_markdown
-  rexml (= 3.2.7)
+  rexml (= 3.3.2)
   rspec-rails (~> 6.0.0)
   rubocop
   sass-rails (>= 6)
