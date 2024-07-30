@@ -16,15 +16,6 @@ Rails.application.routes.draw do
     end
     resources :ai, module: :settings, only: %i[edit update]
 
-    # namespace :settings do
-    #   get 'index' #, controller: "accounts/settings"
-    #   resources :activity_kinds
-    #   resources :whatsapp do
-    #     post 'pair_qr_code', on: :collection
-    #     post 'new_connection_status', on: :collection
-    #     post 'disable'
-    #   end
-    # end
     resources :users
     resources :products do
       get 'edit_custom_attributes', on: :member
@@ -40,9 +31,6 @@ Rails.application.routes.draw do
       end
       namespace :events, module: :contacts do
         namespace :apps, module: :events do
-          namespace :wpp_connects, module: :apps do
-            resources :messages, module: :wpp_connects
-          end
         end
       end
 
@@ -84,11 +72,6 @@ Rails.application.routes.draw do
     end
 
     namespace :apps do
-      resources :wpp_connects do
-        get 'pair_qr_code'
-        post 'new_connection_status'
-        post 'disable'
-      end
       resources :evolution_apis, except: [:destroy] do
         member do
           get 'pair_qr_code'
@@ -98,6 +81,7 @@ Rails.application.routes.draw do
       resources :chatwoots
       # resources :events, module: :contacts
     end
+    resources :attachments, only: [:destroy]
   end
   if ENV.fetch('ENABLE_USER_SIGNUP', 'true') == 'true'
     devise_for :users, controllers: {
@@ -122,22 +106,13 @@ Rails.application.routes.draw do
           match 'search', on: :collection, via: %i[get post]
         end
         namespace :apps do
-          resources :wpp_connects, only: [] do
-            post 'webhook'
-          end
           # resources :events, module: :contacts
         end
       end
 
       namespace :flow_items do
-        resources :wp_connects do
-          post 'webhook'
-        end
       end
       resources :contacts, only: [:create] do
-        resources :wp_connects, only: [] do
-          resources :messages, only: [:create], controller: 'contacts/wp_connects/messages'
-        end
       end
     end
   end

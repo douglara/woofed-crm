@@ -4,5 +4,7 @@ en:
       products:
         form:
           product_data: 'Product data'
-          images: 'Images'
+          images_attached: Images attached
+          videos_attached: Videos attached
+          files_attached: Files attached
           add_images: 'Add Images'

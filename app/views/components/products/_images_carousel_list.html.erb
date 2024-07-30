@@ -1,9 +1,9 @@
-<% if product.attachments.present? %>
+<% if product.image_attachments.present? %>
   <div id="default-carousel" class="relative h-full w-full" data-carousel="static">
     <!-- Carousel wrapper -->
     <div class="relative h-full overflow-hidden rounded-lg ">
       <!-- Items -->
-      <% product.attachments.each do |attachment| %>
+      <% product.image_attachments.each do |attachment| %>
         <div class="hidden duration-700 ease-in-out" data-carousel-item data-controller='lightbox'>
           <%= image_tag attachment.file, data: { src: rails_blob_url(attachment.file), sub_html: attachment.file.filename.to_s }, class:"absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 cursor-pointer object-contain w-full h-full", alt: attachment.file.filename.to_s %>
         </div>
@@ -11,7 +11,7 @@
     </div>
     <!-- Slider indicators -->
     <div class="absolute z-30 flex flex-wrap justify-center w-full -translate-x-1/2 bottom-1 left-1/2 gap-1.5 rtl:space-x-reverse">
-      <% product.attachments.count.times do |index| %>
+      <% product.image_attachments.count.times do |index| %>
         <button type="button" class="w-1.5 h-1.5 rounded-full bg-dark-gray-palette-p5 hover:bg-light-palette-p2 focus:bg-dark-gray-palette-p3" aria-current="true" data-carousel-slide-to=<%= index.to_s %>>
         </button>
       <% end %>

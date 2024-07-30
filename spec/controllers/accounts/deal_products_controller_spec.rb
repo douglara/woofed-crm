@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Accounts::UsersController, type: :request do
+RSpec.describe Accounts::DealProductsController, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let!(:contact) { create(:contact, account: account) }

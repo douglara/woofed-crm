@@ -4,7 +4,9 @@ pt-BR:
       products:
         form:
           product_data: Dados do produto
-          images: Imagens
+          images_attached: Imagens em anexo
+          videos_attached: Videos em anexo
+          files_attached: Arquivos em anexo
           add_images: Adicionar imagens
 
 

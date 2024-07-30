@@ -110,22 +110,10 @@ ActiveRecord::Schema.define(version: 2024_07_30_194817) do
     t.string "qrcode", default: "", null: false
   end
 
-  create_table "apps_wpp_connects", force: :cascade do |t|
-    t.string "name"
-    t.boolean "active", default: false, null: false
-    t.string "session", default: "", null: false
-    t.string "token", default: "", null: false
-    t.string "endpoint_url", default: "", null: false
-    t.string "secretkey", default: "", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "status", default: "inactive", null: false
-  end
-
   create_table "attachments", force: :cascade do |t|
     t.string "attachable_type", null: false
     t.bigint "attachable_id", null: false
-    t.integer "file_type", default: 0, null: false
+    t.integer "file_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable"
