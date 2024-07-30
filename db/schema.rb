@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_10_161556) do
+ActiveRecord::Schema.define(version: 2024_07_30_194817) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -577,8 +577,8 @@ ActiveRecord::Schema.define(version: 2024_06_10_161556) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "phone"
-    t.boolean "webpush_notify_on_event_completion", default: false, null: false
     t.string "language", default: "", null: false
+    t.jsonb "notifications", default: {}, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

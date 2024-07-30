@@ -5,7 +5,7 @@ class Pwa::SendNotificationsWorker < ApplicationJob
     event = Event.find(event_id)
     if event.present? && event.should_delivery_message_scheduled?
       WebpushSubscription.find_each do |subscription|
-        if subscription.user.webpush_notify_on_event_completion?
+        if subscription.user.webpush_notify_on_event_expired
           subscription.send_notification(
             {
               title: "#{Event.human_enum_name(:kind, event.kind)} #{event.title}",
