@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_07_23_110251) do
+ActiveRecord::Schema.define(version: 2024_07_24_105829) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -62,14 +62,6 @@ ActiveRecord::Schema.define(version: 2024_07_23_110251) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
-
-  create_table "activities", force: :cascade do |t|
-    t.string "name", default: "", null: false
-    t.datetime "due"
-    t.boolean "done", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "apps", force: :cascade do |t|
@@ -205,18 +197,6 @@ ActiveRecord::Schema.define(version: 2024_07_23_110251) do
     t.index ["app_type", "app_id"], name: "index_events_on_app"
     t.index ["contact_id"], name: "index_events_on_contact_id"
     t.index ["deal_id"], name: "index_events_on_deal_id"
-  end
-
-  create_table "flow_items", force: :cascade do |t|
-    t.bigint "deal_id"
-    t.bigint "contact_id", null: false
-    t.string "kind_type"
-    t.bigint "kind_id"
-    t.jsonb "item"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["contact_id"], name: "index_flow_items_on_contact_id"
-    t.index ["deal_id"], name: "index_flow_items_on_deal_id"
   end
 
   create_table "good_job_batches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -492,11 +472,6 @@ ActiveRecord::Schema.define(version: 2024_07_23_110251) do
     t.index ["name"], name: "motor_tags_name_unique_index", unique: true
   end
 
-  create_table "notes", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "pipelines", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -583,8 +558,6 @@ ActiveRecord::Schema.define(version: 2024_07_23_110251) do
   add_foreign_key "deal_products", "products"
   add_foreign_key "deals", "contacts"
   add_foreign_key "deals", "stages"
-  add_foreign_key "flow_items", "contacts"
-  add_foreign_key "flow_items", "deals"
   add_foreign_key "motor_alert_locks", "motor_alerts", column: "alert_id"
   add_foreign_key "motor_alerts", "motor_queries", column: "query_id"
   add_foreign_key "motor_note_tag_tags", "motor_note_tags", column: "tag_id"
