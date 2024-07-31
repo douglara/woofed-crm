@@ -111,7 +111,7 @@ class Event < ApplicationRecord
     value.respond_to?(:body)
   end
 
-  def should_delivery_message_scheduled?
+  def should_delivery_event_scheduled?
     !done? && (Time.current.in_time_zone > scheduled_at)
   end
 

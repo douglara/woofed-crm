@@ -3,7 +3,7 @@ class Pwa::SendNotificationsWorker < ApplicationJob
 
   def perform(event_id)
     event = Event.find(event_id)
-    if event.present? && event.should_delivery_message_scheduled?
+    if event.present? && event.should_delivery_event_scheduled?
       WebpushSubscription.find_each do |subscription|
         if subscription.user.webpush_notify_on_event_expired
           subscription.send_notification(

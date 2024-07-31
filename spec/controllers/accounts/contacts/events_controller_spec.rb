@@ -290,9 +290,31 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
         end
         # context 'when there is a invalid webpush subscription' do
         #   let!(:webpush_subscription) { create(:webpush_subscription, user: user_webpush_enable) }
-        #   before do
-        #     allow(WebPush).to receive(:payload_send).with(any_args).and_raise(WebPush::ExpiredSubscription)
+        #   let(:expected_headers) do
+        #     {
+        #       'Accept' => '*/*',
+        #       'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+        #       'Content-Encoding' => 'aes128gcm',
+        #       'Content-Type' => 'application/octet-stream',
+        #       'Ttl' => '2419200',
+        #       'Urgency' => 'normal',
+        #       'User-Agent' => 'Ruby'
+        #     }
         #   end
+        #   before do
+        #     stub_request(:post, /subscription-id/)
+        #     .with( headers: expected_headers)
+        #     .to_return(status: 410, body: '', headers: {})
+        #   end
+
+        #   # eval error: host: fcm.googleapis.com, #<Net::HTTPGone 410 Gone readbody=true>
+        #   # body:
+        #   # push subscription has unsubscribed or expired.
+        #   #   /home/yukioarie/.asdf/installs/ruby/3.0.0/lib/ruby/gems/3.0.0/gems/web-push-3.0.1/lib/web_push/request.rb:144:in `verify_response'
+        #   #   /home/yukioarie/.asdf/installs/ruby/3.0.0/lib/ruby/gems/3.0.0/gems/web-push-3.0.1/lib/web_push/request.rb:25:in `perform'
+        #   #   /home/yukioarie/.asdf/installs/ruby/3.0.0/lib/ruby/gems/3.0.0/gems/web-push-3.0.1/lib/web_push.rb:43:in `payload_send'
+        #   #   (rdbg)//home/yukioarie/woofed-crm/app/models/webpush_subscription.rb:1:in `send_notification'
+        #   # nil
 
         #   it 'should not send and destroy webpush notification' do
         #     params = valid_params.deep_merge(event: { kind: 'activity' })

@@ -2,7 +2,7 @@ class Accounts::Apps::Chatwoots::Messages::DeliveryJob < ApplicationJob
   self.queue_adapter = :good_job
   def perform(event_id)
     event = Event.find(event_id)
-    if event.should_delivery_message_scheduled?
+    if event.should_delivery_event_scheduled?
       result = Accounts::Apps::Chatwoots::GetConversationAndSendMessage.call(
         event.app,
         event.contact.additional_attributes['chatwoot_id'],
