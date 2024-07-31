@@ -43,8 +43,6 @@ class Deal < ApplicationRecord
   belongs_to :pipeline
   acts_as_list scope: :stage
   has_many :events, dependent: :destroy
-  has_many :flow_items
-  has_many :notes, through: :flow_items
   has_many :activities
   has_many :contact_events, through: :primary_contact, source: :events
   has_many :deal_products, dependent: :destroy
