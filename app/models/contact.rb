@@ -23,7 +23,6 @@ class Contact < ApplicationRecord
   include CustomAttributes
   include Contact::Presenters
 
-  has_many :flow_items
   has_many :events
   validates :phone,
             allow_blank: true,

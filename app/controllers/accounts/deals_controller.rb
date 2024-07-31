@@ -91,21 +91,6 @@ class Accounts::DealsController < InternalController
     end
   end
 
-  def create_whatsapp
-    @deal = Deal.find(params['deal_id'])
-    result = FlowItems::ActivitiesKinds::WpConnect::Messages::Create.call(whatsapp_params.merge({ 'contact_id': @deal.contact.id }))
-
-    respond_to do |format|
-      if result.key?(:ok)
-        format.html { redirect_to @deal }
-        format.json { render :show, status: :created, location: @deal }
-      else
-        format.html { redirect_to @deal }
-        format.json { render json: @deal.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   # PATCH/PUT /deals/1 or /deals/1.json
   def update
     if @deal.update(deal_params)
@@ -174,12 +159,6 @@ class Accounts::DealsController < InternalController
       :name, :status, :stage_id, :contact_id, :position,
       contact_attributes: %i[id full_name phone email],
       custom_attributes: {}
-    )
-  end
-
-  def whatsapp_params
-    params.require(:flow_item).permit(
-      :content, :kind_id
     )
   end
 end
