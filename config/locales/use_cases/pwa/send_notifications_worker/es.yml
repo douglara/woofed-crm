@@ -1,0 +1,5 @@
+es:
+  use_cases:
+    pwa:
+      send_notifications_worker:
+        body: "El plazo para %{event_kind} (%{event_title}) del negocio (%{deal_name}) acaba de expirar."

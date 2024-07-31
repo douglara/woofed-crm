@@ -1,0 +1,37 @@
+{
+  "name": "Woofed CRM",
+  "short_name": "Woofed CRM",
+  "icons": [
+    {
+      "src": "<%= image_url('paw-logo-192x192.png') %>",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "<%= image_url('paw-logo-384x384.png') %>",
+      "type": "image/png",
+      "sizes": "384x384"
+    },
+    {
+      "src": "<%= image_url('paw-logo-512x512.png') %>",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "scope": "/",
+  "id": "/",
+  "description": "<%= t('views.pwa.manifest.description') %>",
+  "categories": ["social", "business", "productivity", "utilities"],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "screenshots": [
+    {
+      "src": "<%= image_url('layout.png') %>",
+      "sizes": "1364x915",
+      "form_factor": "narrow",
+      "label": "<%= t('views.pwa.manifest.description') %>"
+    }
+  ]
+}

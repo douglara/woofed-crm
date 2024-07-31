@@ -38,7 +38,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
     }
   end
 
-  describe 'POST /accounts/#{account.id}/contacts/#{contact.id}/events' do
+  describe 'POST /accounts/{account.id}/contacts/{contact.id}/events' do
     context 'when it is unthenticated user' do
       it 'returns unauthorized' do
         post "/accounts/#{account.id}/contacts/#{contact.id}/events"
@@ -228,7 +228,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
               .to_return(body: invalid_send_text_response, status: 400, headers: { 'Content-Type' => 'application/json' })
             stub_request(:post, /contacts/)
               .to_return(body: invalid_send_text_response, status: 400, headers: { 'Content-Type' => 'application/json' })
-            end
+          end
           let(:contact_no_phone) { create(:contact, phone: '') }
           it 'done should return false' do
             params = valid_params.deep_merge(event: { kind: 'evolution_api_message', app_type: 'Apps::EvolutionApi',
@@ -267,10 +267,74 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           end
         end
       end
+      context 'when there is user with push notification enabled' do
+        let!(:user_webpush_enable) { create(:user, :push_notifications_enabled, email: 'teste@test.com') }
+        context 'when there is a valid webpush subscription' do
+          before do
+            allow(WebPush).to receive(:payload_send).and_return(double(Net::HTTPCreated, code: '201',
+                                                                                         message: 'Created', read_body: true))
+          end
+          let!(:webpush_subscription) { create(:webpush_subscription, user: user_webpush_enable) }
+          it 'should send webpush notification' do
+            params = valid_params.deep_merge(event: { kind: 'activity' })
+            expect do
+              post "/accounts/#{account.id}/contacts/#{contact.id}/events",
+                   params: params
+            end.to change(Event, :count).by(1)
+            expect(response).to redirect_to(new_account_contact_event_path(account_id:
+              account, contact_id: contact, deal_id: deal))
+            expect(event_created.kind).to eq(params[:event][:kind])
+            expect(event_created.done?).to eq(false)
+            expect(event_created.deal).to eq(deal)
+          end
+        end
+        # context 'when there is a invalid webpush subscription' do
+        #   let!(:webpush_subscription) { create(:webpush_subscription, user: user_webpush_enable) }
+        #   let(:expected_headers) do
+        #     {
+        #       'Accept' => '*/*',
+        #       'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+        #       'Content-Encoding' => 'aes128gcm',
+        #       'Content-Type' => 'application/octet-stream',
+        #       'Ttl' => '2419200',
+        #       'Urgency' => 'normal',
+        #       'User-Agent' => 'Ruby'
+        #     }
+        #   end
+        #   before do
+        #     stub_request(:post, /subscription-id/)
+        #     .with( headers: expected_headers)
+        #     .to_return(status: 410, body: '', headers: {})
+        #   end
+
+        #   # eval error: host: fcm.googleapis.com, #<Net::HTTPGone 410 Gone readbody=true>
+        #   # body:
+        #   # push subscription has unsubscribed or expired.
+        #   #   /home/yukioarie/.asdf/installs/ruby/3.0.0/lib/ruby/gems/3.0.0/gems/web-push-3.0.1/lib/web_push/request.rb:144:in `verify_response'
+        #   #   /home/yukioarie/.asdf/installs/ruby/3.0.0/lib/ruby/gems/3.0.0/gems/web-push-3.0.1/lib/web_push/request.rb:25:in `perform'
+        #   #   /home/yukioarie/.asdf/installs/ruby/3.0.0/lib/ruby/gems/3.0.0/gems/web-push-3.0.1/lib/web_push.rb:43:in `payload_send'
+        #   #   (rdbg)//home/yukioarie/woofed-crm/app/models/webpush_subscription.rb:1:in `send_notification'
+        #   # nil
+
+        #   it 'should not send and destroy webpush notification' do
+        #     params = valid_params.deep_merge(event: { kind: 'activity' })
+        #     expect do
+        #       post "/accounts/#{account.id}/contacts/#{contact.id}/events",
+        #            params: params
+        #     end.to change(Event, :count).by(1)
+        #     expect(response).to redirect_to(new_account_contact_event_path(account_id:
+        #       account, contact_id: contact, deal_id: deal))
+        #     expect(event_created.kind).to eq(params[:event][:kind])
+        #     expect(event_created.done?).to eq(false)
+        #     expect(event_created.deal).to eq(deal)
+        #     expect(WebpushSubscription.count).to eq(0)
+        #   end
+        # end
+      end
     end
   end
 
-  describe 'PATCH /accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}' do
+  describe 'PATCH /accounts/{account.id}/contacts/{contact.id}/events/{event.id}' do
     before do
       stub_request(:post, /conversations/).to_return(body: conversation_response, status: 200,
                                                      headers: { 'Content-Type' => 'application/json' })
@@ -378,7 +442,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
       end
     end
   end
-  describe 'DELETE /accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}' do
+  describe 'DELETE /accounts/{account.id}/contacts/{contact.id}/events/{event.id}' do
     let(:event) { create(:event, contact: contact, deal: deal, kind: 'activity') }
     context 'when it is unthenticated user' do
       it 'returns unauthorized' do

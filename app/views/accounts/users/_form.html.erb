@@ -63,6 +63,19 @@
       <%= t('views.accounts.users.form.access_token_info') %>
     </p>
   </div>
+  <h3 class= "typography-body-s-lh150 text-dark-gray-palette-p1 mt-5">
+    <%= t('views.accounts.users.form.notifications') %>
+  </h3>
+  <div class="grid gap-3">
+    <div class="grid gap-2" data-controller='webpush-subscription' data-webpush-subscription-subscriptions-url-value='<%= account_webpush_subscriptions_path(current_user.account) %>'>
+      <button class='btn-secondary place-self-start hidden' data-webpush-subscription-target='activateNotificationsBtn' data-action='webpush-subscription#showPermissionWebpushSubscription'><%= t('views.accounts.users.form.push_notification_btn') %></button>
+      <p class='typography-text-m-lh150 text-dark-gray-palette-p4 hidden' data-webpush-subscription-target='activateWebpushInfo'><%= t('views.accounts.users.form.push_notification_activate_message') %></p>
+    </div>
+    <div class="flex items-center gap-2">
+      <%= form.check_box :webpush_notify_on_event_expired, class: 'checkbox' %>
+      <%= form.label :webpush_notify_on_event_expired, class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
+    </div>
+  </div>
   <div class="flex gap-2 self-end">
     <%= form.submit class: 'btn-primary cursor-pointer'%>
   </div>

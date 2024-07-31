@@ -7,6 +7,7 @@
 #  encrypted_password     :string           default(""), not null
 #  full_name              :string           default(""), not null
 #  language               :string           default("en"), not null
+#  notifications          :jsonb            not null
 #  phone                  :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
@@ -27,6 +28,9 @@ FactoryBot.define do
     email { Faker::Internet.email }
     phone { Faker::PhoneNumber.cell_phone_in_e164 }
     password { 'Password1!' }
+    trait :push_notifications_enabled do
+      webpush_notify_on_event_expired { true }
+    end
     trait :es_language do
       language { 'es' }
     end

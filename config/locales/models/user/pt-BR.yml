@@ -16,3 +16,5 @@ pt-BR:
         password_confirmation: Confirme sua Senha
         full_name: Nome Completo
         phone: Telefone (celular)
+        webpush_notify_on_event_expired: 'Enviar notificações push quando uma ação de negócio expirar'
+

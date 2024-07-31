@@ -47,6 +47,7 @@ class Accounts::UsersController < InternalController
   end
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :full_name, :phone, :language)
+    params.require(:user).permit(:email, :password, :password_confirmation, :full_name, :phone, :language,
+                                 :webpush_notify_on_event_expired)
   end
 end
