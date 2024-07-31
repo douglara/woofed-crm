@@ -38,8 +38,6 @@ class User < ApplicationRecord
     :webpush_notify_on_event_expired
   ], coder: JSON
 
-  before_save :convert_webpush_notify_on_event_expired_to_boolean
-
   after_update_commit do
     broadcast_replace_later_to "users_#{account_id}", target: self, partial: '/accounts/users/user',
                                                       locals: { user: self }
@@ -58,7 +56,7 @@ class User < ApplicationRecord
     Users::JsonWebToken.encode_user(self)
   end
 
-  def convert_webpush_notify_on_event_expired_to_boolean
-    self.webpush_notify_on_event_expired = ActiveRecord::Type::Boolean.new.cast(webpush_notify_on_event_expired)
+  def webpush_notify_on_event_expired=(value)
+    self[:notifications][:webpush_notify_on_event_expired] = ActiveRecord::Type::Boolean.new.cast(value)
   end
 end
