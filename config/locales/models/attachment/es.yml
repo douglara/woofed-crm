@@ -1,0 +1,31 @@
+es:
+  activerecord:
+    models:
+      attachment:
+        one: Adjunto
+        other: Adjuntos
+        new: 'Nuevo adjunto'
+        edit: 'Editar adjunto'
+        add: 'Añadir adjunto'
+        drop_file: 'Suelta el archivo aquí'
+        max_size: 'MÁX. 40MB'
+    attributes:
+      attachment:
+        file: 'Archivo'
+        file_type: 'Tipo de archivo'
+    errors:
+      messages:
+        file_type_not_supported: "tipo no soportado"
+        file_size_too_big: "el tamaño es demasiado grande"
+    enums:
+      attachment:
+        file_types:
+          image: 'Imagen'
+          audio: 'Audio'
+          video: 'Vídeo'
+          file: 'Archivo'
+          location: 'Ubicación'
+          fallback: 'Reemplazo'
+          share: 'Compartir'
+          story_mention: 'Mención en historia'
+          contact: 'Contacto'

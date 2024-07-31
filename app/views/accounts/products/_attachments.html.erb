@@ -1,0 +1,29 @@
+<div class="mt-4 grid gap-2.5" >
+  <p class="typography-text-m-lh150 text-dark-gray-palette-p1">
+    <%= t('views.components.events.form.attachments.files') %>
+  </p>
+  <div class='flex gap-2.5 items-center'>
+    <div class='btn-secondary p-2.5 cursor-pointer' data-action="click->product-form--upload-files#trigger">
+      <i data-lucide="paperclip"></i>
+    </div>
+  </div>
+  <div id='uploads' class="max-h-56 grid gap-4 overflow-y-auto custom-scroll-list-deal">
+    <div class='py-2 px-4 bg-light-palette-p4 border border-light-palette-p3 rounded-lg flex items-center gap-2.5 relative hidden' id='fileWrapper' >
+      <div class="bg-light-palette-p2 h-full left-0 rounded-lg ease-in duration-300 absolute" id="progressBar" style="width: 0%; z-index: 1"></div>
+      <div id='fileInfoWrapper' style="z-index: 10">
+        <a href="" class='flex gap-4 items-center pointer-events-none' id='linkThumb'>
+          <img src="" class='w-10 h-10 rounded-lg object-cover hidden' id='fileThumb'>
+          <i data-lucide="video" height="26" class='stroke-dark-gray-palette-p1 hidden'></i>
+          <i data-lucide="file" height="26" class='stroke-dark-gray-palette-p1 hidden'></i>
+          <p class='text-dark-gray-palette-p1 typography-text-m-lh150 w-56 truncate' id='fileName'></p>
+        </a>
+      </div>
+      <div class='flex-1 w-full' id='uploadInfo'>
+      </div>
+      <div class="p-2.5 cursor-pointer" data-action="click->product-form--upload-files#removeFile"  style="z-index: 10">
+        <img src="<%= asset_path('xmark-solid.svg') %>" alt="" class="w-4" >
+      </div>
+    </div>
+    <input type="file" class="hidden" multiple data-product-form--upload-files-target="fileInput" data-action="change->product-form--upload-files#acceptFiles"/>
+  </div>
+</div>

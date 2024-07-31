@@ -1,0 +1,31 @@
+en:
+  activerecord:
+    models:
+      attachment:
+        one: Attachment
+        other: Attachments
+        new: 'New attachment'
+        edit: 'Edit attachment'
+        add: 'Add attachment'
+        drop_file: 'Drop file here'
+        max_size: 'MAX. 40MB'
+    attributes:
+      attachment:
+        file: 'File'
+        file_type: 'File type'
+    errors:
+      messages:
+        file_type_not_supported: "type not supported"
+        file_size_too_big: "size is too big"
+    enums:
+      attachment:
+        file_types:
+          image: 'Image'
+          audio: 'Audio'
+          video: 'Video'
+          file: 'File'
+          location: 'Location'
+          fallback: 'Fallback'
+          share: 'Share'
+          story_mention: 'Story Mention'
+          contact: 'Contact'

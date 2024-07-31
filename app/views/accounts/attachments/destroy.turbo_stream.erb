@@ -1,0 +1,4 @@
+<%= turbo_stream.remove @attachment %>
+<%= turbo_stream.replace :flash_message do %>
+  <%= render partial: 'components/flash_message', locals: { message:  t('flash_messages.deleted', model: @attachment.file.filename.to_s) } %>
+<% end %>
