@@ -25,7 +25,6 @@ Rails.application.routes.draw do
       get 'edit_custom_attributes'
       patch 'update_custom_attributes'
       get 'select_contact_search', on: :collection
-      resources :notes, module: :contacts
       resources :events, module: :contacts do
       end
       namespace :events, module: :contacts do
@@ -56,15 +55,12 @@ Rails.application.routes.draw do
       get 'deal_products', on: :member
       get 'events_to_do', on: :member
       get 'events_done', on: :member
-      post 'create_whatsapp'
       get 'add_contact'
       post 'commit_add_contact'
       delete 'remove_contact'
       get 'new_select_contact', on: :collection
       get 'edit_custom_attributes'
       patch 'update_custom_attributes'
-      resources :activities, module: :deals
-      resources :flow_items, only: [:destroy], module: :deals
     end
     resources :deal_products, only: %i[destroy new create] do
       get 'select_product_search', on: :collection
@@ -108,8 +104,6 @@ Rails.application.routes.draw do
         end
       end
 
-      namespace :flow_items do
-      end
       resources :contacts, only: [:create] do
       end
     end
