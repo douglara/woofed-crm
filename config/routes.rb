@@ -68,7 +68,7 @@ Rails.application.routes.draw do
     end
 
     namespace :apps do
-      resources :evolution_apis, except: [:destroy] do
+      resources :evolution_apis do
         member do
           get 'pair_qr_code'
           post 'refresh_qr_code'

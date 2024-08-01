@@ -221,4 +221,25 @@ RSpec.describe Accounts::Apps::EvolutionApisController, type: :request do
       end
     end
   end
+  describe 'DELETE /accounts/{account_id}/apps/evolution_apis/{evolution_api_id}' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/accounts/#{account.id}/apps/evolution_apis/#{evolution_api.id}"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+      context 'delete the user' do
+        it do
+          delete "/accounts/#{account.id}/apps/evolution_apis/#{evolution_api.id}"
+          expect(Apps::EvolutionApi.count).to eq(0)
+          expect(response.status).to eq(302)
+          expect(flash[:notice]).to include('Whatsapp was successfully destroyed.')
+        end
+      end
+    end
+  end
 end
