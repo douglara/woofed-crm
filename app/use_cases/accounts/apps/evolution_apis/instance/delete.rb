@@ -1,6 +1,6 @@
 class Accounts::Apps::EvolutionApis::Instance::Delete
-  def self.call(evolution_api)
-    if inactive?(evolution_api)
+  def self.call(evolution_api, delete_instance = false)
+    if inactive?(evolution_api) || delete_instance
       send_delete_instance_request(evolution_api)
     else
       { error: 'Cannot delete, instance is already active on evolution API server' }
@@ -13,12 +13,8 @@ class Accounts::Apps::EvolutionApis::Instance::Delete
       {},
       evolution_api.request_instance_headers
     )
-    if request.status == 200
-      evolution_api.update(connection_status: 'disconnected', qrcode: '', phone: '')
-      { ok: JSON.parse(request.body) }
-    else
-      { error: JSON.parse(request.body) }
-    end
+    evolution_api.update(connection_status: 'disconnected', qrcode: '', phone: '')
+    { ok: JSON.parse(request.body) }
   end
 
   def self.inactive?(evolution_api)
@@ -27,7 +23,9 @@ class Accounts::Apps::EvolutionApis::Instance::Delete
       {},
       evolution_api.request_instance_headers
     )
+    request_body = JSON.parse(request.body)
+    return true if request_body.dig('instance', 'state') == 'close' || request.status != 200
 
-    request.status != 200
+    false
   end
 end
