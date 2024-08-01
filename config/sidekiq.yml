@@ -4,7 +4,6 @@
   - default
   - chatwoot_webhooks
   - evolution_api_webhooks
-  - evolution_api_delete_instance
 
 # TODO: Fix webhooks queue to FIFO order
 # :limits:

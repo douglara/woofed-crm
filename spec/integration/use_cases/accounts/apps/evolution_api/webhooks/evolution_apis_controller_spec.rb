@@ -158,7 +158,7 @@ RSpec.describe Apps::EvolutionApisController, type: :request do
           stub_request(:delete, /delete/)
             .to_return(body: delete_instance_response.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
           stub_request(:get, /#{evolution_api_connecting.instance}/)
-            .to_return(body: '{"instance": {"instanceName": "7635682c15d95658748f", "state": "connecting"}}', status: 200, headers: { 'Content-Type' => 'application/json' })
+            .to_return(body: '{"instance": {"instanceName": "649b28ca46f21e45b843", "state": "close"}}', status: 200, headers: { 'Content-Type' => 'application/json' })
           post_webhook(connection_event_params(evolution_api_connecting, 401, 'close'))
           expect_success
           expect(evolution_api_connecting.reload.disconnected?).to be_truthy
