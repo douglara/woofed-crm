@@ -4,7 +4,7 @@ class Accounts::Apps::EvolutionApis::Instance::DeleteDisconnected
   end
 
   def call
-    if disconnected?
+    if disconnected_or_deleted?
       send_delete_instance_request
       @evolution_api.update(connection_status: 'disconnected', qrcode: '', phone: '')
     else
@@ -23,7 +23,7 @@ class Accounts::Apps::EvolutionApis::Instance::DeleteDisconnected
     { ok: JSON.parse(request.body) }
   end
 
-  def disconnected?
+  def disconnected_or_deleted?
     request = Faraday.get(
       "#{@evolution_api.endpoint_url}/instance/connectionState/#{@evolution_api.instance}",
       {},
