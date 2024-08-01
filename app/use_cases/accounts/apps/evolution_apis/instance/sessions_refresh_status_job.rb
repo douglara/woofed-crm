@@ -5,7 +5,7 @@ class Accounts::Apps::EvolutionApis::Instance::SessionsRefreshStatusJob < Applic
 
   def perform
     Apps::EvolutionApi.connected.find_each do |evolution_api|
-      Accounts::Apps::EvolutionApis::Instance::RefreshStatus.new(evolution_api).call
+      Accounts::Apps::EvolutionApis::Instance::DeleteDisconnected.new(evolution_api).call
     end
   end
 end
