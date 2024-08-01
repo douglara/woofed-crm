@@ -6,3 +6,5 @@ es:
           evolution_api:
             connect: Conectar
             edit: Editar
+            delete: Eliminar
+            are_you_sure?: '¿Estas seguro que quieres borrarlo?'
