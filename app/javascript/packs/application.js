@@ -12,7 +12,6 @@ import * as ActiveStorage from "@rails/activestorage";
 import "channels";
 import "controllers";
 import lucide from "lucide/dist/umd/lucide";
-import "lightgallery.js/dist/css/lightgallery.css";
 
 Rails.start();
 ActiveStorage.start();
