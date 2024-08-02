@@ -29,16 +29,6 @@ class Deal < ApplicationRecord
   include CustomAttributes
 
   belongs_to :contact
-
-  # has_and_belongs_to_many :contacts
-  # has_many :contacts_deals
-  # has_many :contacts, through: :contacts_deals
-
-  # has_one :contacts_deal_main, -> { where(main: true) }, class_name: 'ContactsDeal'
-  # has_one :contact_main, through: :contacts_deal_main, source: :contact
-  # # has_one :primary_contact, through: :contacts_deal_main, source: :contact
-  # has_one :primary_contact, through: :contacts_deal_main, source: :contact
-
   belongs_to :stage
   belongs_to :pipeline
   acts_as_list scope: :stage
@@ -47,22 +37,12 @@ class Deal < ApplicationRecord
   has_many :contact_events, through: :primary_contact, source: :events
   has_many :deal_products, dependent: :destroy
   accepts_nested_attributes_for :contact
-  # accepts_nested_attributes_for :contacts
-  # accepts_nested_attributes_for :contacts_deals
 
   enum status: { 'open': 'open', 'won': 'won', 'lost': 'lost' }
 
   FORM_FIELDS = [:name]
 
   before_validation do
-    # if self.contact_main.blank?
-    #   self.contact_main = self.contact
-    # end
-
-    # if self.contact.blank?
-    #   self.contact = self.contacts.first
-    # end
-
     self.account = @current_account if account.blank? && @current_account.present?
 
     self.pipeline = stage.pipeline if pipeline.blank? && stage.present?
@@ -86,13 +66,6 @@ class Deal < ApplicationRecord
       end
     end
   end
-  # validate :validate_contact_main
-
-  # def validate_contact_main
-  #   if self.contact != self.contact_main
-  #     errors.add :base, 'Contact main invalid'
-  #   end
-  # end
 
   def next_event_planned?
     next_event_planned
