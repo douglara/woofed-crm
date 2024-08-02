@@ -31,11 +31,6 @@ Sidekiq.configure_server do |config|
     url: ENV['REDIS_URL'] || ENV['REDISCLOUD_URL'],
     size: redis_max_connections
   }
-
-  if ENV['PREVIEW_APP'].present?
-    @activity_kind_whatsapp ||= ActivityKind.find_by_key('whatsapp')
-    Faraday.get((@activity_kind_whatsapp['settings']['endpoint_url']).to_s)
-  end
 end
 
 Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_07_30_194817) do
+ActiveRecord::Schema.define(version: 2024_07_31_115014) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -122,15 +122,6 @@ ActiveRecord::Schema.define(version: 2024_07_30_194817) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["app_type", "app_id"], name: "index_contacts_on_app"
-  end
-
-  create_table "contacts_deals", force: :cascade do |t|
-    t.bigint "contact_id"
-    t.bigint "deal_id"
-    t.boolean "main", default: true, null: false
-    t.index ["contact_id", "deal_id"], name: "contact_deal_index", unique: true
-    t.index ["contact_id"], name: "index_contacts_deals_on_contact_id"
-    t.index ["deal_id"], name: "index_contacts_deals_on_deal_id"
   end
 
   create_table "custom_attribute_definitions", force: :cascade do |t|
