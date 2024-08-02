@@ -1,13 +1,17 @@
-<li  class= "flex items-center gap-4">
+<li class= "flex items-center gap-4" id="<%= dom_id(contact) %>" data-controller="load-lucid-icons load-flowbite">
   <div class="p-2.5 rounded-lg border-2 border-light-palette-p3 bg-light-palette-p4">
     <i data-lucide="user" class="w-5 stroke-dark-gray-palette-p3"></i>
   </div>
   <div class="mr-auto">
     <div class="flex items-center gap-1.5">
       <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1"><%= contact.full_name_at_format %></h2>
-      <%= mail_to contact.email do %>
-        <p class="typography-text-r-lh150 text-dark-gray-palette-p4 flex items-center gap-0.5 hover:text-dark-gray-palette-p2"><%= contact.email %> <i data-lucide="arrow-up-right-square" class="w-3.5"></i>
-        </p>
+      <% if contact.email.present? %>
+        <%= mail_to contact.email do %>
+          <p class="typography-text-r-lh150 text-dark-gray-palette-p4 flex items-center gap-0.5 hover:text-dark-gray-palette-p2">
+            <%= contact.email %>
+            <i data-lucide="arrow-up-right-square" class="w-3.5"></i>
+          </p>
+        <% end %>
       <% end %>
     </div>
     <%= link_to contact.phone, "tel:#{contact.phone}", class:"typography-sub-text-s-lh150 text-dark-gray-palette-p4 hover:text-dark-gray-palette-p3" %>

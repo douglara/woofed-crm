@@ -4,3 +4,10 @@
 <%= turbo_stream.replace :flash_message do %>
   <%= render partial: 'components/flash_message', locals: { message: t('flash_messages.created', model: Contact.model_name.human) } %>
 <% end %>
+<%= turbo_stream.append :contacts, @contact %>
+<%= turbo_stream.replace :select_contact_search do %>
+  <%= turbo_frame_tag :select_contact_search,
+            src: select_contact_search_account_contacts_path(current_user.account), class: "relative" do %>
+    <%= render 'components/loading' %>
+  <% end %>
+<% end %>

@@ -3,8 +3,8 @@ module Product::Broadcastable
   included do
     after_update_commit { deal_products_broadcasts }
     after_create_commit do
-      broadcast_prepend_later_to [account.id, :product], target: 'products', partial: '/accounts/products/product',
-                                                         locals: { product: self }
+      broadcast_append_later_to [account.id, :product], target: 'products', partial: '/accounts/products/product',
+                                                        locals: { product: self }
     end
 
     after_update_commit do
