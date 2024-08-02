@@ -4,3 +4,10 @@
 <%= turbo_stream.replace :flash_message do %>
   <%= render partial: 'components/flash_message', locals: { message: t('flash_messages.created', model: Product.model_name.human) } %>
 <% end %>
+<%= turbo_stream.append :products, @product %>
+<%= turbo_stream.replace :select_product_search do %>
+  <%= turbo_frame_tag :select_product_search,
+            src: select_product_search_account_deal_products_path(current_user.account), class: "relative" do %>
+    <%= render 'components/loading' %>
+  <% end %>
+<% end %>
