@@ -532,6 +532,7 @@ ActiveRecord::Schema.define(version: 2024_07_31_115014) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "phone"
     t.string "language", default: "", null: false
+    t.jsonb "notifications", default: {}, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -541,6 +542,16 @@ ActiveRecord::Schema.define(version: 2024_07_31_115014) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status", default: "active"
+  end
+
+  create_table "webpush_subscriptions", force: :cascade do |t|
+    t.string "endpoint", default: "", null: false
+    t.string "auth_key", default: "", null: false
+    t.string "p256dh_key", default: "", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_webpush_subscriptions_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -556,4 +567,5 @@ ActiveRecord::Schema.define(version: 2024_07_31_115014) do
   add_foreign_key "motor_taggable_tags", "motor_tags", column: "tag_id"
   add_foreign_key "stages", "pipelines"
   add_foreign_key "taggings", "tags"
+  add_foreign_key "webpush_subscriptions", "users"
 end

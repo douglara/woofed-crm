@@ -1,33 +1,26 @@
 ---
 engine_version: 0.4.20
-file_version: 2024-03-15 02:30:44.467470000 Z
-resources: []
+file_version: 2024-07-31 12:31:23.886169000 Z
+resources:
+- name: user
+  preferences:
+    columns:
+    - access_type: hidden
+      name: notifications
+    - name: webpush_notify_on_event_expired
+      display_name: webpush_notify_on_event_expired
+      column_type: boolean
+      access_type: read_write
+      virtual: true
+      format: {}
+      validators: []
+  updated_at: 2024-07-31 09:31:23.886169000 -03:00
 configs:
 - key: header.links
   value:
-  - conditions: []
-    type: header
-    name: Relatórios
-    link_type: reports
-  - conditions: []
-    type: header
-    name: Formulários
-    link_type: forms
-  - conditions: []
-    type: header
-    name: "⭐ Star Woofed on GitHub"
-    path: https://github.com/douglara/woofed-crm
-  - conditions: []
-    type: header
-    name: Sidekiq
-    path: "/sidekiq"
-    link_type: header
-  - conditions: []
-    type: header
-    name: Good Job
-    path: "/good_job"
-    link_type: header
-  updated_at: 2024-03-14 23:30:44.467470000 -03:00
+  - name: "⭐ Star on GitHub"
+    path: https://github.com/motor-admin/motor-admin-rails
+  updated_at: 2024-07-31 08:49:39.461731000 -03:00
 queries: []
 dashboards: []
 forms: []
@@ -38,4 +31,4 @@ api_configs:
   url: "/"
   preferences: {}
   description: 
-  updated_at: 2024-03-05 17:10:35.445989000 -03:00
+  updated_at: 2024-07-31 08:49:39.481225000 -03:00

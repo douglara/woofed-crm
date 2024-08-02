@@ -1,5 +1,5 @@
 class Accounts::Apps::EvolutionApisController < InternalController
-  before_action :set_evolution_api, only: %i[edit update refresh_qr_code pair_qr_code]
+  before_action :set_evolution_api, only: %i[edit update refresh_qr_code pair_qr_code destroy]
 
   def new
     @evolution_api = Apps::EvolutionApi.new
@@ -39,6 +39,18 @@ class Accounts::Apps::EvolutionApisController < InternalController
                           })
 
     Accounts::Apps::EvolutionApis::Instance::Create.call(@evolution_api)
+  end
+
+  def destroy
+    if @evolution_api.destroy
+      respond_to do |format|
+        format.html do
+          redirect_to account_apps_evolution_apis_path(current_user.account),
+                      notice: t('flash_messages.deleted', model: Apps::EvolutionApi.model_name.human)
+        end
+        format.turbo_stream
+      end
+    end
   end
 
   def pair_qr_code; end

@@ -16,3 +16,5 @@ en:
         password_confirmation: Confirm your password
         full_name: Full name
         phone: Phone (cell)
+        webpush_notify_on_event_expired: 'Send push notifications when a deal action expires'
+

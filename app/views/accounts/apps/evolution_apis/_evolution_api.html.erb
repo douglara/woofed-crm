@@ -31,6 +31,14 @@
           <% end %>
         </li>
         <li>
+          <% if evolution_api.disconnected? %>
+            <%= link_to account_apps_evolution_api_path(evolution_api.account, evolution_api), method: :delete, data: { confirm: t('views.accounts.apps.evolution_apis.evolution_api.are_you_sure?') }, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white ' do %>
+              <i data-lucide="trash"></i>
+              <p>
+                <%= t('views.accounts.apps.evolution_apis.evolution_api.delete') %>
+              </p>
+            <% end %>
+          <% end %>
         </li>
       </ul>
     </div>

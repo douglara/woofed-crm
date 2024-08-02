@@ -8,3 +8,6 @@ en:
           access_token_info: "This token can be used when setting up an API-based integration."
           copy: 'Copy'
           copied: 'Copied'
+          push_notification_btn: 'Enable push notifications'
+          push_notification_activate_message: 'You have enabled push for this browser.'
+          notifications: 'Notifications'

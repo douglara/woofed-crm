@@ -6,4 +6,6 @@ pt-BR:
           evolution_api:
             connect: Conectar
             edit: Editar
+            delete: Deletar
+            are_you_sure?: 'Você tem certeza que deseja excluir?'
 

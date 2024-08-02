@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   mount GoodJob::Engine => 'good_job'
 
   resources :accounts, module: :accounts do
+    resources :webpush_subscriptions, only: [:create]
     resources :settings, only: [:index]
     resources :welcome, only: [:index]
     resources :custom_attributes_definitions, module: :settings do
@@ -67,7 +68,7 @@ Rails.application.routes.draw do
     end
 
     namespace :apps do
-      resources :evolution_apis, except: [:destroy] do
+      resources :evolution_apis do
         member do
           get 'pair_qr_code'
           post 'refresh_qr_code'
@@ -134,4 +135,6 @@ Rails.application.routes.draw do
       end
     end
   end
+  get 'service-worker' => 'pwa#service_worker'
+  get 'webmanifest' => 'pwa#manifest'
 end
