@@ -50,9 +50,7 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
           .to_return(status: 200, body: contact_list_page_3, headers: { 'Content-Type' => 'application/json' })
       end
       it 'import contact data to Chatwoot API' do
-        Sidekiq::Testing.inline! do
-          Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
-        end
+        Accounts::Apps::Chatwoots::SyncImportContacts.new(chatwoot).call
         expect(account.contacts.count).to eq(2)
       end
       context 'if contact exists in both sides' do
@@ -61,9 +59,7 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
                            phone: '+5522998813788')
         end
         it 'should add chatwoot_id in contact' do
-          Sidekiq::Testing.inline! do
-            Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
-          end
+          Accounts::Apps::Chatwoots::SyncImportContacts.new(chatwoot).call
           expect(account.contacts.count).to eq(2)
           expect(contact.reload.additional_attributes.key?('chatwoot_id')).to eq(true)
         end
@@ -72,9 +68,7 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
         let!(:contact) { create(:contact, account: account) }
         let(:no_chatwoot_id_contacts) { account.contacts.where("additional_attributes ->> 'chatwoot_id' IS NULL") }
         it 'should ignore contact' do
-          Sidekiq::Testing.inline! do
-            Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
-          end
+          Accounts::Apps::Chatwoots::SyncImportContacts.new(chatwoot).call
           expect(account.contacts.count).to eq(3)
           expect(no_chatwoot_id_contacts.count).to eq(1)
           expect(no_chatwoot_id_contacts.first.id).to eq(contact.id)
@@ -82,14 +76,13 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
       end
       context 'check contact tags and conversations tags' do
         it do
-          Sidekiq::Testing.inline! do
-            Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
-          end
+          Accounts::Apps::Chatwoots::SyncImportContacts.new(chatwoot).call
           expect(account.contacts.count).to eq(2)
           expect(account.contacts.first.label_list).to eq(['marcador1'])
           expect(account.contacts.first.chatwoot_conversations_label_list).to eq(['test1'])
-          expect(account.contacts.map(&:additional_attributes)).to match_array([{ 'chatwoot_id' => 63 },
-                                                                                { 'chatwoot_id' => 338 }])
+          expect(account.contacts.map(&:additional_attributes)).to match_array([{ 'chatwoot_id' => 63, 'chatwoot_identifier' => nil },
+                                                                                { 'chatwoot_id' => 338,
+                                                                                  'chatwoot_identifier' => nil }])
         end
         context 'if contact already exists in woofed' do
           let!(:contact) do
@@ -98,9 +91,7 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
           end
           it 'should replace woofed tags to chatwoot tags' do
             expect(account.contacts.first.label_list).to match_array(%w[marcador1 marcador2 marcador3])
-            Sidekiq::Testing.inline! do
-              Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
-            end
+            Accounts::Apps::Chatwoots::SyncImportContacts.new(chatwoot).call
             expect(account.contacts.count).to eq(2)
             expect(account.contacts.first.label_list).to eq(['marcador1'])
             expect(account.contacts.first.chatwoot_conversations_label_list).to eq(['test1'])
@@ -113,9 +104,7 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
             end
             it 'should replace woofed contact tags from chatwoot contact tags ' do
               expect(account.contacts.first.label_list).to match_array(%w[marcador1 marcador2 marcador3])
-              Sidekiq::Testing.inline! do
-                Accounts::Apps::Chatwoots::SyncImportContactsWorker.perform_async(chatwoot.id)
-              end
+              Accounts::Apps::Chatwoots::SyncImportContacts.new(chatwoot).call
               expect(account.contacts.count).to eq(2)
               expect(account.contacts.first.label_list).to eq([])
               expect(account.contacts.first.chatwoot_conversations_label_list).to eq(['test1'])

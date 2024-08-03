@@ -43,17 +43,19 @@ class Accounts::Apps::Chatwoots::ExportContact
       chatwoot.request_headers
     )
     response_body = JSON.parse(request.body)
-
     if response_body['message'] == 'Email has already been taken' && request.status == 422
       search_chatwoot_contact = Accounts::Apps::Chatwoots::SearchContact.call(chatwoot, contact['email'])
-      update_contact_chatwoot_id(contact, search_chatwoot_contact['id'])
+      update_contact_chatwoot_id_and_identifier(contact, search_chatwoot_contact['id'],
+                                                search_chatwoot_contact['identifier'])
       { ok: contact }
     elsif response_body['message'] == 'Phone number has already been taken' && request.status == 422
       search_chatwoot_contact = Accounts::Apps::Chatwoots::SearchContact.call(chatwoot, contact['phone'])
-      update_contact_chatwoot_id(contact, search_chatwoot_contact['id'])
+      update_contact_chatwoot_id_and_identifier(contact, search_chatwoot_contact['id'],
+                                                search_chatwoot_contact['identifier'])
       { ok: contact }
     elsif request.status == 200
-      update_contact_chatwoot_id(contact, response_body['payload']['contact']['id'])
+      update_contact_chatwoot_id_and_identifier(contact, response_body['payload']['contact']['id'],
+                                                response_body['payload']['contact']['identifier'])
       export_contact_tags(chatwoot, contact)
       { ok: contact }
     else
@@ -67,8 +69,9 @@ class Accounts::Apps::Chatwoots::ExportContact
     end
   end
 
-  def self.update_contact_chatwoot_id(contact, chatwoot_id)
-    contact.update(additional_attributes: contact['additional_attributes'].merge({ chatwoot_id: chatwoot_id }))
+  def self.update_contact_chatwoot_id_and_identifier(contact, chatwoot_id, chatwoot_identifier)
+    contact.update(additional_attributes: contact['additional_attributes'].merge({ chatwoot_id: chatwoot_id,
+                                                                                   chatwoot_identifier: chatwoot_identifier }))
   end
 
   def self.build_body(contact)
