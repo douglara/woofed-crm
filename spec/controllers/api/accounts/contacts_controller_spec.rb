@@ -83,9 +83,9 @@ RSpec.describe 'Contacts API', type: :request do
             post "/api/v1/accounts/#{account.id}/contacts/upsert",
                  headers: { 'Authorization': "Bearer #{user.get_jwt_token}" },
                  params: params
-          end.to change(Contact, :count).by(0)
+          end.to change(Contact, :count).by(1)
           expect(response).to have_http_status(:success)
-          expect(contact.reload.email).to eq('')
+          expect(last_contact.email).to eq('')
         end
       end
     end
