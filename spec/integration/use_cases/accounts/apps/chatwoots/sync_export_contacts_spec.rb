@@ -78,15 +78,13 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncExportContacts, type: :request do
         stub_request(:put, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/#{contact_create_response[:payload][:contact][:id]}")
           .to_return(body: contact_update_response.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
         stub_request(:post, /labels/)
-        .to_return(body: {}.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
+          .to_return(body: {}.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
       end
       before(:each) do
         allow_any_instance_of(Object).to receive(:sleep)
       end
       it 'Export contact data to Chatwoot API' do
-        Sidekiq::Testing.inline! do
-          Accounts::Apps::Chatwoots::SyncExportContactsWorker.perform_async(account.id)
-        end
+        Accounts::Apps::Chatwoots::SyncExportContacts.call(account)
         expect(account.contacts.count).to eq(2)
         expect(account.contacts.where("additional_attributes -> 'chatwoot_id' IS NOT NULL").count).to eq(2)
       end

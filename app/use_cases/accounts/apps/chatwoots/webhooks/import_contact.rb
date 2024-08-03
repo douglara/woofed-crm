@@ -12,9 +12,9 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
     return 'Contact not found' if contact_att == false
 
     contact = if contact.present?
-                update_contact(chatwoot, contact_id, contact, contact_att)
+                update_contact(contact, contact_att)
               else
-                import_contact(chatwoot, contact_id, contact_att)
+                import_contact(chatwoot, contact_att)
               end
 
     contact = import_contact_tags(chatwoot, contact)
@@ -66,23 +66,23 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
     contact
   end
 
-  def self.import_contact(chatwoot, contact_id, contact_att)
+  def self.import_contact(chatwoot, contact_att)
     contact = chatwoot.account.contacts.new
-    build_contact_att(contact, contact_id, contact_att)
+    build_contact_att(contact, contact_att)
   end
 
-  def self.update_contact(_chatwoot, contact_id, contact, contact_att)
-    build_contact_att(contact, contact_id, contact_att)
+  def self.update_contact(contact, contact_att)
+    build_contact_att(contact, contact_att)
   end
 
-  def self.build_contact_att(contact, contact_id, body)
+  def self.build_contact_att(contact, body)
     contact.assign_attributes({
                                 full_name: body['name'],
                                 email: (body['email']).to_s,
                                 phone: (body['phone_number']).to_s
                               })
 
-    contact.additional_attributes.merge!({ 'chatwoot_id' => contact_id })
+    contact.additional_attributes.merge!({ 'chatwoot_id' => body['id'], 'chatwoot_identifier' => body['identifier'] })
     contact.custom_attributes.merge!(body['custom_attributes'])
     contact
   end

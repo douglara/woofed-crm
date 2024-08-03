@@ -1,5 +1,4 @@
 class Accounts::Apps::Chatwoots::SyncImportContacts
-
   def initialize(chatwoot)
     @chatwoot = chatwoot
     @account = @chatwoot.account
@@ -29,7 +28,7 @@ class Accounts::Apps::Chatwoots::SyncImportContacts
         chatwoot_contacts.each do |chatwoot_contact|
           contact = Accounts::Contacts::GetByParams.call(@account,
                                                          chatwoot_contact.slice('email',
-                                                                                'phone').transform_values(&:to_s))
+                                                                                'phone', 'identifier').transform_values(&:to_s))
           if contact[:ok]
             update_contact_chatwoot_id(contact[:ok], chatwoot_contact['id'])
             import_labels(contact[:ok])
@@ -54,7 +53,7 @@ class Accounts::Apps::Chatwoots::SyncImportContacts
   end
 
   def update_contact_chatwoot_id(contact, chatwoot_id)
-    contact.assign_attributes(additional_attributes: { chatwoot_id: chatwoot_id })
+    contact.additional_attributes.merge!({ 'chatwoot_id' => chatwoot_id })
   end
 
   def import_labels(contact)
@@ -68,7 +67,7 @@ class Accounts::Apps::Chatwoots::SyncImportContacts
       email: (body['email']).to_s,
       phone: (body['phone_number']).to_s
     )
-    contact.additional_attributes.merge!({ 'chatwoot_id' => body['id'] })
+    contact.additional_attributes.merge!({ 'chatwoot_id' => body['id'], 'chatwoot_identifier' => body['identifier'] })
     contact.custom_attributes.merge!(body['custom_attributes'])
     contact
   end
