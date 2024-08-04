@@ -4,6 +4,10 @@ RSpec.describe Accounts::Contacts::GetByParams, type: :request do
   describe 'success' do
     let!(:account) { create(:account) }
     let!(:contact) { create(:contact, account: account) }
+    let!(:contact_with_chatwoot_identifier) do
+      create(:contact, account: account, additional_attributes: { 'chatwoot_identifier' => '123456' }, email: 'user@email.com', phone: '+55123456789',
+                       full_name: 'contact with chatwoot_identifier')
+    end
 
     it 'should find by email' do
       result = Accounts::Contacts::GetByParams.call(account, { 'email': 'tim@maia.com' })
@@ -51,6 +55,21 @@ RSpec.describe Accounts::Contacts::GetByParams, type: :request do
                  'custom_attributes' => { 'lead_origin' => 'Testing' }, 'account_id' => '13', 'contact' => { 'full_name' => 'User name' } }
       result = Accounts::Contacts::GetByParams.call(account, params)
       expect(result[:ok]).to eq(nil)
+    end
+    it 'should not find contact by invalid identifier' do
+      params = { identifier: 'invalid_identifier' }
+      result = Accounts::Contacts::GetByParams.call(account, params)
+      expect(result[:ok]).to eq(nil)
+    end
+    it 'should find contact by valid identifier' do
+      params = { identifier: '123456' }
+      result = Accounts::Contacts::GetByParams.call(account, params)
+      expect(result[:ok]).to eq(contact_with_chatwoot_identifier)
+    end
+    it 'should find contact by valid identifier and valid email' do
+      params = { identifier: '123456', email: 'user@email.com' }
+      result = Accounts::Contacts::GetByParams.call(account, params)
+      expect(result[:ok]).to eq(contact_with_chatwoot_identifier)
     end
   end
   describe 'failed' do

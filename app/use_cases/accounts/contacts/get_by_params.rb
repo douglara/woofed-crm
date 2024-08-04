@@ -5,18 +5,27 @@ class Accounts::Contacts::GetByParams
 
     params.reject! { |_key, value| value.blank? }
 
-    result = get_by_chatwoot_identifier(account, params['identifier'])
-    params = params.slice('email', 'phone')
-    query_params = params.map { |field, value| "#{field} ILIKE '%#{value}%'" }
+    params = params.slice('email', 'phone', 'identifier')
+
+    query_params = build_query_conditions(params)
     if params.key?('phone')
       query_params << "phone ILIKE '%#{sanitized_phone(params['phone'])}%'"
       query_params << "phone ILIKE '%#{phone_with_9_digit(params['phone'])}%'"
       query_params << "phone ILIKE '%#{phone_number_without_9_digit(params['phone'])}%'"
     end
-
     contact = account.contacts.where(query_params.join(' OR ')).first if query_params.present?
-    result ||= { ok: contact }
-    result
+    { ok: contact }
+  end
+
+  def self.build_query_conditions(params)
+    params.map do |field, value|
+      case field
+      when 'identifier'
+        "additional_attributes ->> 'chatwoot_identifier' = '#{value}'"
+      else
+        "#{field} ILIKE '%#{value}%'"
+      end
+    end
   end
 
   def self.phone_number_without_9_digit(phone)
@@ -28,15 +37,6 @@ class Accounts::Contacts::GetByParams
       "#{sanitized_phone[0..4]}#{sanitized_phone[6..-1]}"
 
     end
-  end
-
-  def self.get_by_chatwoot_identifier(account, chatwoot_identifier)
-    return nil unless chatwoot_identifier.present?
-
-    contact = account.contacts.where("additional_attributes ->> 'chatwoot_identifier' = ?", chatwoot_identifier).first
-    return nil unless contact.present?
-
-    { ok: contact }
   end
 
   def self.phone_with_9_digit(phone)
