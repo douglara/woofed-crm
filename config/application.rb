@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 ## Load the specific APM agent
 # We rely on DOTENV to load the environment variables
 # We need these environment variables to load the specific APM agent
-Dotenv::Railtie.load
+Dotenv::Rails.load
 
 if ENV.fetch('NEW_RELIC_LICENSE_KEY', false).present?
   require 'newrelic-sidekiq-metrics'
