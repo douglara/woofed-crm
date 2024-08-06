@@ -24,5 +24,11 @@ FactoryBot.define do
     endpoint { Faker::Internet.url }
     auth_key { Faker::Crypto.sha256 }
     p256dh_key { Faker::Crypto.sha1 }
+
+    trait :valid do
+      endpoint { 'https://fcm.googleapis.com/fcm/send/eEsBDBy5AZQ:APA91bGOryF67QoKrXQL-uUSX-TytkoBGKKIf-4NnFULLBwYrJhPEVbTgYfoZJEDWt74NwwT8nQNXAKYeQlG_OF9MJ3T_me27rgHDqIjBYveDxKoyhhqPmawO5UDACZPo8_RafXx4oVm' }
+      auth_key { 'nBGI-0iiglciX-YgexhSRA' }
+      p256dh_key { 'BJEhinz5Xm1Aa1gjnORCQqOdlLm_WSMTFfklDmV86j6B09uhAIb7PqtD4n2S2RZTu6QxA-eNFJZRtk8j2pKRgUI' }
+    end
   end
 end
