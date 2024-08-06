@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.0'
+ruby '3.0.7'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '6.1.7.7'
@@ -49,7 +49,7 @@ gem 'rails-i18n', '~> 7.0.0'
 gem 'json_csv'
 gem 'wisper', '2.0.0'
 gem 'requestjs-rails'
-gem 'motor-admin'
+gem 'motor-admin', '0.4.20'
 gem 'acts-as-taggable-on', '~> 9.0'
 gem 'acts_as_list'
 gem 'sidekiq-limit_fetch'
