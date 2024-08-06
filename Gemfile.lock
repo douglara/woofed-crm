@@ -844,7 +844,7 @@ DEPENDENCIES
   wisper (= 2.0.0)
 
 RUBY VERSION
-   ruby 3.0.7p220
+   ruby 3.1.6p260
 
 BUNDLED WITH
    2.2.17
