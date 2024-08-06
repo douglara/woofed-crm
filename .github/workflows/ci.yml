@@ -80,6 +80,9 @@ jobs:
       - name: Run tests
         run: bundle exec rspec
 
+      - name: Change owner of container working directory
+        run: chown root:root .
+
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v8.0.0
         env:
