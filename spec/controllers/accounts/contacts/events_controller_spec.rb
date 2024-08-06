@@ -288,48 +288,28 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             expect(event_created.deal).to eq(deal)
           end
         end
-        # context 'when there is a invalid webpush subscription' do
-        #   let!(:webpush_subscription) { create(:webpush_subscription, user: user_webpush_enable) }
-        #   let(:expected_headers) do
-        #     {
-        #       'Accept' => '*/*',
-        #       'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-        #       'Content-Encoding' => 'aes128gcm',
-        #       'Content-Type' => 'application/octet-stream',
-        #       'Ttl' => '2419200',
-        #       'Urgency' => 'normal',
-        #       'User-Agent' => 'Ruby'
-        #     }
-        #   end
-        #   before do
-        #     stub_request(:post, /subscription-id/)
-        #     .with( headers: expected_headers)
-        #     .to_return(status: 410, body: '', headers: {})
-        #   end
+        context 'when there is a invalid webpush subscription' do
+          let!(:webpush_subscription) { create(:webpush_subscription, :valid, user: user_webpush_enable) }
 
-        #   # eval error: host: fcm.googleapis.com, #<Net::HTTPGone 410 Gone readbody=true>
-        #   # body:
-        #   # push subscription has unsubscribed or expired.
-        #   #   /home/yukioarie/.asdf/installs/ruby/3.0.0/lib/ruby/gems/3.0.0/gems/web-push-3.0.1/lib/web_push/request.rb:144:in `verify_response'
-        #   #   /home/yukioarie/.asdf/installs/ruby/3.0.0/lib/ruby/gems/3.0.0/gems/web-push-3.0.1/lib/web_push/request.rb:25:in `perform'
-        #   #   /home/yukioarie/.asdf/installs/ruby/3.0.0/lib/ruby/gems/3.0.0/gems/web-push-3.0.1/lib/web_push.rb:43:in `payload_send'
-        #   #   (rdbg)//home/yukioarie/woofed-crm/app/models/webpush_subscription.rb:1:in `send_notification'
-        #   # nil
+          before do
+            stub_request(:post, /send/)
+              .to_return(status: 410, body: '', headers: {})
+          end
 
-        #   it 'should not send and destroy webpush notification' do
-        #     params = valid_params.deep_merge(event: { kind: 'activity' })
-        #     expect do
-        #       post "/accounts/#{account.id}/contacts/#{contact.id}/events",
-        #            params: params
-        #     end.to change(Event, :count).by(1)
-        #     expect(response).to redirect_to(new_account_contact_event_path(account_id:
-        #       account, contact_id: contact, deal_id: deal))
-        #     expect(event_created.kind).to eq(params[:event][:kind])
-        #     expect(event_created.done?).to eq(false)
-        #     expect(event_created.deal).to eq(deal)
-        #     expect(WebpushSubscription.count).to eq(0)
-        #   end
-        # end
+          it 'should not send and destroy webpush notification' do
+            params = valid_params.deep_merge(event: { kind: 'activity' })
+            expect do
+              post "/accounts/#{account.id}/contacts/#{contact.id}/events",
+                   params: params
+            end.to change(Event, :count).by(1)
+            expect(response).to redirect_to(new_account_contact_event_path(account_id:
+              account, contact_id: contact, deal_id: deal))
+            expect(event_created.kind).to eq(params[:event][:kind])
+            expect(event_created.done?).to eq(false)
+            expect(event_created.deal).to eq(deal)
+            expect(WebpushSubscription.count).to eq(0)
+          end
+        end
       end
     end
   end
