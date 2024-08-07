@@ -42,7 +42,7 @@ gem 'faraday-follow_redirects'
 gem 'html2text'
 gem 'cocoon'
 gem 'sidekiq'
-gem "good_job", "~> 3.28.3"
+gem "good_job", "3.99.1"
 gem 'jsonb_accessor', '1.3.2'
 gem 'jwt', '2.2.3'
 gem 'rails-i18n', '~> 7.0.0'
