@@ -1,4 +1,4 @@
-FROM ruby:3.1.6 as app
+FROM ruby:3.3.4 as app
 
 ENV RAILS_ENV production
 ENV RAILS_SERVE_STATIC_FILES true
@@ -10,7 +10,7 @@ RUN apt-get update -qq \
         build-essential libpq-dev libnss3-dev nodejs \
         postgresql postgresql-client \
         graphviz \
-        netcat software-properties-common \
+        netcat-traditional software-properties-common \
         imagemagick libvips libvips-dev libvips-tools
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
         && apt-get install -y nodejs && npm install --global yarn
