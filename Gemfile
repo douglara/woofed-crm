@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.2.5'
+ruby '3.3.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '7.0.8.4'
@@ -34,8 +34,6 @@ gem 'image_processing'
 
 # Authentication
 gem 'devise'
-
-
 gem 'pagy', '~> 3.5'
 gem 'faraday'
 gem 'faraday-follow_redirects'
@@ -55,6 +53,8 @@ gem 'acts_as_list'
 gem 'sidekiq-limit_fetch'
 gem 'ransack', '4.1.1'
 gem "web-push"
+gem "csv"
+gem "drb"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false

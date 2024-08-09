@@ -8,7 +8,7 @@ jobs:
     name: CI
     runs-on: ubuntu-latest
     container:
-      image: ruby:3.2.5
+      image: ruby:3.3.4
 
     services:
       postgres:

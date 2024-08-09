@@ -49,9 +49,9 @@ RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
 RUN echo 'export PATH="/usr/local/rvm/bin:$PATH"' >> /etc/profile.d/rvm.sh \
     && echo '. /usr/local/rvm/scripts/rvm' >> /etc/profile.d/rvm.sh \
     && /bin/sh -c ". /etc/profile.d/rvm.sh && rvm requirements" \
-    && /bin/sh -c ". /etc/profile.d/rvm.sh && rvm install 3.2.5 --with-openssl-dir=/usr/local/openssl" \
-    && /bin/sh -c ". /etc/profile.d/rvm.sh && rvm use 3.2.5 --default"
-ENV PATH="/usr/local/rvm/rubies/ruby-3.2.5/bin:/usr/local/rvm/bin:${PATH}"
+    && /bin/sh -c ". /etc/profile.d/rvm.sh && rvm install 3.3.4 --with-openssl-dir=/usr/local/openssl" \
+    && /bin/sh -c ". /etc/profile.d/rvm.sh && rvm use 3.3.4 --default"
+ENV PATH="/usr/local/rvm/rubies/ruby-3.3.4/bin:/usr/local/rvm/bin:${PATH}"
 RUN ruby -v && openssl version
 RUN gem install bundler
 

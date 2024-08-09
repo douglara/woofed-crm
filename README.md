@@ -19,7 +19,7 @@ You can try the development version through the link: [WoofedCRM](https://woofed
 
 Requeriments for project:
 ```
-ruby 3.2.5
+ruby 3.3.4
 nodejs 16.16.0
 ```
 
