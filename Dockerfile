@@ -34,7 +34,7 @@ RUN yarn build
 RUN yarn install --check-files
 
 # Precompile Rails assets (plus Webpack)
-RUN bundle exec rake assets:precompile
+RUN NODE_OPTIONS=--openssl-legacy-provider bundle exec rake assets:precompile
 
 # Install node dependences
 RUN npm i -g flat
