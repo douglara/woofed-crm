@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_08_07_004408) do
-
+ActiveRecord::Schema[7.0].define(version: 2024_08_08_235510) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -19,8 +18,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "name", default: "", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "site_url", default: "", null: false
     t.boolean "woofbot_auto_reply", default: false, null: false
     t.jsonb "ai_usage", default: {"limit"=>16666667, "tokens"=>0}, null: false
@@ -31,8 +30,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.text "body"
     t.string "record_type", null: false
     t.bigint "record_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
@@ -41,7 +40,7 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -53,8 +52,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.text "metadata"
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: nil, null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -69,8 +68,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.string "kind"
     t.boolean "active", default: false, null: false
     t.jsonb "settings", default: {}, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "apps_chatwoots", force: :cascade do |t|
@@ -83,8 +82,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.string "chatwoot_user_token", default: "", null: false
     t.integer "chatwoot_dashboard_app_id", null: false
     t.integer "chatwoot_webhook_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.jsonb "inboxes", default: [], null: false
   end
 
@@ -97,8 +96,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.string "name", default: "", null: false
     t.string "instance", default: "", null: false
     t.jsonb "additional_attributes", default: {}
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "qrcode", default: "", null: false
   end
 
@@ -106,8 +105,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.string "attachable_type", null: false
     t.bigint "attachable_id", null: false
     t.integer "file_type"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable"
   end
 
@@ -119,8 +118,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.jsonb "additional_attributes", default: {}
     t.string "app_type"
     t.bigint "app_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["app_type", "app_id"], name: "index_contacts_on_app"
   end
 
@@ -129,15 +128,15 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.string "attribute_key"
     t.string "attribute_display_name"
     t.text "attribute_description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "deal_products", force: :cascade do |t|
     t.bigint "product_id", null: false
     t.bigint "deal_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["deal_id"], name: "index_deal_products_on_deal_id"
     t.index ["product_id"], name: "index_deal_products_on_product_id"
   end
@@ -148,8 +147,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.bigint "stage_id", null: false
     t.bigint "contact_id", null: false
     t.jsonb "custom_attributes", default: {}
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "pipeline_id"
     t.integer "position", default: 1, null: false
     t.index ["contact_id"], name: "index_deals_on_contact_id"
@@ -164,8 +163,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.integer "status", default: 0
     t.text "content"
     t.vector "embedding", limit: 1536
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["source_type", "source_id"], name: "index_embedding_documments_on_source"
   end
 
@@ -175,14 +174,14 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.string "app_type"
     t.bigint "app_id"
     t.string "kind", null: false
-    t.datetime "scheduled_at"
-    t.datetime "done_at"
+    t.datetime "scheduled_at", precision: nil
+    t.datetime "done_at", precision: nil
     t.boolean "from_me"
     t.integer "status"
     t.jsonb "custom_attributes", default: {}
     t.jsonb "additional_attributes", default: {}
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "title", default: "", null: false
     t.boolean "auto_done", default: false
     t.index ["app_type", "app_id"], name: "index_events_on_app"
@@ -191,8 +190,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
   end
 
   create_table "good_job_batches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.text "description"
     t.jsonb "serialized_properties"
     t.text "on_finish"
@@ -200,20 +199,20 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.text "on_discard"
     t.text "callback_queue_name"
     t.integer "callback_priority"
-    t.datetime "enqueued_at"
-    t.datetime "discarded_at"
-    t.datetime "finished_at"
+    t.datetime "enqueued_at", precision: nil
+    t.datetime "discarded_at", precision: nil
+    t.datetime "finished_at", precision: nil
   end
 
   create_table "good_job_executions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.uuid "active_job_id", null: false
     t.text "job_class"
     t.text "queue_name"
     t.jsonb "serialized_params"
-    t.datetime "scheduled_at"
-    t.datetime "finished_at"
+    t.datetime "scheduled_at", precision: nil
+    t.datetime "finished_at", precision: nil
     t.text "error"
     t.integer "error_event", limit: 2
     t.text "error_backtrace", array: true
@@ -224,15 +223,15 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
   end
 
   create_table "good_job_processes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.jsonb "state"
     t.integer "lock_type", limit: 2
   end
 
   create_table "good_job_settings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.text "key"
     t.jsonb "value"
     t.index ["key"], name: "index_good_job_settings_on_key", unique: true
@@ -242,17 +241,17 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.text "queue_name"
     t.integer "priority"
     t.jsonb "serialized_params"
-    t.datetime "scheduled_at"
-    t.datetime "performed_at"
-    t.datetime "finished_at"
+    t.datetime "scheduled_at", precision: nil
+    t.datetime "performed_at", precision: nil
+    t.datetime "finished_at", precision: nil
     t.text "error"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.uuid "active_job_id"
     t.text "concurrency_key"
     t.text "cron_key"
     t.uuid "retried_good_job_id"
-    t.datetime "cron_at"
+    t.datetime "cron_at", precision: nil
     t.uuid "batch_id"
     t.uuid "batch_callback_id"
     t.boolean "is_discrete"
@@ -261,7 +260,7 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.integer "error_event", limit: 2
     t.text "labels", array: true
     t.uuid "locked_by_id"
-    t.datetime "locked_at"
+    t.datetime "locked_at", precision: nil
     t.index ["active_job_id", "created_at"], name: "index_good_jobs_on_active_job_id_and_created_at"
     t.index ["batch_callback_id"], name: "index_good_jobs_on_batch_callback_id", where: "(batch_callback_id IS NOT NULL)"
     t.index ["batch_id"], name: "index_good_jobs_on_batch_id", where: "(batch_id IS NOT NULL)"
@@ -281,8 +280,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
   create_table "motor_alert_locks", force: :cascade do |t|
     t.bigint "alert_id", null: false
     t.string "lock_timestamp", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["alert_id", "lock_timestamp"], name: "index_motor_alert_locks_on_alert_id_and_lock_timestamp", unique: true
     t.index ["alert_id"], name: "index_motor_alert_locks_on_alert_id"
   end
@@ -296,9 +295,9 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.text "preferences", null: false
     t.bigint "author_id"
     t.string "author_type"
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "motor_alerts_name_unique_index", unique: true, where: "(deleted_at IS NULL)"
     t.index ["query_id"], name: "index_motor_alerts_on_query_id"
     t.index ["updated_at"], name: "index_motor_alerts_on_updated_at"
@@ -310,9 +309,9 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.text "preferences", null: false
     t.text "credentials", null: false
     t.text "description"
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "motor_api_configs_name_unique_index", unique: true, where: "(deleted_at IS NULL)"
   end
 
@@ -330,7 +329,7 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.text "comment"
     t.string "remote_address"
     t.string "request_uuid"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["associated_type", "associated_id"], name: "motor_auditable_associated_index"
     t.index ["auditable_type", "auditable_id", "version"], name: "motor_auditable_index"
     t.index ["created_at"], name: "index_motor_audits_on_created_at"
@@ -341,8 +340,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
   create_table "motor_configs", force: :cascade do |t|
     t.string "key", null: false
     t.text "value", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["key"], name: "index_motor_configs_on_key", unique: true
     t.index ["updated_at"], name: "index_motor_configs_on_updated_at"
   end
@@ -353,9 +352,9 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.text "preferences", null: false
     t.bigint "author_id"
     t.string "author_type"
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["title"], name: "motor_dashboards_title_unique_index", unique: true, where: "(deleted_at IS NULL)"
     t.index ["updated_at"], name: "index_motor_dashboards_on_updated_at"
   end
@@ -368,10 +367,10 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.text "preferences", null: false
     t.bigint "author_id"
     t.string "author_type"
-    t.datetime "deleted_at"
+    t.datetime "deleted_at", precision: nil
     t.string "api_config_name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "motor_forms_name_unique_index", unique: true, where: "(deleted_at IS NULL)"
     t.index ["updated_at"], name: "index_motor_forms_on_updated_at"
   end
@@ -385,8 +384,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
 
   create_table "motor_note_tags", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "motor_note_tags_name_unique_index", unique: true
   end
 
@@ -396,9 +395,9 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.string "author_type"
     t.string "record_id", null: false
     t.string "record_type", null: false
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["author_id", "author_type"], name: "motor_notes_author_id_author_type_index"
     t.index ["record_id", "record_type"], name: "motor_notes_record_id_record_type_index"
   end
@@ -411,8 +410,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.string "record_id"
     t.string "record_type"
     t.string "status", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["recipient_id", "recipient_type"], name: "motor_notifications_recipient_id_recipient_type_index"
     t.index ["record_id", "record_type"], name: "motor_notifications_record_id_record_type_index"
   end
@@ -424,9 +423,9 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.text "preferences", null: false
     t.bigint "author_id"
     t.string "author_type"
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "motor_queries_name_unique_index", unique: true, where: "(deleted_at IS NULL)"
     t.index ["updated_at"], name: "index_motor_queries_on_updated_at"
   end
@@ -438,9 +437,9 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.string "recipient_type", null: false
     t.string "record_id"
     t.string "record_type"
-    t.datetime "scheduled_at", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "scheduled_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["author_id", "author_type"], name: "motor_reminders_author_id_author_type_index"
     t.index ["recipient_id", "recipient_type"], name: "motor_reminders_recipient_id_recipient_type_index"
     t.index ["record_id", "record_type"], name: "motor_reminders_record_id_record_type_index"
@@ -450,8 +449,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
   create_table "motor_resources", force: :cascade do |t|
     t.string "name", null: false
     t.text "preferences", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_motor_resources_on_name", unique: true
     t.index ["updated_at"], name: "index_motor_resources_on_updated_at"
   end
@@ -466,15 +465,15 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
 
   create_table "motor_tags", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "motor_tags_name_unique_index", unique: true
   end
 
   create_table "pipelines", force: :cascade do |t|
     t.string "name", default: "", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "products", force: :cascade do |t|
@@ -485,16 +484,16 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.string "name", default: "", null: false
     t.jsonb "custom_attributes", default: {}
     t.jsonb "additional_attributes", default: {}
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "stages", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.bigint "pipeline_id", null: false
     t.integer "position", default: 1, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["pipeline_id"], name: "index_stages_on_pipeline_id"
   end
 
@@ -505,7 +504,7 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.string "tagger_type"
     t.bigint "tagger_id"
     t.string "context", limit: 128
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.string "tenant", limit: 128
     t.index ["context"], name: "index_taggings_on_context"
     t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
@@ -523,8 +522,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
 
   create_table "tags", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "taggings_count", default: 0
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
@@ -534,21 +533,21 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "phone"
     t.string "language", default: "", null: false
-    t.jsonb "notifications", default: {}, null: false
+    t.jsonb "notifications", default: "{\"webpush_notify_on_event_expired\":false}", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   create_table "webhooks", force: :cascade do |t|
     t.string "url", default: "", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "status", default: "active"
   end
 
@@ -557,8 +556,8 @@ ActiveRecord::Schema.define(version: 2024_08_07_004408) do
     t.string "auth_key", default: "", null: false
     t.string "p256dh_key", default: "", null: false
     t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_webpush_subscriptions_on_user_id"
   end
 
