@@ -216,7 +216,7 @@ class Event < ApplicationRecord
     if scheduled_at.present?
       scheduled_at_format
     else
-      created_at.to_s(:short)
+      created_at.to_fs(:short)
     end
   end
 

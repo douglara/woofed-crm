@@ -2,7 +2,7 @@ module Event::Decorators
   include ActionView::Helpers::DateHelper
 
   def scheduled_at_format
-    scheduled_at.to_s(:short)
+    scheduled_at.to_fs(:short)
   rescue StandardError
     ''
   end
