@@ -1,4 +1,4 @@
-FROM ruby:3.1.6 as app
+FROM ruby:3.2.5 as app
 
 ENV RAILS_ENV production
 ENV RAILS_SERVE_STATIC_FILES true
