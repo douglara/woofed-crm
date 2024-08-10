@@ -62,10 +62,8 @@ class Accounts::Contacts::ChatwootEmbedController < InternalController
     ).first
     return result if result.present?
 
-    contact = Accounts::Contacts::GetByParams.call(current_user.account,
-                                                   { email: chatwoot_contact['email'],
-                                                     phone: chatwoot_contact['phone_number'] })
-
-    contact[:ok]
+    Accounts::Contacts::GetByParams.call(current_user.account,
+                                         { email: chatwoot_contact['email'],
+                                           phone: chatwoot_contact['phone_number'] })[:ok]
   end
 end
