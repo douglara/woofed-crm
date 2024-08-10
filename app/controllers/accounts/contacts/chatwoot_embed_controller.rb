@@ -62,20 +62,8 @@ class Accounts::Contacts::ChatwootEmbedController < InternalController
     ).first
     return result if result.present?
 
-    if chatwoot_contact['email'].present? && chatwoot_contact['phone_number'].present?
-      current_user.account.contacts.where(
-        'email LIKE :email OR phone LIKE :phone',
-        email: chatwoot_contact['email'].to_s,
-        phone: chatwoot_contact['phone_number'].to_s
-      ).first
-    elsif chatwoot_contact['phone_number'].present?
-      current_user.account.contacts.where(
-        'phone LIKE ?', chatwoot_contact['phone_number'].to_s
-      ).first
-    elsif chatwoot_contact['email'].present?
-      current_user.account.contacts.where(
-        'email LIKE ?', chatwoot_contact['email'].to_s
-      ).first
-    end
+    Accounts::Contacts::GetByParams.call(current_user.account,
+                                         { email: chatwoot_contact['email'],
+                                           phone: chatwoot_contact['phone_number'] })[:ok]
   end
 end
