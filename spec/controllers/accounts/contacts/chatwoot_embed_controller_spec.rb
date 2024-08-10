@@ -39,28 +39,80 @@ RSpec.describe Accounts::Contacts::ChatwootEmbedController, type: :request do
         sign_in(user)
       end
       context 'when the chatwoot_params contains data for an existing contact' do
-        let(:params) do
-          { chatwoot_contact: { name: contact.full_name, phone_number: contact.phone, email: contact.email }.to_json }
+        context 'when there are all params on chatwoot_params' do
+          let(:params) do
+            { chatwoot_contact: { name: contact.full_name, phone_number: contact.phone, email: contact.email }.to_json }
+          end
+          it 'should redirect to show embed chatwoot page' do
+            post("/accounts/#{account.id}/contacts/chatwoot_embed/search", params:)
+            expect(response).to have_http_status(302)
+            expect(response).to redirect_to(account_chatwoot_embed_path(account, contact))
+            follow_redirect!
+            expect(response.body).to include(contact.full_name)
+            expect(response.body).to include(contact.email)
+            expect(response.body).to include(contact.phone)
+          end
         end
-        it 'should redirect to show embed chatwoot page' do
-          post("/accounts/#{account.id}/contacts/chatwoot_embed/search", params:)
-          expect(response).to have_http_status(302)
-          expect(response).to redirect_to(account_chatwoot_embed_path(account, contact))
-          follow_redirect!
-          expect(response.body).to include(contact.full_name)
-          expect(response.body).to include(contact.email)
-          expect(response.body).to include(contact.phone)
+        context 'when there is email on chatwoot_params' do
+          let(:params) do
+            { chatwoot_contact: { email: contact.email }.to_json }
+          end
+          it 'should redirect to show embed chatwoot page' do
+            post("/accounts/#{account.id}/contacts/chatwoot_embed/search", params:)
+            expect(response).to have_http_status(302)
+            expect(response).to redirect_to(account_chatwoot_embed_path(account, contact))
+            follow_redirect!
+            expect(response.body).to include(contact.full_name)
+            expect(response.body).to include(contact.email)
+            expect(response.body).to include(contact.phone)
+          end
+        end
+        context 'when there is phone_number on chatwoot_params' do
+          let(:params) do
+            { chatwoot_contact: { phone_number: contact.phone }.to_json }
+          end
+          it 'should redirect to show embed chatwoot page' do
+            post("/accounts/#{account.id}/contacts/chatwoot_embed/search", params:)
+            expect(response).to have_http_status(302)
+            expect(response).to redirect_to(account_chatwoot_embed_path(account, contact))
+            follow_redirect!
+            expect(response.body).to include(contact.full_name)
+            expect(response.body).to include(contact.email)
+            expect(response.body).to include(contact.phone)
+          end
         end
       end
       context 'when the chatwoot_params contains data for a non-existent contact' do
-        let(:params) do
-          { chatwoot_contact: { name: 'yukio', phone_number: '+55229988132',
-                                email: 'non-existent_contact@email.com' }.to_json }
+        context 'when there are all params on chatwoot_params' do
+          let(:params) do
+            { chatwoot_contact: { name: 'yukio', phone_number: '+55229988132',
+                                  email: 'non-existent_contact@email.com' }.to_json }
+          end
+          it 'should render to new embed chatwoot page' do
+            post("/accounts/#{account.id}/contacts/chatwoot_embed/search", params:)
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('This contact does not exist in Woofed CRM. Would you like to create it?')
+          end
         end
-        it 'should render to new embed chatwoot page' do
-          post("/accounts/#{account.id}/contacts/chatwoot_embed/search", params:)
-          expect(response).to have_http_status(200)
-          expect(response.body).to include('This contact does not exist in Woofed CRM. Would you like to create it?')
+        context 'when there is email on chatwoot_params' do
+          let(:params) do
+            { chatwoot_contact: { email: 'non-existent_contact@email.com' }.to_json }
+          end
+          it 'should render to new embed chatwoot page' do
+            post("/accounts/#{account.id}/contacts/chatwoot_embed/search", params:)
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('This contact does not exist in Woofed CRM. Would you like to create it?')
+          end
+        end
+        context 'when there is phone_number on chatwoot_params' do
+          let(:params) do
+            { chatwoot_contact: { phone_number: '+55229988132' }.to_json }
+          end
+          it 'should render to new embed chatwoot page' do
+            post("/accounts/#{account.id}/contacts/chatwoot_embed/search", params:)
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('This contact does not exist in Woofed CRM. Would you like to create it?')
+          end
         end
       end
     end
