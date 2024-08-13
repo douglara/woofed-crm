@@ -133,7 +133,7 @@ class Accounts::PipelinesController < InternalController
     if params['event']['send_now'] == 'true'
       time_start = DateTime.current
     elsif !params['event']['scheduled_at'].nil?
-      time_start = params['event']['scheduled_at'].to_time
+      time_start = params['event']['scheduled_at'].in_time_zone
     end
     @result = @deals.each_with_index do |deal, index|
       if params['event']['kind'] == 'chatwoot_message' || params['event']['kind'] == 'evolution_api_message'
