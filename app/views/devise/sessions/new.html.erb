@@ -30,3 +30,4 @@
     <%= t('views.devise.sessions.new.account_answer') %> <%= link_to t('views.devise.sessions.new.create_account'), new_registration_path(resource_name), data: { turbo: false}, class: "text-brand-palette-02 hover:text-brand-palette-01" %>
   </div>
 <% end %>
+<%= link_to 'Teste', "http://localhost:3000/installations/new?installation_params=#{ { url: request.base_url, kind: :self_hosted }.to_json }" %>
