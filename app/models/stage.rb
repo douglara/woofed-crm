@@ -25,6 +25,7 @@ class Stage < ApplicationRecord
   after_update_commit -> { broadcast_updates }
 
   def broadcast_updates
-    broadcast_replace_later_to self, partial: 'accounts/pipelines/stage', locals:{status: 'open'}
+    stage_deals = deals.where(status: 'open').order(:position).limit(8).to_a
+    broadcast_replace_later_to [account.id, :stages], target: self, partial: 'accounts/stages/stage', locals:{filter_status_deal: 'open', pagy: 1, deals: stage_deals}
   end
 end

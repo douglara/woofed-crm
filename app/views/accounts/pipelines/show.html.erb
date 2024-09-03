@@ -1,10 +1,12 @@
-
-
+<%= turbo_stream_from [current_user.account.id, :stages] %>
 <%= turbo_frame_tag :stages do %>
-<div data-controller="lists" data-lists-id="<%= @pipeline.id %>">
-  <section class="p-8 grid grid-flow-col auto-cols-[18.75.rem] h-auto gap-5" data-lists-target="lists">
-    <%= render partial: 'stage', collection: @pipeline.stages.sort_by(&:position), as: :stage, locals:{status: @status} %>
-  </section>
-</div>
-<%end%>
-
+  <div data-controller="lists" data-lists-id="<%= @pipeline.id %>">
+    <section class="p-8 grid grid-flow-col auto-cols-[18.75.rem] h-auto gap-5" data-lists-target="lists">
+      <% @pipeline.stages.sort_by(&:position).each do |stage| %>
+        <%= turbo_frame_tag stage, src: account_stage_path(current_user.account, stage, filter_status_deal: @status), loading: :lazy do  %>
+          <%= render '/components/skeleton/stage'%>
+        <% end %>
+      <% end %>
+    </section>
+  </div>
+<% end %>
