@@ -3,7 +3,7 @@
   <div data-controller="lists" data-lists-id="<%= @pipeline.id %>">
     <section class="p-8 grid grid-flow-col auto-cols-[18.75.rem] h-auto gap-5" data-lists-target="lists">
       <% @pipeline.stages.sort_by(&:position).each do |stage| %>
-        <%= turbo_frame_tag stage, src: account_stage_path(current_user.account, stage, filter_status_deal: @status), loading: :lazy do  %>
+        <%= turbo_frame_tag stage, src: account_stage_path(current_user.account, stage, filter_status_deal: @filter_status_deal), loading: :lazy do  %>
           <%= render '/components/skeleton/stage'%>
         <% end %>
       <% end %>

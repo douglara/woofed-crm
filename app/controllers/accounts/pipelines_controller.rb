@@ -19,6 +19,7 @@ class Accounts::PipelinesController < InternalController
   # GET /pipelines/1 or /pipelines/1.json
   def show
     @pipelines = Pipeline.all
+    @filter_status_deal = params[:filter_status_deal]
   end
 
   # GET /pipelines/new

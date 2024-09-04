@@ -1,5 +1,5 @@
 <%= turbo_frame_tag stage do %>
-  <div class="px-4 pb-4 rounded border-2 border-light-palette-p3 bg-light-palette-p5 relative" data-controller="load-lucid-icons load-flowbite">
+  <div class="px-4 pb-4 rounded border-2 border-light-palette-p3 bg-light-palette-p5 relative" data-controller="load-lucid-icons load-flowbite" id=<%= dom_id(stage, filter_status_deal) %>>
     <div class="flex py-3.5 justify-between items-center gap-1.5">
       <h1 class="typography-text-s-lh150 text-dark-gray-palette-p1 truncate cursor-default" data-tooltip-target="tooltip-<%= stage.id %>" data-tooltip-placement="bottom">
         <%=stage.name%>

@@ -49,21 +49,27 @@ class Deal < ApplicationRecord
 
     self.stage = pipeline.stages.first if stage.blank? && pipeline.present?
   end
-  after_destroy_commit { broadcast_remove_to stage, target: self }
+  after_destroy_commit { broadcast_remove_to [account.id, :stages], target: self }
 
   after_update_commit -> { broadcast_updates }
   after_create_commit lambda {
-                        broadcast_replace_later_to stage, target: stage,
-                                                          partial: 'accounts/pipelines/stage',
-                                                          locals: { stage: stage, status: 'all' }
+                        stage.broadcast_updates(status)
                       }
 
   def broadcast_updates
-    broadcast_replace_later_to self, partial: 'accounts/pipelines/deal', locals: { pipeline: pipeline }
-    if previous_changes.key?('stage_id')
-      previous_changes['stage_id'].each do |stage_id|
-        Stage.find(stage_id).broadcast_updates
+    broadcast_replace_later_to self, partial: 'accounts/pipelines/deal', locals: { pipeline: }
+    stage.broadcast_updates(status) if (previous_changes.keys - ['updated_at']) == ['position']
+
+    if (previous_changes.keys - ['updated_at']) == ['status']
+      previous_changes['status'].each do |status|
+        stage.broadcast_updates(status)
       end
+    end
+
+    return unless previous_changes.key?('stage_id')
+
+    previous_changes['stage_id'].each do |stage_id|
+      Stage.find(stage_id).broadcast_updates(status)
     end
   end
 
