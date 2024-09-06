@@ -53,23 +53,26 @@ class Deal < ApplicationRecord
 
   after_update_commit -> { broadcast_updates }
   after_create_commit lambda {
-                        stage.broadcast_updates(status)
+                        Stages::BroadcastUpdatesWorker.perform_async(stage.id, status)
                       }
 
   def broadcast_updates
     broadcast_replace_later_to self, partial: 'accounts/pipelines/deal', locals: { pipeline: }
-    stage.broadcast_updates(status) if (previous_changes.keys - ['updated_at']) == ['position']
+    if (previous_changes.keys - ['updated_at']) == ['position']
+      Stages::BroadcastUpdatesWorker.perform_async(stage.id,
+                                                   status)
+    end
 
     if (previous_changes.keys - ['updated_at']) == ['status']
       previous_changes['status'].each do |status|
-        stage.broadcast_updates(status)
+        Stages::BroadcastUpdatesWorker.perform_async(stage.id, status)
       end
     end
 
     return unless previous_changes.key?('stage_id')
 
     previous_changes['stage_id'].each do |stage_id|
-      Stage.find(stage_id).broadcast_updates(status)
+      Stages::BroadcastUpdatesWorker.perform_async(stage_id, status)
     end
   end
 

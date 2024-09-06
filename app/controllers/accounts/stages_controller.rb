@@ -12,10 +12,6 @@ class Accounts::StagesController < InternalController
     else
       @pagy, @deals = pagy(@stage.deals.where(status: @filter_status_deal).order(:position), items: 8)
     end
-    respond_to do |format|
-      format.html
-      format.turbo_stream
-    end
   end
 
   private
