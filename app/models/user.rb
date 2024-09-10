@@ -22,6 +22,7 @@
 #
 class User < ApplicationRecord
   has_many :webpush_subscriptions
+  has_one :voip
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
