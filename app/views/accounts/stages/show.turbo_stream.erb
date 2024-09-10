@@ -3,7 +3,7 @@
     <%= render partial: 'accounts/pipelines/deal', locals: {deal: deal} %>
   <% end %>
   <% if @pagy.next.present? %>
-    <%= turbo_frame_tag :pagination_deals, src: account_stage_path(current_user.account, @stage, filter_status_deal: @filter_status_deal, page: @pagy.next, format: :turbo_stream), loading: :lazy do  %>
+    <%= turbo_frame_tag dom_id(@stage, :pagination_deals), src: account_stage_path(current_user.account, @stage, filter_status_deal: @filter_status_deal, page: @pagy.next, format: :turbo_stream), loading: :lazy do  %>
       <div class='py-5'>
         <%= render '/components/loading' %>
       </div>
