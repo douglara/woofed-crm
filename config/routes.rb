@@ -87,7 +87,7 @@ Rails.application.routes.draw do
     devise_for :users, skip: [:registrations]
   end
 
-  root to: 'accounts/pipelines#index'
+  root to: 'accounts/welcome#index'
 
   namespace :api do
     namespace :v1 do

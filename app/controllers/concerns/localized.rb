@@ -12,9 +12,7 @@ module Localized
   private
 
   def requested_locale
-    if respond_to?(:user_signed_in?) && user_signed_in?
-      requested_locale_name ||= available_locale_or_nil(current_user.language)
-    end
+    requested_locale_name ||= available_locale_or_nil(:en) if respond_to?(:user_signed_in?) && user_signed_in?
     requested_locale_name
   end
 
