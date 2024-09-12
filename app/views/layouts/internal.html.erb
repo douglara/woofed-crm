@@ -12,7 +12,7 @@
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_pack_tag 'application', defer: true, 'data-turbo-track': 'reload' %>
     <%= tag.meta name: "vapid-public-key", content: Rails.configuration.x.vapid.public_key %>
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <%= tag.link rel: "manifest", href: webmanifest_path(format: :json) %>
     <%= render "layouts/shared/analytics_scripts" %>
     <%= yield :stylesheets %>

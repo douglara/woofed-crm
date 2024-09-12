@@ -78,9 +78,9 @@ class Event < ApplicationRecord
   end
 
   def schedule_webpush_notifications
-    if scheduled_at.present? && saved_change_to_scheduled_at? && !send_now
-      Pwa::SendNotificationsWorker.set(wait_until: scheduled_at).perform_later(id)
-    end
+    return unless scheduled_at.present? && saved_change_to_scheduled_at? && !send_now
+
+    Pwa::SendNotificationsWorker.set(wait_until: scheduled_at).perform_later(id)
   end
 
   def content=(value)
@@ -184,13 +184,11 @@ class Event < ApplicationRecord
   end
 
   def icon_key
-    if kind == 'note'
+    if note?
       'menu-square'
-    elsif kind == 'evolution_api_message'
-      'fab fa-whatsapp'
-    elsif kind == 'activity'
+    elsif activity?
       'clipboard-list'
-    elsif kind == 'chatwoot_message'
+    elsif chatwoot_message?
       'message-circle'
     end
   end
