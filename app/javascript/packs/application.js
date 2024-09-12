@@ -40,14 +40,14 @@ $(document).on("turbo:frame-render", function (e) {
   initLibraries();
 });
 
-addEventListener("turbo:before-stream-render", (event) => {
-  const originalRender = event.detail.render;
+// addEventListener("turbo:before-stream-render", (event) => {
+//   const originalRender = event.detail.render;
 
-  event.detail.render = function (streamElement) {
-    originalRender(streamElement);
-    initLibraries();
-  };
-});
+//   event.detail.render = function (streamElement) {
+//     originalRender(streamElement);
+//     initLibraries();
+//   };
+// });
 
 function initLibraries() {
   initFlowbite();
