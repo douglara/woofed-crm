@@ -17,6 +17,6 @@ class Accounts::StagesController < InternalController
   private
 
   def set_stage
-    @stage = current_user.account.stages.find(params[:id])
+    @stage = Stage.find(params[:id])
   end
 end

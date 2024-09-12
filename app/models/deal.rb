@@ -58,12 +58,12 @@ class Deal < ApplicationRecord
 
   def broadcast_updates
     broadcast_replace_later_to self, partial: 'accounts/pipelines/deal', locals: { pipeline: }
-    if (previous_changes.keys - ['updated_at']) == ['position']
+    if previous_changes.except('updated_at').keys == ['position']
       Stages::BroadcastUpdatesWorker.perform_async(stage.id,
                                                    status)
     end
 
-    if (previous_changes.keys - ['updated_at']) == ['status']
+    if previous_changes.except('updated_at').keys == ['status']
       previous_changes['status'].each do |status|
         Stages::BroadcastUpdatesWorker.perform_async(stage.id, status)
       end
