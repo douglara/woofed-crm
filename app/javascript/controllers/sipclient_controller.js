@@ -115,7 +115,7 @@ export default class extends Controller {
 
 	makeCall() {
     console.log(`Call to ${this.numberToCallTarget.value}`);
-    const disconnect = `sip:${this.numberToCallTarget.value}@${this.serverValue}`;
+    const destination = `sip:${this.numberToCallTarget.value}@${this.serverValue}`;
     this.simpleUser
       .call(destination, {
         inviteWithoutSdp: false
