@@ -9,9 +9,9 @@ export default class extends Controller {
   sort() {
     this.sortable = Sortable.create(this.element, {
       animation: 150,
+      sort: true,
       group: "pipeline",
-      onAdd: this.end.bind(this),
-      onSort: this.end.bind(this),
+      onEnd: this.end.bind(this),
     });
   }
 
