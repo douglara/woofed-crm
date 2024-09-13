@@ -1,4 +1,4 @@
-<%= content_tag :li, id: dom_id(deal), 'data-id': deal.id, 'data-account-id': Current.account.id do %>
+<%= content_tag :li, id: dom_id(deal), 'data-id': deal.id, 'data-account-id': Current.account.id, class: 'hover:shadow-sm' do %>
   <%= turbo_stream_from deal %>
   <%= link_to account_deal_path(Current.account, deal.id), data: {turbo: false, controller: 'load-lucid-icons'} do %>
     <div class="rounded cursor-pointer border-2 border-light-palette-p3 bg-light-palette-p4 py-2 px-4 space-y-2">
