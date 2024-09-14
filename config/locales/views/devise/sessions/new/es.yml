@@ -7,3 +7,4 @@ es:
           forgot_password: "¿Olvidaste tu contraseña?"
           account_answer: "¿No tienes una cuenta?"
           create_account: "Crear cuenta"
+          start_installation: 'Iniciar instalación'
