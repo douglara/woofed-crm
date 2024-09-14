@@ -22,5 +22,5 @@ class Stage < ApplicationRecord
   acts_as_list scope: :pipeline
   has_many :deals, dependent: :destroy
 
-  after_update_commit -> { BroadcastUpdatesWoker.perform_async(id) }
+  after_update_commit -> { Stages::BroadcastUpdatesWorker.perform_async(id) }
 end
