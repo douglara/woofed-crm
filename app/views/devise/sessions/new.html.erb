@@ -1,6 +1,8 @@
 
 <% if Installation.installation_flow? %>
-  <%= link_to 'Conectar com o Google', Installation.installation_url %>
+  <div class="text-center mt-20">
+    <%= link_to t('views.devise.sessions.new.start_installation'), Installation.installation_url, class: "btn-primary cursor-pointer" %>
+  </div>
 <% else%>
   <h1 class="typography-title-b-lh150 text-dark-palette-p4 text-center mb-3">
     <%= t('views.devise.sessions.new.log_in') %>

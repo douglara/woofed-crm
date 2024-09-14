@@ -7,6 +7,4 @@ pt-BR:
           forgot_password: "Esqueceu sua senha?"
           account_answer: "Não possui conta?"
           create_account: "Criar conta"
-
-
-
+          start_installation: 'Iniciar instalação'
