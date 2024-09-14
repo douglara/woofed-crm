@@ -70,13 +70,12 @@ class Position {
   }
 
   positionForNewStage() {
-    if (this.previousElement) {
-      return this.previousElementPosition + 1;
-    }
-
     if (this.nextElement) {
-      if (this.nextElementPosition === 1) return 1;
-      return this.nextElementPosition - 1;
+      return this.nextElementPosition + 1;
+    }
+    if (this.previousElement) {
+      if (this.previousElementPosition === 1) return 1;
+      return this.previousElementPosition - 1;
     }
 
     return null;
