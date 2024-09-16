@@ -9,9 +9,9 @@ class Stages::BroadcastUpdates
     pagy_filtered_deals = Pagy.new(count: stage.deals.where(status: filter_status_deal).count, items: 8)
     pagy_all_deals = Pagy.new(count: stage.deals.count, items: 8)
 
-    stage.broadcast_replace_to [stage.account.id, :stages], target: dom_id(stage, filter_status_deal),
-                                                            partial: 'accounts/stages/stage', locals: { filter_status_deal:, pagy: pagy_filtered_deals, deals: stage_filtered_deals }
-    stage.broadcast_replace_to [stage.account.id, :stages], target: dom_id(stage, 'all'),
-                                                            partial: 'accounts/stages/stage', locals: { filter_status_deal: 'all', pagy: pagy_all_deals, deals: stage_all_deals }
+    stage.broadcast_replace_to :stages, target: dom_id(stage, filter_status_deal),
+                                        partial: 'accounts/stages/stage', locals: { filter_status_deal:, pagy: pagy_filtered_deals, deals: stage_filtered_deals }
+    stage.broadcast_replace_to :stages, target: dom_id(stage, 'all'),
+                                        partial: 'accounts/stages/stage', locals: { filter_status_deal: 'all', pagy: pagy_all_deals, deals: stage_all_deals }
   end
 end

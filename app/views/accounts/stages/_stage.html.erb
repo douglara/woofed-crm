@@ -1,7 +1,7 @@
 <div class="px-4 pb-4 rounded border-2 border-light-palette-p3 bg-light-palette-p5 relative" data-controller="load-lucid-icons load-flowbite" id=<%= dom_id(stage, filter_status_deal) %>>
   <div class="flex py-3.5 justify-between items-center gap-1.5">
     <h1 class="typography-text-s-lh150 text-dark-gray-palette-p1 truncate cursor-default" data-tooltip-target="tooltip-<%= stage.id %>" data-tooltip-placement="bottom">
-      <%=stage.name%>
+      <%= stage.name %>
     </h1>
     <div id="tooltip-<%= stage.id %>" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 typography-text-m-lh150 text-dark-gray-palette-p3 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 tooltip transition-opacity duration-300">
       <%= stage.name %>
@@ -18,7 +18,7 @@
   <div id="dropdownDotsHorizontal<%=stage.id%>" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
     <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
       <li>
-        <%= link_to bulk_action_account_pipeline_path(stage.account, stage.pipeline.id, stage_id: stage.id), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white", data: { turbo_frame: 'modal' } do %>
+        <%= link_to bulk_action_account_pipeline_path(Current.account, stage.pipeline.id, stage_id: stage.id), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white", data: { turbo_frame: 'modal' } do %>
           <i data-lucide="layers"></i>
           <p>
             <%= t('views.accounts.pipelines.stage.bulk_action') %>
@@ -27,7 +27,7 @@
         <% end %>
       </li>
       <li>
-        <%= link_to account_pipeline_import_path(stage.account, stage.pipeline.id, stage_id: stage.id), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white", data: {controller: 'change-request-to-turbo-stream', action: 'click->change-request-to-turbo-stream#changeHeader'} do%>
+        <%= link_to account_pipeline_import_path(Current.account, stage.pipeline.id, stage_id: stage.id), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white", data: {controller: 'change-request-to-turbo-stream', action: 'click->change-request-to-turbo-stream#changeHeader'} do%>
           <i data-lucide="file-input"></i>
           <p>
             <%= t('views.accounts.pipelines.stage.import_deals') %>
@@ -44,7 +44,7 @@
   <ul data-controller="drag" data-drag-url="/accounts/:account_id/deals/:deal_id" data-id="<%= stage.id %>" class="space-y-4 overflow-y-auto custom-scroll-list-deal h-[calc(100vh-240px)]" id=<%= dom_id(stage, :deals) %>>
     <%= render partial: 'accounts/pipelines/deal', collection: deals, as: :deal %>
     <% if pagy.next.present? %>
-      <%= turbo_frame_tag dom_id(stage, :pagination_deals), src: account_stage_path(stage.account, stage, filter_status_deal: filter_status_deal, page: pagy.next, format: :turbo_stream), loading: :lazy do  %>
+      <%= turbo_frame_tag dom_id(stage, :pagination_deals), src: account_stage_path(Current.account, stage, filter_status_deal: filter_status_deal, page: pagy.next, format: :turbo_stream), loading: :lazy do  %>
         <div class='py-5'>
           <%= render '/components/loading' %>
         </div>

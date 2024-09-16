@@ -1,4 +1,4 @@
-<%= turbo_stream_from [current_user.account.id, :stages] %>
+<%= turbo_stream_from :stages %>
 <%= turbo_frame_tag :stages do %>
   <div data-controller="lists" data-lists-id="<%= @pipeline.id %>">
     <section class="p-8 grid grid-flow-col auto-cols-[18.75.rem] h-auto gap-5" data-lists-target="lists">

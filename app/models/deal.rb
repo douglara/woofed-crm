@@ -49,7 +49,7 @@ class Deal < ApplicationRecord
 
     self.stage = pipeline.stages.first if stage.blank? && pipeline.present?
   end
-  after_destroy_commit { broadcast_remove_to [account.id, :stages], target: self }
+  after_destroy_commit { broadcast_remove_to :stages, target: self }
 
   after_update_commit -> { broadcast_updates }
   after_create_commit lambda {
