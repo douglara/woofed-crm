@@ -12,19 +12,164 @@
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_pack_tag 'application', defer: true, 'data-turbo-track': 'reload' %>
     <%= render "layouts/shared/analytics_scripts" %>
-
     <%= yield :stylesheets %>
   </head>
-  <!-- <body class="bg-brand-palette-08"> -->
-    <body class="">
-    <section class="max-w-lg px-5 md:px-0 min-h-screen mx-auto py-20 space-y-10">
-      <div class="w-full flex items-center justify-center">
-        <%= image_tag('logo.svg', {class: "w-[70%]"}) %>
-      </div>
-        <!-- <div class="bg-light-palette-p5 p-11  border-2 border-light-palette-p3 "> -->
-        <div class="">
-          <%= yield %>
+  <body class='max-w-[1800px] mx-auto px-10'>
+    <section class='grid min-h-screen grid-rows-[85px_1fr_85px] gap-7 '>
+      <header class=' self-center justify-self-center sm:justify-self-auto'>
+        <div class='w-52'>
+          <%= image_tag 'logo.svg', class: 'w-full' %>
         </div>
+      </header>
+      <main class='grid lg:grid-cols-[1fr_42%] lg:gap-10 content-center'>
+        <div class='grid grid-cols-[35%_1fr] lg:grid-cols-[30%_1fr] gap-2.5 self-start'>
+          <div class='grid grid-cols-[1fr_1fr] grid-rows-[500px_135px] gap-2.5'>
+            <div class='col-span-full border-[10px] rounded-[40px] border-slate-950 px-4 py-2'>
+              <div class='h-5 w-20 bg-slate-950 rounded-full mx-auto'></div>
+              <h1 class='typography-title-b-lh150 text-center mt-7'>Transforme <br>
+                Vendas!</h1>
+              <div class='flex gap-2 justify-center text-light-palette-p5 typography-micro-s-lh150 leading-none mt-5'>
+                <span class='px-4 py-1 bg-brand-palette-03 rounded-sm'>Fácil</span>
+                <span class='px-4 py-1 bg-brand-palette-03 rounded-sm'>Simples</span>
+                <span class='px-4 py-1 bg-brand-palette-03 rounded-sm'>Eficiente</span>
+              </div>
+              <p class='typography-body-r-lh150 text-center mt-4'>CRM que facilita sua vida e impulsiona vendas</p>
+              <div class='flex mt-4 justify-center items-end'>
+                <div class=' w-24 h-24 rotate-[-12deg]'>
+                  <%= image_tag "man-cellphone-onboarding.jpg" , class: 'w-full h-full object-cover rounded-lg' %>
+                </div>
+                <div class='rounded-[32px] w-8 h-8 bg-light-palette-p5 z-10 p-1'>
+                  <%= image_tag 'logo-patinha.svg' %>
+                </div>
+                <div class=' rounded-lg w-24 h-24 rotate-[12deg]'>
+                  <%= image_tag "woman-cellphone-onboarding.jpg" , class: 'w-full h-full object-cover rounded-lg' %>
+                </div>
+              </div>
+              <div class=' w-20 h-20 mx-auto mt-6'>
+                <%= image_tag 'logo-patinha.svg', class:'stroke-brand-palette-03' %>
+              </div>
+            </div>
+            <div class='border rounded-[32px] boder-[#D5D5D5] p-3'>
+              <ul>
+                <li>
+                  <div class='border rounded-[32px] w-10 h-10 bg-[#D5D5D5]'>
+                  </div>
+                </li>
+              </ul>
+              <p class='text-xs mt-2.5'>Novos leads gerado</p>
+              <div class='flex items-center gap-2.5 mt-1'>
+                <span class='typography-title-b-lh150'>+225K</span>
+                <div>
+                  <span class='text-xs py-0.5 px-1 bg-brand-palette-03 rounded-lg text-light-palette-p5'>+7</span>
+                </div>
+              </div>
+            </div>
+            <div class='rounded-[32px] bg-brand-palette-08 px-3 py-2.5 grid justify-items-center'>
+              <div class='w-12 h-12 '>
+                <%= image_tag "clara-onboarding.jpg" , class: 'w-full h-full object-cover rounded-[32px]' %>
+              </div>
+              <p class='typography-body-s-lh150 mb-0,5'>Clara, 24</p>
+              <span class='text-xs leading-none border rounded-full boder-[#D5D5D5] px-1 py-0.5'>Novo Lead</span>
+              <div class='flex gap-2.5 mt-1'>
+                <div class=' rounded-[32px] w-5 h-5 bg-brand-palette-03'>
+                </div>
+                <div class='border rounded-[32px] w-5 h-5 bg-[#D5D5D5]'>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class='gap-2.5 grid  grid-rows-[1fr_2fr_3fr]'>
+            <div class='grid grid-cols-[1fr_1fr_150px] gap-2.5'>
+              <div class='border rounded-[32px] boder-[#D5D5D5] p-5 typography-body-s-lh150'>
+                <%= image_tag 'logo.svg', class: 'w-[100px] mb-2.5' %>
+                <p>Domine com Woof!</p>
+                <div class='flex gap-2 mt-2'>
+                  <div class='h-2 w-14 bg-[#D5D5D5] rounded-full'></div>
+                  <div class='h-2 w-14 bg-brand-palette-03 rounded-full'></div>
+                </div>
+              </div>
+              <div class='rounded-[32px] bg-light-palette-p3 grid items-center justify-center relative'>
+                <%= image_tag "gif-onboarding.gif" , class: ' w-56 h-56 absolute' %>
+              </div>
+              <div class='rounded-[32px] bg-brand-palette-03 grid justify-center items-center'>
+                <div class="w-20">
+                  <%= image_tag 'logo-patinha.svg' %>
+                </div>
+              </div>
+            </div>
+            <div class=' rounded-[32px] bg-brand-palette-08 grow grid grid-cols-[1fr_1fr] gap-5 py-6 px-1'>
+              <div class='max-w-[285px] relative rounded-3xl ml-5 justify-self-end'>
+                <%= image_tag "people-onboarding.jpg" , class: 'w-full h-full object-cover rounded-3xl' %>
+                <span class='absolute top-3.5 -right-7 bg-light-palette-p5 text-gray-palette-p1 py-1 px-2 rounded-full typography-micro-s-lh150 leading-none'>
+                  Funil de Vendas
+                </span>
+                <span class='absolute bottom-3.5 -left-4 bg-light-palette-p5 text-gray-palette-p1 py-1 px-2 rounded-full typography-micro-s-lh150 uppercase leading-none'>
+                  Lembrete
+                </span>
+                <div class='absolute h-14 w-14 -bottom-2 -right-2 bg-light-palette-p5 rounded-full p-2.5'>
+                  <div class='bg-brand-palette-03 rounded-full w-full h-full'>
+                  </div>
+                </div>
+                <div class='absolute h-10 w-10 -top-2 -left-5 bg-light-palette-p5 rounded-full p-1.5'>
+                  <div class='bg-brand-palette-03 rounded-full w-full h-full'>
+                  </div>
+                </div>
+              </div>
+              <div class='relative self-end'>
+                <p class='typography-title-b-lh150 text-dark-gray-palette-p1'>
+                  O CRM para <br>
+                  ajudar seu empresa a <br>
+                  CRESCER
+                </p>
+                <div class='absolute h-11 w-11 -top-11 right-10 bg-light-palette-p5 rounded-full p-1.5'>
+                  <div class='bg-brand-palette-03 rounded-full w-full h-full'>
+                  </div>
+                </div>
+                <span class='absolute -top-14 left-7 bg-light-palette-p5 text-gray-palette-p1 py-1 px-2 rounded-full typography-micro-s-lh150 leading-none'>
+                  Funil de Vendas
+                </span>
+              </div>
+            </div>
+            <div class='grid grid-cols-[2fr_1fr] gap-2.5 items-bottom'>
+              <div class='grid '>
+                <%= image_tag "woman-using-cellphone-onboarding.jpg" , class: 'w-full h-full object-cover rounded-[32px] col-span-full row-span-full' %>
+                <span class='bg-light-palette-p5 py-1.5 px-1 col-span-full row-span-full self-end place-self-center typography-sub-text-m-lh150 rounded-full mb-20'>🎉Um novo Lead acabou de chegar</span>
+              </div>
+              <div class='grid'>
+                <div class='h-[312px]  col-span-full row-span-full'>
+                  <%= video_tag 'ceo-video-onboarding.mov', muted: true, autoplay: true, loop: true, class: 'object-cover rounded-[32px] w-full h-full' %>
+                </div>
+                <div class='flex justify-between col-span-full row-span-full self-end m-4'>
+                  <div>
+                    <span class='px-1.5 py-1 rounded-full bg-light-palette-p5 typography-micro-s-lh150 leading-none'>Novo Cliente</span>
+                    <p class='typography-body-s-lh150 mt-1.5 text-light-palette-p5'>John, 28</p>
+                    <p class='typography-micro-m-lh150 text-light-palette-p5'>CEO/Fundador</p>
+                  </div>
+                  <div class='self-end'>
+                    <h1>oss</h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <%= yield %>
+      </main>
+      <footer class='flex flex-wrap gap-2 items-center justify-between  self-center'>
+        <span>© 2024 WoofedCRM</span>
+        <nav>
+          <ul class='flex items-center gap-1 sm:gap-6 flex-wrap '>
+            <li class='flex items-center gap-1.5'>
+              <i data-lucide="lock" class="w-4 stroke-dark-gray-palette-p3"></i>
+              <%= link_to 'Política de Privacidade', 'https://woofedcrm.com/policy-terms/', target: :_blank %>
+            </li>
+            <li class='flex items-center gap-1.5'>
+              <i data-lucide="file" class="w-4 stroke-dark-gray-palette-p3"></i>
+              <%= link_to 'Termos de Serviço', 'https://woofedcrm.com/terms-of-service/', target: :_blank %>
+            </li>
+          </ul>
+        </nav>
+      </footer>
     </section>
   </body>
 </html>
