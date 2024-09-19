@@ -1,53 +1,58 @@
-<h1 class="typography-title-b-lh150 text-dark-palette-p4 text-center mb-3">
-  <%= t('views.devise.registrations.new.register') %>
-</h1>
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo: false }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <div class="grid gap-5">
-    <% if @account.blank? %>
-      <%= f.fields_for :account, resource.build_account do |account_fields| %>
-        <div class="grid gap-1">
-          <%= account_fields.label :name, t('views.devise.registrations.new.company') , class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-          <%= account_fields.text_field :name, autofocus: true, autocomplete: "Empresa", class: "form-input", required: true %>
-        </div>
-        <div class="grid gap-1">
-          <%= account_fields.label :site_url, t('views.devise.registrations.new.url_company') , class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-          <%= account_fields.text_field :site_url, autofocus: true, autocomplete: "Site da empresa", class: "form-input" %>
-        </div>
+<div class='max-w-md self-start '>
+  <h1 class='typography-title-b-lh150 text-dark-palette-p4 mb-0.5'>
+    Cadastrar Agora
+  </h1>
+  <p class='text-dark-palette-p4 typography-body-r-lh150 mb-6'>
+    Você ainda não possui cadastro na Woofed mas não se preocupe você dar continuedade seu cadastro.
+  </p>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo: false }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <div class="grid gap-5">
+      <% if @account.blank? %>
+        <%= f.fields_for :account, resource.build_account do |account_fields| %>
+          <div class="grid gap-1">
+            <%= account_fields.label :name, t('views.devise.registrations.new.company') , class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+            <%= account_fields.text_field :name, autofocus: true, autocomplete: "Empresa", class: "form-input h-9", required: true %>
+          </div>
+          <div class="grid gap-1">
+            <%= account_fields.label :site_url, t('views.devise.registrations.new.url_company') , class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+            <%= account_fields.text_field :site_url, autofocus: true, autocomplete: "Site da empresa", class: "form-input h-9" %>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
-    <div class="grid gap-1">
-      <%= f.label :full_name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-      <%= f.text_field :full_name, autofocus: true, autocomplete: "full name", class: "form-input", required: true %>
-    </div>
-    <div class="grid gap-1">
-      <%= f.label :phone, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-      <%= f.text_field :phone, autofocus: true, autocomplete: "phone", class: "form-input", data: {controller: 'input-mask--input-phone'} %>
-    </div>
-    <div class="grid gap-1">
-      <%= f.label :email, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-      <% if Installation.installation_flow? %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input", required: true, value: params[:email], readonly: true %>
-      <% else %>
-         <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input", required: true %>
-      <% end %>
-    </div>
-    <div class="grid gap-1">
-      <div class="flex items-center justify-between">
-        <%= f.label :password, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <div class="grid gap-1">
+        <%= f.label :full_name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <%= f.text_field :full_name, autofocus: true, autocomplete: "full name", class: "form-input h-9", required: true %>
       </div>
-      <%= f.password_field :password, autocomplete: "new-password", class: "form-input w-full", required: true %>
-      <% if @minimum_password_length %>
-        <p class="invalid-feedback typography-sub-text-r-lh150 text-dark-gray-palette-p1">
-          <%= t('views.devise.registrations.new.password_minimum_characters', characters: @minimum_password_length) %>
-        </p>
-      <% end %>
-    </div>
-    <div class="grid gap-1">
-      <%= f.label :password_confirmation, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-input w-full", required: true %>
-    </div>
-    <%= f.submit t('views.devise.registrations.new.register'), class:"btn-primary cursor-pointer" %>
-  <% end %>
-  <%= render "devise/shared/links" %>
+      <div class="grid gap-1">
+        <%= f.label :phone, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <%= f.text_field :phone, autofocus: true, autocomplete: "phone", class: "form-input h-9", data: {controller: 'input-mask--input-phone'} %>
+      </div>
+      <div class="grid gap-1">
+        <%= f.label :email, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <% if Installation.installation_flow? %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input h-9", required: true, value: params[:email], readonly: true %>
+        <% else %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input h-9", required: true %>
+        <% end %>
+      </div>
+      <div class="grid gap-1">
+        <div class="flex items-center justify-between">
+          <%= f.label :password, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        </div>
+        <%= f.password_field :password, autocomplete: "new-password", class: "form-input h-9 w-full", required: true %>
+        <% if @minimum_password_length %>
+          <p class="invalid-feedback typography-sub-text-r-lh150 text-dark-gray-palette-p1">
+            <%= t('views.devise.registrations.new.password_minimum_characters', characters: @minimum_password_length) %>
+          </p>
+        <% end %>
+      </div>
+      <div class="grid gap-1">
+        <%= f.label :password_confirmation, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-input h-9 w-full", required: true %>
+      </div>
+      <%= f.submit t('views.devise.registrations.new.register'), class:"btn-primary cursor-pointer" %>
+    <% end %>
+    <%= render "devise/shared/links" %>
+  </div>
 </div>

@@ -18,7 +18,9 @@
     <section class='grid min-h-screen grid-rows-[85px_1fr_85px] gap-7 '>
       <header class=' self-center justify-self-center sm:justify-self-auto'>
         <div class='w-52'>
-          <%= image_tag 'logo.svg', class: 'w-full' %>
+          <%= link_to new_session_path(resource_name) do %>
+            <%= image_tag 'logo.svg', class: 'w-full' %>
+          <% end %>
         </div>
       </header>
       <main class='grid lg:grid-cols-[1fr_42%] lg:gap-10 content-center'>
@@ -50,10 +52,18 @@
               </div>
             </div>
             <div class='border rounded-[32px] boder-[#D5D5D5] p-3'>
-              <ul>
-                <li>
-                  <div class='border rounded-[32px] w-10 h-10 bg-[#D5D5D5]'>
-                  </div>
+              <ul class='flex space-x-[-10px]'>
+                <li class='w-8 h-8 border-2 border-light-palette-p5 rounded-[32px]'>
+                  <%= image_tag "leads-list-onborading-1.jpg" , class: 'w-full h-full object-cover rounded-[32px]' %>
+                </li>
+                <li class='w-8 h-8 border-2 border-light-palette-p5 rounded-[32px]'>
+                  <%= image_tag "leads-list-onborading-2.jpg" , class: 'w-full h-full object-cover rounded-[32px]' %>
+                </li>
+                <li class='w-8 h-8 border-2 border-light-palette-p5 rounded-[32px]'>
+                  <%= image_tag "leads-list-onborading-3.jpg" , class: 'w-full h-full object-cover rounded-[32px]' %>
+                </li>
+                <li class='w-8 h-8 border-2 border-light-palette-p5 rounded-[32px]'>
+                  <%= image_tag "leads-list-onborading-4.jpg" , class: 'w-full h-full object-cover rounded-[32px]' %>
                 </li>
               </ul>
               <p class='text-xs mt-2.5'>Novos leads gerado</p>
@@ -70,15 +80,17 @@
               </div>
               <p class='typography-body-s-lh150 mb-0,5'>Clara, 24</p>
               <span class='text-xs leading-none border rounded-full boder-[#D5D5D5] px-1 py-0.5'>Novo Lead</span>
-              <div class='flex gap-2.5 mt-1'>
-                <div class=' rounded-[32px] w-5 h-5 bg-brand-palette-03'>
+              <div class='flex gap-3 mt-1 items-center'>
+                <div class=' rounded-[32px] w-5 h-5 bg-brand-palette-03 grid items-center justify-center'>
+                  <i data-lucide="check" class= "w-3 h-3 self-center stroke-light-palette-p5"></i>
                 </div>
-                <div class='border rounded-[32px] w-5 h-5 bg-[#D5D5D5]'>
-                </div>
+                <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                  <path stroke="#1D252C" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
               </div>
             </div>
           </div>
-          <div class='gap-2.5 grid  grid-rows-[1fr_2fr_3fr]'>
+          <div class='gap-2.5 grid grid-rows-[1fr_2fr_3fr]'>
             <div class='grid grid-cols-[1fr_1fr_150px] gap-2.5'>
               <div class='border rounded-[32px] boder-[#D5D5D5] p-5 typography-body-s-lh150'>
                 <%= image_tag 'logo.svg', class: 'w-[100px] mb-2.5' %>
@@ -107,11 +119,15 @@
                   Lembrete
                 </span>
                 <div class='absolute h-14 w-14 -bottom-2 -right-2 bg-light-palette-p5 rounded-full p-2.5'>
-                  <div class='bg-brand-palette-03 rounded-full w-full h-full'>
+                  <div class='bg-brand-palette-03 rounded-full w-full h-full grid items-center justify-center relative'>
+                    <div class="absolute w-0 h-0 border-solid border-l-[1px] border-l-brand-palette-03 border-r-[12px] border-r-transparent border-t-[12px] border-t-brand-palette-03 border-b-[0px] border-b-transparent bottom-[-2px] left-[4px] rotate-12"></div>
+                    <%= image_tag 'heart-onboarding.svg', class: 'h-5 w-5' %>
                   </div>
                 </div>
                 <div class='absolute h-10 w-10 -top-2 -left-5 bg-light-palette-p5 rounded-full p-1.5'>
-                  <div class='bg-brand-palette-03 rounded-full w-full h-full'>
+                  <div class='bg-brand-palette-03 rounded-full w-full h-full grid items-center justify-center relative'>
+                    <div class="absolute w-0 h-0 border-solid border-l-[1px] border-l-brand-palette-03 border-r-[5px] border-r-transparent border-t-[5px] border-t-brand-palette-03 border-b-[0px] border-b-transparent bottom-[-2px] left-[4px] rotate-12"></div>
+                    <%= image_tag 'heart-onboarding.svg', class: 'h-4 w-4' %>
                   </div>
                 </div>
               </div>
@@ -122,7 +138,9 @@
                   CRESCER
                 </p>
                 <div class='absolute h-11 w-11 -top-11 right-10 bg-light-palette-p5 rounded-full p-1.5'>
-                  <div class='bg-brand-palette-03 rounded-full w-full h-full'>
+                  <div class='bg-brand-palette-03 rounded-full w-full h-full grid items-center justify-center relative'>
+                    <div class="absolute w-0 h-0 border-solid border-l-[1px] border-l-brand-palette-03 border-r-[5px] border-r-transparent border-t-[5px] border-t-brand-palette-03 border-b-[0px] border-b-transparent bottom-[-2px] left-[6px] rotate-12"></div>
+                    <%= image_tag 'heart-onboarding.svg', class: 'h-4 w-4' %>
                   </div>
                 </div>
                 <span class='absolute -top-14 left-7 bg-light-palette-p5 text-gray-palette-p1 py-1 px-2 rounded-full typography-micro-s-lh150 leading-none'>
@@ -133,7 +151,10 @@
             <div class='grid grid-cols-[2fr_1fr] gap-2.5 items-bottom'>
               <div class='grid '>
                 <%= image_tag "woman-using-cellphone-onboarding.jpg" , class: 'w-full h-full object-cover rounded-[32px] col-span-full row-span-full' %>
-                <span class='bg-light-palette-p5 py-1.5 px-1 col-span-full row-span-full self-end place-self-center typography-sub-text-m-lh150 rounded-full mb-20'>🎉Um novo Lead acabou de chegar</span>
+                <span class='bg-light-palette-p5 py-1.5 px-1 col-span-full row-span-full self-end place-self-center typography-sub-text-m-lh150 rounded-full mb-24 relative'>
+                  <div class="absolute w-0 h-0 border-solid border-l-[20px] border-l-light-palette-p5 border-r-[6px] border-r-transparent border-t-[6px] border-t-light-palette-p5 border-b-[16px] border-b-transparent bottom-[-17px] left-[36px] rotate-12"></div>
+                  🎉Um novo Lead acabou de chegar
+                </span>
               </div>
               <div class='grid'>
                 <div class='h-[312px]  col-span-full row-span-full'>
@@ -145,8 +166,8 @@
                     <p class='typography-body-s-lh150 mt-1.5 text-light-palette-p5'>John, 28</p>
                     <p class='typography-micro-m-lh150 text-light-palette-p5'>CEO/Fundador</p>
                   </div>
-                  <div class='self-end'>
-                    <h1>oss</h1>
+                  <div class="bg-brand-palette-03 w-[40px] h-[25px] mt-10 grid justify-center items-center relative before:block before:absolute before:h-0 before:w-0 before:border-l-transparent before:border-l-[20px] before:border-r-transparent before:border-r-[20px] before:border-b-brand-palette-03 before:border-b-[10px] before:top-[-10px] after:block after:absolute after:h-0 after:w-0 after:border-l-transparent after:border-l-[20px] after:border-r-transparent after:border-r-[20px] after:border-t-brand-palette-03 after:border-t-[10px] after:bottom-[-10px]">
+                    <%= image_tag 'logo-patinha.svg', class:'w-[26px] h-[26px] z-10' %>
                   </div>
                 </div>
               </div>
