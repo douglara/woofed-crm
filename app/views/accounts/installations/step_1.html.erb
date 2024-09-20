@@ -1,0 +1,43 @@
+<div class='max-w-lg self-start'>
+  <%= render 'header_nav' %>
+  <p class='text-dark-palette-p4 typography-body-r-lh150 mb-6'>
+    Você ainda não possui cadastro na Woofed mas não se preocupe você dar continuedade seu cadastro.
+  </p>
+  <%= form_with(model: current_user, url: step_2_account_installations_path, method: :get, local: true) do |f| %>
+    <%= render "devise/shared/error_messages", resource: current_user %>
+    <div class="grid gap-5">
+      <div class="inline-flex gap-4 items-center">
+        <div class="w-24 h-24 rounded-full">
+          <%= image_tag "clara-onboarding.jpg" , class: 'w-full h-full object-cover rounded-full' %>
+        </div>
+        <div class='btn-secondary cursor-pointer'>
+          Alterar Imagem
+        </div>
+      </div>
+      <div class="grid gap-1">
+        <%= f.label :full_name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <%= f.text_field :full_name, autofocus: true, autocomplete: "full name", class: "form-input h-9", required: true %>
+      </div>
+      <div class="grid gap-1">
+        <%= f.label :phone, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <%= f.text_field :phone, autofocus: true, autocomplete: "phone", class: "form-input h-9", data: {controller: 'input-mask--input-phone'} %>
+      </div>
+      <div class="grid gap-1">
+        <%= f.label :job_role, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <%= f.select :job_role, options_for_select([
+  ['CEO', 'ceo'],
+  ['CFO', 'cfo'],
+  ['CTO', 'cto'],
+  ['Project Manager', 'project_manager'],
+  ['Software Engineer', 'software_engineer'],
+  ['Marketing Manager', 'marketing_manager'],
+  ['Sales Representative', 'sales_representative'],
+  ['HR Specialist', 'hr_specialist'],
+  ['Customer Support', 'customer_support'],
+  ['Product Manager', 'product_manager']
+]), {}, { class: "form-input h-9" } %>
+      </div>
+      <%= f.submit 'Próxima Etapa', class:"btn-primary cursor-pointer justify-self-start" %>
+    <% end %>
+  </div>
+</div>

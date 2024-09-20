@@ -12,6 +12,14 @@ Rails.application.routes.draw do
     resources :custom_attributes_definitions, module: :settings do
     end
 
+    resources :installations, only: [] do
+      collection do
+        get :step_1
+        get :step_2
+        get :step_3
+      end
+    end
+
     resources :webhooks, module: :settings do
     end
     resources :ai, module: :settings, only: %i[edit update]

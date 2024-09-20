@@ -18,8 +18,12 @@
     <section class='grid min-h-screen grid-rows-[85px_1fr_85px] gap-7 '>
       <header class=' self-center justify-self-center sm:justify-self-auto'>
         <div class='w-52'>
-          <%= link_to new_session_path(resource_name) do %>
+          <% if current_user.present? %>
             <%= image_tag 'logo.svg', class: 'w-full' %>
+          <% else %>
+            <%= link_to new_session_path(resource_name) do %>
+              <%= image_tag 'logo.svg', class: 'w-full' %>
+            <% end %>
           <% end %>
         </div>
       </header>
