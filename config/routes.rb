@@ -5,20 +5,20 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
   mount GoodJob::Engine => 'good_job'
 
+  namespace :installation do
+    get :new
+    get :create
+    get :step_1
+    get :step_2
+    get :step_3
+    get :loading
+  end
+
   resources :accounts, module: :accounts do
     resources :webpush_subscriptions, only: [:create]
     resources :settings, only: [:index]
     resources :welcome, only: [:index]
     resources :custom_attributes_definitions, module: :settings do
-    end
-
-    resources :installations, only: [] do
-      collection do
-        get :step_1
-        get :step_2
-        get :step_3
-        get :loading
-      end
     end
 
     resources :webhooks, module: :settings do

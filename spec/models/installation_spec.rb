@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: installations
+#
+#  id         :string           not null, primary key
+#  key1       :string           default(""), not null
+#  key2       :string           default(""), not null
+#  status     :integer          default(0), not null
+#  token      :string           default(""), not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 require 'rails_helper'
 
 RSpec.describe Installation do

@@ -1,6 +1,6 @@
 <div class='max-w-lg self-start'>
   <%= render 'header_nav' %>
-  <%= form_with(model: current_user, url: step_3_account_installations_path, method: :get, local: true) do |f| %>
+  <%= form_with(model: current_user, url: installation_step_3_path, method: :get, local: true) do |f| %>
     <%= render "devise/shared/error_messages", resource: current_user %>
     <div class="grid gap-5">
       <div class="grid gap-1">

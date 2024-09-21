@@ -21,7 +21,7 @@
           <% if current_user.present? %>
             <%= image_tag 'logo.svg', class: 'w-full' %>
           <% else %>
-            <%= link_to new_session_path(resource_name) do %>
+            <%= link_to url_for do %>
               <%= image_tag 'logo.svg', class: 'w-full' %>
             <% end %>
           <% end %>
