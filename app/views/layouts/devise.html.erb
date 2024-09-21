@@ -15,8 +15,8 @@
     <%= yield :stylesheets %>
   </head>
   <body class='max-w-[1800px] mx-auto px-10'>
-    <section class='grid min-h-screen grid-rows-[85px_1fr_85px] gap-7 '>
-      <header class=' self-center justify-self-center sm:justify-self-auto'>
+    <section class='grid min-h-screen grid-rows-[85px_1fr_85px] gap-10 sm:gap-7 '>
+      <header class='self-center justify-self-center md:justify-self-auto'>
         <div class='w-52'>
           <% if current_user.present? %>
             <%= image_tag 'logo.svg', class: 'w-full' %>
@@ -27,8 +27,8 @@
           <% end %>
         </div>
       </header>
-      <main class='grid lg:grid-cols-[1fr_42%] lg:gap-10 content-center'>
-        <div class='grid grid-cols-[35%_1fr] lg:grid-cols-[30%_1fr] gap-2.5 self-start'>
+      <main class='grid md:grid-cols-[300px_1fr] min-[1739px]:grid-cols-[1fr_42%] md:gap-10 content-center'>
+        <div class='hidden md:grid min-[1739px]:grid-cols-[30%_1fr] gap-2.5 self-start'>
           <div class='grid grid-cols-[1fr_1fr] grid-rows-[500px_135px] gap-2.5'>
             <div class='col-span-full border-[10px] rounded-[40px] border-slate-950 px-4 py-2'>
               <div class='h-5 w-20 bg-slate-950 rounded-full mx-auto'></div>
@@ -94,7 +94,7 @@
               </div>
             </div>
           </div>
-          <div class='gap-2.5 grid grid-rows-[1fr_2fr_3fr]'>
+          <div class='hidden min-[1739px]:grid gap-2.5 grid-rows-[1fr_2fr_3fr]'>
             <div class='grid grid-cols-[1fr_1fr_150px] gap-2.5'>
               <div class='border rounded-[32px] boder-[#D5D5D5] p-5 typography-body-s-lh150'>
                 <%= image_tag 'logo.svg', class: 'w-[100px] mb-2.5' %>
@@ -180,10 +180,10 @@
         </div>
         <%= yield %>
       </main>
-      <footer class='flex flex-wrap gap-2 items-center justify-between  self-center'>
-        <span>© 2024 WoofedCRM</span>
-        <nav>
-          <ul class='flex items-center gap-1 sm:gap-6 flex-wrap '>
+      <footer class='flex flex-wrap gap-5 items-center justify-between self-center'>
+        <span class="order-last sm:order-first mx-auto sm:mx-0 typography-sub-text-r-lh150">© 2024 WoofedCRM</span>
+        <nav class="hidden order-first sm:order-last typography-sub-text-r-lh150 leading-none">
+          <ul class='flex items-center gap-2 flex-wrap '>
             <li class='flex items-center gap-1.5'>
               <i data-lucide="lock" class="w-4 stroke-dark-gray-palette-p3"></i>
               <%= link_to 'Política de Privacidade', 'https://woofedcrm.com/policy-terms/', target: :_blank %>
