@@ -1,7 +1,7 @@
 <div class='max-w-lg self-start'>
   <%= render 'header_nav' %>
-  <%= form_with(model: current_user, url: installation_step_2_path, method: :get, local: true) do |f| %>
-    <%= render "devise/shared/error_messages", resource: current_user %>
+  <%= form_with(model: @user, url: installation_update_step_1_path, method: :patch, local: true) do |f| %>
+    <%= render 'form_errors', model: @user %>
     <div class="grid gap-5">
       <div class="inline-flex gap-4 items-center">
         <div class="w-24 h-24 rounded-full">

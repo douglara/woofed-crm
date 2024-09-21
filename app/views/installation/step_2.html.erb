@@ -1,7 +1,7 @@
 <div class='max-w-lg self-start'>
   <%= render 'header_nav' %>
-  <%= form_with(model: current_user, url: installation_step_3_path, method: :get, local: true) do |f| %>
-    <%= render "devise/shared/error_messages", resource: current_user %>
+  <%= form_with(model: @user, url: installation_update_step_2_path, method: :patch, local: true) do |f| %>
+    <%= render 'form_errors', model: @user %>
     <div class="grid gap-5">
       <div class="grid gap-1">
         <%= f.label :email, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
