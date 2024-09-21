@@ -17,6 +17,7 @@ Rails.application.routes.draw do
         get :step_1
         get :step_2
         get :step_3
+        get :loading
       end
     end
 
