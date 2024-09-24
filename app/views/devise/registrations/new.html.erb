@@ -30,11 +30,7 @@
       </div>
       <div class="grid gap-1">
         <%= f.label :email, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-        <% if Installation.installation_flow? %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input h-9", required: true, value: params[:email], readonly: true %>
-        <% else %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input h-9", required: true %>
-        <% end %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input h-9" %>
       </div>
       <div class="grid gap-1">
         <div class="flex items-center justify-between">

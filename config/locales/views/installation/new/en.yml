@@ -1,0 +1,7 @@
+en:
+  views:
+    installation:
+      new:
+        join_crm: "Join %{crm_name}"
+        step_away_from_growth: "You are one step away from your company growing."
+        login_with_provider: "Log in with %{provider}"

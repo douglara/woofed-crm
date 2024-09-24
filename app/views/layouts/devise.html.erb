@@ -32,14 +32,15 @@
           <div class='grid grid-cols-[1fr_1fr] grid-rows-[500px_135px] gap-2.5'>
             <div class='col-span-full border-[10px] rounded-[40px] border-slate-950 px-4 py-2'>
               <div class='h-5 w-20 bg-slate-950 rounded-full mx-auto'></div>
-              <h1 class='typography-title-b-lh150 text-center mt-7'>Transforme <br>
-                Vendas!</h1>
+              <h1 class='typography-title-b-lh150 text-center mt-7'><%= t('views.layouts.devise.cellphone_title').html_safe %></h1>
               <div class='flex gap-2 justify-center text-light-palette-p5 typography-micro-s-lh150 leading-none mt-5'>
-                <span class='px-4 py-1 bg-brand-palette-03 rounded-sm'>Fácil</span>
-                <span class='px-4 py-1 bg-brand-palette-03 rounded-sm'>Simples</span>
-                <span class='px-4 py-1 bg-brand-palette-03 rounded-sm'>Eficiente</span>
+                <span class='px-4 py-1 bg-brand-palette-03 rounded-sm'><%= t('views.layouts.devise.cellphone_list_easy') %></span>
+                <span class='px-4 py-1 bg-brand-palette-03 rounded-sm'><%= t('views.layouts.devise.cellphone_list_simple') %></span>
+                <span class='px-4 py-1 bg-brand-palette-03 rounded-sm'><%= t('views.layouts.devise.cellphone_list_efficient') %></span>
               </div>
-              <p class='typography-body-r-lh150 text-center mt-4'>CRM que facilita sua vida e impulsiona vendas</p>
+              <p class='typography-body-r-lh150 text-center mt-4'>
+                <%= t('views.layouts.devise.cellphone_tagline').html_safe %>
+              </p>
               <div class='flex mt-4 justify-center items-end'>
                 <div class=' w-24 h-24 rotate-[-12deg]'>
                   <%= image_tag "man-cellphone-onboarding.jpg" , class: 'w-full h-full object-cover rounded-lg' %>
@@ -70,7 +71,9 @@
                   <%= image_tag "leads-list-onborading-4.jpg" , class: 'w-full h-full object-cover rounded-[32px]' %>
                 </li>
               </ul>
-              <p class='text-xs mt-2.5'>Novos leads gerado</p>
+              <p class='text-xs mt-2.5'>
+                <%= t('views.layouts.devise.new_leads_generated') %>
+              </p>
               <div class='flex items-center gap-2.5 mt-1'>
                 <span class='typography-title-b-lh150'>+225K</span>
                 <div>
@@ -83,7 +86,9 @@
                 <%= image_tag "clara-onboarding.jpg" , class: 'w-full h-full object-cover rounded-[32px]' %>
               </div>
               <p class='typography-body-s-lh150 mb-0,5'>Clara, 24</p>
-              <span class='text-xs leading-none border rounded-full boder-[#D5D5D5] px-1 py-0.5'>Novo Lead</span>
+              <span class='text-xs leading-none border rounded-full boder-[#D5D5D5] px-1 py-0.5'>
+                <%= t('views.layouts.devise.new_lead') %>
+              </span>
               <div class='flex gap-3 mt-1 items-center'>
                 <div class=' rounded-[32px] w-5 h-5 bg-brand-palette-03 grid items-center justify-center'>
                   <i data-lucide="check" class= "w-3 h-3 self-center stroke-light-palette-p5"></i>
@@ -98,7 +103,9 @@
             <div class='grid grid-cols-[1fr_1fr_150px] gap-2.5'>
               <div class='border rounded-[32px] boder-[#D5D5D5] p-5 typography-body-s-lh150'>
                 <%= image_tag 'logo.svg', class: 'w-[100px] mb-2.5' %>
-                <p>Domine com Woof!</p>
+                <p>
+                  <%= t('views.layouts.devise.mastery', crm_name: 'Woof') %>
+                </p>
                 <div class='flex gap-2 mt-2'>
                   <div class='h-2 w-14 bg-[#D5D5D5] rounded-full'></div>
                   <div class='h-2 w-14 bg-brand-palette-03 rounded-full'></div>
@@ -117,10 +124,10 @@
               <div class='max-w-[285px] relative rounded-3xl ml-5 justify-self-end'>
                 <%= image_tag "people-onboarding.jpg" , class: 'w-full h-full object-cover rounded-3xl' %>
                 <span class='absolute top-3.5 -right-7 bg-light-palette-p5 text-gray-palette-p1 py-1 px-2 rounded-full typography-micro-s-lh150 leading-none'>
-                  Funil de Vendas
+                  <%= t('views.layouts.devise.sales_funnel') %>
                 </span>
                 <span class='absolute bottom-3.5 -left-4 bg-light-palette-p5 text-gray-palette-p1 py-1 px-2 rounded-full typography-micro-s-lh150 uppercase leading-none'>
-                  Lembrete
+                  <%= t('views.layouts.devise.reminder') %>
                 </span>
                 <div class='absolute h-14 w-14 -bottom-2 -right-2 bg-light-palette-p5 rounded-full p-2.5'>
                   <div class='bg-brand-palette-03 rounded-full w-full h-full grid items-center justify-center relative'>
@@ -137,9 +144,7 @@
               </div>
               <div class='relative self-end'>
                 <p class='typography-title-b-lh150 text-dark-gray-palette-p1'>
-                  O CRM para <br>
-                  ajudar seu empresa a <br>
-                  CRESCER
+                  <%= t('views.layouts.devise.crm_help').html_safe %>
                 </p>
                 <div class='absolute h-11 w-11 -top-11 right-10 bg-light-palette-p5 rounded-full p-1.5'>
                   <div class='bg-brand-palette-03 rounded-full w-full h-full grid items-center justify-center relative'>
@@ -148,7 +153,7 @@
                   </div>
                 </div>
                 <span class='absolute -top-14 left-7 bg-light-palette-p5 text-gray-palette-p1 py-1 px-2 rounded-full typography-micro-s-lh150 leading-none'>
-                  Funil de Vendas
+                  <%= t('views.layouts.devise.lead_management') %>
                 </span>
               </div>
             </div>
@@ -157,7 +162,7 @@
                 <%= image_tag "woman-using-cellphone-onboarding.jpg" , class: 'w-full h-full object-cover rounded-[32px] col-span-full row-span-full' %>
                 <span class='bg-light-palette-p5 py-1.5 px-1 col-span-full row-span-full self-end place-self-center typography-sub-text-m-lh150 rounded-full mb-24 relative'>
                   <div class="absolute w-0 h-0 border-solid border-l-[20px] border-l-light-palette-p5 border-r-[6px] border-r-transparent border-t-[6px] border-t-light-palette-p5 border-b-[16px] border-b-transparent bottom-[-17px] left-[36px] rotate-12"></div>
-                  🎉Um novo Lead acabou de chegar
+                  <%= t('views.layouts.devise.new_lead_arrival') %>
                 </span>
               </div>
               <div class='grid'>
@@ -166,9 +171,13 @@
                 </div>
                 <div class='flex justify-between col-span-full row-span-full self-end m-4'>
                   <div>
-                    <span class='px-1.5 py-1 rounded-full bg-light-palette-p5 typography-micro-s-lh150 leading-none'>Novo Cliente</span>
+                    <span class='px-1.5 py-1 rounded-full bg-light-palette-p5 typography-micro-s-lh150 leading-none'>
+                      <%= t('views.layouts.devise.new_client') %>
+                    </span>
                     <p class='typography-body-s-lh150 mt-1.5 text-light-palette-p5'>John, 28</p>
-                    <p class='typography-micro-m-lh150 text-light-palette-p5'>CEO/Fundador</p>
+                    <p class='typography-micro-m-lh150 text-light-palette-p5'>
+                      <%= t('views.layouts.devise.ceo_founder') %>
+                    </p>
                   </div>
                   <div class="bg-brand-palette-03 w-[40px] h-[25px] mt-10 grid justify-center items-center relative before:block before:absolute before:h-0 before:w-0 before:border-l-transparent before:border-l-[20px] before:border-r-transparent before:border-r-[20px] before:border-b-brand-palette-03 before:border-b-[10px] before:top-[-10px] after:block after:absolute after:h-0 after:w-0 after:border-l-transparent after:border-l-[20px] after:border-r-transparent after:border-r-[20px] after:border-t-brand-palette-03 after:border-t-[10px] after:bottom-[-10px]">
                     <%= embedded_svg("logo-patinha.svg", class: 'w-[26px] h-[26px] z-10 fill-light-palette-p5') %>
