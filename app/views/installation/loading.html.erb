@@ -5,6 +5,10 @@
   <div class='w-16 h-16 mx-auto mb-6'>
     <%= embedded_svg("logo-patinha.svg", class: 'fill-brand-palette-03') %>
   </div>
-  <h1 class="text-center typography-title-b-lh150 text-dark-palette-p4">Estamos criando a sua empresa...</h1>
-  <p class="text-center text-dark-palette-p4 typography-body-r-lh150 max-w-prose">Você ainda não possui cadastro na Woofed mas não se preocupe você dar continuedade seu cadastro.</p>
+  <h1 class="text-center typography-title-b-lh150 text-dark-palette-p4">
+    <%= t('views.installation.loading.creating_company') %>
+  </h1>
+  <p class="text-center text-dark-palette-p4 typography-body-r-lh150 max-w-prose">
+    <%= t('views.installation.loading.no_registration_message') %>
+  </p>
 </div>

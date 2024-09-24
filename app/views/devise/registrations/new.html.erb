@@ -1,9 +1,9 @@
 <div class='max-w-md self-start '>
   <h1 class='typography-title-b-lh150 text-dark-palette-p4 mb-0.5'>
-    Cadastrar Agora
+    <%= t('views.installation.header_nav.register_now') %>
   </h1>
   <p class='text-dark-palette-p4 typography-body-r-lh150 mb-6'>
-    Você ainda não possui cadastro na Woofed mas não se preocupe você dar continuedade seu cadastro.
+    <%= t('views.installation.header_nav.no_registration_message') %>
   </p>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo: false }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>

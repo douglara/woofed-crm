@@ -1,20 +1,26 @@
 <% if Installation.installation_flow? %>
   <div class='justify-items-center self-center justify-self-start'>
-    <h1 class='typography-title-b-lh150'>Junte-se ao WoofedCRM</h1>
-    <p class='typography-body-r-lh150 mt-1'>Você está a um passo da sua empresa crescer.</p>
+    <h1 class='typography-title-b-lh150'>
+      <%= t('views.installation.new.join_crm', crm_name: 'WoofedCRM') %>
+    </h1>
+    <p class='typography-body-r-lh150 mt-1'>
+      <%= t('views.installation.new.step_away_from_growth') %>
+    </p>
     <%= link_to Installation.installation_url, class: 'mt-6 px-6 py-3 inline-flex items-center gap-2 border border-light-palette-p3 rounded-lg typography-body-s-lh150 text-brand-palette-03 leading-none' do %>
       <%= image_tag 'google-icon', class: '' %>
-      <p>Faça login com o Google</p>
+      <p>
+        <%= t('views.installation.new.login_with_provider', provider: 'Google') %>
+      </p>
     <% end %>
   </div>
   <%# link_to t('views.devise.sessions.new.start_installation'), , class: "btn-primary cursor-pointer" %>
 <% else%>
   <div class='max-w-md self-center '>
     <h1 class="text-[2rem] text-dark-palette-p4 mb-0.5">
-      Junte-se ao WoofedCRM
+      <%= t('views.installation.new.join_crm', crm_name: 'WoofedCRM') %>
     </h1>
     <p class='text-dark-palette-p4 typography-body-r-lh150 mb-8'>
-      Você está a um passo da sua empresa crescer.
+      <%= t('views.installation.new.step_away_from_growth') %>
     </p>
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f| %>
       <div class="grid gap-5 mb-2">

@@ -1,0 +1,6 @@
+en:
+  views:
+    installation:
+      loading:
+        creating_company: "We are creating your company..."
+        no_registration_message: "You don't have a registration with Woofed yet, but don't worry, you can continue your registration."
