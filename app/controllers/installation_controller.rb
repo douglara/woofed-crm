@@ -37,7 +37,7 @@ class InstallationController < ApplicationController
   end
 
   def update_step_3
-    if @user.update(user_params)
+    if @account.update(account_params)
       redirect_to installation_loading_path
     else
       render :step_3, status: :unprocessable_entity
@@ -77,5 +77,9 @@ class InstallationController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :full_name, :phone, :password, :password_confirmation)
+  end
+
+  def account_params
+    params.require(:account).permit(:site_url, :name)
   end
 end

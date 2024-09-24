@@ -13,9 +13,10 @@ class ApplicationController < ActionController::Base
   private
 
   def setup_installation
-    if Installation.installation_flow? && request.path != installation_new_path && request.path != installation_create_path
-      redirect_to installation_new_path and return
-    end
+    installation_routes_regex = %r{\A/installation/(new|create|step_1|step_2|step_3|update_step_1|update_step_2|update_step_3|loading)\z}
+    return unless Installation.installation_flow? && request.path !~ installation_routes_regex
+
+    redirect_to installation_new_path and return
   end
 
   def set_account
