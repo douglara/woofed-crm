@@ -50,18 +50,16 @@ class InstallationController < ApplicationController
 
   def create
     installation = Installation.new(installation_params)
-    user = User.new(user_params.merge(password: SecureRandom.hex(8)))
-    result = ActiveRecord::Base.transaction do
+    user = User.find_or_initialize_by(user_params.slice('email'))
+    user.password = SecureRandom.hex(8)
+    ActiveRecord::Base.transaction do
       installation.save!
       user.save!
     end
-
-    if result
-      sign_in(user)
-      redirect_to installation_step_1_path
-    else
-      render :new
-    end
+    sign_in(user)
+    redirect_to installation_step_1_path
+  rescue ActiveRecord::RecordInvalid
+    render :new, status: :unprocessable_entity
   end
 
   def set_user

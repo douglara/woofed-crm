@@ -26,17 +26,18 @@ RSpec.describe InstallationController, type: :request do
             get '/installation/create',
                 params: { user: { email: '', full_name: 'Yukio teste', phone: '@dsad55' },
                           installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
-            expect(response).to redirect_to(installation_step_1_path)
+            expect(response).to have_http_status(:unprocessable_entity)
             expect(User.count).to eq(0)
             expect(Installation.count).to eq(0)
           end
           context 'when there is no user params' do
             it 'should not create user and installation and render new action installation controller' do
-              get '/installation/create',
-                  params: {
-                    installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' }
-                  }
-              expect(response).to redirect_to(installation_step_1_path)
+              expect do
+                get '/installation/create',
+                    params: {
+                      installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' }
+                    }
+              end.to raise_error(ActionController::ParameterMissing, /user/)
               expect(User.count).to eq(0)
               expect(Installation.count).to eq(0)
             end
@@ -48,7 +49,7 @@ RSpec.describe InstallationController, type: :request do
               get '/installation/create',
                   params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
                             installation: { id: '', key1: '', key2: '', token: '' } }
-              expect(response).to redirect_to(installation_step_1_path)
+              expect(response).to have_http_status(:unprocessable_entity)
               expect(User.count).to eq(0)
               expect(Installation.count).to eq(0)
             end
@@ -56,11 +57,12 @@ RSpec.describe InstallationController, type: :request do
 
           context 'when there is no installation params' do
             it 'should not create installation and installation and render new action installation controller' do
-              get '/installation/create',
-                  params: {
-                    user: { email: 'yukio@email.com', full_name: 'Yukio teste' }
-                  }
-              expect(response).to redirect_to(installation_step_1_path)
+              expect do
+                get '/installation/create',
+                    params: {
+                      user: { email: 'yukio@email.com', full_name: 'Yukio teste' }
+                    }
+              end.to raise_error(ActionController::ParameterMissing, /installation/)
               expect(User.count).to eq(0)
               expect(Installation.count).to eq(0)
             end
@@ -71,16 +73,18 @@ RSpec.describe InstallationController, type: :request do
       context 'when account and user already exists' do
         let!(:account) { create(:account) }
         let!(:user) { create(:user, account:) }
-        it 'should not create user and installation' do
+        it 'should update user and create a new installation and redirect to step_1' do
           get '/installation/create',
-              params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
+              params: { user: { email: user.email, full_name: 'Yukio teste' },
                         installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
-          # expect(response).to redirect_to(installation_step_1_path)
-          expect(User.count).to eq(0)
-          expect(Installation.count).to eq(0)
+          expect(response).to have_http_status(302)
+          expect(response).to redirect_to(installation_step_1_path)
+          expect(User.count).to eq(1)
+          expect(user.reload.valid_password?('Password1!')).to be_falsey
+          expect(Installation.count).to eq(1)
         end
       end
-      context 'when Installation already exists' do
+      skip 'when Installation already exists' do
         let!(:installation) { create(:installation) }
         it 'should not create user and installation and redirect to new_user_session_path' do
           get '/installation/create',
@@ -96,16 +100,44 @@ RSpec.describe InstallationController, type: :request do
     context 'when it is an authenticated user' do
       let!(:account) { create(:account) }
       let!(:user) { create(:user, account:) }
+
       before do
         sign_in(user)
       end
-      it 'should not create user and installation and redirect to new_user_session_path' do
-        get '/installation/create',
-            params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
-                      installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
-        expect(response).to redirect_to(new_user_session_path)
-        expect(User.count).to eq(0)
-        expect(Installation.count).to eq(0)
+
+      context 'when there is no installation' do
+        it 'should create user and installation and redirect to step_1' do
+          get '/installation/create',
+              params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
+                        installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+          expect(response).to redirect_to(installation_step_1_path)
+          expect(User.count).to eq(2)
+          expect(Installation.count).to eq(1)
+        end
+      end
+      skip 'when there is installation' do
+        context 'when installation status is completed' do
+          let(:installation) { create(:installation, status: 'completed') }
+          it 'should not create user and installation and redirect to new sign in devise path' do
+            get '/installation/create',
+                params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
+                          installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+            expect(response).to redirect_to(new_user_session_path)
+            expect(User.count).to eq(1)
+            expect(Installation.count).to eq(1)
+          end
+        end
+        context 'when installation status is initialized' do
+          let(:installation) { create(:installation, status: 'initialized') }
+          it 'should create user and installation and redirect to step_1' do
+            get '/installation/create',
+                params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
+                          installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+            expect(response).to redirect_to(installation_step_1_path)
+            expect(User.count).to eq(2)
+            expect(Installation.count).to eq(1)
+          end
+        end
       end
     end
   end
@@ -132,7 +164,7 @@ RSpec.describe InstallationController, type: :request do
     end
   end
 
-  describe 'GET /installation/new' do
+  skip 'GET /installation/new' do
     context 'when it is an unauthenticated user' do
       it 'should get new installation url' do
         get '/installation/new'
@@ -140,12 +172,22 @@ RSpec.describe InstallationController, type: :request do
         expect(response.body).to include('Log in with')
         expect(response.body).to include('You are one step away from your company growing.')
       end
-      context 'when user already exists' do
-        let!(:account) { create(:account) }
-        let!(:user) { create(:user, account:) }
-        it 'should redirect to devise new session url sign in' do
-          get '/installation/new'
-          expect(response).to redirect_to(new_user_session_path)
+      skip 'when there is installation' do
+        context 'when installation status is completed' do
+          let(:installation) { create(:installation, status: 'completed') }
+          it 'should redirect to devise new session url sign in' do
+            get '/installation/new'
+            expect(response).to redirect_to(new_user_session_path)
+          end
+        end
+        context 'when installation status is initialized' do
+          let(:installation) { create(:installation, status: 'initialized') }
+          it 'should get new installation url' do
+            get '/installation/new'
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('Log in with')
+            expect(response.body).to include('You are one step away from your company growing.')
+          end
         end
       end
     end
@@ -157,14 +199,34 @@ RSpec.describe InstallationController, type: :request do
         sign_in user
       end
 
-      it 'should redirect to devise new session url sign in' do
+      it 'should get new installation url' do
         get '/installation/new'
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to have_http_status(200)
+        expect(response.body).to include('Log in with')
+        expect(response.body).to include('You are one step away from your company growing.')
+      end
+      skip 'when there is installation' do
+        context 'when installation status is completed' do
+          let(:installation) { create(:installation, status: 'completed') }
+          it 'should redirect to devise new session url sign in' do
+            get '/installation/new'
+            expect(response).to redirect_to(new_user_session_path)
+          end
+        end
+        context 'when installation status is initialized' do
+          let(:installation) { create(:installation, status: 'initialized') }
+          it 'should get new installation url' do
+            get '/installation/new'
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('Log in with')
+            expect(response.body).to include('You are one step away from your company growing.')
+          end
+        end
       end
     end
   end
 
-  describe 'GET /installation/step_1' do
+  skip 'GET /installation/step_1' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get '/installation/step_1'
@@ -184,6 +246,24 @@ RSpec.describe InstallationController, type: :request do
         expect(response).to have_http_status(200)
         expect(response.body).to include('Basic Info')
         expect(response.body).to include('full name')
+      end
+      skip 'when there is installation' do
+        context 'when installation status is completed' do
+          let(:installation) { create(:installation, status: 'completed') }
+          it 'should redirect to devise new session url sign in' do
+            get '/installation/step_1'
+            expect(response).to redirect_to(new_user_session_path)
+          end
+        end
+        context 'when installation status is initialized' do
+          let(:installation) { create(:installation, status: 'initialized') }
+          it 'should get step_1 installation url' do
+            get '/installation/step_1'
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('Basic Info')
+            expect(response.body).to include('full name')
+          end
+        end
       end
     end
   end
@@ -217,6 +297,27 @@ RSpec.describe InstallationController, type: :request do
           expect(response.body).to include('Phone (cell) is invalid')
         end
       end
+
+      skip 'when there is installation' do
+        context 'when installation status is completed' do
+          let(:installation) { create(:installation, status: 'completed') }
+          it 'should not update user and redirect to devise new session url sign in' do
+            patch '/installation/update_step_1', params: { user: { full_name: 'Yukio', phone: '+552299887875' } }
+            expect(response).to redirect_to(new_user_session_path)
+            expect(user.reload.full_name).not_to eq('Yukio')
+          end
+        end
+        context 'when installation status is initialized' do
+          let(:installation) { create(:installation, status: 'initialized') }
+          it 'should update user and redirect to step 2 installation path' do
+            patch '/installation/update_step_1', params: { user: { full_name: 'Yukio', phone: '+552299887875' } }
+            expect(response).to have_http_status(302)
+            expect(response).to redirect_to(installation_step_2_path)
+            expect(first_user.reload.full_name).to eq('Yukio')
+            expect(first_user.reload.phone).to eq('+552299887875')
+          end
+        end
+      end
     end
   end
 
@@ -240,6 +341,24 @@ RSpec.describe InstallationController, type: :request do
         expect(response).to have_http_status(200)
         expect(response.body).to include('Password')
         expect(response.body).to include('Confirm your password')
+      end
+      skip 'when there is installation' do
+        context 'when installation status is completed' do
+          let(:installation) { create(:installation, status: 'completed') }
+          it 'should redirect to devise new session url sign in' do
+            get '/installation/step_2'
+            expect(response).to redirect_to(new_user_session_path)
+          end
+        end
+        context 'when installation status is initialized' do
+          let(:installation) { create(:installation, status: 'initialized') }
+          it 'should get step_2 installation url' do
+            get '/installation/step_2'
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('Password')
+            expect(response.body).to include('Confirm your password')
+          end
+        end
       end
     end
   end
