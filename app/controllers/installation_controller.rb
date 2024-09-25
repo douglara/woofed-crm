@@ -45,6 +45,7 @@ class InstallationController < ApplicationController
   end
 
   def loading
+    Installation.first.complete_installation
   end
 
   def create

@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     around_action :with_highlight_context
   end
   before_action :set_account
-  before_action :setup_installation
+  before_action :setup_installation if Installation.installation_flow?
 
   private
 

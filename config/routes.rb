@@ -5,17 +5,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
   mount GoodJob::Engine => 'good_job'
 
-  namespace :installation do
-    get :new
-    get :create
-    get :step_1
-    get :step_2
-    get :step_3
-    patch :update_step_1
-    patch :update_step_2
-    patch :update_step_3
-    get :loading
-  end
+  draw(:installation)
 
   resources :accounts, module: :accounts do
     resources :webpush_subscriptions, only: [:create]
