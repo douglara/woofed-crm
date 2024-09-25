@@ -75,7 +75,7 @@ class InstallationController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :full_name, :phone, :password, :password_confirmation)
+    params.require(:user).permit(:email, :full_name, :phone, :password, :password_confirmation, :avatar_url)
   end
 
   def account_params
