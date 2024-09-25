@@ -4,8 +4,8 @@ es:
       user:
         one: Usuario
         other: Usuarios
-        new: 'Nuevo usuario'
-        edit: 'Editar usuario'
+        new: "Nuevo usuario"
+        edit: "Editar usuario"
     attributes:
       user:
         email: Correo electrónico
@@ -16,5 +16,6 @@ es:
         password_confirmation: Confirme su contraseña
         full_name: Nombre completo
         phone: Teléfono (celular)
-        webpush_notify_on_event_expired: 'Enviar notificaciones push cuando una acción de negocio expire'
-
+        job_description: "Puesto de trabajo"
+        avatar_url: "URL del avatar"
+        webpush_notify_on_event_expired: "Enviar notificaciones push cuando una acción de negocio expire"

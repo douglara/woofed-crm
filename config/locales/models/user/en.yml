@@ -4,8 +4,8 @@ en:
       user:
         one: User
         other: Users
-        new: 'New user'
-        edit: 'Edit user'
+        new: "New user"
+        edit: "Edit user"
     attributes:
       user:
         email: Email
@@ -16,5 +16,6 @@ en:
         password_confirmation: Confirm your password
         full_name: Full name
         phone: Phone (cell)
-        webpush_notify_on_event_expired: 'Send push notifications when a deal action expires'
-
+        job_description: "Job Role"
+        avatar_url: "Avatar URL"
+        webpush_notify_on_event_expired: "Send push notifications when a deal action expires"

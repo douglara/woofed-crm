@@ -486,7 +486,9 @@ RSpec.describe InstallationController, type: :request do
         get '/installation/step_3'
         expect(response).to have_http_status(200)
         expect(response.body).to include('Company Info')
-        expect(response.body).to include('Site URL')
+        expect(response.body).to include('Company Site')
+        expect(response.body).to include('Segment')
+        expect(response.body).to include('Company Size')
       end
     end
   end
