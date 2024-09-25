@@ -16,11 +16,8 @@ class Installation < ApplicationRecord
   validates_presence_of :token
 
   enum status: {
-    initialized: 0,
-    in_progress: 1,
-    on_hold: 2,
-    completed: 3,
-    cancelled: 4
+    in_progress: 0,
+    completed: 1
   }
   def self.installation_url
     "https://store.woofedcrm.com/installations/new?installation_params=#{{ url: ENV.fetch('FRONTEND_URL', 'http://localhost:3001'),
@@ -28,7 +25,8 @@ class Installation < ApplicationRecord
   end
 
   def self.installation_flow?
-    User.first.blank? && Installation.first.blank?
+    Installation.first&.status != 'completed'
+    # Installation.first.blank? || Installation.first.in_progress?
   end
 
   def complete_installation
@@ -37,12 +35,4 @@ class Installation < ApplicationRecord
     load "#{Rails.root}/app/controllers/application_controller.rb"
     Rails.application.reload_routes!
   end
-
-  # def self.installation_flow?
-  #   User.first.blank?
-  # end
 end
-
-# def self.installation_flow?
-#   (User.first.blank? && Installation.first.blank?) && !Installation.first.completed?
-# end
