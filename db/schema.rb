@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_25_012755) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_25_120344) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -23,6 +23,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_25_012755) do
     t.string "site_url", default: "", null: false
     t.boolean "woofbot_auto_reply", default: false, null: false
     t.jsonb "ai_usage", default: {"limit"=>16666667, "tokens"=>0}, null: false
+    t.string "segment", default: "", null: false
+    t.string "number_of_employees", default: "", null: false
   end
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -550,6 +552,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_25_012755) do
     t.string "language", default: "", null: false
     t.jsonb "notifications", default: "{\"webpush_notify_on_event_expired\":false}", null: false
     t.string "avatar_url", default: "", null: false
+    t.string "job_description", default: "", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

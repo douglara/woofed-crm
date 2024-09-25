@@ -76,10 +76,11 @@ class InstallationController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :full_name, :phone, :password, :password_confirmation, :avatar_url)
+    params.require(:user).permit(:email, :full_name, :phone, :password, :password_confirmation, :avatar_url,
+                                 :job_description)
   end
 
   def account_params
-    params.require(:account).permit(:site_url, :name)
+    params.require(:account).permit(:site_url, :name, :segment, :number_of_employees)
   end
 end

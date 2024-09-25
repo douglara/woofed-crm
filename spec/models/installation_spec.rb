@@ -7,7 +7,7 @@
 #  id         :string           not null, primary key
 #  key1       :string           default(""), not null
 #  key2       :string           default(""), not null
-#  status     :integer          default(0), not null
+#  status     :integer          default("in_progress"), not null
 #  token      :string           default(""), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
