@@ -11,6 +11,8 @@
 #  updated_at :datetime         not null
 #
 class Installation < ApplicationRecord
+  include Installation::Complete
+
   validates_presence_of :key1
   validates_presence_of :key2
   validates_presence_of :token
@@ -31,12 +33,6 @@ class Installation < ApplicationRecord
     User.first.blank? && Installation.first.blank?
   end
 
-  def complete_installation
-    return if Installation.installation_flow?
-
-    load "#{Rails.root}/app/controllers/application_controller.rb"
-    Rails.application.reload_routes!
-  end
 
   # def self.installation_flow?
   #   User.first.blank?
