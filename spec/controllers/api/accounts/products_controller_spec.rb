@@ -44,6 +44,17 @@ RSpec.describe 'Products API', type: :request do
           expect(Product.count).to eq(2)
         end
       end
+      skip 'when params is invalid' do
+        it 'should raise error' do
+          expect do
+            post "/api/v1/accounts/#{account.id}/products",
+                 headers: { 'Authorization': "Bearer #{user.get_jwt_token}" },
+                 params: {}
+          end.to change(Product, :count).by(0)
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(Product.count).to eq(1)
+        end
+      end
     end
   end
 
@@ -65,6 +76,16 @@ RSpec.describe 'Products API', type: :request do
           expect(response).to have_http_status(:success)
           expect(response.body).to include(product.name.to_s)
           expect(response.body).to include(product.id.to_s)
+        end
+        skip 'when product is not found' do
+          it 'should return not found' do
+            expect do
+              get "/api/v1/accounts/#{account.id}/products/1",
+                  headers: { 'Authorization': "Bearer #{user.get_jwt_token}" }
+            end.to raise_error(ActiveRecord::RecordNotFound)
+
+            # expect(response).to have_http_status(:not_found)
+          end
         end
       end
     end
