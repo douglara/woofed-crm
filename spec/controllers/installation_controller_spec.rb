@@ -84,15 +84,38 @@ RSpec.describe InstallationController, type: :request do
           expect(Installation.count).to eq(1)
         end
       end
-      skip 'when Installation already exists' do
-        let!(:installation) { create(:installation) }
-        it 'should not create user and installation and redirect to new_user_session_path' do
-          get '/installation/create',
-              params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
-                        installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
-          expect(response).to redirect_to(new_user_session_path)
-          expect(User.count).to eq(0)
-          expect(Installation.count).to eq(0)
+      context 'when there is an installation' do
+        context 'when installation status is completed' do
+          let!(:installation) { create(:installation, status: 'completed') }
+
+          it 'should not create user and installation and raise route error' do
+            first_installation.complete_installation
+            expect do
+              get '/installation/create',
+                  params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
+                            installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+            end.to raise_error(ActionController::RoutingError)
+
+            expect(User.count).to eq(0)
+            expect(Installation.count).to eq(1)
+          end
+        end
+        context 'when installation status is in_progress' do
+          let!(:installation) { create(:installation, status: 'in_progress') }
+          it 'should create user and installation and redirect to step_1 path' do
+            load "#{Rails.root}/app/controllers/application_controller.rb"
+            Rails.application.reload_routes!
+            get '/installation/create',
+                params: { user: { email: 'yukioteste@email.com', full_name: 'Yukio teste' },
+                          installation: { id: '1', key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+            expect(response).to redirect_to(installation_step_1_path)
+            expect(first_user.full_name).to eq('Yukio teste')
+            expect(first_user.email).to eq('yukioteste@email.com')
+            expect(first_installation.id).to eq('1')
+            expect(first_installation.key1).to eq('key1teste')
+            expect(first_installation.key2).to eq('key2teste')
+            expect(first_installation.token).to eq('tokenteste')
+          end
         end
       end
     end
@@ -115,21 +138,25 @@ RSpec.describe InstallationController, type: :request do
           expect(Installation.count).to eq(1)
         end
       end
-      skip 'when there is installation' do
+      context 'when there is an installation' do
         context 'when installation status is completed' do
-          let(:installation) { create(:installation, status: 'completed') }
-          it 'should not create user and installation and redirect to new sign in devise path' do
-            get '/installation/create',
-                params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
-                          installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
-            expect(response).to redirect_to(new_user_session_path)
+          let!(:installation) { create(:installation, status: 'completed') }
+          it 'should not create user and installation and raise route error' do
+            first_installation.complete_installation
+            expect do
+              get '/installation/create',
+                  params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
+                            installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+            end.to raise_error(ActionController::RoutingError)
             expect(User.count).to eq(1)
             expect(Installation.count).to eq(1)
           end
         end
-        context 'when installation status is initialized' do
-          let(:installation) { create(:installation, status: 'initialized') }
+        context 'when installation status is in_progress' do
+          let(:installation) { create(:installation, status: 'in_progress') }
           it 'should create user and installation and redirect to step_1' do
+            load "#{Rails.root}/app/controllers/application_controller.rb"
+            Rails.application.reload_routes!
             get '/installation/create',
                 params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
                           installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
@@ -141,30 +168,78 @@ RSpec.describe InstallationController, type: :request do
       end
     end
   end
+
   describe 'setup_installation' do
     context 'GET /accounts/1/users' do
-      context 'when there is no user registered' do
+      context 'when there is no user and installation registered' do
         it 'should redirect to installation new path' do
           get '/accounts/1/users'
           expect(response).to redirect_to(installation_new_path)
         end
       end
-      context 'when there is a user registered' do
+      context 'when it is an unauthenticated user' do
+        let!(:account) { create(:account) }
+        let!(:user) { create(:user, account:) }
+        context 'when there is an instalation' do
+          context 'when installation status is completed' do
+            let!(:installation) { create(:installation, status: 'completed') }
+
+            it 'should redirect to new devise sign in path' do
+              get '/accounts/1/users'
+              expect(response).to have_http_status(302)
+              expect(response).to redirect_to(new_user_session_path)
+            end
+          end
+          context 'when installation status is in_progress' do
+            let!(:installation) { create(:installation, status: 'in_progress') }
+
+            it 'should redirect to new installation path' do
+              get '/accounts/1/users'
+              expect(response).to have_http_status(302)
+              expect(response).to redirect_to(installation_new_path)
+            end
+          end
+        end
+      end
+
+      context 'when it is authenticated user' do
         let!(:account) { create(:account) }
         let!(:user) { create(:user, account:) }
         before do
           sign_in user
         end
-        it 'should get users url' do
+        it 'should redirect to new installation url' do
           get '/accounts/1/users'
-          expect(response).to have_http_status(200)
-          expect(response.body).to include('Users')
+          expect(response).to have_http_status(302)
+          expect(response).to redirect_to(installation_new_path)
+        end
+
+        context 'when there is an installation' do
+          context 'when installation status is completed' do
+            let!(:installation) { create(:installation, status: 'completed') }
+
+            it 'should get users url' do
+              get '/accounts/1/users'
+              expect(response).to have_http_status(200)
+              expect(response.body).to include('Users')
+            end
+          end
+
+          context 'when installation status is in_progress' do
+            let!(:installation) { create(:installation, status: 'in_progress') }
+
+            it 'should redirect to new installation url' do
+              get '/accounts/1/users'
+              expect(response).to have_http_status(302)
+              expect(response).to redirect_to(installation_new_path)
+            end
+          end
         end
       end
     end
   end
 
-  skip 'GET /installation/new' do
+  context 'GET /installation/new' do
     context 'when it is an unauthenticated user' do
       it 'should get new installation url' do
         get '/installation/new'
@@ -172,17 +247,21 @@ RSpec.describe InstallationController, type: :request do
         expect(response.body).to include('Log in with')
         expect(response.body).to include('You are one step away from your company growing.')
       end
-      skip 'when there is installation' do
+      context 'when there is an installation' do
         context 'when installation status is completed' do
-          let(:installation) { create(:installation, status: 'completed') }
-          it 'should redirect to devise new session url sign in' do
-            get '/installation/new'
-            expect(response).to redirect_to(new_user_session_path)
+          let!(:installation) { create(:installation, status: 'completed') }
+          it 'should raise route error' do
+            first_installation.complete_installation
+            expect do
+              get '/installation/new'
+            end.to raise_error(ActionController::RoutingError)
           end
         end
-        context 'when installation status is initialized' do
-          let(:installation) { create(:installation, status: 'initialized') }
+        context 'when installation status is in_progress' do
+          let!(:installation) { create(:installation, status: 'in_progress') }
           it 'should get new installation url' do
+            load "#{Rails.root}/app/controllers/application_controller.rb"
+            Rails.application.reload_routes!
             get '/installation/new'
             expect(response).to have_http_status(200)
             expect(response.body).to include('Log in with')
@@ -205,17 +284,21 @@ RSpec.describe InstallationController, type: :request do
         expect(response.body).to include('Log in with')
         expect(response.body).to include('You are one step away from your company growing.')
       end
-      skip 'when there is installation' do
+      context 'when there is installation' do
         context 'when installation status is completed' do
-          let(:installation) { create(:installation, status: 'completed') }
-          it 'should redirect to devise new session url sign in' do
-            get '/installation/new'
-            expect(response).to redirect_to(new_user_session_path)
+          let!(:installation) { create(:installation, status: 'completed') }
+          it 'should raise error' do
+            first_installation.complete_installation
+            expect do
+              get '/installation/new'
+            end.to raise_error(ActionController::RoutingError)
           end
         end
-        context 'when installation status is initialized' do
-          let(:installation) { create(:installation, status: 'initialized') }
+        context 'when installation status is in_progress' do
+          let!(:installation) { create(:installation, status: 'in_progress') }
           it 'should get new installation url' do
+            load "#{Rails.root}/app/controllers/application_controller.rb"
+            Rails.application.reload_routes!
             get '/installation/new'
             expect(response).to have_http_status(200)
             expect(response.body).to include('Log in with')
@@ -226,7 +309,7 @@ RSpec.describe InstallationController, type: :request do
     end
   end
 
-  skip 'GET /installation/step_1' do
+  context 'GET /installation/step_1' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get '/installation/step_1'
@@ -247,17 +330,21 @@ RSpec.describe InstallationController, type: :request do
         expect(response.body).to include('Basic Info')
         expect(response.body).to include('full name')
       end
-      skip 'when there is installation' do
+      context 'when there is an installation' do
         context 'when installation status is completed' do
-          let(:installation) { create(:installation, status: 'completed') }
-          it 'should redirect to devise new session url sign in' do
-            get '/installation/step_1'
-            expect(response).to redirect_to(new_user_session_path)
+          let!(:installation) { create(:installation, status: 'completed') }
+          it 'should raise route error' do
+            first_installation.complete_installation
+            expect do
+              get '/installation/step_1'
+            end.to raise_error(ActionController::RoutingError)
           end
         end
-        context 'when installation status is initialized' do
-          let(:installation) { create(:installation, status: 'initialized') }
+        context 'when installation status is in_progress' do
+          let!(:installation) { create(:installation, status: 'in_progress') }
           it 'should get step_1 installation url' do
+            load "#{Rails.root}/app/controllers/application_controller.rb"
+            Rails.application.reload_routes!
             get '/installation/step_1'
             expect(response).to have_http_status(200)
             expect(response.body).to include('Basic Info')
@@ -298,18 +385,22 @@ RSpec.describe InstallationController, type: :request do
         end
       end
 
-      skip 'when there is installation' do
+      context 'when there is installation' do
         context 'when installation status is completed' do
-          let(:installation) { create(:installation, status: 'completed') }
-          it 'should not update user and redirect to devise new session url sign in' do
-            patch '/installation/update_step_1', params: { user: { full_name: 'Yukio', phone: '+552299887875' } }
-            expect(response).to redirect_to(new_user_session_path)
+          let!(:installation) { create(:installation, status: 'completed') }
+          it 'should raise route error' do
+            first_installation.complete_installation
+            expect do
+              patch '/installation/update_step_1', params: { user: { full_name: 'Yukio', phone: '+552299887875' } }
+            end.to raise_error(ActionController::RoutingError)
             expect(user.reload.full_name).not_to eq('Yukio')
           end
         end
-        context 'when installation status is initialized' do
-          let(:installation) { create(:installation, status: 'initialized') }
+        context 'when installation status is in_progress' do
+          let(:installation) { create(:installation, status: 'in_progress') }
           it 'should update user and redirect to step 2 installation path' do
+            load "#{Rails.root}/app/controllers/application_controller.rb"
+            Rails.application.reload_routes!
             patch '/installation/update_step_1', params: { user: { full_name: 'Yukio', phone: '+552299887875' } }
             expect(response).to have_http_status(302)
             expect(response).to redirect_to(installation_step_2_path)
@@ -341,24 +432,6 @@ RSpec.describe InstallationController, type: :request do
         expect(response).to have_http_status(200)
         expect(response.body).to include('Password')
         expect(response.body).to include('Confirm your password')
-      end
-      skip 'when there is installation' do
-        context 'when installation status is completed' do
-          let(:installation) { create(:installation, status: 'completed') }
-          it 'should redirect to devise new session url sign in' do
-            get '/installation/step_2'
-            expect(response).to redirect_to(new_user_session_path)
-          end
-        end
-        context 'when installation status is initialized' do
-          let(:installation) { create(:installation, status: 'initialized') }
-          it 'should get step_2 installation url' do
-            get '/installation/step_2'
-            expect(response).to have_http_status(200)
-            expect(response.body).to include('Password')
-            expect(response.body).to include('Confirm your password')
-          end
-        end
       end
     end
   end
@@ -413,7 +486,7 @@ RSpec.describe InstallationController, type: :request do
         get '/installation/step_3'
         expect(response).to have_http_status(200)
         expect(response.body).to include('Company Info')
-        expect(response.body).to include('site URL')
+        expect(response.body).to include('Site URL')
       end
     end
   end
@@ -450,5 +523,7 @@ RSpec.describe InstallationController, type: :request do
         end
       end
     end
+  end
+  skip 'GET installation/loading' do
   end
 end
