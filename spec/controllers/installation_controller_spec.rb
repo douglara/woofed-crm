@@ -89,7 +89,7 @@ RSpec.describe InstallationController, type: :request do
           let!(:installation) { create(:installation, status: 'completed') }
 
           it 'should not create user and installation and raise route error' do
-            first_installation.complete_installation
+            first_installation.app_reload
             expect do
               get '/installation/create',
                   params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
@@ -142,7 +142,7 @@ RSpec.describe InstallationController, type: :request do
         context 'when installation status is completed' do
           let!(:installation) { create(:installation, status: 'completed') }
           it 'should not create user and installation and raise route error' do
-            first_installation.complete_installation
+            first_installation.app_reload
             expect do
               get '/installation/create',
                   params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
@@ -251,7 +251,7 @@ RSpec.describe InstallationController, type: :request do
         context 'when installation status is completed' do
           let!(:installation) { create(:installation, status: 'completed') }
           it 'should raise route error' do
-            first_installation.complete_installation
+            first_installation.app_reload
             expect do
               get '/installation/new'
             end.to raise_error(ActionController::RoutingError)
@@ -288,7 +288,7 @@ RSpec.describe InstallationController, type: :request do
         context 'when installation status is completed' do
           let!(:installation) { create(:installation, status: 'completed') }
           it 'should raise error' do
-            first_installation.complete_installation
+            first_installation.app_reload
             expect do
               get '/installation/new'
             end.to raise_error(ActionController::RoutingError)
@@ -334,7 +334,7 @@ RSpec.describe InstallationController, type: :request do
         context 'when installation status is completed' do
           let!(:installation) { create(:installation, status: 'completed') }
           it 'should raise route error' do
-            first_installation.complete_installation
+            first_installation.app_reload
             expect do
               get '/installation/step_1'
             end.to raise_error(ActionController::RoutingError)
@@ -389,7 +389,7 @@ RSpec.describe InstallationController, type: :request do
         context 'when installation status is completed' do
           let!(:installation) { create(:installation, status: 'completed') }
           it 'should raise route error' do
-            first_installation.complete_installation
+            first_installation.app_reload
             expect do
               patch '/installation/update_step_1', params: { user: { full_name: 'Yukio', phone: '+552299887875' } }
             end.to raise_error(ActionController::RoutingError)
