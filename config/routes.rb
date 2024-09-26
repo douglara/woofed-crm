@@ -104,6 +104,8 @@ Rails.application.routes.draw do
         namespace :apps do
           # resources :events, module: :contacts
         end
+        resources :deal_products, only: %i[create show]
+        resources :products, only: %i[create show]
       end
 
       resources :contacts, only: [:create] do
