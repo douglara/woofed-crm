@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Deal Products API', type: :request do
@@ -30,31 +32,28 @@ RSpec.describe 'Deal Products API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      context 'create deal_product' do
-        it do
-          expect do
-            post "/api/v1/accounts/#{account.id}/deal_products",
-                 headers: { 'Authorization': "Bearer #{user.get_jwt_token}" },
-                 params: valid_params
-          end.to change(DealProduct, :count).by(1)
+      it 'create deal_product' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/deal_products",
+               headers: { 'Authorization': "Bearer #{user.get_jwt_token}" },
+               params: valid_params
+        end.to change(DealProduct, :count).by(1)
 
-          expect(response).to have_http_status(:success)
-          expect(last_deal_product.product.id).to eq(product.id)
-          expect(last_deal_product.deal.id).to eq(deal.id)
-          expect(DealProduct.count).to eq(2)
-        end
+        expect(response).to have_http_status(:success)
+        expect(last_deal_product.product.id).to eq(product.id)
+        expect(last_deal_product.deal.id).to eq(deal.id)
+        expect(DealProduct.count).to eq(2)
       end
-      context 'when params is invalid' do
-        it 'should raise error' do
-          expect do
-            post "/api/v1/accounts/#{account.id}/deal_products",
-                 headers: { 'Authorization': "Bearer #{user.get_jwt_token}" },
-                 params: { product_id: 'teste', deal_id: '123' }
-          end.to change(DealProduct, :count).by(0)
 
-          expect(response).to have_http_status(:unprocessable_entity)
-          expect(DealProduct.count).to eq(1)
-        end
+      it 'when params is invalid should raise error' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/deal_products",
+               headers: { 'Authorization': "Bearer #{user.get_jwt_token}" },
+               params: { product_id: 'teste', deal_id: '123' }
+        end.to change(DealProduct, :count).by(0)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(DealProduct.count).to eq(1)
       end
     end
   end
@@ -78,15 +77,11 @@ RSpec.describe 'Deal Products API', type: :request do
           expect(response.body).to include(deal_product.product.name.to_s)
           expect(response.body).to include(deal_product.deal.name.to_s)
         end
-        skip 'when deal_product is not found' do
-          it 'should return not found' do
-            expect do
-              get "/api/v1/accounts/#{account.id}/deal_products/1",
-                  headers: { 'Authorization': "Bearer #{user.get_jwt_token}" }
-            end.to raise_error(ActiveRecord::RecordNotFound)
+        it 'when deal_product is not found' do
+          get "/api/v1/accounts/#{account.id}/deal_products/1",
+              headers: { 'Authorization': "Bearer #{user.get_jwt_token}" }
 
-            # expect(response).to have_http_status(:not_found)
-          end
+          expect(response).to have_http_status(:not_found)
         end
       end
     end
