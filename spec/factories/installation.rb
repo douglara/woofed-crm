@@ -16,7 +16,7 @@ FactoryBot.define do
     id { SecureRandom.uuid }
     key1 { Faker::Alphanumeric.alphanumeric(number: 10) }
     key2 { Faker::Alphanumeric.alphanumeric(number: 10) }
-    status { rand(0..3) }
+    status { rand(0..1) }
     token { Faker::Alphanumeric.alphanumeric(number: 20) }
   end
 end

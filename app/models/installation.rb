@@ -28,6 +28,7 @@ class Installation < ApplicationRecord
 
   def self.installation_flow?
     Installation.first&.status != 'completed'
-    # Installation.first.blank? || Installation.first.in_progress?
+  rescue ActiveRecord::StatementInvalid
+    true
   end
 end

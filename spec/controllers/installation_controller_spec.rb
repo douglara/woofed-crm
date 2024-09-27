@@ -2,15 +2,25 @@ require 'rails_helper'
 
 RSpec.describe InstallationController, type: :request do
   let(:first_user) { User.first }
+  let(:last_user) { User.last }
   let(:first_installation) { Installation.first }
   let(:first_account) { Account.first }
+
+  before(:all) do
+    Installation.delete_all
+    Rails.application.reload_routes!
+  end
+
   describe 'GET /installation/create' do
     context 'when it is an unauthenticated user' do
       context 'when there are valid params' do
         it 'should create user and installation and redirect to step_1 path' do
-          get '/installation/create',
-              params: { user: { email: 'yukioteste@email.com', full_name: 'Yukio teste' },
-                        installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+          expect do
+            get '/installation/create',
+                params: { user: { email: 'yukioteste@email.com', full_name: 'Yukio teste' },
+                          installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+          end.to change(Installation, :count).by(1)
+                                             .and change(User, :count).by(1)
           expect(response).to redirect_to(installation_step_1_path)
           expect(first_user.full_name).to eq('Yukio teste')
           expect(first_user.email).to eq('yukioteste@email.com')
@@ -23,12 +33,13 @@ RSpec.describe InstallationController, type: :request do
       context 'when there are invalid params' do
         context 'when user params is invalid' do
           it 'should not create user and installation and render new action installation controller' do
-            get '/installation/create',
-                params: { user: { email: '', full_name: 'Yukio teste', phone: '@dsad55' },
-                          installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+            expect do
+              get '/installation/create',
+                  params: { user: { email: '', full_name: 'Yukio teste', phone: '@dsad55' },
+                            installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+            end.to change(Installation, :count).by(0)
+                                               .and change(User, :count).by(0)
             expect(response).to have_http_status(:unprocessable_entity)
-            expect(User.count).to eq(0)
-            expect(Installation.count).to eq(0)
           end
           context 'when there is no user params' do
             it 'should not create user and installation and render new action installation controller' do
@@ -38,20 +49,21 @@ RSpec.describe InstallationController, type: :request do
                       installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' }
                     }
               end.to raise_error(ActionController::ParameterMissing, /user/)
-              expect(User.count).to eq(0)
-              expect(Installation.count).to eq(0)
+                .and change(Installation, :count).by(0)
+                                                 .and change(User, :count).by(0)
             end
           end
         end
         context 'when installation params is invalid' do
           context 'when installation params is blank' do
             it 'should not create user and installation and render new action installation controller' do
-              get '/installation/create',
-                  params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
-                            installation: { id: '', key1: '', key2: '', token: '' } }
+              expect do
+                get '/installation/create',
+                    params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
+                              installation: { id: '', key1: '', key2: '', token: '' } }
+              end.to change(Installation, :count).by(0)
+                                                 .and change(User, :count).by(0)
               expect(response).to have_http_status(:unprocessable_entity)
-              expect(User.count).to eq(0)
-              expect(Installation.count).to eq(0)
             end
           end
 
@@ -63,8 +75,8 @@ RSpec.describe InstallationController, type: :request do
                       user: { email: 'yukio@email.com', full_name: 'Yukio teste' }
                     }
               end.to raise_error(ActionController::ParameterMissing, /installation/)
-              expect(User.count).to eq(0)
-              expect(Installation.count).to eq(0)
+                .and change(Installation, :count).by(0)
+                                                 .and change(User, :count).by(0)
             end
           end
         end
@@ -74,14 +86,15 @@ RSpec.describe InstallationController, type: :request do
         let!(:account) { create(:account) }
         let!(:user) { create(:user, account:) }
         it 'should update user and create a new installation and redirect to step_1' do
-          get '/installation/create',
-              params: { user: { email: user.email, full_name: 'Yukio teste' },
-                        installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+          expect do
+            get '/installation/create',
+                params: { user: { email: user.email, full_name: 'Yukio teste' },
+                          installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+          end.to change(Installation, :count).by(1)
+                                             .and change(User, :count).by(0)
           expect(response).to have_http_status(302)
           expect(response).to redirect_to(installation_step_1_path)
-          expect(User.count).to eq(1)
           expect(user.reload.valid_password?('Password1!')).to be_falsey
-          expect(Installation.count).to eq(1)
         end
       end
       context 'when there is an installation' do
@@ -95,19 +108,20 @@ RSpec.describe InstallationController, type: :request do
                   params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
                             installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
             end.to raise_error(ActionController::RoutingError)
-
-            expect(User.count).to eq(0)
-            expect(Installation.count).to eq(1)
           end
         end
         context 'when installation status is in_progress' do
           let!(:installation) { create(:installation, status: 'in_progress') }
-          it 'should create user and installation and redirect to step_1 path' do
+          it 'should create user, update installation and redirect to step_1 path' do
             load "#{Rails.root}/app/controllers/application_controller.rb"
             Rails.application.reload_routes!
-            get '/installation/create',
-                params: { user: { email: 'yukioteste@email.com', full_name: 'Yukio teste' },
-                          installation: { id: '1', key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+
+            expect do
+              get '/installation/create',
+                  params: { user: { email: 'yukioteste@email.com', full_name: 'Yukio teste' },
+                            installation: { id: '1', key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+            end.to change(Installation, :count).by(0)
+                                               .and change(User, :count).by(1)
             expect(response).to redirect_to(installation_step_1_path)
             expect(first_user.full_name).to eq('Yukio teste')
             expect(first_user.email).to eq('yukioteste@email.com')
@@ -130,12 +144,13 @@ RSpec.describe InstallationController, type: :request do
 
       context 'when there is no installation' do
         it 'should create user and installation and redirect to step_1' do
-          get '/installation/create',
-              params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
-                        installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+          expect do
+            get '/installation/create',
+                params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
+                          installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+          end.to change(Installation, :count).by(1)
+                                             .and change(User, :count).by(1)
           expect(response).to redirect_to(installation_step_1_path)
-          expect(User.count).to eq(2)
-          expect(Installation.count).to eq(1)
         end
       end
       context 'when there is an installation' do
@@ -148,21 +163,26 @@ RSpec.describe InstallationController, type: :request do
                   params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
                             installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
             end.to raise_error(ActionController::RoutingError)
-            expect(User.count).to eq(1)
-            expect(Installation.count).to eq(1)
           end
         end
         context 'when installation status is in_progress' do
-          let(:installation) { create(:installation, status: 'in_progress') }
-          it 'should create user and installation and redirect to step_1' do
+          let!(:installation) { create(:installation, status: 'in_progress') }
+          it 'should create user, update installation and redirect to step_1' do
             load "#{Rails.root}/app/controllers/application_controller.rb"
             Rails.application.reload_routes!
-            get '/installation/create',
-                params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
-                          installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+            expect do
+              get '/installation/create',
+                  params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
+                            installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+            end.to change(Installation, :count).by(0)
+                                               .and change(User, :count).by(1)
             expect(response).to redirect_to(installation_step_1_path)
-            expect(User.count).to eq(2)
-            expect(Installation.count).to eq(1)
+            expect(last_user.full_name).to eq('Yukio teste')
+            expect(last_user.email).to eq('yukio@email.com')
+            expect(first_installation.id).to eq('1')
+            expect(first_installation.key1).to eq('key1teste')
+            expect(first_installation.key2).to eq('key2teste')
+            expect(first_installation.token).to eq('tokenteste')
           end
         end
       end
@@ -375,7 +395,7 @@ RSpec.describe InstallationController, type: :request do
         expect(response).to have_http_status(302)
         expect(response).to redirect_to(installation_step_2_path)
         expect(first_user.reload.full_name).to eq('Yukio')
-        expect(first_user.reload.phone).to eq('+552299887875')
+        expect(first_user.phone).to eq('+552299887875')
       end
       context 'when there are invalid params' do
         it 'should not update user and raise error' do
@@ -405,7 +425,7 @@ RSpec.describe InstallationController, type: :request do
             expect(response).to have_http_status(302)
             expect(response).to redirect_to(installation_step_2_path)
             expect(first_user.reload.full_name).to eq('Yukio')
-            expect(first_user.reload.phone).to eq('+552299887875')
+            expect(first_user.phone).to eq('+552299887875')
           end
         end
       end
