@@ -49,8 +49,9 @@ class InstallationController < ApplicationController
   end
 
   def create
-    installation = Installation.new(installation_params)
+    installation = Installation.first_or_initialize
     user = User.find_or_initialize_by(user_params.slice('email'))
+    installation.assign_attributes(installation_params)
     user.assign_attributes(user_params)
     user.password = SecureRandom.hex(8)
     ActiveRecord::Base.transaction do
