@@ -6,8 +6,14 @@ RSpec.describe InstallationController, type: :request do
   let(:first_installation) { Installation.first }
   let(:first_account) { Account.first }
 
-  before(:all) do
+  before(:each) do
     Installation.delete_all
+    load "#{Rails.root}/app/controllers/application_controller.rb"
+    Rails.application.reload_routes!
+  end
+
+  after(:each) do
+    load "#{Rails.root}/app/controllers/application_controller.rb"
     Rails.application.reload_routes!
   end
 
