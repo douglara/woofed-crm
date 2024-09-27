@@ -42,6 +42,9 @@ if Rails.env.development? && User.all.count == (0)
   event_2 = Event.create(account: account_1, contact: deal_2.contact, deal: deal_2, kind: 'note', from_me: true)
   event_3 = Event.create(account: account_1, contact: deal_3.contact, deal: deal_3, kind: 'note', from_me: true)
 
+  installation = Installation.create(id: SecureRandom.uuid, key1: Faker::Alphanumeric.alphanumeric(number: 10),
+                                     key2: Faker::Alphanumeric.alphanumeric(number: 10), status: 'completed', token: Faker::Alphanumeric.alphanumeric(number: 20))
+
   puts('Created seed devlopment data')
 end
 
