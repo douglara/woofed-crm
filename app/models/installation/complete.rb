@@ -11,7 +11,10 @@ module Installation::Complete
   end
 
   def register_completed_install
+    return false unless Current.account.present?
+
     user = self.user
+
     result_request = Faraday.post(
       'https://store.woofedcrm.com/installations/complete',
       {

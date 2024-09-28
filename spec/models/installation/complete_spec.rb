@@ -3,16 +3,48 @@
 require 'rails_helper'
 
 RSpec.describe Installation do
-  skip '#complete_installation!' do
+  before(:each) do
+    Installation.delete_all
+    load "#{Rails.root}/app/controllers/application_controller.rb"
+    Rails.application.reload_routes!
+  end
+
+  after(:each) do
+    load "#{Rails.root}/app/controllers/application_controller.rb"
+    Rails.application.reload_routes!
+  end
+
+  context '#complete_installation!' do
     let!(:user) { create(:user) }
-    let!(:installation) { create(:installation) }
-    context 'should complete installation' do
-      it do
-        expect(installation.complete_installation!).to eq(true)
-        expect(installation.status).to eq('completed')
-        assert_raise ActionController::UrlGenerationError do
-          installation_step_1_path
+
+    context 'when there is in_progress installation registered' do
+      let!(:installation) { create(:installation, status: 'in_progress') }
+
+      context 'when there is an account registered' do
+        let!(:account) { create(:account) }
+        before do
+          stub_request(:post, 'https://store.woofedcrm.com/installations/complete')
+            .to_return(body: { message: 'Installation completed' }.to_json, status: 200, headers: { 'Content-Type' => 'application/json' })
         end
+        it 'should return true and update installation status to completed' do
+          expect(installation.complete_installation!).to eq(true)
+          expect(installation.status).to eq('completed')
+        end
+      end
+      context 'when there is no account registered' do
+        it 'should return nil and not update complete installation' do
+          expect(installation.complete_installation!).to eq(nil)
+          expect(installation.status).to eq('in_progress')
+        end
+      end
+    end
+
+    context 'when there is completed installation registered' do
+      let!(:installation) { create(:installation, status: 'completed') }
+      let!(:account) { create(:account) }
+      it 'should return nil and not update complete installation' do
+        expect(installation.complete_installation!).to eq(nil)
+        expect(installation.status).to eq('completed')
       end
     end
   end

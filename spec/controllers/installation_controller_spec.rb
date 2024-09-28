@@ -596,6 +596,28 @@ RSpec.describe InstallationController, type: :request do
       end
     end
   end
-  skip 'GET installation/loading' do
+  describe 'GET installation/loading' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get '/installation/loading'
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+    context 'when it is an authenticated user' do
+      let!(:user) { create(:user) }
+      let!(:installation) { create(:installation, status: 'in_progress') }
+
+      before do
+        sign_in user
+      end
+
+      it 'should get loading installation url' do
+        allow(Installation).to receive(:first).and_return(installation)
+        allow(installation).to receive(:complete_installation!).and_return(true)
+        get '/installation/loading'
+        expect(response).to have_http_status(200)
+        expect(response.body).to include('We are creating your company...')
+      end
+    end
   end
 end
