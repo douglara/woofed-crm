@@ -11,6 +11,11 @@
 #  token      :string           default(""), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  user_id    :bigint
+#
+# Indexes
+#
+#  index_installations_on_user_id  (user_id)
 #
 require 'rails_helper'
 

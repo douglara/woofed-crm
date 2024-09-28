@@ -5,6 +5,7 @@ class CreateInstallation < ActiveRecord::Migration[7.0]
       t.string :key2, null: false, default: ''
       t.string :token, null: false, default: ''
       t.integer :status, null: false, default: 0
+      t.references :user, null: true
       t.timestamps
     end
   end

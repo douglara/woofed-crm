@@ -284,8 +284,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_25_120344) do
     t.string "key2", default: "", null: false
     t.string "token", default: "", null: false
     t.integer "status", default: 0, null: false
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_installations_on_user_id"
   end
 
   create_table "motor_alert_locks", force: :cascade do |t|

@@ -18,5 +18,6 @@ FactoryBot.define do
     key2 { Faker::Alphanumeric.alphanumeric(number: 10) }
     status { rand(0..1) }
     token { Faker::Alphanumeric.alphanumeric(number: 20) }
+    user
   end
 end

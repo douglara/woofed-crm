@@ -54,6 +54,7 @@ class InstallationController < ApplicationController
     installation.assign_attributes(installation_params)
     user.assign_attributes(user_params)
     user.password = SecureRandom.hex(8)
+    installation.user = user
     ActiveRecord::Base.transaction do
       installation.save!
       user.save!

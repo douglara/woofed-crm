@@ -13,6 +13,8 @@
 class Installation < ApplicationRecord
   include Installation::Complete
 
+  belongs_to :user
+
   validates_presence_of :key1
   validates_presence_of :key2
   validates_presence_of :token
