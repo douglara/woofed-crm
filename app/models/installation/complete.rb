@@ -11,13 +11,14 @@ module Installation::Complete
   end
 
   def register_completed_install
-    user = User.order(updated_at: :desc).first
+    user = self.user
     result_request = Faraday.post(
       'https://store.woofedcrm.com/installations/complete',
       {
         user_details: { name: user.full_name, email: user.email,
-                        phone_number: user.phone, job_description: '' },
-        company_details: { name: Current.account.name, site_url: Current.account.site_url, segment: '', size: '' }
+                        phone_number: user.phone, job_description: user.job_description },
+        company_details: { name: Current.account.name, site_url: Current.account.site_url,
+                           segment: Current.account.segment, number_of_employees: Current.account.number_of_employees }
       }.to_json,
       { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{token}" }
     )
