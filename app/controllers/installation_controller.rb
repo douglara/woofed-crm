@@ -69,7 +69,7 @@ class InstallationController < ApplicationController
   end
 
   def set_account
-    @account = Current.account
+    @account = Account.first_or_initialize
   end
 
   def installation_params

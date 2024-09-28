@@ -397,7 +397,9 @@ RSpec.describe InstallationController, type: :request do
       end
 
       it 'should update user and redirect to step 2 installation path' do
-        patch '/installation/update_step_1', params: { user: { full_name: 'Yukio', phone: '+552299887875' } }
+        expect do
+          patch '/installation/update_step_1', params: { user: { full_name: 'Yukio', phone: '+552299887875' } }
+        end.to change(User, :count).by(0)
         expect(response).to have_http_status(302)
         expect(response).to redirect_to(installation_step_2_path)
         expect(first_user.reload.full_name).to eq('Yukio')
@@ -405,7 +407,9 @@ RSpec.describe InstallationController, type: :request do
       end
       context 'when there are invalid params' do
         it 'should not update user and raise error' do
-          patch '/installation/update_step_1', params: { user: { full_name: '', phone: '123456' } }
+          expect do
+            patch '/installation/update_step_1', params: { user: { full_name: '', phone: '123456' } }
+          end.to change(User, :count).by(0)
           expect(response).to have_http_status(:unprocessable_entity)
           expect(response.body).to include('Phone (cell) is invalid')
         end
@@ -478,14 +482,18 @@ RSpec.describe InstallationController, type: :request do
       end
 
       it 'should update user and redirect to step 3 installation path' do
-        patch '/installation/update_step_2', params: { user: { password: '123456', password_confirmation: '123456' } }
+        expect do
+          patch '/installation/update_step_2', params: { user: { password: '123456', password_confirmation: '123456' } }
+        end.to change(User, :count).by(0)
         expect(response).to have_http_status(302)
         expect(response).to redirect_to(installation_step_3_path)
       end
       context 'when there are invalid params' do
         it 'should not update user and raise error' do
-          patch '/installation/update_step_2',
-                params: { user: { password: '123456', password_confirmation: '123456789' } }
+          expect do
+            patch '/installation/update_step_2',
+                  params: { user: { password: '123456', password_confirmation: '123456789' } }
+          end.to change(User, :count).by(0)
           expect(response).to have_http_status(:unprocessable_entity)
           expect(response.body).to match(/Confirm your password doesn&#39;t match Password/)
         end
@@ -501,8 +509,7 @@ RSpec.describe InstallationController, type: :request do
       end
     end
     context 'when it is an authenticated user' do
-      let!(:account) { create(:account) }
-      let!(:user) { create(:user, account:) }
+      let!(:user) { create(:user) }
 
       before do
         sign_in user
@@ -516,6 +523,14 @@ RSpec.describe InstallationController, type: :request do
         expect(response.body).to include('Segment')
         expect(response.body).to include('Company Size')
       end
+      context 'when an account is already registered' do
+        let!(:account) { create(:account) }
+        it 'should include account infos' do
+          get '/installation/step_3'
+          expect(response).to have_http_status(200)
+          expect(response.body).to include(account.name)
+        end
+      end
     end
   end
   describe 'PATCH /installation/update_step_3' do
@@ -527,27 +542,55 @@ RSpec.describe InstallationController, type: :request do
       end
     end
     context 'when it is an authenticated user' do
-      let!(:account) { create(:account) }
-      let!(:user) { create(:user, account:) }
+      let!(:user) { create(:user) }
 
       before do
         sign_in user
       end
+      context 'when an account is already registered' do
+        let!(:account) { create(:account) }
 
-      it 'should update account and redirect to loading installation path' do
-        patch '/installation/update_step_3',
-              params: { account: { name: 'Woofed company', site_url: 'app.woofedcrm.com' } }
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to(installation_loading_path)
-        expect(first_account.name).to eq('Woofed company')
-        expect(first_account.site_url).to eq('https://app.woofedcrm.com')
+        it 'should update account and redirect to loading installation path' do
+          expect do
+            patch '/installation/update_step_3',
+                  params: { account: { name: 'Woofed company', site_url: 'app.woofedcrm.com' } }
+          end.to change(Account, :count).by(0)
+          expect(response).to have_http_status(302)
+          expect(response).to redirect_to(installation_loading_path)
+          expect(first_account.name).to eq('Woofed company')
+          expect(first_account.site_url).to eq('https://app.woofedcrm.com')
+        end
+        context 'when there are invalid params' do
+          it 'should not update account and raise error' do
+            expect do
+              patch '/installation/update_step_3',
+                    params: { account: { name: '', site_url: '' } }
+            end.to change(Account, :count).by(0)
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response.body).to match(/Name can&#39;t be blank/)
+          end
+        end
       end
-      context 'when there are invalid params' do
-        it 'should not update user and raise error' do
-          patch '/installation/update_step_3',
-                params: { account: { name: '', site_url: '' } }
-          expect(response).to have_http_status(:unprocessable_entity)
-          expect(response.body).to match(/Name can&#39;t be blank/)
+      context 'when there is no account registered' do
+        it 'should create account and redirect to loading installation path' do
+          expect do
+            patch '/installation/update_step_3',
+                  params: { account: { name: 'Woofed company', site_url: 'app.woofedcrm.com' } }
+          end.to change(Account, :count).by(1)
+          expect(response).to have_http_status(302)
+          expect(response).to redirect_to(installation_loading_path)
+          expect(first_account.name).to eq('Woofed company')
+          expect(first_account.site_url).to eq('https://app.woofedcrm.com')
+        end
+        context 'when there are invalid params' do
+          it 'should not update account and raise error' do
+            expect do
+              patch '/installation/update_step_3',
+                    params: { account: { name: '', site_url: '' } }
+            end.to change(Account, :count).by(0)
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response.body).to match(/Name can&#39;t be blank/)
+          end
         end
       end
     end
