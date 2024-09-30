@@ -88,4 +88,49 @@ RSpec.describe 'Products API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/products/search' do
+    let(:valid_params) { { name: product.name, identifier: product.identifier } }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/products/search", params: valid_params
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    let(:headers) { { 'Authorization': "Bearer #{user.get_jwt_token}", 'Content-Type': 'application/json' } }
+
+    context 'when it is an authenticated user' do
+      context 'search products' do
+        it do
+          post "/api/v1/accounts/#{account.id}/products/search",
+               headers:,
+               params: valid_params.to_json
+
+          result = JSON.parse(response.body)
+          expect(response).to have_http_status(:success)
+          expect(response.body).to include(product.name)
+          expect(response.body).to include(product.identifier)
+          expect(result['pagination']['count']).to eq(1)
+        end
+      end
+
+      context 'not found products' do
+        let(:params) { { query: { name_eq: 'Product test 123' } }.to_json }
+        it do
+          post("/api/v1/accounts/#{account.id}/products/search",
+               headers:,
+               params:)
+
+          result = JSON.parse(response.body)
+          expect(response).to have_http_status(:success)
+          expect(response.body).not_to include('Product test 123')
+          expect(response.body).not_to include(product.name)
+          expect(result['pagination']['count']).to eq(0)
+        end
+      end
+    end
+  end
 end

@@ -32,6 +32,14 @@ class Product < ApplicationRecord
     end
   end
 
+  def self.ransackable_associations(auth_object = nil)
+    %w[account attachments deal_products]
+  end
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[identifier amount_in_cents quantity_available description name created_at updated_at]
+  end
+
   def amount_in_cents=(amount)
     amount = amount.gsub(/[^\d-]/, '').to_i if amount.is_a?(String)
     super
