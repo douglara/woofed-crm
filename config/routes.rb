@@ -105,7 +105,9 @@ Rails.application.routes.draw do
           # resources :events, module: :contacts
         end
         resources :deal_products, only: %i[create show]
-        resources :products, only: %i[create show]
+        resources :products, only: %i[create show] do
+          match 'search', on: :collection, via: %i[get post]
+        end
       end
 
       resources :contacts, only: [:create] do
