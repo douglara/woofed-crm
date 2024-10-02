@@ -20,6 +20,16 @@
 require 'rails_helper'
 
 RSpec.describe Installation do
+  before(:each) do
+    Installation.delete_all
+    load "#{Rails.root}/app/controllers/application_controller.rb"
+    Rails.application.reload_routes!
+  end
+
+  after(:each) do
+    load "#{Rails.root}/app/controllers/application_controller.rb"
+    Rails.application.reload_routes!
+  end
   describe '#installation_url' do
     it do
       expect(Installation.installation_url).to eq('https://store.woofedcrm.com/installations/new?installation_params={"url":"http://www.example.com","kind":"self_hosted"}')
@@ -53,7 +63,7 @@ RSpec.describe Installation do
     end
 
     context 'when is inatalled' do
-      let!(:user) { create(:user) }
+      let!(:installation) { create(:installation, status: 'completed') }
 
       it do
         expect(Installation.installation_flow?).to eq(false)
