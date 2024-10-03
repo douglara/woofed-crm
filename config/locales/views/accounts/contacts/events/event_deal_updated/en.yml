@@ -1,0 +1,11 @@
+en:
+  views:
+    accounts:
+      contacts:
+        events:
+          event_deal_updated:
+            deal_opened: "Deal opened"
+            deal_won: "Deal won"
+            deal_lost: "Deal lost"
+            deal_reopened: "Deal reopened"
+            deal_stage_change: "The deal was moved from stage %{old_stage_name} in pipeline %{old_stage_pipeline_name} to stage %{new_stage_name} in pipeline %{new_stage_pipeline_name}"
