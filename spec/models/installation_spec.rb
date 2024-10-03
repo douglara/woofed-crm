@@ -37,6 +37,7 @@ RSpec.describe Installation do
 
     context 'when FRONTEND_URL is set' do
       before do
+        allow(ENV).to receive(:fetch).and_call_original
         allow(ENV).to receive(:fetch).with('FRONTEND_URL', 'http://localhost:3001').and_return('https://app.woofedcrm.com')
       end
 
@@ -47,6 +48,7 @@ RSpec.describe Installation do
 
     context 'when FRONTEND_URL is not set' do
       before do
+        allow(ENV).to receive(:fetch).and_call_original
         allow(ENV).to receive(:fetch).with('FRONTEND_URL', 'http://localhost:3001').and_return('http://localhost:3001')
       end
 
