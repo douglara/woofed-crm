@@ -1,0 +1,3 @@
+<%= turbo_frame_tag @stage do %>
+  <%= render 'stage', filter_status_deal: @filter_status_deal, stage: @stage, deals: @deals, pagy: @pagy %>
+<% end %>
