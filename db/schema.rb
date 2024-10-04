@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_08_235510) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_09_233819) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -542,6 +542,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_08_235510) do
     t.jsonb "notifications", default: "{\"webpush_notify_on_event_expired\":false}", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "voips", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "websocket_server", default: "", null: false
+    t.string "server", default: "", null: false
+    t.string "user_name", default: "", null: false
+    t.string "password", default: "", null: false
+    t.string "name", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_voips_on_user_id"
   end
 
   create_table "webhooks", force: :cascade do |t|

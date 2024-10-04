@@ -6587,6 +6587,11 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
+sip.js@^0.21.2:
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/sip.js/-/sip.js-0.21.2.tgz#621a2c996472042d5554db655ed1767bc7a865ea"
+  integrity sha512-tSqTcIgrOd2IhP/rd70JablvAp+fSfLSxO4hGNY6LkWRY1SKygTO7OtJEV/BQb8oIxtMRx0LE7nUF2MaqGbFzA==
+
 snapdragon-node@^2.0.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/snapdragon-node/-/snapdragon-node-2.1.1.tgz#6c175f86ff14bdb0724563e8f3c1b021a286853b"

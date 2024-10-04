@@ -1,0 +1,54 @@
+<% if current_user.voip.present? %>
+
+
+  <button type="button" class=" flex items-center border-solid border-2 border-light-palette-p3 rounded-md hover:bg-brand-palette-08 focus:bg-brand-palette-08 p-2.5" id="voip-menu-button" aria-expanded="false" data-dropdown-toggle="voip-dropdown" data-dropdown-placement="bottom">
+    <span class="sr-only">Open user menu</span>
+    <i data-lucide="phone" class="stroke-dark-gray-palette-p3 w-5"></i>
+  </button>
+  <%# Dropdown menu %>
+  <div class="z-50 w-48 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="voip-dropdown">
+    
+    
+    
+    
+        <div id="player2" data-turbo-permanent="">
+      <div 
+      data-controller="sipclient"
+      data-sipclient-websocket-server-value="<%= current_user.voip.websocket_server %>"
+      data-sipclient-server-value="<%= current_user.voip.server %>"
+      data-sipclient-name-value="<%= current_user.voip.name %>"
+      data-sipclient-user-name-value="<%= current_user.voip.user_name %>"
+      data-sipclient-password-value="<%= current_user.voip.password %>" >
+
+      <label class="typography-text-m-lh150 text-dark-gray-palette-p1" for="number_to_call">Number to call</label>
+      <input class="form-input" data-sipclient-target="numberToCall" type="text" value="" id="number_to_call">
+
+        <ol >
+          <li><button data-action="click->sipclient#sipConnect" data-sipclient-target="connect" id="connect" disabled>Connect</button></li>
+          <li><button data-action="click->sipclient#register" data-sipclient-target="register" id="register" disabled>Register</button></li>
+
+          <li><button data-action="click->sipclient#makeCall" data-sipclient-target="makeCall" id="call">Make Call</button></li>
+
+          <li><button data-action="click->sipclient#acceptCall" data-sipclient-target="acceptCall" id="call" disabled>Accept Call</button></li>
+          <li><button data-sipclient-target="hangup" id="hangup" disabled>Hangup Call</button></li>
+          <li><button data-action="click->sipclient#disconnect" data-sipclient-target="disconnect" id="disconnect" disabled>Disconnect</button></li>
+        </ol>
+
+
+        <p>
+          Your audio
+        </p>
+        <audio data-sipclient-target="localAudio" id="localAudio" controls>
+          <p>Your browser doesn't support HTML5 audio.</p>
+        </audio>
+
+        <p>
+          Remote audio
+        </p>
+        <audio data-sipclient-target="remoteAudio" id="remoteAudio" controls>
+          <p>Your browser doesn't support HTML5 audio.</p>
+        </audio>
+      </div>
+    </div>
+  </div>
+<% end %>
