@@ -22,9 +22,5 @@ class Stage < ApplicationRecord
   acts_as_list scope: :pipeline
   has_many :deals, dependent: :destroy
 
-  after_update_commit -> { broadcast_updates }
-
-  def broadcast_updates
-    broadcast_replace_later_to self, partial: 'accounts/pipelines/stage', locals:{status: 'open'}
-  end
+  after_update_commit -> { Stages::BroadcastUpdatesWorker.perform_async(id) }
 end

@@ -78,6 +78,7 @@ Rails.application.routes.draw do
       # resources :events, module: :contacts
     end
     resources :attachments, only: [:destroy]
+    resources :stages, only: [:show]
   end
   if ENV.fetch('ENABLE_USER_SIGNUP', 'true') == 'true'
     devise_for :users, controllers: {
