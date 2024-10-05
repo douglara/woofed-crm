@@ -52,17 +52,18 @@ class Deal < ApplicationRecord
   after_destroy_commit { broadcast_remove_to :stages, target: self }
 
   after_update_commit lambda {
-                        create_event_based_on_changes
                         broadcast_updates
                       }
   after_create_commit lambda {
-                        create_deal_event
                         Stages::BroadcastUpdatesWorker.perform_async(stage.id, status)
                       }
 
+  around_create :create_deal_and_event
+  around_update :update_deal_and_create_event
+
   def broadcast_updates
     broadcast_replace_later_to self, partial: 'accounts/pipelines/deal', locals: { pipeline: }
-    
+
     if previous_changes.except('updated_at').keys == ['position'] || previous_changes.empty?
       Stages::BroadcastUpdatesWorker.perform_async(stage.id,
                                                    status)
@@ -81,10 +82,26 @@ class Deal < ApplicationRecord
     end
   end
 
+  def update_deal_and_create_event
+    transaction do
+      yield
+      create_event_based_on_changes
+    end
+  rescue ActiveRecord::RecordInvalid => e
+    if e.record.is_a?(Deal)
+      errors.add(:base, "#{Deal.model_name.human} #{e.message}")
+    elsif e.record.is_a?(Event)
+      errors.add(:base, "#{Event.model_name.human} #{e.message}")
+    else
+      errors.add(:base, "#{Deal.model_name.human} #{Event.model_name.human} #{e.message}")
+    end
+    raise ActiveRecord::Rollback
+  end
+
   def create_event_based_on_changes
     if previous_changes.except('updated_at').keys == ['status']
       if status == 'won'
-        Event.create(
+        Event.create!(
           deal: self,
           kind: 'deal_won',
           done: true,
@@ -99,7 +116,7 @@ class Deal < ApplicationRecord
           }
         )
       elsif status == 'lost'
-        Event.create(
+        Event.create!(
           deal: self,
           kind: 'deal_lost',
           done: true,
@@ -114,7 +131,7 @@ class Deal < ApplicationRecord
           }
         )
       else
-        Event.create(
+        Event.create!(
           deal: self,
           kind: 'deal_reopened',
           done: true,
@@ -136,7 +153,7 @@ class Deal < ApplicationRecord
     old_stage = Stage.find_by(id: old_stage_id) if old_stage_id
     new_stage = Stage.find_by(id: new_stage_id) if new_stage_id
 
-    Event.create(
+    Event.create!(
       deal: self,
       kind: 'deal_stage_change',
       done: true,
@@ -156,21 +173,33 @@ class Deal < ApplicationRecord
     )
   end
 
-  def create_deal_event
-    Event.create(
-      deal: self,
-      kind: 'deal_opened',
-      done: true,
-      contact:,
-      from_me: true,
-      additional_attributes: {
-        stage_id: stage.id,
-        stage_name: stage.name,
-        pipeline_id: pipeline.id,
-        pipeline_name: pipeline.name,
-        deal_name: name
-      }
-    )
+  def create_deal_and_event
+    transaction do
+      yield
+      Event.create!(
+        deal: self,
+        kind: 'deal_opened',
+        done: true,
+        from_me: true,
+        contact:,
+        additional_attributes: {
+          stage_id: stage.id,
+          stage_name: stage.name,
+          pipeline_id: pipeline.id,
+          pipeline_name: pipeline.name,
+          deal_name: name
+        }
+      )
+    end
+  rescue ActiveRecord::RecordInvalid => e
+    if e.record.is_a?(Deal)
+      errors.add(:base, "#{Deal.model_name.human} #{e.message}")
+    elsif e.record.is_a?(Event)
+      errors.add(:base, "#{Event.model_name.human} #{e.message}")
+    else
+      errors.add(:base, "#{Deal.model_name.human} #{Event.model_name.human} #{e.message}")
+    end
+    raise ActiveRecord::Rollback
   end
 
   def next_event_planned?

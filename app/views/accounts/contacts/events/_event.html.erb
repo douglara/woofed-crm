@@ -1,5 +1,5 @@
 <%= turbo_frame_tag event do %>
-  <% if event.deal_updates %>
+  <% if event.deal_updates? %>
     <%= render 'accounts/contacts/events/event_deal_updated', event: event %>
   <% else %>
     <div class="group event-<%= event.scheduled_kind %> event-item-<%= event.from %> my-5" data-controller="load-lucid-icons load-flowbite">

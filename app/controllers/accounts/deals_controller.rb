@@ -81,6 +81,7 @@ class Accounts::DealsController < InternalController
   def create
     @deal = current_user.account.deals.new(deal_params)
     @deal.contact.account = @deal.account
+    @stages = current_user.account.stages
 
     # @deal = DealBuilder.new(current_user, deal_params).perform
 
@@ -93,6 +94,7 @@ class Accounts::DealsController < InternalController
 
   # PATCH/PUT /deals/1 or /deals/1.json
   def update
+    @stages = @deal.pipeline.stages
     if @deal.update(deal_params)
       redirect_to account_deal_path(current_user.account, @deal)
     else
