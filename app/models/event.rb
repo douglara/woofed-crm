@@ -206,7 +206,7 @@ class Event < ApplicationRecord
     false
   end
 
-  def deal_updates
+  def deal_updates?
     deal_stage_change? || deal_opened? || deal_won? || deal_lost? || deal_reopened?
   end
 
