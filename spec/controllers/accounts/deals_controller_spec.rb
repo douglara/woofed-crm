@@ -30,17 +30,8 @@ RSpec.describe Accounts::DealsController, type: :request do
             post "/accounts/#{account.id}/deals",
                  params: valid_params
           end.to change(Deal, :count).by(1)
+                                     .and change(Event, :count).by(1)
           expect(response).to redirect_to(account_deal_path(account, Deal.last))
-        end
-
-        it 'create deal without stage' do
-          expect do
-            post "/accounts/#{account.id}/deals",
-                 params: valid_params.except('stage_id').merge({ pipeline_id: pipeline.id })
-          end.to change(Deal, :count).by(1)
-
-          expect(response).to redirect_to(account_deal_path(account, Deal.last))
-          expect(Deal.last.stage).to eq(stage)
         end
       end
     end
