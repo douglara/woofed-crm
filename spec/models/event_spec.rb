@@ -32,37 +32,37 @@ require 'rails_helper'
 RSpec.describe Event do
   context 'scopes' do
     let(:account) { create(:account) }
-    let!(:event_done) { create(:event, done: true, scheduled_at: Time.current, kind: 'note', account: account) }
+    let!(:event_done) { create(:event, done: true, scheduled_at: Time.current, kind: 'note', deal: nil, account:) }
     let!(:event_planned_1) do
-      create(:event, account: account, auto_done: false, scheduled_at: (Time.current + 1.hour), kind: 'activity')
+      create(:event, account:, auto_done: false, scheduled_at: (Time.current + 1.hour), kind: 'activity', deal: nil)
     end
     let!(:event_planned_2) do
-      create(:event, account: account, auto_done: false, scheduled_at: (Time.current + 2.hour), kind: 'activity')
+      create(:event, account:, auto_done: false, scheduled_at: (Time.current + 2.hour), kind: 'activity', deal: nil)
     end
     let!(:event_scheduled_1) do
-      create(:event, account: account, auto_done: true, scheduled_at: (Time.current + 2.hour), kind: 'activity')
+      create(:event, account:, auto_done: true, scheduled_at: (Time.current + 2.hour), kind: 'activity', deal: nil)
     end
     let!(:event_planned_overdue_1) do
-      create(:event, account: account, auto_done: false, scheduled_at: (Time.current - 2.hour), kind: 'activity')
+      create(:event, account:, auto_done: false, scheduled_at: (Time.current - 2.hour), kind: 'activity', deal: nil)
     end
     let!(:event_planned_overdue_2) do
-      create(:event, account: account, auto_done: false, scheduled_at: (Time.current - 1.hour), kind: 'activity')
+      create(:event, account:, auto_done: false, scheduled_at: (Time.current - 1.hour), kind: 'activity', deal: nil)
     end
     let!(:event_planned_overdue_3) do
-      create(:event, account: account, auto_done: false, scheduled_at: (Time.current - 1.hour), kind: 'activity')
+      create(:event, account:, auto_done: false, scheduled_at: (Time.current - 1.hour), kind: 'activity', deal: nil)
     end
     let!(:event_planned_without_date_1) do
-      create(:event, account: account, auto_done: false, scheduled_at: nil, kind: 'activity')
+      create(:event, account:, auto_done: false, scheduled_at: nil, kind: 'activity', deal: nil)
     end
     let!(:event_planned_without_date_2) do
-      create(:event, account: account, auto_done: false, scheduled_at: nil, kind: 'activity')
+      create(:event, account:, auto_done: false, scheduled_at: nil, kind: 'activity', deal: nil)
     end
     let!(:event_wpp_message) do
-      create(:event, account: account, done: true, additional_attributes: { message_id: 'id' }, scheduled_at: nil,
-                     kind: 'evolution_api_message')
+      create(:event, account:, done: true, additional_attributes: { message_id: 'id' }, scheduled_at: nil,
+                     kind: 'evolution_api_message', deal: nil)
     end
     describe 'done' do
-      it 'returns 1 event' do
+      it 'returns 2 event' do
         expect(account.events.done.count).to be 2
       end
     end
@@ -106,10 +106,10 @@ RSpec.describe Event do
     context 'when is chatwoot_message event' do
       let(:account) { create(:account) }
       let!(:event_content_blank) do
-        create(:event, done: true, scheduled_at: Time.current, kind: 'chatwoot_message', account: account, content: '')
+        create(:event, done: true, scheduled_at: Time.current, kind: 'chatwoot_message', account:, content: '')
       end
       let!(:event) do
-        create(:event, done: true, scheduled_at: Time.current, kind: 'chatwoot_message', account: account,
+        create(:event, done: true, scheduled_at: Time.current, kind: 'chatwoot_message', account:,
                        content: 'Hello world!')
       end
       it 'should return with contents blank' do
@@ -123,16 +123,16 @@ RSpec.describe Event do
   end
   context 'editable?' do
     let(:account) { create(:account) }
-    let!(:event_done) { create(:event, done: true, scheduled_at: Time.current, kind: 'note', account: account) }
+    let!(:event_done) { create(:event, done: true, scheduled_at: Time.current, kind: 'note', account:) }
     let!(:event_activity) do
-      create(:event, account: account, auto_done: false, scheduled_at: (Time.current + 1.hour), kind: 'activity')
+      create(:event, account:, auto_done: false, scheduled_at: (Time.current + 1.hour), kind: 'activity')
     end
     let!(:event_chatwoot_message) do
-      create(:event, account: account, auto_done: false, scheduled_at: (Time.current + 2.hour),
+      create(:event, account:, auto_done: false, scheduled_at: (Time.current + 2.hour),
                      kind: 'chatwoot_message')
     end
     let!(:event_chatwoot_message_done) do
-      create(:event, account: account, done: true, kind: 'chatwoot_message')
+      create(:event, account:, done: true, kind: 'chatwoot_message')
     end
     let(:events_editable) { Event.all.select(&:editable?) }
     it 'should return 3 events' do
