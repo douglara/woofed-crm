@@ -14,8 +14,12 @@
         <%= t('views.accounts.contacts.events.event_deal_updated.deal_won') %>
       <% elsif event.deal_lost? %>
         <%= t('views.accounts.contacts.events.event_deal_updated.deal_lost') %>
-      <% else %>
+      <% elsif event.deal_reopened? %>
         <%= t('views.accounts.contacts.events.event_deal_updated.deal_reopened') %>
+      <% elsif event.deal_product_added? %>
+        <%= t('views.accounts.contacts.events.event_deal_updated.deal_product_added', product_name: event.additional_attributes.fetch('product_name', '')) %>
+      <% elsif event.deal_product_removed? %>
+        <%= t('views.accounts.contacts.events.event_deal_updated.deal_product_removed', product_name: event.additional_attributes.fetch('product_name', '')) %>
       <% end %>
     </p>
     <span class="typography-sub-text-m-lh150 text-dark-gray-palette-p4 truncate"><%= event.created_at.strftime("%d/%m às %H:%M") %></span>
