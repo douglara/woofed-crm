@@ -11,7 +11,7 @@ module Installation::Complete
   end
 
   def register_completed_install
-    return false unless Current.account.present?
+    return false if Current.account.blank?
 
     user = self.user
 
