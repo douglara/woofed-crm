@@ -8,6 +8,7 @@ RSpec.describe Accounts::DealsController, type: :request do
   let!(:stage_2) { create(:stage, account:, pipeline:, name: 'Stage 2') }
   let!(:contact) { create(:contact, account:) }
   let(:event) { create(:event, account:, deal:, kind: 'activity') }
+  let(:last_event) { Event.last}
 
   describe 'POST /accounts/{account.id}/deals' do
     let(:valid_params) { { deal: { name: 'Deal 1', contact_id: contact.id, stage_id: stage.id } } }
@@ -24,7 +25,7 @@ RSpec.describe Accounts::DealsController, type: :request do
         sign_in(user)
       end
 
-      context 'create deal' do
+      context 'create deal and deal_opened event' do
         it do
           expect do
             post "/accounts/#{account.id}/deals",
@@ -32,6 +33,7 @@ RSpec.describe Accounts::DealsController, type: :request do
           end.to change(Deal, :count).by(1)
                                      .and change(Event, :count).by(1)
           expect(response).to redirect_to(account_deal_path(account, Deal.last))
+  	        expect(last_event.kind).to eq('deal_opened')
         end
       end
     end
@@ -53,7 +55,7 @@ RSpec.describe Accounts::DealsController, type: :request do
         sign_in(user)
       end
 
-      context 'should update deal' do
+      context 'should update deal ' do
         it do
           put "/accounts/#{account.id}/deals/#{deal.id}",
               params: valid_params
@@ -62,7 +64,7 @@ RSpec.describe Accounts::DealsController, type: :request do
           expect(deal.reload.name).to eq('Deal Updated')
         end
       end
-      context 'update deal position' do
+      context 'update deal position and create deal_stage_change event' do
         around(:each) do |example|
           Sidekiq::Testing.inline! do
             example.run
@@ -87,12 +89,15 @@ RSpec.describe Accounts::DealsController, type: :request do
           end
           it 'stage 1 position 1 to stage 2 position 1' do
             params =  { deal: { stage_id: stage_2.id, position: 1 } }
-            put("/accounts/#{account.id}/deals/#{deal_stage_1_position_1.id}",
-                params:)
+            expect do
+              put("/accounts/#{account.id}/deals/#{deal_stage_1_position_1.id}",
+                  params:)
+            end.to change(Event, :count).by(1)
             # expect(response).to have_http_status(:success)
             expect(deal_stage_1_position_1.reload.position).to eq(1)
             expect(deal_stage_1_position_1.reload.stage).to eq(stage_2)
             expect(deal_stage_2_position_1.reload.position).to eq(2)
+  	        expect(last_event.kind).to eq('deal_stage_change')
           end
         end
         context 'in the same stage' do
