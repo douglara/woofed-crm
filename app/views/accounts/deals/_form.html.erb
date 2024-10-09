@@ -1,4 +1,11 @@
 <%= form_with(model: deal, url: account_deals_path(current_user.account), class: "flex flex-col gap-5") do |form| %>
+  <% if deal.errors.any? %>
+    <ul class= 'mb-4'>
+      <% deal.errors.each do |error| %>
+        <li class="typography-body-s-lh150 text-auxiliary-palette-red "><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  <% end %>
   <div class= "grid sm:grid-cols-2 gap-4">
     <div class="flex flex-col gap-1">
       <%= form.label :name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>

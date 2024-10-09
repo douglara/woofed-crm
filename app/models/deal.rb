@@ -27,6 +27,7 @@
 class Deal < ApplicationRecord
   include Deal::Decorators
   include CustomAttributes
+  include Deal::EventCreator
 
   belongs_to :contact
   belongs_to :stage
@@ -51,13 +52,16 @@ class Deal < ApplicationRecord
   end
   after_destroy_commit { broadcast_remove_to :stages, target: self }
 
-  after_update_commit -> { broadcast_updates }
+  after_update_commit lambda {
+                        broadcast_updates
+                      }
   after_create_commit lambda {
                         Stages::BroadcastUpdatesWorker.perform_async(stage.id, status)
                       }
 
   def broadcast_updates
     broadcast_replace_later_to self, partial: 'accounts/pipelines/deal', locals: { pipeline: }
+
     if previous_changes.except('updated_at').keys == ['position'] || previous_changes.empty?
       Stages::BroadcastUpdatesWorker.perform_async(stage.id,
                                                    status)

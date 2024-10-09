@@ -1,66 +1,70 @@
 <%= turbo_frame_tag event do %>
-  <div class="group event-<%= event.scheduled_kind %> event-item-<%= event.from %> my-3" data-controller="load-lucid-icons load-flowbite">
-    <div class="<%= event.has_media_attachment? ? 'w-[500px]' : 'w-[956px]' %> block rounded-lg bg-white border border-light-palette-p3 rounded dark:bg-neutral-700">
-      <div class="border-b-2 border-neutral-100 bg-light-palette-p4 px-3 py-2 flex items-center space-x-3">
-        <% if event.from_me? %>
-          <% if event.note? %>
-            <div class="flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7]">
-              <i data-lucide="check" class= "h-[20px] self-center stroke-[#26D367]"></i>
-            </div>
-          <% elsif event.activity? %>
-            <% if event.done? %>
-              <%= link_to account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: false}) ,method: :put, data: {confirm: t('views.accounts.contacts.events.event.are_you_sure?')}, class:'flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7] hover:bg-[#DEFFE9] cursor-pointer'  do %>
-                <i data-lucide="check" class= "h-[20px] self-center stroke-[#26D367]"></i>
-              <% end %>
-            <% else %>
-              <%= link_to '' ,account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: true}) ,method: :put, data: {confirm: t('views.accounts.contacts.events.event.are_you_sure?')}, class: 'h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p2 bg-light-palette-p5 hover:bg-light-palette-p3 cursor-pointer' %>
-            <% end %>
-          <% elsif event.kind_message? %>
-            <% if event.done? %>
+  <% if event.deal_updates? %>
+    <%= render 'accounts/contacts/events/event_deal_updated', event: event %>
+  <% else %>
+    <div class="group event-<%= event.scheduled_kind %> event-item-<%= event.from %> my-5" data-controller="load-lucid-icons load-flowbite">
+      <div class="<%= event.has_media_attachment? ? 'w-[500px]' : 'w-[956px]' %> block rounded-lg bg-white border border-light-palette-p3 rounded dark:bg-neutral-700">
+        <div class="border-b-2 border-neutral-100 bg-light-palette-p4 px-3 py-2 flex items-center space-x-3">
+          <% if event.from_me? %>
+            <% if event.note? %>
               <div class="flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7]">
-                <i data-lucide="check-check" class= "h-[20px] self-center stroke-[#26D367]"></i>
+                <i data-lucide="check" class= "h-[20px] self-center stroke-[#26D367]"></i>
               </div>
-            <% else %>
-              <%= link_to '' ,account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{send_now: true}) ,method: :put, data: {confirm: t('views.accounts.contacts.events.event.are_you_sure?')}, class: 'h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p2 bg-light-palette-p5 hover:bg-light-palette-p3 cursor-pointer' %>
+            <% elsif event.activity? %>
+              <% if event.done? %>
+                <%= link_to account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: false}) ,method: :put, data: {confirm: t('views.accounts.contacts.events.event.are_you_sure?')}, class:'flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7] hover:bg-[#DEFFE9] cursor-pointer'  do %>
+                  <i data-lucide="check" class= "h-[20px] self-center stroke-[#26D367]"></i>
+                <% end %>
+              <% else %>
+                <%= link_to '' ,account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{done: true}) ,method: :put, data: {confirm: t('views.accounts.contacts.events.event.are_you_sure?')}, class: 'h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p2 bg-light-palette-p5 hover:bg-light-palette-p3 cursor-pointer' %>
+              <% end %>
+            <% elsif event.kind_message? %>
+              <% if event.done? %>
+                <div class="flex item-center justify-center h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p3 bg-[#f4fdf7]">
+                  <i data-lucide="check-check" class= "h-[20px] self-center stroke-[#26D367]"></i>
+                </div>
+              <% else %>
+                <%= link_to '' ,account_contact_event_path(event.account, event.contact, event, deal_id: event&.deal&.id, event:{send_now: true}) ,method: :put, data: {confirm: t('views.accounts.contacts.events.event.are_you_sure?')}, class: 'h-8 w-8 p-1.5 rounded-full border-2 border-light-palette-p2 bg-light-palette-p5 hover:bg-light-palette-p3 cursor-pointer' %>
+              <% end %>
             <% end %>
-          <% end %>
-        <% else %>
-          <div class="flex items-center rounded-full border-light-palette-p3 border h-8 w-8 bg-light-palette-p5 group-[.event-item-from-me]:hidden">
-            <i class="m-auto text-auxiliary-palette-blue" data-lucide="user" height="20"></i>
-          </div>
-        <% end %>
-        <div class="flex-grow py-1">
-          <div class="flex items-center gap-2">
-            <span class="m-0 text-dark-gray-palette-p1 typography-text-s-lh150 flex items-center gap-1.5">
-              <%= event.activity? ? event.title : Event.human_enum_name(:kind, event.kind) %>
-            </span>
-            <% if event.evolution_api_message? %>
-              <%= embedded_svg('icon-whtass.svg', {class: "w-3.5 fill-[#26D367]"})  %>
-            <% else %>
-              <i data-lucide="<%= event.icon_key %>" class="<%= event.icon_key %> self-center"></i>
-            <%  end  %>
-          </div>
-          <% if event.scheduled_at.present? %>
-            <span class="m-0 text-brand-palette-04 group-[.event-scheduled]:font-semibold group-[.event-item-from-contacts]:text-dark-gray-palette-p4"><%= t('views.accounts.contacts.events.event.deadline') %>: <%= event.primary_date %></span>
           <% else %>
-            <p class="m-0 typography-subtext-m-lh150 text-dark-gray-palette-p4"><%= event.primary_date %></p>
+            <div class="flex items-center rounded-full border-light-palette-p3 border h-8 w-8 bg-light-palette-p5 group-[.event-item-from-me]:hidden">
+              <i class="m-auto text-auxiliary-palette-blue" data-lucide="user" height="20"></i>
+            </div>
+          <% end %>
+          <div class="flex-grow py-1">
+            <div class="flex items-center gap-2">
+              <span class="m-0 text-dark-gray-palette-p1 typography-text-s-lh150 flex items-center gap-1.5">
+                <%= event.activity? ? event.title : Event.human_enum_name(:kind, event.kind) %>
+              </span>
+              <% if event.evolution_api_message? %>
+                <%= embedded_svg('icon-whtass.svg', {class: "w-3.5 fill-[#26D367]"})  %>
+              <% else %>
+                <i data-lucide="<%= event.icon_key %>" class="<%= event.icon_key %> self-center"></i>
+              <%  end  %>
+            </div>
+            <% if event.scheduled_at.present? %>
+              <span class="m-0 text-brand-palette-04 group-[.event-scheduled]:font-semibold group-[.event-item-from-contacts]:text-dark-gray-palette-p4"><%= t('views.accounts.contacts.events.event.deadline') %>: <%= event.primary_date %></span>
+            <% else %>
+              <p class="m-0 typography-subtext-m-lh150 text-dark-gray-palette-p4"><%= event.primary_date %></p>
+            <% end %>
+          </div>
+          <% if event.editable? %>
+            <div class='flex items-center gap-2' >
+              <%= link_to edit_account_contact_event_path(event.account, event.contact, event), class: 'flex items-center h-8 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
+                <i data-lucide="pencil" height="16"></i>
+              <% end %>
+              <%= link_to account_contact_event_path(event.account, event.contact, event), method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center h-8 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
+                <i data-lucide="trash-2" height="16"></i>
+              <% end %>
+            </div>
           <% end %>
         </div>
-        <% if event.editable? %>
-          <div class='flex items-center gap-2' >
-            <%= link_to edit_account_contact_event_path(event.account, event.contact, event), class: 'flex items-center h-8 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
-              <i data-lucide="pencil" height="16"></i>
-            <% end %>
-            <%= link_to account_contact_event_path(event.account, event.contact, event), method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center h-8 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
-              <i data-lucide="trash-2" height="16"></i>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-      <div class="py-3 px-4 space-y-3 text-dark-gray-palette-p3 typography-text-m-lh200 break-words">
-        <%= event.content %>
-        <%= render 'accounts/contacts/events/attachment', event: event if event.attachment.present? %>
+        <div class="py-3 px-4 space-y-3 text-dark-gray-palette-p3 typography-text-m-lh200 break-words">
+          <%= event.content %>
+          <%= render 'accounts/contacts/events/attachment', event: event if event.attachment.present? %>
+        </div>
       </div>
     </div>
-  </div>
+  <% end %>
 <% end %>
