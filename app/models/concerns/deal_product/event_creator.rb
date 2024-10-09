@@ -6,59 +6,55 @@ module DealProduct::EventCreator
 
     def destroy_deal_product_and_create_event
       transaction do
-        product_name = product.name
-        deal_name = deal.name
-        product_id = product.id
-        deal_id = deal.id
+        create_event_log_destroy
         yield
-        Event.create!(
-          deal:,
-          kind: 'deal_product_removed',
-          done: true,
-          from_me: true,
-          contact: deal.contact,
-          additional_attributes: {
-            product_id:,
-            deal_id:,
-            product_name:,
-            deal_name:
-          }
-        )
       end
-    rescue ActiveRecord::RecordInvalid => e
-      handle_event_creation_error(e)
     end
 
     def create_deal_product_and_event
       transaction do
         yield
-        Event.create!(
-          deal:,
-          kind: 'deal_product_added',
-          done: true,
-          from_me: true,
-          contact: deal.contact,
-          additional_attributes: {
-            product_id: product.id,
-            deal_id: deal.id,
-            product_name: product.name,
-            deal_name: deal.name
-          }
-        )
+        create_event_log
       end
-    rescue ActiveRecord::RecordInvalid => e
-      handle_event_creation_error(e)
     end
 
-    def handle_event_creation_error(e)
-      if e.record.is_a?(DealProduct)
-        errors.add(:base, "#{DealProduct.model_name.human} #{e.message}")
-      elsif e.record.is_a?(Event)
-        errors.add(:base, "#{Event.model_name.human} #{e.message}")
-      else
-        errors.add(:base, "#{DealProduct.model_name.human} #{Event.model_name.human} #{e.message}")
-      end
-      raise ActiveRecord::Rollback
+    private
+
+    def create_event_log
+      Event.create!(
+        deal:,
+        kind: 'deal_product_added',
+        done: true,
+        from_me: true,
+        contact: deal.contact,
+        additional_attributes: {
+          product_id: product.id,
+          deal_id: deal.id,
+          product_name: product.name,
+          deal_name: deal.name
+        }
+      )
+    end
+
+    def create_event_log_destroy
+      product_name = product.name
+      deal_name = deal.name
+      product_id = product.id
+      deal_id = deal.id
+
+      Event.create!(
+        deal:,
+        kind: 'deal_product_removed',
+        done: true,
+        from_me: true,
+        contact: deal.contact,
+        additional_attributes: {
+          product_id:,
+          deal_id:,
+          product_name:,
+          deal_name:
+        }
+      )
     end
   end
 end

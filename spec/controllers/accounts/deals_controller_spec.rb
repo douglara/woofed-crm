@@ -8,7 +8,7 @@ RSpec.describe Accounts::DealsController, type: :request do
   let!(:stage_2) { create(:stage, account:, pipeline:, name: 'Stage 2') }
   let!(:contact) { create(:contact, account:) }
   let(:event) { create(:event, account:, deal:, kind: 'activity') }
-  let(:last_event) { Event.last}
+  let(:last_event) { Event.last }
 
   describe 'POST /accounts/{account.id}/deals' do
     let(:valid_params) { { deal: { name: 'Deal 1', contact_id: contact.id, stage_id: stage.id } } }
@@ -33,14 +33,14 @@ RSpec.describe Accounts::DealsController, type: :request do
           end.to change(Deal, :count).by(1)
                                      .and change(Event, :count).by(1)
           expect(response).to redirect_to(account_deal_path(account, Deal.last))
-  	        expect(last_event.kind).to eq('deal_opened')
+          expect(last_event.kind).to eq('deal_opened')
         end
       end
     end
   end
 
   describe 'PUT /accounts/{account.id}/deals/:id' do
-    let(:deal) { create(:deal, account:, stage:) }
+    let!(:deal) { create(:deal, account:, stage:) }
     let(:valid_params) { { deal: { name: 'Deal Updated' } } }
 
     context 'when it is an unauthenticated user' do
@@ -97,7 +97,7 @@ RSpec.describe Accounts::DealsController, type: :request do
             expect(deal_stage_1_position_1.reload.position).to eq(1)
             expect(deal_stage_1_position_1.reload.stage).to eq(stage_2)
             expect(deal_stage_2_position_1.reload.position).to eq(2)
-  	        expect(last_event.kind).to eq('deal_stage_change')
+            expect(last_event.kind).to eq('deal_stage_change')
           end
         end
         context 'in the same stage' do
@@ -124,6 +124,36 @@ RSpec.describe Accounts::DealsController, type: :request do
             # expect(response).to have_http_status(:success)
             expect(deal_stage_1_position_2.reload.position).to eq(1)
             expect(deal_stage_1_position_2.reload.stage).to eq(stage)
+          end
+        end
+      end
+
+      context 'update status deal' do
+        it 'update to won and create deal_won event' do
+          params = { deal: { status: 'won' } }
+          expect do
+            put("/accounts/#{account.id}/deals/#{deal.id}",
+                params:)
+          end.to change(Event, :count).by(1)
+          expect(last_event.kind).to eq('deal_won')
+        end
+        it 'update to lost and create deal_lost event' do
+          params = { deal: { status: 'lost' } }
+          expect do
+            put("/accounts/#{account.id}/deals/#{deal.id}",
+                params:)
+          end.to change(Event, :count).by(1)
+          expect(last_event.kind).to eq('deal_lost')
+        end
+        context 'when deal is won ' do
+          let!(:won_deal) { create(:deal, account:, stage:, status: 'won') }
+          it 'update to open and create reopen_lost event' do
+            params = { deal: { status: 'open' } }
+            expect do
+              put("/accounts/#{account.id}/deals/#{won_deal.id}",
+                  params:)
+            end.to change(Event, :count).by(1)
+            expect(last_event.kind).to eq('deal_reopened')
           end
         end
       end
