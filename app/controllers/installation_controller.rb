@@ -1,10 +1,8 @@
 class InstallationController < ApplicationController
   before_action :authenticate_user!, except: %i[new create]
   before_action :set_user, except: %i[new create]
-
   before_action :set_account, only: %i[step_3 update_step_3]
 
-  layout 'installations_loading', only: %i[loading]
   layout 'devise'
 
   def new
@@ -61,9 +59,11 @@ class InstallationController < ApplicationController
     end
     sign_in(user)
     redirect_to installation_step_1_path
-  rescue ActiveRecord::RecordInvalid
+  rescue ActiveRecord::RecordInvalid, ActionController::ParameterMissing
     render :new, status: :unprocessable_entity
   end
+
+  private
 
   def set_user
     @user = current_user
