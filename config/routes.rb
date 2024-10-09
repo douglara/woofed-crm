@@ -80,6 +80,7 @@ Rails.application.routes.draw do
       # resources :events, module: :contacts
     end
     resources :attachments, only: [:destroy]
+    resources :stages, only: [:show]
   end
   if ENV.fetch('ENABLE_USER_SIGNUP', 'true') == 'true'
     devise_for :users, controllers: {
@@ -105,6 +106,10 @@ Rails.application.routes.draw do
         end
         namespace :apps do
           # resources :events, module: :contacts
+        end
+        resources :deal_products, only: %i[create show]
+        resources :products, only: %i[create show] do
+          match 'search', on: :collection, via: %i[get post]
         end
       end
 

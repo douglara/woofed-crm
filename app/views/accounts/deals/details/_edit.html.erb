@@ -1,16 +1,6 @@
 <%= turbo_frame_tag "form_#{model.class.name.downcase}_#{model.id}", data: { controller: "turbo-form-submit-redirect" } do %>
   <%= form_with(model: model, url: update_path) do |form| %>
     <%= form.hidden_field :deal_page_id, value: params[:deal_page_id] %>
-    <% if model.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(model.errors.count, "error") %> prohibited this deal from being saved:</h2>
-        <ul>
-          <% model.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
     <div class="bg-light-palette-p5 rounded-md mb-4 pb-6">
       <div class=" flex items-center h-16">
         <p class="flex items-center m-0 mr-auto typography-body-s-lh150 text-dark-gray-palette-p1"><%= t("activerecord.models.#{model.class.name.downcase}.one") %></p>
@@ -20,6 +10,13 @@
         <% end %>
       </div>
       <div class="">
+        <% if model.errors.any? %>
+          <ul class= 'mb-4'>
+            <% model.errors.each do |error| %>
+              <li class="typography-body-s-lh150 text-auxiliary-palette-red "><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        <% end %>
         <div>
           <% model.class::FORM_FIELDS.each do | f | %>
             <% unless f == :chatwoot_conversations_label_list %>

@@ -8,8 +8,8 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
   let!(:chatwoot) { create(:apps_chatwoots, :skip_validate) }
   let(:evolution_api_connected) { create(:apps_evolution_api, :connected) }
   let!(:pipeline) { create(:pipeline) }
-  let!(:stage) { create(:stage, pipeline: pipeline) }
-  let!(:deal) { create(:deal, contact: contact, stage: stage) }
+  let!(:stage) { create(:stage, pipeline:) }
+  let!(:deal) { create(:deal, contact:, stage:) }
   let(:conversation_response) { File.read('spec/integration/use_cases/accounts/apps/chatwoots/get_conversations.json') }
   let(:message_response) { File.read('spec/integration/use_cases/accounts/apps/chatwoots/send_message.json') }
   let(:send_text_response) do
@@ -21,7 +21,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
   def get_file(name)
     Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/files/#{name}")
   end
-  let(:event_created) { Event.first }
+  let(:event_created) { Event.last }
 
   let!(:valid_params) do
     {
@@ -62,7 +62,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             params = valid_params.deep_merge(event: { kind: 'activity' })
             expect do
               post "/accounts/#{account.id}/contacts/#{contact.id}/events",
-                   params: params
+                   params:
             end.to change(Event, :count).by(1)
             expect(response).to redirect_to(new_account_contact_event_path(account_id:
               account, contact_id: contact, deal_id: deal))
@@ -87,14 +87,15 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
                 files = [get_file('patrick.png'), get_file('audio_test.oga'),
                          get_file('video_test.mp4'), get_file('hello_world.txt'), get_file('hello_world.rar'), get_file('hello_world.json')]
                 params = valid_params.deep_merge(event: { kind: 'activity',
-                                                          files: files })
+                                                          files: })
+                Event.delete_all
                 expect do
                   post "/accounts/#{account.id}/contacts/#{contact.id}/events",
-                       params: params
+                       params:
                 end.to change(Event, :count).by(6)
+                                            .and change(Attachment, :count).by(6)
                 expect(response).to redirect_to(new_account_contact_event_path(account_id:
                   account, contact_id: contact, deal_id: deal))
-                expect(Attachment.count).to eq(6)
                 expect(Attachment.pluck(:file_type)).to match_array(%w[image audio video file file file])
                 events_with_content = Event.select do |event|
                   event&.content&.body&.to_plain_text == params[:event][:content]
@@ -107,10 +108,10 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
               it 'should not create events' do
                 files =  [get_file('patrick.png'), 'invalid_file']
                 params = valid_params.deep_merge(event: { kind: 'activity',
-                                                          files: files })
+                                                          files: })
                 expect do
                   post "/accounts/#{account.id}/contacts/#{contact.id}/events",
-                       params: params
+                       params:
                 end.to change(Event, :count).by(0)
                 expect(response).to have_http_status(:unprocessable_entity)
               end
@@ -122,7 +123,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             params = valid_params.deep_merge(event: { kind: 'note' })
             expect do
               post "/accounts/#{account.id}/contacts/#{contact.id}/events",
-                   params: params
+                   params:
             end.to change(Event, :count).by(1)
             expect(response).to redirect_to(new_account_contact_event_path(account_id:
               account, contact_id: contact, deal_id: deal))
@@ -137,14 +138,13 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             end
           end
 
-          let(:event_created) { Event.first }
           it do
             params = valid_params.deep_merge(event: { kind: 'chatwoot_message', app_type: 'Apps::Chatwoot',
                                                       app_id: chatwoot.id, chatwoot_inbox_id: 2, send_now: 'true' })
 
             expect do
               post "/accounts/#{account.id}/contacts/#{contact.id}/events",
-                   params: params
+                   params:
             end.to change(Event, :count).by(1)
 
             expect(event_created.kind).to eq(params[:event][:kind])
@@ -156,7 +156,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
                                                       app_id: chatwoot.id, chatwoot_inbox_id: 1, scheduled_at: (Time.current + 2.hours).round, send_now: 'false' })
             expect do
               post "/accounts/#{account.id}/contacts/#{contact.id}/events",
-                   params: params
+                   params:
             end.to change(Event, :count).by(1)
             expect(response).to redirect_to(new_account_contact_event_path(account_id:
               account, contact_id: contact, deal_id: deal))
@@ -170,7 +170,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
                                                         app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1, scheduled_at: (Time.current + 2.hours).round, auto_done: true, send_now: 'false' })
               expect do
                 post "/accounts/#{account.id}/contacts/#{contact.id}/events",
-                     params: params
+                     params:
               end.to change(Event, :count).by(1)
               expect(response).to redirect_to(new_account_contact_event_path(account_id:
                 account, contact_id: contact, deal_id: deal))
@@ -195,7 +195,6 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             example.run
           end
         end
-        let(:event_created) { Event.first }
 
         it do
           params = valid_params.deep_merge(event: { kind: 'evolution_api_message', app_type: 'Apps::EvolutionApi',
@@ -203,7 +202,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
 
           expect do
             post "/accounts/#{account.id}/contacts/#{contact.id}/events",
-                 params: params
+                 params:
           end.to change(Event, :count).by(1)
           expect(event_created.kind).to eq(params[:event][:kind])
           expect(event_created.done?).to eq(true)
@@ -214,7 +213,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
                                                     app_id: evolution_api_connected.id, scheduled_at: (Time.current + 2.hours).round, send_now: 'false' })
           expect do
             post "/accounts/#{account.id}/contacts/#{contact.id}/events",
-                 params: params
+                 params:
           end.to change(Event, :count).by(1)
           expect(response).to redirect_to(new_account_contact_event_path(account_id:
             account, contact_id: contact, deal_id: deal))
@@ -236,7 +235,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
 
             expect do
               post "/accounts/#{account.id}/contacts/#{contact_no_phone.id}/events",
-                   params: params
+                   params:
             end.to change(Event, :count).by(1)
             expect(event_created.kind).to eq(params[:event][:kind])
             expect(event_created.done?).to eq(false)
@@ -249,7 +248,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
                                                       app_type: 'Apps::EvolutionApi', app_id: evolution_api_connected.id, scheduled_at: (Time.current + 2.hours).round, auto_done: true, send_now: 'false' })
             expect do
               post "/accounts/#{account.id}/contacts/#{contact.id}/events",
-                   params: params
+                   params:
             end.to change(Event, :count).by(1)
             expect(response).to redirect_to(new_account_contact_event_path(account_id:
               account, contact_id: contact, deal_id: deal))
@@ -279,7 +278,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             params = valid_params.deep_merge(event: { kind: 'activity' })
             expect do
               post "/accounts/#{account.id}/contacts/#{contact.id}/events",
-                   params: params
+                   params:
             end.to change(Event, :count).by(1)
             expect(response).to redirect_to(new_account_contact_event_path(account_id:
               account, contact_id: contact, deal_id: deal))
@@ -300,14 +299,14 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
             params = valid_params.deep_merge(event: { kind: 'activity' })
             expect do
               post "/accounts/#{account.id}/contacts/#{contact.id}/events",
-                   params: params
+                   params:
             end.to change(Event, :count).by(1)
+                                        .and change(WebpushSubscription, :count).by(-1)
             expect(response).to redirect_to(new_account_contact_event_path(account_id:
               account, contact_id: contact, deal_id: deal))
             expect(event_created.kind).to eq(params[:event][:kind])
             expect(event_created.done?).to eq(false)
             expect(event_created.deal).to eq(deal)
-            expect(WebpushSubscription.count).to eq(0)
           end
         end
       end
@@ -320,7 +319,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
                                                      headers: { 'Content-Type' => 'application/json' })
     end
 
-    let(:event) { create(:event, contact: contact, deal: deal, kind: 'activity') }
+    let(:event) { create(:event, contact:, deal:, kind: 'activity') }
     context 'when it is unthenticated user' do
       it 'returns unauthorized' do
         patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}"
@@ -336,7 +335,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           params = valid_params.deep_merge(event: { kind: 'activity', content: 'content updated' })
           expect do
             patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
-                  params: params
+                  params:
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
           expect(event_created.kind).to eq(params[:event][:kind])
@@ -347,7 +346,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           params = valid_params.deep_merge(event: { kind: 'activity', done: '1' })
           expect do
             patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
-                  params: params
+                  params:
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
           expect(event_created.kind).to eq(params[:event][:kind])
@@ -357,7 +356,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           params = valid_params.deep_merge(event: { kind: 'activity', send_now: 'true' })
           expect do
             patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
-                  params: params
+                  params:
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
           expect(event_created.kind).to eq(params[:event][:kind])
@@ -367,7 +366,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           params = valid_params.deep_merge(event: { kind: 'activity', send_now: 'true' })
           expect do
             patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
-                  params: params
+                  params:
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
           expect(event_created.kind).to eq(params[:event][:kind])
@@ -378,7 +377,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           params = valid_params.deep_merge(event: { kind: 'activity', send_now: 'true' })
           expect do
             patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
-                  params: params
+                  params:
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
           expect(event_created.kind).to eq(params[:event][:kind])
@@ -390,7 +389,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
                                                     app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1 })
           expect do
             patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
-                  params: params
+                  params:
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
           expect(event_created.kind).to eq(params[:event][:kind])
@@ -401,7 +400,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
                                                     app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1 })
           expect do
             patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
-                  params: params
+                  params:
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
           expect(event_created.kind).to eq(params[:event][:kind])
@@ -413,7 +412,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
                                                     app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1 })
           expect do
             patch "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}",
-                  params: params
+                  params:
           end.to change(Event, :count).by(1)
           expect(response).to have_http_status(200)
           expect(event_created.kind).to eq(params[:event][:kind])
@@ -423,7 +422,7 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
     end
   end
   describe 'DELETE /accounts/{account.id}/contacts/{contact.id}/events/{event.id}' do
-    let(:event) { create(:event, contact: contact, deal: deal, kind: 'activity') }
+    let(:event) { create(:event, contact:, deal:, kind: 'activity') }
     context 'when it is unthenticated user' do
       it 'returns unauthorized' do
         delete "/accounts/#{account.id}/contacts/#{contact.id}/events/#{event.id}"

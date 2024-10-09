@@ -243,7 +243,7 @@ GEM
       google-cloud-core (~> 1.6)
       googleauth (~> 1.9)
       mini_mime (~> 1.0)
-    google-protobuf (3.25.4-x86_64-linux)
+    google-protobuf (3.25.5-x86_64-linux)
     googleapis-common-protos-types (1.15.0)
       google-protobuf (>= 3.18, < 5.a)
     googleauth (1.11.0)
@@ -553,7 +553,7 @@ GEM
     psych (5.1.2)
       stringio
     public_suffix (6.0.1)
-    puma (6.4.2)
+    puma (6.4.3)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
@@ -830,7 +830,7 @@ DEPENDENCIES
   pagy (~> 3.5)
   pg (~> 1.1)
   pgvector
-  puma (= 6.4.2)
+  puma (= 6.4.3)
   rack-cors
   rack-mini-profiler (~> 2.0)
   rails (= 7.0.8.4)

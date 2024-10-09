@@ -27,6 +27,7 @@
 class Deal < ApplicationRecord
   include Deal::Decorators
   include CustomAttributes
+  include Deal::EventCreator
 
   belongs_to :contact
   belongs_to :stage
@@ -49,21 +50,33 @@ class Deal < ApplicationRecord
 
     self.stage = pipeline.stages.first if stage.blank? && pipeline.present?
   end
-  after_destroy_commit { broadcast_remove_to stage, target: self }
+  after_destroy_commit { broadcast_remove_to :stages, target: self }
 
-  after_update_commit -> { broadcast_updates }
+  after_update_commit lambda {
+                        broadcast_updates
+                      }
   after_create_commit lambda {
-                        broadcast_replace_later_to stage, target: stage,
-                                                          partial: 'accounts/pipelines/stage',
-                                                          locals: { stage: stage, status: 'all' }
+                        Stages::BroadcastUpdatesWorker.perform_async(stage.id, status)
                       }
 
   def broadcast_updates
-    broadcast_replace_later_to self, partial: 'accounts/pipelines/deal', locals: { pipeline: pipeline }
-    if previous_changes.key?('stage_id')
-      previous_changes['stage_id'].each do |stage_id|
-        Stage.find(stage_id).broadcast_updates
+    broadcast_replace_later_to self, partial: 'accounts/pipelines/deal', locals: { pipeline: }
+
+    if previous_changes.except('updated_at').keys == ['position'] || previous_changes.empty?
+      Stages::BroadcastUpdatesWorker.perform_async(stage.id,
+                                                   status)
+    end
+
+    if previous_changes.except('updated_at').keys == ['status']
+      previous_changes['status'].each do |status|
+        Stages::BroadcastUpdatesWorker.perform_async(stage.id, status)
       end
+    end
+
+    return unless previous_changes.key?('stage_id')
+
+    previous_changes['stage_id'].each do |stage_id|
+      Stages::BroadcastUpdatesWorker.perform_async(stage_id, status)
     end
   end
 

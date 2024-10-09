@@ -29,7 +29,8 @@ class Event < ApplicationRecord
   include Event::Decorators
   include Deal::Broadcastable
   # default_scope { order('created_at DESC') }
-
+  DEAL_UPDATE_KINDS = %w[deal_stage_change deal_opened deal_won deal_lost deal_reopened deal_product_added
+                         deal_product_removed].freeze
   belongs_to :deal, optional: true
   belongs_to :contact
   # belongs_to :event_kind, default: -> { EventKind }
@@ -174,7 +175,14 @@ class Event < ApplicationRecord
     'note': 'note',
     'evolution_api_message': 'evolution_api_message',
     'activity': 'activity',
-    'chatwoot_message': 'chatwoot_message'
+    'chatwoot_message': 'chatwoot_message',
+    'deal_stage_change': 'deal_stage_change',
+    'deal_opened': 'deal_opened',
+    'deal_won': 'deal_won',
+    'deal_lost': 'deal_lost',
+    'deal_reopened': 'deal_reopened',
+    'deal_product_added': 'deal_product_added',
+    'deal_product_removed': 'deal_product_removed'
   }
 
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
@@ -198,6 +206,10 @@ class Event < ApplicationRecord
     return true if %w[chatwoot_message evolution_api_message].include?(kind) && !done?
 
     false
+  end
+
+  def deal_updates?
+    DEAL_UPDATE_KINDS.include?(kind)
   end
 
   def kind_message?

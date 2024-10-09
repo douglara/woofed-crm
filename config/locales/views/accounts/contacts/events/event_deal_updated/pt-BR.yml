@@ -1,0 +1,13 @@
+pt-BR:
+  views:
+    accounts:
+      contacts:
+        events:
+          event_deal_updated:
+            deal_opened: "Negócio aberto"
+            deal_won: "Negócio ganho"
+            deal_lost: "Negócio perdido"
+            deal_reopened: "Negócio reaberto"
+            deal_stage_change: "O negócio foi movido da etapa %{old_stage_name} funil %{old_stage_pipeline_name}, para a etapa %{new_stage_name} funil %{new_stage_pipeline_name}"
+            deal_product_added: "O produto %{product_name} foi adicionado ao negócio"
+            deal_product_removed: "O produto %{product_name} foi removido do negócio"

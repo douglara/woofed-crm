@@ -20,7 +20,7 @@
 #
 class DealProduct < ApplicationRecord
   include DealProduct::Broadcastable
-
+  include DealProduct::EventCreator
   belongs_to :product
   belongs_to :deal
 end
