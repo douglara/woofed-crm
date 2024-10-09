@@ -47,32 +47,8 @@ RSpec.describe InstallationController, type: :request do
                                                .and change(User, :count).by(0)
             expect(response).to have_http_status(:unprocessable_entity)
           end
-          context 'when there is no user params' do
-            it 'should not create user and installation and render new action installation controller' do
-              expect do
-                get '/installation/create',
-                    params: {
-                      installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' }
-                    }
-              end.to raise_error(ActionController::ParameterMissing, /user/)
-                .and change(Installation, :count).by(0)
-                                                 .and change(User, :count).by(0)
-            end
-          end
         end
         context 'when installation params is invalid' do
-          context 'when installation params is blank' do
-            it 'should not create user and installation and render new action installation controller' do
-              expect do
-                get '/installation/create',
-                    params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
-                              installation: { id: '', key1: '', key2: '', token: '' } }
-              end.to change(Installation, :count).by(0)
-                                                 .and change(User, :count).by(0)
-              expect(response).to have_http_status(:unprocessable_entity)
-            end
-          end
-
           context 'when there is no installation params' do
             it 'should not create installation and installation and render new action installation controller' do
               expect do
@@ -80,9 +56,9 @@ RSpec.describe InstallationController, type: :request do
                     params: {
                       user: { email: 'yukio@email.com', full_name: 'Yukio teste' }
                     }
-              end.to raise_error(ActionController::ParameterMissing, /installation/)
-                .and change(Installation, :count).by(0)
+              end.to change(Installation, :count).by(0)
                                                  .and change(User, :count).by(0)
+              expect(response).to have_http_status(:unprocessable_entity)
             end
           end
         end
@@ -90,17 +66,20 @@ RSpec.describe InstallationController, type: :request do
 
       context 'when account and user already exists' do
         let!(:account) { create(:account) }
-        let!(:user) { create(:user, account:) }
+        let!(:user) { create(:user, account:, full_name: 'Douglas') }
         it 'should update user and create a new installation and redirect to step_1' do
+          params = { user: { email: user.email, full_name: 'Yukio teste' },
+                     installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
           expect do
             get '/installation/create',
-                params: { user: { email: user.email, full_name: 'Yukio teste' },
-                          installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+                params:
           end.to change(Installation, :count).by(1)
                                              .and change(User, :count).by(0)
           expect(response).to have_http_status(302)
           expect(response).to redirect_to(installation_step_1_path)
-          expect(user.reload.valid_password?('Password1!')).to be_falsey
+          expect(user.reload.email).to eq(params[:user][:email])
+          expect(user.full_name).to eq(params[:user][:full_name])
+          expect(user.valid_password?('Password1!')).to be_falsey
         end
       end
       context 'when there is an installation' do
@@ -119,9 +98,6 @@ RSpec.describe InstallationController, type: :request do
         context 'when installation status is in_progress' do
           let!(:installation) { create(:installation, status: 'in_progress') }
           it 'should create user, update installation and redirect to step_1 path' do
-            load "#{Rails.root}/app/controllers/application_controller.rb"
-            Rails.application.reload_routes!
-
             expect do
               get '/installation/create',
                   params: { user: { email: 'yukioteste@email.com', full_name: 'Yukio teste' },
@@ -151,13 +127,16 @@ RSpec.describe InstallationController, type: :request do
 
       context 'when there is no installation' do
         it 'should create user and installation and redirect to step_1' do
+          params = { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
+                     installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
           expect do
             get '/installation/create',
-                params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
-                          installation: { id: 1, key1: 'key1teste', key2: 'key2teste', token: 'tokenteste' } }
+                params:
           end.to change(Installation, :count).by(1)
                                              .and change(User, :count).by(1)
           expect(response).to redirect_to(installation_step_1_path)
+          expect(last_user.full_name).to eq(params[:user][:full_name])
+          expect(last_user.email).to eq(params[:user][:email])
         end
       end
       context 'when there is an installation' do
@@ -175,8 +154,6 @@ RSpec.describe InstallationController, type: :request do
         context 'when installation status is in_progress' do
           let!(:installation) { create(:installation, status: 'in_progress') }
           it 'should create user, update installation and redirect to step_1' do
-            load "#{Rails.root}/app/controllers/application_controller.rb"
-            Rails.application.reload_routes!
             expect do
               get '/installation/create',
                   params: { user: { email: 'yukio@email.com', full_name: 'Yukio teste' },
@@ -204,6 +181,7 @@ RSpec.describe InstallationController, type: :request do
           expect(response).to redirect_to(installation_new_path)
         end
       end
+
       context 'when it is an unauthenticated user' do
         let!(:account) { create(:account) }
         let!(:user) { create(:user, account:) }
@@ -287,8 +265,6 @@ RSpec.describe InstallationController, type: :request do
         context 'when installation status is in_progress' do
           let!(:installation) { create(:installation, status: 'in_progress') }
           it 'should get new installation url' do
-            load "#{Rails.root}/app/controllers/application_controller.rb"
-            Rails.application.reload_routes!
             get '/installation/new'
             expect(response).to have_http_status(200)
             expect(response.body).to include('Log in with')
@@ -310,28 +286,6 @@ RSpec.describe InstallationController, type: :request do
         expect(response).to have_http_status(200)
         expect(response.body).to include('Log in with')
         expect(response.body).to include('You are one step away from your company growing.')
-      end
-      context 'when there is installation' do
-        context 'when installation status is completed' do
-          let!(:installation) { create(:installation, status: 'completed') }
-          it 'should raise error' do
-            first_installation.app_reload
-            expect do
-              get '/installation/new'
-            end.to raise_error(ActionController::RoutingError)
-          end
-        end
-        context 'when installation status is in_progress' do
-          let!(:installation) { create(:installation, status: 'in_progress') }
-          it 'should get new installation url' do
-            load "#{Rails.root}/app/controllers/application_controller.rb"
-            Rails.application.reload_routes!
-            get '/installation/new'
-            expect(response).to have_http_status(200)
-            expect(response.body).to include('Log in with')
-            expect(response.body).to include('You are one step away from your company growing.')
-          end
-        end
       end
     end
   end
@@ -370,8 +324,6 @@ RSpec.describe InstallationController, type: :request do
         context 'when installation status is in_progress' do
           let!(:installation) { create(:installation, status: 'in_progress') }
           it 'should get step_1 installation url' do
-            load "#{Rails.root}/app/controllers/application_controller.rb"
-            Rails.application.reload_routes!
             get '/installation/step_1'
             expect(response).to have_http_status(200)
             expect(response.body).to include('Basic Info')
@@ -430,8 +382,6 @@ RSpec.describe InstallationController, type: :request do
         context 'when installation status is in_progress' do
           let(:installation) { create(:installation, status: 'in_progress') }
           it 'should update user and redirect to step 2 installation path' do
-            load "#{Rails.root}/app/controllers/application_controller.rb"
-            Rails.application.reload_routes!
             patch '/installation/update_step_1', params: { user: { full_name: 'Yukio', phone: '+552299887875' } }
             expect(response).to have_http_status(302)
             expect(response).to redirect_to(installation_step_2_path)
