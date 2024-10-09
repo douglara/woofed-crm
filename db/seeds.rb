@@ -28,19 +28,19 @@ if Rails.env.development? && User.all.count == (0)
                                    phone: '41998910151', account: account_1))
   end
 
-  deal_1 = Deal.create(name: 'Deal 1', stage: stage_1, status: 'open', contact: contacts[0], account: account_1,
-                       position: 1)
-  deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contact: contacts[1], account: account_1,
-                       position: 2)
-  deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contact: contacts[2], account: account_1,
-                       position: 3)
+  # deal_1 = Deal.create(name: 'Deal 1', stage: stage_1, status: 'open', contact: contacts[0], account: account_1,
+  #                      position: 1)
+  # deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contact: contacts[1], account: account_1,
+  #                      position: 2)
+  # deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contact: contacts[2], account: account_1,
+  #                      position: 3)
   # deal_1 = Deal.create(name: 'Deal 1', stage: stage_1, status: 'open', contacts: [ contacts[0] ], account: account_1)
   # deal_2 = Deal.create(name: 'Deal 2', stage: stage_2, status: 'open', contacts: [ contacts[1] ], account: account_1)
   # deal_3 = Deal.create(name: 'Deal 3', stage: stage_3, status: 'open', contacts: [ contacts[2] ], account: account_1)
 
-  event_1 = Event.create(account: account_1, contact: deal_1.contact, deal: deal_1, kind: 'note', from_me: true)
-  event_2 = Event.create(account: account_1, contact: deal_2.contact, deal: deal_2, kind: 'note', from_me: true)
-  event_3 = Event.create(account: account_1, contact: deal_3.contact, deal: deal_3, kind: 'note', from_me: true)
+  # event_1 = Event.create(account: account_1, contact: deal_1.contact, deal: deal_1, kind: 'note', from_me: true)
+  # event_2 = Event.create(account: account_1, contact: deal_2.contact, deal: deal_2, kind: 'note', from_me: true)
+  # event_3 = Event.create(account: account_1, contact: deal_3.contact, deal: deal_3, kind: 'note', from_me: true)
 
   installation = Installation.create(id: SecureRandom.uuid, key1: Faker::Alphanumeric.alphanumeric(number: 10),
                                      key2: Faker::Alphanumeric.alphanumeric(number: 10), status: 'completed', token: Faker::Alphanumeric.alphanumeric(number: 20))
