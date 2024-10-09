@@ -13,8 +13,7 @@ class ApplicationController < ActionController::Base
   private
 
   def setup_installation
-    installation_routes_regex = %r{\A/installation/(new|create|step_1|step_2|step_3|update_step_1|update_step_2|update_step_3|loading)\z}
-    return unless Installation.installation_flow? && request.path !~ installation_routes_regex
+    return unless Installation.installation_flow? && !request.path.include?('/installation')
 
     redirect_to installation_new_path and return
   end
@@ -23,14 +22,3 @@ class ApplicationController < ActionController::Base
     @account = Current.account
   end
 end
-
-# def setup_installation
-#   installation_routes_regex = %r{\A/installation/(new|create|step_1|step_2|step_3|update_step_1|update_step_2|update_step_3|loading)\z}
-#   if Installation.installation_flow? && request.path !~ instalunlelation_routes_regex
-#     redirect_to installation_new_path and return
-
-#   end
-#   return unless Installation.installation_flow? && request.path =~ installation_routes_regex
-
-#   redirect_to new_user_session_path and return
-# end
