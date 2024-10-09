@@ -1,44 +1,29 @@
-<% if Installation.installation_flow? %>
-  <div class='justify-items-center self-center justify-self-start'>
-    <h1 class='typography-title-b-lh150'>
-      <%= t('views.installation.new.join_crm', crm_name: 'WoofedCRM') %>
-    </h1>
-    <p class='typography-body-r-lh150 mt-1'>
-      <%= t('views.installation.new.step_away_from_growth') %>
-    </p>
-    <%= link_to Installation.installation_url, class: 'mt-6 px-6 py-3 inline-flex items-center gap-2 border border-light-palette-p3 rounded-lg typography-body-s-lh150 text-brand-palette-03 leading-none' do %>
-      <%= image_tag 'google-icon', class: '' %>
-      <p>
-        <%= t('views.installation.new.login_with_provider', provider: 'Google') %>
-      </p>
-    <% end %>
-  </div>
-  <%# link_to t('views.devise.sessions.new.start_installation'), , class: "btn-primary cursor-pointer" %>
-<% else%>
-  <div class='max-w-md self-center '>
-    <h1 class="text-[2rem] text-dark-palette-p4 mb-0.5">
-      <%= t('views.installation.new.join_crm', crm_name: 'WoofedCRM') %>
-    </h1>
-    <p class='text-dark-palette-p4 typography-body-r-lh150 mb-8'>
-      <%= t('views.installation.new.step_away_from_growth') %>
-    </p>
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f| %>
-      <div class="grid gap-5 mb-2">
-        <div class="grid gap-2">
-          <%= f.label :email, class: "typography-text-m-lh150 leading-none text-dark-gray-palette-p1" %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input h-9" %>
-        </div>
-        <div class="grid gap-2 mb-4">
-          <div class="flex items-center justify-between">
-            <%= f.label :password, class: "typography-text-m-lh150 leading-none text-dark-gray-palette-p1" %>
-            <%= link_to t('views.devise.sessions.new.forgot_password'), new_password_path(resource_name), class: "typography-text-m-lh150 text-dark-gray-palette-p1 hover:text-brand-palette-02 hidden" %>
-          </div>
-          <%= f.password_field :password, autocomplete: "current-password", class: "form-input w-full h-9" %>
-        </div>
-        <%= f.submit t('views.devise.sessions.new.log_in'), class: "btn-primary cursor-pointer" %>
+<div class='max-w-md self-center '>
+  <h1 class="text-[2rem] text-dark-palette-p4 mb-0.5">
+    <%= t('views.installation.new.join_crm', crm_name: 'WoofedCRM') %>
+  </h1>
+  <p class='text-dark-palette-p4 typography-body-r-lh150 mb-8'>
+    <%= t('views.installation.new.step_away_from_growth') %>
+  </p>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f| %>
+    <div class="grid gap-5 mb-2">
+      <div class="grid gap-2">
+        <%= f.label :email, class: "typography-text-m-lh150 leading-none text-dark-gray-palette-p1" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input h-9" %>
       </div>
-    <% end %>
-    <%# if ENV.fetch('ENABLE_USER_SIGNUP', 'true') == 'true' %>
-    <%# end %>
-  </div>
-<% end %>
+      <div class="grid gap-2 mb-4">
+        <div class="flex items-center justify-between">
+          <%= f.label :password, class: "typography-text-m-lh150 leading-none text-dark-gray-palette-p1" %>
+          <%= link_to t('views.devise.sessions.new.forgot_password'), new_password_path(resource_name), class: "typography-text-m-lh150 text-dark-gray-palette-p1 hover:text-brand-palette-02 hidden" %>
+        </div>
+        <%= f.password_field :password, autocomplete: "current-password", class: "form-input w-full h-9" %>
+      </div>
+      <%= f.submit t('views.devise.sessions.new.log_in'), class: "btn-primary cursor-pointer" %>
+    </div>
+  <% end %>
+  <% if ENV.fetch('ENABLE_USER_SIGNUP', 'true') == 'true' %>
+    <div class="text-center typography-text-m-lh150 text-dark-gray-palette-p1 mt-5">
+      <%= t('views.devise.sessions.new.account_answer') %> <%= link_to t('views.devise.sessions.new.create_account'), new_registration_path(resource_name), data: { turbo: false}, class: "text-brand-palette-02 hover:text-brand-palette-01" %>
+    </div>
+  <% end %>
+</div>
