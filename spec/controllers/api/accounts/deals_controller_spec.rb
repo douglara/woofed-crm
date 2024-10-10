@@ -118,4 +118,37 @@ RSpec.describe 'Deals API', type: :request do
       end
     end
   end
+
+  describe 'PATCH /api/v1/accounts/{account.id}/deals/{deal.id}' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/api/v1/accounts/#{account.id}/deals/#{deal.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      params = { name: 'Deal updated test' }
+      context 'patch deal' do
+        it 'should update deal' do
+          patch("/api/v1/accounts/#{account.id}/deals/#{deal.id}",
+                headers: { 'Authorization': "Bearer #{user.get_jwt_token}" },
+                params:)
+
+          expect(response).to have_http_status(:success)
+          expect(response.body).to include(params[:name])
+        end
+      end
+      context 'when deal is not found' do
+        it 'should raise error' do
+          expect do
+            patch "/api/v1/accounts/#{account.id}/deals/69",
+                  headers: { 'Authorization': "Bearer #{user.get_jwt_token}" },
+                  params:
+          end.raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+    end
+  end
 end
