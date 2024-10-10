@@ -485,6 +485,7 @@ RSpec.describe InstallationController, type: :request do
     end
   end
   describe 'PATCH /installation/update_step_3' do
+    let!(:installation) { create(:installation, status: 'in_progress') }
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         patch '/installation/update_step_3',
@@ -524,6 +525,8 @@ RSpec.describe InstallationController, type: :request do
       end
       context 'when there is no account registered' do
         it 'should create account and redirect to loading installation path' do
+          allow(Installation).to receive(:first).and_return(installation)
+          allow(installation).to receive(:complete_installation!).and_return(true)
           expect do
             patch '/installation/update_step_3',
                   params: { account: { name: 'Woofed company', site_url: 'app.woofedcrm.com' } }
