@@ -146,7 +146,7 @@ RSpec.describe 'Deals API', type: :request do
             patch "/api/v1/accounts/#{account.id}/deals/69",
                   headers: { 'Authorization': "Bearer #{user.get_jwt_token}" },
                   params:
-          end.raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
     end
