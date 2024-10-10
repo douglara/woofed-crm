@@ -13,9 +13,9 @@ class ApplicationController < ActionController::Base
   private
 
   def setup_installation
-    return unless Installation.installation_flow? && !request.path.include?('/installation')
-
-    redirect_to installation_new_path and return
+    if Installation.installation_flow? && !request.path.include?('/installation')
+      redirect_to installation_new_path and return
+    end
   end
 
   def set_account
