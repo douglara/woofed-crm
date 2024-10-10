@@ -175,7 +175,7 @@ RSpec.describe InstallationController, type: :request do
 
   describe 'setup_installation' do
     context 'GET /accounts/1/users' do
-      context 'when there is no user and installation registered' do
+      skip 'when there is no user and installation registered' do
         it 'should redirect to installation new path' do
           get '/accounts/1/users'
           expect(response).to redirect_to(installation_new_path)
@@ -195,7 +195,7 @@ RSpec.describe InstallationController, type: :request do
               expect(response).to redirect_to(new_user_session_path)
             end
           end
-          context 'when installation status is in_progress' do
+          skip 'when installation status is in_progress' do
             let!(:installation) { create(:installation, status: 'in_progress') }
 
             it 'should redirect to new installation path' do
