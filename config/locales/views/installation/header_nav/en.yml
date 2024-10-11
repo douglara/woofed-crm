@@ -1,0 +1,9 @@
+en:
+  views:
+    installation:
+      header_nav:
+        basic_info: "Basic Info"
+        password: "Password"
+        company_info: "Company Info"
+        register_now: "Register Now"
+        no_registration_message: "You don't have a registration with Woofed yet, but don't worry, you can continue your registration."

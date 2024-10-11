@@ -1,0 +1,28 @@
+<div class='max-w-lg self-start'>
+  <%= render 'header_nav' %>
+  <%= form_with(model: @user, url: installation_update_step_2_path, method: :patch, local: true) do |f| %>
+    <%= render 'form_errors', model: @user %>
+    <div class="grid gap-5">
+      <div class="grid gap-1">
+        <%= f.label :email, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input h-9", required: true, value: current_user.email, readonly: true %>
+      </div>
+      <div class="grid gap-1">
+        <div class="flex items-center justify-between">
+          <%= f.label :password, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        </div>
+        <%= f.password_field :password, autocomplete: "new-password", class: "form-input h-9 w-full", required: true %>
+        <% if @minimum_password_length %>
+          <p class="invalid-feedback typography-sub-text-r-lh150 text-dark-gray-palette-p1">
+            <%= t('views.devise.registrations.new.password_minimum_characters', characters: @minimum_password_length) %>
+          </p>
+        <% end %>
+      </div>
+      <div class="grid gap-1">
+        <%= f.label :password_confirmation, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-input h-9 w-full", required: true %>
+      </div>
+      <%= f.submit 'Próxima Etapa', class:"btn-primary cursor-pointer justify-self-start" %>
+    <% end %>
+  </div>
+</div>

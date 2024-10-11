@@ -1,0 +1,19 @@
+<div class="self-center">
+  <div class="w-56 h-56 mx-auto">
+    <%= image_tag 'installations-loading' %>
+  </div>
+  <div class='w-16 h-16 mx-auto mb-6'>
+    <%= embedded_svg("logo-patinha.svg", class: 'fill-brand-palette-03') %>
+  </div>
+  <h1 class="text-center typography-title-b-lh150 text-dark-palette-p4">
+    <%= t('views.installation.loading.creating_company') %>
+  </h1>
+  <p class="text-center text-dark-palette-p4 typography-body-r-lh150">
+    <%= t('views.installation.loading.no_registration_message') %>
+  </p>
+</div>
+<script>
+  setTimeout(function() {
+      window.location.replace("/");
+  }, (4 * 1000));
+</script>

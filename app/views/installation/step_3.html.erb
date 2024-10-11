@@ -1,0 +1,38 @@
+<div class='max-w-lg self-start'>
+  <%= render 'header_nav' %>
+  <%= form_with(model: @account, url: installation_update_step_3_path, method: :patch, local: true) do |f| %>
+    <%= render 'form_errors', model: @account %>
+    <div class="grid gap-5">
+      <div class="grid gap-1">
+        <%= f.label :name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <%= f.text_field :name, autofocus: true, autocomplete: "Company Name", class: "form-input h-9", required: true %>
+      </div>
+      <div class="grid gap-1">
+        <%= f.label :site_url, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <%= f.text_field :site_url, autofocus: true, autocomplete: "Company Site", class: "form-input h-9", required: true %>
+      </div>
+      <div class="grid gap-1">
+        <%= f.label :segment, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <%= f.select :segment, options_for_select([
+      ['Tecnologia', 'technology'],
+      ['Saúde', 'health'],
+      ['Financeiro', 'finance'],
+      ['Educação', 'education'],
+      ['Varejo', 'retail'],
+      ['Serviços', 'services']
+    ]), {}, { class: "form-input h-9" } %>
+      </div>
+      <div class="grid gap-1">
+        <%= f.label :number_of_employees, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+        <%= f.select :number_of_employees, options_for_select([
+      ['1-10 Funcionários', '1-10'],
+      ['11-50 Funcionários', '11-50'],
+      ['51-200 Funcionários', '51-200'],
+      ['201-500 Funcionários', '201-500'],
+      ['501+ Funcionários', '501+']
+    ]), {}, { class: "form-input h-9" } %>
+      </div>
+      <%= f.submit 'Cadastrar Empresa', class:"btn-primary cursor-pointer justify-self-start" %>
+    <% end %>
+  </div>
+</div>

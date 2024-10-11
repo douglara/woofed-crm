@@ -1,0 +1,53 @@
+<ol class='hidden lg:inline-flex gap-4 p-4 border rounded-lg items-center mb-6'>
+  <li class='inline-flex gap-2 items-center'>
+    <div class='border rounded-full <%= action_name == 'step_1' ? 'border-brand-palette-03' : '' %> w-5 h-5 grid items-center justify-center'>
+      <span class=' text-xs leading-none m-auto <%= action_name == 'step_1' ? 'text-brand-palette-03' : '' %>'>1</span>
+    </div>
+    <span class="typography-body-r-lh150 <%= action_name == 'step_1' ? 'text-brand-palette-03' : '' %>">
+      <%= t('views.installation.header_nav.basic_info') %>
+    </span>
+  </li>
+  <%= image_tag 'chevrons-right.svg', class: "w-5 h-5" %>
+  <li class='inline-flex gap-2 items-center'>
+    <div class='border rounded-full <%= action_name == 'step_2' ? 'border-brand-palette-03' : '' %> w-5 h-5 grid items-center justify-center'>
+      <span class=' text-xs leading-none m-auto <%= action_name == 'step_2' ? 'text-brand-palette-03' : '' %>'>2</span>
+    </div>
+    <span class="typography-body-r-lh150 <%= action_name == 'step_2' ? 'text-brand-palette-03' : '' %>">
+      <%= t('views.installation.header_nav.password') %>
+    </span>
+  </li>
+  <%= image_tag 'chevrons-right.svg', class: "w-5 h-5" %>
+  <li class='inline-flex gap-2 items-center'>
+    <div class='border rounded-full <%= action_name == 'step_3' ? 'border-brand-palette-03' : '' %> w-5 h-5 grid items-center justify-center'>
+      <span class=' text-xs leading-none m-auto <%= action_name == 'step_3' ? 'text-brand-palette-03' : '' %>'>3</span>
+    </div>
+    <span class="typography-body-r-lh150 <%= action_name == 'step_3' ? 'text-brand-palette-03' : '' %>">
+      <%= t('views.installation.header_nav.company_info') %>
+    </span>
+  </li>
+</ol>
+<ol class='inline-flex lg:hidden gap-2 items-center mb-4'>
+  <li class='inline-flex gap-2 items-center'>
+    <span class="typography-micro-m-lh150 <%= action_name == 'step_1' ? 'text-brand-palette-03' : '' %>">
+      <%= t('views.installation.header_nav.basic_info') %>
+    </span>
+  </li>
+  <%= image_tag 'chevrons-right.svg', class: "w-5 h-5" %>
+  <li class='inline-flex gap-2 items-center'>
+    <span class="typography-micro-m-lh150 <%= action_name == 'step_2' ? 'text-brand-palette-03' : '' %>">
+      <%= t('views.installation.header_nav.password') %>
+    </span>
+  </li>
+  <%= image_tag 'chevrons-right.svg', class: "w-5 h-5" %>
+  <li class='inline-flex gap-2 items-center'>
+    <span class="typography-micro-m-lh150 <%= action_name == 'step_3' ? 'text-brand-palette-03' : '' %>">
+      <%= t('views.installation.header_nav.company_info') %>
+    </span>
+  </li>
+</ol>
+<h1 class='typography-title-b-lh150 text-dark-palette-p4 mb-0.5'>
+  <%= t('views.installation.header_nav.register_now') %>
+</h1>
+<p class='text-dark-palette-p4 typography-body-r-lh150 mb-6'>
+  <%= t('views.installation.header_nav.no_registration_message') %>
+</p>

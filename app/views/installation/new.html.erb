@@ -1,0 +1,14 @@
+<div class='self-center justify-self-start'>
+  <h1 class='typography-title-b-lh150'>
+    <%= t('views.installation.new.join_crm', crm_name: 'WoofedCRM') %>
+  </h1>
+  <p class='typography-body-r-lh150 mt-1'>
+    <%= t('views.installation.new.step_away_from_growth') %>
+  </p>
+  <%= link_to Installation.installation_url, class: 'mt-6 px-6 py-3 inline-flex items-center gap-2 border border-light-palette-p3 rounded-lg typography-body-s-lh150 text-brand-palette-03 leading-none' do %>
+    <%= image_tag 'google-icon', class: '' %>
+    <p>
+      <%= t('views.installation.new.login_with_provider', provider: 'Google') %>
+    </p>
+  <% end %>
+</div>

@@ -1,0 +1,19 @@
+en:
+  views:
+    layouts:
+      devise:
+        cellphone_title: "Transform<br>Sales!"
+        cellphone_list_easy: "Easy"
+        cellphone_list_simple: "Simple"
+        cellphone_list_efficient: "Efficient"
+        cellphone_tagline: "CRM that simplifies your life<br>and boosts sales!"
+        new_leads_generated: "New leads generated"
+        new_lead: "New Lead"
+        mastery: "Master with %{crm_name}"
+        sales_funnel: "Sales Funnel"
+        reminder: "Reminder"
+        crm_help: "The <strong>CRM</strong> to <br> help your company <br> <strong>GROW</strong>"
+        lead_management: "Lead Management"
+        new_lead_arrival: "🎉 A new Lead has just arrived"
+        new_client: New Client
+        ceo_founder: "CEO/Founder"

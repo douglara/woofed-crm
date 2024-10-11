@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_08_235510) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_25_120344) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -23,6 +23,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_08_235510) do
     t.string "site_url", default: "", null: false
     t.boolean "woofbot_auto_reply", default: false, null: false
     t.jsonb "ai_usage", default: {"limit"=>16666667, "tokens"=>0}, null: false
+    t.string "segment", default: "", null: false
+    t.string "number_of_employees", default: "", null: false
   end
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -275,6 +277,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_08_235510) do
     t.index ["priority", "scheduled_at"], name: "index_good_jobs_on_priority_scheduled_at_unfinished_unlocked", where: "((finished_at IS NULL) AND (locked_by_id IS NULL))"
     t.index ["queue_name", "scheduled_at"], name: "index_good_jobs_on_queue_name_and_scheduled_at", where: "(finished_at IS NULL)"
     t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
+  end
+
+  create_table "installations", id: :string, force: :cascade do |t|
+    t.string "key1", default: "", null: false
+    t.string "key2", default: "", null: false
+    t.string "token", default: "", null: false
+    t.integer "status", default: 0, null: false
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_installations_on_user_id"
   end
 
   create_table "motor_alert_locks", force: :cascade do |t|
@@ -540,6 +553,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_08_235510) do
     t.string "phone"
     t.string "language", default: "", null: false
     t.jsonb "notifications", default: "{\"webpush_notify_on_event_expired\":false}", null: false
+    t.string "avatar_url", default: "", null: false
+    t.string "job_description", default: "", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

@@ -2,13 +2,15 @@
 #
 # Table name: accounts
 #
-#  id                 :bigint           not null, primary key
-#  ai_usage           :jsonb            not null
-#  name               :string           default(""), not null
-#  site_url           :string           default(""), not null
-#  woofbot_auto_reply :boolean          default(FALSE), not null
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id                  :bigint           not null, primary key
+#  ai_usage            :jsonb            not null
+#  name                :string           default(""), not null
+#  number_of_employees :string           default(""), not null
+#  segment             :string           default(""), not null
+#  site_url            :string           default(""), not null
+#  woofbot_auto_reply  :boolean          default(FALSE), not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 class Account < ApplicationRecord
   validates :name, presence: true

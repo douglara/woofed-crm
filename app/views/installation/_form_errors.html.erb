@@ -1,0 +1,7 @@
+<% if model.errors.any? %>
+  <ul class= 'mb-4'>
+    <% model.errors.each do |error| %>
+      <li class="typography-body-s-lh150 text-auxiliary-palette-red "><%= error.full_message %></li>
+    <% end %>
+  </ul>
+<% end %>

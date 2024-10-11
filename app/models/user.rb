@@ -3,9 +3,11 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
+#  avatar_url             :string           default(""), not null
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  full_name              :string           default(""), not null
+#  job_description        :string           default(""), not null
 #  language               :string           default("en"), not null
 #  notifications          :jsonb            not null
 #  phone                  :string
@@ -21,6 +23,7 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
+  has_one :installation
   has_many :webpush_subscriptions
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

@@ -2,16 +2,18 @@ pt-BR:
   activerecord:
     models:
       account:
-        one: 'Conta'
-        other: 'Contas'
-        new: 'Nova conta'
-        edit: 'Editar conta'
+        one: "Conta"
+        other: "Contas"
+        new: "Nova conta"
+        edit: "Editar conta"
     attributes:
       account:
-        id: 'ID'
-        name: 'Nome'
-        created_at: 'Criado em'
-        updated_at: 'Atualizado em'
-        site_url: 'URL do site'
-        woofbot_auto_reply: 'Resposta automática do Woofbot'
-        ai_usage: 'Uso de IA'
+        id: "ID"
+        name: "Nome"
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+        site_url: "Site da Empresa"
+        segment: "Segmento"
+        number_of_employees: "Tamanho da Empresa"
+        woofbot_auto_reply: "Resposta automática do Woofbot"
+        ai_usage: "Uso de IA"
