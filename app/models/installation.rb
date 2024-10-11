@@ -35,7 +35,7 @@ class Installation < ApplicationRecord
 
   def self.installation_flow?
     Installation.first&.status != 'completed'
-  rescue ActiveRecord::StatementInvalid
+  rescue StandardError
     true
   end
 end
