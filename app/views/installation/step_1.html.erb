@@ -7,7 +7,7 @@
         <div class="w-24 h-24 rounded-full">
           <%= image_tag current_user.avatar_url, class: 'w-full h-full object-cover rounded-full' %>
         </div>
-        <div class='btn-secondary cursor-pointer'>
+        <div class='btn-secondary cursor-pointer hidden'>
           Alterar Imagem
         </div>
       </div>
@@ -21,18 +21,7 @@
       </div>
       <div class="grid gap-1">
         <%= f.label :job_description, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
-        <%= f.select :job_description, options_for_select([
-  ['CEO', 'ceo'],
-  ['CFO', 'cfo'],
-  ['CTO', 'cto'],
-  ['Project Manager', 'project_manager'],
-  ['Software Engineer', 'software_engineer'],
-  ['Marketing Manager', 'marketing_manager'],
-  ['Sales Representative', 'sales_representative'],
-  ['HR Specialist', 'hr_specialist'],
-  ['Customer Support', 'customer_support'],
-  ['Product Manager', 'product_manager']
-]), {}, { class: "form-input h-9" } %>
+        <%= f.select :job_description, options_for_select(User.job_descriptions.keys.map { |job| [User.human_enum_name(:job_description, job), job] }), {}, { class: "form-input h-9" } %>
       </div>
       <%= f.submit 'Próxima Etapa', class:"btn-primary cursor-pointer justify-self-start" %>
     <% end %>

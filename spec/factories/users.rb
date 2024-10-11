@@ -7,8 +7,8 @@
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  full_name              :string           default(""), not null
-#  job_description        :string           default(""), not null
-#  language               :string           default("en"), not null
+#  job_description        :string           default("other"), not null
+#  language               :string           default("pt-BR"), not null
 #  notifications          :jsonb            not null
 #  phone                  :string
 #  remember_created_at    :datetime
