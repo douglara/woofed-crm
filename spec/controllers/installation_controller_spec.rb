@@ -524,14 +524,15 @@ RSpec.describe InstallationController, type: :request do
       end
       context 'when there is no account registered' do
         it 'should create account and redirect to loading installation path' do
+          allow(Accounts::Create::EmbedCompanySiteJob).to receive(:perform_later).and_return(true)
           expect do
             patch '/installation/update_step_3',
-                  params: { account: { name: 'Woofed company', site_url: 'url_test_update' } }
+                  params: { account: { name: 'Woofed company', site_url: 'https://url_test_update.com' } }
           end.to change(Account, :count).by(1)
           expect(response).to have_http_status(302)
           expect(response).to redirect_to(installation_loading_path)
           expect(first_account.name).to eq('Woofed company')
-          expect(first_account.site_url).to eq('url_test_update')
+          expect(first_account.site_url).to eq('https://url_test_update.com')
         end
         context 'when there are invalid params' do
           it 'should not update account and raise error' do
