@@ -7,8 +7,8 @@
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  full_name              :string           default(""), not null
-#  job_description        :string           default(""), not null
-#  language               :string           default("en"), not null
+#  job_description        :string           default("other"), not null
+#  language               :string           default("pt-BR"), not null
 #  notifications          :jsonb            not null
 #  phone                  :string
 #  remember_created_at    :datetime
@@ -40,6 +40,36 @@ class User < ApplicationRecord
   store :notifications, accessors: [
     :webpush_notify_on_event_expired
   ], coder: JSON
+
+  enum job_description: {
+    ceo: 'ceo',
+    cfo: 'cfo',
+    cto: 'cto',
+    project_manager: 'project_manager',
+    software_engineer: 'software_engineer',
+    marketing_manager: 'marketing_manager',
+    sales_representative: 'sales_representative',
+    hr_specialist: 'hr_specialist',
+    customer_support: 'customer_support',
+    product_manager: 'product_manager',
+    operations_manager: 'operations_manager',
+    business_development_manager: 'business_development_manager',
+    data_analyst: 'data_analyst',
+    account_manager: 'account_manager',
+    consultant: 'consultant',
+    financial_analyst: 'financial_analyst',
+    graphic_designer: 'graphic_designer',
+    ux_ui_designer: 'ux_ui_designer',
+    content_creator: 'content_creator',
+    legal_counsel: 'legal_counsel',
+    research_scientist: 'research_scientist',
+    it_administrator: 'it_administrator',
+    system_administrator: 'system_administrator',
+    project_coordinator: 'project_coordinator',
+    operations_coordinator: 'operations_coordinator',
+    executive_assistant: 'executive_assistant',
+    other: 'other'
+  }
 
   after_update_commit do
     broadcast_replace_later_to "users_#{account_id}", target: self, partial: '/accounts/users/user',
