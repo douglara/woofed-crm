@@ -117,16 +117,16 @@
         posthog.identify(
           '<%= current_user.id %>',
           { 
-            email: '<%= current_user.email %>',
-            name: '<%= current_user.full_name %>',
-            account_id: '<%= current_user.account.id %>',
-            account_name: '<%= current_user.account.name %>',
+            email: '<%= current_user&.email %>',
+            name: '<%= current_user&.full_name %>',
+            account_id: '<%= current_user&.account&.id %>',
+            account_name: '<%= current_user&.account&.name %>',
             frontend_url: '<%= ENV.fetch('FRONTEND_URL', "") %>'
           }
         );
 
-        posthog.group('company', '<%= current_user.account.id %>', {
-            name: '<%= current_user.account.name %>'
+        posthog.group('company', '<%= current_user&.account&.id %>', {
+            name: '<%= current_user&.account&.name %>'
         });
       <% end %>
   </script>
