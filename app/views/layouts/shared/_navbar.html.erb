@@ -1,4 +1,4 @@
-<nav class="flex flex-wrap w-full h-20 ease-in duration-300 items-center justify-between py-2 sm:py-4 px-6 sm:px-8 border-b-2 border-light-palette-p3 relative">
+<nav class="flex flex-wrap w-full h-20 ease-in duration-300 items-center justify-between py-2 bg-light-palette-p5 sm:py-4 px-6 sm:px-8 border-b-2 border-light-palette-p3 relative">
   <% if controller_path == 'accounts/pipelines' && ['index', 'show', 'edit', 'new'].include?(action_name) %>
     <%= render "layouts/shared/navbar_pipe" %>
   <% elsif controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
