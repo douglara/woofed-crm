@@ -3,14 +3,14 @@ en:
     accounts:
       settings:
         index:
-          integrate_with_other_apps: 'Integrate Woofed with other applications in your company'
-          whatsapp: 'WhatsApp'
-          whatsapp_configuration: 'Set up your WhatsApp connection'
-          chatwoot: 'Chatwoot'
-          chatwoot_configuration: 'Set up your Chatwoot connection'
-          webhooks: 'Webhooks'
-          webhooks_configuration: 'Set up your webhooks connection'
-          artificial_intelligence: 'Artificial Intelligence'
-          ai_configuration: 'Set up your artificial intelligence usage'
-          integrations: 'Integrations'
-          my_account: 'My Account'
+          integrate_with_other_apps: "Integrate Woofed with other applications in your company"
+          whatsapp: "WhatsApp"
+          whatsapp_configuration: "Set up your WhatsApp connection"
+          chatwoot: "Chatwoot"
+          chatwoot_configuration: "Set up your Chatwoot connection"
+          webhooks: "Webhooks"
+          webhooks_configuration: "Set up your webhooks connection"
+          artificial_intelligence: "Artificial Intelligence"
+          ai_configuration: "Set up your artificial intelligence usage"
+          integrations: "Integrations"
+          my_account: "My Account"

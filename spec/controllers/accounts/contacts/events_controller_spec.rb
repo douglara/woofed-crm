@@ -453,4 +453,42 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
       end
     end
   end
+
+  describe 'GET /accounts/{account.id}/contacts/{contact.id}/events/new' do
+    context 'when it is unthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/contacts/#{contact.id}/events/new"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+      context 'get events new page' do
+        it do
+          get "/accounts/#{account.id}/contacts/#{contact.id}/events/new",
+          params: { deal_id: deal.id }
+          expect(response).to have_http_status(200)
+          expect(response.body).to include('Note')
+          expect(response.body).to include('Activity')
+          expect(response.body).to include('chatwoot_message')
+          expect(response.body).not_to include('evolution_api_message')
+        end
+        context 'when there is whatsapp integration' do
+          let!(:evolution_api) { create(:apps_evolution_api, account:) }
+
+          it 'should show chatwoot button on event form' do
+            get "/accounts/#{account.id}/contacts/#{contact.id}/events/new",
+            params: { deal_id: deal.id }
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('Note')
+            expect(response.body).to include('Activity')
+            expect(response.body).to include('chatwoot_message')
+            expect(response.body).to include('evolution_api_message')
+          end
+        end
+      end
+    end
+  end
 end
