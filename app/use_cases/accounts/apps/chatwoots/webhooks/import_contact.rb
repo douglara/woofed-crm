@@ -5,7 +5,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportContact
   end
 
   def self.get_or_import_contact(chatwoot, contact_id)
-    contact = chatwoot.account.contacts.where("CAST(additional_attributes->>'chatwoot_id' AS INTEGER) = ?",
+    contact = Contact.where("CAST(additional_attributes->>'chatwoot_id' AS INTEGER) = ?",
                                               contact_id).first
     contact_att = get_contact(chatwoot, contact_id)
     return 'Contact not found' if contact_att == false

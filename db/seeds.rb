@@ -15,6 +15,8 @@ if Rails.env.development? && User.all.count == (0)
                        password_confirmation: '123456', account: account_1)
   user_3 = User.create(full_name: 'User 3', email: 'user3@email.com', password: '123456',
                        password_confirmation: '123456', account: account_1)
+  user_4 = User.create(full_name: 'User 3', email: 'john@acme.inc', password: '123456',
+    password_confirmation: '123456', account: account_1)
 
   pipeline = Pipeline.create(name: 'Sales', account: account_1)
   stage_1 = Stage.create(pipeline:, name: 'New', position: 1, account: account_1)
@@ -25,7 +27,7 @@ if Rails.env.development? && User.all.count == (0)
   contacts = []
   20.times do |time|
     contacts.append(Contact.create(full_name: "Contact #{time}", email: "contact#{time}@email.com",
-                                   phone: '41998910151', account: account_1))
+                                   phone: "4199891015#{time}", account: account_1))
   end
 
   # deal_1 = Deal.create(name: 'Deal 1', stage: stage_1, status: 'open', contact: contacts[0], account: account_1,
