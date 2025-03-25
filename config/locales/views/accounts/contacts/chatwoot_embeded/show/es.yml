@@ -1,0 +1,7 @@
+es:
+  views:
+    accounts:
+      contacts:
+        chatwoot_embeded:
+          show:
+            kanban_view: "Mostrar vista Kanban"

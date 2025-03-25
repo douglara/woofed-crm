@@ -23,7 +23,7 @@ HTML
   <% end %>
   <div class="px-4 py-5 rounded-md border-2 border-light-palette-p3 flex justify-between bg-light-palette-p5 text-dark-gray-palette-p1 items-center">
     <p class="typography-body-s-lh150">
-      <%= t('views.accounts.contacts.chatwoot_embeded.form.contact_not_found', crm_name: @branding_name) %>
+      <%= t('views.accounts.contacts.chatwoot_embeded.form.contact_not_found', crm_name: 'Woofed CRM') %>
     </p>
     <div class="flex gap-4">
       <%= form.button nil, class:"p-1 cursor-pointer rounded-md hover:bg-light-palette-p3", data: { disable_with: loading_spinner } do %>
