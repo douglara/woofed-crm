@@ -14,4 +14,9 @@ en:
         email: Email
         label_list: Labels
         chatwoot_conversations_label_list: Chatwoot Conversation Labels
-
+    errors:
+      contact:
+        email:
+          invalid: is invalid
+        phone:
+          invalid: must be in e164 format

@@ -14,3 +14,9 @@ pt-BR:
         email: Email
         label_list: Etiquetas
         chatwoot_conversations_label_list: Etiquetas de conversas no Chatwoot
+    errors:
+      contact:
+        email:
+          invalid: é inválido
+        phone:
+          invalid: deve estar no formato e164
