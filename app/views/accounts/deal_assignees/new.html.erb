@@ -21,7 +21,7 @@
     <% end %>
     <div class='mb-2.5'>
       <%= turbo_frame_tag :select_user_search,
-            src: select_user_search_account_deal_assignees_path(current_user.account), class: "relative" do %>
+            src: select_user_search_account_users_path(Current.account, form_name: "deal_assignee[user_id]"), class: "relative" do %>
         <%= render 'components/loading' %>
       <% end %>
     </div>

@@ -30,16 +30,6 @@ class Accounts::DealAssigneesController < InternalController
     end
   end
 
-  def select_user_search
-    @users = if params[:query].present?
-               User.where(
-                 'full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search', search: "%#{params[:query]}%"
-               ).order(updated_at: :desc).limit(5)
-             else
-               User.order(updated_at: :desc).limit(5)
-             end
-  end
-
   private
 
   def deal_assignees_params
