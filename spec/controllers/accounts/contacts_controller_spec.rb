@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Accounts::ContactsController, type: :request do
   let!(:account) { create(:account) }
-  let!(:user) { create(:user, account: account) }
-  let!(:contact) { create(:contact, account: account) }
+  let!(:user) { create(:user, account:) }
+  let!(:contact) { create(:contact, account:) }
 
   context 'when it is an unauthenticated user' do
     let!(:params) do
@@ -12,7 +12,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
     end
 
     it 'returns unauthorized' do
-      expect { post "/accounts/#{account.id}/contacts", params: params }.not_to change(Contact, :count)
+      expect { post "/accounts/#{account.id}/contacts", params: }.not_to change(Contact, :count)
       expect(response).to redirect_to(new_user_session_path)
     end
   end
@@ -29,7 +29,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
 
     it 'create contact' do
       expect do
-        post "/accounts/#{account.id}/contacts", params: params
+        post "/accounts/#{account.id}/contacts", params:
       end.to change(Contact, :count).by(1)
 
       expect(response).to have_http_status(302)
@@ -42,7 +42,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
                                 account_id: account.id } }
 
           expect do
-            post "/accounts/#{account.id}/contacts", params: params
+            post "/accounts/#{account.id}/contacts", params:
           end.to change(Contact, :count).by(0)
 
           expect(response.body).to include('Phone (cell) is invalid')
@@ -54,7 +54,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
                                 account_id: account.id } }
 
           expect do
-            post "/accounts/#{account.id}/contacts", params: params
+            post "/accounts/#{account.id}/contacts", params:
           end.to change(Contact, :count).by(0)
 
           expect(response.body).to include('Phone (cell) is invalid')
@@ -66,7 +66,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
                                 account_id: account.id } }
 
           expect do
-            post "/accounts/#{account.id}/contacts", params: params
+            post "/accounts/#{account.id}/contacts", params:
           end.to change(Contact, :count).by(0)
 
           expect(response.body).to include('Phone (cell) is invalid')
@@ -115,9 +115,84 @@ RSpec.describe Accounts::ContactsController, type: :request do
             it 'should return 0 products' do
               get "/accounts/#{account.id}/contacts/select_contact_search?query=teste"
               expect(response).to have_http_status(200)
-              expect(response.body).not_to include('teste')
+              expect(response.body).not_to include('click->select-search#select')
               expect(response.body).not_to include(contact.full_name)
             end
+          end
+        end
+        context 'when there is a form_name parameter' do
+          it 'should render form_name as hidden_field_name on html form' do
+            get "/accounts/#{account.id}/contacts/select_contact_search",
+                params: { form_name: 'deal[contact_id]' }
+
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('deal[contact_id]')
+          end
+        end
+
+        context 'when there is no form_name parameter' do
+          it 'should not render a specific hidden_field_name on html form' do
+            get "/accounts/#{account.id}/contacts/select_contact_search"
+
+            expect(response).to have_http_status(200)
+            expect(response.body).not_to include('deal[contact_id]')
+          end
+        end
+
+        context 'when there is a content_value parameter' do
+          it 'should render content_value as selected_model_name on html form' do
+            get "/accounts/#{account.id}/contacts/select_contact_search",
+                params: { content_value: 'contact_name_test' }
+
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('contact_name_test')
+            expect(response.body).not_to include('Search contact')
+          end
+        end
+
+        context 'when there is no content_value parameter' do
+          it 'should render the default search placeholder instead of a selected name' do
+            get "/accounts/#{account.id}/contacts/select_contact_search"
+
+            expect(response).to have_http_status(200)
+            expect(response.body).not_to include('contact_name_test')
+            expect(response.body).to include('Search contact')
+          end
+        end
+
+        context 'when there is a form_id parameter' do
+          it 'should render form_id as hidden_field_value on html form' do
+            get "/accounts/#{account.id}/contacts/select_contact_search",
+                params: { form_id: '101' }
+
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('value="101"')
+          end
+        end
+
+        context 'when there is no form_id parameter' do
+          it 'should not render a specific id in the hidden field' do
+            get "/accounts/#{account.id}/contacts/select_contact_search"
+
+            expect(response).to have_http_status(200)
+            expect(response.body).not_to include('value="101"')
+          end
+        end
+
+        context 'when all parameters are present' do
+          it 'should render all parameters correctly in the HTML form' do
+            get "/accounts/#{account.id}/contacts/select_contact_search",
+                params: {
+                  form_name: 'deal[contact_id]',
+                  content_value: 'contact_name_test',
+                  form_id: '101'
+                }
+
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('deal[contact_id]')
+            expect(response.body).to include('contact_name_test')
+            expect(response.body).to include('value="101"')
+            expect(response.body).not_to include('Search contact')
           end
         end
       end

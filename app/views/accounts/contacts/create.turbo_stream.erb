@@ -5,9 +5,19 @@
   <%= render partial: 'components/flash_message', locals: { message: t('flash_messages.created', model: Contact.model_name.human) } %>
 <% end %>
 <%= turbo_stream.append :contacts, @contact %>
-<%= turbo_stream.replace :select_contact_search do %>
-  <%= turbo_frame_tag :select_contact_search,
-            src: select_contact_search_account_contacts_path(current_user.account), class: "relative" do %>
-    <%= render 'components/loading' %>
+<%
+  select_search_forms = [
+    { hidden_field_name: 'deal[contact_id]' }
+  ]
+%>
+<% select_search_forms.each do |select_search| %>
+  <% hidden_field_class_name = ".#{select_search[:hidden_field_name].tr('[]', '_').chomp('_')}" %>
+  <%= turbo_stream.replace_all hidden_field_class_name do %>
+    <%= render 'components/select_search/hidden_field',
+               hidden_field_name: select_search[:hidden_field_name],
+               hidden_field_value: @contact.id %>
   <% end %>
+<% end %>
+<%= turbo_stream.update_all '.contact_select_search_display_name' do %>
+  <%= @contact.full_name %>
 <% end %>
