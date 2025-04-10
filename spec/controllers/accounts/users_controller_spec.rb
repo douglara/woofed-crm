@@ -371,7 +371,7 @@ RSpec.describe Accounts::UsersController, type: :request do
         context 'when there is a form_name parameter' do
           it 'should render form_name on html form' do
             get "/accounts/#{account.id}/users/select_user_search",
-                params: { role: :sales_representative, form_name: 'deal_assignee[user_id]' }
+                params: { form_name: 'deal_assignee[user_id]' }
 
             expect(response).to have_http_status(200)
             expect(response.body).to include('deal_assignee[user_id]')
@@ -380,8 +380,7 @@ RSpec.describe Accounts::UsersController, type: :request do
 
         context 'when there is no form_name parameter' do
           it 'should not render a specific form_name on html form' do
-            get "/accounts/#{account.id}/users/select_user_search",
-                params: { role: :sales_representative }
+            get "/accounts/#{account.id}/users/select_user_search"
 
             expect(response).to have_http_status(200)
             expect(response.body).not_to include('deal_assignee[user_id]')
@@ -391,7 +390,7 @@ RSpec.describe Accounts::UsersController, type: :request do
         context 'when there is a content_value parameter' do
           it 'should render content_value as the selected model name on html form' do
             get "/accounts/#{account.id}/users/select_user_search",
-                params: { role: :sales_representative, content_value: 'user_name_test' }
+                params: { content_value: 'user_name_test' }
 
             expect(response).to have_http_status(200)
             expect(response.body).to include('user_name_test')
@@ -401,8 +400,7 @@ RSpec.describe Accounts::UsersController, type: :request do
 
         context 'when there is no content_value parameter' do
           it 'should render the default search placeholder instead of a selected name' do
-            get "/accounts/#{account.id}/users/select_user_search",
-                params: { role: :sales_representative }
+            get "/accounts/#{account.id}/users/select_user_search"
 
             expect(response).to have_http_status(200)
             expect(response.body).not_to include('user_name_test')
@@ -413,7 +411,7 @@ RSpec.describe Accounts::UsersController, type: :request do
         context 'when there is a form_id parameter' do
           it 'should render form_id as the hidden field value on html form' do
             get "/accounts/#{account.id}/users/select_user_search",
-                params: { role: :sales_representative, form_id: '456' }
+                params: { form_id: '456' }
 
             expect(response).to have_http_status(200)
             expect(response.body).to include('value="456"')
@@ -422,8 +420,7 @@ RSpec.describe Accounts::UsersController, type: :request do
 
         context 'when there is no form_id parameter' do
           it 'should not render a specific id in the hidden field' do
-            get "/accounts/#{account.id}/users/select_user_search",
-                params: { role: :sales_representative }
+            get "/accounts/#{account.id}/users/select_user_search"
 
             expect(response).to have_http_status(200)
             expect(response.body).not_to include('value="456"')
@@ -434,7 +431,6 @@ RSpec.describe Accounts::UsersController, type: :request do
           it 'should render all parameters correctly in the HTML form' do
             get "/accounts/#{account.id}/users/select_user_search",
                 params: {
-                  role: :sales_representative,
                   form_name: 'deal_assignee[user_id]',
                   content_value: 'user_name_test',
                   form_id: '456'
