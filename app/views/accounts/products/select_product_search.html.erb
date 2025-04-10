@@ -1,0 +1,9 @@
+<%= turbo_frame_tag :select_product_search do %>
+  <%= render 'components/select_search/select_search',
+  hidden_field_name: params[:form_name].presence,
+  hidden_field_value: params[:form_id].presence,
+  selected_model_name: params[:content_value].presence,
+  items: @products,
+  select_search_url: select_product_search_account_products_path(current_user.account),
+  create_model_url:  new_account_product_path(Current.account) %>
+<% end %>

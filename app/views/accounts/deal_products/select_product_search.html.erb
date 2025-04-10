@@ -1,3 +1,0 @@
-<%= turbo_frame_tag :select_product_search do %>
-  <%= render 'components/select_search', hidden_field_name: "deal_product[product_id]", items: @products, select_search_url: select_product_search_account_deal_products_path(current_user.account), create_model_url: new_account_product_path(current_user.account) %>
-<% end %>

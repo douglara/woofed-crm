@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     resources :products do
       get 'edit_custom_attributes', on: :member
       patch 'update_custom_attributes', on: :member
+      get 'select_product_search', on: :collection
     end
     resources :contacts do
       get 'search', to: 'contacts#search', on: :collection
@@ -68,9 +69,7 @@ Rails.application.routes.draw do
       get 'edit_custom_attributes'
       patch 'update_custom_attributes'
     end
-    resources :deal_products, only: %i[destroy new create] do
-      get 'select_product_search', on: :collection
-    end
+    resources :deal_products, only: %i[destroy new create]
     resources :deal_assignees, only: %i[destroy new create]
 
     namespace :apps do

@@ -21,7 +21,7 @@
     <% end %>
     <div class='mb-2.5'>
       <%= turbo_frame_tag :select_product_search,
-            src: select_product_search_account_deal_products_path(current_user.account), class: "relative" do %>
+        src: select_product_search_account_products_path(current_user.account, form_name: form.field_name(:product_id)), class: "flex-1 relative h-8" do %>
         <%= render 'components/loading' %>
       <% end %>
     </div>

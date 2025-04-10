@@ -103,39 +103,4 @@ RSpec.describe Accounts::DealProductsController, type: :request do
       end
     end
   end
-  describe 'GET /accounts/{account.id}/deal_products/select_product_search?query=query' do
-    context 'when it is an unauthenticated user' do
-      it 'returns unauthorized' do
-        get "/accounts/#{account.id}/deal_products/select_product_search?query=query"
-        expect(response).to redirect_to(new_user_session_path)
-      end
-    end
-
-    context 'when it is an authenticated user' do
-      before do
-        sign_in(user)
-      end
-      context 'select product search component' do
-        it do
-          get "/accounts/#{account.id}/deal_products/select_product_search"
-          expect(response).to have_http_status(200)
-        end
-        context 'when there is query parameter' do
-          it 'should return product' do
-            get "/accounts/#{account.id}/deal_products/select_product_search?query=#{product.name}"
-            expect(response).to have_http_status(200)
-            expect(response.body).to include(product.name)
-          end
-          context 'when query paramenter is not founded' do
-            it 'should return 0 products' do
-              get "/accounts/#{account.id}/deal_products/select_product_search?query=teste"
-              expect(response).to have_http_status(200)
-              expect(response.body).not_to include('teste')
-              expect(response.body).not_to include(product.name)
-            end
-          end
-        end
-      end
-    end
-  end
 end

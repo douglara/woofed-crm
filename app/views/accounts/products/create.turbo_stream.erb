@@ -5,9 +5,19 @@
   <%= render partial: 'components/flash_message', locals: { message: t('flash_messages.created', model: Product.model_name.human) } %>
 <% end %>
 <%= turbo_stream.append :products, @product %>
-<%= turbo_stream.replace :select_product_search do %>
-  <%= turbo_frame_tag :select_product_search,
-            src: select_product_search_account_deal_products_path(current_user.account), class: "relative" do %>
-    <%= render 'components/loading' %>
+<%
+  select_search_forms = [
+    { hidden_field_name: 'deal_product[product_id]' }
+  ]
+%>
+<% select_search_forms.each do |select_search| %>
+  <% hidden_field_class_name = ".#{select_search[:hidden_field_name].tr('[]', '_').chomp('_')}" %>
+  <%= turbo_stream.replace_all hidden_field_class_name do %>
+    <%= render 'components/select_search/hidden_field',
+               hidden_field_name: select_search[:hidden_field_name],
+               hidden_field_value: @product.id %>
   <% end %>
+<% end %>
+<%= turbo_stream.update_all '.product_select_search_display_name' do %>
+  <%= @product.name %>
 <% end %>

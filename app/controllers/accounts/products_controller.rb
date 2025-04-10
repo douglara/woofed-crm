@@ -59,6 +59,16 @@ class Accounts::ProductsController < InternalController
     end
   end
 
+  def select_product_search
+    @products = if params[:query].present?
+                  current_user.account.products.where(
+                    'name ILIKE :search', search: "%#{params[:query]}%"
+                  ).order(updated_at: :desc).limit(5)
+                else
+                  current_user.account.products.order(updated_at: :desc).limit(5)
+                end
+  end
+
   private
 
   def set_product
