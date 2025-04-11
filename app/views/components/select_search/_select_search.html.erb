@@ -1,5 +1,5 @@
 <% model_name = items.klass.name.underscore.tr('/', '_') %>
-<div data-controller="select-search" class="h-full w-ful">
+<div data-controller="select-search" class="h-full w-ful" data-submit-button-selector=".select-search-submit-button" >
   <%= render 'components/select_search/hidden_field', hidden_field_name: hidden_field_name, hidden_field_value: hidden_field_value %>
   <button data-select-search-target="dropdown" id="dropdownSearchButton" data-dropdown-toggle="dropdownSearch" data-dropdown-placement="bottom" class="h-full w-full form-input inline-flex items-center" type="button">
     <div data-select-search-target="modelName" class='max-w-[600px] truncate <%= model_name %>_select_search_display_name'>

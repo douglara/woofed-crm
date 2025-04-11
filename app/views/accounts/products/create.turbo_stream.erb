@@ -21,3 +21,8 @@
 <%= turbo_stream.update_all '.product_select_search_display_name' do %>
   <%= @product.name %>
 <% end %>
+<%= turbo_stream.replace_all ".#{@product.model_name.element}-select-search-submit-button" do %>
+  <input type="submit"
+       value="<%= t('activerecord.models.product.add') %>"
+       class="<%= @product.model_name.element %>-select-search-submit-button text-brand-palette-03 py-2 px-4 cursor-pointer border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250 typography-text-s-lh150" />
+<% end %>

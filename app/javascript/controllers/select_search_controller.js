@@ -17,5 +17,19 @@ export default class extends Controller {
     this.modelIdTarget.value = event.currentTarget.attributes.value.value;
     this.modelNameTarget.innerText =
       event.currentTarget.attributes["model-name"].value;
+    this.toggleSubmitButtonVisibility();
+  }
+
+  toggleSubmitButtonVisibility() {
+    const submitButton = document.querySelector(
+      this.element.dataset.submitButtonSelector
+    );
+    if (submitButton) {
+      if (this.modelIdTarget.value) {
+        submitButton.classList.remove("hidden");
+      } else {
+        submitButton.classList.add("hidden");
+      }
+    }
   }
 }
