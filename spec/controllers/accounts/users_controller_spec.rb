@@ -338,7 +338,9 @@ RSpec.describe Accounts::UsersController, type: :request do
             it 'should return user' do
               get "/accounts/#{account.id}/users/select_user_search", params: { query: user.full_name }
               expect(response).to have_http_status(200)
-              expect(response.body).to include(ERB::Util.html_escape(user.full_name))
+              html = Nokogiri::HTML(response.body)
+              user_list_frame = html.at_css('turbo-frame#select_user_results').text
+              expect(user_list_frame).to include(ERB::Util.html_escape(user.full_name))
             end
           end
 
@@ -346,7 +348,9 @@ RSpec.describe Accounts::UsersController, type: :request do
             it 'should return user' do
               get "/accounts/#{account.id}/users/select_user_search", params: { query: user.phone }
               expect(response).to have_http_status(200)
-              expect(response.body).to include(ERB::Util.html_escape(user.full_name))
+              html = Nokogiri::HTML(response.body)
+              user_list_frame = html.at_css('turbo-frame#select_user_results').text
+              expect(user_list_frame).to include(ERB::Util.html_escape(user.full_name))
             end
           end
 
@@ -354,7 +358,9 @@ RSpec.describe Accounts::UsersController, type: :request do
             it 'should return user' do
               get "/accounts/#{account.id}/users/select_user_search", params: { query: user.email }
               expect(response).to have_http_status(200)
-              expect(response.body).to include(user.email)
+              html = Nokogiri::HTML(response.body)
+              user_list_frame = html.at_css('turbo-frame#select_user_results').text
+              expect(user_list_frame).to include(user.email)
             end
           end
 
@@ -362,8 +368,10 @@ RSpec.describe Accounts::UsersController, type: :request do
             it 'should return 0 users' do
               get "/accounts/#{account.id}/users/select_user_search", params: { query: 'teste' }
               expect(response).to have_http_status(200)
-              expect(response.body).not_to include('click->select-search#select')
+              html = Nokogiri::HTML(response.body)
+              user_list_frame = html.at_css('#select_user_results').text
               expect(response.body).not_to include(ERB::Util.html_escape(user.full_name))
+              expect(user_list_frame.strip.empty?).to be_truthy
             end
           end
         end

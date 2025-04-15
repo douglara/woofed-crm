@@ -313,15 +313,21 @@ RSpec.describe Accounts::UsersController, type: :request do
           it 'should return product' do
             get "/accounts/#{account.id}/products/select_product_search", params: { query: product.name }
             expect(response).to have_http_status(200)
-            expect(response.body).to include(product.name)
+
+            html = Nokogiri::HTML(response.body)
+            product_list_frame = html.at_css('turbo-frame#select_product_results').text
+            expect(product_list_frame).to include(product.name)
           end
 
-          context 'when query paramenter is not founded' do
+          context 'when query paramenter is not found' do
             it 'should return 0 products' do
               get "/accounts/#{account.id}/products/select_product_search", params: { query: 'teste' }
               expect(response).to have_http_status(200)
-              expect(response.body).not_to include('click->select-search#select')
-              expect(response.body).not_to include(product.name)
+
+              html = Nokogiri::HTML(response.body)
+              product_list_frame = html.at_css('turbo-frame#select_product_results').text
+              expect(product_list_frame).not_to include(product.name)
+              expect(product_list_frame.strip.empty?).to be_truthy
             end
           end
         end

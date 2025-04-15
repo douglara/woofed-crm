@@ -106,17 +106,24 @@ RSpec.describe Accounts::ContactsController, type: :request do
           expect(response).to have_http_status(200)
         end
         context 'when there is query parameter' do
-          it 'should return product' do
+          it 'should return contact' do
             get "/accounts/#{account.id}/contacts/select_contact_search?query=#{contact.full_name}"
             expect(response).to have_http_status(200)
-            expect(response.body).to include(contact.full_name)
+
+            html = Nokogiri::HTML(response.body)
+            contact_list_frame = html.at_css('turbo-frame#select_contact_results').text
+            expect(contact_list_frame).to include(contact.full_name)
           end
-          context 'when query paramenter is not founded' do
-            it 'should return 0 products' do
+
+          context 'when query parameter is not found' do
+            it 'should return 0 contacts' do
               get "/accounts/#{account.id}/contacts/select_contact_search?query=teste"
               expect(response).to have_http_status(200)
-              expect(response.body).not_to include('click->select-search#select')
-              expect(response.body).not_to include(contact.full_name)
+
+              html = Nokogiri::HTML(response.body)
+              contact_list_frame = html.at_css('turbo-frame#select_contact_results').text
+              expect(contact_list_frame).not_to include(contact.full_name)
+              expect(contact_list_frame.strip.empty?).to be_truthy
             end
           end
         end
