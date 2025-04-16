@@ -41,7 +41,7 @@ class Product < ApplicationRecord
   end
 
   def amount_in_cents=(amount)
-    amount = amount.gsub(/[^\d-]/, '').to_i if amount.is_a?(String)
-    super
+    amount = sanitize_amount(amount)
+    super(amount)
   end
 end

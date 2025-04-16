@@ -26,6 +26,8 @@
 class DealProduct < ApplicationRecord
   include DealProduct::Broadcastable
   include DealProduct::EventCreator
+  include DealProduct::Presenters
+  include DealProduct::HandleInCentsValues
   belongs_to :product
   belongs_to :deal
 end
