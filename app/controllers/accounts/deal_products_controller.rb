@@ -1,4 +1,6 @@
 class Accounts::DealProductsController < InternalController
+  include DealProductConcern
+
   before_action :set_deal_product, only: %i[destroy]
   before_action :set_deal, only: %i[new]
 
@@ -19,7 +21,7 @@ class Accounts::DealProductsController < InternalController
   end
 
   def create
-    @deal_product = current_user.account.deal_products.new(deal_product_params)
+    @deal_product = DealProductBuilder.new(deal_product_params).perform
     if @deal_product.save
       respond_to do |format|
         format.html { redirect_to account_deal_path(@deal_product.account, @deal_product.deal) }
@@ -33,7 +35,7 @@ class Accounts::DealProductsController < InternalController
   private
 
   def deal_product_params
-    params.require(:deal_product).permit(:product_id, :deal_id)
+    params.require(:deal_product).permit(*permitted_deal_product_params)
   end
 
   def set_deal
