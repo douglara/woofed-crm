@@ -2,11 +2,16 @@
 #
 # Table name: deal_products
 #
-#  id         :bigint           not null, primary key
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  deal_id    :bigint           not null
-#  product_id :bigint           not null
+#  id                    :bigint           not null, primary key
+#  product_identifier    :string           default(""), not null
+#  product_name          :string           default(""), not null
+#  quantity              :bigint           default(1), not null
+#  total_amount_in_cents :bigint           default(0), not null
+#  unit_amount_in_cents  :bigint           default(0), not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  deal_id               :bigint           not null
+#  product_id            :bigint           not null
 #
 # Indexes
 #
