@@ -59,7 +59,8 @@ RSpec.describe Accounts::DealProductsController, type: :request do
     end
   end
   describe 'POST /accounts/{account.id}/deal_products' do
-    let(:valid_params) { { deal_product: { deal_id: deal.id, product_id: product.id } } }
+    let(:another_product) { create(:product, account:) }
+    let(:valid_params) { { deal_product: { deal_id: deal.id, product_id: another_product.id } } }
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         post "/accounts/#{account.id}/deal_products", params: valid_params
@@ -78,12 +79,12 @@ RSpec.describe Accounts::DealProductsController, type: :request do
           end.to change(DealProduct, :count).by(1)
                                             .and change(Event, :count).by(1)
           expect(response).to have_http_status(302)
-          total_amount_in_cents = last_deal_product.quantity * product.amount_in_cents
+          total_amount_in_cents = last_deal_product.quantity * another_product.amount_in_cents
           expect(last_event.kind).to eq('deal_product_added')
-          expect(last_deal_product.product_identifier).to eq(product.identifier)
-          expect(last_deal_product.product_name).to eq(product.name)
+          expect(last_deal_product.product_identifier).to eq(another_product.identifier)
+          expect(last_deal_product.product_name).to eq(another_product.name)
           expect(last_deal_product.total_amount_in_cents).to eq(total_amount_in_cents)
-          expect(last_deal_product.unit_amount_in_cents).to eq(product.amount_in_cents)
+          expect(last_deal_product.unit_amount_in_cents).to eq(another_product.amount_in_cents)
           expect(last_deal_product.quantity).to eq(1)
         end
         context 'when params is not valid' do
@@ -105,6 +106,16 @@ RSpec.describe Accounts::DealProductsController, type: :request do
               end.to change(DealProduct, :count).by(0)
               expect(response).to have_http_status(:unprocessable_entity)
               expect(response.body).to include('Product must exist')
+            end
+          end
+          context 'when attempting to create a duplicate deal_product for the same deal and product' do
+            it 'should raise an error' do
+              invalid_params = { deal_product: { deal_id: deal.id, product_id: product.id } }
+              expect do
+                post "/accounts/#{account.id}/deal_products", params: invalid_params
+              end.to change(DealProduct, :count).by(0)
+              expect(response).to have_http_status(:unprocessable_entity)
+              expect(response.body).to include('has already been added to this deal')
             end
           end
         end

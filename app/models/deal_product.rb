@@ -30,6 +30,7 @@ class DealProduct < ApplicationRecord
   include DealProduct::HandleInCentsValues
   belongs_to :product
   belongs_to :deal
+  validates :product_id, uniqueness: { scope: :deal_id, message: :taken }
 
   FORM_FIELDS = %i[product_name unit_amount_in_cents product_identifier]
 end
