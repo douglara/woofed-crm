@@ -10,6 +10,7 @@ RSpec.describe Accounts::DealProductsController, type: :request do
   let!(:deal) { create(:deal, account:, stage:, contact:) }
   let!(:deal_product) { create(:deal_product, account:, deal:, product:) }
   let(:last_event) { Event.last }
+  let(:last_deal_product) { DealProduct.last }
 
   describe 'DELETE /accounts/{account.id}/deal_products/{deal_product.id}' do
     context 'when it is an unauthenticated user' do
@@ -30,6 +31,7 @@ RSpec.describe Accounts::DealProductsController, type: :request do
           end.to change(DealProduct, :count).by(-1)
                                             .and change(Event, :count).by(1)
           expect(response).to have_http_status(:redirect)
+          expect(deal.reload.total_deal_products_amount_in_cents).to eq(0)
           expect(last_event.kind).to eq('deal_product_removed')
         end
       end
@@ -76,7 +78,13 @@ RSpec.describe Accounts::DealProductsController, type: :request do
           end.to change(DealProduct, :count).by(1)
                                             .and change(Event, :count).by(1)
           expect(response).to have_http_status(302)
+          total_amount_in_cents = last_deal_product.quantity * product.amount_in_cents
           expect(last_event.kind).to eq('deal_product_added')
+          expect(last_deal_product.product_identifier).to eq(product.identifier)
+          expect(last_deal_product.product_name).to eq(product.name)
+          expect(last_deal_product.total_amount_in_cents).to eq(total_amount_in_cents)
+          expect(last_deal_product.unit_amount_in_cents).to eq(product.amount_in_cents)
+          expect(last_deal_product.quantity).to eq(1)
         end
         context 'when params is not valid' do
           context 'when params not contain deal_id' do

@@ -19,7 +19,7 @@
         <% end %>
         <div>
           <% model.class::FORM_FIELDS.each do | f | %>
-            <% unless f.in?([:chatwoot_conversations_label_list, :creator]) %>
+            <% unless f.in?([:chatwoot_conversations_label_list, :creator, :total_amount_in_cents]) %>
               <div class="flex items-center pb-3">
                 <%= form.label f, class: 'm-0 max-w-[10rem] typography-text-m-lh150 text-dark-gray-palette-p3' %>
                 <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>

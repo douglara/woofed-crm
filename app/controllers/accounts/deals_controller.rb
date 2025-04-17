@@ -136,7 +136,7 @@ class Accounts::DealsController < InternalController
   end
 
   def update_deal_product
-    if @deal_product.update(deal_product_params)
+    if DealProduct::CreateOrUpdate.new(@deal_product, deal_product_params).call
       redirect_to deal_products_account_deal_path(current_user.account, @deal_product.deal)
     else
       render :edit_deal_product, status: :unprocessable_entity

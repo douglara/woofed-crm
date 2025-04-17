@@ -2,17 +2,18 @@
 #
 # Table name: deals
 #
-#  id                :bigint           not null, primary key
-#  custom_attributes :jsonb
-#  name              :string           default(""), not null
-#  position          :integer          default(1), not null
-#  status            :string           default("open"), not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  contact_id        :bigint           not null
-#  created_by_id     :integer
-#  pipeline_id       :bigint
-#  stage_id          :bigint           not null
+#  id                                  :bigint           not null, primary key
+#  custom_attributes                   :jsonb
+#  name                                :string           default(""), not null
+#  position                            :integer          default(1), not null
+#  status                              :string           default("open"), not null
+#  total_deal_products_amount_in_cents :bigint           default(0), not null
+#  created_at                          :datetime         not null
+#  updated_at                          :datetime         not null
+#  contact_id                          :bigint           not null
+#  created_by_id                       :integer
+#  pipeline_id                         :bigint
+#  stage_id                            :bigint           not null
 #
 # Indexes
 #

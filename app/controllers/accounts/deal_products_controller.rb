@@ -5,7 +5,7 @@ class Accounts::DealProductsController < InternalController
   before_action :set_deal, only: %i[new]
 
   def destroy
-    if @deal_product.destroy
+    if DealProduct::Destroy.new(@deal_product).call
       respond_to do |format|
         format.html do
           redirect_to account_deal_path(current_user.account, @deal_product.deal),
@@ -22,7 +22,8 @@ class Accounts::DealProductsController < InternalController
 
   def create
     @deal_product = DealProductBuilder.new(deal_product_params).perform
-    if @deal_product.save
+    if DealProduct::CreateOrUpdate.new(@deal_product, {}).call
+      @deal_product.reload
       respond_to do |format|
         format.html { redirect_to account_deal_path(@deal_product.account, @deal_product.deal) }
         format.turbo_stream

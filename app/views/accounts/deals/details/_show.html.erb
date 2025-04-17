@@ -19,6 +19,8 @@
               <%= render 'components/list_labels', labels: model.send(f), max_width: '14rem', justify_content: 'end' %>
             <% elsif f == :creator %>
               <p class="m-0 typography-text-m-lh150 text-dark-gray-palette-p3 max-w-[14rem]"><%= model.creator.full_name %></p>
+            <% elsif f == :total_amount_in_cents %>
+              <p class="m-0 typography-text-m-lh150 text-dark-gray-palette-p3 max-w-[14rem]"><%= model.total_amount_in_cents_at_format %></p>
             <% else %>
               <p class="m-0 typography-text-m-lh150 text-dark-gray-palette-p3 max-w-[14rem]"><%= model["#{f}"] %></p>
             <% end %>

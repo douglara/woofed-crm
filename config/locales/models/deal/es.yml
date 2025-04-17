@@ -14,3 +14,5 @@ es:
         stage_id: Etapa
         creator: Creado por
         created_by_id: ID Creador
+        total_products_amount: Importe total de productos
+        total_amount_in_cents: Importe total

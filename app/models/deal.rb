@@ -2,17 +2,18 @@
 #
 # Table name: deals
 #
-#  id                :bigint           not null, primary key
-#  custom_attributes :jsonb
-#  name              :string           default(""), not null
-#  position          :integer          default(1), not null
-#  status            :string           default("open"), not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  contact_id        :bigint           not null
-#  created_by_id     :integer
-#  pipeline_id       :bigint
-#  stage_id          :bigint           not null
+#  id                                  :bigint           not null, primary key
+#  custom_attributes                   :jsonb
+#  name                                :string           default(""), not null
+#  position                            :integer          default(1), not null
+#  status                              :string           default("open"), not null
+#  total_deal_products_amount_in_cents :bigint           default(0), not null
+#  created_at                          :datetime         not null
+#  updated_at                          :datetime         not null
+#  contact_id                          :bigint           not null
+#  created_by_id                       :integer
+#  pipeline_id                         :bigint
+#  stage_id                            :bigint           not null
 #
 # Indexes
 #
@@ -31,6 +32,8 @@ class Deal < ApplicationRecord
   include Deal::Decorators
   include CustomAttributes
   include Deal::EventCreator
+  include Deal::HandleInCentsValues
+  include Deal::Presenters
 
   belongs_to :contact
   belongs_to :stage
@@ -48,7 +51,7 @@ class Deal < ApplicationRecord
 
   enum status: { 'open': 'open', 'won': 'won', 'lost': 'lost' }
 
-  FORM_FIELDS = %i[name creator]
+  FORM_FIELDS = %i[name creator total_amount_in_cents]
 
   before_validation do
     self.account = @current_account if account.blank? && @current_account.present?
@@ -85,6 +88,10 @@ class Deal < ApplicationRecord
     previous_changes['stage_id'].each do |stage_id|
       Stages::BroadcastUpdatesWorker.perform_async(stage_id, status)
     end
+  end
+
+  def total_amount_in_cents
+    total_deal_products_amount_in_cents
   end
 
   def next_event_planned?
