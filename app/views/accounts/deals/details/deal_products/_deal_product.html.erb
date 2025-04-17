@@ -6,14 +6,14 @@
       </div>
       <div class="mr-auto">
         <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1">
-          <%= deal_product.product.amount_in_cents_at_format %>
+          <%= deal_product.total_amount_in_cents_at_format %>
         </h2>
         <p class='typography-sub-text-s-lh150 text-dark-gray-palette-p4 '>
-          1 <%= t('views.accounts.deals.details.deal_products.deal_product.item') %>
+          <%= deal_product.quantity %> <%= t('views.accounts.deals.details.deal_products.deal_product.item') %>
         </p>
       </div>
       <div class='flex items-center gap-2 self-start' >
-        <%= link_to edit_product_account_deal_path(deal_product.account, deal_product.deal, deal_product_id: deal_product.id), class: 'flex items-center h-8 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
+        <%= link_to edit_deal_product_account_deal_path(deal_product.account, deal_product.deal, deal_product_id: deal_product.id), class: 'flex items-center h-8 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
           <i data-lucide="pencil" height="16"></i>
         <% end %>
         <%= link_to account_deal_product_path(deal_product.account, deal_product), method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center h-8 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
@@ -21,12 +21,14 @@
         <% end %>
       </div>
     </div>
-    <% deal_product.product.class::FORM_FIELDS.each do | f | %>
-      <% if deal_product.product.send(f).present? %>
+    <% deal_product.class::FORM_FIELDS.each do | f | %>
+      <% if deal_product.send(f).present? %>
         <div class="flex items-center pb-4 last:pb-0">
-          <label class="flex-none max-w-[10rem] m-auto typography-text-m-lh150 text-dark-gray-palette-p3"><%= deal_product.product.class.human_attribute_name(f) %></label>
+          <label class="flex-none max-w-[10rem] m-auto typography-text-m-lh150 text-dark-gray-palette-p3"><%= deal_product.class.human_attribute_name(f) %></label>
           <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>
-          <p class="m-0 typography-text-m-lh150 text-dark-gray-palette-p3 max-w-[14rem] "><%= f == :amount_in_cents ? deal_product.product.amount_in_cents_at_format : deal_product.product["#{f}"] %></p>
+          <p class="m-0 typography-text-m-lh150 text-dark-gray-palette-p3 max-w-[14rem] ">
+            <%= f == :unit_amount_in_cents ? deal_product.unit_amount_in_cents_at_format : deal_product["#{f}"] %>
+          </p>
         </div>
       <% end %>
     <% end %>

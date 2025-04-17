@@ -1,10 +1,10 @@
 class Accounts::DealsController < InternalController
-  include ProductConcern
+  include DealProductConcern
 
   before_action :set_deal,
                 only: %i[show edit update destroy events_to_do events_done deal_products deal_assignees]
-  before_action :set_deal_product, only: %i[edit_product
-                                            update_product]
+  before_action :set_deal_product, only: %i[edit_deal_product
+                                            update_deal_product]
 
   # GET /deals or /deals.json
   def index
@@ -132,17 +132,14 @@ class Accounts::DealsController < InternalController
     @deal_assignees = @deal.deal_assignees
   end
 
-  def edit_product
-    @product = @deal_product.product
+  def edit_deal_product
   end
 
-  def update_product
-    @product = @deal_product.product
-    if @product.update(product_params)
-      redirect_to account_deal_path(current_user.account,
-                                    @deal_product.deal.id)
+  def update_deal_product
+    if @deal_product.update(deal_product_params)
+      redirect_to deal_products_account_deal_path(current_user.account, @deal_product.deal)
     else
-      render :edit_product, status: :unprocessable_entity
+      render :edit_deal_product, status: :unprocessable_entity
     end
   end
 
@@ -154,6 +151,10 @@ class Accounts::DealsController < InternalController
 
   def set_deal_product
     @deal_product = current_user.account.deal_products.find(params[:deal_product_id])
+  end
+
+  def deal_product_params
+    params.require(:deal_product).permit(*permitted_deal_product_params)
   end
 
   # Only allow a list of trusted parameters through.

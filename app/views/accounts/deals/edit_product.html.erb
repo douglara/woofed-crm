@@ -1,7 +1,0 @@
-<%= turbo_frame_tag @deal_product do %>
-  <%= render "/accounts/deals/details/deal_products/edit",
-    deal_product: @deal_product,
-    product: @product,
-    update_path: update_product_account_deal_path(current_user.account, @deal_product.deal, deal_product_id: @deal_product.id)
-    %>
-<% end %>

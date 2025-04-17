@@ -30,4 +30,6 @@ class DealProduct < ApplicationRecord
   include DealProduct::HandleInCentsValues
   belongs_to :product
   belongs_to :deal
+
+  FORM_FIELDS = %i[product_name unit_amount_in_cents product_identifier]
 end

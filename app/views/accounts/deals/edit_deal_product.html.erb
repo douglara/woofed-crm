@@ -1,0 +1,4 @@
+<%= render "/accounts/deals/details/deal_products/edit",
+  deal_product: @deal_product,
+  update_path: update_deal_product_account_deal_path(current_user.account, @deal_product.deal, deal_product_id: @deal_product.id)
+  %>

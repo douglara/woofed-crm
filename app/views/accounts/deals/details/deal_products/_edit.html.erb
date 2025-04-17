@@ -1,19 +1,22 @@
 <%= turbo_frame_tag deal_product do %>
-  <%= form_with(model: product, url: update_path) do |form| %>
+  <%= form_with(model: deal_product, url: update_path) do |form| %>
     <%= form.hidden_field :deal_page_id, value: params[:deal_page_id] %>
     <div class="bg-light-palette-p5 rounded-md mb-4 pb-6">
       <div class='border-[1px] px-2 py-4 border-brand-palette-07 rounded-lg'>
         <div class= "flex items-center gap-4 mb-4">
           <div class="h-16 w-16 flex items-center">
-            <%= render '/components/products/images_carousel_list', product: product %>
+            <%= render '/components/products/images_carousel_list', product: deal_product.product %>
           </div>
           <div class="mr-auto">
-            <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1">
-              <%= product.amount_in_cents_at_format %>
+            <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1 mb-1">
+              <%= deal_product.total_amount_in_cents_at_format %>
             </h2>
-            <p class='typography-sub-text-s-lh150 text-dark-gray-palette-p4 '>
-              1 Item
-            </p>
+            <div class='flex items-center gap-1.5'>
+              <%= form.number_field :quantity, placeholder: "10", class: 'form-input !p-0 w-20' %>
+              <p class='typography-sub-text-s-lh150 text-dark-gray-palette-p4 '>
+                <%= t('views.accounts.deals.details.deal_products.deal_product.item') %>
+              </p>
+            </div>
           </div>
           <div class='flex items-center gap-2 self-start' >
             <%= form.submit t('views.accounts.deals.details.deal_products.edit.save_changes'), class: 'text-brand-palette-03 py-2 px-4 cursor-pointer  border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250 typography-text-s-lh150' %>
@@ -22,37 +25,22 @@
             <% end %>
           </div>
         </div>
-        <% if product.errors.any? %>
+        <% if deal_product.errors.any? %>
           <div class='mb-4'>
             <ul>
-              <% product.errors.each do |error| %>
+              <% deal_product.errors.each do |error| %>
                 <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
               <% end %>
             </ul>
           </div>
         <% end %>
-        <% product.class::FORM_FIELDS.each do | f | %>
+        <% deal_product.class::FORM_FIELDS.each do | f | %>
           <div class="flex items-center pb-4 last:pb-0">
             <%= form.label f, class: 'm-0 max-w-[10rem] typography-text-m-lh150 text-dark-gray-palette-p3' %>
             <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>
-            <%= form.text_field f, f == :amount_in_cents ? { class: "w-64 form-input",  data: {controller: "input-mask--input-amount-in-cents" } } : { class: "w-64 form-input"} %>
+            <%= form.text_field f, f == :unit_amount_in_cents ? { class: "w-64 form-input",  data: {controller: "input-mask--input-amount-in-cents" } } : { class: "w-64 form-input"} %>
           </div>
         <% end %>
-        <%= render 'accounts/deals/details/edit_custom_attributes', form: form, model: product %>
-        <div class=" border-t-2 border-light-palette-p3 py-2">
-          <div class="flex items-center mt-2">
-            <label class="flex-grow m-0 mb-auto text-brand-palette-03 typography-text-s-lh150">
-              <%= t('views.accounts.deals.details.deal_products.edit.add_custom_attributes') %>
-            </label>
-            <div class="w-64 ">
-              <%= turbo_frame_tag [:form_custom_attributes, dom_id(product)] do %>
-                <%= link_to edit_custom_attributes_account_product_path(current_user.account, product), class: 'inline-block w-full h-10 flex justify-center items-center select-none border-2 border-2 bg-light-palette-p4 text-dark-gray-palette-p3 rounded-md border-light-palette-p3 hover:border-brand-palette-06 hover:bg-brand-palette-08 hover:border-2 hover:text-brand-palette-03 hover:duration-100' do %>
-                  <i data-lucide="plus" height="18"></i>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   <% end %>

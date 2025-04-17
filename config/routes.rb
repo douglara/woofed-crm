@@ -56,8 +56,8 @@ Rails.application.routes.draw do
     end
 
     resources :deals do
-      patch 'update_product', on: :member
-      get 'edit_product', on: :member
+      patch 'update_deal_product', on: :member
+      get 'edit_deal_product', on: :member
       get 'deal_products', on: :member
       get 'deal_assignees', on: :member
       get 'events_to_do', on: :member
