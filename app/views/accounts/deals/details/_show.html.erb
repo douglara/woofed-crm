@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "form_#{model.class.name.downcase}_#{model.id}" do %>
+<%= turbo_frame_tag dom_id(model, :deal_show_page_overview) do %>
   <div class="flex items-center py-4 justify-between" data-controller="load-lucid-icons load-flowbite">
     <div class="flex items-center gap-2 text-dark-gray-palette-p1">
       <i data-lucide=<%= model.class.name.downcase == 'contact' ? 'phone' : 'info' %> class='w-5 h-5 stroke-1.04'></i>

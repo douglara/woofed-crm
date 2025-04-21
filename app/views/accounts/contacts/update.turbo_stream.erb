@@ -1,0 +1,12 @@
+<%= turbo_stream.replace :drawer do %>
+  <%= turbo_frame_tag :drawer %>
+<% end %>
+<%= turbo_stream.replace :flash_message do %>
+  <%= render partial: 'components/flash_message', locals: { message: t('flash_messages.updated', model: Contact.model_name.human) } %>
+<% end %>
+<%= turbo_stream.replace dom_id(@contact, :contact_index_page) do %>
+  <%= render '/accounts/contacts/contact', contact: @contact %>
+<% end %>
+<%= turbo_stream.replace dom_id(@contact, :deal_show_page_overview) do %>
+  <%= render '/accounts/deals/details/show', model: @contact, edit_path: edit_account_contact_path(current_user.account, @contact) %>
+<% end %>

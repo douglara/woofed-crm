@@ -24,7 +24,7 @@
       <%= render "/accounts/deals/details/show", model: @deal, edit_path: edit_account_deal_path(current_user.account, @deal)%>
     </div>
     <div class="bg-light-palette-p5 border-x-2 border-b-2 border-light-palette-p3 px-4">
-      <%= render "/accounts/deals/details/show", model: @deal.contact, edit_path: edit_account_contact_path(current_user.account, @deal.contact, deal_page_id: @deal.id) %>
+      <%= render "/accounts/deals/details/show", model: @deal.contact, edit_path: edit_account_contact_path(current_user.account, @deal.contact) %>
     </div>
     <div class="bg-light-palette-p5 border-x-2 border-b-2 border-light-palette-p3 px-4">
       <%= render '/accounts/deals/details/deal_products/show', deal: @deal %>

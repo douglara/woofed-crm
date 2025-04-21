@@ -3,7 +3,14 @@ class Accounts::ContactsController < InternalController
 
   # GET /contacts or /contacts.json
   def index
-    @contacts = current_user.account.contacts
+    @contacts = if params[:query].present?
+                  Contact.where(
+                    'full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search', search: "%#{params[:query]}%"
+                  ).order(updated_at: :desc)
+                else
+                  Contact.all.order(created_at: :desc)
+                end
+
     @pagy, @contacts = pagy(@contacts)
   end
 
@@ -32,7 +39,7 @@ class Accounts::ContactsController < InternalController
     json = {
       "results": @results
     }
-    render json: json
+    render json:
   end
 
   # GET /contacts/new
@@ -46,16 +53,6 @@ class Accounts::ContactsController < InternalController
   def edit_custom_attributes
     @contact = current_user.account.contacts.find(params[:contact_id])
     @custom_attribute_definitions = current_user.account.custom_attribute_definitions.contact_attribute
-  end
-
-  def update_custom_attributes
-    @contact = current_user.account.contacts.find(params[:contact_id])
-    @contact.custom_attributes[params[:contact][:att_key]] = params[:contact][:att_value]
-    if params[:contact][:deal_page_id]
-      redirect_to account_deal_path(current_user.account,
-                                    params[:contact][:deal_page_id])
-    end
-    render :edit_custom_attributes, status: :unprocessable_entity unless @contact.save
   end
 
   # POST /contacts or /contacts.json
@@ -77,12 +74,15 @@ class Accounts::ContactsController < InternalController
 
   # PATCH/PUT /contacts/1 or /contacts/1.json
   def update
+    if params[:contact][:att_key].present?
+      @contact.custom_attributes[params[:contact][:att_key]] = params[:contact][:att_value]
+    end
+
     if @contact.update(contact_params)
       flash[:notice] = t('flash_messages.updated', model: Contact.model_name.human)
-      if params[:contact][:deal_page_id]
-        redirect_to account_deal_path(current_user.account, params[:contact][:deal_page_id])
-      else
-        redirect_to account_contact_path(current_user.account, @contact)
+      respond_to do |format|
+        format.html { account_contact_path(current_user.account, @contact) }
+        format.turbo_stream
       end
     else
       render :edit, status: :unprocessable_entity

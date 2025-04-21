@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "form_#{model.class.name.downcase}_#{model.id}", data: { controller: "turbo-form-submit-redirect" } do %>
+<%= turbo_frame_tag dom_id(model, :deal_show_page_overview) do %>
   <%= form_with(model: model, url: update_path) do |form| %>
     <%= form.hidden_field :deal_page_id, value: params[:deal_page_id] %>
     <div class="bg-light-palette-p5">

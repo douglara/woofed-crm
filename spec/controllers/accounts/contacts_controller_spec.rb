@@ -76,7 +76,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
     end
   end
 
-  context 'GET #show' do
+  context 'GET #index' do
     before do
       sign_in(user)
     end
@@ -84,7 +84,63 @@ RSpec.describe Accounts::ContactsController, type: :request do
     it 'should list contacts' do
       get "/accounts/#{account.id}/contacts"
       expect(response).to have_http_status(200)
-      expect(response.body).to include(contact.full_name)
+      doc = Nokogiri::HTML(response.body)
+      table_body = doc.at_css('tbody#contacts').text
+      expect(table_body).to include(contact.full_name)
+    end
+
+    context 'when query params are present' do
+      context 'for existing contacts' do
+        it 'should return the contact' do
+          get "/accounts/#{account.id}/contacts?query=#{contact.full_name}"
+          expect(response).to have_http_status(200)
+          doc = Nokogiri::HTML(response.body)
+          table_body = doc.at_css('tbody#contacts').text
+          expect(table_body).to include(ERB::Util.html_escape(contact.full_name))
+          expect(table_body).to include(contact.phone)
+          expect(table_body).to include(contact.email)
+          expect(table_body).to include(contact.id.to_s)
+        end
+      end
+
+      context 'for non-existent contacts' do
+        it 'should return empty list' do
+          get "/accounts/#{account.id}/contacts?query=Essecontatonaoexiste1234568975sss"
+          expect(response).to have_http_status(200)
+          doc = Nokogiri::HTML(response.body)
+          table_body = doc.at_css('tbody#contacts').text
+          expect(table_body).not_to include(ERB::Util.html_escape(contact.full_name))
+        end
+      end
+    end
+  end
+
+  describe 'GET /accounts/{account.id}/contacts/{contact.id}' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/contacts/#{contact.id}"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let!(:contact2) { create(:contact, account:) }
+      let!(:pipeline) { create(:pipeline, account:) }
+      let!(:stage) { create(:stage, account:, pipeline:) }
+      let!(:deal) { create(:deal, account:, stage:, contact:) }
+
+      before do
+        sign_in(user)
+      end
+
+      context 'get contact' do
+        it 'get contact by account' do
+          get "/accounts/#{account.id}/contacts/#{contact.id}"
+          expect(response.body).to include(ERB::Util.html_escape(contact.full_name))
+          expect(response.body).to include(ERB::Util.html_escape(contact.email))
+          expect(response.body).to include(ERB::Util.html_escape(deal.name))
+        end
+      end
     end
   end
 

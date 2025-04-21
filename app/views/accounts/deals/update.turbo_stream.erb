@@ -7,6 +7,9 @@
     <% end %>
   <% end %>
 <% end %>
+<%= turbo_stream.replace dom_id(@deal, :deal_show_page_overview) do %>
+  <%= render '/accounts/deals/details/show', model: @deal, edit_path: edit_account_deal_path(current_user.account, @deal) %>
+<% end %>
 <%= turbo_stream.replace 'stages_nav' do %>
   <%= render "/components/deals/stages_nav", deal: @deal %>
 <% end %>

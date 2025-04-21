@@ -1,10 +1,10 @@
 <%= turbo_stream.replace :drawer do %>
-  <%= turbo_frame_tag :drawer %>
+  <%= render '/accounts/contacts/drawer_show_contact', contact: @contact %>
 <% end %>
 <%= turbo_stream.replace :flash_message do %>
   <%= render partial: 'components/flash_message', locals: { message: t('flash_messages.created', model: Contact.model_name.human) } %>
 <% end %>
-<%= turbo_stream.append :contacts, @contact %>
+<%= turbo_stream.prepend :contacts, @contact %>
 <%
   select_search_forms = [
     { hidden_field_name: 'deal[contact_id]' }
