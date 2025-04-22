@@ -26,6 +26,9 @@ class Product < ApplicationRecord
 
   FORM_FIELDS = %i[name amount_in_cents quantity_available identifier]
 
+  SHOW_FIELDS = { details: %i[name amount_in_cents_at_format quantity_available identifier description custom_attributes created_at
+                              updated_at] }.freeze
+
   %i[image file video].each do |file_type|
     define_method "#{file_type}_attachments" do
       attachments.by_file_type(file_type)

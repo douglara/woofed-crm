@@ -4,13 +4,16 @@ en:
       product:
         one: Product
         other: Products
-        new: 'New product'
-        edit: 'Edit product'
-        add: 'Add product'
+        new: "New product"
+        edit: "Edit product"
+        add: "Add product"
     attributes:
       product:
         name: Name
         identifier: Identifier
         amount_in_cents: Price
+        amount_in_cents_at_format: Price
         quantity_available: Quantity available
         description: Description
+        created_at: Created at
+        updated_at: Updated at

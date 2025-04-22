@@ -72,7 +72,7 @@
                           <%= render 'components/list_labels', labels: model.send(show_field), max_width: '100%', justify_content: 'start' %>
                         <% else %>
                           <p class='typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all'>
-                            <%= model[show_field] %>
+                            <%= model.send(show_field) %>
                           </p>
                         <% end %>
                       <% end %>
