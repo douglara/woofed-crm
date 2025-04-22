@@ -16,7 +16,8 @@ RSpec.describe Accounts::Contacts::Events::Woofbot, type: :request do
 
   subject { described_class.new(event) }
 
-  let(:account) { create(:account, woofbot_auto_reply: true) }
+  let(:account) { create(:account) }
+  let!(:ai_assistent) { create(:apps_ai_assistent, auto_reply: true) }
   let!(:user) { create(:user, account: account) }
   let(:contact) { create(:contact, account: account) }
   let!(:deal) { create(:deal, account: account, contact: contact) }

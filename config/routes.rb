@@ -16,7 +16,6 @@ Rails.application.routes.draw do
 
     resources :webhooks, module: :settings do
     end
-    resources :ai, module: :settings, only: %i[edit update]
 
     resources :users do
       get 'select_user_search', on: :collection
@@ -81,6 +80,7 @@ Rails.application.routes.draw do
       end
       resources :chatwoots
       # resources :events, module: :contacts
+      resource :ai_assistent, only: %i[edit update]
     end
     resources :attachments, only: [:destroy]
     resources :stages, only: [:show]

@@ -4,6 +4,7 @@ class Accounts::Contacts::Events::Woofbot
   def initialize(event)
     @event = event
     @account = event.account
+    @ai_assistent = Apps::AiAssistent.first
   end
 
   def call
@@ -42,6 +43,6 @@ class Accounts::Contacts::Events::Woofbot
   end
 
   def woofbot_active?
-    @account.site_url.present? && @account.woofbot_auto_reply
+    @account.site_url.present? && @ai_assistent.auto_reply
   end
 end
