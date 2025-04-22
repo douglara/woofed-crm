@@ -9,13 +9,13 @@
           </p>
         <% end %>
       <% else %>
-        <%= link_to account_deal_path(deal.account, deal, deal: { status: deal.status, stage_id: stage.id } ), method: :patch, data: { confirm: t('views.accounts.deals.stages_nav_desktop.are_you_sure?'), tooltip_target:"tooltip-default-#{stage.id}-#{stage.name}", data_tooltip_placement:"bottom" }, class: "flex flex-1 bg-gray-100 relative hover:bg-gray-200 first:rounded-l-lg last:rounded-r-lg justify-center before:absolute #{ index == deal.stage.pipeline.stages.length - 1 ? '' : "before:top-0 before:z-10 before:right-[-6px] before:border-solid before:border-l-gray-100 before:hover:border-l-gray-200 before:border-l-[6px] before:border-y-transparent before:border-y-[6px] after:absolute after:top-0  after:border-solid after:border-y-transparent after:border-y-[6px]  inline-block  after:absolute after:top-0  after:border-solid after:border-l-light-palette-p5 after:border-l-[6px] after:right-[-10px]" } ",  style:"z-index: #{30 - index } "  do %>
+        <%= link_to account_deal_path(deal.account, deal, deal: { status: deal.status, stage_id: stage.id } ), method: :patch, data: { confirm: t('views.accounts.deals.stages_nav_desktop.are_you_sure?'), tooltip_target:"tooltip-default-#{stage.id}-#{stage.name}", data_tooltip_placement:"bottom" }, class: "flex flex-1 bg-gray-300 relative hover:bg-gray-400 first:rounded-l-lg last:rounded-r-lg justify-center before:absolute #{ index == deal.stage.pipeline.stages.length - 1 ? '' : "before:top-0 before:z-10 before:right-[-6px] before:border-solid before:border-l-gray-300 before:hover:border-l-gray-400 before:border-l-[6px] before:border-y-transparent before:border-y-[6px] after:absolute after:top-0  after:border-solid after:border-y-transparent after:border-y-[6px]  inline-block  after:absolute after:top-0  after:border-solid after:border-l-light-palette-p5 after:border-l-[6px] after:right-[-10px]" } ",  style:"z-index: #{30 - index } "  do %>
           <p class="h-3">
             &nbsp
           </p>
         <% end %>
       <% end %>
-      <div id="tooltip-default-<%= stage.id %>-<%= stage.name %>" role="tooltip" class="absolute z-50 invisible inline-block px-3 py-2 typography-text-m-lh150 text-dark-gray-palette-p3 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 tooltip transition-opacity duration-300">
+      <div id="tooltip-default-<%= stage.id %>-<%= stage.name %>" role="tooltip" class="absolute z-50 invisible inline-block px-3 py-2 typography-text-m-lh150 text-dark-gray-palette-p3 bg-white border border-gray-400 rounded-lg shadow-sm opacity-0 tooltip transition-opacity duration-300">
         <%= stage.name %>
         <div class="tooltip-arrow" data-popper-arrow></div>
       </div>

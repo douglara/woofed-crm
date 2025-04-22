@@ -8,7 +8,22 @@ class Accounts::DealsController < InternalController
 
   # GET /deals or /deals.json
   def index
-    @deals = current_user.account.deals
+    @first_pipeline = Pipeline.first
+    @deals = if params[:query].present?
+              Deal.left_joins(:contact)
+                  .where(
+                    'deals.name ILIKE :search OR ' +
+                    'contacts.full_name ILIKE :search OR ' +
+                    'deals.id = :id',
+                    search: "%#{params[:query]}%",
+                    id: params[:query].to_i
+                  )
+                  .order(updated_at: :desc)
+              else
+                Deal.all.order(created_at: :desc)
+              end
+
+    @pagy, @deals = pagy(@deals)
   end
 
   # GET /deals/1 or /deals/1.json
@@ -66,17 +81,6 @@ class Accounts::DealsController < InternalController
     @custom_attribute_definitions = current_user.account.custom_attribute_definitions.deal_attribute
   end
 
-  def update_custom_attributes
-    @deal = current_user.account.deals.find(params[:deal_id])
-    @deal.custom_attributes[params[:deal][:att_key]] = params[:deal][:att_value]
-
-    if @deal.save
-      redirect_to account_deal_path(current_user.account, @deal)
-    else
-      render :edit_custom_attributes, status: :unprocessable_entity
-    end
-  end
-
   # POST /deals or /deals.json
   def create
     @stages = current_user.account.stages
@@ -92,8 +96,15 @@ class Accounts::DealsController < InternalController
   # PATCH/PUT /deals/1 or /deals/1.json
   def update
     @stages = @deal.pipeline.stages
+    if params[:deal][:att_key].present?
+      @deal.custom_attributes[params[:deal][:att_key]] = params[:deal][:att_value]
+    end
+
     if @deal.update(deal_params)
-      redirect_to account_deal_path(current_user.account, @deal)
+      respond_to do |format|
+        format.html { redirect_to account_deal_path(current_user.account, @deal) }
+        format.turbo_stream
+      end
     else
       render :edit, status: :unprocessable_entity
     end
@@ -103,6 +114,7 @@ class Accounts::DealsController < InternalController
   def destroy
     @deal.destroy
     respond_to do |format|
+      format.turbo_stream
       format.html { redirect_to root_path, notice: t('flash_messages.deleted', model: Deal.model_name.human) }
       format.json { head :no_content }
     end

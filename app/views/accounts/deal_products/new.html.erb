@@ -1,14 +1,19 @@
 <%= turbo_frame_tag @deal_product do %>
   <%= form_with(model: @deal_product, url: account_deal_products_path) do |form| %>
     <%= form.hidden_field :deal_id %>
-    <div class=" flex items-center h-16">
-      <p class="flex items-center m-0 mr-auto typography-body-s-lh150 text-dark-gray-palette-p1">
-        <%= t('activerecord.models.product.other') %>
-      </p>
-      <%= form.submit t('activerecord.models.product.add'), class: "select-search-submit-button text-brand-palette-03 py-2 px-4 cursor-pointer border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250 typography-text-s-lh150 hidden" %>
-      <%= link_to :back, class: 'px-1 py-2 cursor-pointer border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250 text-dark-gray-palette-p3' do %>
-        <i data-lucide="x" height="16"></i>
-      <% end %>
+    <div class="flex items-center py-4 justify-between">
+      <div class="flex items-center gap-2 text-dark-gray-palette-p1">
+        <i data-lucide='box' class='w-5 h-5 stroke-1.04'></i>
+        <p class="typography-body-s-lh150">
+          <%= t('activerecord.models.product.other') %>
+        </p>
+      </div>
+      <div class='flex gap-2'>
+        <%= form.submit t('activerecord.models.product.add'), class: "button-default-blank-secondary-sm" %>
+        <%= link_to :back, class: 'button-default-blank-secondary-icon-only-sm' do %>
+          <i data-lucide="x"></i>
+        <% end %>
+      </div>
     </div>
     <% if @deal_product.errors.any? %>
       <div class='mb-4'>

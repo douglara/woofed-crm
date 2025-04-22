@@ -14,18 +14,18 @@
             <% end %>
           <% end %>
         <% else %>
-          <%= link_to account_deal_path(deal.account, deal, deal: { status: deal.status, stage_id: stage.id } ), method: :patch, data: {  action: 'mouseover->stages-nav#mouseOver mouseout->stages-nav#mouseOut', confirm: t('views.accounts.deals.stages_nav_desktop.are_you_sure?'), tooltip_target:"tooltip-default-#{stage.id}", link_stage_id: stage.id, color: 'gray'  }, class: "overflow-hidden flex flex-1 bg-gray-100 hover:bg-gray-200 first:rounded-l-lg last:rounded-r-lg justify-center before:absolute"  do %>
+          <%= link_to account_deal_path(deal.account, deal, deal: { status: deal.status, stage_id: stage.id } ), method: :patch, data: {  action: 'mouseover->stages-nav#mouseOver mouseout->stages-nav#mouseOut', confirm: t('views.accounts.deals.stages_nav_desktop.are_you_sure?'), tooltip_target:"tooltip-default-#{stage.id}", link_stage_id: stage.id, color: 'gray'  }, class: "overflow-hidden flex flex-1 bg-gray-300 hover:bg-gray-400 first:rounded-l-lg last:rounded-r-lg justify-center before:absolute"  do %>
             <p class="truncate py-2.5 pr-2.5 pl-6  leading-none typography-micro-b-lh150 text-dark-gray-palette-p2" data-name-stage-id="<%= stage.id %>" data-color="gray">
               <%= stage.name %>
             </p>
           <% end %>
           <% unless index == deal.stage.pipeline.stages.length - 1  %>
             <%= link_to account_deal_path(deal.account, deal, deal: { status: deal.status, stage_id: stage.id } ), method: :patch, data: { action: 'mouseover->stages-nav#mouseOver mouseout->stages-nav#mouseOut', confirm: t('views.accounts.deals.stages_nav_desktop.are_you_sure?')}, class: "relative border-solid border-l-light-palette-p5  border-l-[16px] border-y-transparent border-b-[17px] right-[-11px] border-t-[16.4px]"  do %>
-              <div class="absolute top-0 hover:border-l-gray-200 border-solid border-y-transparent border-b-[17px] border-t-[16.4px]  inline-block border-l-gray-100   border-l-[17px] right-[5px] z-50 top-[-16.4px]" data-arrow-stage-id="<%= stage.id %>" data-color="gray"></div>
+              <div class="absolute top-0 hover:border-l-gray-400 border-solid border-y-transparent border-b-[17px] border-t-[16.4px]  inline-block border-l-gray-300   border-l-[17px] right-[5px] z-50 top-[-16.4px]" data-arrow-stage-id="<%= stage.id %>" data-color="gray"></div>
             <% end %>
           <% end %>
         <% end %>
-        <div id="tooltip-default-<%= stage.id %>" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 typography-text-m-lh150 text-dark-gray-palette-p3 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 tooltip transition-opacity duration-300">
+        <div id="tooltip-default-<%= stage.id %>" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 typography-text-m-lh150 text-dark-gray-palette-p3 bg-white border border-gray-400 rounded-lg shadow-sm opacity-0 tooltip transition-opacity duration-300">
           <%= stage.name %>
           <div class="tooltip-arrow" data-popper-arrow></div>
         </div>

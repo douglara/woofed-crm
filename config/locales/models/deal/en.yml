@@ -6,13 +6,30 @@ en:
         other: "Deals"
         new: "New deal"
         edit: "Edit deal"
-        import_file_success: "Successfully created with id %{deal_id}"
-        import_file_failed: "Creation error: %{message_error}"
+        import_file_success: "Successfully created id %{deal_id}"
+        import_file_failed: "Creation error %{message_error}"
+        kanban_mode: "Kanban Mode"
+        list_mode: "List Mode"
     attributes:
       deal:
         name: Name
         stage_id: Stage
+        stage: Stage
         creator: Created by
-        created_by_id: ID Creator
+        created_by_id: Creator ID
         total_products_amount: Total products amount
         total_amount_in_cents: Total amount
+        actual_closing_date: Actual closing date
+        custom_attributes: Custom attributes
+        description: Project description
+        status: Status
+        contact_id: Contact ID
+        contact: Contact
+        pipeline_id: Pipeline ID
+        pipeline: Pipeline
+        created_at: Created at
+        id: "Deal code"
+        statuses:
+          open: Open
+          won: Won
+          lost: Lost

@@ -1,0 +1,15 @@
+en:
+  activerecord:
+    models:
+      one: "Record"
+      other: "Records"
+      show: "Details"
+      new: "New"
+      edit: "Edit"
+      delete: "Delete"
+      cancel: "Cancel"
+      connecting: "Connecting..."
+      processing: "Processing..."
+      search: "Search %{model}"
+      main_information: "Main Information"
+      need_information: "Need Information"

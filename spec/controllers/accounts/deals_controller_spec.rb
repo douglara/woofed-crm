@@ -444,4 +444,113 @@ RSpec.describe Accounts::DealsController, type: :request do
       end
     end
   end
+  describe 'GET /accounts/{account.id}/deals' do
+    let!(:deal) { create(:deal, stage:, contact:, creator: user, name: 'Test Deal') }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/deals"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      it 'returns deals page' do
+        get "/accounts/#{account.id}/deals"
+        expect(response.body).to include('Deals')
+        expect(response.body).to include('tooltip-deal-kanban-link')
+        doc = Nokogiri::HTML(response.body)
+        table_body = doc.at_css('tbody#deals').text
+        expect(table_body).to include(deal.name)
+      end
+
+      context 'when there is query params' do
+        context 'when query params match with deals name' do
+          it 'should show deals on deals table' do
+            get "/accounts/#{account.id}/deals", params: { query: deal.name }
+            expect(response.body).to include('Deals')
+            expect(response.body).to include('tooltip-deal-kanban-link')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#deals').text
+            expect(table_body).to include(deal.name)
+          end
+        end
+
+        context 'when query params does not match with deals' do
+          it 'should return an empty deals table' do
+            get "/accounts/#{account.id}/deals", params: { query: 'aasdsdfgdfghdfghcxvxcvbcvbn' }
+            expect(response.body).to include('Deals')
+            expect(response.body).to include('tooltip-deal-kanban-link')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#deals').text
+            expect(table_body).not_to include(deal.name)
+          end
+        end
+
+        context 'when query params match with contact full_name' do
+          it 'should show deals associated with the contact' do
+            get "/accounts/#{account.id}/deals", params: { query: contact.full_name }
+            expect(response.body).to include('Deals')
+            expect(response.body).to include('tooltip-deal-kanban-link')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#deals').text
+            expect(table_body).to include(deal.name)
+          end
+        end
+
+        context 'when query params match partially with deal name' do
+          it 'should show deals with partial match' do
+            get "/accounts/#{account.id}/deals", params: { query: 'Test' }
+            expect(response.body).to include('Deals')
+            expect(response.body).to include('tooltip-deal-kanban-link')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#deals').text
+            expect(table_body).to include(deal.name)
+          end
+        end
+
+        context 'when query params are case-insensitive' do
+          it 'should show deals regardless of case' do
+            get "/accounts/#{account.id}/deals", params: { query: 'test DEAL' }
+            expect(response.body).to include('Deals')
+            expect(response.body).to include('tooltip-deal-kanban-link')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#deals').text
+            expect(table_body).to include(deal.name)
+          end
+        end
+
+        context 'when there are multiple deals and query does not match any' do
+          let!(:deal2) { create(:deal, stage:, contact:, creator: user, name: 'Another Deal') }
+          let!(:deal3) { create(:deal, stage:, contact:, creator: user, name: 'Third Deal') }
+
+          it 'should return an empty deals table' do
+            get "/accounts/#{account.id}/deals", params: { query: 'Nonexistent Deal' }
+            expect(response.body).to include('Deals')
+            expect(response.body).to include('tooltip-deal-kanban-link')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#deals').text
+            expect(table_body).not_to include(deal.name)
+            expect(table_body).not_to include(deal2.name)
+            expect(table_body).not_to include(deal3.name)
+          end
+        end
+
+        context 'when query params is deal id' do
+          it 'should show deal on deals table' do
+            get "/accounts/#{account.id}/deals", params: { query: deal.id.to_s }
+            expect(response.body).to include('Deals')
+            expect(response.body).to include('tooltip-deal-kanban-link')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#deals').text
+            expect(table_body).to include(deal.name)
+          end
+        end
+      end
+    end
+  end
 end

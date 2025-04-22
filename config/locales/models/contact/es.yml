@@ -14,3 +14,7 @@ es:
         email: Correo electrónico
         label_list: Etiquetas
         chatwoot_conversations_label_list: Etiquetas de conversaciones en Chatwoot
+        id: "Código de contacto"
+        created_at: Creado en
+        updated_at: Actualizado en
+        custom_attributes: Atributos Personalizados

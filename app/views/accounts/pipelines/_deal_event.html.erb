@@ -1,17 +1,19 @@
 <% if event.overdue? %>
-  <div class="flex items-center space-x-1 py-1 pr-2 pl-1 border-2 rounded-lg bg-auxiliary-palette-red-down-2 border-auxiliary-palette-red-down text-auxiliary-palette-red">
-    <i data-lucide="clock-4" class="w-4"></i>
-    <p class="typography-micro-m-lh150 leading-none">
+  <div class='inline-flex gap-1 items-center color-fg-feedback-danger h-5'>
+    <div class='w-4 h-4'>
+      <i data-lucide="clock-4" class="w-4 h-4"></i>
+    </div>
+    <span class='typography-body-800'>
       <%= event.scheduled_at_format_distance %>
-    </p>
+    </span>
   </div>
 <% else %>
-  <div class="flex items-center space-x-1 py-1 pr-2 pl-1 border-2 rounded-lg bg-auxiliary-palette-green-down-2 border-auxiliary-palette-green-down text-auxiliary-palette-green">
-    <i data-lucide="check-circle-2" class="w-4"></i>
-    <p class="typography-micro-m-lh150 leading-none">
+  <div class='inline-flex gap-1 items-center color-fg-feedback-success h-5'>
+    <div class='w-4 h-4'>
+      <i data-lucide="clock-4" class="w-4 h-4"></i>
+    </div>
+    <span class='typography-body-800'>
       <%= event.scheduled_at_format_distance %>
-    </p>
+    </span>
   </div>
 <% end %>
-
-

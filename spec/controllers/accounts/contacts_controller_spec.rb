@@ -76,7 +76,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
     end
   end
 
-  context 'GET #show' do
+  context 'GET #index' do
     before do
       sign_in(user)
     end
@@ -84,7 +84,147 @@ RSpec.describe Accounts::ContactsController, type: :request do
     it 'should list contacts' do
       get "/accounts/#{account.id}/contacts"
       expect(response).to have_http_status(200)
-      expect(response.body).to include(contact.full_name)
+      doc = Nokogiri::HTML(response.body)
+      table_body = doc.at_css('tbody#contacts').text
+      expect(table_body).to include(contact.full_name)
+    end
+
+    context 'when query params are present' do
+      context 'when query params match with contact full_name' do
+        it 'returns contacts on contacts table' do
+          get "/accounts/#{account.id}/contacts", params: { query: contact.full_name }
+          expect(response).to have_http_status(200)
+          expect(response.body).to include('Contacts')
+          doc = Nokogiri::HTML(response.body)
+          table_body = doc.at_css('tbody#contacts').text
+          expect(table_body).to include(ERB::Util.html_escape(contact.full_name))
+          expect(table_body).to include(contact.email)
+          expect(table_body).to include(contact.phone)
+          expect(table_body).to include(contact.id.to_s)
+        end
+      end
+
+      context 'when query params match with contact email' do
+        it 'returns contacts on contacts table' do
+          get "/accounts/#{account.id}/contacts", params: { query: contact.email }
+          expect(response).to have_http_status(200)
+          expect(response.body).to include('Contacts')
+          doc = Nokogiri::HTML(response.body)
+          table_body = doc.at_css('tbody#contacts').text
+          expect(table_body).to include(ERB::Util.html_escape(contact.full_name))
+          expect(table_body).to include(contact.email)
+          expect(table_body).to include(contact.phone)
+          expect(table_body).to include(contact.id.to_s)
+        end
+      end
+
+      context 'when query params match with contact phone' do
+        it 'returns contacts on contacts table' do
+          get "/accounts/#{account.id}/contacts", params: { query: contact.phone }
+          expect(response).to have_http_status(200)
+          expect(response.body).to include('Contacts')
+          doc = Nokogiri::HTML(response.body)
+          table_body = doc.at_css('tbody#contacts').text
+          expect(table_body).to include(ERB::Util.html_escape(contact.full_name))
+          expect(table_body).to include(contact.email)
+          expect(table_body).to include(contact.phone)
+          expect(table_body).to include(contact.id.to_s)
+        end
+      end
+
+      context 'when query params match partially with contact full_name' do
+        let(:first_name) { contact.full_name.split.first }
+        it 'returns contacts with partial match' do
+          get "/accounts/#{account.id}/contacts", params: { query: first_name }
+          expect(response).to have_http_status(200)
+          expect(response.body).to include('Contacts')
+          doc = Nokogiri::HTML(response.body)
+          table_body = doc.at_css('tbody#contacts').text
+          expect(table_body).to include(ERB::Util.html_escape(contact.full_name))
+          expect(table_body).to include(contact.email)
+          expect(table_body).to include(contact.phone)
+          expect(table_body).to include(contact.id.to_s)
+        end
+      end
+
+      context 'when query params are case-insensitive' do
+        it 'returns contacts regardless of case' do
+          get "/accounts/#{account.id}/contacts", params: { query: contact.full_name.swapcase }
+          expect(response).to have_http_status(200)
+          expect(response.body).to include('Contacts')
+          doc = Nokogiri::HTML(response.body)
+          table_body = doc.at_css('tbody#contacts').text
+          expect(table_body).to include(ERB::Util.html_escape(contact.full_name))
+          expect(table_body).to include(contact.email)
+          expect(table_body).to include(contact.phone)
+          expect(table_body).to include(contact.id.to_s)
+        end
+      end
+
+      context 'when query params do not match any contacts' do
+        it 'returns an empty contacts table' do
+          get "/accounts/#{account.id}/contacts", params: { query: 'NonexistentContact123' }
+          expect(response).to have_http_status(200)
+          expect(response.body).to include('Contacts')
+          doc = Nokogiri::HTML(response.body)
+          table_body = doc.at_css('tbody#contacts').text
+          expect(table_body).not_to include(ERB::Util.html_escape(contact.full_name))
+          expect(table_body).not_to include(contact.email)
+          expect(table_body).not_to include(contact.phone)
+          expect(table_body).not_to include(contact.id.to_s)
+        end
+      end
+
+      context 'when there are multiple contacts and query does not match any' do
+        let!(:contact2) do
+          create(:contact, account:, full_name: 'Jane Smith', email: 'jane.smith@example.com',
+                           phone: '+55226598745699')
+        end
+        let!(:contact3) do
+          create(:contact, account:, full_name: 'Bob Johnson', email: 'bob.johnson@example.com',
+                           phone: '+5541225695285')
+        end
+
+        it 'returns an empty contacts table' do
+          get "/accounts/#{account.id}/contacts", params: { query: 'NonexistentContact123' }
+          expect(response).to have_http_status(200)
+          expect(response.body).to include('Contacts')
+          doc = Nokogiri::HTML(response.body)
+          table_body = doc.at_css('tbody#contacts').text
+          expect(table_body).not_to include(ERB::Util.html_escape(contact.full_name))
+          expect(table_body).not_to include(ERB::Util.html_escape(contact2.full_name))
+          expect(table_body).not_to include(ERB::Util.html_escape(contact3.full_name))
+        end
+      end
+    end
+  end
+
+  describe 'GET /accounts/{account.id}/contacts/{contact.id}' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/contacts/#{contact.id}"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let!(:contact2) { create(:contact, account:) }
+      let!(:pipeline) { create(:pipeline, account:) }
+      let!(:stage) { create(:stage, account:, pipeline:) }
+      let!(:deal) { create(:deal, account:, stage:, contact:) }
+
+      before do
+        sign_in(user)
+      end
+
+      context 'get contact' do
+        it 'get contact by account' do
+          get "/accounts/#{account.id}/contacts/#{contact.id}"
+          expect(response.body).to include(ERB::Util.html_escape(contact.full_name))
+          expect(response.body).to include(ERB::Util.html_escape(contact.email))
+          expect(response.body).to include(ERB::Util.html_escape(deal.name))
+        end
+      end
     end
   end
 

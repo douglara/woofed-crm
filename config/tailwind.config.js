@@ -44,8 +44,77 @@ module.exports = {
       "auxiliary-palette-red-down-2": "#FAEEEB",
       "auxiliary-palette-blue": "#5491F5",
       "auxiliary-palette-blue-down": "#DAE8FE",
+
+      //new colors
     },
     extend: {
+      colors: {
+        gray: {
+          1400: "#17161E",
+          1300: "#282733",
+          1200: "#3A3847",
+          1100: "#4D4B5C",
+          1000: "#605E70",
+          900: "#737185",
+          800: "#888599",
+          700: "#9C99AD",
+          600: "#B1AEC2",
+          500: "#CBC8DB",
+          400: "#E7E6EF",
+          300: "#F2F1F7",
+          200: "#FAF9FD",
+          100: "#FFFFFF",
+        },
+        green: {
+          900: "#074A3A",
+          800: "#0B5A3F",
+          700: "#127047",
+          600: "#1B864C",
+          500: "#259C50",
+          400: "#53C371",
+          300: "#AAF5AF",
+          200: "#D5FAD3",
+          100: "#D8F2E1",
+        },
+        red: {
+          900: "#63070B",
+          800: "#780E0C",
+          700: "#951F13",
+          600: "#B2351C",
+          500: "#CF4F27",
+          400: "#E28358",
+          300: "#F0A87B",
+          200: "#FBE0D8",
+          100: "#FAEEEB",
+        },
+        blue: {
+          900: "#102675",
+          800: "#1A398E",
+          700: "#2A52B0",
+          600: "#3D70D2",
+          500: "#5491F5",
+          400: "#7EB1F9",
+          300: "#98C5FC",
+          200: "#DAE8FE",
+          100: "#DDEEFE",
+        },
+        purple: {
+          900: "#121D3A",
+          800: "#1B2C58",
+          700: "#31388D",
+          600: "#6857D9",
+          500: "#8686E8",
+          400: "#B8C0F4",
+          300: "#D9DEFF",
+          200: "#EDF1FD",
+          100: "#F6F8FE",
+        },
+      },
+
+      strokeWidth: {
+        1.04: "1.04",
+        1.25: "1.25",
+      },
       fontFamily: {
         sans: ["Nunito", "Arial", "sans-serif"],
       },
@@ -68,6 +137,9 @@ module.exports = {
     require("@tailwindcss/typography"),
     require("@tailwindcss/container-queries"),
     require("flowbite/plugin"),
+    function ({ addVariant }) {
+      addVariant("group-inline-edit", ".group.inline-edit &");
+    },
   ],
-  safelist: ["event-item-from-me", "event-from-contacts"],
+  safelist: ["event-item-from-me", "event-from-contacts", "form-input-error"],
 };

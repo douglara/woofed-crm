@@ -1,8 +1,49 @@
-<section class="m-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md ">
-  <ul class="px-4 py-5 space-y-5" id='contacts'>
-    <%= render partial: 'contact', collection: @contacts, as: :contact  %>
-  </ul>
-  <div class="float-right py-6">
-    <%== pagy_nav(@pagy) %>
-  </div>
-</section>
+<div class="bg-light-palette-p5 border-2 border-neutral-150 border-light-palette-p3 rounded m-8">
+  <header class="border-b-2 border-neutral-100 flex items-center justify-end gap-2 p-4 sticky top-0 bg-light-palette-p5 z-20">
+    <%= render '/components/form/input_expandable_search',
+               search_url: account_contacts_path(Current.account),
+               turbo_frame_search: :contacts_table,
+               placeholder: t('activerecord.models.search', model: @contacts.model_name.human) %>
+    <%= link_to new_account_contact_path(current_user.account), class: 'button-default-blank-secondary-icon-only-sm', data: { turbo_frame: :drawer } do %>
+      <i data-lucide="plus" class='h-4 w-4'></i>
+    <% end %>
+  </header>
+  <%= turbo_frame_tag :contacts_table do %>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left rtl:text-right min-w-[1950px]">
+        <thead class="border-b border-light-palette-p3">
+          <tr>
+            <th scope="col" class="py-3 pl-4 pr-4 w-[52px]"></th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[200px]">
+              <%= t('activerecord.attributes.contact.name') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[120px]">
+              <%= t('activerecord.attributes.contact.phone') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[200px]">
+              <%= t('activerecord.attributes.contact.email') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[150px]">
+              <%= t('activerecord.attributes.contact.id') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[100px]">
+              <%= t('activerecord.attributes.contact.created_at') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[250px]">
+              <%= t('activerecord.attributes.contact.updated_at') %>
+            </th>
+            <th scope="col" class="py-3 pl-4 pr-4 sticky right-0 bg-light-palette-p5 z-10 w-[50px]"></th>
+          </tr>
+        </thead>
+        <tbody class="w-full" id='contacts'>
+          <%= render partial: '/accounts/contacts/contact', collection: @contacts, as: :contact %>
+        </tbody>
+      </table>
+    </div>
+    <div class="sticky bottom-0 bg-light-palette-p5 z-10 py-2 px-4 border-t-2 border-light-palette-p3">
+      <div class="flex justify-end">
+        <%== pagy_nav(@pagy) %>
+      </div>
+    </div>
+  <% end %>
+</div>

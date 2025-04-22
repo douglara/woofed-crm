@@ -8,11 +8,28 @@ pt-BR:
         edit: "Editar negócio"
         import_file_success: "Criado com sucesso id %{deal_id}"
         import_file_failed: "Erro na criação %{message_error}"
+        kanban_mode: "Modo Kanban"
+        list_mode: "Modo Lista"
     attributes:
       deal:
         name: Nome
         stage_id: Estágio
+        stage: Estágio
         creator: Criado por
         created_by_id: ID do criador
         total_products_amount: Valor total dos produtos
         total_amount_in_cents: Valor total
+        actual_closing_date: Data de fechamento real
+        custom_attributes: Atributos personalizados
+        description: Descrição do projeto
+        status: Status
+        contact_id: ID do contato
+        contact: Contato
+        pipeline_id: ID do pipeline
+        pipeline: Pipeline
+        created_at: Criado em
+        id: "Código do negócio"
+        statuses:
+          open: Aberto
+          won: Ganhou
+          lost: Perdeu

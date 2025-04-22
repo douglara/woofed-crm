@@ -1,0 +1,44 @@
+<button
+    type="button"
+    class="button-default-outline-secondary-md-icon-only-md"
+    id="user-menu-button"
+    aria-expanded="false"
+    data-dropdown-toggle="user-dropdown"
+    data-dropdown-placement="bottom"
+  >
+  <span class="sr-only">Open user menu</span>
+  <i data-lucide="user"></i>
+</button>
+<div
+    class="z-50 w-48 hidden text-base list-none bg-white divide-y divide-gray-300 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+    id="user-dropdown"
+  >
+  <div class="px-4 py-3 grid">
+    <span class="typography-text-s-lh150 text-dark-gray-palette-p1 break-all">
+      <%= current_user.full_name %>
+    </span>
+    <span class="typography-text-r-lh150 text-dark-gray-palette-p4 break-all">
+      <%= current_user.email %>
+    </span>
+  </div>
+  <ul
+      class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3 dark:text-gray-200"
+      aria-labelledby="user-menu-button"
+    >
+    <li>
+      <%= link_to edit_account_user_path(Current.account, current_user),
+          class: "flex items-center gap-2 px-4 py-2 hover:bg-gray-300 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white" do %>
+        <i data-lucide="user-cog" class='w-4 h-4'></i>
+        <p><%= t('views.layouts.shared.navbar_pipe.my_account') %></p>
+      <% end %>
+    </li>
+  </ul>
+  <div class="py-1 typography-text-m-lh150 text-dark-gray-palette-p3">
+    <%= link_to destroy_user_session_path,
+        class: "flex items-center gap-2 px-4 py-2 hover:bg-gray-300 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white",
+        method: :delete do %>
+      <i data-lucide="log-out" class='w-4 h-4'></i>
+      <p><%= t('views.layouts.shared.navbar_pipe.logout') %></p>
+    <% end %>
+  </div>
+</div>

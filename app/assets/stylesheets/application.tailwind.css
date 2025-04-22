@@ -4,7 +4,7 @@
 
 @layer components {
   .woo-input {
-    @apply rounded-md border-light-palette-p2 bg-light-palette-p4
+    @apply rounded-md border-light-palette-p2 bg-light-palette-p4;
   }
   .event-item-from-me {
     @apply flex-row-reverse flex my-5;
@@ -66,20 +66,26 @@
   .typography-micro-m-lh150 {
     @apply text-micro leading-150 font-medium;
   }
-  .btn-primary{
-    @apply typography-text-s-lh150 py-2 px-4 rounded bg-brand-palette-03 hover:bg-brand-palette-04 hover:no-underline text-light-palette-p5 cursor-pointer
+  .btn-primary {
+    @apply typography-text-s-lh150 py-2 px-4 rounded bg-brand-palette-03 hover:bg-brand-palette-04 hover:no-underline text-light-palette-p5 cursor-pointer;
   }
-  .btn-secondary{
-    @apply typography-text-s-lh150 bg-light-palette-p4 text-dark-gray-palette-p3 rounded-md px-4 py-2 hover:bg-brand-palette-07 hover:text-brand-palette-03 focus:bg-brand-palette-07 focus:text-brand-palette-03
+  .btn-secondary {
+    @apply typography-text-s-lh150 bg-light-palette-p4 text-dark-gray-palette-p3 rounded-md px-4 py-2 hover:bg-brand-palette-07 hover:text-brand-palette-03 focus:bg-brand-palette-07 focus:text-brand-palette-03;
   }
-  .icon-btn-outline{
-    @apply p-2.5 border-solid border-2 border-light-palette-p3 rounded-r-lg flex-1 hover:border-brand-palette-04
+  .icon-btn-outline {
+    @apply p-2.5 border-solid border-2 border-light-palette-p3 rounded-r-lg flex-1 hover:border-brand-palette-04;
   }
-  .icon-btn-outline svg{
-    @apply hover:stroke-brand-palette-04
+  .icon-btn-outline svg {
+    @apply hover:stroke-brand-palette-04;
   }
   .form-input {
-    @apply py-2 px-4 bg-light-palette-p4 border-2 border-light-palette-p3 rounded-md text-dark-gray-palette-p1 typography-text-m-lh150 focus:outline-none focus:ring focus:ring-light-palette-p3 outline-none	focus:border-transparent placeholder-light-palette-p1
+    @apply py-2 px-4 bg-light-palette-p4 border-2 border-light-palette-p3 rounded-md text-dark-gray-palette-p1 typography-text-m-lh150 focus:outline-none focus:ring focus:ring-light-palette-p3 outline-none	focus:border-transparent placeholder-light-palette-p1;
+  }
+  .form-input-expandable-search {
+    @apply py-2 px-0 rounded-md text-dark-gray-palette-p1 typography-text-m-lh150 outline-none placeholder-light-palette-p1 w-80 h-8 border-transparent focus:outline  focus:ring-0 focus:border-transparent group-aria-expanded:w-80 group-aria-[expanded=false]:w-0 ease-in duration-200;
+  }
+  .form-input-error {
+    @apply border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500;
   }
 
   .pagy-nav.pagination {
@@ -102,7 +108,8 @@
     @apply border border-brand-palette-07 rounded-md relative inline-flex items-center rounded-l-md bg-slate-100 px-2 py-2 text-dark-gray-palette-p3 typography-text-m-lh150 hover:bg-gray-50 focus:z-20 pointer-events-none;
   }
 
-  .page a, .page.gap {
+  .page a,
+  .page.gap {
     @apply border border-brand-palette-07 rounded-md bg-white text-dark-gray-palette-p3 typography-text-m-lh150 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 focus:z-20;
   }
 
@@ -110,28 +117,264 @@
     @apply border border-brand-palette-07 rounded-md z-10  bg-brand-palette-08 text-brand-palette-03 typography-text-m-lh150 relative inline-flex items-center px-4 py-2 focus:z-20 pointer-events-none;
   }
 
-  .label-v1{
-    @apply odd:bg-brand-palette-06 odd:text-brand-palette-02 even:bg-brand-palette-07 even:text-brand-palette-03 py-1 px-1.5 flex rounded cursor-default flex gap-1.5 items-center
+  .label-v1 {
+    @apply odd:bg-brand-palette-06 odd:text-brand-palette-02 even:bg-brand-palette-07 even:text-brand-palette-03 py-1 px-1.5 flex rounded cursor-default flex gap-1.5 items-center;
   }
 
-  .label-v2{
-    @apply odd:bg-light-palette-p2 odd:text-dark-gray-palette-p2 even:bg-light-palette-p3 even:text-dark-gray-palette-p1 py-1 px-1.5 flex rounded cursor-default flex gap-1.5 items-center
+  .label-v2 {
+    @apply odd:bg-light-palette-p2 odd:text-dark-gray-palette-p2 even:bg-light-palette-p3 even:text-dark-gray-palette-p1 py-1 px-1.5 flex rounded cursor-default flex gap-1.5 items-center;
   }
 
-  .label-v3{
-    @apply odd:bg-brand-palette-07 odd:text-brand-palette-03 even:bg-brand-palette-08 even:text-brand-palette-04 py-1 px-1.5 flex rounded cursor-default flex gap-1.5 items-center
+  .label-v3 {
+    @apply odd:bg-brand-palette-07 odd:text-brand-palette-03 even:bg-brand-palette-08 even:text-brand-palette-04 py-1 px-1.5 flex rounded cursor-default flex gap-1.5 items-center;
   }
 
-  .label-v4{
-    @apply odd:bg-[#5440D2] odd:text-light-palette-p4 even:bg-brand-palette-03 even:text-light-palette-p4 py-1 px-1.5 flex rounded cursor-default flex gap-1.5 items-center
+  .label-v4 {
+    @apply odd:bg-[#5440D2] odd:text-light-palette-p4 even:bg-brand-palette-03 even:text-light-palette-p4 py-1 px-1.5 flex rounded cursor-default flex gap-1.5 items-center;
   }
-  .checkbox{
-    @apply bg-brand-palette-08 rounded text-brand-palette-03 focus:border-light-palette-p3 focus:ring-0 focus:outline-none border-2 border-light-palette-p3
+  .checkbox {
+    @apply bg-brand-palette-08 rounded text-brand-palette-03 focus:border-light-palette-p3 focus:ring-0 focus:outline-none border-2 border-light-palette-p3;
   }
   .deal-won-btn {
-    @apply rounded-md px-4 py-2 bg-auxiliary-palette-green-down text-auxiliary-palette-green text-center hover:bg-auxiliary-palette-green  hover:no-underline font-semibold hover:text-white
+    @apply rounded-md px-4 py-2 bg-auxiliary-palette-green-down text-auxiliary-palette-green text-center hover:bg-auxiliary-palette-green  hover:no-underline font-semibold hover:text-white;
   }
   .deal-lost-btn {
-    @apply rounded-md px-4 py-2 bg-auxiliary-palette-red-down text-auxiliary-palette-red text-center hover:bg-auxiliary-palette-red hover:text-white hover:no-underline font-semibold
+    @apply rounded-md px-4 py-2 bg-auxiliary-palette-red-down text-auxiliary-palette-red text-center hover:bg-auxiliary-palette-red hover:text-white hover:no-underline font-semibold;
+  }
+
+  .typography-title-1000 {
+    @apply text-[3rem] leading-[3.5rem] font-bold;
+  }
+  .typography-title-900 {
+    @apply text-[2.5rem] leading-[3rem] font-bold;
+  }
+  .typography-title-800 {
+    @apply text-[2rem] leading-[2.5rem] font-bold;
+  }
+  .typography-title-700 {
+    @apply text-[1.5rem] leading-[2rem] font-bold;
+  }
+  .typography-sub-title-1000 {
+    @apply text-[1.5rem] leading-[2rem] font-semibold;
+  }
+  .typography-sub-title-950 {
+    @apply text-[1.25rem] leading-[2rem] font-semibold;
+  }
+  .typography-sub-title-900 {
+    @apply text-[1rem] leading-[1.5rem] font-semibold;
+  }
+  .typography-sub-title-800 {
+    @apply text-[0.875rem] leading-[1.25rem] font-semibold;
+  }
+  .typography-button-1000 {
+    @apply text-[1rem] leading-[1.5rem] font-bold;
+  }
+  .typography-button-900 {
+    @apply text-[0.875rem] leading-[1.25rem] font-bold;
+  }
+  .typography-button-800 {
+    @apply text-[0.75rem] leading-[1rem] font-bold;
+  }
+  .typography-body-1000 {
+    @apply text-[1rem] leading-[1.5rem] font-medium;
+  }
+  .typography-body-900 {
+    @apply text-[0.875rem] leading-[1.25rem] font-medium;
+  }
+  .typography-body-800 {
+    @apply text-[0.75rem] leading-[1rem] font-medium;
+  }
+  .typography-label-1000 {
+    @apply text-[1rem] leading-[1.5rem] font-normal;
+  }
+  .typography-label-900 {
+    @apply text-[0.875rem] leading-[1.25rem] font-normal;
+  }
+  .typography-label-800 {
+    @apply text-[0.75rem] leading-[1rem] font-normal;
+  }
+
+  .color-bg-surface-harder {
+    @apply bg-purple-100;
+  }
+  .color-bg-surface-hard {
+    @apply bg-gray-200;
+  }
+  .color-bg-surface-default {
+    @apply bg-gray-100;
+  }
+
+  .color-bg-fill-highlight {
+    @apply bg-purple-600;
+  }
+  .color-bg-fill-highlight-hover {
+    @apply bg-purple-700;
+  }
+  .color-bg-fill-hard {
+    @apply bg-purple-100;
+  }
+  .color-bg-fill-default {
+    @apply bg-gray-200;
+  }
+  .color-bg-fill-soft {
+    @apply bg-gray-100;
+  }
+
+  .color-bg-feedback-success-default {
+    @apply bg-green-200;
+  }
+  .color-bg-feedback-success-harder {
+    @apply bg-green-500;
+  }
+  .color-bg-feedback-neutral {
+    @apply bg-gray-200;
+  }
+
+  .color-bg-feedback-danger-default {
+    @apply bg-red-100;
+  }
+  .color-bg-feedback-danger-hard {
+    @apply bg-red-500;
+  }
+  .color-bg-feedback-info-default {
+    @apply bg-blue-100;
+  }
+  .color-bg-feedback-another-info-default {
+    @apply bg-gray-200;
+  }
+
+  .color-fg-highlight {
+    @apply text-purple-600;
+  }
+  .color-fg-hard {
+    @apply text-gray-1200;
+  }
+  .color-fg-default {
+    @apply text-gray-1000;
+  }
+  .color-fg-soft {
+    @apply text-gray-800;
+  }
+  .color-fg-extra-soft {
+    @apply text-gray-400;
+  }
+  .color-fg-inverse {
+    @apply text-gray-100;
+  }
+
+  .color-fg-feedback-success {
+    @apply text-green-500;
+  }
+
+  .color-fg-feedback-danger {
+    @apply text-red-500;
+  }
+  .color-fg-feedback-info {
+    @apply text-blue-500;
+  }
+  .color-fg-feedback-neutral {
+    @apply text-gray-900;
+  }
+  .color-border-highlight {
+    @apply border-purple-600;
+  }
+  .color-border-harder {
+    @apply border-purple-300;
+  }
+  .color-border-hard {
+    @apply border-gray-500;
+  }
+  .color-border-default {
+    @apply border-gray-300;
+  }
+  .color-border-feedback-success-default {
+    @apply border-green-300;
+  }
+  .color-border-feedback-success-harder {
+    @apply border-green-500;
+  }
+  .color-border-feedback-danger-default {
+    @apply border-red-200;
+  }
+  .color-border-feedback-danger-hard {
+    @apply border-red-500;
+  }
+  .color-border-feedback-info {
+    @apply border-blue-600;
+  }
+  .color-border-feedback-neutral {
+    @apply border-gray-900;
+  }
+  .button-default-blank-secondary-icon-only-md {
+    @apply flex items-center justify-center rounded color-fg-soft w-10 h-10 hover:color-fg-default hover:color-bg-fill-default shrink-0 cursor-pointer;
+  }
+  .button-default-blank-secondary-icon-only-md svg {
+    @apply stroke-1.25 w-5 h-5;
+  }
+  .button-default-blank-secondary-icon-only-sm {
+    @apply flex items-center justify-center rounded color-fg-soft w-8 h-8 hover:color-fg-default hover:color-bg-fill-default shrink-0 cursor-pointer;
+  }
+  .button-default-blank-secondary-icon-only-sm svg {
+    @apply stroke-1.25 w-5 h-5;
+  }
+  .button-default-blank-secondary-md {
+    @apply inline-flex gap-2 items-center typography-body-1000 rounded color-fg-soft h-10 px-3 hover:color-fg-default hover:color-bg-fill-default shrink-0 cursor-pointer;
+  }
+  .button-default-blank-secondary-md svg {
+    @apply stroke-1.25 w-5 h-5;
+  }
+  .button-default-blank-secondary-sm {
+    @apply inline-flex gap-2 items-center typography-body-900 rounded color-fg-soft h-8 px-3 hover:color-fg-default hover:color-bg-fill-default shrink-0 cursor-pointer;
+  }
+  .button-default-blank-secondary-sm svg {
+    @apply stroke-1.25 w-4 h-4;
+  }
+  .button-default-outline-secondary-md-icon-only-md {
+    @apply flex items-center justify-center border color-border-default rounded color-fg-soft w-10 h-10 hover:color-bg-fill-default shrink-0 cursor-pointer;
+  }
+  .button-default-outline-secondary-md-icon-only-md svg {
+    @apply stroke-1.25 w-5 h-5;
+  }
+  .button-default-outline-secondary-sm {
+    @apply inline-flex gap-2 items-center border color-border-default typography-body-900 rounded color-fg-soft h-8 px-3 hover:color-bg-fill-default shrink-0 cursor-pointer;
+  }
+  .button-default-outline-secondary-sm svg {
+    @apply stroke-1.25 w-4 h-4;
+  }
+  .button-default-fill-primary-icon-only-md {
+    @apply flex items-center justify-center rounded color-fg-inverse color-bg-fill-highlight w-10 h-10 hover:color-bg-fill-highlight-hover shrink-0 cursor-pointer;
+  }
+  .button-default-fill-primary-icon-only-md svg {
+    @apply stroke-1.25 w-5 h-5;
+  }
+  .button-default-fill-primary-md {
+    @apply inline-flex gap-2 items-center typography-body-1000 rounded color-fg-inverse color-bg-fill-highlight h-10 px-3 hover:color-bg-fill-highlight-hover shrink-0 cursor-pointer;
+  }
+  .button-default-fill-primary-md svg {
+    @apply stroke-1.25 w-5 h-5;
+  }
+  .button-default-fill-primary-icon-only-sm {
+    @apply flex items-center justify-center rounded color-fg-inverse color-bg-fill-highlight w-8 h-8 hover:color-bg-fill-highlight-hover shrink-0 cursor-pointer;
+  }
+  .button-default-fill-primary-icon-only-sm svg {
+    @apply stroke-1.25 w-5 h-5;
+  }
+  .button-default-fill-primary-sm {
+    @apply inline-flex gap-2 items-center typography-body-900 rounded color-fg-inverse color-bg-fill-highlight h-8 px-3 hover:color-bg-fill-highlight-hover shrink-0 cursor-pointer;
+  }
+  .button-default-fill-primary-sm svg {
+    @apply stroke-1.25 w-4 h-4;
+  }
+  .button-default-fill-secondary-icon-only-sm {
+    @apply flex items-center justify-center rounded color-fg-soft color-bg-fill-default border-[1.5px] border-transparent w-8 h-8 hover:color-bg-fill-hard hover:color-border-harder hover:color-fg-highlight shrink-0 cursor-pointer;
+  }
+  .button-default-fill-secondary-icon-only-sm svg {
+    @apply stroke-1.25 w-5 h-5;
+  }
+  .button-default-fill-secondary-sm {
+    @apply inline-flex gap-2 items-center typography-body-900 rounded color-fg-soft color-bg-fill-default border-[1.5px] border-transparent h-8 px-3 hover:color-bg-fill-hard hover:color-border-harder hover:color-fg-highlight shrink-0 cursor-pointer;
+  }
+  .button-default-fill-secondary-sm svg {
+    @apply stroke-1.25 w-4 h-4;
   }
 }

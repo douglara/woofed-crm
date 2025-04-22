@@ -2,9 +2,9 @@
   <% if controller_path == 'accounts/pipelines' && ['index', 'show', 'edit', 'new'].include?(action_name) %>
     <%= render "layouts/shared/navbar_pipe" %>
   <% elsif controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
-    <%= render "layouts/shared/navbar_deal" %>
+    <%= render "layouts/shared/navbar_show_deal" %>
   <% elsif controller_path == 'accounts/deals' && ['show'].exclude?(action_name) %>
-    <%= render "layouts/shared/navbar_new_deal" %>
+    <%= render "layouts/shared/navbar_deal" %>
   <% elsif controller_path == 'accounts/contacts' %>
     <%= render "layouts/shared/navbar_contact" %>
   <% elsif controller_path == 'accounts/settings' %>

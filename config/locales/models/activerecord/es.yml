@@ -1,0 +1,15 @@
+es:
+  activerecord:
+    models:
+      one: "Registro"
+      other: "Registros"
+      show: "Detalles"
+      new: "Nuevo"
+      edit: "Editar"
+      delete: "Eliminar"
+      cancel: "Cancelar"
+      connecting: "Conectando..."
+      processing: "Procesando..."
+      search: "Buscar %{model}"
+      main_information: "Información principal"
+      need_information: "Información necesaria"

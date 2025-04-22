@@ -1,12 +1,29 @@
 <%= content_tag :li, id: dom_id(deal), data: { id: deal.id, account_id: Current.account.id, position: deal.position } , class: 'hover:shadow-sm' do %>
   <%= turbo_stream_from deal %>
   <%= link_to account_deal_path(Current.account, deal.id), data: {turbo: false, controller: 'load-lucid-icons'} do %>
-    <div class="rounded cursor-pointer border-2 border-light-palette-p3 bg-light-palette-p4 py-2 px-4 space-y-2">
-      <p class="typography-sub-text-m-lh200 text-dark-gray-palette-p1"><%= deal.name %></p>
-      <div class="w-full h-0.5 bg-light-palette-p3">
+    <div class="rounded cursor-pointer border-2 color-border-default color-bg-fill-default py-2 px-4 space-y-2">
+      <p class="typography-body-900 color-fg-default break-all">
+        <%= deal.name %>
+      </p>
+      <div class="w-full h-0.5 bg-light-palette-p3"></div>
+      <div class="flex items-center justify-between gap-2 ">
+        <div class='flex items-center gap-1 '>
+          <p class="typography-body-900 color-fg-soft">
+            <%= deal.contact.full_name %>
+          </p>
+        </div>
       </div>
-      <div class="flex items-center justify-between gap-2">
-        <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p3 flex-1"><%= deal.contact.full_name %></p>
+      <div class='flex items-center flex-wrap gap-1.5 justify-end'>
+        <% unless deal.total_amount_in_cents.zero?%>
+          <div class='inline-flex gap-1 items-center color-fg-feedback-neutral h-5'>
+            <div class='w-4 h-4'>
+              <i data-lucide="circle-dollar-sign" class="w-4 h-4"></i>
+            </div>
+            <span class='typography-body-800'>
+              <%= deal.total_amount_in_cents_at_format %>
+            </span>
+          </div>
+        <% end %>
         <%= render partial: 'accounts/pipelines/deal_event', locals: {event: deal.next_event_planned}  if deal.next_event_planned? %>
       </div>
     </div>

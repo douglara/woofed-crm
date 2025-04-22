@@ -1,5 +1,5 @@
 <li class="cursor-pointer">
-  <a data-action="click->select-search#select" model-name="<%= model.name %>" value="<%= model.id %>" class="flex items-center px-4 py-2 gap-2.5 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:no-underline">
+  <a data-action="click->select-search#select" model-name="<%= model.name %>" value="<%= model.id %>" class="flex items-center px-4 py-2 gap-2.5 hover:bg-gray-300 dark:hover:bg-gray-600 dark:hover:text-white hover:no-underline">
     <div class="h-12 w-12 flex items-center">
       <% if model.attachments.present? %>
         <%= image_tag model.attachments.first.file, class:"block w-full w-full h-full rounded-lg", alt: model.attachments.first.file.filename.to_s %>

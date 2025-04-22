@@ -1,6 +1,8 @@
 import { Controller } from "stimulus";
 import Sortable from "sortablejs";
 import Rails from "@rails/ujs";
+import * as Turbo from "@hotwired/turbo";
+
 export default class extends Controller {
   connect() {
     this.sort();
@@ -22,6 +24,7 @@ export default class extends Controller {
     const accountId = event.item.dataset.accountId;
     const toStageId = event.to.dataset.id;
     const newPosition = new Position(event).getNewPosition();
+    const fromStageId = event.from.dataset.id;
     let data = new FormData();
     data.append("deal[position]", newPosition);
     data.append("deal[stage_id]", toStageId);
@@ -32,6 +35,25 @@ export default class extends Controller {
         .replace(":account_id", accountId),
       type: "PATCH",
       data: data,
+      beforeSend: (xhr) => {
+        xhr.setRequestHeader("Accept", "text/vnd.turbo-stream.html");
+        return true;
+      },
+      success: (response) => {
+        Turbo.renderStreamMessage(response);
+        event.from.classList.remove("pointer-events-none");
+        event.to.classList.remove("pointer-events-none");
+      },
+      error: (response) => {
+        Turbo.renderStreamMessage(response);
+        const fromList = document.querySelector(`ul[data-id="${fromStageId}"]`);
+        if (fromList && event.item) {
+          fromList.insertBefore(event.item, fromList.firstChild);
+        }
+
+        event.from.classList.remove("pointer-events-none");
+        event.to.classList.remove("pointer-events-none");
+      },
     });
   }
 }
