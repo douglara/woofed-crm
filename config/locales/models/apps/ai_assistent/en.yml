@@ -1,0 +1,14 @@
+en:
+  activerecord:
+    models:
+      apps/ai_assistent:
+        one: "Artificial Intelligence Assistant"
+    attributes:
+      apps/ai_assistent:
+        api_key: "API Key"
+        auto_reply: "Automatically reply to questions in the knowledge base"
+        enabled: "Enabled"
+        model: "Model"
+        usage: "Usage"
+        created_at: "Created at"
+        updated_at: "Updated at"

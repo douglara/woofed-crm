@@ -108,7 +108,9 @@ class Account < ApplicationRecord
     DealProduct.all
   end
 
-  after_create :embed_company_site
+  def apps_ai_assistents
+    Apps::AiAssistent.all
+  end
 
   def site_url=(url)
     super(normalize_url(url))
@@ -118,17 +120,5 @@ class Account < ApplicationRecord
     url = "https://#{url}" unless url.match?(%r{\Ahttp(s)?://})
 
     url
-  end
-
-  def embed_company_site
-    Accounts::Create::EmbedCompanySiteJob.perform_later(id) if site_url.present? && ai_active?
-  end
-
-  def ai_active?
-    ENV['OPENAI_API_KEY'].present?
-  end
-
-  def exceeded_account_limit?
-    ai_usage['tokens'] >= ai_usage['limit']
   end
 end

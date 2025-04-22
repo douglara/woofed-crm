@@ -1,0 +1,40 @@
+<%= form_with( model: ai_assistent, url: url, html:{class: "flex flex-col gap-5"} ) do | form | %>
+  <% if ai_assistent.errors.any? %>
+    <div>
+      <ul>
+        <% ai_assistent.errors.each do |error| %>
+          <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1">
+    <%= t('views.accounts.settings.ai.form.account_data') %>
+  </h2>
+  <div class="border-t border-light-palette-p3 p-3 space-y-2">
+
+    <div class=" flex items-center justify-start py-2">
+      <%= form.check_box :enabled, class: 'rounded text-brand-palette-03 focus:border-transparent focus:ring-0', data: {"event-send-message-form-target": "checkBoxAutoDone"} %>
+      <%= form.label :enabled, class: 'px-3 m-0 typography-text-m-lh150 text-dark-gray-palette-p1' %>
+    </div>
+
+    <div class=" flex items-center justify-start py-2">
+      <%= form.check_box :auto_reply, class: 'rounded text-brand-palette-03 focus:border-transparent focus:ring-0', data: {"event-send-message-form-target": "checkBoxAutoDone"} %>
+      <%= form.label :auto_reply, t('views.accounts.settings.ai.form.ai_answer'), class: 'px-3 m-0 typography-text-m-lh150 text-dark-gray-palette-p1' %>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <%= form.label :api_key, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.text_field :api_key, class: 'form-input' %>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <%= form.label :model, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
+      <%= form.text_field :model, class: 'form-input' %>
+    </div>
+
+  </div>
+  <div class="flex gap-2 self-end">
+    <%= form.submit t('views.accounts.settings.ai.form.save'), class: 'btn-primary cursor-pointer' %>
+  </div>
+<% end %>

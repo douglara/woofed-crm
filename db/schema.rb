@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_17_005226) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_17_233317) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -70,6 +70,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_17_005226) do
     t.string "kind"
     t.boolean "active", default: false, null: false
     t.jsonb "settings", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "apps_ai_assistents", force: :cascade do |t|
+    t.boolean "enabled", default: false, null: false
+    t.string "api_key", default: "", null: false
+    t.string "model", default: "gpt-4o", null: false
+    t.boolean "auto_reply", default: false, null: false
+    t.jsonb "usage", default: {"tokens"=>0}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

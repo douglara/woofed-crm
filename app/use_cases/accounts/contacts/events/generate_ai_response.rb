@@ -2,10 +2,11 @@ class Accounts::Contacts::Events::GenerateAiResponse
   def initialize(event)
     @event = event
     @account = event.account
+    @ai_assistent = Apps::AiAssistent.first
   end
 
   def call
-    return '' if @account.exceeded_account_limit?
+    return '' if @ai_assistent.exceeded_usage_limit?
 
     question = @event.content.to_s
     context = get_context(question)
@@ -20,14 +21,13 @@ class Accounts::Contacts::Events::GenerateAiResponse
   end
 
   def update_ai_usage(tokens)
-    @account.ai_usage['tokens'] += tokens
-    @account.save
+    @ai_assistent.usage['tokens'] += tokens
+    @ai_assistent.save
   end
 
   def get_context(query)
     embedding = OpenAi::Embeddings.new.get_embedding(query, 'text-embedding-3-small')
     documents = EmbeddingDocumment.nearest_neighbors(:embedding, embedding, distance: 'cosine').first(6)
-    puts("Documents: #{documents.count}")
     documents.pluck(:content, :source_reference)
   end
 
@@ -45,13 +45,13 @@ class Accounts::Contacts::Events::GenerateAiResponse
   def headers
     {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{ENV.fetch('OPENAI_API_KEY')}"
+      'Authorization' => "Bearer #{@ai_assistent.api_key}"
     }
   end
 
   def prepare_data(context, question)
     {
-      model: 'gpt-4-turbo',
+      model: @ai_assistent.model,
       temperature: 0.3,
       messages: [
         {
