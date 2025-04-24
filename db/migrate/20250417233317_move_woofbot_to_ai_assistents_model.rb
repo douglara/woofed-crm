@@ -7,7 +7,7 @@ class MoveWoofbotToAiAssistentsModel < ActiveRecord::Migration[7.1]
         Apps::AiAssistent.create!(
           model: 'gpt-4o',
           auto_reply: account.woofbot_auto_reply,
-          usage: account.ai_usage.only('tokens')
+          usage: account.ai_usage.slice('tokens')
         )
       end
     end

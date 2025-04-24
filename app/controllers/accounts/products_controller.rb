@@ -1,7 +1,7 @@
 class Accounts::ProductsController < InternalController
   include ProductConcern
 
-  before_action :set_product, only: %i[edit destroy update edit_custom_attributes update_custom_attributes]
+  before_action :set_product, only: %i[edit destroy update show edit_custom_attributes update_custom_attributes]
 
   def new
     @product = current_user.account.products.new
@@ -44,7 +44,14 @@ class Accounts::ProductsController < InternalController
   end
 
   def index
-    @products = current_user.account.products.order(created_at: :desc)
+    @products = if params[:query].present?
+                  Product.where(
+                    'name ILIKE :search OR identifier ILIKE :search', search: "%#{params[:query]}%"
+                  ).order(updated_at: :desc)
+                else
+                  Product.all.order(created_at: :desc)
+                end
+
     @pagy, @products = pagy(@products)
   end
 
@@ -67,6 +74,9 @@ class Accounts::ProductsController < InternalController
                 else
                   current_user.account.products.order(updated_at: :desc).limit(5)
                 end
+  end
+
+  def show
   end
 
   private

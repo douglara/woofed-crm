@@ -1,34 +1,49 @@
-<%= turbo_stream_from [current_user.account.id, :product] %>
-<section class="m-8 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md ">
-  <div class='pb-5 w-full lg:w-auto overflow-y-auto'>
-    <div class='w-full grid gap-2.5'>
-      <div class='flex py-4 gap-8 border-b-2 border-light-palette-p3'>
-        <p class='w-[200px] typography-body-s-lh150 text-dark-gray-palette-p1 truncate pl-4'>
-          <%= t('views.accounts.products.index.images') %>
-        </p>
-        <p class='w-[32%] typography-body-s-lh150 text-dark-gray-palette-p1 truncate'>
-          <%= t('views.accounts.products.index.product_name') %>
-        </p>
-        <p class='w-[14%] typography-body-s-lh150 text-dark-gray-palette-p1 truncate'>
-          <%= t('views.accounts.products.index.amount') %>
-        </p>
-        <p class='w-[14%] typography-body-s-lh150 text-dark-gray-palette-p1 truncate'>
-          <%= t('views.accounts.products.index.quantity') %>
-        </p>
-        <p class='w-[19%] typography-body-s-lh150 text-dark-gray-palette-p1 truncate'>
-          <%= t('views.accounts.products.index.identifier') %>
-        </p>
-        <p class='w-[20%] typography-body-s-lh150 text-dark-gray-palette-p1 truncate'>
-          <%= t('views.accounts.products.index.created_at') %>
-        </p>
-        <div class='w-[9%] pr-4'></div>
-      </div>
-      <ul class='w-full grid' id="products" >
-        <%= render partial: '/accounts/products/product', collection: @products, as: :product %>
-      </ul>
+<div class="bg-light-palette-p5 border-2 border-neutral-150 border-light-palette-p3 rounded m-8">
+  <header class="border-b-2 border-neutral-100 flex items-center justify-end gap-2 p-4 sticky top-0 bg-light-palette-p5 z-20">
+    <%= render '/components/form/input_expandable_search',
+               search_url: account_products_path(Current.account),
+               turbo_frame_search: :products_table,
+               placeholder: t('activerecord.models.search', model: @products.model_name.human) %>
+    <%= link_to new_account_product_path(current_user.account), class: 'button-default-blank-secondary-icon-only-sm', data: { turbo_frame: :drawer } do %>
+      <i data-lucide="plus" class='h-4 w-4'></i>
+    <% end %>
+  </header>
+  <%= turbo_frame_tag :products_table do %>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left rtl:text-right min-w-[1950px]">
+        <thead class="border-b border-light-palette-p3">
+          <tr>
+            <th scope="col" class="py-3 pl-4 pr-4 w-[52px]"></th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[250px]">
+              <%= t('activerecord.attributes.product.name') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[100px]">
+              <%= t('views.accounts.products.index.amount') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[120px]">
+              <%= t('views.accounts.products.index.quantity') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[220px]">
+              <%= t('activerecord.attributes.product.identifier') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[130px]">
+              <%= t('activerecord.attributes.product.created_at') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[130px]">
+              <%= t('activerecord.attributes.product.updated_at') %>
+            </th>
+            <th scope="col" class="py-3 pl-4 pr-4 sticky right-0 bg-light-palette-p5 z-10 w-[50px]"></th>
+          </tr>
+        </thead>
+        <tbody class="w-full" id='products'>
+          <%= render partial: '/accounts/products/product', collection: @products, as: :product %>
+        </tbody>
+      </table>
     </div>
-  </div>
-  <div class="float-right py-6">
-    <%== pagy_nav(@pagy) %>
-  </div>
-</section>
+    <div class="sticky bottom-0 bg-light-palette-p5 z-10 py-2 px-4 border-t-2 border-light-palette-p3">
+      <div class="flex justify-end">
+        <%== pagy_nav(@pagy) %>
+      </div>
+    </div>
+  <% end %>
+</div>

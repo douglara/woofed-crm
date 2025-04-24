@@ -1,38 +1,66 @@
-<li class="flex items-center gap-8 border-b-2 border-light-palette-p3 last:border-none py-2.5 first:pt-0 last:pb-0" id="<%= dom_id(product) %>" data-controller='load-lucid-icons load-flowbite'>
-  <div class='w-[200px] h-28 pl-4 flex'>
-    <div class='w-28 h-28'>
-      <%= render '/components/products/images_carousel_list', product: product %>
+<tr id="product_<%= product.id %>" is='turbo-frame' class="border-b-2 border-light-palette-p3 last:border-none" data-controller='load-lucid-icons'>
+  <td class="py-2.5 pl-4 pr-4 flex-shrink-0">
+    <div class="w-[52px] h-[52px] flex">
+      <div class='w-[52px] h-[52px]'>
+        <%= render '/components/products/images_carousel_list', product: product %>
+      </div>
     </div>
-  </div>
-  <p class='w-[32%] typography-body-r-lh150 text-dark-gray-palette-p2 truncate'><%= product.name %></p>
-  <p class='w-[14%] typography-body-r-lh150 text-dark-gray-palette-p2 truncate'><%= product.amount_in_cents_at_format
- %></p>
-  <p class='w-[14%] typography-body-r-lh150 text-dark-gray-palette-p2 truncate'><%= product.quantity_available %></p>
-  <p class='w-[19%] typography-body-r-lh150 text-dark-gray-palette-p2 truncate'><%= product.identifier %></p>
-  <p class='w-[20%] typography-body-r-lh150 text-dark-gray-palette-p2 truncate'><%= l(product.created_at, format: :long) %></p>
-  <div class='w-[9%] pr-4 flex justify-end'>
-    <button id="dropdownuserBtn" data-dropdown-toggle="dropdownuserOptions<%= product.id %>" data-dropdown-placement="bottom" class="inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
-      <i data-lucide="more-vertical" class=" stroke-dark-gray-palette-p3"></i>
-    </button>
-    <div id="dropdownuserOptions<%= product.id %>" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700 z-50">
-      <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-        <li>
-          <%= link_to edit_account_product_path(product.account, product), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white ' do %>
-            <i data-lucide="pencil"></i>
-            <p>
-              <%= t('views.accounts.products.product.edit') %>
-            </p>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to account_product_path(product.account, product), method: :delete, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white', data: { confirm: t('views.accounts.products.product.are_you_sure?') } do %>
-            <i data-lucide="trash"></i>
-            <p>
-              <%= t('views.accounts.products.product.delete') %>
-            </p>
-          <% end %>
-        </li>
-      </ul>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[250px] truncate">
+    <%= product.name %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[100px] truncate">
+    <%= product.amount_in_cents_at_format %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[120px] truncate">
+    <%= product.quantity_available %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[220px] truncate">
+    <%= product.identifier %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[130px] truncate">
+    <%= l(product.created_at, format: :long) %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[130px] truncate">
+    <%= l(product.updated_at, format: :long) %>
+  </td>
+  <td class="py-2.5 pl-4 pr-4 sticky right-0 bg-light-palette-p5 z-10">
+    <div class="flex justify-end gap-2">
+      <button id="dropdownuserBtn_<%= product.id %>" data-dropdown-toggle="dropdownuserOptions<%= product.id %>" data-dropdown-placement="left" class="button-default-blank-secondary-icon-only-sm" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="more-vertical" class="stroke-dark-gray-palette-p3">
+          <circle cx="12" cy="12" r="1"></circle>
+          <circle cx="12" cy="5" r="1"></circle>
+          <circle cx="12" cy="19" r="1"></circle>
+        </svg>
+      </button>
     </div>
-  </div>
-</li>
+  </td>
+</tr>
+<div id="dropdownuserOptions<%= product.id %>" class="z-50 hidden bg-white divide-y divide-gray-200 rounded-lg shadow w-48 dark:bg-gray-700">
+  <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+    <li>
+      <%= link_to account_product_path(Current.account, product), data: {turbo_frame: :drawer}, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
+        <i data-lucide="info"></i>
+        <p>
+          <%= t('activerecord.models.show') %>
+        </p>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to edit_account_product_path(Current.account, product), data: {turbo_frame: :_top}, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white ' do %>
+        <i data-lucide="pencil"></i>
+        <p>
+          <%= t('views.accounts.products.product.edit') %>
+        </p>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to account_product_path(product.account, product), method: :delete, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white', data: { confirm: t('views.accounts.products.product.are_you_sure?') } do %>
+        <i data-lucide="trash"></i>
+        <p>
+          <%= t('views.accounts.products.product.delete') %>
+        </p>
+      <% end %>
+    </li>
+  </ul>
+</div>
