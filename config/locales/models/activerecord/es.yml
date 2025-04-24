@@ -13,3 +13,4 @@ es:
       search: "Buscar %{model}"
       main_information: "Información principal"
       need_information: "Información necesaria"
+      filter: "Filtrar %{model}"
