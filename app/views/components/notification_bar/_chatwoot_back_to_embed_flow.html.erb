@@ -1,0 +1,16 @@
+<div class='hidden color-bg-fill-highlight w-full' data-controller='notification-bar--chatwoot-back-to-embed-flow' data-notification-bar--chatwoot-back-to-embed-flow-url-value="/accounts/<%= Current.account.id %>/contacts/chatwoot_embed/:contact_id">
+  <div class='px-4 py-2 flex justify-between items-center gap-1.5'>
+    <div class='color-fg-inverse w-5'>
+      <i data-lucide="message-circle" class= "-rotate-[101deg]"></i>
+    </div>
+    <div class='flex items-center gap-2'>
+      <p class='color-fg-inverse typography-sub-title-900'>
+        <%= t('views.components.notification_bar.chatwoot_back_to_embed_flow.return_to_embed_question') %>
+      </p>
+      <%= link_to t('activerecord.models.click_here'), '#', data: { notification_bar__chatwoot_back_to_embed_flow_target: 'chatwootEmbedLink' }, class: 'color-fg-inverse typography-button-1000' %>
+    </div>
+    <button class='color-fg-inverse h-5 w-5 flex items-center justify-center' data-action="notification-bar--chatwoot-back-to-embed-flow#removeNotificationBar">
+      <i data-lucide="x"></i>
+    </button>
+  </div>
+</div>

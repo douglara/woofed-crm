@@ -19,6 +19,7 @@
   </head>
   <body>
     <div id="app" class="h-screen">
+      <%= render '/components/notification_bar/chatwoot_back_to_embed_flow' %>
       <%= render partial: 'components/flash_message', locals: { message: flash[:notice] } %>
       <div class="flex h-full">
         <div>
