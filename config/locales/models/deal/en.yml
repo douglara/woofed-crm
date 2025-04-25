@@ -19,6 +19,7 @@ en:
         created_by_id: Creator ID
         total_products_amount: Total products amount
         total_amount_in_cents: Total amount
+        total_amount_in_cents_at_format: Total amount
         actual_closing_date: Actual closing date
         custom_attributes: Custom attributes
         description: Project description

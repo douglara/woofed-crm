@@ -146,6 +146,126 @@ RSpec.describe Accounts::UsersController, type: :request do
           expect(response.body).to include(I18n.l(product.created_at, format: :long))
         end
       end
+      context 'when query params are present' do
+        let!(:product) do
+          create(:product, account:, name: 'Sample Product', identifier: 'PROD-123')
+        end
+        context 'when query params match with product name' do
+          it 'returns products on products table' do
+            get "/accounts/#{account.id}/products", params: { query: product.name }
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('Products')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#products').text
+            expect(table_body).to include(ERB::Util.html_escape(product.name))
+            expect(table_body).to include(product.identifier)
+            expect(table_body).to include(product.amount_in_cents_at_format)
+            expect(table_body).to include(product.quantity_available.to_s)
+          end
+        end
+
+        context 'when query params match with product identifier' do
+          it 'returns products on products table' do
+            get "/accounts/#{account.id}/products", params: { query: product.identifier }
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('Products')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#products').text
+            expect(table_body).to include(ERB::Util.html_escape(product.name))
+            expect(table_body).to include(product.identifier)
+          end
+        end
+
+        context 'when query params match partially with product name' do
+          let(:partial_name) { product.name.split.first }
+          it 'returns products with partial match' do
+            get "/accounts/#{account.id}/products", params: { query: partial_name }
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('Products')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#products').text
+            expect(table_body).to include(ERB::Util.html_escape(product.name))
+            expect(table_body).to include(product.identifier)
+          end
+        end
+
+        context 'when query params match partially with product identifier' do
+          let(:partial_identifier) { product.identifier.split('-').first }
+          it 'returns products with partial match' do
+            get "/accounts/#{account.id}/products", params: { query: partial_identifier }
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('Products')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#products').text
+            expect(table_body).to include(ERB::Util.html_escape(product.name))
+            expect(table_body).to include(product.identifier)
+          end
+        end
+
+        context 'when query params are case-insensitive' do
+          it 'returns products regardless of case' do
+            get "/accounts/#{account.id}/products", params: { query: product.name.swapcase }
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('Products')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#products').text
+            expect(table_body).to include(ERB::Util.html_escape(product.name))
+            expect(table_body).to include(product.identifier)
+          end
+        end
+
+        context 'when query params do not match any products' do
+          it 'returns an empty products table' do
+            get "/accounts/#{account.id}/products", params: { query: 'NonexistentProduct123' }
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('Products')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#products').text
+            expect(table_body).not_to include(ERB::Util.html_escape(product.name))
+            expect(table_body).not_to include(product.identifier)
+            expect(table_body).not_to include(product.id.to_s)
+          end
+        end
+
+        context 'when there are multiple products and query does not match any' do
+          let!(:product2) do
+            create(:product, account:, name: 'Another Product', identifier: 'PROD-456')
+          end
+          let!(:product3) do
+            create(:product, account:, name: 'Third Product', identifier: 'PROD-789')
+          end
+
+          it 'returns an empty products table' do
+            get "/accounts/#{account.id}/products", params: { query: 'NonexistentProduct123' }
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('Products')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#products').text
+            expect(table_body).not_to include(ERB::Util.html_escape(product.name))
+            expect(table_body).not_to include(ERB::Util.html_escape(product2.name))
+            expect(table_body).not_to include(ERB::Util.html_escape(product3.name))
+          end
+        end
+
+        context 'when query params match multiple products' do
+          let!(:product2) do
+            create(:product, account:, name: 'Sample Widget', identifier: 'PROD-456')
+          end
+          let(:common_query) { 'Sample' }
+
+          it 'returns all matching products' do
+            get "/accounts/#{account.id}/products", params: { query: common_query }
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('Products')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#products').text
+            expect(table_body).to include(ERB::Util.html_escape(product.name))
+            expect(table_body).to include(ERB::Util.html_escape(product2.name))
+            expect(table_body).to include(product.identifier)
+            expect(table_body).to include(product2.identifier)
+          end
+        end
+      end
     end
   end
   describe 'PACTH /accounts/{account.id}/products/{product.id}' do

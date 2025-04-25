@@ -27,9 +27,7 @@
           <% end %>
         </div>
         <div class="flex flex-col h-full w-full overflow-auto">
-          <nav class="h-20">
-            <%= render "layouts/shared/navbar" %>
-          </nav>
+          <%= render "layouts/shared/navbar" %>
           <main class="h-full overflow-auto bg-brand-palette-08">
             <%= content_for?(:content) ? yield(:content) : yield %>
             <%= turbo_frame_tag "modal" %>

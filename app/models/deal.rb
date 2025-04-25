@@ -53,6 +53,8 @@ class Deal < ApplicationRecord
 
   FORM_FIELDS = %i[name creator total_amount_in_cents]
 
+  SHOW_FIELDS = { deal_page_overview_details: [:name,
+                                               { relations: { stage: :name, creator: :full_name } }, :total_amount_in_cents_at_format] }.freeze
   before_validation do
     self.account = @current_account if account.blank? && @current_account.present?
 

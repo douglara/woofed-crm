@@ -4,13 +4,16 @@ pt-BR:
       product:
         one: Produto
         other: Produtos
-        new: 'Novo produto'
-        edit: 'Editar produto'
-        add: 'Adicionar produto'
+        new: "Novo produto"
+        edit: "Editar produto"
+        add: "Adicionar produto"
     attributes:
       product:
         name: Nome
         identifier: Identificador
         amount_in_cents: Preço
+        amount_in_cents_at_format: Preço
         quantity_available: Quantidade disponível
         description: Descrição
+        created_at: Criado em
+        updated_at: Atualizado em

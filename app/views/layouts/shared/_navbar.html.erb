@@ -1,25 +1,23 @@
-<nav class="flex flex-wrap w-full h-20 ease-in duration-300 items-center justify-between py-2 bg-light-palette-p5 sm:py-4 px-6 sm:px-8 border-b-2 border-light-palette-p3 relative">
-  <% if controller_path == 'accounts/pipelines' && ['index', 'show', 'edit', 'new'].include?(action_name) %>
-    <%= render "layouts/shared/navbar_pipe" %>
-  <% elsif controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
-    <%= render "layouts/shared/navbar_show_deal" %>
-  <% elsif controller_path == 'accounts/deals' && ['show'].exclude?(action_name) %>
-    <%= render "layouts/shared/navbar_deal" %>
-  <% elsif controller_path == 'accounts/contacts' %>
-    <%= render "layouts/shared/navbar_contact" %>
-  <% elsif controller_path == 'accounts/settings' %>
-    <%= render "layouts/shared/navbar_setting" %>
-  <% elsif controller_path == 'accounts/settings/custom_attributes_definitions'  %>
-    <%= render "layouts/shared/navbar_custom_attributes_definitions" %>
-  <% elsif controller_path == 'accounts/apps/chatwoots'  %>
-    <%= render "layouts/shared/navbar_chatwoot" %>
-  <% elsif controller_path == "accounts/settings/webhooks"  %>
-    <%= render "layouts/shared/navbar_webhook" %>
-  <% elsif controller_path == 'accounts/users'  %>
-    <%= render "layouts/shared/navbar_users" %>
-  <% elsif controller_path == 'accounts/apps/evolution_apis'  %>
-    <%= render "layouts/shared/navbar_evolution_api" %>
-  <% elsif controller_path == 'accounts/products'  %>
-    <%= render "layouts/shared/navbar_product" %>
-  <% end %>
-</nav>
+<% if controller_path == 'accounts/pipelines' && ['index', 'show', 'edit', 'new'].include?(action_name) %>
+  <%= render "layouts/shared/navbar_pipe" %>
+<% elsif controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
+  <%= render "layouts/shared/navbar_show_deal" %>
+<% elsif controller_path == 'accounts/deals' && ['show'].exclude?(action_name) %>
+  <%= render "layouts/shared/navbar_deal" %>
+<% elsif controller_path == 'accounts/contacts' %>
+  <%= render "layouts/shared/navbar_contact" %>
+<% elsif controller_path == 'accounts/settings' %>
+  <%= render "layouts/shared/navbar_setting" %>
+<% elsif controller_path == 'accounts/settings/custom_attributes_definitions'  %>
+  <%= render "layouts/shared/navbar_custom_attributes_definitions" %>
+<% elsif controller_path == 'accounts/apps/chatwoots'  %>
+  <%= render "layouts/shared/navbar_chatwoot" %>
+<% elsif controller_path == "accounts/settings/webhooks"  %>
+  <%= render "layouts/shared/navbar_webhook" %>
+<% elsif controller_path == 'accounts/users'  %>
+  <%= render "layouts/shared/navbar_users" %>
+<% elsif controller_path == 'accounts/apps/evolution_apis'  %>
+  <%= render "layouts/shared/navbar_evolution_api" %>
+<% elsif controller_path == 'accounts/products'  %>
+  <%= render "layouts/shared/navbar_product" %>
+<% end %>

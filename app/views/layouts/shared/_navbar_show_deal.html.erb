@@ -1,4 +1,4 @@
-<div class='flex flex-wrap w-full justify-between' id='navbar_deal' data-controller='load-lucid-icons'>
+<nav class="navbar-container" id='navbar_deal' data-controller='load-lucid-icons'>
   <div class="flex items-center">
     <%= link_to(account_pipeline_path(current_user.account, @deal.pipeline), class: "flex border-solid border-2 border-light-palette-p3 rounded-md hover:bg-brand-palette-08 focus:bg-brand-palette-08 p-1.5") do %>
       <i data-lucide="chevron-left"></i>
@@ -57,4 +57,4 @@
     class: 'btn-secondary') %>
     <% end %>
   </div>
-</div>
+</nav>

@@ -6,6 +6,9 @@
   .woo-input {
     @apply rounded-md border-light-palette-p2 bg-light-palette-p4;
   }
+  .navbar-container {
+    @apply flex flex-wrap w-full ease-in duration-300 items-center justify-between py-2 bg-light-palette-p5 sm:py-4 px-6 sm:px-8 border-b-2 border-light-palette-p3;
+  }
   .event-item-from-me {
     @apply flex-row-reverse flex my-5;
   }

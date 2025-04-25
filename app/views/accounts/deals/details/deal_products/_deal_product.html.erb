@@ -21,17 +21,18 @@
         <% end %>
       </div>
     </div>
-    <% deal_product.class::FORM_FIELDS.each do | f | %>
-      <% if deal_product.send(f).present? %>
-        <div class="flex items-center pb-4 last:pb-0">
-          <label class="flex-none max-w-[10rem] m-auto typography-text-m-lh150 text-dark-gray-palette-p3"><%= deal_product.class.human_attribute_name(f) %></label>
-          <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>
-          <p class="m-0 typography-text-m-lh150 text-dark-gray-palette-p3 max-w-[14rem] ">
+    <div class='flex flex-col gap-4'>
+      <% deal_product.class::FORM_FIELDS.each do | f | %>
+        <div class="flex flex-col col-span-full">
+          <label class="typography-text-s-lh150 text-gray-pallete-p3">
+            <%= deal_product.class.human_attribute_name(f) %>
+          </label>
+          <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all">
             <%= f == :unit_amount_in_cents ? deal_product.unit_amount_in_cents_at_format : deal_product["#{f}"] %>
           </p>
         </div>
       <% end %>
-    <% end %>
-    <%= render 'accounts/deals/details/show_custom_attributes', model: deal_product.product %>
+      <%= render 'accounts/deals/details/show_custom_attributes', model: deal_product.product %>
+    </div>
   </div>
 <% end %>

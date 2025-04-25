@@ -19,6 +19,7 @@ pt-BR:
         created_by_id: ID do criador
         total_products_amount: Valor total dos produtos
         total_amount_in_cents: Valor total
+        total_amount_in_cents_at_format: Valor total
         actual_closing_date: Data de fechamento real
         custom_attributes: Atributos personalizados
         description: Descrição do projeto

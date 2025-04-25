@@ -13,3 +13,4 @@ pt-BR:
       search: "Pesquisar %{model}"
       main_information: Informações principais
       need_information: Informações necessárias
+      filter: "Filtrar %{model}"

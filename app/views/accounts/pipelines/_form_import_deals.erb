@@ -3,14 +3,14 @@
     <%= form.hidden_field :stage_id, value: params[:stage_id] %>
     <div class="grid gap-1">
       <%= form.label :import_file, t('views.accounts.pipelines.form_import_deals.select_file'), class: "typography-text-m-lh150 text-dark-gray-palette-p1 dark:text-white" %>
-      <%= form.file_field :import_file, required: true, class: 'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400' %>
+      <%= form.file_field :import_file, required: true, class: 'block w-full text-sm text-gray-900 border color-border-default rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400' %>
     </div>
     <div class="flex justify-end">
       <%= form.submit t('views.accounts.pipelines.form_import_deals.send'), class: 'btn-primary cursor-pointer'%>
     </div>
   <% end %>
 </div>
-<div class="flex items-center justify-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+<div class="flex items-center justify-center p-4 md:p-5 border-t color-border-default rounded-b dark:border-gray-600">
   <p class="typography-text-m-lh150 text-dark-gray-palette-p4"><%= t('views.accounts.pipelines.form_import_deals.download_spreadsheet') %>
     <%= link_to t('views.accounts.pipelines.form_import_deals.download_here'), account_pipeline_import_path(Current.account, params['pipeline_id'] , stage_id: params['stage_id'], format: :csv), class:"typography-text-s-lh150 text-dark-gray-palette-p3 hover:text-dark-gray-palette-p2 hover:underline" %>
   </p>

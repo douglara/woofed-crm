@@ -1,22 +1,24 @@
-<% if ['index'].include?(action_name) %>
-  <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">
-    <%= t('activerecord.models.deal.other') %>
-  </h1>
-  <div class='flex items-center gap-4'>
-    <% if @first_pipeline %>
-      <%= link_to account_pipeline_path(Current.account, @first_pipeline),
+<nav class="navbar-container">
+  <% if ['index'].include?(action_name) %>
+    <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">
+      <%= t('activerecord.models.deal.other') %>
+    </h1>
+    <div class='flex items-center gap-4'>
+      <% if @first_pipeline %>
+        <%= link_to account_pipeline_path(Current.account, @first_pipeline),
         class: 'button-default-blank-secondary-icon-only-md', data: { tooltip_target: "tooltip-deal-kanban-link" } do %>
-        <i data-lucide="kanban"></i>
+          <i data-lucide="kanban"></i>
+        <% end %>
+        <div id="tooltip-deal-kanban-link" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+          <%= t('activerecord.models.deal.kanban_mode') %>
+          <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
       <% end %>
-      <div id="tooltip-deal-kanban-link" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-        <%= t('activerecord.models.deal.kanban_mode') %>
-        <div class="tooltip-arrow" data-popper-arrow></div>
-      </div>
-    <% end %>
-    <%= render 'components/navbar/user_menu' %>
-  </div>
-<% else ['new'].include?(action_name) %>
-  <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">
-    <%= t('activerecord.models.deal.new') %>
-  </h1>
-<% end %>
+      <%= render 'components/navbar/user_menu' %>
+    </div>
+  <% else ['new'].include?(action_name) %>
+    <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">
+      <%= t('activerecord.models.deal.new') %>
+    </h1>
+  <% end %>
+</nav>

@@ -1,176 +1,123 @@
 <% if ['edit'].include?(action_name) %>
-  <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">
-    <%= t('activerecord.models.pipeline.edit') %>
-  </h1>
+  <nav class="navbar-container">
+    <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">
+      <%= t('activerecord.models.pipeline.edit') %>
+    </h1>
+  </nav>
 <% elsif ['new'].include?(action_name) %>
-  <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">
-    <%= t('activerecord.models.pipeline.new') %>
-  </h1>
-<% else %>
-  <button
-    data-collapse-toggle="navbar-search"
-    type="button"
-    class="lg:hidden inline-flex items-center justify-center w-10 h-10 typography-label-900 color-fg-default rounded-lg hover:bg-gray-300 focus:outline-none focus:ring focus:ring-violet-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-    aria-controls="navbar-search"
-    aria-expanded="false"
-  >
-    <span class="sr-only">Open main menu</span>
-    <%= embedded_svg('vectooor2.svg', { class: 'h-5 w-5 m-0.5 fill-brand-palette-03' }) %>
-  </button>
-  <div class="hidden lg:flex items-center gap-4">
-    <div class="flex flex-wrap flex-1 h-10">
-      <div class="h-10 w-10 flex items-center justify-center border-solid border-2 border-light-palette-p3 rounded-l-md bg-brand-palette-08">
-        <%= embedded_svg('vectooor2.svg', { class: 'h-5 w-5 fill-brand-palette-03' }) %>
-      </div>
-      <select
-        class="px-2.5 h-10 mx-[-2px] border-solid border-2 border-light-palette-p3 w-52 hover:border-light-palette-p2 hover:z-10 hover:cursor-pointer focus:border-light-palette-p2 focus:ring-0 hover:text-brand-palette-04 focus:z-10 typography-text-r-lh150 text-dark-gray-palette-p3"
-        onchange="window.location=this.value"
-      >
-        <% @pipelines.each do |pipeline| %>
-          <option
-            value="<%= account_pipeline_path(Current.account, pipeline.id) %>"
-            <%= pipeline.id == @pipeline.id ? 'selected' : '' %>
-          >
-            <%= pipeline.name %>
-          </option>
-        <% end %>
-      </select>
-      <%= link_to edit_account_pipeline_path(Current.account, @pipeline),
-        class: '"h-10 w-10 flex items-center justify-center border-solid border-2 border-light-palette-p3 rounded-r-lg flex-1 hover:border-light-palette-p2' do %>
-        <%= embedded_svg('pencil-icon.svg') %>
-      <% end %>
-    </div>
-    <%= link_to new_select_contact_account_deals_path(Current.account),
-      class: 'button-default-fill-primary-md' do %>
-      <%= t('activerecord.models.deal.new') %>
-    <% end %>
-    <%= link_to new_account_pipeline_path(Current.account),
-      class: 'button-default-blank-secondary-md' do %>
+  <nav class="navbar-container">
+    <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">
       <%= t('activerecord.models.pipeline.new') %>
-    <% end %>
-    <div data-controller="filter-select-status-deal">
-      <button
-        id="dropdownSortDeals"
-        data-dropdown-toggle="dropdownSort"
-        class="button-default-blank-secondary-icon-only-md aria-selected:button-default-fill-primary-icon-only-md"
-        type="button"
-        aria-selected="false"
-        data-filter-select-status-deal-target="button"
-      >
-        <i data-lucide="filter"></i>
-      </button>
-      <%= form_with(
-        url: account_pipeline_path(Current.account, @pipeline),
-        method: :get,
-        data: {
-          turbo_frame: :stages,
-          'filter-select-status-deal-target': 'form',
-          turbo_action: 'advance'
-        }
-      ) do |form| %>
-        <%= hidden_field_tag "filter_status_deal", nil,
-          data: { 'filter-select-status-deal-target': 'status' } %>
-        <div
-          id="dropdownSort"
-          class="z-10 hidden bg-white divide-y divide-gray-300 rounded-lg shadow w-64 dark:bg-gray-700 dark:divide-gray-600"
-        >
-          <ul
-            class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3 dark:text-gray-200"
-            aria-labelledby="dropdownDefaultButton"
-            data-filter-select-status-deal-target="links"
-          >
-            <li>
-              <%= link_to "",
-                data: { action: "click->filter-select-status-deal#select" },
-                class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white aria-selected:bg-brand-palette-07 aria-selected:text-brand-palette-03 aria-selected:pointer-events-none",
-                value: "",
-                'aria-selected': 'false' do %>
-                <i data-lucide="copy-plus"></i>
-                <p><%= t('views.layouts.shared.navbar_pipe.all_open_deals') %></p>
+    </h1>
+  </nav>
+<% else %>
+  <nav class="bg-light-palette-p5 px-6 py-2 sm:py-4 sm:px-4 md:px-8  border-b-2 border-light-palette-p3">
+    <div class="flex flex-wrap gap-4 items-center justify-end sm:justify-between">
+      <div class="flex items-center sm:order-2 space-x-3 sm:space-x-0 justify-end rtl:space-x-reverse">
+        <%= render 'components/navbar/user_menu' %>
+        <button data-collapse-toggle="navbar-user" type="button" class="button-default-outline-secondary-md-icon-only-md sm:hidden" aria-controls="navbar-user" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+          </svg>
+        </button>
+      </div>
+      <div class="items-center justify-between hidden w-full sm:flex sm:w-auto sm:order-1" id="navbar-user">
+        <div class="flex flex-col pb-4 gap-2 sm:pb-0 rounded-lg sm:gap-4 rtl:space-x-reverse sm:flex-row sm:mt-0 sm:border-0 sm:bg-white ">
+          <div class="flex flex-wrap flex-1 h-10 shrink-0">
+            <div class="h-10 w-10 flex items-center justify-center border-solid border-2 border-light-palette-p3 rounded-l-md bg-brand-palette-08">
+              <%= embedded_svg('vectooor2.svg', { class: 'h-5 w-5 fill-brand-palette-03' }) %>
+            </div>
+            <select class="px-2.5 h-10 mx-[-2px] border-solid border-2 border-light-palette-p3 flex-1 sm:flex-none sm:w-40 md:w-52 hover:border-light-palette-p2 hover:z-10 hover:cursor-pointer focus:border-light-palette-p2 focus:ring-0 hover:text-brand-palette-04 focus:z-10 typography-text-r-lh150 text-dark-gray-palette-p3 truncate" onchange="window.location=this.value">
+              <% @pipelines.each do |pipeline| %>
+                <option value="<%= account_pipeline_path(Current.account, pipeline.id) %>" <%= pipeline.id == @pipeline.id ? 'selected' : '' %>>
+                  <%= pipeline.name %>
+                </option>
+                <% end %>
+              </select>
+              <%= link_to edit_account_pipeline_path(Current.account, @pipeline), class:'h-10 w-10 flex items-center justify-center border-solid border-2 border-light-palette-p3 rounded-r-lg sm:flex-1 hover:border-light-palette-p2' do %>
+                <%= embedded_svg('pencil-icon.svg') %>
               <% end %>
-            </li>
-            <li>
-              <%= link_to "",
-                data: { action: "click->filter-select-status-deal#select" },
-                class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white aria-selected:bg-brand-palette-07 aria-selected:text-brand-palette-03 aria-selected:pointer-events-none",
-                value: "won",
-                'aria-selected': 'false' do %>
-                <i data-lucide="copy-check"></i>
-                <p><%= t('views.layouts.shared.navbar_pipe.all_won_deals') %></p>
+            </div>
+            <div id="tooltip-new-deal-link" role="tooltip" class="hidden sm:inline-block lg:hidden absolute z-10 invisible px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+              <%= t('activerecord.models.deal.new') %>
+              <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+            <%= link_to new_select_contact_account_deals_path(Current.account), class: 'button-default-fill-primary-md', data: {tooltip_target: 'tooltip-new-deal-link'} do %>
+              <i data-lucide="clipboard-plus"></i>
+              <p class="block sm:hidden lg:block">
+                <%= t('activerecord.models.deal.new') %>
+              </p>
+            <% end %>
+            <div id="tooltip-new-pipeline-link" role="tooltip" class="hidden sm:inline-block lg:hidden absolute z-10 invisible px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+              <%= t('activerecord.models.pipeline.new') %>
+              <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+            <%= link_to new_account_pipeline_path(Current.account), class: 'button-default-blank-secondary-md', data: {tooltip_target: 'tooltip-new-pipeline-link'} do %>
+              <i data-lucide="funnel-plus"></i>
+              <p class="block sm:hidden lg:block">
+                <%= t('activerecord.models.pipeline.new') %>
+              </p>
+            <% end %>
+            <div id="tooltip-filter-deal" role="tooltip" class="hidden absolute z-10 invisible sm:inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+              <%= t('activerecord.models.filter', model: Deal.model_name.human.pluralize) %>
+              <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+            <div data-controller="filter-select-status-deal" class='w-full sm:w-auto'>
+              <button id="dropdownSortDeals" data-dropdown-toggle="dropdownSort" class="button-default-blank-secondary-md aria-selected:button-default-fill-primary-md w-full sm:auto" type="button" aria-selected="false" data-filter-select-status-deal-target="button" data-tooltip-target='tooltip-filter-deal'>
+                <i data-lucide="sliders-horizontal"></i>
+                <p class="block sm:hidden">
+                  <%= t('activerecord.models.filter', model: Deal.model_name.human.pluralize) %>
+                </p>
+              </button>
+              <%= form_with(url: account_pipeline_path(Current.account, @pipeline),method: :get,data: {turbo_frame: :stages, 'filter-select-status-deal-target': 'form', turbo_action: 'advance' } ) do |form| %>
+                <%= hidden_field_tag "filter_status_deal", nil, data: { 'filter-select-status-deal-target': 'status' } %>
+                <div id="dropdownSort" class="z-10 hidden bg-white divide-y divide-gray-300 rounded-lg shadow w-64 dark:bg-gray-700 dark:divide-gray-600">
+                  <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3 dark:text-gray-200" aria-labelledby="dropdownDefaultButton" data-filter-select-status-deal-target="links" >
+                    <li>
+                      <%= link_to "", data: { action: "click->filter-select-status-deal#select" }, class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white aria-selected:bg-brand-palette-07 aria-selected:text-brand-palette-03 aria-selected:pointer-events-none", value: "", 'aria-selected': 'false' do %>
+                        <i data-lucide="copy-plus"></i>
+                        <p><%= t('views.layouts.shared.navbar_pipe.all_open_deals') %></p>
+                      <% end %>
+                    </li>
+                    <li>
+                      <%= link_to "", data: { action: "click->filter-select-status-deal#select" }, class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white aria-selected:bg-brand-palette-07 aria-selected:text-brand-palette-03 aria-selected:pointer-events-none", value: "won", 'aria-selected': 'false' do %>
+                        <i data-lucide="copy-check"></i>
+                        <p><%= t('views.layouts.shared.navbar_pipe.all_won_deals') %></p>
+                      <% end %>
+                    </li>
+                    <li>
+                      <%= link_to "", data: { action: "click->filter-select-status-deal#select" }, class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white aria-selected:bg-brand-palette-07 aria-selected:text-brand-palette-03 aria-selected:pointer-events-none", value: "lost", 'aria-selected': 'false' do %>
+                        <i data-lucide="copy-x"></i>
+                        <p><%= t('views.layouts.shared.navbar_pipe.all_lost_deals') %></p>
+                      <% end %>
+                    </li>
+                    <li>
+                      <%= link_to "", data: { action: "click->filter-select-status-deal#select" }, class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white aria-selected:bg-brand-palette-07 aria-selected:text-brand-palette-03 aria-selected:pointer-events-none", value: "all", 'aria-selected': 'false' do %>
+                        <i data-lucide="copy"></i>
+                        <p><%= t('views.layouts.shared.navbar_pipe.all_deals') %></p>
+                      <% end %>
+                    </li>
+                  </ul>
+                </div>
               <% end %>
-            </li>
-            <li>
-              <%= link_to "",
-                data: { action: "click->filter-select-status-deal#select" },
-                class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white aria-selected:bg-brand-palette-07 aria-selected:text-brand-palette-03 aria-selected:pointer-events-none",
-                value: "lost",
-                'aria-selected': 'false' do %>
-                <i data-lucide="copy-x"></i>
-                <p><%= t('views.layouts.shared.navbar_pipe.all_lost_deals') %></p>
-              <% end %>
-            </li>
-            <li>
-              <%= link_to "",
-                data: { action: "click->filter-select-status-deal#select" },
-                class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white aria-selected:bg-brand-palette-07 aria-selected:text-brand-palette-03 aria-selected:pointer-events-none",
-                value: "all",
-                'aria-selected': 'false' do %>
-                <i data-lucide="copy"></i>
-                <p><%= t('views.layouts.shared.navbar_pipe.all_deals') %></p>
-              <% end %>
-            </li>
-          </ul>
+            </div>
+            <div id="tooltip-deal-list-link" role="tooltip" class="hidden absolute z-10 invisible sm:inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+              <%= t('activerecord.models.deal.list_mode') %>
+              <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+            <%= link_to account_deals_path(Current.account), class: 'button-default-blank-secondary-md', data: { tooltip_target: "tooltip-deal-list-link" } do %>
+              <i data-lucide="list"></i>
+              <p class="block sm:hidden">
+                <%= t('activerecord.models.deal.list_mode') %>
+              </p>
+            <% end %>
+            <div id="tooltip-deal-list-link" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+              <%= t('activerecord.models.deal.list_mode') %>
+              <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+          </div>
         </div>
-      <% end %>
-    </div>
-    <div id="tooltip-deal-list-link" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-      <%= t('activerecord.models.deal.list_mode') %>
-      <div class="tooltip-arrow" data-popper-arrow></div>
-    </div>
-    <%= link_to account_deals_path(Current.account),
-        class: 'button-default-blank-secondary-icon-only-md', data: { tooltip_target: "tooltip-deal-list-link" } do %>
-      <i data-lucide="list"></i>
-    <% end %>
-    <div id="tooltip-deal-list-link" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-      <%= t('activerecord.models.deal.list_mode') %>
-      <div class="tooltip-arrow" data-popper-arrow></div>
-    </div>
-  </div>
-  <%= render 'components/navbar/user_menu' %>
-  <div
-    class="z-50 top-[73px] left-0 w-full hidden bg-white px-4 pb-4 absolute"
-    id="navbar-search"
-  >
-    <div class="flex flex-wrap gap-2 font-medium mt-2 rounded-lg">
-      <div class="flex flex-1 h-">
-        <select
-          class="p-2.5 flex-[6_1_160px] mx-[-2px] border-solid border-2 border-light-palette-p3 focus:border-brand-palette-04 focus:ring-0 focus:text-brand-palette-04 focus:z-10 typography-text-r-lh150"
-          onchange="window.location=this.value"
-        >
-          <% @pipelines.each do |pipeline| %>
-            <option
-              value="<%= account_pipeline_path(Current.account, pipeline.id) %>"
-              <%= pipeline.id == @pipeline.id ? 'selected' : '' %>
-            >
-              <%= pipeline.name %>
-            </option>
-          <% end %>
-        </select>
-        <%= link_to edit_account_pipeline_path(Current.account, @pipeline),
-          class: 'p-2.5 border-solid border-2 border-light-palette-p3 rounded-r-lg hover:border-brand-palette-04' do %>
-          <%= embedded_svg('pencil-icon.svg', class: 'm-0.5') %>
-        <% end %>
       </div>
-      <div class="flex gap-2 h-">
-        <%= link_to new_select_contact_account_deals_path(Current.account),
-          class: 'button-default-fill-primary-md' do %>
-          <%= t('activerecord.models.deal.new') %>
-        <% end %>
-        <%= link_to new_account_pipeline_path(Current.account),
-          class: 'button-default-blank-secondary-md' do %>
-          <%= t('activerecord.models.pipeline.new') %>
-        <% end %>
-      </div>
-    </div>
-  </div>
-<% end %>
+    </nav>
+  <% end %>

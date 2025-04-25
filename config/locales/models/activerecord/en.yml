@@ -13,3 +13,4 @@ en:
       search: "Search %{model}"
       main_information: "Main Information"
       need_information: "Need Information"
+      filter: "Filter %{model}"

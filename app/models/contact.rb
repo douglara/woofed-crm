@@ -43,7 +43,9 @@ class Contact < ApplicationRecord
   FORM_FIELDS = %i[full_name email phone label_list chatwoot_conversations_label_list]
 
   SHOW_FIELDS = { details: %i[full_name email phone id label_list chatwoot_conversations_label_list custom_attributes created_at
-                              updated_at] }.freeze
+                              updated_at],
+                  deal_page_overview_details: %i[full_name email phone label_list
+                                                 chatwoot_conversations_label_list] }.freeze
   after_commit :export_contact_to_chatwoot, on: %i[create update]
 
   def phone=(value)

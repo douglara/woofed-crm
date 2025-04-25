@@ -18,7 +18,7 @@
       </div>
     </div>
     <div>
-      <% model.class::SHOW_FIELDS.each do | show_field_category |  %>
+      <% model.class::SHOW_FIELDS.slice(:details).each do | show_field_category |  %>
         <div class="mb-5 bg-light-palette-p5 border-2 border-neutral-150 border-light-palette-p3 rounded ">
           <div class="">
             <header class="border-b-2 border-neutral-100 flex flex-wrap items-center p-4">
@@ -72,7 +72,7 @@
                           <%= render 'components/list_labels', labels: model.send(show_field), max_width: '100%', justify_content: 'start' %>
                         <% else %>
                           <p class='typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all'>
-                            <%= model[show_field] %>
+                            <%= model.send(show_field) %>
                           </p>
                         <% end %>
                       <% end %>

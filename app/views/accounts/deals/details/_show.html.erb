@@ -16,30 +16,37 @@
     </div>
   </div>
   <div id="accordion-collapse-<%= "#{model.class.name.downcase}_#{model.id}"%>" class="hidden grid sm:grid-cols-2 gap-4 pb-4" aria-labelledby="accordion-collapse-heading-<%= "#{model.class.name.downcase}_#{model.id}"%>">
-    <% model.class::FORM_FIELDS.each do | f | %>
-      <% if model.send(f).present? %>
-        <div class="flex flex-col col-span-full">
-          <label class="typography-text-s-lh150 text-gray-pallete-p3">
-            <%= model.class.human_attribute_name(f) %>
-          </label>
-          <% if f.in?([:label_list, :chatwoot_conversations_label_list]) %>
-            <%= render 'components/list_labels', labels: model.send(f), max_width: '100%', justify_content: 'start' %>
-          <% elsif f == :creator %>
-            <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p1">
-              <%= model.creator.full_name %>
-            </p>
-          <% elsif f == :total_amount_in_cents %>
-            <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p1 stream_deal_total_amount_in_cents">
-              <%= model.total_amount_in_cents_at_format %>
-            </p>
-          <% else %>
-            <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p1">
-              <%= model["#{f}"] %>
-            </p>
+    <% model.class::SHOW_FIELDS.slice(:deal_page_overview_details).each do | show_field_category |  %>
+      <% show_field_category[1].each do | show_field |  %>
+        <% if show_field.is_a?(Hash) && show_field.key?(:relations) %>
+          <% show_field[:relations].each do |relation_name, field| %>
+            <div class="flex flex-col col-span-full">
+              <p class='typography-text-s-lh150 text-gray-pallete-p3'>
+                <%= t("activerecord.attributes.#{model.model_name.i18n_key}.#{relation_name}") %>
+              </p>
+              <p class='typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all'>
+                <%= model.send(relation_name)&.send(field) %>
+              </p>
+            </div>
           <% end %>
-        </div>
+        <% else %>
+          <% unless show_field.in?([:chatwoot_conversations_label_list]) && model.send(show_field).blank? %>
+            <div class="flex flex-col col-span-full">
+              <p class='typography-text-s-lh150 text-gray-pallete-p3'>
+                <%= t("activerecord.attributes.#{model.model_name.i18n_key}.#{show_field}") %>
+              </p>
+              <% if show_field.in?([:label_list, :chatwoot_conversations_label_list]) %>
+                <%= render 'components/list_labels', labels: model.send(show_field), max_width: '100%', justify_content: 'start' %>
+              <% else %>
+                <p class='typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all'>
+                  <%= model.send(show_field) %>
+                </p>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
       <% end %>
+      <%= render 'accounts/deals/details/show_custom_attributes', model: model %>
     <% end %>
-    <%= render 'accounts/deals/details/show_custom_attributes', model: model %>
   </div>
 <% end %>

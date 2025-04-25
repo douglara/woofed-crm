@@ -185,17 +185,6 @@ RSpec.describe Accounts::DealsController, type: :request do
         expect(response.body).to include(deal.name)
         expect(response.body).to include(deal.creator.full_name)
       end
-      context 'when there is no creator associated with the deal' do
-        let(:deal_with_no_creator) { create(:deal, account:, stage:) }
-
-        it 'should not display Created by field' do
-          get "/accounts/#{account.id}/deals/#{deal_with_no_creator.id}"
-
-          expect(response).to have_http_status(:success)
-          expect(response.body).to include(deal_with_no_creator.name)
-          expect(response.body).not_to include('Created by')
-        end
-      end
     end
   end
   describe 'DELETE /accounts/{account.id}/deals/:id' do

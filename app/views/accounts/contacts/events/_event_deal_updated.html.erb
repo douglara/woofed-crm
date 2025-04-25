@@ -1,4 +1,27 @@
-<div class="group event-<%= event.scheduled_kind %> event-item-<%= event.from %> my-5 " data-controller="load-lucid-icons load-flowbite">
+<div id=<%= dom_id(event, :tooltip) %> role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+  <% if event.deal_stage_change? %>
+    <%= t('views.accounts.contacts.events.event_deal_updated.deal_stage_change',
+        old_stage_name: event.additional_attributes.fetch('old_stage_name', ''),
+        old_stage_pipeline_name: event.additional_attributes.fetch('old_stage_pipeline_name', ''),
+        new_stage_name: event.additional_attributes.fetch('new_stage_name', ''),
+        new_stage_pipeline_name: event.additional_attributes.fetch('new_stage_pipeline_name', '')
+        ) %>
+  <% elsif event.deal_opened?%>
+    <%= t('views.accounts.contacts.events.event_deal_updated.deal_opened') %>
+  <% elsif event.deal_won? %>
+    <%= t('views.accounts.contacts.events.event_deal_updated.deal_won') %>
+  <% elsif event.deal_lost? %>
+    <%= t('views.accounts.contacts.events.event_deal_updated.deal_lost') %>
+  <% elsif event.deal_reopened? %>
+    <%= t('views.accounts.contacts.events.event_deal_updated.deal_reopened') %>
+  <% elsif event.deal_product_added? %>
+    <%= t('views.accounts.contacts.events.event_deal_updated.deal_product_added', product_name: event.additional_attributes.fetch('product_name', '')) %>
+  <% elsif event.deal_product_removed? %>
+    <%= t('views.accounts.contacts.events.event_deal_updated.deal_product_removed', product_name: event.additional_attributes.fetch('product_name', '')) %>
+  <% end %>
+  <div class="tooltip-arrow" data-popper-arrow></div>
+</div>
+<div class="group event-<%= event.scheduled_kind %> event-item-<%= event.from %> my-5 cursor-default" data-controller="load-lucid-icons load-flowbite" data-tooltip-target=<%= dom_id(event, :tooltip) %>>
   <div class="px-4 py-1  max-w-[80%] w-auto bg-brand-palette-08 rounded-full border-[1.5px] border-brand-palette-07 inline-flex gap-3.5 items-center justify-between mx-auto">
     <p class='typography-text-m-lh200 text-dark-gray-palette-p1 max-w-[56%] sm:max-w-[72%] md:max-w-[75%] lg:max-w-[85%] truncate'>
       <% if event.deal_stage_change? %>
