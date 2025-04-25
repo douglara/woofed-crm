@@ -14,7 +14,7 @@ class Accounts::Contacts::Events::GenerateAiResponse
     response = post_request(data)
     response_body = JSON.parse(response.body)
     update_ai_usage(response_body['usage']['total_tokens'])
-    content = response_body.dig('choices', 0, 'message', 'content').gsub(/```json\n?|```/, '')
+    content = response_body.dig('output', 0, 'content', 0, 'text')
     JSON.parse(content)['response']
   rescue StandardError
     ''
@@ -26,7 +26,7 @@ class Accounts::Contacts::Events::GenerateAiResponse
   end
 
   def get_context(query)
-    embedding = OpenAi::Embeddings.new.get_embedding(query, 'text-embedding-3-small')
+    embedding = OpenAi::Embeddings.new.get_embedding(@ai_assistent, query, 'text-embedding-3-small')
     documents = EmbeddingDocumment.nearest_neighbors(:embedding, embedding, distance: 'cosine').first(6)
     documents.pluck(:content, :source_reference)
   end
@@ -34,7 +34,7 @@ class Accounts::Contacts::Events::GenerateAiResponse
   def post_request(data)
     Rails.logger.info "Requesting Chat GPT with body: #{data}"
     response = Faraday.post(
-      'https://api.openai.com/v1/chat/completions',
+      'https://api.openai.com/v1/responses',
       data.to_json,
       headers
     )
@@ -52,36 +52,63 @@ class Accounts::Contacts::Events::GenerateAiResponse
   def prepare_data(context, question)
     {
       model: @ai_assistent.model,
+      input: build_prompt(context, question),
+      text: response_format,
+      max_output_tokens: 2048,
       temperature: 0.3,
-      messages: [
-        {
-          role: 'user',
-          content: build_prompt(context, question)
-        }
-      ]
+    }
+  end
+
+  def response_format
+    {
+      format: {
+        type: 'json_schema',
+        name: 'suggestion',
+        schema: {
+          type: 'object',
+          properties: {
+            response: {
+              type: 'string'
+            },
+            confidence: {
+              type: 'integer'
+            }
+          },
+          required: %w[response confidence],
+          additionalProperties: false
+        },
+        strict: true
+      }
     }
   end
 
   def build_prompt(context, question)
-    <<~SYSTEM_PROMPT_MESSAGE
-      Follow the rules:
-      Your answers will always be formatted in valid JSON hash, as shown below. Never respond in non-JSON format.
-      Answer in Brazilian Portuguese.
-      Convert from Markdown to plain text.
+    system_prompt_message = <<~SYSTEM_PROMPT_MESSAGE
+      You are an assistant that will help answer questions from potential customers.
       Only respond if you are 100% certain; otherwise, your response should be left blank.
       If it is relevant to the response, include the link to the page where the information was found so the user can obtain more details.
+      Respond in the language the customer used to ask the question.
+      Never make up information.
+      Respond in a short and objective manner, always in plain text, without Markdown formatting, without lists, without bold text, without formatted code, and without special symbols.
+    SYSTEM_PROMPT_MESSAGE
 
-      Json format:
-      {
-        response: '',
-        confidence: 1
-      }
-
+    user_prompt_message = <<~USER_PROMPT_MESSAGE
       Context sections:
       #{context}
 
       Question:
-      #{question}"
-    SYSTEM_PROMPT_MESSAGE
+      #{question}
+    USER_PROMPT_MESSAGE
+
+    [
+      {
+        role: 'system',
+        content: system_prompt_message
+      },
+      {
+        role: 'user',
+        content: user_prompt_message
+      }
+    ]
   end
 end

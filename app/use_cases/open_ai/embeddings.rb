@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class OpenAi::Embeddings
-  def get_embedding(content, model = 'text-embedding-ada-002')
-    fetch_embeddings(content, model)
+  def get_embedding(ai_assistent, content, model = 'text-embedding-ada-002')
+    fetch_embeddings(ai_assistent, content, model)
   end
 
   private
 
-  def fetch_embeddings(input, model)
+  def fetch_embeddings(ai_assistent, input, model)
     url = 'https://api.openai.com/v1/embeddings'
     headers = {
-      'Authorization' => "Bearer #{ENV.fetch('OPENAI_API_KEY', '')}",
+      'Authorization' => "Bearer #{ai_assistent.api_key}",
       'Content-Type' => 'application/json'
     }
     data = {
