@@ -1,0 +1,23 @@
+<%= turbo_frame_tag dom_id(@contact, :chatwoot_conversation_link) do  %>
+  <div id=<%= dom_id(@contact, :chatwoot_conversation_link_info_tooltip) %> role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+    <% if @chatwoot_conversation_link %>
+      <p>
+        <%= t('views.accounts.contacts.chatwoot_conversation_link.has_conversation') %>
+      </p>
+    <% else %>
+      <p>
+        <%= t('views.accounts.contacts.chatwoot_conversation_link.no_conversation') %>
+      </p>
+    <% end %>
+    <div class="tooltip-arrow" data-popper-arrow></div>
+  </div>
+  <% if @chatwoot_conversation_link %>
+    <%= link_to @chatwoot_conversation_link, target: :_blank, class: "text-[#7CC7F7] hover:text-[#369EF2] flex items-center justify-center h-5 w-5", data: { tooltip_target: dom_id(@contact, :chatwoot_conversation_link_info_tooltip), turbo: false, controller: 'iframe-redirect', action: 'iframe-redirect#redirect' } do %>
+      <i data-lucide="message-circle" class= "-rotate-[101deg] w-4 h-4"></i>
+    <% end %>
+  <% else %>
+    <div class='color-fg-extra-soft hover:color-fg-soft flex items-center justify-center h-5 w-5' data-tooltip-target=<%= dom_id(@contact, :chatwoot_conversation_link_info_tooltip) %>>
+      <i data-lucide="message-circle" class= "-rotate-[101deg] w-4 h-4"></i>
+    </div>
+  <% end %>
+<% end %>

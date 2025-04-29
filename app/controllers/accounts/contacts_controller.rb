@@ -1,5 +1,5 @@
 class Accounts::ContactsController < InternalController
-  before_action :set_contact, only: %i[show edit update destroy]
+  before_action :set_contact, only: %i[show edit update destroy chatwoot_conversation_link]
 
   # GET /contacts or /contacts.json
   def index
@@ -99,6 +99,23 @@ class Accounts::ContactsController < InternalController
       end
       format.json { head :no_content }
     end
+  end
+
+  def chatwoot_conversation_link
+    chatwoot = Current.account.apps_chatwoots.first
+    chatwoot_contact_id = @contact.additional_attributes['chatwoot_id']
+
+    return unless chatwoot && chatwoot_contact_id
+
+    conversations = Accounts::Apps::Chatwoots::GetConversations.call(
+      chatwoot, chatwoot_contact_id
+    )
+
+    return unless conversations.dig(:ok, 0, 'id').present?
+
+    conversation_id = conversations.dig(:ok, 0, 'id')
+    conversation_path = "app/accounts/#{chatwoot.chatwoot_account_id}/conversations/#{conversation_id}"
+    @chatwoot_conversation_link = chatwoot.chatwoot_endpoint_url + conversation_path
   end
 
   private

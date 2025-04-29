@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     resources :contacts do
       get 'search', to: 'contacts#search', on: :collection
       get 'edit_custom_attributes'
+      get 'chatwoot_conversation_link', on: :member
       patch 'update_custom_attributes'
       get 'select_contact_search', on: :collection
       resources :events, module: :contacts do
