@@ -5,13 +5,7 @@
         <h5 id="drawer-right-label" class="typography-title-b-lh150 text-dark-gray-palette-p1">
           <%= t("activerecord.models.#{model.model_name.i18n_key}.one") %>
         </h5>
-        <% if model.class.name.downcase == 'contact' && Apps::Chatwoot.first.present? %>
-          <%= turbo_frame_tag dom_id(model, :chatwoot_conversation_link), src: chatwoot_conversation_link_account_contact_path(Current.account, model), loading: :lazy do  %>
-            <div class='text-[#369EF2] w-4 flex items-center justify-center animate-pulse'>
-              <i data-lucide="message-circle" class= "-rotate-[101deg]"></i>
-            </div>
-          <% end %>
-        <% end %>
+        <%= render '/components/links/chatwoot_conversation_link', contact: model %>
       </div>
       <div class="flex items-center space-x-2">
         <% if defined?(edit_path) %>

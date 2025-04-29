@@ -1,0 +1,7 @@
+<% if contact.class.name.downcase == 'contact' && Apps::Chatwoot.first.present? %>
+  <%= turbo_frame_tag dom_id(contact, :chatwoot_conversation_link), src: chatwoot_conversation_link_account_contact_path(Current.account, contact), loading: :lazy do  %>
+    <div class='text-[#369EF2] w-4 flex items-center justify-center animate-pulse'>
+      <i data-lucide="message-circle" class= "-rotate-[101deg]"></i>
+    </div>
+  <% end %>
+<% end %>
