@@ -2,13 +2,13 @@ import { Controller } from "stimulus";
 
 export default class extends Controller {
   redirect(event) {
-    if (this.isEmbedPage) {
+    if (this.isInIframe) {
       event.preventDefault();
-      const conversationLink = event.currentTarget.href;
-      window.top.location.href = conversationLink;
+      const link = event.currentTarget.href;
+      window.top.location.href = link;
     }
   }
-  get isEmbedPage() {
+  get isInIframe() {
     return window.self !== window.top;
   }
 }
