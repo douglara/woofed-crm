@@ -10,7 +10,7 @@ class Api::V1::Accounts::DealsController < Api::V1::InternalController
 
   def create
     @deal = DealBuilder.new(current_user, deal_params).perform
-    if @deal.save
+    if Deal::CreateOrUpdate.new(@deal, deal_params).call
       render json: @deal, status: :created
     else
       render json: { errors: @deal.errors.full_messages }, status: :unprocessable_entity
@@ -22,9 +22,7 @@ class Api::V1::Accounts::DealsController < Api::V1::InternalController
       contact_id: params['contact_id']
     ).first_or_initialize
 
-    @deal.assign_attributes(deal_params)
-
-    if @deal.save
+    if Deal::CreateOrUpdate.new(@deal, deal_params).call
       render json: @deal, status: :ok
     else
       render json: { errors: @deal.errors.full_messages }, status: :unprocessable_entity
@@ -34,7 +32,7 @@ class Api::V1::Accounts::DealsController < Api::V1::InternalController
   def update
     @deal = Deal.find(params['id'])
 
-    if @deal.update(deal_params)
+    if Deal::CreateOrUpdate.new(@deal, deal_params).call
       render json: @deal, status: :ok
     else
       render json: { errors: @deal.errors.full_messages }, status: :unprocessable_entity
