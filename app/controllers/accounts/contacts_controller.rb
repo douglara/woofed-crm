@@ -102,20 +102,9 @@ class Accounts::ContactsController < InternalController
   end
 
   def chatwoot_conversation_link
-    chatwoot = Current.account.apps_chatwoots.first
-    chatwoot_contact_id = @contact.additional_attributes['chatwoot_id']
-
-    return unless chatwoot && chatwoot_contact_id
-
-    conversations = Accounts::Apps::Chatwoots::GetConversations.call(
-      chatwoot, chatwoot_contact_id
-    )
-
-    return unless conversations.dig(:ok, 0, 'id').present?
-
-    conversation_id = conversations.dig(:ok, 0, 'id')
-    conversation_path = "app/accounts/#{chatwoot.chatwoot_account_id}/conversations/#{conversation_id}"
-    @chatwoot_conversation_link = chatwoot.chatwoot_endpoint_url + conversation_path
+    @chatwoot_conversation_link = Contact::Integrations::Chatwoot::GenerateConversationLink.new(@contact).call[:ok]
+  rescue Faraday::TimeoutError, Faraday::ConnectionFailed
+    @connection_error = true
   end
 
   private
