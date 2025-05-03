@@ -8,7 +8,7 @@ class EnqueuePopulateLostAtAndWonToOldDealsAtJob < ActiveRecord::Migration[7.1]
   def populate_lost_at_and_won_at_jobs
     ::Deal.where(status: %w[won lost]).find_in_batches do |batch|
       batch.each do |deal|
-        Deal::Migrations::PopulateDealLostAtAndWonAt::DeliveryJob.perform_later(deal.id)
+        Deal::Migrations::PopulateDealLostAtAndWonAtJob.perform_later(deal.id)
       end
     end
   end

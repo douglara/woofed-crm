@@ -1,4 +1,4 @@
-class Deal::Migrations::PopulateDealLostAtAndWonAt::DeliveryJob < ApplicationJob
+class Deal::Migrations::PopulateDealLostAtAndWonAtJob < ApplicationJob
   self.queue_adapter = :good_job
 
   def perform(deal_id)
