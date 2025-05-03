@@ -27,7 +27,7 @@ class Contact::Integrations::Chatwoot::GenerateConversationLink
   end
 
   def build_conversation_url(chatwoot, conversation_id)
-    conversation_path = "app/accounts/#{chatwoot.chatwoot_account_id}/conversations/#{conversation_id}"
+    conversation_path = "/app/accounts/#{chatwoot.chatwoot_account_id}/conversations/#{conversation_id}"
     chatwoot.chatwoot_endpoint_url + conversation_path
   end
 end
