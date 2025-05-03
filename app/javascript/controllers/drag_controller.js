@@ -14,6 +14,7 @@ export default class extends Controller {
       sort: true,
       group: "pipeline",
       onEnd: this.end.bind(this),
+      forceFallback: true,
     });
   }
 
