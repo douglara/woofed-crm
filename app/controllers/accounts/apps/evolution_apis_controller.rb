@@ -6,7 +6,7 @@ class Accounts::Apps::EvolutionApisController < InternalController
   end
 
   def create
-    result = Accounts::Apps::EvolutionApis::Create.call(current_user, evolution_api_params)
+    result = Apps::EvolutionApi::Create.call(current_user, evolution_api_params)
     @evolution_api = result[result.keys.first]
     if result.key?(:ok)
       redirect_to pair_qr_code_account_apps_evolution_api_path(current_user.account, @evolution_api.id)
@@ -38,7 +38,7 @@ class Accounts::Apps::EvolutionApisController < InternalController
                             token: @evolution_api.generate_token('token')
                           })
 
-    Accounts::Apps::EvolutionApis::Instance::Create.call(@evolution_api)
+    Apps::EvolutionApi::Instance::Create.call(@evolution_api)
   end
 
   def destroy

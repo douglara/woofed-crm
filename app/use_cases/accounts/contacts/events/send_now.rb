@@ -6,7 +6,7 @@ class Accounts::Contacts::Events::SendNow
       if event.chatwoot_message?
         Accounts::Apps::Chatwoots::Messages::DeliveryJob.perform_later(event.id)
       elsif event.evolution_api_message?
-        Accounts::Apps::EvolutionApis::Message::DeliveryJob.perform_later(event.id)
+        Apps::EvolutionApi::Message::DeliveryJob.perform_later(event.id)
       end
     else
       event.update(done: true)
