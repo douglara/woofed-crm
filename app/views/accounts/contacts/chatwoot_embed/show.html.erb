@@ -2,4 +2,6 @@
   <%= render 'show', contact: @contact %>
   <%= render 'deals', contact: @contact %>
 </section>
-
+<script>
+  sessionStorage.setItem('chatwoot_contact_id', '<%= @contact.id %>');
+</script>

@@ -1,0 +1,6 @@
+pt-BR:
+  views:
+    components:
+      notification_bar:
+        chatwoot_back_to_embed_flow:
+          return_to_embed_question: "Deseja retornar à página principal?"
