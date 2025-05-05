@@ -15,6 +15,7 @@
     "@rails/ujs": "^7.1.501",
     "@rails/webpacker": "5.4.2",
     "@yaireo/tagify": "^4.17.9",
+    "apexcharts": "4.7.0",
     "bootstrap-daterangepicker": "^3.1.0",
     "debounce": "^1.2.1",
     "flowbite": "3.1.1",
