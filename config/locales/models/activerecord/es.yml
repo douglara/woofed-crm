@@ -14,3 +14,4 @@ es:
       main_information: "Información principal"
       need_information: "Información necesaria"
       filter: "Filtrar %{model}"
+      reports: Informes
