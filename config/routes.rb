@@ -84,6 +84,13 @@ Rails.application.routes.draw do
     end
     resources :attachments, only: [:destroy]
     resources :stages, only: [:show]
+
+    resources :reports, only: [:index] do
+      collection do
+        get :summary
+        get :pipeline_summary
+      end
+    end
   end
   if ENV.fetch('ENABLE_USER_SIGNUP', 'false') == 'true'
     devise_for :users, controllers: {

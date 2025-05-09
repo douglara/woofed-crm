@@ -1,0 +1,3 @@
+<%= turbo_frame_tag :pipeline_summary_reports do %>
+  <div data-controller='reports--chart' data-reports--chart-chart-type-value='funnel' data-reports--chart-chart-data-value='<%= @funnel_chart_data.to_json %>'></div>
+<% end %>
