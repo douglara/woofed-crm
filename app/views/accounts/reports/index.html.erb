@@ -2,16 +2,31 @@
   <div class='mb-5 flex justify-end'>
     <div class='w-1/4'>
       <%= form_with(url: account_reports_path(Current.account), method: :get, data: { turbo_frame: :summary_session, turbo_action: :advance, controller: 'form--date-range-picker' }) do |form| %>
-        <%= form.text_field :date_range, class: 'form-input w-full', data: { form__date_range_picker_target: 'dateRangeForm' } %>
-        <%= form.submit 'pesquisar' %>
+        <div class="relative w-full">
+          <%= form.text_field :date_range,
+                     class: 'form-input w-full pl-10',
+                     value: params[:date_range],
+                     data: { form__date_range_picker_target: 'dateRangeForm' } %>
+          <i data-lucide="calendar-days" class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 color-fg-default stroke-1.25 "></i>
+        </div>
       <% end %>
     </div>
-    <%# current_user.language %>
   </div>
   <%= turbo_frame_tag :summary_session do %>
     <%= turbo_frame_tag :summary_reports, src: summary_account_reports_path(Current.account, date_range: params[:date_range]), loading: :lazy do  %>
-      <%= render '/components/skeleton/event_card', from_me: true, done: false %>
-      <%= render '/components/skeleton/event_card', from_me: true, done: false %>
+      <div class='grid grid-cols-[repeat(auto-fit,_minmax(275px,_1fr))] gap-4 mb-5'>
+        <% 3.times do %>
+          <%= render '/components/skeleton/reports/summary' %>
+        <% end %>
+      </div>
+      <div class='grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-3'>
+        <div class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-6 py-7 h-[350px] flex justify-center items-center content-center'>
+          <%= render '/components/skeleton/reports/chart' %>
+        </div>
+        <div class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-6 py-7 h-[350px] flex justify-center items-center content-center'>
+          <%= render '/components/skeleton/reports/chart' %>
+        </div>
+      </div>
     <% end %>
   <% end %>
 </div>

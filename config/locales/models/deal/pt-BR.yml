@@ -14,6 +14,7 @@ pt-BR:
         won_deals: "Negócios ganhos"
         open_deals: "Negócios em aberto"
         created_deals: "Negócios criados"
+        total_deals: "Total de %{count} negócios"
     attributes:
       deal:
         name: Nome

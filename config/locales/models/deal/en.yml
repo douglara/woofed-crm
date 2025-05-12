@@ -14,6 +14,7 @@ en:
         won_deals: "Won deals"
         open_deals: "Open deals"
         created_deals: "Created deals"
+        total_deals: "Total of %{count} deals"
     attributes:
       deal:
         name: Name

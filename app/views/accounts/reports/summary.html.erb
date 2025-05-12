@@ -11,7 +11,7 @@
           <%= number_to_currency(summary[:amount] / 100.0, unit: "R$ ", separator: ",", delimiter: ".") %>
         </p>
         <span class='typography-label-900 color-fg-default'>
-          Total de <%= summary[:count] %> negócios
+          <%= t("activerecord.models.deal.total_deals", count: summary[:count]) %>
         </span>
       </div>
     <% end %>
@@ -19,26 +19,28 @@
   <div class='grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-3'>
     <div class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-6 py-7'>
       <h1 class='typography-sub-title-900 color-fg-hard mb-6'>
-        Negocios
+        <%= Deal.model_name.human(count: :many) %>
       </h1>
-      <div data-controller='reports--chart' data-reports--chart-chart-type-value='column' data-reports--chart-chart-data-value='<%= @column_chart_data.to_json %>'></div>
+      <div>
+        <div data-controller='reports--chart' data-reports--chart-chart-type-value='column' data-reports--chart-chart-data-value='<%= @column_chart_data.to_json %>'></div>
+      </div>
     </div>
     <div class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-6 py-7'>
-      <div class='flex justify-between items-center gap-2'>
-        <h1 class='typography-sub-title-900 color-fg-hard mb-6'>
-          Funil
+      <div class='flex justify-between items-center gap-2 mb-6'>
+        <h1 class='typography-sub-title-900 color-fg-hard '>
+          <%= Pipeline.model_name.human(count: 1) %>
         </h1>
         <div class='w-2/5'>
           <%= form_with(url: pipeline_summary_account_reports_path(Current.account), method: :get, data: { turbo_frame: :pipeline_summary_reports }) do |form| %>
             <%= form.hidden_field :date_range, value: params[:date_range] %>
-            <%= form.select :pipeline_id, Pipeline.all.map { |pipeline| [pipeline.name, pipeline.id]}, { selected: params[:pipeline_id] || Pipeline.first&.id }, {class: 'form-input w-full'} %>
-            <%= form.submit 'pesquisar' %>
+            <%= form.select :pipeline_id, Pipeline.all.map { |pipeline| [pipeline.name, pipeline.id]}, { selected: params[:pipeline_id] || Pipeline.first&.id }, {class: 'form-input w-full', onchange: 'this.form.requestSubmit()'} %>
           <% end %>
         </div>
       </div>
       <%= turbo_frame_tag :pipeline_summary_reports, src: pipeline_summary_account_reports_path(Current.account, date_range: params[:date_range], pipeline_id: params[:pipeline_id]), loading: :lazy do  %>
-        <%= render '/components/skeleton/event_card', from_me: true, done: false %>
-        <%= render '/components/skeleton/event_card', from_me: true, done: false %>
+        <div class='h-[350px] flex justify-center items-center content-center'>
+          <%= render '/components/skeleton/reports/chart' %>
+        </div>
       <% end %>
     </div>
   </div>
