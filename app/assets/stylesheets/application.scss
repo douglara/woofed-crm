@@ -110,3 +110,36 @@ input[type=file]:hover::file-selector-button {
 .custom-scroll-list-deal::-webkit-scrollbar-thumb:hover {
   background: #CBC8DB;
 }
+
+// daterangepicker
+.daterangepicker {
+  font-family: "Nunito", "Arial", "sans-serif";
+  font-weight: 500;
+}
+
+
+.daterangepicker td.active:hover {
+  background-color: #8686E8
+}
+
+.daterangepicker .ranges li.active {
+  background-color: #6857D9;
+  color: #fff;
+}
+
+.daterangepicker td.in-range {
+  background-color: #D9DEFF;
+  border-color: transparent;
+  color: #000;
+  border-radius: 0;
+}
+
+.daterangepicker td.active {
+  background-color: #6857D9;
+  color: #fff;
+}
+
+.daterangepicker select.monthselect,
+.daterangepicker select.yearselect {
+  border: none;
+}
