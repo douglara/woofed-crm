@@ -11,6 +11,8 @@ export default class extends Controller {
       locale: {
         format: "DD/MM/YYYY",
       },
+      showDropdowns: true,
+      showWeekNumbers: true,
       ranges: {
         Today: [moment(), moment()],
         Yesterday: [moment().subtract(1, "days"), moment().subtract(1, "days")],
@@ -22,6 +24,15 @@ export default class extends Controller {
           moment().subtract(1, "month").endOf("month"),
         ],
       },
+      buttonClasses:
+        "inline-flex gap-2 items-center typography-body-900 rounded border-[1.5px] border-transparent h-8 px-3 ml-2 first:ml-0",
+      applyButtonClasses: "btn-primary",
+      cancelClass: "btn-secondary",
+      opens: "left",
+    });
+
+    $(this.dateRangeFormTarget).on("apply.daterangepicker", () => {
+      this.element.requestSubmit();
     });
   }
   disconnect() {
