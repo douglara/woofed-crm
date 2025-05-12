@@ -9,30 +9,6 @@
 @import "apexcharts/dist/apexcharts.css";
 @import "daterangepicker/daterangepicker.css";
 
-.apexcharts-tooltip {
-  background: #fff !important;
-  color: #333 !important;
-  border: 1px solid #ddd !important;
-  z-index: 9999 !important;
-}
-
-.apexcharts-tooltip-title,
-.apexcharts-tooltip-text {
-  color: #333 !important;
-  font-size: 12px !important;
-}
-
-.apexcharts-tooltip.dark {
-  background: #333 !important;
-  color: #fff !important;
-}
-
-.apexcharts-tooltip-title.dark,
-.apexcharts-tooltip-text.dark {
-  color: #fff !important;
-}
-
-
 input[type=file]::file-selector-button {
   background-color: #FAF9FD;
   color: #888599
