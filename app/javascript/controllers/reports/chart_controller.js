@@ -8,9 +8,6 @@ export default class extends Controller {
   };
   connect() {
     var options;
-    if (this.chartDataValue) {
-      console.log(this.chartDataValue);
-    }
 
     if (this.chartTypeValue === "funnel") {
       options = {
@@ -21,6 +18,10 @@ export default class extends Controller {
           dropShadow: {
             enabled: true,
           },
+        },
+        colors: ["#6857D9"],
+        legend: {
+          show: true,
         },
         plotOptions: {
           bar: {
@@ -53,6 +54,10 @@ export default class extends Controller {
         chart: {
           type: "bar",
           height: 350,
+        },
+        colors: ["#259C50", "#CF4F27"],
+        legend: {
+          show: true,
         },
         plotOptions: {
           bar: {
