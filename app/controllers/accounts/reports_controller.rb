@@ -1,27 +1,15 @@
 class Accounts::ReportsController < InternalController
+  before_action :ensure_date_range_param, only: %i[index summary pipeline_summary]
+  before_action :set_date_range, only: %i[summary pipeline_summary]
+
   def index
-    if params[:date_range].blank?
-      starts_date_range = Date.today << 1
-      ends_date_range   = Date.today
-      params[:date_range] = "#{starts_date_range.strftime('%d/%m/%Y')} - #{ends_date_range.strftime('%d/%m/%Y')}"
-    end
   end
 
   def summary
-    if params[:date_range].present?
-      starts_str, ends_str = params[:date_range].split(' - ')
-      starts_date_range = Date.strptime(starts_str, '%d/%m/%Y')
-      ends_date_range   = Date.strptime(ends_str, '%d/%m/%Y')
-    else
-      starts_date_range = Date.today << 1
-      ends_date_range   = Date.today
-      params[:date_range] = "#{starts_date_range.strftime('%d/%m/%Y')} - #{ends_date_range.strftime('%d/%m/%Y')}"
-    end
-
-    @deals_by_created_at = Deal.where(created_at: starts_date_range.beginning_of_day..ends_date_range.end_of_day)
+    @deals_by_created_at = Deal.where(created_at: @starts_date_range.beginning_of_day..@ends_date_range.end_of_day)
     @deals_open = @deals_by_created_at.open
-    @deals_won = Deal.where(won_at: starts_date_range.beginning_of_day..ends_date_range.end_of_day)
-    @deals_lost = Deal.where(lost_at: starts_date_range.beginning_of_day..ends_date_range.end_of_day)
+    @deals_won = Deal.where(won_at: @starts_date_range.beginning_of_day..@ends_date_range.end_of_day)
+    @deals_lost = Deal.where(lost_at: @starts_date_range.beginning_of_day..@ends_date_range.end_of_day)
 
     @summaries = [
       {
@@ -63,26 +51,32 @@ class Accounts::ReportsController < InternalController
         },
       ],
     }
-
   end
 
   def pipeline_summary
-    pipeline = Pipeline.find_by(id: params[:pipeline_id])
-    pipeline ||= Pipeline.first
-
-    starts = params[:date_range].split(' - ').first
-    starts_date_range = Date.strptime(starts, '%d/%m/%Y')
-    ends = params[:date_range].split(' - ').second
-    ends_date_range = Date.strptime(ends, '%d/%m/%Y')
-
-
-    @deals = pipeline.deals.where(created_at: starts_date_range.beginning_of_day..ends_date_range.end_of_day)
-
+    pipeline = Pipeline.find_by(id: params[:pipeline_id]) || Pipeline.first
+    @deals = pipeline.deals.where(created_at: @starts_date_range.beginning_of_day..@ends_date_range.end_of_day)
     grouped_by_stage = @deals.group(:stage).count
 
     @funnel_chart_data = pipeline.stages.each_with_object(categories: [], series: [{ name: pipeline.name, data: [] }]) do |stage, hash|
       hash[:categories] << stage.name
       hash[:series][0][:data] << (grouped_by_stage[stage] || 0)
     end
+  end
+
+  private
+
+  def ensure_date_range_param
+    return if params[:date_range].present?
+
+    starts = Date.today - 1.months
+    ends = Date.today
+    params[:date_range] = "#{starts.strftime('%d/%m/%Y')} - #{ends.strftime('%d/%m/%Y')}"
+  end
+
+  def set_date_range
+    starts_str, ends_str = params[:date_range].split(' - ')
+    @starts_date_range = Date.strptime(starts_str, '%d/%m/%Y')
+    @ends_date_range   = Date.strptime(ends_str, '%d/%m/%Y')
   end
 end
