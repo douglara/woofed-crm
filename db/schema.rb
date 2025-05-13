@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_17_233317) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_13_221232) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -180,6 +180,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_17_233317) do
     t.integer "position", default: 1, null: false
     t.integer "created_by_id"
     t.bigint "total_deal_products_amount_in_cents", default: 0, null: false
+    t.datetime "lost_at"
+    t.datetime "won_at"
     t.index ["contact_id"], name: "index_deals_on_contact_id"
     t.index ["created_by_id"], name: "index_deals_on_created_by_id"
     t.index ["pipeline_id"], name: "index_deals_on_pipeline_id"
