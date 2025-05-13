@@ -49,7 +49,7 @@ class Accounts::DealsController < InternalController
     @new_contact = Contact.find(params['deal']['contact_id'])
     @deal.contacts.push(@new_contact)
 
-    if @deal.save
+    if Deal::CreateOrUpdate.new(@deal, deal_params).call
       redirect_to account_deal_path(current_user.account, @deal)
     else
       render :add_contact, status: :unprocessable_entity
@@ -86,7 +86,7 @@ class Accounts::DealsController < InternalController
     @stages = current_user.account.stages
     @deal = DealBuilder.new(current_user, deal_params).perform
 
-    if @deal.save
+    if Deal::CreateOrUpdate.new(@deal, deal_params).call
       redirect_to account_deal_path(current_user.account, @deal)
     else
       render :new, status: :unprocessable_entity
@@ -100,7 +100,7 @@ class Accounts::DealsController < InternalController
       @deal.custom_attributes[params[:deal][:att_key]] = params[:deal][:att_value]
     end
 
-    if @deal.update(deal_params)
+    if Deal::CreateOrUpdate.new(@deal, deal_params).call
       respond_to do |format|
         format.html { redirect_to account_deal_path(current_user.account, @deal) }
         format.turbo_stream
