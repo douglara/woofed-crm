@@ -28,11 +28,11 @@ class Contact::Merge
   end
 
   def merge_deals
-    Deal.where(contact_id: @mergee_contact.id).update_all(contact_id: @base_contact.id)
+    @mergee_contact.deals.update_all(contact_id: @base_contact.id)
   end
 
   def merge_events
-    Event.where(contact_id: @mergee_contact.id).update_all(contact_id: @base_contact.id)
+    @mergee_contact.events.update_all(contact_id: @base_contact.id)
   end
 
   def merge_and_remove_mergee_contact
