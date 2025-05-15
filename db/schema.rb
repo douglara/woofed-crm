@@ -132,9 +132,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_15_041032) do
     t.bigint "app_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index "lower((email)::text)", name: "index_contacts_on_lower_email", unique: true
+    t.index "NULLIF((phone)::text, ''::text)", name: "index_contacts_on_phone", unique: true
+    t.index "lower(NULLIF((email)::text, ''::text))", name: "index_contacts_on_lower_email", unique: true
     t.index ["app_type", "app_id"], name: "index_contacts_on_app"
-    t.index ["phone"], name: "index_contacts_on_phone", unique: true
   end
 
   create_table "custom_attribute_definitions", force: :cascade do |t|
