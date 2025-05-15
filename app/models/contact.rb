@@ -15,7 +15,9 @@
 #
 # Indexes
 #
-#  index_contacts_on_app  (app_type,app_id)
+#  index_contacts_on_app          (app_type,app_id)
+#  index_contacts_on_lower_email  (lower((email)::text)) UNIQUE
+#  index_contacts_on_phone        (phone) UNIQUE
 #
 class Contact < ApplicationRecord
   include Labelable
