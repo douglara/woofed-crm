@@ -33,20 +33,20 @@ export default class extends Controller {
         try {
           document
             .querySelector(`[data-arrow-stage-id="${stageElementId}"]`)
-            .classList.add("!border-l-gray-200");
+            .classList.add("!border-l-gray-400");
         } catch {}
       }
       if (arrowElementId) {
         const stageName = document.querySelector(
           `[data-name-stage-id="${arrowElementId}"]`
         );
-        stageName.parentNode.classList.add("!bg-gray-200");
+        stageName.parentNode.classList.add("!bg-gray-400");
       }
       if (linkElementId) {
         try {
           document
             .querySelector(`[data-arrow-stage-id="${linkElementId}"]`)
-            .classList.add("!border-l-gray-200");
+            .classList.add("!border-l-gray-400");
         } catch {}
       }
     }
@@ -85,20 +85,20 @@ export default class extends Controller {
         try {
           document
             .querySelector(`[data-arrow-stage-id="${stageElementId}"]`)
-            .classList.remove("!border-l-gray-200");
+            .classList.remove("!border-l-gray-400");
         } catch {}
       }
       if (arrowElementId) {
         const stageName = document.querySelector(
           `[data-name-stage-id="${arrowElementId}"]`
         );
-        stageName.parentNode.classList.remove("!bg-gray-200");
+        stageName.parentNode.classList.remove("!bg-gray-400");
       }
       if (linkElementId) {
         try {
           document
             .querySelector(`[data-arrow-stage-id="${linkElementId}"]`)
-            .classList.remove("!border-l-gray-200");
+            .classList.remove("!border-l-gray-400");
         } catch {}
       }
     }

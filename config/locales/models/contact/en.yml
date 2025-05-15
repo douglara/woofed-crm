@@ -14,6 +14,10 @@ en:
         email: Email
         label_list: Labels
         chatwoot_conversations_label_list: Chatwoot Conversation Labels
+        id: "Contact Code"
+        created_at: Created at
+        updated_at: Updated at
+        custom_attributes: Custom Attributes
     errors:
       contact:
         email:

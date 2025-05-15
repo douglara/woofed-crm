@@ -1,0 +1,21 @@
+<li class="cursor-pointer">
+  <a data-action="click->select-search#select" model-name="<%= model.full_name %>" value="<%= model.id %>" class="flex items-center px-4 py-2 gap-2.5 hover:bg-gray-300 dark:hover:bg-gray-600 dark:hover:text-white hover:no-underline">
+    <div class="h-12 w-12 flex items-center">
+      <div class="p-2.5 rounded-lg border-2 border-light-palette-p3 bg-light-palette-p4">
+        <i data-lucide="user-cog" class="w-5 stroke-dark-gray-palette-p3"></i>
+      </div>
+    </div>
+    <div>
+      <div class="mr-auto">
+        <div class="flex items-center gap-1.5">
+          <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1">
+            <%= model.full_name %>
+          </h2>
+        </div>
+        <p class='typography-sub-text-r-lh150 text-dark-gray-palette-p4'>
+          <%= model.email %>
+        </p>
+      </div>
+    </div>
+  </a>
+</li>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_18_180255) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_13_221232) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -70,6 +70,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_18_180255) do
     t.string "kind"
     t.boolean "active", default: false, null: false
     t.jsonb "settings", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "apps_ai_assistents", force: :cascade do |t|
+    t.boolean "enabled", default: false, null: false
+    t.string "api_key", default: "", null: false
+    t.string "model", default: "gpt-4o", null: false
+    t.boolean "auto_reply", default: false, null: false
+    t.jsonb "usage", default: {"tokens"=>0}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -149,6 +159,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_18_180255) do
     t.bigint "deal_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "unit_amount_in_cents", default: 0, null: false
+    t.string "product_identifier", default: "", null: false
+    t.string "product_name", default: "", null: false
+    t.bigint "total_amount_in_cents", default: 0, null: false
+    t.bigint "quantity", default: 1, null: false
     t.index ["deal_id"], name: "index_deal_products_on_deal_id"
     t.index ["product_id"], name: "index_deal_products_on_product_id"
   end
@@ -164,6 +179,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_18_180255) do
     t.bigint "pipeline_id"
     t.integer "position", default: 1, null: false
     t.integer "created_by_id"
+    t.bigint "total_deal_products_amount_in_cents", default: 0, null: false
+    t.datetime "lost_at"
+    t.datetime "won_at"
     t.index ["contact_id"], name: "index_deals_on_contact_id"
     t.index ["created_by_id"], name: "index_deals_on_created_by_id"
     t.index ["pipeline_id"], name: "index_deals_on_pipeline_id"

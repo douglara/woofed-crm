@@ -1,0 +1,21 @@
+es:
+  activerecord:
+    models:
+      deal_product: "Producto"
+    attributes:
+      deal_product:
+        quantity: "Cantidad añadida"
+        created_at: "Creado en"
+        updated_at: "Actualizado en"
+        deal_id: "Negocio"
+        product_id: "Producto"
+        total_amount_in_cents: "Costo total"
+        unit_amount_in_cents: "Costo Unitario"
+        product_identifier: Identificador
+        product_name: Nombre
+    errors:
+      models:
+        deal_product:
+          attributes:
+            product_id:
+              taken: "ya ha sido añadido a este negocio"

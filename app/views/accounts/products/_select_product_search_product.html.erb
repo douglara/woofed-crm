@@ -1,0 +1,24 @@
+<li class="cursor-pointer">
+  <a data-action="click->select-search#select" model-name="<%= model.name %>" value="<%= model.id %>" class="flex items-center px-4 py-2 gap-2.5 hover:bg-gray-300 dark:hover:bg-gray-600 dark:hover:text-white hover:no-underline">
+    <div class="h-12 w-12 flex items-center">
+      <% if model.attachments.present? %>
+        <%= image_tag model.attachments.first.file, class:"block w-full w-full h-full rounded-lg", alt: model.attachments.first.file.filename.to_s %>
+      <% else%>
+        <div class="border-2 bg-brand-palette-08 rounded-md h-full w-full flex items-center">
+          <i data-lucide="image" class='stroke-dark-gray-palette-p4 m-auto'></i>
+        </div>
+      <% end %>
+    </div>
+    <div>
+      <div class="flex items-center gap-1.5">
+        <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1"><%= model.name %></h2>
+        <p class="typography-text-r-lh150 text-dark-gray-palette-p4 flex items-center gap-0.5">
+          <%= model.amount_in_cents_at_format %>
+        </p>
+      </div>
+      <p class="typography-sub-text-s-lh150 text-dark-gray-palette-p4 hover:text-dark-gray-palette-p3">
+        <%= t('views.accounts.deal_products.select_product_search_product.quantity') %>: <%= model.quantity_available %>
+      </p>
+    </div>
+  </a>
+</li>

@@ -1,47 +1,50 @@
 <div class="px-4 pb-4 rounded border-2 border-light-palette-p3 bg-light-palette-p5 relative" data-controller="load-lucid-icons load-flowbite" id=<%= dom_id(stage, filter_status_deal) %>>
-  <div class="flex py-3.5 justify-between items-center gap-1.5">
-    <h1 class="typography-text-s-lh150 text-dark-gray-palette-p1 truncate cursor-default" data-tooltip-target="tooltip-<%= stage.id %>" data-tooltip-placement="bottom">
-      <%= stage.name %>
-    </h1>
-    <div id="tooltip-<%= stage.id %>" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 typography-text-m-lh150 text-dark-gray-palette-p3 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 tooltip transition-opacity duration-300">
-      <%= stage.name %>
-      <div class="tooltip-arrow" data-popper-arrow></div>
+  <div class='pt-2 pb-3.5 flex flex-col gap-1'>
+    <div class="flex justify-between items-center gap-1.5">
+      <h1 class="typography-text-s-lh150 color-fg-default truncate cursor-default" data-tooltip-target="tooltip-name-<%= stage.id %>" data-tooltip-placement="bottom">
+        <%= stage.name %>
+      </h1>
+      <div id="tooltip-name-<%= stage.id %>" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 typography-label-900 font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+        <%= stage.name %>
+        <div class="tooltip-arrow" data-popper-arrow></div>
+      </div>
+      <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownDotsHorizontal<%=stage.id%>" class="button-default-blank-secondary-icon-only-sm" type="button">
+        <i data-lucide="more-horizontal"></i>
+      </button>
+      <div class="p-0 w-6 rounded-tr-lg absolute border-t-2 border-r-2 border-light-palette-p3 left-[285px] bg-light-palette-p5 rotate-45">
+        <i data-lucide="chevron-right" class="text-light-palette-p1 -rotate-45 w-5"></i>
+      </div>
     </div>
-    <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownDotsHorizontal<%=stage.id%>" class="inline-flex mr-1 items-center p-0.5 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
-      <i data-lucide="more-horizontal" class="text-gray-pallete-p3 w-5"></i>
-    </button>
-    <div class="p-0 w-6 rounded-tr-lg absolute border-t-2 border-r-2 border-light-palette-p3 left-[285px] bg-light-palette-p5 rotate-45">
-      <i data-lucide="chevron-right" class="text-light-palette-p1 -rotate-45 w-5"></i>
-    </div>
-  </div>
-  <!-- Dropdown menu -->
-  <div id="dropdownDotsHorizontal<%=stage.id%>" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
-    <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-      <li>
-        <%= link_to bulk_action_account_pipeline_path(Current.account, stage.pipeline.id, stage_id: stage.id), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white", data: { turbo_frame: 'modal' } do %>
-          <i data-lucide="layers"></i>
-          <p>
-            <%= t('views.accounts.pipelines.stage.bulk_action') %>
-            <b class="typography-micro-b-lh150 text-dark-palette-p3 text-[6px]"> BETA </b>
-          </p>
-        <% end %>
-      </li>
-      <li>
-        <%= link_to account_pipeline_import_path(Current.account, stage.pipeline.id, stage_id: stage.id), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white", data: {controller: 'change-request-to-turbo-stream', action: 'click->change-request-to-turbo-stream#changeHeader'} do%>
-          <i data-lucide="file-input"></i>
-          <p>
-            <%= t('views.accounts.pipelines.stage.import_deals') %>
-          </p>
-        <%end%>
-      </li>
-      <%# <li>
-      <a href="#" class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white" ><i data-lucide="file-output"></i>
+    <!-- Dropdown menu -->
+    <div id="dropdownDotsHorizontal<%=stage.id%>" class="z-10 hidden left-16 bg-white divide-y divide-gray-300 rounded-lg shadow w-48 dark:bg-gray-700">
+      <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+        <li>
+          <%= link_to bulk_action_account_pipeline_path(Current.account, stage.pipeline.id, stage_id: stage.id), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white", data: { turbo_frame: 'modal' } do %>
+            <i data-lucide="layers"></i>
+            <p>
+              <%= t('views.accounts.pipelines.stage.bulk_action') %>
+              <b class="typography-micro-b-lh150 text-dark-palette-p3 text-[6px]"> BETA </b>
+            </p>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to account_pipeline_import_path(Current.account, stage.pipeline.id, stage_id: stage.id), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white", data: {controller: 'change-request-to-turbo-stream', action: 'click->change-request-to-turbo-stream#changeHeader'} do%>
+            <i data-lucide="file-input"></i>
+            <p>
+              <%= t('views.accounts.pipelines.stage.import_deals') %>
+            </p>
+          <%end%>
+        </li>
+        <%# <li>
+      <a href="#" class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white" ><i data-lucide="file-output"></i>
         <p>Exportar negócios</p>
       </a>
     </li> %>
-    </ul>
+      </ul>
+    </div>
+    <%= render 'accounts/stages/kanban_details', stage: stage, filter_status_deal: params[:filter_status_deal] %>
   </div>
-  <ul data-controller="drag" data-drag-url="/accounts/:account_id/deals/:deal_id" data-id="<%= stage.id %>" class="space-y-4 overflow-y-auto custom-scroll-list-deal h-[calc(100vh-240px)]" id=<%= dom_id(stage, :deals) %>>
+  <ul data-controller="drag" data-drag-url="/accounts/:account_id/deals/:deal_id" data-id="<%= stage.id %>" class="space-y-4 overflow-y-auto custom-scroll-list-deal h-[calc(100vh-260px)]" id=<%= dom_id(stage, :deals) %>>
     <%= render partial: 'accounts/pipelines/deal', collection: deals, as: :deal %>
     <% if pagy.next.present? %>
       <%= turbo_frame_tag dom_id(stage, :pagination_deals), src: account_stage_path(Current.account, stage, filter_status_deal: filter_status_deal, page: pagy.next, format: :turbo_stream), loading: :lazy do  %>

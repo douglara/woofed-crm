@@ -1,0 +1,38 @@
+<% content_for :show_additional_content do %>
+  <div class="bg-light-palette-p5 border-2 border-neutral-150 border-light-palette-p3 rounded ">
+    <div class="">
+      <header class="border-b-2 border-neutral-100 flex flex-wrap items-center p-4">
+        <div class="flex text-dark-gray-palette-p1 typography-body-s-lh150">
+          <h1>
+            <%= t('activerecord.models.deal.other') %>
+          </h1>
+        </div>
+      </header>
+      <ul class="p-4 flex flex-col" >
+        <% @product.deal_products.each do |deal_product| %>
+          <%= content_tag :li, id: dom_id(deal_product.deal), class: "grid gap-5 border-b-2 border-light-palette-p3 last:border-none py-5 first:pt-0 last:pb-0", data: {controller: 'load-lucid-icons'} do %>
+            <div class= "flex items-center gap-4">
+              <div class="p-2.5 rounded-lg border-2 border-light-palette-p3 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200">
+                <%= embedded_svg("deals-icon.svg", class: "w-4") %>
+              </div>
+              <div class="mr-auto">
+                <div class="flex flex-col">
+                  <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1">
+                    <%= deal_product.deal.name %>
+                  </h2>
+                  <p class="typography-sub-text-r-lh150 text-dark-gray-palette-p4">
+                    <%= "#{t('activerecord.attributes.deal_product.quantity')}: #{deal_product.quantity} | #{deal_product.total_amount_in_cents_at_format}" %>
+                  </p>
+                </div>
+              </div>
+              <%= link_to account_deal_path(Current.account, deal_product.deal.id ), data: {turbo_frame: :_top} , class: 'flex items-center justify-center rounded text-gray-pallete-p3 w-8 h-8 hover:bg-light-palette-p4 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
+                <i data-lucide="arrow-right"></i>
+              <% end %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+<%= render 'components/show_model', model: @product %>

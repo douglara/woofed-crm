@@ -16,8 +16,8 @@
           </p>
         <% end %>
       </div>
-      <%= link_to account_deal_assignee_path(Current.account, deal_assignee), method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center h-8 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
-        <i data-lucide="trash-2" height="16"></i>
+      <%= link_to account_deal_assignee_path(Current.account, deal_assignee), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button-default-blank-secondary-icon-only-sm' do %>
+        <i data-lucide="trash-2"></i>
       <% end %>
     </li>
   <% end %>

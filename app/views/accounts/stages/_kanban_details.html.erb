@@ -1,0 +1,16 @@
+<div class='flex items-center justify-between gap-1.5' id='stage-<%= stage.id %>-<%= filter_status_deal %>-kaban-details'>
+  <p class='typography-body-900 color-fg-default cursor-default truncate' data-tooltip-target="tooltip-stage-<%= stage.id %>-deals-total-amount" data-tooltip-placement="bottom">
+    <%= stage.total_amount_deals_at_format(filter_status_deal) %>
+  </p>
+  <div id="tooltip-stage-<%= stage.id %>-deals-total-amount" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 typography-label-900 font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+    <%= stage.total_amount_deals_at_format(filter_status_deal) %>
+    <div class="tooltip-arrow" data-popper-arrow></div>
+  </div>
+  <p class='py-0.5 px-1 typography-button-800 color-bg-fill-hard color-fg-highlight rounded-lg cursor-default' data-tooltip-target="tooltip-stage-<%= stage.id %>-deals-total_quantity" data-tooltip-placement="bottom">
+    <%= stage.total_quantity_deals_resume(filter_status_deal) %>
+  </p>
+  <div id="tooltip-stage-<%= stage.id %>-deals-total_quantity" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 typography-label-900 font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+    <%= stage.total_quantity_deals(filter_status_deal) %>
+    <div class="tooltip-arrow" data-popper-arrow></div>
+  </div>
+</div>

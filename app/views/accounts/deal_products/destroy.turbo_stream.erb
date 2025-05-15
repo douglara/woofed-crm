@@ -2,3 +2,6 @@
 <%= turbo_stream.replace :flash_message do %>
   <%= render partial: 'components/flash_message', locals: { message: t('flash_messages.deleted', model: Product.model_name.human) } %>
 <% end %>
+<%= turbo_stream.update_all '.stream_deal_total_amount_in_cents' do %>
+  <%= @deal_product.deal.total_amount_in_cents_at_format %>
+<% end %>

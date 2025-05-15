@@ -1,0 +1,35 @@
+es:
+  datetime:
+    distance_in_words:
+      short:
+        less_than_x_seconds:
+          one: "%{count} segundo"
+          other: "%{count} segundos"
+        x_seconds:
+          one: "%{count} segundo"
+          other: "%{count} segundos"
+        half_a_minute: "medio minuto"
+        less_than_x_minutes:
+          one: "%{count} minuto"
+          other: "%{count} minutos"
+        x_minutes:
+          one: "%{count} minuto"
+          other: "%{count} minutos"
+        about_x_hours:
+          one: "%{count} hora"
+          other: "%{count} horas"
+        x_days:
+          one: "%{count} día"
+          other: "%{count} días"
+        about_x_months:
+          one: "%{count} mes"
+          other: "%{count} meses"
+        x_months:
+          one: "%{count} mes"
+          other: "%{count} meses"
+        about_x_years:
+          one: "%{count} año"
+          other: "%{count} años"
+        over_x_years:
+          one: "%{count} año"
+          other: "%{count} años"

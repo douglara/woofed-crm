@@ -1,0 +1,14 @@
+pt-BR:
+  activerecord:
+    models:
+      apps/ai_assistent:
+        one: 'Assistente de Inligência Artificial'
+    attributes:
+      apps/ai_assistent:
+        api_key: 'Chave da API'
+        auto_reply: 'Responder automaticamente perguntas presentes na base de conhecimento'
+        enabled: 'Habilitado'
+        model: 'Modelo'
+        usage: 'Uso'
+        created_at: 'Criado em'
+        updated_at: 'Atualizado em'

@@ -1,0 +1,93 @@
+<%= turbo_frame_tag :drawer do %>
+  <div id="drawer-right" data-controller='drawer' class="fixed ease-in duration-300 top-0 right-0 z-[60] h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-2/5 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-right-label">
+    <div class='flex items-center justify-between mb-5'>
+      <div class='flex items-center gap-2.5 '>
+        <h5 id="drawer-right-label" class="typography-title-b-lh150 text-dark-gray-palette-p1">
+          <%= t("activerecord.models.#{model.model_name.i18n_key}.one") %>
+        </h5>
+        <%= render '/components/links/chatwoot_conversation_link', contact: model %>
+      </div>
+      <div class="flex items-center space-x-2">
+        <% if defined?(edit_path) %>
+          <%= link_to edit_path, class: "text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg typography-label-900 w-8 h-8 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white" do %>
+            <i data-lucide="pencil" class='h-3 w-3'></i>
+          <% end %>
+        <% end %>
+        <%= link_to :back, class: "text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg typography-label-900 w-8 h-8 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white" do %>
+          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+          </svg>
+        <% end %>
+      </div>
+    </div>
+    <div>
+      <% model.class::SHOW_FIELDS.slice(:details).each do | show_field_category |  %>
+        <div class="mb-5 bg-light-palette-p5 border-2 border-neutral-150 border-light-palette-p3 rounded ">
+          <div class="">
+            <header class="border-b-2 border-neutral-100 flex flex-wrap items-center p-4">
+              <div class="flex text-dark-gray-palette-p1 typography-body-s-lh150">
+                <h1>
+                  <%= t("activerecord.show_fields.#{model.model_name.i18n_key}.#{show_field_category[0]}") %>
+                </h1>
+              </div>
+            </header>
+            <div class="">
+              <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-5" >
+                <% show_field_category[1].each do | show_field |  %>
+                  <% if show_field.is_a?(Hash) && show_field.key?(:enum_fields) %>
+                    <% show_field[:enum_fields].each do |enum_field| %>
+                      <div class='md:col-span-2 flex flex-col gap-2'>
+                        <p class='typography-text-s-lh150 text-gray-pallete-p3'>
+                          <%= t("activerecord.attributes.#{model.model_name.i18n_key}.#{enum_field}") %>
+                        </p>
+                        <p class='typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all'>
+                          <%= model.class.human_enum_name(enum_field, model.send(enum_field)) %>
+                        </p>
+                      </div>
+                    <% end %>
+                  <% elsif show_field.is_a?(Hash) && show_field.key?(:relations) %>
+                    <% show_field[:relations].each do |relation_name, field| %>
+                      <div class='md:col-span-2 flex flex-col gap-2'>
+                        <p class='typography-text-s-lh150 text-gray-pallete-p3'>
+                          <%= t("activerecord.attributes.#{model.model_name.i18n_key}.#{relation_name}") %>
+                        </p>
+                        <p class='typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all'>
+                          <%= model.send(relation_name)&.send(field) %>
+                        </p>
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <div class='md:col-span-2 flex flex-col gap-2'>
+                      <% if model[show_field].is_a?(Hash) %>
+                        <% model[show_field].each do | custom_attribute | %>
+                          <p class="typography-text-s-lh150 text-gray-pallete-p3">
+                            <%= model.custom_attribute_display_name(custom_attribute[0]) %>
+                          </p>
+                          <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all">
+                            <%= custom_attribute[1] %>
+                          </p>
+                        <% end %>
+                      <% else %>
+                        <p class='typography-text-s-lh150 text-gray-pallete-p3'>
+                          <%= t("activerecord.attributes.#{model.model_name.i18n_key}.#{show_field}") %>
+                        </p>
+                        <% if show_field.in?([:label_list, :chatwoot_conversations_label_list]) %>
+                          <%= render 'components/list_labels', labels: model.send(show_field), max_width: '100%', justify_content: 'start' %>
+                        <% else %>
+                          <p class='typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all'>
+                            <%= model.send(show_field) %>
+                          </p>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <%= yield :show_additional_content %>
+    </div>
+  </div>
+<% end %>

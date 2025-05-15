@@ -1,0 +1,60 @@
+<nav class="navbar-container" id='navbar_deal' data-controller='load-lucid-icons'>
+  <div class="flex items-center">
+    <%= link_to(account_pipeline_path(current_user.account, @deal.pipeline), class: "flex border-solid border-2 border-light-palette-p3 rounded-md hover:bg-brand-palette-08 focus:bg-brand-palette-08 p-1.5") do %>
+      <i data-lucide="chevron-left"></i>
+    <% end %>
+    <div class="pl-4 lg:flex lg:items-center">
+      <div class="h-full lg:border-r-2 border-light-palette-p3 lg:px-6 xl:px-16">
+        <p class="typography-body-s-lh150 text-dark-gray-palette-p1"><%= @deal.name %></p>
+      </div>
+      <div class="flex items-center h-5">
+        <div class=" flex items-center mr-[13px] lg:pl-6 xl:pl-16">
+          <p class="m-0 p-0 typography-text-m-lh150 text-dark-gray-palette-p3"><%= @deal.stage.pipeline.name %></p>
+        </div>
+        <div class=" flex items-center mx-1.5 lg:mx-3 ">
+          <i data-lucide="chevron-right" class="stroke-dark-gray-palette-p3"></i>
+        </div>
+        <div class=" flex items-center ml-1.5 lg:mx-3">
+          <p class="m-0 typography-text-m-lh150 text-dark-gray-palette-p3"><%= @deal.stage.name %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hidden sm:flex gap-2">
+    <% if @deal.open? %>
+      <%= link_to(
+    t('views.layouts.shared.navbar_deal.delete'),
+    account_deal_path(current_user.account, @deal, format: :html),
+    method: :delete,
+    data: { confirm: t('views.layouts.shared.navbar_deal.are_you_sure?'),
+    turbo: false },
+    class: 'btn-secondary') %>
+      <%= link_to(
+    t('views.layouts.shared.navbar_deal.lost'),
+    account_deal_path(current_user.account, @deal, deal: { status: 'lost'} ),
+    method: :patch,
+    data: { confirm: t('views.layouts.shared.navbar_deal.are_you_sure?') },
+    class: 'deal-lost-btn') %>
+      <%= link_to(
+    t('views.layouts.shared.navbar_deal.won'),
+    account_deal_path(current_user.account, @deal, deal: { status: 'won'}),
+    method: :patch,
+    data: { confirm: t('views.layouts.shared.navbar_deal.are_you_sure?') },
+    class: 'deal-won-btn') %>
+    <% else %>
+      <div class="deal-<%= @deal.status %>-btn pointer-events-none"><%= t("views.layouts.shared.navbar_deal.deal_#{@deal.status}") %></div>
+      <%= link_to(
+    t('views.layouts.shared.navbar_deal.reopen'),
+    account_deal_path(current_user.account, @deal, deal: { status: 'open'} ),
+    method: :patch,
+    data: { confirm: t('views.layouts.shared.navbar_deal.are_you_sure?') },
+    class: 'btn-primary') %>
+      <%= link_to(
+    t('views.layouts.shared.navbar_deal.delete'),
+    account_deal_path(current_user.account, @deal),
+    method: :delete,
+    data: { confirm: t('views.layouts.shared.navbar_deal.are_you_sure?') },
+    class: 'btn-secondary') %>
+    <% end %>
+  </div>
+</nav>

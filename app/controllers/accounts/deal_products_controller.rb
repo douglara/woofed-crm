@@ -1,9 +1,11 @@
 class Accounts::DealProductsController < InternalController
+  include DealProductConcern
+
   before_action :set_deal_product, only: %i[destroy]
   before_action :set_deal, only: %i[new]
 
   def destroy
-    if @deal_product.destroy
+    if DealProduct::Destroy.new(@deal_product).call
       respond_to do |format|
         format.html do
           redirect_to account_deal_path(current_user.account, @deal_product.deal),
@@ -19,8 +21,9 @@ class Accounts::DealProductsController < InternalController
   end
 
   def create
-    @deal_product = current_user.account.deal_products.new(deal_product_params)
-    if @deal_product.save
+    @deal_product = DealProductBuilder.new(deal_product_params).perform
+    if DealProduct::CreateOrUpdate.new(@deal_product, {}).call
+      @deal_product.reload
       respond_to do |format|
         format.html { redirect_to account_deal_path(@deal_product.account, @deal_product.deal) }
         format.turbo_stream
@@ -30,20 +33,10 @@ class Accounts::DealProductsController < InternalController
     end
   end
 
-  def select_product_search
-    @products = if params[:query].present?
-                  current_user.account.products.where(
-                    'name ILIKE :search', search: "%#{params[:query]}%"
-                  ).order(updated_at: :desc).limit(5)
-                else
-                  current_user.account.products.order(updated_at: :desc).limit(5)
-                end
-  end
-
   private
 
   def deal_product_params
-    params.require(:deal_product).permit(:product_id, :deal_id)
+    params.require(:deal_product).permit(*permitted_deal_product_params)
   end
 
   def set_deal

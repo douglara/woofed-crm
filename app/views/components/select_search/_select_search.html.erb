@@ -1,0 +1,46 @@
+<% model_name = items.klass.name.underscore.tr('/', '_') %>
+<div data-controller="select-search" class="h-full w-ful" data-submit-button-selector=".select-search-submit-button" >
+  <%= render 'components/select_search/hidden_field', hidden_field_name: hidden_field_name, hidden_field_value: hidden_field_value %>
+  <button data-select-search-target="dropdown" id="dropdownSearchButton" data-dropdown-toggle="dropdownSearch" data-dropdown-placement="bottom" class="h-full w-full form-input inline-flex items-center" type="button">
+    <div data-select-search-target="modelName" class='max-w-[600px] truncate <%= model_name %>_select_search_display_name'>
+      <%= selected_model_name || t('views.components.select_search.search', model: model_name) %>
+    </div>
+    <div class="ml-auto">
+      <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+      </svg>
+    </div>
+  </button>
+  <!-- Dropdown menu -->
+  <div id="dropdownSearch" class="hidden bg-white rounded-lg shadow w-full z-40">
+    <div class="p-3">
+      <%= form_tag select_search_url, method: :get, data: { turbo_frame: "select_#{model_name}_results", action: 'input->select-search#submit', 'select-search-target': 'searchForms' } do | f | %>
+        <% request.query_parameters.each do |key, value| %>
+          <%= hidden_field_tag key, value %>
+        <% end %>
+        <label for="input-group-search" class="sr-only">Search</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg class="w-4 h-4 color-fg-default dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+            </svg>
+          </div>
+          <%= text_field_tag "query", nil, autocomplete: 'off', placeholder: t('views.components.select_search.select', model: model_name), class: 'block w-full p-2 pl-10 form-input' %>
+        </div>
+      <% end %>
+    </div>
+    <%= turbo_frame_tag "select_#{model_name}_results" do %>
+      <ul class="max-h-80 py-2 overflow-y-auto text-gray-700 dark:text-gray-300" aria-labelledby="dropdownUsersButton">
+        <% items.each do | item |%>
+          <%= render "select_#{model_name}_search_#{model_name}", model: item %>
+        <% end %>
+      </ul>
+    <% end %>
+    <%  if create_model_url.present? %>
+      <%= link_to create_model_url, class: 'flex items-center p-3 typography-label-900 font-medium text-red-600 border-t border-gray-100 rounded-b-lg bg-gray-200 dark:border-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-red-500 hover:underline', data: { turbo_frame: :drawer } do %>
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5"><path d="M7.49991 0.876892C3.84222 0.876892 0.877075 3.84204 0.877075 7.49972C0.877075 11.1574 3.84222 14.1226 7.49991 14.1226C11.1576 14.1226 14.1227 11.1574 14.1227 7.49972C14.1227 3.84204 11.1576 0.876892 7.49991 0.876892ZM1.82707 7.49972C1.82707 4.36671 4.36689 1.82689 7.49991 1.82689C10.6329 1.82689 13.1727 4.36671 13.1727 7.49972C13.1727 10.6327 10.6329 13.1726 7.49991 13.1726C4.36689 13.1726 1.82707 10.6327 1.82707 7.49972ZM7.50003 4C7.77617 4 8.00003 4.22386 8.00003 4.5V7H10.5C10.7762 7 11 7.22386 11 7.5C11 7.77614 10.7762 8 10.5 8H8.00003V10.5C8.00003 10.7761 7.77617 11 7.50003 11C7.22389 11 7.00003 10.7761 7.00003 10.5V8H4.50003C4.22389 8 4.00003 7.77614 4.00003 7.5C4.00003 7.22386 4.22389 7 4.50003 7H7.00003V4.5C7.00003 4.22386 7.22389 4 7.50003 4Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+        <%= t('views.components.select_search.new', model: model_name) %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

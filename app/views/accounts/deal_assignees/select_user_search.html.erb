@@ -1,3 +1,0 @@
-<%= turbo_frame_tag :select_user_search do %>
-  <%= render 'components/select_search', hidden_field_name: "deal_assignee[user_id]", items: @users, select_search_url: select_user_search_account_deal_assignees_path(Current.account), create_model_url: nil %>
-<% end %>

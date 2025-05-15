@@ -1,10 +1,12 @@
-<% if ['new'].include?(action_name) %>
-  <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">
-    <%= t('views.layouts.shared.navbar_evolution_api.new_whatsapp_integration') %>
-  </h1>
-<% else %>
-  <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">
-    <%= t('views.layouts.shared.navbar_evolution_api.whatsapp_connections') %>
-  </h1>
-  <%= link_to t('views.layouts.shared.navbar_evolution_api.add_connection'), new_account_apps_evolution_api_path(current_user.account), class: 'btn-secondary'%>
-<% end %>
+<nav class="navbar-container">
+  <% if ['new'].include?(action_name) %>
+    <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">
+      <%= t('views.layouts.shared.navbar_evolution_api.new_whatsapp_integration') %>
+    </h1>
+  <% else %>
+    <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">
+      <%= t('views.layouts.shared.navbar_evolution_api.whatsapp_connections') %>
+    </h1>
+    <%= link_to t('views.layouts.shared.navbar_evolution_api.add_connection'), new_account_apps_evolution_api_path(current_user.account), class: 'btn-secondary'%>
+  <% end %>
+</nav>

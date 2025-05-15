@@ -6,16 +6,21 @@
 <% end %>
 <%= turbo_stream.replace DealAssignee.new do %>
   <%= turbo_frame_tag DealAssignee.new do %>
-    <div class="flex items-center h-12" data-controller="load-lucid-icons load-flowbite">
-      <p class="m-0 mr-auto typography-body-s-lh150 text-dark-gray-palette-p1">
-        <%= t('activerecord.models.deal_assignee.other') %>
-      </p>
-      <%= link_to new_account_deal_assignee_path(@deal_assignee.account, deal_id: @deal_assignee.deal.id), class: 'flex items-center h-8 p-1 mx-2 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
-        <i data-lucide="plus" height="18"></i>
-      <% end %>
-      <button type="button" class="flex bg-transparent items-center h-8 p-1 border-[1.5px] border-[#e5e7eb00]  dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250 dark:hover:bg-gray-800" data-accordion-target="#accordion-collapse-users" aria-expanded="true" aria-controls="accordion-collapse-users ">
-        <i data-accordion-icon data-lucide="chevron-down" class="rotate-180 shrink-0" height="16"></i>
-      </button>
+    <div class="flex items-center py-4 justify-between" data-controller="load-lucid-icons load-flowbite">
+      <div class="flex items-center gap-2 text-dark-gray-palette-p1">
+        <i data-lucide='user' class='w-5 h-5 stroke-1.04'></i>
+        <p class="typography-body-s-lh150">
+          <%= t('activerecord.models.deal_assignee.other') %>
+        </p>
+      </div>
+      <div class='flex gap-2'>
+        <%= link_to new_account_deal_assignee_path(@deal_assignee.account, deal_id: @deal_assignee.deal.id), class: 'button-default-blank-secondary-icon-only-sm' do %>
+          <i data-lucide="plus"></i>
+        <% end %>
+        <button type="button" class="button-default-blank-secondary-icon-only-sm" data-accordion-target="#accordion-collapse-users" aria-expanded="true" aria-controls="accordion-collapse-users">
+          <i data-accordion-icon data-lucide="chevron-down" class="rotate-180 shrink-0" height="16"></i>
+        </button>
+      </div>
     </div>
   <% end %>
 <% end %>

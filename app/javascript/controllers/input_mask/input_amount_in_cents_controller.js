@@ -5,7 +5,9 @@ export default class extends Controller {
   connect() {
     this.formatExhibitionNumberField();
     this.configMaskField();
+    this.prepareSubmit();
   }
+
   configMaskField() {
     new IMask(this.element, {
       mask: "num",
@@ -31,5 +33,20 @@ export default class extends Controller {
     const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     const decimalPart = parts[1];
     return integerPart + "," + decimalPart;
+  }
+
+  prepareSubmit() {
+    const form = this.element.form;
+    if (!form) return;
+
+    form.addEventListener("submit", () => {
+      const value = this.element.value;
+
+      if (!value.includes(",")) {
+        this.element.value = value + ",00";
+      } else {
+        this.element.value = value;
+      }
+    });
   }
 }

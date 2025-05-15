@@ -1,9 +1,8 @@
 <%= form.fields_for(:custom_attributes) do |sf| %>
   <% model.custom_attributes.each do | custom_attribute | %>
-    <div class="flex items-center pb-3">
-      <%= sf.label custom_attribute[0].to_sym, model.custom_attribute_display_name(custom_attribute[0]), class: 'm-0 typography-text-m-lh150 text-dark-gray-palette-p3' %>
-      <div class="flex-auto rounded-md mx-3 border-t border-light-palette-p3"></div>
-      <%= sf.text_field custom_attribute[0].to_sym, value: model.custom_attributes[custom_attribute[0]], class: "w-64 form-input" %>
+    <div class="flex flex-col gap-2">
+      <%= sf.label custom_attribute[0].to_sym, model.custom_attribute_display_name(custom_attribute[0]), class: 'typography-text-s-lh150 text-gray-pallete-p3' %>
+      <%= sf.text_field custom_attribute[0].to_sym, value: model.custom_attributes[custom_attribute[0]], class: "form-input" %>
     </div>
   <% end %>
 <% end %>

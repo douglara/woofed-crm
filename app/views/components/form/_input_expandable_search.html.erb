@@ -1,0 +1,8 @@
+<div class='flex group' data-controller='form--input-expandable-search' aria-expanded="false">
+  <div class='button-default-blank-secondary-icon-only-sm' data-action="click->form--input-expandable-search#toggle">
+    <i data-lucide="search"></i>
+  </div>
+  <%= form_with url: search_url, method: :get, data: { turbo_frame: turbo_frame_search, turbo_action: 'advance', controller: 'select-search', action: 'input->select-search#submit', 'select-search-target': 'searchForms' } do |f| %>
+    <%= f.search_field :query, value: params[:query], placeholder: placeholder, class: 'form-input-expandable-search', data: {form__input_expandable_search_target: 'input'} %>
+  <% end %>
+</div>

@@ -7,6 +7,7 @@ RSpec.describe Accounts::Create::EmbededCompanySite, type: :request do
     subject { described_class.new(account) }
 
     let(:account) { create(:account, site_url: 'https://docs.woofedcrm.com/docs/intro') }
+    let!(:ai_assistent) { create(:apps_ai_assistent, auto_reply: true) }
     let(:embedding_documment_imported) { EmbeddingDocumment.find_by(source_reference: account.site_url) }
 
     it 'embeded company site' do

@@ -1,43 +1,77 @@
-<li class= "flex items-center gap-4" id="<%= dom_id(contact) %>" data-controller="load-lucid-icons load-flowbite">
-  <div class="p-2.5 rounded-lg border-2 border-light-palette-p3 bg-light-palette-p4">
-    <i data-lucide="user" class="w-5 stroke-dark-gray-palette-p3"></i>
-  </div>
-  <div class="mr-auto">
-    <div class="flex items-center gap-1.5">
-      <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1"><%= contact.full_name_at_format %></h2>
-      <% if contact.email.present? %>
-        <%= mail_to contact.email do %>
-          <p class="typography-text-r-lh150 text-dark-gray-palette-p4 flex items-center gap-0.5 hover:text-dark-gray-palette-p2">
-            <%= contact.email %>
-            <i data-lucide="arrow-up-right-square" class="w-3.5"></i>
-          </p>
-        <% end %>
-      <% end %>
+<tr id="<%= dom_id(contact, :contact_index_page) %>" is='turbo-frame' class="border-b-2 border-light-palette-p3 last:border-none" data-controller='load-lucid-icons load-flowbite'>
+  <td class="py-2.5 pl-4 pr-4 flex-shrink-0">
+    <div class="w-[52px] h-[52px] flex">
+      <div class="border-2 bg-brand-palette-08 rounded-md h-full w-full flex items-center">
+        <i data-lucide="user" class="stroke-dark-gray-palette-p4 m-auto"></i>
+      </div>
     </div>
-    <%= link_to contact.phone, "tel:#{contact.phone}", class:"typography-sub-text-s-lh150 text-dark-gray-palette-p4 hover:text-dark-gray-palette-p3" %>
-  </div>
-  <button id="dropdownContactBtn" data-dropdown-toggle="dropdownContactOptions<%= contact.id %>" data-dropdown-placement="left-start" class="inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
-    <i data-lucide="more-vertical" class=" stroke-dark-gray-palette-p3"></i>
-  </button>
-  <div id="dropdownContactOptions<%= contact.id %>" class="z-10 hidden left-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
-    <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-      <li>
-        <%= link_to account_contact_path(current_user.account, contact), class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
-          <i data-lucide="pencil"></i>
-          <p>
-            <%= t('views.accounts.contacts.contact.edit') %>
-          </p>
-        <% end %>
-      </li>
-      <li>
-        <%= link_to account_contact_path(current_user.account, contact), method: :delete, data: { confirm: t('views.accounts.contacts.contact.are_you_sure?') }, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
-          <i data-lucide="trash"></i>
-          <p>
-            <%= t('views.accounts.contacts.contact.delete') %>
-          </p>
-        <% end %>
-      </li>
-    </ul>
-  </div>
-</li>
-<div class="w-full h-0.5 bg-light-palette-p3 last:hidden"></div>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[200px] truncate">
+    <%= contact.full_name %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[120px] truncate">
+    <%= contact.phone %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[200px] truncate">
+    <%= contact.email %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[150px] truncate">
+    <%= contact.id %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[100px] truncate">
+    <%= l(contact.created_at, format: :short) %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[100px] truncate">
+    <%= l(contact.updated_at, format: :short) %>
+  </td>
+  <td class="py-2.5 pl-4 pr-4 sticky right-0 bg-light-palette-p5 z-10">
+    <div class="flex justify-end gap-2">
+      <button id="dropdownuserBtn_<%= contact.id %>" data-dropdown-toggle="dropdownuserOptions<%= contact.id %>" data-dropdown-placement="left" class="button-default-blank-secondary-icon-only-sm" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="more-vertical" class="stroke-dark-gray-palette-p3">
+          <circle cx="12" cy="12" r="1"></circle>
+          <circle cx="12" cy="5" r="1"></circle>
+          <circle cx="12" cy="19" r="1"></circle>
+        </svg>
+      </button>
+    </div>
+  </td>
+</tr>
+<div id="dropdownuserOptions<%= contact.id %>" class="z-50 hidden bg-white divide-y divide-gray-200 rounded-lg shadow w-48 absolute dark:bg-gray-700">
+  <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+    <li>
+      <%= link_to account_contact_path(Current.account, contact), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white", data: { turbo_frame: :drawer } do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="info">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 16v-4"></path>
+          <path d="M12 8h.01"></path>
+        </svg>
+        <p>
+          <%= t('activerecord.models.show') %>
+        </p>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to edit_account_contact_path(Current.account, contact), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white", data: { turbo_frame: :drawer } do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="pencil">
+          <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
+          <path d="m15 5 4 4"></path>
+        </svg>
+        <p>
+          <%= t('activerecord.models.edit') %>
+        </p>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to  account_contact_path(current_user.account, contact), method: :delete, data: { confirm: t('views.accounts.contacts.contact.are_you_sure?') }, class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash">
+          <path d="M3 6h18"></path>
+          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+        </svg>
+        <p>
+          <%= t('activerecord.models.delete') %>
+        </p>
+      <% end %>
+    </li>
+  </ul>
+</div>

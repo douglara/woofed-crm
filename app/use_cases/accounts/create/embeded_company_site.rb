@@ -1,6 +1,7 @@
 class Accounts::Create::EmbededCompanySite
   def initialize(account)
     @account = account
+    @ai_assistent = Apps::AiAssistent.first
     @start_url = @account.site_url
     @start_url_host = URI.parse(@start_url).host
   end
@@ -56,7 +57,7 @@ class Accounts::Create::EmbededCompanySite
         source_reference: page.page_link,
         source: @account,
         content: content_split,
-        embedding: OpenAi::Embeddings.new.get_embedding(content_split, 'text-embedding-3-small')
+        embedding: OpenAi::Embeddings.new.get_embedding(@ai_assistent, content_split, 'text-embedding-3-small')
       )
     end
   end

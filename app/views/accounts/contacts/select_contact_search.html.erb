@@ -1,3 +1,9 @@
 <%= turbo_frame_tag :select_contact_search do %>
-  <%= render 'components/select_search', hidden_field_name: "deal[contact_id]", items: @contacts, select_search_url: select_contact_search_account_contacts_path(current_user.account), create_model_url: new_account_contact_path(current_user.account) %>
+  <%= render 'components/select_search/select_search',
+  hidden_field_name: params[:form_name].presence,
+  hidden_field_value: params[:form_id].presence,
+  selected_model_name: params[:content_value].presence,
+  items: @contacts,
+  select_search_url: select_contact_search_account_contacts_path(current_user.account),
+  create_model_url: new_account_contact_path(current_user.account) %>
 <% end %>

@@ -1,0 +1,4 @@
+<%= turbo_stream.remove @deal %>
+<%= turbo_stream.replace :flash_message do %>
+  <%= render partial: 'components/flash_message', locals: { message:  t('flash_messages.deleted', model: Deal.model_name.human) } %>
+<% end %>

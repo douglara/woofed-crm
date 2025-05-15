@@ -1,3 +1,3 @@
-<%= turbo_frame_tag :deal_assignees, class:'grid gap-2.5 max-h-[200px] overflow-y-auto' do %>
+<%= turbo_frame_tag :deal_assignees, class:'grid gap-2.5 max-h-[350px] overflow-y-auto' do %>
   <%= render partial: '/accounts/deals/details/deal_assignees/deal_assignee', collection: @deal_assignees, as: :deal_assignee %>
 <% end %>

@@ -1,31 +1,58 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Deals</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Status</th>
-      <th>Stage</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @deals.each do |deal| %>
-      <tr>
-        <td><%= deal.name %></td>
-        <td><%= deal.status %></td>
-        <td><%= deal.stage_id %></td>
-        <td><%= link_to 'Show', deal %></td>
-        <td><%= link_to 'Edit', edit_deal_path(deal) %></td>
-        <td><%= link_to 'Destroy', deal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+<div class="bg-light-palette-p5 border-2 border-neutral-150 border-light-palette-p3 rounded m-8">
+  <header class="border-b-2 border-neutral-100 flex items-center justify-end gap-2 p-4 sticky top-0 bg-light-palette-p5 z-20">
+    <%= render '/components/form/input_expandable_search',
+               search_url: account_deals_path(Current.account),
+               turbo_frame_search: :deals_table,
+               placeholder: t('activerecord.models.search', model: @deals.model_name.human) %>
+    <%= link_to new_select_contact_account_deals_path(current_user.account), class: 'button-default-blank-secondary-icon-only-sm', data: { turbo_frame: :_top } do %>
+      <i data-lucide="plus" class='h-4 w-4'></i>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Deal', new_deal_path %>
+  </header>
+  <%= turbo_frame_tag :deals_table do %>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left rtl:text-right min-w-[1950px]">
+        <thead class="border-b border-light-palette-p3">
+          <tr>
+            <th scope="col" class="py-3 pl-4 pr-4 w-[52px]"></th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[350px]">
+              <%= t('activerecord.attributes.deal.name') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[100px]">
+              <%= t('activerecord.attributes.deal.status') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[150px]">
+              <%= t('activerecord.attributes.deal.id') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[250px]">
+              <%= t('activerecord.attributes.deal.stage') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[200px]">
+              <%= t('activerecord.attributes.deal.total_amount_in_cents') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[250px]">
+              <%= t('activerecord.attributes.deal.pipeline') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[280px]">
+              <%= t('activerecord.attributes.deal.contact') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[280px]">
+              <%= t('activerecord.attributes.deal.creator') %>
+            </th>
+            <th scope="col" class="pr-4 py-3 typography-body-s-lh150 text-dark-gray-palette-p1 max-w-[250px]">
+              <%= t('activerecord.attributes.deal.created_at') %>
+            </th>
+            <th scope="col" class="py-3 pl-4 pr-4 sticky right-0 bg-light-palette-p5 z-10 w-[50px]"></th>
+          </tr>
+        </thead>
+        <tbody class="w-full" id='deals'>
+          <%= render partial: '/accounts/deals/deal', collection: @deals, as: :deal %>
+        </tbody>
+      </table>
+    </div>
+    <div class="sticky bottom-0 bg-light-palette-p5 z-10 py-2 px-4 border-t-2 border-light-palette-p3">
+      <div class="flex justify-end">
+        <%== pagy_nav(@pagy) %>
+      </div>
+    </div>
+  <% end %>
+</div>

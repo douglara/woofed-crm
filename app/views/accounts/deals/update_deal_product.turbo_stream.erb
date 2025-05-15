@@ -1,0 +1,6 @@
+<%= turbo_stream.update_all '.stream_deal_total_amount_in_cents' do %>
+  <%= @deal_product.deal.total_amount_in_cents_at_format %>
+<% end %>
+<%= turbo_stream.replace @deal_product do %>
+  <%= render '/accounts/deals/details/deal_products/deal_product', deal_product: @deal_product %>
+<% end %>

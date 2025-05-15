@@ -1,0 +1,34 @@
+<% tooltip_id = dom_id(@contact, "#{SecureRandom.hex(3)}_chatwoot_conversation_link_info_tooltip") %>
+<%= turbo_frame_tag dom_id(@contact, :chatwoot_conversation_link) do  %>
+  <div id=<%= tooltip_id %> role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+    <% if @connection_error %>
+      <p>
+        <%= t('activerecord.models.connection_error') %>
+      </p>
+    <% elsif @chatwoot_conversation_link %>
+      <p>
+        <%= t('views.accounts.contacts.chatwoot_conversation_link.has_conversation') %>
+      </p>
+    <% else %>
+      <p>
+        <%= t('views.accounts.contacts.chatwoot_conversation_link.no_conversation') %>
+      </p>
+    <% end %>
+    <div class="tooltip-arrow" data-popper-arrow></div>
+  </div>
+  <% if @connection_error %>
+    <%= form_with url: chatwoot_conversation_link_account_contact_path(Current.account, @contact), method: :get, data: { turbo_frame: dom_id(@contact, :chatwoot_conversation_link) } do |form| %>
+      <%= form.button class: "color-fg-extra-soft hover:color-fg-soft flex items-center justify-center h-5 w-5", data: { tooltip_target: tooltip_id, turbo_submits_with: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-icon lucide-message-circle -rotate-[101deg] text-[#369EF2] w-4 h-4 animate-pulse cursor-progress"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>' } do %>
+        <i data-lucide="message-circle" class= "-rotate-[101deg] w-4 h-4"></i>
+      <% end %>
+    <% end %>
+  <% elsif @chatwoot_conversation_link %>
+    <%= link_to @chatwoot_conversation_link, target: :_blank, class: "text-[#7CC7F7] hover:text-[#369EF2] flex items-center justify-center h-5 w-5", data: { tooltip_target: tooltip_id, turbo: false, controller: 'iframe-redirect', action: 'iframe-redirect#redirect' } do %>
+      <i data-lucide="message-circle" class= "-rotate-[101deg] w-4 h-4"></i>
+    <% end %>
+  <% else %>
+    <div class='color-fg-extra-soft hover:color-fg-soft flex items-center justify-center h-5 w-5' data-tooltip-target=<%= tooltip_id %>>
+      <i data-lucide="message-circle" class= "-rotate-[101deg] w-4 h-4"></i>
+    </div>
+  <% end %>
+<% end %>

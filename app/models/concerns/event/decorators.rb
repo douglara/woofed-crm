@@ -8,7 +8,6 @@ module Event::Decorators
   end
 
   def scheduled_at_format_distance
-    distance_of_time_in_words(scheduled_at - Time.current).sub('aproximadamente', '').strip
+    distance_of_time_in_words(Time.current, scheduled_at, scope: 'datetime.distance_in_words.short')
   end
-
 end

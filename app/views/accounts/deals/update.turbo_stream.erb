@@ -1,0 +1,24 @@
+<% if @deal.previous_changes.key?(:stage_id) %>
+  <% @deal.previous_changes[:stage_id].each do |stage_id| %>
+    <% ['all', @deal.status].each do |status| %>
+      <%= turbo_stream.replace "stage-#{stage_id}-#{status}-kaban-details" do %>
+        <%= render 'accounts/stages/kanban_details', stage: Stage.find(stage_id), filter_status_deal: status %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+<%= turbo_stream.replace dom_id(@deal, :deal_show_page_overview) do %>
+  <%= render '/accounts/deals/details/show', model: @deal, edit_path: edit_account_deal_path(current_user.account, @deal) %>
+<% end %>
+<%= turbo_stream.replace 'stages_nav' do %>
+  <%= render "/components/deals/stages_nav", deal: @deal %>
+<% end %>
+<%= turbo_stream.replace 'stages_nav_desktop' do %>
+  <%= render "/accounts/deals/stages_nav_desktop", deal: @deal %>
+<% end %>
+<%= turbo_stream.replace dom_id(@deal, :form) do %>
+  <%= render '/accounts/deals/details/show', model: @deal, edit_path: edit_account_deal_path(current_user.account, @deal) %>
+<% end %>
+<%= turbo_stream.replace 'navbar_deal' do %>
+  <%= render "/layouts/shared/navbar_show_deal", deal: @deal %>
+<% end %>

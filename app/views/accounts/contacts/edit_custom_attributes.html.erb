@@ -1,8 +1,7 @@
-<%= turbo_frame_tag "form_custom_attributes_#{@contact.class.name.downcase}_#{@contact.id}" do %>
+<%= turbo_frame_tag dom_id(@contact, :form_custom_attributes) do %>
   <%= form_with(
     model: @contact,
-    url: account_contact_update_custom_attributes_path(current_user.account, @contact),
-    data: { turbo_frame: "form_#{@contact.class.name.downcase}_#{@contact.id}" }
+    url: account_contact_path(current_user.account, @contact)
     ) do |form| %>
     <%= form.hidden_field :deal_page_id, value: params[:deal_page_id]%>
     <div class="h-full w-full" data-controller="custom-attributes-add">

@@ -4,13 +4,16 @@ es:
       product:
         one: Producto
         other: Productos
-        new: 'Nuevo producto'
-        edit: 'Editar producto'
-        add: 'Añadir producto'
+        new: "Nuevo producto"
+        edit: "Editar producto"
+        add: "Añadir producto"
     attributes:
       product:
         name: Nombre
         identifier: Identificador
         amount_in_cents: Precio
+        amount_in_cents_at_format: Precio
         quantity_available: Cantidad disponible
         description: Descripción
+        created_at: Creado en
+        updated_at: Actualizado en

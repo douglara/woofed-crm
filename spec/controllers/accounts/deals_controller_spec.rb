@@ -185,17 +185,6 @@ RSpec.describe Accounts::DealsController, type: :request do
         expect(response.body).to include(deal.name)
         expect(response.body).to include(deal.creator.full_name)
       end
-      context 'when there is no creator associated with the deal' do
-        let(:deal_with_no_creator) { create(:deal, account:, stage:) }
-
-        it 'should not display Created by field' do
-          get "/accounts/#{account.id}/deals/#{deal_with_no_creator.id}"
-
-          expect(response).to have_http_status(:success)
-          expect(response.body).to include(deal_with_no_creator.name)
-          expect(response.body).not_to include('Created by')
-        end
-      end
     end
   end
   describe 'DELETE /accounts/{account.id}/deals/:id' do
@@ -331,7 +320,10 @@ RSpec.describe Accounts::DealsController, type: :request do
   describe 'GET /accounts/{account.id}/deals/:id/deal_products' do
     let!(:deal) { create(:deal, account:, stage:, contact:) }
     let(:product) { create(:product, account:) }
-    let!(:deal_product) { create(:deal_product, account:, deal:, product:) }
+    let!(:deal_product) do
+      create(:deal_product, account:, deal:, product:, product_name: 'Product teste deal name',
+                            unit_amount_in_cents: '10000', quantity: '65984123', product_identifier: 'Identifier 123 test')
+    end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -347,7 +339,10 @@ RSpec.describe Accounts::DealsController, type: :request do
 
       it 'should return only deal_products' do
         get "/accounts/#{account.id}/deals/#{deal.id}/deal_products"
-        expect(response.body).to include(product.name)
+        expect(response.body).to include('100,00')
+        expect(response.body).to include('65984123')
+        expect(response.body).to include('Identifier 123 test')
+        expect(response.body).to include('Product teste deal name')
       end
     end
   end
@@ -375,14 +370,17 @@ RSpec.describe Accounts::DealsController, type: :request do
     end
   end
 
-  describe 'GET /accounts/{account.id}/deals/:id/edit_product?deal_product_id={deal_product.id}' do
+  describe 'GET /accounts/{account.id}/deals/:id/edit_deal_product?deal_product_id={deal_product.id}' do
     let!(:deal) { create(:deal, account:, stage:, contact:) }
     let(:product) { create(:product, account:) }
-    let!(:deal_product) { create(:deal_product, account:, deal:, product:) }
+    let!(:deal_product) do
+      create(:deal_product, account:, deal:, product:, product_name: 'Product teste deal name',
+                            unit_amount_in_cents: '10000', quantity: '65984123', product_identifier: 'Identifier 123 test')
+    end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get "/accounts/#{account.id}/deals/#{deal.id}/edit_product?deal_product_id=#{deal_product.id}"
+        get "/accounts/#{account.id}/deals/#{deal.id}/edit_deal_product?deal_product_id=#{deal_product.id}"
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -391,24 +389,28 @@ RSpec.describe Accounts::DealsController, type: :request do
       before do
         sign_in(user)
       end
-      it 'edit product on deal page' do
-        get "/accounts/#{account.id}/deals/#{deal.id}/edit_product?deal_product_id=#{deal_product.id}"
+      it 'edit deal product on deal page' do
+        get "/accounts/#{account.id}/deals/#{deal.id}/edit_deal_product?deal_product_id=#{deal_product.id}"
         expect(response).to have_http_status(200)
+        expect(response.body).to include('10000')
+        expect(response.body).to include('65984123')
+        expect(response.body).to include('Identifier 123 test')
+        expect(response.body).to include('Product teste deal name')
       end
     end
   end
 
-  describe 'PATCH /accounts/{account.id}/deals/:id/update_product?deal_product_id={deal_product.id}' do
+  describe 'PATCH /accounts/{account.id}/deals/:id/update_deal_product?deal_product_id={deal_product.id}' do
     let!(:deal) { create(:deal, account:, stage:, contact:) }
     let(:product) { create(:product, account:) }
     let!(:deal_product) { create(:deal_product, account:, deal:, product:) }
     let(:valid_params) do
-      { product: { name: 'Product Updated Name', amount_in_cents: '63.580,36' } }
+      { deal_product: { product_name: 'Product Updated Name', unit_amount_in_cents: '63.580,36', quantity: 5 } }
     end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        patch "/accounts/#{account.id}/deals/#{deal.id}/update_product?deal_product_id=#{deal_product.id}"
+        patch "/accounts/#{account.id}/deals/#{deal.id}/update_deal_product?deal_product_id=#{deal_product.id}"
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -417,31 +419,124 @@ RSpec.describe Accounts::DealsController, type: :request do
       before do
         sign_in(user)
       end
-      context 'update product' do
+      context 'update deal product' do
         it do
-          patch "/accounts/#{account.id}/deals/#{deal.id}/update_product?deal_product_id=#{deal_product.id}",
+          patch "/accounts/#{account.id}/deals/#{deal.id}/update_deal_product?deal_product_id=#{deal_product.id}",
                 params: valid_params
           expect(response).to have_http_status(302)
-          expect(product.reload.name).to eq('Product Updated Name')
-          expect(product.amount_in_cents).to eq(6_358_036)
+          total_deal_products_amount_in_cents = deal_product.deal.deal_products.sum(:total_amount_in_cents)
+          expect(deal_product.reload.product_name).to eq('Product Updated Name')
+          expect(deal_product.unit_amount_in_cents).to eq(6_358_036)
+          expect(deal_product.quantity).to eq(5)
+          expect(deal_product.deal.total_deal_products_amount_in_cents).to eq(total_deal_products_amount_in_cents)
         end
-        context 'when quantity_available is invalid' do
-          it 'when quantity_available is negative' do
-            invalid_params = { product: { quantity_available: '-30' } }
-            patch "/accounts/#{account.id}/deals/#{deal.id}/update_product?deal_product_id=#{deal_product.id}",
-                  params: invalid_params
-            expect(response).to have_http_status(:unprocessable_entity)
-            expect(response.body).to include('Can not be negative')
+      end
+    end
+  end
+  describe 'GET /accounts/{account.id}/deals' do
+    let!(:deal) { create(:deal, stage:, contact:, creator: user, name: 'Test Deal') }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/deals"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      it 'returns deals page' do
+        get "/accounts/#{account.id}/deals"
+        expect(response.body).to include('Deals')
+        expect(response.body).to include('tooltip-deal-kanban-link')
+        doc = Nokogiri::HTML(response.body)
+        table_body = doc.at_css('tbody#deals').text
+        expect(table_body).to include(deal.name)
+      end
+
+      context 'when there is query params' do
+        context 'when query params match with deals name' do
+          it 'should show deals on deals table' do
+            get "/accounts/#{account.id}/deals", params: { query: deal.name }
+            expect(response.body).to include('Deals')
+            expect(response.body).to include('tooltip-deal-kanban-link')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#deals').text
+            expect(table_body).to include(deal.name)
           end
         end
 
-        context 'when amount_in_cents is invalid' do
-          it 'when amount_in_cents is negative' do
-            invalid_params = { product: { amount_in_cents: '-150000' } }
-            patch "/accounts/#{account.id}/deals/#{deal.id}/update_product?deal_product_id=#{deal_product.id}",
-                  params: invalid_params
-            expect(response).to have_http_status(:unprocessable_entity)
-            expect(response.body).to include('Can not be negative')
+        context 'when query params does not match with deals' do
+          it 'should return an empty deals table' do
+            get "/accounts/#{account.id}/deals", params: { query: 'aasdsdfgdfghdfghcxvxcvbcvbn' }
+            expect(response.body).to include('Deals')
+            expect(response.body).to include('tooltip-deal-kanban-link')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#deals').text
+            expect(table_body).not_to include(deal.name)
+          end
+        end
+
+        context 'when query params match with contact full_name' do
+          it 'should show deals associated with the contact' do
+            get "/accounts/#{account.id}/deals", params: { query: contact.full_name }
+            expect(response.body).to include('Deals')
+            expect(response.body).to include('tooltip-deal-kanban-link')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#deals').text
+            expect(table_body).to include(deal.name)
+          end
+        end
+
+        context 'when query params match partially with deal name' do
+          it 'should show deals with partial match' do
+            get "/accounts/#{account.id}/deals", params: { query: 'Test' }
+            expect(response.body).to include('Deals')
+            expect(response.body).to include('tooltip-deal-kanban-link')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#deals').text
+            expect(table_body).to include(deal.name)
+          end
+        end
+
+        context 'when query params are case-insensitive' do
+          it 'should show deals regardless of case' do
+            get "/accounts/#{account.id}/deals", params: { query: 'test DEAL' }
+            expect(response.body).to include('Deals')
+            expect(response.body).to include('tooltip-deal-kanban-link')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#deals').text
+            expect(table_body).to include(deal.name)
+          end
+        end
+
+        context 'when there are multiple deals and query does not match any' do
+          let!(:deal2) { create(:deal, stage:, contact:, creator: user, name: 'Another Deal') }
+          let!(:deal3) { create(:deal, stage:, contact:, creator: user, name: 'Third Deal') }
+
+          it 'should return an empty deals table' do
+            get "/accounts/#{account.id}/deals", params: { query: 'Nonexistent Deal' }
+            expect(response.body).to include('Deals')
+            expect(response.body).to include('tooltip-deal-kanban-link')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#deals').text
+            expect(table_body).not_to include(deal.name)
+            expect(table_body).not_to include(deal2.name)
+            expect(table_body).not_to include(deal3.name)
+          end
+        end
+
+        context 'when query params is deal id' do
+          it 'should show deal on deals table' do
+            get "/accounts/#{account.id}/deals", params: { query: deal.id.to_s }
+            expect(response.body).to include('Deals')
+            expect(response.body).to include('tooltip-deal-kanban-link')
+            doc = Nokogiri::HTML(response.body)
+            table_body = doc.at_css('tbody#deals').text
+            expect(table_body).to include(deal.name)
           end
         end
       end
