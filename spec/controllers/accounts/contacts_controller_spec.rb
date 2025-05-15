@@ -45,7 +45,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
             post "/accounts/#{account.id}/contacts", params:
           end.to change(Contact, :count).by(0)
 
-          expect(response.body).to include('Phone (cell) is invalid')
+          expect(response.body).to include('must be in e164 format')
           expect(response).to have_http_status(:unprocessable_entity)
         end
 
@@ -57,7 +57,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
             post "/accounts/#{account.id}/contacts", params:
           end.to change(Contact, :count).by(0)
 
-          expect(response.body).to include('Phone (cell) is invalid')
+          expect(response.body).to include('must be in e164 format')
           expect(response).to have_http_status(:unprocessable_entity)
         end
 
@@ -69,7 +69,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
             post "/accounts/#{account.id}/contacts", params:
           end.to change(Contact, :count).by(0)
 
-          expect(response.body).to include('Phone (cell) is invalid')
+          expect(response.body).to include('must be in e164 format')
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end

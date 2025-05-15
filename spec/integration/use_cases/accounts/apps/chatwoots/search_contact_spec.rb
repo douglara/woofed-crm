@@ -6,7 +6,13 @@ RSpec.describe Accounts::Apps::Chatwoots::ExportContact, type: :request do
     let(:account) { create(:account) }
     let(:chatwoot) { create(:apps_chatwoots, :skip_validate, account: account) }
     let(:contact) { create(:contact, account: account) }
-    let(:response) { File.read("spec/integration/use_cases/accounts/apps/chatwoots/search_contact.json") }
+    let(:response) do
+      data = JSON.parse(File.read('spec/integration/use_cases/accounts/apps/chatwoots/search_contact.json'))
+      data['payload'].first['email'] = contact.email
+      data['payload'].first['name'] = contact.full_name
+      data['payload'].first['phone_number'] = contact.phone
+      data.to_json
+    end
 
     it 'should return contact' do
       stub_request(:get, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/search").with(
