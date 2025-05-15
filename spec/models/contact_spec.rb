@@ -67,16 +67,18 @@ RSpec.describe Contact do
           expect(new_contact).to be_invalid
           expect(new_contact.errors[:email]).to include('has already been taken')
 
-          # Testa restrição no banco
           expect { new_contact.save!(validate: false) }
             .to raise_error(ActiveRecord::RecordNotUnique)
         end
 
-        skip 'when email is nil' do
+        it 'when email is nil' do
           new_contact = build(:contact, email: nil, phone: valid_phone)
 
-          expect(new_contact).to be_invalid
-          expect(new_contact.errors[:email]).to include("can't be nil")
+          # expect(new_contact).to be_invalid
+          # expect(new_contact.errors[:email]).to include("can't be nil")
+
+          expect { new_contact.save!(validate: false) }
+            .to raise_error(ActiveRecord::NotNullViolation)
         end
 
         it 'when email has invalid format' do
@@ -126,7 +128,6 @@ RSpec.describe Contact do
           expect(new_contact).to be_invalid
           expect(new_contact.errors[:phone]).to include('has already been taken')
 
-          # Testa restrição no banco
           expect { new_contact.save!(validate: false) }
             .to raise_error(ActiveRecord::RecordNotUnique)
         end
@@ -152,11 +153,14 @@ RSpec.describe Contact do
           expect(new_contact.errors[:phone]).to include(I18n.t('activerecord.errors.contact.phone.invalid'))
         end
 
-        skip 'when phone is nil' do
+        it 'when phone is nil' do
           new_contact = build(:contact, email: valid_email, phone: nil)
 
-          expect(new_contact).to be_invalid
-          expect(new_contact.errors[:phone]).to include("can't be nil")
+          # expect(new_contact).to be_invalid
+          # expect(new_contact.errors[:phone]).to include("can't be nil")
+
+          expect { new_contact.save!(validate: false) }
+            .to raise_error(ActiveRecord::NotNullViolation)
         end
 
         it 'when phone has character' do
