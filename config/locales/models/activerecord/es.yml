@@ -14,3 +14,4 @@ es:
       main_information: "Información principal"
       need_information: "Información necesaria"
       filter: "Filtrar %{model}"
+      connection_error: "No se pudo conectar. Inténtalo de nuevo."

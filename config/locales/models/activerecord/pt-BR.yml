@@ -14,3 +14,4 @@ pt-BR:
       main_information: Informações principais
       need_information: Informações necessárias
       filter: "Filtrar %{model}"
+      connection_error: Não foi possível conectar. Tente novamente.

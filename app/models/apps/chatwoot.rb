@@ -18,6 +18,7 @@
 #
 class Apps::Chatwoot < ApplicationRecord
   scope :actives, -> { where(active: true) }
+  normalizes :chatwoot_endpoint_url, with: ->(value) { value&.gsub(/\/+\z/, '') }
 
   enum status: {
     'inactive': 'inactive',
