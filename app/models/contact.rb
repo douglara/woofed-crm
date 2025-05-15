@@ -27,10 +27,10 @@ class Contact < ApplicationRecord
 
   has_many :events
 
-  validates :email, allow_blank: true, uniqueness: { case_sensitive: false, allow_nil: false },
+  validates :email, allow_blank: true, uniqueness: { case_sensitive: false },
                     format: { with: Devise.email_regexp,
                               message: I18n.t('activerecord.errors.contact.email.invalid', locale: I18n.locale) }
-  validates :phone, allow_blank: true, uniqueness: { allow_nil: false },
+  validates :phone, allow_blank: true, uniqueness: true,
                     format: { with: /\+[1-9]\d{1,14}\z/,
                               message: I18n.t('activerecord.errors.contact.phone.invalid', locale: I18n.locale) }
 
