@@ -11,15 +11,36 @@ RSpec.describe Contact::Migrations::MergeDuplicateContacts do
     context 'with enqueue: false (synchronous)' do
       let(:subject) { described_class.new(enqueue: false) }
 
-      it 'merges contacts with duplicate emails and phone synchronously' do
-        expect(Contact::Merge).to receive(:new).with(base_contact: contact1, mergee_contact: contact2).and_call_original
-        expect(Contact::Merge).to receive(:new).with(base_contact: contact1, mergee_contact: contact3).and_call_original
-        expect { subject.call }
-          .to change { Contact.exists?(contact2.id) }.from(true).to(false)
-          .and change { Contact.exists?(contact3.id) }.from(true).to(false)
-        expect(Contact.exists?(contact1.id)).to be true
-        expect(Contact.exists?(contact4.id)).to be true
+      context 'merges contacts with duplicate emails and phone synchronously' do
+        it do
+          expect(Contact::Merge).to receive(:new).with(base_contact: contact1, mergee_contact: contact2).and_call_original
+          expect(Contact::Merge).to receive(:new).with(base_contact: contact1, mergee_contact: contact3).and_call_original
+          expect { subject.call }
+            .to change { Contact.exists?(contact2.id) }.from(true).to(false)
+            .and change { Contact.exists?(contact3.id) }.from(true).to(false)
+          expect(Contact.exists?(contact1.id)).to be true
+          expect(Contact.exists?(contact4.id)).to be true
+          expect(contact1.reload.email).to eq('test@example.com')
+          expect(contact1.phone).to eq('+123456789')
+        end
+        it do
+          Contact.destroy_all
+          contact5 = create(:contact, email: 'contato@woofedcrm.com', phone: '')
+          contact6 = create(:contact, email: 'contato@woofedcrm.com', phone: '5511333333')
+          contact7 = create(:contact, email: '', phone: '5511333333')
+
+          expect(Contact::Merge).to receive(:new).with(base_contact: contact5, mergee_contact: contact6).and_call_original
+          expect(Contact::Merge).to receive(:new).with(base_contact: contact6, mergee_contact: contact7).and_call_original
+          # expect(Contact::Merge).to receive(:new).with(base_contact: contact5, mergee_contact: contact7).and_call_original esse é o certo
+          expect { subject.call }
+            .to change { Contact.exists?(contact6.id) }.from(true).to(false)
+            .and change { Contact.exists?(contact7.id) }.from(true).to(false)
+          expect(Contact.exists?(contact5.id)).to be true
+          expect(contact5.reload.email).to eq('contato@woofedcrm.com')
+          expect(contact5.phone).to eq('+5511333333')
+        end
       end
+
 
       it 'merges contacts with duplicate phones, skipping those already processed by email' do
         Contact.destroy_all
