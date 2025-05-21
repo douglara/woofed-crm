@@ -57,6 +57,14 @@ export default class extends Controller {
       },
     });
   }
+
+  disableDrag() {
+    this.sortable.option("disabled", true);
+  }
+
+  enableDrag() {
+    this.sortable.option("disabled", false);
+  }
 }
 
 class Position {

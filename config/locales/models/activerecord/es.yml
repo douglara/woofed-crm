@@ -15,3 +15,4 @@ es:
       need_information: "Información necesaria"
       filter: "Filtrar %{model}"
       connection_error: "No se pudo conectar. Inténtalo de nuevo."
+      full_profile: Perfil Completo

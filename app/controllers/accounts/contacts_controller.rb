@@ -1,5 +1,5 @@
 class Accounts::ContactsController < InternalController
-  before_action :set_contact, only: %i[show edit update destroy chatwoot_conversation_link]
+  before_action :set_contact, only: %i[show edit update destroy chatwoot_conversation_link hovercard_preview]
 
   # GET /contacts or /contacts.json
   def index
@@ -105,6 +105,9 @@ class Accounts::ContactsController < InternalController
     @chatwoot_conversation_link = Contact::Integrations::Chatwoot::GenerateConversationLink.new(@contact).call[:ok]
   rescue Faraday::TimeoutError, Faraday::ConnectionFailed
     @connection_error = true
+  end
+
+  def hovercard_preview
   end
 
   private

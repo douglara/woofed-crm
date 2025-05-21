@@ -43,6 +43,7 @@ Rails.application.routes.draw do
           post 'search', on: :collection
         end
       end
+      get 'hovercard_preview', on: :member
     end
     resources :pipelines do
       get 'import'
