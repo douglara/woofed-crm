@@ -1,9 +1,12 @@
 <%= turbo_frame_tag :drawer do %>
   <div id="drawer-right" data-controller='drawer' class="fixed ease-in duration-300 top-0 right-0 z-[60] h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-2/5 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-right-label">
     <div class='flex items-center justify-between mb-5'>
-      <h5 id="drawer-right-label" class="typography-title-b-lh150 text-dark-gray-palette-p1">
-        <%= t("activerecord.models.#{model.model_name.i18n_key}.one") %>
-      </h5>
+      <div class='flex items-center gap-2.5 '>
+        <h5 id="drawer-right-label" class="typography-title-b-lh150 text-dark-gray-palette-p1">
+          <%= t("activerecord.models.#{model.model_name.i18n_key}.one") %>
+        </h5>
+        <%= render '/components/links/chatwoot_conversation_link', contact: model %>
+      </div>
       <div class="flex items-center space-x-2">
         <% if defined?(edit_path) %>
           <%= link_to edit_path, class: "text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg typography-label-900 w-8 h-8 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white" do %>

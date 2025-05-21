@@ -1,5 +1,5 @@
 class Accounts::ContactsController < InternalController
-  before_action :set_contact, only: %i[show edit update destroy]
+  before_action :set_contact, only: %i[show edit update destroy chatwoot_conversation_link]
 
   # GET /contacts or /contacts.json
   def index
@@ -99,6 +99,12 @@ class Accounts::ContactsController < InternalController
       end
       format.json { head :no_content }
     end
+  end
+
+  def chatwoot_conversation_link
+    @chatwoot_conversation_link = Contact::Integrations::Chatwoot::GenerateConversationLink.new(@contact).call[:ok]
+  rescue Faraday::TimeoutError, Faraday::ConnectionFailed
+    @connection_error = true
   end
 
   private

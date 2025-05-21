@@ -15,3 +15,4 @@ es:
       need_information: "Información necesaria"
       filter: "Filtrar %{model}"
       reports: Informes
+      connection_error: "No se pudo conectar. Inténtalo de nuevo."

@@ -1,0 +1,7 @@
+es:
+  views:
+    accounts:
+      contacts:
+        chatwoot_conversation_link:
+          has_conversation: "Ir a la última conversación"
+          no_conversation: "No hay conversaciones para este contacto"

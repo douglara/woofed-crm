@@ -345,4 +345,64 @@ RSpec.describe Accounts::ContactsController, type: :request do
       end
     end
   end
+
+  describe 'GET /accounts/{account.id}/contacts/{contact.id}/chatwoot_conversation_link' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/contacts/#{contact.id}/chatwoot_conversation_link"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      context 'when the Chatwoot conversation link is successfully generated' do
+        let(:link) { 'https://chatwoot.example.com/app/accounts/456/conversations/789' }
+
+        before do
+          allow(Contact::Integrations::Chatwoot::GenerateConversationLink).to receive(:new)
+            .with(contact)
+            .and_return(double(call: { ok: link }))
+        end
+
+        it 'assigns the conversation link and sets no error' do
+          get "/accounts/#{account.id}/contacts/#{contact.id}/chatwoot_conversation_link"
+          expect(response).to have_http_status(200)
+          expect(response.body).to include('Go to the last conversation')
+          expect(response.body).to include(link)
+        end
+      end
+      context 'when the Chatwoot conversation link is not generated successfully' do
+        context 'when GenerateConversationLink returns error' do
+          before do
+            allow(Contact::Integrations::Chatwoot::GenerateConversationLink).to receive(:new)
+              .with(contact)
+              .and_return(double(call: { error: 'no_chatwoot_or_id' }))
+          end
+
+          it 'assigns nil to chatwoot_conversation_link and sets the error' do
+            get "/accounts/#{account.id}/contacts/#{contact.id}/chatwoot_conversation_link"
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('No conversations for this contact')
+          end
+        end
+        context 'when GenerateConversationLink raises a Faraday::TimeoutError' do
+          before do
+            allow(Contact::Integrations::Chatwoot::GenerateConversationLink).to receive(:new)
+              .with(contact)
+              .and_raise(Faraday::TimeoutError)
+          end
+
+          it 'sets chatwoot_conversation_link to nil and connection_error to true' do
+            get "/accounts/#{account.id}/contacts/#{contact.id}/chatwoot_conversation_link"
+            expect(response).to have_http_status(200)
+            expect(response.body).to include('Could not connect. Please try again.')
+          end
+        end
+      end
+    end
+  end
 end
