@@ -13,7 +13,7 @@
           <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
         </svg>
         <%= render '/components/links/hovercard_trigger', model: deal.contact, hovercard_preview_url: hovercard_preview_account_contact_path(Current.account, deal.contact), details_url: account_contact_path(Current.account, deal.contact) do %>
-          <p class='typography-body-900 color-fg-soft hover:color-fg-default'>
+          <p class='typography-body-900 color-fg-soft hover:color-fg-default <%= dom_id(deal.contact, :stream_full_name) %>'>
             <%= deal.contact.full_name %>
           </p>
         <% end %>
