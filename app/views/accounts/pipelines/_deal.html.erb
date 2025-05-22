@@ -12,7 +12,11 @@
         <svg class="w-4 h-4 color-fg-default mt-px" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
         </svg>
-        <%= render '/components/links/hovercard_trigger', model: deal.contact, hover_title: deal.contact.full_name, hovercard_preview_url: hovercard_preview_account_contact_path(Current.account, deal.contact), details_url: account_contact_path(Current.account, deal.contact), link_to_class_style: 'typography-body-900 color-fg-soft hover:color-fg-default' %>
+        <%= render '/components/links/hovercard_trigger', model: deal.contact, hovercard_preview_url: hovercard_preview_account_contact_path(Current.account, deal.contact), details_url: account_contact_path(Current.account, deal.contact) do %>
+          <p class='typography-body-900 color-fg-soft hover:color-fg-default'>
+            <%= deal.contact.full_name %>
+          </p>
+        <% end %>
       </div>
       <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top }, class: 'flex-1 ' do %>
         &nbsp;
