@@ -1,30 +1,32 @@
-<%= content_tag :li, id: dom_id(deal), data: { id: deal.id, account_id: Current.account.id, position: deal.position } , class: 'hover:shadow-sm select-none cursor-pointer' do %>
+<%= content_tag :li, id: dom_id(deal), data: { id: deal.id, account_id: Current.account.id, position: deal.position } , class: 'hover:shadow-sm select-none' do %>
   <%= turbo_stream_from deal %>
-  <div class="rounded cursor-pointer border-2 color-border-default color-bg-fill-default py-2 px-4 flex flex-col gap-2" data-controller='load-lucid-icons'>
-    <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top }, class: 'flex flex-col gap-2' do %>
+  <div class="rounded border-2 color-border-default color-bg-fill-default" data-controller='load-lucid-icons'>
+    <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top }, class: 'flex flex-col gap-2 pt-2 px-4' do %>
       <p class="typography-body-900 color-fg-default break-all">
         <%= deal.name %>
       </p>
       <div class="w-full border-[0.5px] color-border-default"></div>
     <% end %>
     <div class='flex items-center'>
-      <div class='flex gap-1.5 items-start'>
-        <svg class="w-4 h-4 color-fg-default mt-px shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-        </svg>
+      <div class='flex items-start'>
+        <%= link_to account_contact_path(Current.account, deal.contact), class: 'py-2 pl-4', data: { turbo_frame: :drawer } do %>
+          <svg class="w-4 h-4 color-fg-default mt-px shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+          </svg>
+        <% end %>
         <%= render '/components/links/hovercard_trigger', model: deal.contact, hovercard_preview_url: hovercard_preview_account_contact_path(Current.account, deal.contact), details_url: account_contact_path(Current.account, deal.contact) do %>
-          <p class='typography-body-900 color-fg-soft hover:color-fg-default <%= dom_id(deal.contact, :stream_full_name) %>'>
+          <p class='typography-body-900 color-fg-soft hover:color-fg-default <%= dom_id(deal.contact, :stream_full_name) %> py-2 pl-1'>
             <%= deal.contact.full_name %>
           </p>
         <% end %>
       </div>
-      <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top }, class: 'flex-1 ' do %>
+      <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top }, class: 'flex-1 py-2' do %>
         &nbsp;
       <% end %>
     </div>
     <% if !deal.total_amount_in_cents.zero? || deal.next_event_planned? %>
       <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top } do %>
-        <div class='flex items-center flex-wrap gap-1.5 justify-end'>
+        <div class='flex items-center flex-wrap gap-1.5 justify-end px-4 pb-2'>
           <% unless deal.total_amount_in_cents.zero? %>
             <div class='inline-flex gap-1 items-center color-fg-feedback-neutral h-5'>
               <div class='w-4 h-4'>
