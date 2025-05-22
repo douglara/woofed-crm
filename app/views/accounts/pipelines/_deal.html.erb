@@ -9,7 +9,7 @@
     <% end %>
     <div class='flex items-center'>
       <div class='flex gap-1.5 items-start'>
-        <svg class="w-4 h-4 color-fg-default mt-px" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <svg class="w-4 h-4 color-fg-default mt-px shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
         </svg>
         <%= render '/components/links/hovercard_trigger', model: deal.contact, hovercard_preview_url: hovercard_preview_account_contact_path(Current.account, deal.contact), details_url: account_contact_path(Current.account, deal.contact) do %>
