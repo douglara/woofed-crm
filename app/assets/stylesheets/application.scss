@@ -79,3 +79,9 @@ input[type=file]:hover::file-selector-button {
 .custom-scroll-list-deal::-webkit-scrollbar-thumb:hover {
   background: #CBC8DB;
 }
+
+/* Handle elements visibility when card is dragging on kanban */
+body.is-dragging [data-tooltip-target],
+body.is-dragging [data-popover-target] {
+  pointer-events: none !important;
+}
