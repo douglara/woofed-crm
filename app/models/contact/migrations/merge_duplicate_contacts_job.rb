@@ -1,5 +1,3 @@
-require 'set'
-
 class Contact::Migrations::MergeDuplicateContactsJob < ApplicationJob
   self.queue_adapter = :good_job
 
@@ -45,6 +43,7 @@ class Contact::Migrations::MergeDuplicateContactsJob < ApplicationJob
 
     base_contact = contacts.shift
     contacts.each do |mergee_contact|
+      base_contact.skip_validation = true
       Contact::Merge.new(base_contact:, mergee_contact:).perform
     end
   end
