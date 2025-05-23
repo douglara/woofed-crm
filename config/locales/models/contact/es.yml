@@ -18,3 +18,9 @@ es:
         created_at: Creado en
         updated_at: Actualizado en
         custom_attributes: Atributos Personalizados
+    errors:
+      contact:
+        email:
+          invalid: es inválido
+        phone:
+          invalid: debe estar en el formato e164

@@ -15,7 +15,9 @@
 #
 # Indexes
 #
-#  index_contacts_on_app  (app_type,app_id)
+#  index_contacts_on_app          (app_type,app_id)
+#  index_contacts_on_lower_email  (lower(NULLIF((email)::text, ''::text))) UNIQUE
+#  index_contacts_on_phone        (NULLIF((phone)::text, ''::text)) UNIQUE
 #
 class Contact < ApplicationRecord
   include Labelable
@@ -24,9 +26,13 @@ class Contact < ApplicationRecord
   include Contact::Presenters
 
   has_many :events
-  validates :phone,
-            allow_blank: true,
-            format: { with: /\+[1-9]\d{1,14}\z/ }
+
+  validates :email, allow_blank: true, uniqueness: { case_sensitive: false },
+                    format: { with: Devise.email_regexp,
+                              message: I18n.t('activerecord.errors.contact.email.invalid', locale: I18n.locale) }
+  validates :phone, allow_blank: true, uniqueness: true,
+                    format: { with: /\+[1-9]\d{1,14}\z/,
+                              message: I18n.t('activerecord.errors.contact.phone.invalid', locale: I18n.locale) }
 
   has_many :deals, dependent: :destroy
   belongs_to :app, polymorphic: true, optional: true

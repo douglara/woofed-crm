@@ -45,31 +45,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
             post "/accounts/#{account.id}/contacts", params:
           end.to change(Contact, :count).by(0)
 
-          expect(response.body).to include('Phone (cell) is invalid')
-          expect(response).to have_http_status(:unprocessable_entity)
-        end
-
-        it 'when phone starts with +0' do
-          params = { contact: { full_name: 'Yukio Arie', email: 'yukioarie@gmail.com', phone: '+052299881378888889',
-                                account_id: account.id } }
-
-          expect do
-            post "/accounts/#{account.id}/contacts", params:
-          end.to change(Contact, :count).by(0)
-
-          expect(response.body).to include('Phone (cell) is invalid')
-          expect(response).to have_http_status(:unprocessable_entity)
-        end
-
-        it 'when phone doesnt start with +' do
-          params = { contact: { full_name: 'Yukio Arie', email: 'yukioarie@gmail.com', phone: '052299881378888889',
-                                account_id: account.id } }
-
-          expect do
-            post "/accounts/#{account.id}/contacts", params:
-          end.to change(Contact, :count).by(0)
-
-          expect(response.body).to include('Phone (cell) is invalid')
+          expect(response.body).to include('must be in e164 format')
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end

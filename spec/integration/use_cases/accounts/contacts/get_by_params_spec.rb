@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Accounts::Contacts::GetByParams, type: :request do
   describe 'success' do
     let!(:account) { create(:account) }
-    let!(:contact) { create(:contact, account: account) }
+    let!(:contact) { create(:contact, account: account, email: 'tim@maia.com', phone: '+5541988443322' ) }
     let!(:contact_with_chatwoot_identifier) do
       create(:contact, account: account, additional_attributes: { 'chatwoot_identifier' => '123456' }, email: 'user@email.com', phone: '+55123456789',
                        full_name: 'contact with chatwoot_identifier')
