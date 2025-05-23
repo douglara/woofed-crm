@@ -118,6 +118,14 @@ RSpec.describe Contact do
 
           expect(new_contact).to be_valid
         end
+
+        it 'when skip_validation is true' do
+          new_contact = build(:contact, email: valid_email, phone: '546546546546546546546546546546',
+                                        skip_validation: true)
+
+          expect(new_contact).to be_valid
+          expect { new_contact.save!(validate: true) }
+        end
       end
 
       context 'invalid' do
