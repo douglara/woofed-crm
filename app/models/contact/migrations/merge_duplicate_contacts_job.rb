@@ -4,13 +4,13 @@ class Contact::Migrations::MergeDuplicateContactsJob < ApplicationJob
   self.queue_adapter = :good_job
 
   def perform
-    email_groups = group_duplicate_contacts_by_email
-
-    merge_process(email_groups) if email_groups.present?
-
     phone_groups = group_duplicate_contacts_by_phone
 
     merge_process(phone_groups) if phone_groups.present?
+
+    email_groups = group_duplicate_contacts_by_email
+
+    merge_process(email_groups) if email_groups.present?
   end
 
   private
