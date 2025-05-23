@@ -30,7 +30,9 @@ class Contact < ApplicationRecord
   validates :email, allow_blank: true, uniqueness: { case_sensitive: false },
                     format: { with: Devise.email_regexp,
                               message: I18n.t('activerecord.errors.contact.email.invalid', locale: I18n.locale) }
+
   attr_accessor :skip_validation
+
   validates :phone, allow_blank: true, uniqueness: true,
                     format: { with: /\+[1-9]\d{1,14}\z/,
                               message: I18n.t('activerecord.errors.contact.phone.invalid', locale: I18n.locale) }, unless: :skip_validation
