@@ -56,7 +56,7 @@ class Contact < ApplicationRecord
                   deal_page_overview_details: %i[full_name email phone label_list
                                                  chatwoot_conversations_label_list] }.freeze
 
-                                                 after_commit :export_contact_to_chatwoot, on: %i[create update]
+  after_commit :export_contact_to_chatwoot, on: %i[create update]
 
   def phone=(value)
     value = "+#{value}" if value.present? && !value.start_with?('+')
