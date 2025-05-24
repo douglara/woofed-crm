@@ -58,6 +58,9 @@ module WoofedCrm
     config.assets.css_compressor = nil
     config.active_storage.service_urls_expire_in = 1.hour
 
+    # Atualizar o formato de cache do Active Support para a versão mais recente
+    config.active_support.cache_format_version = 7.0
+
     Rails.application.default_url_options = { host: ENV['FRONTEND_URL'] }
     if ENV['FRONTEND_URL'].present? && ENV['FRONTEND_URL'].include?('https')
       Rails.application.default_url_options.merge!({ protocol: 'https' })
