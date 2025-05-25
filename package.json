@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "yarn install",
+    "dev": "./bin/dev",
     "heroku-prebuild": "yarn build"
   },
   "dependencies": {
