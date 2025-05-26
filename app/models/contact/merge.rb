@@ -14,6 +14,7 @@ class Contact::Merge
       validate_contacts
       merge_deals
       merge_events
+      merge_labels
       merge_and_remove_mergee_contact
     end
     @base_contact
@@ -33,6 +34,13 @@ class Contact::Merge
 
   def merge_events
     @mergee_contact.events.update_all(contact_id: @base_contact.id)
+  end
+
+  def merge_labels
+    merged_labels = (@base_contact.label_list + @mergee_contact.label_list)
+    merged_labels_chatwoot_conversations_labels = (@base_contact.chatwoot_conversations_label_list + @mergee_contact.chatwoot_conversations_label_list)
+    @base_contact.label_list = merged_labels
+    @base_contact.chatwoot_conversations_label_list = merged_labels_chatwoot_conversations_labels
   end
 
   def merge_and_remove_mergee_contact

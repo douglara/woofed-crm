@@ -37,8 +37,9 @@ RSpec.describe Contact::Merge do
       end
 
       it 'updates base contact with merged attributes' do
-        base_contact.update(full_name: 'Base Name', email: 'base@example.com', phone: '+5522998878456', additional_attributes: { field1: 'value1' })
-        mergee_contact.update(full_name:  'Merge Name', email: 'mergee@example.com', phone: '+5522998878456' , additional_attributes: { field2: 'value2' })
+        base_contact.update(full_name: 'Base Name', email: 'base@example.com', phone: '+5522998878456', additional_attributes: { field1: 'value1' }, label_list: "label1, label2",
+        chatwoot_conversations_label_list: "label_conversation_1, label_conversation_2")
+        mergee_contact.update(full_name:  'Merge Name', email: 'mergee@example.com', phone: '+5522998878456' , additional_attributes: { field2: 'value2' }, label_list: "label2,label3", chatwoot_conversations_label_list: "label_conversation_2, label_conversation_3" )
 
         merge_service.perform
         base_contact.reload
@@ -46,6 +47,8 @@ RSpec.describe Contact::Merge do
         expect(base_contact.full_name).to eq('Base Name')
         expect(base_contact.email).to eq('base@example.com')
         expect(base_contact.additional_attributes).to eq('field1' => 'value1', 'field2' => 'value2')
+        expect(base_contact.label_list).to match_array(["label1", "label2", "label3"])
+        expect(base_contact.chatwoot_conversations_label_list).to match_array(["label_conversation_1", "label_conversation_2", "label_conversation_3"])
       end
 
       it 'performs operations within a transaction' do
@@ -86,6 +89,42 @@ RSpec.describe Contact::Merge do
       expect(deal.reload.contact_id).to eq(base_contact.id)
       expect(deal2.reload.contact_id).to eq(base_contact.id)
       expect(deal3.reload.contact_id).to eq(base_contact.id)
+    end
+  end
+
+  describe '#merge_labels' do
+    context 'update labels' do
+      it do
+        base_contact.update(label_list: "label1, label2")
+        mergee_contact.update(label_list: "label2, label3")
+
+        merge_service.send(:merge_labels)
+        expect(base_contact.label_list).to match_array(["label1", "label2", "label3"])
+      end
+      it do
+        base_contact.update(label_list: "label1, label2")
+
+        merge_service.send(:merge_labels)
+        expect(base_contact.label_list).to match_array(["label1", "label2"])
+      end
+      it do
+        mergee_contact.update(label_list: "label2, label3")
+
+        merge_service.send(:merge_labels)
+        expect(base_contact.label_list).to match_array(["label2", "label3"])
+      end
+    end
+    it 'update chatwoot_conversations_labels' do
+      base_contact.update(chatwoot_conversations_label_list: "label_conversation_1, label_conversation_2")
+      mergee_contact.update(chatwoot_conversations_label_list: "label_conversation_2, label_conversation_3" )
+
+      merge_service.send(:merge_labels)
+      expect(base_contact.chatwoot_conversations_label_list).to match_array(["label_conversation_1", "label_conversation_2", "label_conversation_3"])
+    end
+    it 'should not update labels' do
+      merge_service.send(:merge_labels)
+      expect(base_contact.label_list).to match_array([])
+      expect(base_contact.chatwoot_conversations_label_list).to match_array([])
     end
   end
 
