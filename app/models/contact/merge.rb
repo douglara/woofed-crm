@@ -39,8 +39,8 @@ class Contact::Merge
   def merge_labels
     merged_labels = (@base_contact.label_list + @mergee_contact.label_list)
     merged_labels_chatwoot_conversations_labels = (@base_contact.chatwoot_conversations_label_list + @mergee_contact.chatwoot_conversations_label_list)
-    @base_contact.label_list = merged_labels
-    @base_contact.chatwoot_conversations_label_list = merged_labels_chatwoot_conversations_labels
+    @base_contact.label_list.add(merged_labels) unless merged_labels.blank?
+    @base_contact.chatwoot_conversations_label_list.add(merged_labels_chatwoot_conversations_labels) unless merged_labels_chatwoot_conversations_labels.blank?
   end
 
   def merge_and_remove_mergee_contact
