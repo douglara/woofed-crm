@@ -42,8 +42,9 @@ class Contact::Migrations::MergeDuplicateContactsJob < ApplicationJob
     return if contacts.size < 2
 
     base_contact = contacts.shift
+    base_contact.skip_validation = true
+ 
     contacts.each do |mergee_contact|
-      base_contact.skip_validation = true
       Contact::Merge.new(base_contact:, mergee_contact:).perform
     end
   end
