@@ -16,3 +16,4 @@ en:
       filter: "Filter %{model}"
       reports: Reports
       connection_error: "Could not connect. Please try again."
+      full_profile: Full Profile

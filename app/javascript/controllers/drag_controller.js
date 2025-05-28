@@ -14,6 +14,9 @@ export default class extends Controller {
       sort: true,
       group: "pipeline",
       onEnd: this.end.bind(this),
+      onStart: () => {
+        document.body.classList.add("is-dragging");
+      },
       forceFallback: true,
     });
   }
@@ -21,6 +24,7 @@ export default class extends Controller {
   async end(event) {
     event.from.classList.add("pointer-events-none");
     event.to.classList.add("pointer-events-none");
+    document.body.classList.remove("is-dragging");
     const dealId = event.item.dataset.id;
     const accountId = event.item.dataset.accountId;
     const toStageId = event.to.dataset.id;
@@ -56,6 +60,14 @@ export default class extends Controller {
         event.to.classList.remove("pointer-events-none");
       },
     });
+  }
+
+  disableDrag() {
+    this.sortable.option("disabled", true);
+  }
+
+  enableDrag() {
+    this.sortable.option("disabled", false);
   }
 }
 

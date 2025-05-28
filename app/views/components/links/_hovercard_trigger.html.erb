@@ -1,0 +1,10 @@
+<% hover_id = SecureRandom.hex(4) %>
+<%= link_to details_url, class: "cursor-pointer peer pr-1.5" , data: { popover_target: "popover-overview-#{model.class.name.downcase}-#{hover_id}", popover_placement: "right", turbo_frame: :drawer } do %>
+  <%= yield %>
+<% end %>
+<div data-popover id="popover-overview-<%= model.class.name.downcase %>-<%= hover_id %>" role="tooltip" class="absolute !-ml-1 z-30 invisible transition-opacity duration-300 w-96 hidden peer-hover:inline-block peer-hover:opacity-100 hover:inline-block hover:opacity-100 cursor-auto" data-action='mouseover->drag#disableDrag mouseout->drag#enableDrag'>
+  <%= turbo_frame_tag dom_id(model, :hovercard_preview), src: hovercard_preview_url, loading: :lazy  do %>
+    <%= render "/components/skeleton/#{model.class.name.underscore.pluralize.downcase}/card_preview" %>
+  <% end %>
+  <div data-popper-arrow></div>
+</div>

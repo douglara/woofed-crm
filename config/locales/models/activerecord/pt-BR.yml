@@ -16,3 +16,4 @@ pt-BR:
       filter: "Filtrar %{model}"
       reports: Relatórios
       connection_error: Não foi possível conectar. Tente novamente.
+      full_profile: Perfil Completo

@@ -1,31 +1,43 @@
-<%= content_tag :li, id: dom_id(deal), data: { id: deal.id, account_id: Current.account.id, position: deal.position } , class: 'hover:shadow-sm' do %>
+<%= content_tag :li, id: dom_id(deal), data: { id: deal.id, account_id: Current.account.id, position: deal.position } , class: 'hover:shadow-sm select-none' do %>
   <%= turbo_stream_from deal %>
-  <%= link_to account_deal_path(Current.account, deal.id), data: {turbo: false, controller: 'load-lucid-icons'} do %>
-    <div class="rounded cursor-pointer border-2 color-border-default color-bg-fill-default py-2 px-4 space-y-2">
+  <div class="rounded border-2 color-border-default color-bg-fill-default" data-controller='load-lucid-icons'>
+    <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top }, class: 'flex flex-col gap-2 pt-2 px-4' do %>
       <p class="typography-body-900 color-fg-default break-all">
         <%= deal.name %>
       </p>
-      <div class="w-full h-0.5 bg-light-palette-p3"></div>
-      <div class="flex items-center justify-between gap-2 ">
-        <div class='flex items-center gap-1 '>
-          <p class="typography-body-900 color-fg-soft">
+      <div class="w-full border-[0.5px] color-border-default"></div>
+    <% end %>
+    <div class='flex items-center'>
+      <%= render '/components/links/hovercard_trigger', model: deal.contact, hovercard_preview_url: hovercard_preview_account_contact_path(Current.account, deal.contact), details_url: account_contact_path(Current.account, deal.contact) do %>
+        <div class='flex items-start py-2 pl-4 gap-1'>
+          <svg class="w-4 h-4 color-fg-default mt-px shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+          </svg>
+          <p class='typography-body-900 color-fg-soft hover:color-fg-default <%= dom_id(deal.contact, :stream_full_name) %>'>
             <%= deal.contact.full_name %>
           </p>
         </div>
-      </div>
-      <div class='flex items-center flex-wrap gap-1.5 justify-end'>
-        <% unless deal.total_amount_in_cents.zero?%>
-          <div class='inline-flex gap-1 items-center color-fg-feedback-neutral h-5'>
-            <div class='w-4 h-4'>
-              <i data-lucide="circle-dollar-sign" class="w-4 h-4"></i>
-            </div>
-            <span class='typography-body-800'>
-              <%= deal.total_amount_in_cents_at_format %>
-            </span>
-          </div>
-        <% end %>
-        <%= render partial: 'accounts/pipelines/deal_event', locals: {event: deal.next_event_planned}  if deal.next_event_planned? %>
-      </div>
+      <% end %>
+      <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top }, class: 'flex-1 py-2' do %>
+        &nbsp;
+      <% end %>
     </div>
-  <% end %>
+    <% if !deal.total_amount_in_cents.zero? || deal.next_event_planned? %>
+      <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top } do %>
+        <div class='flex items-center flex-wrap gap-1.5 justify-end px-4 pb-2'>
+          <% unless deal.total_amount_in_cents.zero? %>
+            <div class='inline-flex gap-1 items-center color-fg-feedback-neutral h-5'>
+              <div class='w-4 h-4'>
+                <i data-lucide="circle-dollar-sign" class="w-4 h-4"></i>
+              </div>
+              <span class='typography-body-800'>
+                <%= deal.total_amount_in_cents_at_format %>
+              </span>
+            </div>
+          <% end %>
+          <%= render partial: 'accounts/pipelines/deal_event', locals: {event: deal.next_event_planned}  if deal.next_event_planned? %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
 <% end %>

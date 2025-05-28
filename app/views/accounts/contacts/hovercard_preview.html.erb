@@ -1,0 +1,3 @@
+<%= turbo_frame_tag dom_id(@contact, :hovercard_preview) do %>
+  <%= render '/components/contacts/card_preview', contact: @contact, details_url: account_contact_path(Current.account, @contact) %>
+<% end %>

@@ -16,3 +16,4 @@ es:
       filter: "Filtrar %{model}"
       reports: Informes
       connection_error: "No se pudo conectar. Inténtalo de nuevo."
+      full_profile: Perfil Completo

@@ -8,7 +8,7 @@ RSpec.describe 'Contacts API', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/contacts' do
     let(:valid_params) do
-      { full_name: contact.full_name, phone: contact.phone, email: contact.email, custom_attributes: { "cpf": '123' } }
+      { full_name: 'Tim maia', phone: '+552299856258', email: 'timaia@email.com', custom_attributes: { "cpf": '123' } }
     end
 
     context 'when it is an unauthenticated user' do

@@ -10,3 +10,12 @@
 <%= turbo_stream.replace dom_id(@contact, :deal_show_page_overview) do %>
   <%= render '/accounts/deals/details/show', model: @contact, edit_path: edit_account_contact_path(current_user.account, @contact) %>
 <% end %>
+<%= turbo_stream.update_all ".#{dom_id(@contact, :stream_full_name)}" do %>
+  <%= @contact.full_name %>
+<% end %>
+<%= turbo_stream.update_all ".#{dom_id(@contact, :stream_email)}" do %>
+  <%= @contact.email %>
+<% end %>
+<%= turbo_stream.update_all ".#{dom_id(@contact, :stream_phone)}" do %>
+  <%= @contact.phone %>
+<% end %>

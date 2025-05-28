@@ -24,8 +24,12 @@
   <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[250px] truncate">
     <%= deal.pipeline.name %>
   </td>
-  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[280px] truncate">
-    <%= deal.contact&.full_name %>
+  <td class="pr-4 py-2.5 max-w-[280px]">
+    <%= render '/components/links/hovercard_trigger', model: deal.contact, hovercard_preview_url: hovercard_preview_account_contact_path(Current.account, deal.contact), details_url: account_contact_path(Current.account, deal.contact) do %>
+      <p class='typography-sub-title-900 color-fg-soft hover:color-fg-default h-full align-middle inline-block max-w-[280px] truncate <%= dom_id(deal.contact, :stream_full_name) %>'>
+        <%= deal.contact&.full_name %>
+      </p>
+    <% end %>
   </td>
   <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[280px] truncate">
     <%= deal.creator&.full_name %>

@@ -18,3 +18,9 @@ pt-BR:
         custom_attributes: Atributos Personalizados
         created_at: Criado em
         updated_at: Atualizado em
+    errors:
+      contact:
+        email:
+          invalid: é inválido
+        phone:
+          invalid: deve estar no formato e164

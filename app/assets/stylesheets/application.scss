@@ -119,3 +119,9 @@ input[type=file]:hover::file-selector-button {
 .daterangepicker select.yearselect {
   border: none;
 }
+
+/* Handle elements visibility when card is dragging on kanban */
+body.is-dragging [data-tooltip-target],
+body.is-dragging [data-popover-target] {
+  pointer-events: none !important;
+}
