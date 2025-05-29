@@ -1,6 +1,6 @@
 <%= turbo_frame_tag :summary_reports do %>
   <div class='grid grid-cols-[repeat(auto-fit,_minmax(275px,_1fr))] gap-4 mb-5'>
-    <% @summaries.each do |summary| %>
+    <% @summaries[:summaries].each do |summary| %>
       <div class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-4 py-5'>
         <div class='flex justify-between items-center gap-2 mb-2'>
           <h1 class='typography-body-1000 color-fg-default'>
@@ -22,7 +22,7 @@
         <%= Deal.model_name.human(count: :many) %>
       </h1>
       <div>
-        <div data-controller='reports--chart' data-reports--chart-chart-type-value='column' data-reports--chart-chart-data-value='<%= @column_chart_data.to_json %>'></div>
+        <div data-controller='reports--chart' data-reports--chart-chart-type-value='column' data-reports--chart-chart-data-value='<%= @summaries[:column_chart_data].to_json %>'></div>
       </div>
     </div>
     <div class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-6 py-7'>
