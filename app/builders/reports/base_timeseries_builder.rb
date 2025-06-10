@@ -19,7 +19,13 @@ class Reports::BaseTimeseriesBuilder
     case params[:type].to_sym
     when :account
       account
+    when :stage
+      stage
     end
+  end
+
+  def stage
+    @stage ||= Stage.find(params[:id])
   end
 
   def group_by
