@@ -1,4 +1,5 @@
 class Api::V1::Accounts::DealProductsController < Api::V1::InternalController
+  include DealProductConcern
   def show
     @deal_product = DealProduct.find_by_id(params['id'])
 
@@ -10,9 +11,9 @@ class Api::V1::Accounts::DealProductsController < Api::V1::InternalController
   end
 
   def create
-    @deal_product = DealProduct.new(deal_product_params)
+    @deal_product = DealProductBuilder.new(deal_product_params).perform
 
-    if @deal_product.save
+    if DealProduct::CreateOrUpdate.new(@deal_product, {}).call
       render json: @deal_product, include: %i[product deal], status: :created
     else
       render json: { errors: @deal_product.errors.full_messages }, status: :unprocessable_entity
@@ -20,6 +21,6 @@ class Api::V1::Accounts::DealProductsController < Api::V1::InternalController
   end
 
   def deal_product_params
-    params.permit(:product_id, :deal_id)
+    params.require(:deal_product).permit(*permitted_deal_product_params)
   end
 end
