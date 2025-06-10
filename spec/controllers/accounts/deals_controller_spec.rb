@@ -401,16 +401,11 @@ RSpec.describe Accounts::DealsController, type: :request do
   end
 
   describe 'PATCH /accounts/{account.id}/deals/:id/update_deal_product?deal_product_id={deal_product.id}' do
-    let!(:deal) { create(:deal, account:, stage:, contact:) }
-    let(:product) { create(:product, account:) }
-    let!(:deal_product) { create(:deal_product, account:, deal:, product:) }
-    let(:valid_params) do
-      { deal_product: { product_name: 'Product Updated Name', unit_amount_in_cents: '63.580,36', quantity: 5 } }
-    end
+    let!(:deal_product) { create(:deal_product, account:) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        patch "/accounts/#{account.id}/deals/#{deal.id}/update_deal_product?deal_product_id=#{deal_product.id}"
+        patch "/accounts/#{account.id}/deals/#{deal_product.deal.id}/update_deal_product?deal_product_id=#{deal_product.id}"
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -420,14 +415,19 @@ RSpec.describe Accounts::DealsController, type: :request do
         sign_in(user)
       end
       context 'update deal product' do
+        let(:params) do
+          { deal_product: { product_name: 'Product Updated Name', unit_amount_in_cents: '63.580,36', quantity: 5,
+                            product_identifier: '123456' } }
+        end
         it do
-          patch "/accounts/#{account.id}/deals/#{deal.id}/update_deal_product?deal_product_id=#{deal_product.id}",
-                params: valid_params
+          patch("/accounts/#{account.id}/deals/#{deal_product.deal.id}/update_deal_product?deal_product_id=#{deal_product.id}",
+                params:)
           expect(response).to have_http_status(302)
           total_deal_products_amount_in_cents = deal_product.deal.deal_products.sum(:total_amount_in_cents)
           expect(deal_product.reload.product_name).to eq('Product Updated Name')
           expect(deal_product.unit_amount_in_cents).to eq(6_358_036)
           expect(deal_product.quantity).to eq(5)
+          expect(deal_product.product_identifier).to eq('123456')
           expect(deal_product.deal.total_deal_products_amount_in_cents).to eq(total_deal_products_amount_in_cents)
         end
       end
