@@ -2,7 +2,7 @@
   <%= turbo_stream_from deal %>
   <div class="rounded border-2 color-border-default color-bg-fill-default" data-controller='load-lucid-icons'>
     <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top }, class: 'flex flex-col gap-2 pt-2 px-4' do %>
-      <p class="typography-body-900 color-fg-default break-all">
+      <p class="typography-body-900 color-fg-default">
         <%= deal.name %>
       </p>
       <div class="w-full border-[0.5px] color-border-default"></div>
@@ -13,7 +13,7 @@
           <svg class="w-4 h-4 color-fg-default mt-px shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
           </svg>
-          <p class='typography-body-900 color-fg-soft hover:color-fg-default <%= dom_id(deal.contact, :stream_full_name) %>'>
+          <p class='typography-body-900 color-fg-soft hover:color-fg-default break-all <%= dom_id(deal.contact, :stream_full_name) %>'>
             <%= deal.contact.full_name %>
           </p>
         </div>

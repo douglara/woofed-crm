@@ -41,7 +41,7 @@ class Accounts::Apps::Chatwoots::SyncImportContacts
               contacts_imported += 1
             else
               contacts_failed += 1
-              Rails.logger.error("Error import contact from chatwoot #{contact.erros.inspect}, chatwoot: #{@chatwoot.inspect}")
+              Rails.logger.error("Error import contact from chatwoot #{contact.errors.inspect}, chatwoot: #{@chatwoot.inspect}")
             end
           end
         end

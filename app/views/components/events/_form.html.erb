@@ -1,20 +1,20 @@
 <%= turbo_frame_tag event do %>
-  <header class="border-b-2 border-neutral-100 h-18 flex flex-wrap items-center px-3 py-4" data-controller='load-lucid-icons'>
-    <p class="flex-[1_1_180px] text-dark-gray-palette-p1 typography-body-s-lh150">
+  <header class="border-b-2 border-neutral-100 h-18 flex flex-wrap justify-between gap-2 items-center px-3 py-4" data-controller='load-lucid-icons'>
+    <p class=" text-dark-gray-palette-p1 typography-body-s-lh150">
       <%= t('views.components.events.form.actions') %>
     </p>
     <div class="flex space-x-2.5">
       <!-- Dropdown menu -->
-      <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownDotsHorizontal"  class="md:hidden inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
+      <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownDotsHorizontal"  class="md:hidden button-default-blank-secondary-icon-only-sm" type="button">
         <i data-lucide="chevron-down" class="text-gray-pallete-p3"></i>
       </button>
       <!-- Dropdown menu -->
-      <div id="dropdownDotsHorizontal" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600" >
+      <div id="dropdownDotsHorizontal" class="z-10 hidden left-16 bg-white divide-y divide-gray-300 rounded-lg shadow w-48 dark:bg-gray-700" >
         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
           <% if Apps::EvolutionApi.any? %>
             <% if event&.contact&.phone&.present? || action_name.include?('bulk_action') %>
               <li>
-                <%= link_to header_evolution_api_message_url, class: "flex items-center gap-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:no-underline hover:cursor-pointer", data: {turbo_frame: dom_id(Event.new)  } do %>
+                <%= link_to header_evolution_api_message_url, class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white", data: {turbo_frame: dom_id(Event.new)  } do %>
                   <%= embedded_svg('icon-whtass.svg', class:"transition delay-100 duration-100 h-3.5 fill-gray-pallete-p3 mx-[5px] group-hover:fill-brand-palette-03") %>
                   <p class=" transition delay-100 duration-100 m-0  text-dark-gray-palette-p3 group-hover:text-dark-gray-palette-p1 group-hover:font-medium group-[.btn-active]:text-brand-palette-03 group-[.btn-active]:font-semibold">
                     WhatsApp
@@ -23,7 +23,7 @@
               </li>
             <% else %>
               <li>
-                <a data-popover-target="popover-default-whatsapp-mobile" data-popover-placement="left" type="button" class="flex items-center gap-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:no-underline hover:cursor-pointer">
+                <a data-popover-target="popover-default-whatsapp-mobile" data-popover-placement="left" type="button" class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white">
                   <%= embedded_svg('icon-whtass.svg', class:"transition delay-100 duration-100 h-3.5 fill-gray-pallete-p3 mx-[5px] group-hover:fill-brand-palette-03") %>
                   <p class=" transition delay-100 duration-100 m-0  text-dark-gray-palette-p3 group-hover:text-dark-gray-palette-p1 group-hover:font-medium group-[.btn-active]:text-brand-palette-03 group-[.btn-active]:font-semibold">
                     WhatsApp
@@ -46,7 +46,7 @@
             <% end %>
           <% end %>
           <li>
-            <%= link_to header_activity_url, class: 'flex items-center gap-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:no-underline hover:cursor-pointer', data: {turbo_frame: dom_id(Event.new)  } do %>
+            <%= link_to header_activity_url, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white', data: {turbo_frame: dom_id(Event.new)  } do %>
               <i data-lucide="clipboard-list" class="transition delay-100 duration-100 h-3.5 text-gray-pallete-p3 group-hover:text-brand-palette-03 group-[.btn-active]:text-brand-palette-03"></i>
               <p class=" transition delay-100 duration-100 m-0  text-dark-gray-palette-p3 group-hover:text-dark-gray-palette-p1 group-hover:font-medium group-[.btn-active]:text-brand-palette-03 group-[.btn-active]:font-semibold">
                 <%= t('views.components.events.form.kinds.activity') %>
@@ -54,7 +54,7 @@
             <% end %>
           </li>
           <li>
-            <%= link_to header_note_url, class: 'flex items-center gap-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:no-underline hover:cursor-pointer', data: {turbo_frame: dom_id(Event.new)  } do %>
+            <%= link_to header_note_url, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white', data: {turbo_frame: dom_id(Event.new)  } do %>
               <i data-lucide="menu-square" class="transition delay-100 duration-100 h-3.5 text-gray-pallete-p3 group-hover:text-brand-palette-03 group-[.btn-active]:text-brand-palette-03"></i>
               <p class=" transition delay-100 duration-100 m-0  text-dark-gray-palette-p3 group-hover:text-dark-gray-palette-p1 group-hover:font-medium group-[.btn-active]:text-brand-palette-03 group-[.btn-active]:font-semibold">
                 <%= t('views.components.events.form.kinds.note') %>
@@ -62,9 +62,9 @@
             <% end%>
           </li>
           <% if Apps::Chatwoot.any? %>
-            <% if current_user.account.apps_chatwoots.present? && action_name.include?('bulk_action') %>
+            <% if current_user.account.apps_chatwoots.present? %>
               <li>
-                <%= link_to header_chatwoot_message_url, class: 'flex items-center gap-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:no-underline hover:cursor-pointer', data: {turbo_frame: dom_id(Event.new)  } do %>
+                <%= link_to header_chatwoot_message_url, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white', data: {turbo_frame: dom_id(Event.new)  } do %>
                   <i data-lucide="message-circle" class= "w-5 transition delay-100 duration-100 h-3.5 stroke-gray-pallete-p3 mx-[2px] group-[.btn-active]:stroke-brand-palette-03 -rotate-[101deg]"></i>
                   <p class=" transition delay-100 duration-100 m-0  text-dark-gray-palette-p3 group-hover:text-dark-gray-palette-p1 group-hover:font-medium group-[.btn-active]:text-brand-palette-03 group-[.btn-active]:font-semibold">
                     Chatwoot
@@ -73,7 +73,7 @@
               </li>
             <% else %>
               <li>
-                <a data-popover-target="popover-default-chatwoot-mobile" data-popover-placement="left" type="button" class="flex items-center gap-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:no-underline hover:cursor-pointer">
+                <a data-popover-target="popover-default-chatwoot-mobile" data-popover-placement="left" type="button" class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white">
                   <i data-lucide="message-circle" class= "w-5 transition delay-100 duration-100 h-3.5 stroke-gray-pallete-p3 mx-[2px] group-[.btn-active]:stroke-brand-palette-03 -rotate-[101deg]"></i>
                   <p class=" transition delay-100 duration-100 m-0  text-dark-gray-palette-p3 group-hover:text-dark-gray-palette-p1 group-hover:font-medium group-[.btn-active]:text-brand-palette-03 group-[.btn-active]:font-semibold">
                     Chatwoot
