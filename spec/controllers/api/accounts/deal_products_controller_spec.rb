@@ -16,7 +16,7 @@ RSpec.describe 'Deal Products API', type: :request do
   describe 'POST /api/v1/accounts/{account.id}/deal_products' do
     let(:another_product) { create(:product, account:) }
 
-    let(:params) { { deal_product: { deal_id: deal.id, product_id: another_product.id, quantity: 2 } } }
+    let(:params) { { deal_id: deal.id, product_id: another_product.id, quantity: 2 } }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -46,7 +46,7 @@ RSpec.describe 'Deal Products API', type: :request do
         expect(DealProduct.count).to eq(2)
       end
       context 'when params is not valid' do
-        let(:params) { { deal_product: { product_id: product.id } } }
+        let(:params) { { product_id: product.id } }
         it 'should raise an error' do
           expect do
             post "/api/v1/accounts/#{account.id}/deal_products",

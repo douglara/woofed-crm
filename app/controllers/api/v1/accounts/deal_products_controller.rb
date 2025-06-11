@@ -21,6 +21,6 @@ class Api::V1::Accounts::DealProductsController < Api::V1::InternalController
   end
 
   def deal_product_params
-    params.require(:deal_product).permit(*permitted_deal_product_params)
+    params.permit(*permitted_deal_product_params)
   end
 end
