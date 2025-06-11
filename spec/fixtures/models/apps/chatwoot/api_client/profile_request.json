@@ -1,0 +1,47 @@
+{
+    "access_token": "1234",
+    "account_id": 1,
+    "available_name": "Tim Maia",
+    "avatar_url": "",
+    "confirmed": true,
+    "display_name": null,
+    "message_signature": null,
+    "email": "tim@email.com.br",
+    "hmac_identifier": "2134",
+    "id": 5,
+    "inviter_id": null,
+    "name": "Tim Maia",
+    "provider": "email",
+    "pubsub_token": "32131",
+    "role": "agent",
+    "ui_settings": {
+        "rtl_view": false,
+        "is_contact_sidebar_open": false,
+        "conversation_display_type": "condensed",
+        "previously_used_conversation_display_type": "condensed"
+    },
+    "uid": "tim@email.com.br",
+    "type": null,
+    "accounts": [
+        {
+            "id": 1,
+            "name": "Tim 1",
+            "status": "active",
+            "active_at": "2024-07-11T12:26:15.457Z",
+            "role": "agent",
+            "availability": "online",
+            "availability_status": "online",
+            "auto_offline": false
+        },
+        {
+            "id": 2,
+            "name": "Tim 2",
+            "status": "active",
+            "active_at": "2025-05-28T11:10:28.906Z",
+            "role": "agent",
+            "availability": "online",
+            "availability_status": "online",
+            "auto_offline": false
+        }
+    ]
+}

@@ -1,0 +1,78 @@
+{
+    "access_token": "access_token",
+    "account_id": 2,
+    "available_name": "Tim Maia",
+    "avatar_url": "",
+    "confirmed": true,
+    "display_name": "",
+    "message_signature": null,
+    "email": "tim@email.com.br",
+    "hmac_identifier": "1234",
+    "id": 1,
+    "inviter_id": null,
+    "name": "Tim Maia",
+    "provider": "email",
+    "pubsub_token": "123",
+    "role": "administrator",
+    "ui_settings": {
+        "rtl_view": false,
+        "is_macro_open": false,
+        "is_ct_labels_open": true,
+        "is_conv_actions_open": true,
+        "is_conv_details_open": true,
+        "is_ct_prev_conv_open": true,
+        "is_previous_conv_open": true,
+        "is_ct_custom_attr_open": false,
+        "conversations_filter_by": {
+            "status": "all",
+            "order_by": "last_activity_at_desc"
+        },
+        "is_contact_sidebar_open": true,
+        "is_contact_attributes_open": false,
+        "conversation_sidebar_items_order": [
+            {
+                "name": "conversation_actions"
+            },
+            {
+                "name": "macros"
+            },
+            {
+                "name": "conversation_info"
+            },
+            {
+                "name": "contact_attributes"
+            },
+            {
+                "name": "previous_conversation"
+            },
+            {
+                "name": "conversation_participants"
+            }
+        ],
+        "show_all_attributes_conversation_panel": true
+    },
+    "uid": "tim@email.com.br",
+    "type": "SuperAdmin",
+    "accounts": [
+        {
+            "id": 1,
+            "name": "Tim Band",
+            "status": "active",
+            "active_at": "2024-03-08T12:16:50.207Z",
+            "role": "administrator",
+            "availability": "online",
+            "availability_status": "online",
+            "auto_offline": false
+        },
+        {
+            "id": 2,
+            "name": "Tim Band 2",
+            "status": "active",
+            "active_at": "2025-05-30T01:52:18.594Z",
+            "role": "administrator",
+            "availability": "offline",
+            "availability_status": "offline",
+            "auto_offline": false
+        }
+    ] 
+}

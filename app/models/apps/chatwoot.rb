@@ -35,11 +35,34 @@ class Apps::Chatwoot < ApplicationRecord
   end
 
   def validate_chatwoot
+    if invalid_token?
+      errors.add(:chatwoot_user_token, I18n.t('activerecord.errors.messages.invalid_chatwoot_token'))
+      return
+    end
+
     chatwoot_create_flow
     if chatwoot_dashboard_app_id.blank? || chatwoot_webhook_id.blank?
       errors.add(:chatwoot_endpoint_url, I18n.t('activerecord.errors.messages.invalid_chatwoot_configuration'))
       errors.add(:chatwoot_user_token, I18n.t('activerecord.errors.messages.invalid_chatwoot_configuration'))
     end
+  end
+
+  def invalid_token?
+    !valid_token?
+  end
+
+  def valid_token?
+    response = Apps::Chatwoot::ApiClient.new(self).user_profile
+
+    return false if response[:error].present?
+
+    account = response[:ok]['accounts'].select do |acc|
+      acc['id'] == chatwoot_account_id
+    end
+
+    return true if account&.dig(0, 'role') == 'administrator'
+
+    false
   end
 
   def chatwoot_create_flow

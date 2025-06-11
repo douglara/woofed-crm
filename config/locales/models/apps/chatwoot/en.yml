@@ -21,3 +21,4 @@ en:
     errors:
       messages:
         invalid_chatwoot_configuration: 'Invalid chatwoot configuration'
+        invalid_chatwoot_token: 'is invalid'
