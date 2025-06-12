@@ -2,41 +2,81 @@ require 'rails_helper'
 
 RSpec.describe Reports::Deals::Timeseries::CountReportBuilder do
   let(:account) { create(:account) }
-  let(:stage) { create(:stage) }
-  let(:params) do
-    { metric: 'won_deals_count', id: stage.id, type: 'stage', group_by: 'day', timezone_offset: '-03:00' }
+  let(:start_date) { Date.today.beginning_of_month }
+  let(:end_date) { Date.today.end_of_month }
+  let(:range) { start_date..end_date }
+  let!(:deal1) do
+    create(:deal, :won, account:, won_at: start_date + 1.day,
+                        created_at: start_date - 2.days)
   end
-  let(:range) { Date.today.beginning_of_month..Date.today.end_of_month }
-  let(:scope_mock) { instance_double(ActiveRecord::Relation) }
+  let!(:deal2) do
+    create(:deal, :won, account:, won_at: start_date + 2.days,
+                        created_at: start_date - 2.days)
+  end
+  let!(:deal3) do
+    create(:deal, :won, account:, won_at: start_date + 10.days,
+                        created_at: start_date - 20.days)
+  end
+  let(:range) { start_date..Date.today.end_of_month }
+  let(:won_deals) { Deal.won }
 
   before do
     allow_any_instance_of(described_class).to receive(:range).and_return(range)
     allow_any_instance_of(described_class).to receive(:timezone).and_return('America/Sao_Paulo')
-    allow_any_instance_of(described_class).to receive(:object_scope).and_return(scope_mock)
+    allow_any_instance_of(described_class).to receive(:object_scope).and_return(won_deals)
   end
 
   describe '#aggregate_value' do
     it 'returns count from object_scope' do
-      allow(scope_mock).to receive(:count).and_return(10)
-      instance = described_class.new(account, params)
-      expect(instance.aggregate_value).to eq(10)
+      instance = described_class.new(account, {})
+      expect(instance.aggregate_value).to eq(3)
     end
   end
 
   describe '#grouped_count' do
-    it 'groups by period with count' do
-      grouped_data = { Date.today => 10, Date.yesterday => 5 }
-      allow(scope_mock).to receive(:group_by_period).with(
-        'day',
-        :won_at,
-        default_value: 0,
-        range:,
-        permit: %w[day week month year hour],
-        time_zone: 'America/Sao_Paulo'
-      ).and_return(scope_mock)
-      allow(scope_mock).to receive(:count).and_return(grouped_data)
-      instance = described_class.new(account, params.merge(metric: 'won_deals_count'))
-      expect(instance.send(:grouped_count)).to eq(grouped_data)
+    let(:params) do
+      { metric: 'won_deals_count', type: 'account', group_by:, timezone_offset: '-03:00' }
+    end
+
+    context 'groups by period (day) with count' do
+      let(:group_by) { 'day' }
+      it do
+        expected_result = (start_date..end_date).each_with_object({}) do |date, hash|
+          hash[date] = 0
+        end
+
+        expected_result[start_date + 1.day] = 1
+        expected_result[start_date + 2.days] = 1
+        expected_result[start_date + 10.days] = 1
+
+        instance = described_class.new(account, params)
+        expect(instance.send(:grouped_count)).to eq(expected_result)
+      end
+    end
+
+    context 'groups by period (month) with count' do
+      let(:group_by) { 'month' }
+      let(:expected_result) do
+        {
+          range.begin.beginning_of_month => 3
+        }
+      end
+      it do
+        instance = described_class.new(account, params)
+        expect(instance.send(:grouped_count)).to eq(expected_result)
+      end
+    end
+    context 'groups by period (year) with count' do
+      let(:group_by) { 'year' }
+      let(:expected_result) do
+        {
+          range.begin.beginning_of_year => 3
+        }
+      end
+      it do
+        instance = described_class.new(account, params)
+        expect(instance.send(:grouped_count)).to eq(expected_result)
+      end
     end
   end
 end

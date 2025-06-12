@@ -5,15 +5,15 @@
 
 module DateRangeHelper
   def set_date_range
-    if params[:date_range].present?
-      starts_str, ends_str = params[:date_range].split(' - ')
-      params[:since] = Date.strptime(starts_str, '%d/%m/%Y')
-      params[:until] = Date.strptime(ends_str, '%d/%m/%Y')
-    else
-      params[:since] = Date.today - 1.months
-      params[:until] = Date.today
-      params[:date_range] = "#{params[:since].strftime('%d/%m/%Y')} - #{params[:until].strftime('%d/%m/%Y')}"
-    end
+    # if params[:date_range].present?
+    #   starts_str, ends_str = params[:date_range].split(' - ')
+    #   params[:since] = Date.strptime(starts_str, '%d/%m/%Y')
+    #   params[:until] = Date.strptime(ends_str, '%d/%m/%Y')
+    # else
+    #   params[:since] = Date.today - 1.months
+    #   params[:until] = Date.today
+    #   params[:date_range] = "#{params[:since].strftime('%d/%m/%Y')} - #{params[:until].strftime('%d/%m/%Y')}"
+    # end
   end
 
   def range

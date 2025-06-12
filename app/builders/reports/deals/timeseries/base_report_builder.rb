@@ -13,6 +13,10 @@ class Reports::Deals::Timeseries::BaseReportBuilder < Reports::BaseTimeseriesBui
 
   private
 
+  def grouped_count
+    # Override this method
+  end
+
   def metric
     filtered_metric = params[:metric].gsub(/_(sum|count)\z/, '')
     @metric ||= filtered_metric

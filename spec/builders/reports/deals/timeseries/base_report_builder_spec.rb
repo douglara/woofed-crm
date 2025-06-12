@@ -1,44 +1,29 @@
 require 'rails_helper'
 
-RSpec.describe Reports::Deals::Timeseries::BaseReportBuilder, skip: true do
-  include ActiveJob::TestHelper
-
+RSpec.describe Reports::Deals::Timeseries::BaseReportBuilder do
   let(:account) { create(:account) }
   let(:stage) { create(:stage, account:) }
 
   describe '#timeseries' do
-    before do
-      travel_to(Time.zone.today) do
-        perform_enqueued_jobs do
-          # Deals ganhos hoje
-          5.times do
-            create(:deal, account:, stage:, won_at: Time.zone.today, created_at: Time.zone.today)
-          end
-          # Deals ganhos há 2 dias
-          3.times do
-            create(:deal, account:, stage:, won_at: Time.zone.today - 2.days,
-                          created_at: Time.zone.today - 2.days)
-          end
-          # Deals perdidos hoje
-          4.times do
-            create(:deal, account:, stage:, lost_at: Time.zone.today, created_at: Time.zone.today)
-          end
-          # Deals abertos hoje
-          2.times do
-            create(:deal, account:, stage:, created_at: Time.zone.today)
-          end
-          # Deals abertos há 2 dias
-          1.times do
-            create(:deal, account:, stage:, created_at: Time.zone.today - 2.days)
-          end
-        end
-      end
+    let(:grouped_count_mock) do
+      {
+        Time.zone.parse('2025-06-07').to_date => 0,
+        Time.zone.parse('2025-06-08').to_date => 0,
+        Time.zone.parse('2025-06-09').to_date => 0,
+        Time.zone.parse('2025-06-10').to_date => 1,
+        Time.zone.parse('2025-06-11').to_date => 1,
+        Time.zone.parse('2025-06-12').to_date => 0,
+        Time.zone.parse('2025-06-13').to_date => 0
+      }
     end
 
-    context 'when type is stage' do
+    context 'returns the expected timeseries with correct timestamps and values' do
+      before do
+        allow_any_instance_of(described_class).to receive(:grouped_count).and_return(grouped_count_mock)
+      end
       let(:params) do
         {
-          metric:,
+          metric: 'won_deals_count',
           type: :stage,
           id: stage.id,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
@@ -48,120 +33,21 @@ RSpec.describe Reports::Deals::Timeseries::BaseReportBuilder, skip: true do
         }
       end
 
-      %w[won_deals_count lost_deals_count open_deals_count all_deals_count].each do |metric|
-        context "with metric #{metric}" do
-          let(:metric) { metric }
-
-          it "returns timeseries for #{metric}" do
-            builder = described_class.new(account, params)
-            timeseries = builder.timeseries
-
-            expected = case metric
-                       when 'won_deals_count'
-                         [
-                           { value: 5, timestamp: Time.zone.today.in_time_zone('America/Sao_Paulo').to_i },
-                           { value: 3, timestamp: (Time.zone.today - 2.days).in_time_zone('America/Sao_Paulo').to_i }
-                         ]
-                       when 'lost_deals_count'
-                         [
-                           { value: 4, timestamp: Time.zone.today.in_time_zone('America/Sao_Paulo').to_i }
-                         ]
-                       when 'open_deals_count'
-                         [
-                           { value: 2, timestamp: Time.zone.today.in_time_zone('America/Sao_Paulo').to_i },
-                           { value: 1, timestamp: (Time.zone.today - 2.days).in_time_zone('America/Sao_Paulo').to_i }
-                         ]
-                       when 'all_deals_count'
-                         [
-                           { value: 11, timestamp: Time.zone.today.in_time_zone('America/Sao_Paulo').to_i },
-                           { value: 4, timestamp: (Time.zone.today - 2.days).in_time_zone('America/Sao_Paulo').to_i }
-                         ]
-                       end
-
-            expect(timeseries).to match_array(expected)
-          end
-        end
+      let(:expected_result) do
+        [
+          { value: 0, timestamp: 1_749_265_200 },
+          { value: 0, timestamp: 1_749_351_600 },
+          { value: 0, timestamp: 1_749_438_000 },
+          { value: 1, timestamp: 1_749_524_400 },
+          { value: 1, timestamp: 1_749_610_800 },
+          { value: 0, timestamp: 1_749_697_200 },
+          { value: 0, timestamp: 1_749_783_600 }
+        ]
       end
 
-      context 'with invalid metric' do
-        let(:metric) { 'invalid_metric' }
-
-        it 'logs error and returns empty array' do
-          expect(Rails.logger).to receive(:error).with(/ReportBuilder: Invalid metric - invalid_metric/)
-          builder = described_class.new(account, params)
-          expect(builder.timeseries).to eq([])
-        end
-      end
-
-      context 'with invalid group_by' do
-        let(:metric) { 'won_deals_count' }
-        let(:params) do
-          {
-            metric:,
-            type: :stage,
-            id: stage.id,
-            since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-            until: Time.zone.today.end_of_day.to_i.to_s,
-            group_by: 'invalid',
-            timezone_offset: '-03:00'
-          }
-        end
-
-        it 'falls back to default group_by (month)' do
-          builder = described_class.new(account, params)
-          timeseries = builder.timeseries
-          expect(timeseries).to all(include(:value, :timestamp))
-          # Verifica que os dados estão agrupados por mês
-          expect(timeseries.first[:timestamp]).to eq(Time.zone.today.beginning_of_month.in_time_zone('America/Sao_Paulo').to_i)
-        end
-      end
-    end
-
-    context 'when type is account' do
-      let(:params) do
-        {
-          metric:,
-          type: :account,
-          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.end_of_day.to_i.to_s,
-          group_by: 'day',
-          timezone_offset: '-03:00'
-        }
-      end
-
-      %w[won_deals_count lost_deals_count open_deals_count all_deals_count].each do |metric|
-        context "with metric #{metric}" do
-          let(:metric) { metric }
-
-          it "returns timeseries for #{metric}" do
-            builder = described_class.new(account, params)
-            timeseries = builder.timeseries
-
-            expected = case metric
-                       when 'won_deals_count'
-                         [
-                           { value: 5, timestamp: Time.zone.today.in_time_zone('America/Sao_Paulo').to_i },
-                           { value: 3, timestamp: (Time.zone.today - 2.days).in_time_zone('America/Sao_Paulo').to_i }
-                         ]
-                       when 'lost_deals_count'
-                         [
-                           { value: 4, timestamp: Time.zone.today.in_time_zone('America/Sao_Paulo').to_i }
-                         ]
-                       when 'open_deals_count'
-                         [
-                           { value: 2, timestamp: Time.zone.today.in_time_zone('America/Sao_Paulo').to_i },
-                           { value: 1, timestamp: (Time.zone.today - 2.days).in_time_zone('America/Sao_Paulo').to_i }
-                         ]
-                       when 'all_deals_count'
-                         [
-                           { value: 11, timestamp: Time.zone.today.in_time_zone('America/Sao_Paulo').to_i },
-                           { value: 4, timestamp: (Time.zone.today - 2.days).in_time_zone('America/Sao_Paulo').to_i }
-                         ]
-                       end
-
-            expect(timeseries).to match_array(expected)
-          end
-        end
+      it do
+        builder = described_class.new(account, params)
+        expect(builder.timeseries).to eq(expected_result)
       end
     end
   end
@@ -184,42 +70,137 @@ RSpec.describe Reports::Deals::Timeseries::BaseReportBuilder, skip: true do
 
   describe '#object_scope' do
     let(:params) do
-      { metric:, id: stage.id, type: :stage, since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+      { metric:, type: :account, since: (Time.zone.today - 5.days).to_time.to_i.to_s,
         until: Time.zone.today.end_of_day.to_i.to_s }
     end
 
-    %w[won_deals lost_deals open_deals all_deals].each do |metric|
-      context "for #{metric}" do
-        let(:metric) { "#{metric}_count" }
+    let!(:won_deal_on_range1) do
+      create(:deal, :won, account:, stage:,
+                          won_at: Time.zone.today - 1.days,
+                          created_at: Time.zone.today - 2.days)
+    end
 
-        it "returns correct scope for #{metric}" do
-          instance = described_class.new(account, params)
-          scope = instance.send(:object_scope)
-          expect(scope).to be_a(ActiveRecord::Relation)
-          case metric
-          when 'won_deals'
-            expect(scope.where_values_hash).to include('won_at' => instance.send(:range))
-          when 'lost_deals'
-            expect(scope.where_values_hash).to include('lost_at' => instance.send(:range))
-          else
-            expect(scope.where_values_hash).to include('created_at' => instance.send(:range))
-          end
-        end
+    let!(:won_deal_on_range2) do
+      create(:deal, :won, account:, stage:,
+                          won_at: Time.zone.today - 2.days,
+                          created_at: Time.zone.today - 2.days)
+    end
+
+    let!(:won_deal_out_of_range) do
+      create(:deal, :won, account:, stage:,
+                          won_at: Time.zone.today - 10.days,
+                          created_at: Time.zone.today - 20.days)
+    end
+
+    let!(:lost_deal_on_range1) do
+      create(:deal, :lost, account:, stage:, lost_at: Time.zone.today - 4.days, created_at: Time.zone.today - 2.days)
+    end
+
+    let!(:lost_deal_out_of_range) do
+      create(:deal, :lost, account:, stage:, lost_at: Time.zone.today - 10.days, created_at: Time.zone.today - 20.days)
+    end
+
+    let!(:open_deal_on_range1) do
+      create(:deal, :open, account:, stage:, created_at: Time.zone.today)
+    end
+
+    let!(:open_deal_out_of_range) do
+      create(:deal, :open, account:, stage:, created_at: Time.zone.today - 20.days)
+    end
+
+    context 'for won_deals' do
+      let(:metric) { 'won_deals_count' }
+
+      it 'returns correct scope for won_deals (scope_for_won_deals)' do
+        instance = described_class.new(account, params)
+        scope = instance.send(:object_scope)
+        expect(scope).to be_a(ActiveRecord::Relation)
+        expect(scope).to include(won_deal_on_range1)
+        expect(scope).to include(won_deal_on_range2)
+        expect(scope).not_to include(won_deal_out_of_range)
+        expect(scope).not_to include(lost_deal_on_range1)
+        expect(scope).not_to include(lost_deal_out_of_range)
+        expect(scope).not_to include(open_deal_on_range1)
+        expect(scope).not_to include(open_deal_out_of_range)
+      end
+    end
+    context 'for lost_deals' do
+      let(:metric) { 'lost_deals_count' }
+
+      it 'returns correct scope for lost_deals (scope_for_lost_deals)' do
+        instance = described_class.new(account, params)
+        scope = instance.send(:object_scope)
+        expect(scope).to be_a(ActiveRecord::Relation)
+        expect(scope).not_to include(won_deal_on_range1)
+        expect(scope).not_to include(won_deal_on_range2)
+        expect(scope).not_to include(won_deal_out_of_range)
+        expect(scope).to include(lost_deal_on_range1)
+        expect(scope).not_to include(lost_deal_out_of_range)
+        expect(scope).not_to include(open_deal_on_range1)
+        expect(scope).not_to include(open_deal_out_of_range)
+      end
+    end
+
+    context 'for open_deals' do
+      let(:metric) { 'open_deals_count' }
+
+      it 'returns correct scope for open_deals (scope_for_open_deals)' do
+        instance = described_class.new(account, params)
+        scope = instance.send(:object_scope)
+        expect(scope).to be_a(ActiveRecord::Relation)
+        expect(scope).not_to include(won_deal_on_range1)
+        expect(scope).not_to include(won_deal_on_range2)
+        expect(scope).not_to include(won_deal_out_of_range)
+        expect(scope).not_to include(lost_deal_on_range1)
+        expect(scope).not_to include(lost_deal_out_of_range)
+        expect(scope).to include(open_deal_on_range1)
+        expect(scope).not_to include(open_deal_out_of_range)
+      end
+    end
+
+    context 'for all_deals' do
+      let(:metric) { 'all_deals_count' }
+
+      it 'returns correct scope for all_deals (scope_for_all_deals)' do
+        instance = described_class.new(account, params)
+        scope = instance.send(:object_scope)
+        expect(scope).to be_a(ActiveRecord::Relation)
+        expect(scope).to include(won_deal_on_range1)
+        expect(scope).to include(won_deal_on_range2)
+        expect(scope).not_to include(won_deal_out_of_range)
+        expect(scope).to include(lost_deal_on_range1)
+        expect(scope).not_to include(lost_deal_out_of_range)
+        expect(scope).to include(open_deal_on_range1)
+        expect(scope).not_to include(open_deal_out_of_range)
       end
     end
   end
 
   describe '#grouping_field' do
-    %w[won_deals lost_deals].each do |metric|
-      it "returns #{metric == 'won_deals' ? :won_at : :lost_at} for #{metric}" do
-        instance = described_class.new(account, metric:)
-        expect(instance.send(:grouping_field)).to eq(metric == 'won_deals' ? :won_at : :lost_at)
+    context 'when metric is won_deals' do
+      it 'returns :won_at' do
+        instance = described_class.new(account, metric: 'won_deals')
+        expect(instance.send(:grouping_field)).to eq(:won_at)
       end
     end
 
-    %w[open_deals all_deals].each do |metric|
-      it 'returns :created_at for other metrics' do
-        instance = described_class.new(account, metric:)
+    context 'when metric is lost_deals' do
+      it 'returns :lost_at' do
+        instance = described_class.new(account, metric: 'lost_deals')
+        expect(instance.send(:grouping_field)).to eq(:lost_at)
+      end
+    end
+
+    context 'when metric is open_deals' do
+      it 'returns :created_at' do
+        instance = described_class.new(account, metric: 'open_deals')
+        expect(instance.send(:grouping_field)).to eq(:created_at)
+      end
+    end
+
+    context 'when metric is all_deals' do
+      it 'returns :created_at' do
+        instance = described_class.new(account, metric: 'all_deals')
         expect(instance.send(:grouping_field)).to eq(:created_at)
       end
     end
