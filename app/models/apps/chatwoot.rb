@@ -63,6 +63,9 @@ class Apps::Chatwoot < ApplicationRecord
     return true if account&.dig(0, 'role') == 'administrator'
 
     false
+
+  rescue
+      false
   end
 
   def chatwoot_create_flow

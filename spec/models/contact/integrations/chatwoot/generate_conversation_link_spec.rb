@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Contact::Integrations::Chatwoot::GenerateConversationLink do
   let(:account) { create(:account) }
   let(:contact) { create(:contact, additional_attributes: { 'chatwoot_id' => '123' }) }
-  let(:chatwoot) { create(:apps_chatwoots, chatwoot_account_id: '456', chatwoot_endpoint_url: 'https://chatwoot.example.com/') }
+  let(:chatwoot) { create(:apps_chatwoots, :skip_validate, chatwoot_account_id: '456', chatwoot_endpoint_url: 'https://chatwoot.example.com/') }
   let(:subject) { described_class.new(contact) }
 
   describe '#call' do

@@ -212,7 +212,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
           expect(response.body).not_to include('chatwoot_conversation_link')
         end
         context 'when there is chatwoot integration' do
-          let!(:chatwoot) { create(:apps_chatwoots, account:, chatwoot_account_id: '456', chatwoot_endpoint_url: 'https://chatwoot.example.com/') }
+          let!(:chatwoot) { create(:apps_chatwoots, :skip_validate, account:, chatwoot_account_id: '456', chatwoot_endpoint_url: 'https://chatwoot.example.com/') }
 
           before do
             user.reload
