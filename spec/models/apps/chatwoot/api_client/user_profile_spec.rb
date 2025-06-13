@@ -11,7 +11,7 @@ RSpec.describe Apps::Chatwoot::ApiClient, type: :model do
     let(:profile_response) do
       File.read('spec/fixtures/models/apps/chatwoot/api_client/profile_request.json')
     end
-    context 'should return user profile' do
+    context 'return user profile' do
       before do
         stub_request(:get, 'https://chatwoot.com/api/v1/profile')
           .to_return(status: 200, body: profile_response, headers: request_headers)
@@ -22,13 +22,13 @@ RSpec.describe Apps::Chatwoot::ApiClient, type: :model do
       end
     end
 
-    context 'should raise an error when request fails' do
+    context 'when request fails' do
       before do
         stub_request(:get, 'https://chatwoot.com/api/v1/profile')
           .to_return(status: 404, body: '', headers: request_headers)
       end
 
-      it 'raises an error' do
+      it 'return error' do
         expect(subject.user_profile[:error]).to eq('Failed to fetch user profile')
       end
     end
