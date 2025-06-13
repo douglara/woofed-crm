@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Apps::Chatwoot::ApiClient
+  include Apps::Chatwoot::ApiClient::UserProfile
+
   def initialize(chatwoot)
     @chatwoot = chatwoot
     @request_headers = chatwoot.request_headers
@@ -23,14 +25,6 @@ class Apps::Chatwoot::ApiClient
       logger_error('Failed get_request', response)
       { error: response.body, request: response }
     end
-  end
-
-  def user_profile
-    response = get_request('/api/v1/profile')
-
-    return { error: 'Failed to fetch user profile', request: response[:request] } if response[:request].status != 200
-
-    response
   end
 
   def logger_error(message, request)
