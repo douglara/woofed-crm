@@ -1,6 +1,6 @@
 <%= turbo_frame_tag :summary_reports do %>
   <div class='grid grid-cols-[repeat(auto-fit,_minmax(275px,_1fr))] gap-4 mb-5'>
-    <% @summaries[:summaries].each do |summary| %>
+    <% @deal_summary.each do |summary| %>
       <div class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-4 py-5'>
         <div class='flex justify-between items-center gap-2 mb-2'>
           <h1 class='typography-body-1000 color-fg-default'>
@@ -8,10 +8,10 @@
           </h1>
         </div>
         <p class='typography-title-700 color-fg-hard mb-0.5'>
-          <%= number_to_currency(summary[:amount] / 100.0, unit: "R$ ", separator: ",", delimiter: ".") %>
+          <%= number_to_currency(summary[:amount_in_cents] / 100.0, unit: "R$ ", separator: ",", delimiter: ".") %>
         </p>
         <span class='typography-label-900 color-fg-default'>
-          <%= t("activerecord.models.deal.total_deals", count: summary[:count]) %>
+          <%= t("activerecord.models.deal.total_deals", count: summary[:quantity]) %>
         </span>
       </div>
     <% end %>
@@ -22,7 +22,8 @@
         <%= Deal.model_name.human(count: :many) %>
       </h1>
       <div>
-        <div data-controller='reports--chart' data-reports--chart-chart-type-value='column' data-reports--chart-chart-data-value='<%= @summaries[:column_chart_data].to_json %>'></div>
+        <div data-controller='reports--chart' data-reports--chart-chart-type-value='column' data-reports--chart-won-deals-data-value='<%= @won_deals_timeseries_count.to_json %>'
+        data-reports--chart-lost-deals-data-value='<%= @lost_deals_timeseries_count.to_json %>'></div>
       </div>
     </div>
     <div class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-6 py-7'>
@@ -32,12 +33,14 @@
         </h1>
         <div class='w-2/5'>
           <%= form_with(url: pipeline_summary_account_reports_path(Current.account), method: :get, data: { turbo_frame: :pipeline_summary_reports }) do |form| %>
-            <%= form.hidden_field :date_range, value: params[:date_range] %>
+            <%= form.hidden_field :metric, value: 'all_deals' %>
+            <%= form.hidden_field :since, value: params[:since] %>
+            <%= form.hidden_field :until, value: params[:until] %>
             <%= form.select :pipeline_id, Pipeline.all.map { |pipeline| [pipeline.name, pipeline.id]}, { selected: params[:pipeline_id] || Pipeline.first&.id }, {class: 'form-input w-full', onchange: 'this.form.requestSubmit()'} %>
           <% end %>
         </div>
       </div>
-      <%= turbo_frame_tag :pipeline_summary_reports, src: pipeline_summary_account_reports_path(Current.account, date_range: params[:date_range], pipeline_id: params[:pipeline_id]), loading: :lazy do  %>
+      <%= turbo_frame_tag :pipeline_summary_reports, src: pipeline_summary_account_reports_path(Current.account, since: params[:since], until: params[:until], metric: 'all_deals'), loading: :lazy do  %>
         <div class='h-[350px] flex justify-center items-center content-center'>
           <%= render '/components/skeleton/reports/chart' %>
         </div>

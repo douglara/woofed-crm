@@ -4,7 +4,9 @@ import ApexCharts from "apexcharts";
 export default class extends Controller {
   static values = {
     chartType: String,
-    chartData: Object,
+    wonDealsData: Array,
+    lostDealsData: Array,
+    pipelineSummaryStagesData: Object,
   };
   connect() {
     var options =
@@ -19,7 +21,12 @@ export default class extends Controller {
   }
   funnelChartType() {
     return {
-      series: this.chartDataValue.series,
+      series: [
+        {
+          name: "Deals",
+          data: Object.values(this.pipelineSummaryStagesDataValue),
+        },
+      ],
       chart: {
         type: "bar",
         height: 350,
@@ -50,7 +57,7 @@ export default class extends Controller {
       },
 
       xaxis: {
-        categories: this.chartDataValue.categories,
+        categories: Object.keys(this.pipelineSummaryStagesDataValue),
       },
       legend: {
         show: false,
@@ -59,7 +66,16 @@ export default class extends Controller {
   }
   columnChartType() {
     return {
-      series: this.chartDataValue.series,
+      series: [
+        {
+          name: "Won Deals",
+          data: this.buildChartColumnSeries(this.wonDealsDataValue),
+        },
+        {
+          name: "Lost Deals",
+          data: this.buildChartColumnSeries(this.lostDealsDataValue),
+        },
+      ],
       chart: {
         type: "bar",
         height: 350,
@@ -85,7 +101,7 @@ export default class extends Controller {
         colors: ["transparent"],
       },
       xaxis: {
-        categories: this.chartDataValue.categories,
+        categories: this.buildChartColumnCategories(this.wonDealsDataValue),
       },
       fill: {
         opacity: 1,
@@ -99,5 +115,11 @@ export default class extends Controller {
     if (this.chart) {
       this.chart.destroy();
     }
+  }
+  buildChartColumnCategories(data) {
+    return data.map((item) => item.timestamp);
+  }
+  buildChartColumnSeries(data) {
+    return data.map((item) => item.value);
   }
 }
