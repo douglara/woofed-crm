@@ -22,11 +22,6 @@ RSpec.describe Reports::Pipeline::StagesMetricBuilder do
       expect(instance.send(:account)).to eq(account)
       expect(instance.send(:params)).to eq(params)
     end
-
-    it 'calls set_date_range' do
-      expect_any_instance_of(described_class).to receive(:set_date_range)
-      described_class.new(account, params)
-    end
   end
 
   describe '#metrics' do

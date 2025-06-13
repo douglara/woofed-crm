@@ -12,7 +12,6 @@ class Reports::BaseTimeseriesBuilder
 
     @account = account
     @params = params
-    set_date_range
   end
 
   def scope

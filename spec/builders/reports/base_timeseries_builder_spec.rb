@@ -14,12 +14,6 @@ RSpec.describe Reports::BaseTimeseriesBuilder do
     it 'raises ArgumentError when params is nil' do
       expect { described_class.new(account, nil) }.to raise_error(ArgumentError, 'params is required')
     end
-
-    it 'sets account, params, and calls set_date_range' do
-      expect_any_instance_of(described_class).to receive(:set_date_range)
-      expect(subject.account).to eq(account)
-      expect(subject.params).to eq(params)
-    end
   end
 
   describe '#scope' do

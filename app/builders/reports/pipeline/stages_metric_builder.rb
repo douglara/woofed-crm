@@ -7,7 +7,6 @@ class Reports::Pipeline::StagesMetricBuilder
 
     @account = account
     @params = params
-    set_date_range
   end
 
   def metrics
