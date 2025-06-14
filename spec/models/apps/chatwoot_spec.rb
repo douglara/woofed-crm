@@ -53,6 +53,21 @@ RSpec.describe Apps::Chatwoot do
       create(:apps_chatwoots, :skip_validate, chatwoot_user_token: 'valid_token', chatwoot_account_id: 1)
     end
 
+    context 'when is valid' do
+      let(:profile_response) do
+        File.read('spec/fixtures/models/apps/chatwoot/api_client/profile_administrator_request.json')
+      end
+
+      before do
+        stub_request(:get, %r{api/v1/profile})
+          .to_return(status: 200, body: profile_response, headers: { 'Content-Type' => 'application/json' })
+      end
+
+      it do
+        expect(chatwoot.valid_token?).to be true
+      end
+    end
+
     context 'when is invalid' do
       context 'when request fails' do
         before do
@@ -78,21 +93,6 @@ RSpec.describe Apps::Chatwoot do
         it do
           expect(chatwoot.valid_token?).to be false
         end
-      end
-    end
-
-    context 'when is valid' do
-      let(:profile_response) do
-        File.read('spec/fixtures/models/apps/chatwoot/api_client/profile_administrator_request.json')
-      end
-
-      before do
-        stub_request(:get, %r{api/v1/profile})
-          .to_return(status: 200, body: profile_response, headers: { 'Content-Type' => 'application/json' })
-      end
-
-      it do
-        expect(chatwoot.valid_token?).to be true
       end
     end
   end

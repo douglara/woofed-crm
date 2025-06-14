@@ -40,7 +40,7 @@ RSpec.describe Accounts::Apps::ChatwootsController, type: :request do
     end
     context 'when is authenticated user' do
       let(:profile_response) do
-        File.read('spec/fixtures/models/apps/chatwoot/api_client/profile_agent_request.json')
+        File.read('spec/fixtures/models/apps/chatwoot/api_client/profile_administrator_request.json')
       end
       let(:request_headers) { { 'Content-Type' => 'application/json' } }
 
