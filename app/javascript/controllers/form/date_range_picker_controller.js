@@ -1,27 +1,48 @@
 import { Controller } from "stimulus";
 import DateRangePicker from "daterangepicker";
-import moment from "moment";
-import "moment/locale/pt-br";
+import "moment-timezone/node_modules/moment/locale/es";
+import "moment-timezone/node_modules/moment/locale/pt-br";
+import moment from "moment-timezone";
 
 export default class extends Controller {
   static targets = ["dateRangeForm"];
+  static values = {
+    language: String,
+  };
+
   connect() {
-    moment.locale("pt-br");
+    this.setMomentJsLocale();
+    const now = moment.tz(this.timeZone);
+    const yesterday = now.clone().subtract(1, "days");
+    const localeData = moment.localeData();
+
     this.dateRangePicker = new DateRangePicker(this.dateRangeFormTarget, {
       locale: {
-        format: "DD/MM/YYYY",
+        format: "YYYY/MM/DD",
+        applyLabel: "Apply",
+        cancelLabel: "Cancel",
+        fromLabel: "From",
+        toLabel: "To",
+        customRangeLabel: "Custom",
+        weekLabel: "W",
+        daysOfWeek: localeData.weekdaysMin(),
+        monthNames: localeData.months(),
+        firstDay: localeData.firstDayOfWeek(),
       },
       showDropdowns: true,
       showWeekNumbers: true,
       ranges: {
-        Today: [moment(), moment()],
-        Yesterday: [moment().subtract(1, "days"), moment().subtract(1, "days")],
-        "Last 7 Days": [moment().subtract(6, "days"), moment()],
-        "Last 30 Days": [moment().subtract(29, "days"), moment()],
-        "This Month": [moment().startOf("month"), moment().endOf("month")],
+        Today: [now.clone(), now.clone()],
+        Yesterday: [yesterday.clone(), yesterday.clone()],
+        "Last 7 Days": [now.clone().subtract(6, "days"), now.clone()],
+        "Last 30 Days": [now.clone().subtract(29, "days"), now.clone()],
+        "This Month": [
+          now.clone().startOf("month"),
+          now.clone().endOf("month"),
+        ],
         "Last Month": [
-          moment().subtract(1, "month").startOf("month"),
-          moment().subtract(1, "month").endOf("month"),
+          now.clone().subtract(1, "month").startOf("month"),
+          now.clone().subtract(1, "month").endOf("month"),
         ],
       },
       buttonClasses:
@@ -35,9 +56,20 @@ export default class extends Controller {
       this.element.requestSubmit();
     });
   }
+
   disconnect() {
     if (this.dateRangePicker) {
       this.dateRangePicker.remove();
     }
+  }
+
+  setMomentJsLocale() {
+    const supportedLocales = ["pt-br", "es", "en"];
+    const locale = (this.languageValue || "en").toLowerCase();
+    moment.locale(supportedLocales.includes(locale) ? locale : "en");
+  }
+
+  get timeZone() {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
   }
 }
