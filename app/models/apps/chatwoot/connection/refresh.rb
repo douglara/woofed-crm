@@ -10,7 +10,7 @@ class Apps::Chatwoot::Connection::Refresh
       @chatwoot.inboxes = Accounts::Apps::Chatwoots::GetInboxes.call(@chatwoot)[:ok]
       @chatwoot.save!
     else
-      @chatwoot.update!(status: 'inactive')
+      @chatwoot.inactive!
     end
   end
 end
