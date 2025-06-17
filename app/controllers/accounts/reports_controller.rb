@@ -41,7 +41,6 @@ class Accounts::ReportsController < InternalController
                           since: params[:since].to_time.to_i.to_s,
                           until: params[:until].to_time.to_i.to_s,
                           timezone_offset: params[:timezone_offset]
-                          # group_by: 'day'
                         })
   end
 

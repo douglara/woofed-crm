@@ -17,3 +17,7 @@ pt-BR:
       reports: Relatórios
       connection_error: Não foi possível conectar. Tente novamente.
       full_profile: Perfil Completo
+      day: Dia
+      month: "Mês"
+      week: Semana
+      year: Ano

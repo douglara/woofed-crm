@@ -17,3 +17,7 @@ es:
       reports: Informes
       connection_error: "No se pudo conectar. Inténtalo de nuevo."
       full_profile: Perfil Completo
+      day: Día
+      week: Semana
+      month: Mes
+      year: Año

@@ -2,7 +2,6 @@ class Reports::BaseTimeseriesBuilder
   include TimezoneHelper
   include DateRangeHelper
   DEFAULT_GROUP_BY = 'month'.freeze
-  DEFAULT_GROUPING_FIELD = :created_at
 
   attr_reader :account, :params
 

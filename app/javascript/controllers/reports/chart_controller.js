@@ -117,7 +117,10 @@ export default class extends Controller {
     }
   }
   buildChartColumnCategories(data) {
-    return data.map((item) => item.timestamp);
+    return data.map((item) => {
+      const date = new Date(item.timestamp * 1000);
+      return date.toLocaleDateString("sv-SE");
+    });
   }
   buildChartColumnSeries(data) {
     return data.map((item) => item.value);
