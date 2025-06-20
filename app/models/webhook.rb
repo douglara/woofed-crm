@@ -11,7 +11,7 @@
 class Webhook < ApplicationRecord
   validates :url, presence: true, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])
   validates :status, presence: true
-
+  validate :validate_webhook_url, on: %i[create update]
   enum status: {
     inactive: 'inactive',
     active: 'active'
@@ -27,5 +27,25 @@ class Webhook < ApplicationRecord
   end
   after_destroy_commit  do
     broadcast_remove_to "webhooks_#{account_id}", target: self
+  end
+
+  def valid_url?
+    return false if url.blank?
+
+    response = Webhook::ApiClient.new(self).get_request
+
+    return false if response.key?(:error)
+
+    true
+  rescue Faraday::ConnectionFailed, Faraday::TimeoutError
+    false
+  end
+
+  private
+
+  def validate_webhook_url
+    return if valid_url?
+
+    errors.add(:url)
   end
 end

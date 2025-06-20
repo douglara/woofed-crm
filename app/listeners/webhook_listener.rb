@@ -7,16 +7,16 @@ class WebhookListener
 
   ## Contact
   def contact_updated(contact)
-    if (Webhook.all.present?)
-      Webhook.all.each do | wh |
+    if Webhook.active.present?
+      Webhook.active.find_each do | wh |
         WebhookWorker.perform_async(wh.url, build_contact_payload( 'contact_updated', contact))
       end
     end
   end
 
   def contact_created(contact)
-    if (Webhook.all.present?)
-      Webhook.all.each do | wh |
+    if Webhook.active.present?
+      Webhook.active.find_each do | wh |
         WebhookWorker.perform_async(wh.url, build_contact_payload( 'contact_created', contact))
       end
     end
@@ -25,16 +25,16 @@ class WebhookListener
   ## Deal
 
   def deal_updated(deal)
-    if (Webhook.all.present?)
-      Webhook.all.each do | wh |
+    if Webhook.active.present?
+      Webhook.active.find_each do | wh |
         WebhookWorker.perform_async(wh.url, build_deal_payload( 'deal_updated', deal))
       end
     end
   end
 
   def deal_created(deal)
-    if (Webhook.all.present?)
-      Webhook.all.each do | wh |
+    if Webhook.active.present?
+      Webhook.active.find_each do | wh |
         WebhookWorker.perform_async(wh.url, build_deal_payload( 'deal_created', deal))
       end
     end
@@ -57,16 +57,16 @@ class WebhookListener
   ## Events
 
   def event_created(event)
-    if (Webhook.all.present?)
-      Webhook.all.each do | wh |
+    if Webhook.active.present?
+      Webhook.active.find_each do | wh |
         WebhookWorker.perform_async(wh.url, build_event_payload( 'event_created', event))
       end
     end
   end
 
   def event_updated(event)
-    if (Webhook.all.present?)
-      Webhook.all.each do | wh |
+    if Webhook.active.present?
+      Webhook.active.find_each do | wh |
         WebhookWorker.perform_async(wh.url, build_event_payload( 'event_updated', event))
       end
     end

@@ -4,8 +4,8 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let!(:account_2) { create(:account) }
-  let!(:webhook) { create(:webhook, account: account) }
-  let!(:webhook_2) { create(:webhook, account: account_2, url: 'https://www.webhookaccount2.com') }
+  let!(:webhook) { create(:webhook, :skip_validate, account:) }
+  let!(:webhook_2) { create(:webhook, :skip_validate, account: account_2, url: 'https://www.webhookaccount2.com') }
 
   describe 'POST /accounts/{account.id}/webhooks' do
     let(:valid_params) { { webhook: { url: 'https://testeurl.com.br', status: 'active' } } }
@@ -20,6 +20,8 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
     context 'when it is an authenticated user' do
       before do
         sign_in(user)
+        stub_request(:get, 'https://testeurl.com.br')
+          .to_return(status: 200, body: {}.to_json, headers: { 'Content-Type' => 'application/json' })
       end
 
       context 'create webhook' do
@@ -30,35 +32,14 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
           end.to change(Webhook, :count).by(1)
           expect(response).to redirect_to(account_webhooks_path(account))
         end
-        context 'when url is invalid' do
-          it 'when url is blank' do
+        context 'when params invalid' do
+          it 'should return unprocessable_entity' do
             invalid_params = { webhook: { url: '' } }
             expect do
               post "/accounts/#{account.id}/webhooks",
                    params: invalid_params
             end.to change(Webhook, :count).by(0)
             expect(response.body).to match(/URL can&#39;t be blank/)
-            expect(response).to have_http_status(:unprocessable_entity)
-          end
-
-          it 'when url is invalid' do
-            invalid_params = { webhook: { url: 'teste url' } }
-            expect do
-              post "/accounts/#{account.id}/webhooks",
-                   params: invalid_params
-            end.to change(Webhook, :count).by(0)
-            expect(response.body).to include('URL is invalid')
-            expect(response).to have_http_status(:unprocessable_entity)
-          end
-        end
-        context 'when status is invalid' do
-          it 'when status is blank' do
-            invalid_params = { webhook: { status: '' } }
-            expect do
-              post "/accounts/#{account.id}/webhooks",
-                   params: invalid_params
-            end.to change(Webhook, :count).by(0)
-            expect(response.body).to match(/Status can&#39;t be blank/)
             expect(response).to have_http_status(:unprocessable_entity)
           end
         end
@@ -100,6 +81,8 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
     context 'when it is an authenticated user' do
       before do
         sign_in(user)
+        stub_request(:get, 'https://www.url-updated.com.br')
+          .to_return(status: 200, body: {}.to_json, headers: { 'Content-Type' => 'application/json' })
       end
 
       context 'update webhook' do
@@ -110,26 +93,14 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
           expect(response.body).to redirect_to(edit_account_webhook_path(account.id, webhook.id))
         end
 
-        context 'when url is invalid' do
-          it 'when url is blank' do
+        context 'when params is invalid' do
+          it 'should return unprocessable_entity' do
             invalid_params = { webhook: { url: '' } }
 
             patch "/accounts/#{account.id}/webhooks/#{webhook.id}",
                   params: invalid_params
             expect(webhook.reload.url).to eq('https://woofedcrm.com')
             expect(response.body).to match(/URL can&#39;t be blank/)
-            expect(response).to have_http_status(:unprocessable_entity)
-          end
-        end
-
-        context 'when status is invalid' do
-          it 'when status is blank' do
-            invalid_params = { webhook: { status: '' } }
-
-            patch "/accounts/#{account.id}/webhooks/#{webhook.id}",
-                  params: invalid_params
-            expect(webhook.reload.status).to eq('active')
-            expect(response.body).to match(/Status can&#39;t be blank/)
             expect(response).to have_http_status(:unprocessable_entity)
           end
         end

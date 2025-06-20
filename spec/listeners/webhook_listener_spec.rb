@@ -6,7 +6,7 @@ describe WebhookListener do
 
   describe '#deal_updated' do
     let!(:account) { create(:account) }
-    let!(:webhook) { create(:webhook, account: account) }
+    let!(:webhook) { create(:webhook, :skip_validate, account: account) }
     let!(:deal) { create(:deal, account: account) }
 
     it 'adds system users' do
@@ -24,7 +24,7 @@ describe WebhookListener do
     let(:webhook_payload) { JSON.parse(WebhookWorker.jobs[0]['args'][1]) }
 
     before do
-      create(:webhook, account: account)
+      create(:webhook, :skip_validate, account: account)
       account.webhooks.reload
     end
 

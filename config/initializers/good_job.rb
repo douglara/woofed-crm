@@ -10,6 +10,10 @@ Rails.application.configure do
     apps_chatwoot_connection_refresh: {
       cron: '0 * * * *',
       class: 'Apps::Chatwoot::Connection::RefreshJob'
+    },
+    webhook_status_refresh: {
+      cron: '0 * * * *',
+      class: 'Webhook::Status::RefreshJob'
     }
   }
 end
