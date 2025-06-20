@@ -99,7 +99,7 @@ RSpec.describe Webhook do
     end
 
     context 'when is invalid' do
-      context 'when request fails' do
+      context 'when http reponse status is different than 200' do
         before do
           stub_request(:get, webhook.url)
             .to_return(status: 504, body: 'Bad gateway')
@@ -107,6 +107,28 @@ RSpec.describe Webhook do
 
         it do
           expect(webhook.valid_url?).to be false
+        end
+      end
+      context 'when request fails' do
+        context 'timeout error' do
+          before do
+            api_client_double = instance_double(Webhook::ApiClient)
+            allow(Webhook::ApiClient).to receive(:new).and_return(api_client_double)
+            allow(api_client_double).to receive(:get_request).and_raise(Faraday::TimeoutError)
+          end
+          it do
+            expect(webhook.valid_url?).to be false
+          end
+        end
+        context 'timeout error' do
+          before do
+            api_client_double = instance_double(Webhook::ApiClient)
+            allow(Webhook::ApiClient).to receive(:new).and_return(api_client_double)
+            allow(api_client_double).to receive(:get_request).and_raise(Faraday::ConnectionFailed)
+          end
+          it do
+            expect(webhook.valid_url?).to be false
+          end
         end
       end
       context 'when url is blank' do
