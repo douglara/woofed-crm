@@ -23,11 +23,7 @@ class Reports::Deals::Timeseries::BaseReportBuilder < Reports::BaseTimeseriesBui
   end
 
   def object_scope
-    send("scope_for_#{metric}")
-  end
-
-  def scope_for_won_deals
-    scope.deals.won.where(won_at: range)
+    # Override this method
   end
 
   def scope_for_lost_deals
