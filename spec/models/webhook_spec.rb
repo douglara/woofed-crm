@@ -89,7 +89,7 @@ RSpec.describe Webhook do
 
     context 'when is valid' do
       before do
-        stub_request(:get, webhook.url)
+        stub_request(:post, webhook.url)
           .to_return(status: 200, body: {}.to_json, headers: { 'Content-Type' => 'application/json' })
       end
 
@@ -101,7 +101,7 @@ RSpec.describe Webhook do
     context 'when is invalid' do
       context 'when http reponse status is different than 200' do
         before do
-          stub_request(:get, webhook.url)
+          stub_request(:post, webhook.url)
             .to_return(status: 504, body: 'Bad gateway')
         end
 
@@ -114,7 +114,7 @@ RSpec.describe Webhook do
           before do
             api_client_double = instance_double(Webhook::ApiClient)
             allow(Webhook::ApiClient).to receive(:new).and_return(api_client_double)
-            allow(api_client_double).to receive(:get_request).and_raise(Faraday::TimeoutError)
+            allow(api_client_double).to receive(:post_request).and_raise(Faraday::TimeoutError)
           end
           it do
             expect(webhook.valid_url?).to be false
@@ -124,7 +124,7 @@ RSpec.describe Webhook do
           before do
             api_client_double = instance_double(Webhook::ApiClient)
             allow(Webhook::ApiClient).to receive(:new).and_return(api_client_double)
-            allow(api_client_double).to receive(:get_request).and_raise(Faraday::ConnectionFailed)
+            allow(api_client_double).to receive(:post_request).and_raise(Faraday::ConnectionFailed)
           end
           it do
             expect(webhook.valid_url?).to be false

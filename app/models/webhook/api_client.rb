@@ -11,8 +11,8 @@ class Webhook::ApiClient
     end
   end
 
-  def get_request
-    response = @connection.get
+  def post_request
+    response = @connection.post
 
     if response.success?
       { ok: response.status, request: response }

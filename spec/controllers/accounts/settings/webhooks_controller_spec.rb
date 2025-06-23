@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Accounts::Settings::WebhooksController, type: :request do
   let!(:account) { create(:account) }
-  let!(:user) { create(:user, account: account) }
+  let!(:user) { create(:user, account:) }
   let!(:account_2) { create(:account) }
   let!(:webhook) { create(:webhook, :skip_validate, account:) }
   let!(:webhook_2) { create(:webhook, :skip_validate, account: account_2, url: 'https://www.webhookaccount2.com') }
@@ -20,7 +20,7 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
     context 'when it is an authenticated user' do
       before do
         sign_in(user)
-        stub_request(:get, 'https://testeurl.com.br')
+        stub_request(:post, 'https://testeurl.com.br')
           .to_return(status: 200, body: {}.to_json, headers: { 'Content-Type' => 'application/json' })
       end
 
@@ -81,7 +81,7 @@ RSpec.describe Accounts::Settings::WebhooksController, type: :request do
     context 'when it is an authenticated user' do
       before do
         sign_in(user)
-        stub_request(:get, 'https://www.url-updated.com.br')
+        stub_request(:post, 'https://www.url-updated.com.br')
           .to_return(status: 200, body: {}.to_json, headers: { 'Content-Type' => 'application/json' })
       end
 

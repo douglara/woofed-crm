@@ -23,7 +23,7 @@ class Webhook < ApplicationRecord
   end
   after_create_commit do
     broadcast_append_later_to "webhooks_#{account_id}", target: 'webhooks',
-                                                         partial: 'accounts/settings/webhooks/webhook', locals: { webhook: self }
+                                                        partial: 'accounts/settings/webhooks/webhook', locals: { webhook: self }
   end
   after_destroy_commit  do
     broadcast_remove_to "webhooks_#{account_id}", target: self
@@ -32,7 +32,7 @@ class Webhook < ApplicationRecord
   def valid_url?
     return false if url.blank?
 
-    response = Webhook::ApiClient.new(self).get_request
+    response = Webhook::ApiClient.new(self).post_request
 
     return false if response.key?(:error)
 

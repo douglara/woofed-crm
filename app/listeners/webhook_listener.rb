@@ -7,9 +7,8 @@ class WebhookListener
 
   ## Contact
   def contact_updated(contact)
-      Webhook.active.find_each do | wh |
-        WebhookWorker.perform_async(wh.url, build_contact_payload( 'contact_updated', contact))
-      end
+    Webhook.active.find_each do | wh |
+      WebhookWorker.perform_async(wh.url, build_contact_payload( 'contact_updated', contact))
     end
   end
 
