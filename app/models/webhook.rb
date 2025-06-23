@@ -11,7 +11,7 @@
 class Webhook < ApplicationRecord
   validates :url, presence: true, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])
   validates :status, presence: true
-  validate :validate_webhook_url, on: %i[create update]
+  validate :validate_webhook_url
   enum status: {
     inactive: 'inactive',
     active: 'active'
