@@ -86,6 +86,10 @@ Rails.application.routes.draw do
     end
     resources :attachments, only: [:destroy]
     resources :stages, only: [:show]
+    resources :events, only: [] do
+      get 'calendar', on: :collection
+      get 'calendar_events', on: :collection
+    end
   end
   if ENV.fetch('ENABLE_USER_SIGNUP', 'false') == 'true'
     devise_for :users, controllers: {
