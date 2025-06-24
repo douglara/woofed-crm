@@ -6,6 +6,10 @@
     "heroku-prebuild": "yarn build"
   },
   "dependencies": {
+    "@fullcalendar/core": "6.1.17",
+    "@fullcalendar/interaction": "6.1.17",
+    "@fullcalendar/list": "6.1.17",
+    "@fullcalendar/timegrid": "6.1.17",
     "@hotwired/turbo-rails": "^8.0.12",
     "@nathanvda/cocoon": "^1.2.14",
     "@rails/actioncable": "^7.1.501",
