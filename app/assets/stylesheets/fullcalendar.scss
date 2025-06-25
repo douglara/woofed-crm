@@ -1,10 +1,11 @@
 :root {
-  --fc-small-font-size: .85em;
+  --fc-small-font-size: 0.85em;
   --fc-page-bg-color: #fff;
   --fc-neutral-bg-color: rgba(208, 208, 208, 0.3);
   --fc-neutral-text-color: #808080;
   --fc-border-color: #ddd;
 
+  /* Button variables */
   --fc-button-text-color: #888599;
   --fc-button-bg-color: #FAF9FD;
   --fc-button-border-color: transparent;
@@ -19,6 +20,7 @@
   --fc-button-active-bg-color: #F6F8FE;
   --fc-button-active-border-color: #D9DEFF;
 
+  /* Event variables */
   --fc-event-bg-color: #3788d8;
   --fc-event-border-color: #3788d8;
   --fc-event-text-color: #fff;
@@ -31,6 +33,7 @@
   --fc-event-resizer-dot-total-width: 8px;
   --fc-event-resizer-dot-border-width: 1px;
 
+  /* Misc */
   --fc-non-business-color: rgba(215, 215, 215, 0.3);
   --fc-bg-event-color: rgb(143, 223, 130);
   --fc-bg-event-opacity: 0.3;
@@ -41,27 +44,19 @@
   --fc-list-event-hover-bg-color: #f5f5f5;
 }
 
+/* =======================
+   BUTTONS
+========================= */
+
+.fc .fc-button-primary {
+  border-style: solid;
+  border-radius: var(--fc-button-border-radius);
+}
+
 .fc .fc-button-primary:not(:disabled).fc-button-active {
   color: var(--fc-button-active-text-color);
   background-color: var(--fc-button-active-bg-color);
   border-color: var(--fc-button-active-border-color);
-}
-
-.fc-toolbar-title {
-  font-weight: 600;
-  color: #605E70
-}
-
-.fc .fc-daygrid-dot-event .fc-event-title {
-  color: #605E70
-}
-
-.fc .fc-daygrid-dot-event .fc-event-title:hover {
-  color: #6857D9
-}
-
-.fc-event-title {
-  font-weight: 600;
 }
 
 .fc .fc-button-primary:focus,
@@ -69,23 +64,46 @@
 .fc .fc-button-primary.fc-button-active:focus,
 .fc .fc-button:focus,
 .fc .fc-button:active:focus {
-  border-color: #D9DEFF !important;
+  border-color: var(--fc-button-active-border-color) !important;
   outline: none !important;
   box-shadow: none !important;
 }
 
 .fc .fc-button-group {
-  gap: 0.5rem
-}
-
-.fc .fc-button-primary {
-  border-style: solid;
+  gap: 0.5rem;
 }
 
 .fc-direction-ltr .fc-button-group>.fc-button {
-  border-radius: 0.25rem !important;
+  border-radius: var(--fc-button-border-radius) !important;
 }
 
+/* =======================
+   TITLES & TEXT
+========================= */
+
+.fc-toolbar-title {
+  font-weight: 600;
+  color: #605E70;
+}
+
+.fc-event-title {
+  font-weight: 600;
+}
+
+/* =======================
+   EVENTS
+========================= */
+
+/* Dot-style events */
+.fc .fc-daygrid-dot-event .fc-event-title {
+  color: #605E70;
+}
+
+.fc .fc-daygrid-dot-event .fc-event-title:hover {
+  color: #6857D9;
+}
+
+/* List-style events */
 .fc .fc-list-event td {
   color: #605E70 !important;
 }
@@ -95,31 +113,28 @@
   color: #6857D9 !important;
 }
 
+/* Hover effects */
 .fc .fc-daygrid-dot-event:hover {
   background-color: #EDF1FD !important;
   color: #6857D9 !important;
 }
 
-.fc .fc-timegrid-event:hover {
-  background-color: #31388D !important;
-}
-
+.fc .fc-timegrid-event:hover,
 .fc .fc-daygrid-block-event:hover {
   background-color: #31388D !important;
 }
 
-.fc .fc-col-header-cell-cushion {
-  color: #605E70 !important;
-}
+/* =======================
+   HEADERS & LABELS
+========================= */
 
-.fc .fc-timegrid-axis-cushion {
-  color: #605E70 !important;
-}
-
+.fc .fc-col-header-cell-cushion,
+.fc .fc-timegrid-axis-cushion,
 .fc .fc-timegrid-slot-label-cushion {
   color: #605E70;
 }
 
+/* List view day header */
 .fc .fc-list-day-cushion {
   background-color: #FAF9FD;
   color: #605E70;
