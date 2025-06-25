@@ -12,6 +12,8 @@ class Accounts::EventsController < InternalController
       id: event.id,
       title: event.title,
       start: event.scheduled_at.iso8601,
+      backgroundColor: events_kind_color(event.kind),
+      borderColor: events_kind_color(event.kind),
       extendedProps: {
         account_id: Current.account.id,
         contact_id: event.contact_id,
@@ -19,5 +21,18 @@ class Accounts::EventsController < InternalController
       },
       url: account_deal_path(Current.account, event.deal)
     }}
+  end
+
+  private
+
+  def events_kind_color(kind)
+    case kind
+    when 'chatwoot_message'
+      '#369EF2'
+    when 'evolution_api_message'
+      '#26D367'
+    else
+      '#6857D9'
+    end
   end
 end

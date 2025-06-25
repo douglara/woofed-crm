@@ -94,34 +94,36 @@
    EVENTS
 ========================= */
 
-/* Dot-style events */
+// /* Dot-style events */
 .fc .fc-daygrid-dot-event .fc-event-title {
-  color: #605E70;
+  color: #888599;
 }
 
 .fc .fc-daygrid-dot-event .fc-event-title:hover {
-  color: #6857D9;
+  color: #605E70;
+}
+
+.fc .fc-daygrid-dot-event .fc-event-time {
+  color: #605E70;
 }
 
 /* List-style events */
 .fc .fc-list-event td {
-  color: #605E70 !important;
+  color: #737185 !important;
 }
 
 .fc .fc-list-event:hover td {
-  background-color: #F6F8FE !important;
-  color: #6857D9 !important;
+  color: #605E70 !important;
 }
 
-/* Hover effects */
+// /* Hover effects */
 .fc .fc-daygrid-dot-event:hover {
-  background-color: #EDF1FD !important;
-  color: #6857D9 !important;
+  background-color: #F2F1F7 !important;
 }
 
 .fc .fc-timegrid-event:hover,
 .fc .fc-daygrid-block-event:hover {
-  background-color: #31388D !important;
+  filter: brightness(95%);
 }
 
 /* =======================

@@ -84,6 +84,8 @@ RSpec.describe Accounts::EventsController, type: :request do
           expect(event_json['id']).to eq(event_activity.id)
           expect(event_json['title']).to eq(event_activity.title)
           expect(event_json['start']).to eq(event_activity.scheduled_at.iso8601)
+          expect(event_json['backgroundColor']).to eq('#6857D9')
+          expect(event_json['borderColor']).to eq('#6857D9')
           expect(event_json['extendedProps']['account_id']).to eq(account.id)
           expect(event_json['extendedProps']['contact_id']).to eq(event_activity.contact.id)
           expect(event_json['extendedProps']['deal_id']).to eq(event_activity.deal.id)

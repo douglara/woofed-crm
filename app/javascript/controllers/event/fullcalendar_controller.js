@@ -23,8 +23,6 @@ export default class extends Controller {
       weekNumbers: true,
       nowIndicator: true,
       events: this.eventsUrlValue,
-      eventColor: "#6857D9",
-      eventBackgroundColor: "#6857D9",
       eventTextColor: "#FFFFFF",
       displayEventEnd: false,
       locale: this.language,
