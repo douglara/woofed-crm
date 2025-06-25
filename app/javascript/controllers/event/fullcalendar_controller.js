@@ -5,63 +5,47 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
+import ptBrLocale from "@fullcalendar/core/locales/pt-br";
+import esLocale from "@fullcalendar/core/locales/es";
+import enGbLocale from "@fullcalendar/core/locales/en-gb";
 
 export default class extends Controller {
   static values = {
     eventsUrl: String,
+    language: String,
   };
 
   connect() {
-    console.log("conectado ao calendario", this.eventsUrlValue);
     let calendarEl = this.element;
     this.calendar = new Calendar(calendarEl, {
       navLinks: true,
       weekNumbers: true,
       nowIndicator: true,
-      // themeSystem: "bootstrap",
       events: this.eventsUrlValue,
+      eventColor: "#6857D9",
+      eventBackgroundColor: "#6857D9",
+      eventTextColor: "#FFFFFF",
+      displayEventEnd: false,
+      locale: this.language,
       editable: true,
       eventDrop: this.handleEventDrop.bind(this),
-      // events: [
-      //   {
-      //     title: "Olá",
-      //     start: "2025-06-24T10:00:00",
-      //     // end: "2025-06-24T16:00:00",
-      //     extendedProps: {
-      //       department: "BioChemistry",
-      //     },
-      //     description: "Lecture",
-      //     url: "https://google.com/",
-      //     // display: "background",
-      //   },
-      //   {
-      //     title: "Olá 2",
-      //     start: "2025-06-24T10:00:00",
-      //     // end: "2025-06-24T12:00:00",
-      //     extendedProps: {
-      //       department: "BioChemistry",
-      //     },
-      //     description: "Lecture",
-      //     url: "https://google.com/",
-      //     // display: "background",
-      //   },
-      // ],
       eventClick: function (info) {
         info.jsEvent.preventDefault();
         if (info.event.url) {
-          window.open(info.event.url);
+          window.location.href = info.event.url;
         }
-        // console.log("Evento clicado:", info.event);
-        // alert(`Você clicou no evento: ${info.event.title}`);
       },
-      // navLinkDayClick: function (date, jsEvent) {
-      //   console.log("day", date.toISOString());
-      //   console.log("coords", jsEvent.pageX, jsEvent.pageY);
-      // },
-      // navLinkWeekClick: function (weekStart, jsEvent) {
-      //   console.log("week start", weekStart.toISOString());
-      //   console.log("coords", jsEvent.pageX, jsEvent.pageY);
-      // },
+      views: {
+        dayGridMonth: {
+          dayMaxEvents: true,
+        },
+        timeGridWeek: {
+          dayMaxEvents: false,
+        },
+        listWeek: {
+          dayMaxEvents: false,
+        },
+      },
       plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
       initialView: "dayGridMonth",
       headerToolbar: {
@@ -70,10 +54,23 @@ export default class extends Controller {
         right: "dayGridMonth,timeGridWeek,listWeek",
       },
     });
+
     this.calendar.render();
   }
+
   disconnect() {
     this.calendar.destroy();
+  }
+
+  get language() {
+    const languageMap = {
+      "pt-BR": ptBrLocale,
+      es: esLocale,
+      en: enGbLocale,
+    };
+
+    const lang = this.languageValue?.toLowerCase() || "pt-br";
+    return languageMap[lang] || enGbLocale;
   }
 
   async handleEventDrop(info) {
@@ -86,12 +83,9 @@ export default class extends Controller {
         "event[scheduled_at]": info.event.start.toISOString(),
         deal_id: deal_id,
       }).toString(),
-      success: () => {
-        console.log("Data atualizada com sucesso");
-      },
       error: () => {
         info.revert();
-        alert("Erro ao atualizar a data do evento");
+        alert("Erro to update event!");
       },
     });
   }
