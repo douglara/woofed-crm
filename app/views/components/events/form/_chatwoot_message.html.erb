@@ -3,6 +3,7 @@
   <%= render '/components/events/form/message_errors', model: event %>
   <%= form.hidden_field :app_type, value: 'Apps::Chatwoot' %>
   <%= form.hidden_field :kind, value: 'chatwoot_message' %>
+  <%= form.hidden_field :title, value: Event.human_enum_name(:kind, 'chatwoot_message') %>
   <%= form.hidden_field :from_me, value: true %>
   <%= form.hidden_field :app_id, value: current_user.account.apps_chatwoots.last.id %>
   <%= form.hidden_field :deal_id %>
