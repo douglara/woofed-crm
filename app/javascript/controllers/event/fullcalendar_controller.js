@@ -10,14 +10,15 @@ import esLocale from "@fullcalendar/core/locales/es";
 import enGbLocale from "@fullcalendar/core/locales/en-gb";
 
 export default class extends Controller {
+  static targets = ["calendar"];
+
   static values = {
     eventsUrl: String,
     language: String,
   };
 
   connect() {
-    let calendarEl = this.element;
-    this.calendar = new Calendar(calendarEl, {
+    this.calendar = new Calendar(this.calendarTarget, {
       navLinks: true,
       weekNumbers: true,
       nowIndicator: true,
