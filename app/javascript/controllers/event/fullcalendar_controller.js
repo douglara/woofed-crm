@@ -63,7 +63,7 @@ export default class extends Controller {
 
   get language() {
     const languageMap = {
-      "pt-BR": ptBrLocale,
+      "pt-br": ptBrLocale,
       es: esLocale,
       en: enGbLocale,
     };
