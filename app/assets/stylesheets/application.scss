@@ -10,7 +10,6 @@
 @import "daterangepicker/daterangepicker.css";
 @import "./daterangepicker.scss";
 
-
 input[type=file]::file-selector-button {
   background-color: #FAF9FD;
   color: #888599
@@ -21,10 +20,10 @@ input[type=file]:hover::file-selector-button {
 }
 
 .btn-remove {
-font-size: 12px;
-border-radius: 30px;
-padding-left: 13px;
-padding-right: 13px;
+ font-size: 12px;
+ border-radius: 30px;
+ padding-left: 13px;
+ padding-right: 13px;
   padding: 2px 15px;
   box-shadow: 0 2px 6px #fd9b96;
   background-color: #fc544b;
@@ -46,7 +45,6 @@ padding-right: 13px;
   .main-content {
     padding-top: 0px !important;
   }
-
   background-color: #F6F8FE;
 }
 
@@ -58,8 +56,7 @@ padding-right: 13px;
   transform: rotate(-101deg);
 }
 
-.clipboard-list,
-.menu-square{
+.clipboard-list, .menu-square{
   height: 14px;
   width: 14px;
   stroke: #7161DB;
