@@ -6,6 +6,7 @@ pt-BR:
         other: Eventos
         new: 'Novo evento'
         edit: 'Editar evento'
+        activities_planned: 'Ativades Planejadas'
     attributes:
       event:
         kinds:

@@ -6,6 +6,7 @@ en:
         other: Events
         new: 'New event'
         edit: 'Edit event'
+        activities_planned: 'Planned Activities'
     attributes:
       event:
         kinds:

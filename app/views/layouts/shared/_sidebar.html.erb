@@ -40,7 +40,7 @@
       <%= link_to(calendar_account_events_path(Current.account), class: 'group-aria-[expanded=false]:p-2 flex space-x-3 p-3 items-center') do %>
         <i data-lucide="calendar-range" class="w-[18px] h-[18px] <%= '!stroke-brand-palette-03 ' if request.path.include?('calendar') %> group-aria-[expanded=false]:mx-auto stroke-dark-gray-palette-p3" ></i>
         <span class="group-aria-[expanded=false]:hidden inline-block ml-2 typography-text-m-lh150">
-          <%= Event.model_name.human(count: 2) %>
+          <%= t('activerecord.models.event.activities_planned') %>
         </span>
       <% end %>
     </li>
