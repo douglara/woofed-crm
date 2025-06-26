@@ -68,7 +68,7 @@ export default class extends Controller {
       en: enGbLocale,
     };
 
-    const lang = this.languageValue?.toLowerCase() || "pt-br";
+    const lang = this.languageValue?.toLowerCase() || "en";
     return languageMap[lang] || enGbLocale;
   }
 
