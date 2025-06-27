@@ -22,7 +22,7 @@
         <%= Deal.model_name.human(count: :many) %>
       </h1>
       <div>
-        <div data-controller='reports--chart' data-reports--chart-chart-data-value='<%= @deals_timeseries_count %>'
+        <div data-controller='reports--chart' data-reports--chart-chart-data-value='<%= @deals_timeseries_count %>' data-reports--chart-target='chart'
         ></div>
       </div>
     </div>
