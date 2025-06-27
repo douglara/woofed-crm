@@ -6,18 +6,18 @@ class Accounts::ReportsController < InternalController
 
   def summary
     @deal_summary = build_deal_sumary
-    @deals_timeseries_count = build_chart_body
+    @deals_timeseries_count = build_chart_deals_timeseries_body
   end
 
   def pipeline_summary
     pipeline_id = params[:pipeline_id].presence || Pipeline.first&.id
 
-    @pipeline_summary = if pipeline_id
-                          series_data = Reports::Pipeline::StagesMetricBuilder.new(Current.account, report_params.merge(id: pipeline_id)).metrics
-                          build_chart_summary_body(series_data)
-                        else
-                          {}
-                        end
+    if pipeline_id
+      series_data = Reports::Pipeline::StagesMetricBuilder.new(Current.account, report_params.merge(id: pipeline_id)).metrics
+      @pipeline_summary = build_chart_pipeline_summary_body(series_data)
+    else
+      @pipeline_summary = {}
+    end
   end
 
   private
@@ -48,7 +48,7 @@ class Accounts::ReportsController < InternalController
     }
   end
 
-  def build_chart_body
+  def build_chart_deals_timeseries_body
     {
       chart_type: 'column',
       data: [
@@ -65,7 +65,7 @@ class Accounts::ReportsController < InternalController
     }.to_json
   end
 
-  def build_chart_summary_body(series_data)
+  def build_chart_pipeline_summary_body(series_data)
     {
       chart_type: 'funnel',
       data: [
