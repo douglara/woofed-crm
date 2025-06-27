@@ -3,14 +3,13 @@ import ApexCharts from "apexcharts";
 
 export default class extends Controller {
   static values = {
-    chartType: String,
-    wonDealsData: Array,
-    lostDealsData: Array,
-    pipelineSummaryStagesData: Object,
+    chartData: Object,
   };
+
   connect() {
+    console.log("Olá mundo: ", this.chartDataValue);
     var options =
-      this.chartTypeValue === "funnel"
+      this.chartType === "funnel"
         ? this.funnelChartType()
         : this.columnChartType();
 
@@ -19,12 +18,13 @@ export default class extends Controller {
       this.chart.render();
     }
   }
+
   funnelChartType() {
     return {
       series: [
         {
-          name: "Deals",
-          data: Object.values(this.pipelineSummaryStagesDataValue),
+          name: this.chartDataValue.data?.[0]?.name,
+          data: Object.values(this.chartDataValue.data?.[0]?.series_data),
         },
       ],
       chart: {
@@ -34,7 +34,7 @@ export default class extends Controller {
           enabled: true,
         },
       },
-      colors: ["#6857D9"],
+      colors: this.chartColors,
       legend: {
         show: true,
       },
@@ -57,30 +57,22 @@ export default class extends Controller {
       },
 
       xaxis: {
-        categories: Object.keys(this.pipelineSummaryStagesDataValue),
+        categories: Object.keys(this.chartDataValue.data?.[0]?.series_data),
       },
       legend: {
         show: false,
       },
     };
   }
+
   columnChartType() {
     return {
-      series: [
-        {
-          name: "Won Deals",
-          data: this.buildChartColumnSeries(this.wonDealsDataValue),
-        },
-        {
-          name: "Lost Deals",
-          data: this.buildChartColumnSeries(this.lostDealsDataValue),
-        },
-      ],
+      series: this.buildChartColumnSeriesBody(),
       chart: {
         type: "bar",
         height: 350,
       },
-      colors: ["#259C50", "#CF4F27"],
+      colors: this.chartColors,
       legend: {
         show: true,
       },
@@ -101,7 +93,9 @@ export default class extends Controller {
         colors: ["transparent"],
       },
       xaxis: {
-        categories: this.buildChartColumnCategories(this.wonDealsDataValue),
+        categories: this.timeseriesDates(
+          this.chartDataValue?.data?.[0]?.series_data
+        ),
       },
       fill: {
         opacity: 1,
@@ -111,18 +105,35 @@ export default class extends Controller {
       },
     };
   }
+
   disconnect() {
     if (this.chart) {
       this.chart.destroy();
     }
   }
-  buildChartColumnCategories(data) {
+
+  get chartType() {
+    return this.chartDataValue.chart_type;
+  }
+
+  get chartColors() {
+    return this.chartDataValue.data.map((item) => item.color);
+  }
+
+  buildChartColumnSeriesBody() {
+    return this.chartDataValue.data.map((item) => ({
+      name: item.name,
+      data: this.timeseriesValues(item.series_data),
+    }));
+  }
+
+  timeseriesDates(data) {
     return data.map((item) => {
       const date = new Date(item.timestamp * 1000);
       return date.toLocaleDateString("sv-SE");
     });
   }
-  buildChartColumnSeries(data) {
+  timeseriesValues(data) {
     return data.map((item) => item.value);
   }
 }

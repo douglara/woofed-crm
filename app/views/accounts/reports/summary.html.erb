@@ -22,8 +22,8 @@
         <%= Deal.model_name.human(count: :many) %>
       </h1>
       <div>
-        <div data-controller='reports--chart' data-reports--chart-chart-type-value='column' data-reports--chart-won-deals-data-value='<%= @won_deals_timeseries_count.to_json %>'
-        data-reports--chart-lost-deals-data-value='<%= @lost_deals_timeseries_count.to_json %>'></div>
+        <div data-controller='reports--chart' data-reports--chart-chart-data-value='<%= @deals_timeseries_count %>'
+        ></div>
       </div>
     </div>
     <div class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-6 py-7'>
