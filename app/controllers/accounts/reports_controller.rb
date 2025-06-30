@@ -6,7 +6,7 @@ class Accounts::ReportsController < InternalController
 
   def summary
     @deal_summary = build_deal_sumary
-    @deals_timeseries_count = build_chart_deals_timeseries_body
+    @deals_timeseries_count = Reports::Deals::Charts::Timeseries::DealsCount.new(Current.account, params).call
   end
 
   def pipeline_summary
@@ -24,7 +24,7 @@ class Accounts::ReportsController < InternalController
 
   def build_deal_sumary
     [
-      Reports::Deals::MetricBuilder.new(Current.account, report_params.merge(metric: 'open_deals')).summary,
+      Reports::Deals::Charts::Metrics::OpenDeals.new(Current.account, params).call,
       Reports::Deals::MetricBuilder.new(Current.account, report_params.merge(metric: 'all_deals')).summary,
       Reports::Deals::MetricBuilder.new(Current.account, report_params.merge(metric: 'won_deals')).summary,
       Reports::Deals::MetricBuilder.new(Current.account, report_params.merge(metric: 'lost_deals')).summary
@@ -46,23 +46,6 @@ class Accounts::ReportsController < InternalController
       id: params[:id],
       group_by: params[:group_by]
     }
-  end
-
-  def build_chart_deals_timeseries_body
-    {
-      chart_type: 'column',
-      data: [
-        { name: I18n.t('activerecord.models.deal.won_deals'),
-          color: metric_color('won_deals'),
-          series_data: Reports::Deals::ReportBuilder.new(Current.account,
-                                                                        report_params.merge(metric: 'won_deals_count')).timeseries },
-        { name: I18n.t('activerecord.models.deal.lost_deals'),
-          color: metric_color('lost_deals'),
-          series_data: Reports::Deals::ReportBuilder.new(Current.account,
-                                                                         report_params.merge(metric: 'lost_deals_count')).timeseries }
-
-      ]
-    }.to_json
   end
 
   def build_chart_pipeline_summary_body(series_data)
