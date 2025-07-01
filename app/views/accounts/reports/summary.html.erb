@@ -1,0 +1,37 @@
+<%= turbo_frame_tag :summary_reports do %>
+  <ul class='grid grid-cols-[repeat(auto-fit,_minmax(275px,_1fr))] gap-4 mb-5'>
+    <% @deal_summary.each do |summary| %>
+      <li class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-4 py-5'>
+        <div class='flex justify-between items-center gap-2 mb-2'>
+          <h1 class='typography-body-1000 color-fg-default'>
+            <%= summary[:title] %>
+          </h1>
+        </div>
+        <p class='typography-title-700 color-fg-hard mb-0.5'>
+          <%= number_to_currency(summary[:amount_in_cents] / 100.0, unit: "R$ ", separator: ",", delimiter: ".") %>
+        </p>
+        <span class='typography-label-900 color-fg-default'>
+          <%= t("activerecord.models.deal.total_deals", count: summary[:quantity]) %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+  <div class='grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-3'>
+    <div class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-6 py-7'>
+      <h1 class='typography-sub-title-900 color-fg-hard mb-6'>
+        <%= Deal.model_name.human(count: :many) %>
+      </h1>
+      <div>
+        <div data-controller='reports--chart' data-reports--chart-chart-data-value='<%= @deals_timeseries_count %>' data-reports--chart-target='chart'
+        ></div>
+      </div>
+    </div>
+    <div class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-6 py-7'>
+      <%= turbo_frame_tag :pipeline_summary_reports, src: pipeline_summary_account_reports_path(Current.account, since: params[:since], until: params[:until], metric: 'all_deals'), loading: :lazy do  %>
+        <div class='h-[350px] flex justify-center items-center content-center'>
+          <%= render '/components/skeleton/reports/chart' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

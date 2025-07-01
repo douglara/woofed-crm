@@ -90,6 +90,13 @@ Rails.application.routes.draw do
       get 'calendar', on: :collection
       get 'calendar_events', on: :collection
     end
+
+    resources :reports, only: [:index] do
+      collection do
+        get :summary
+        get :pipeline_summary
+      end
+    end
   end
   if ENV.fetch('ENABLE_USER_SIGNUP', 'false') == 'true'
     devise_for :users, controllers: {

@@ -14,5 +14,10 @@ en:
       main_information: "Main Information"
       need_information: "Need Information"
       filter: "Filter %{model}"
+      reports: Reports
       connection_error: "Could not connect. Please try again."
       full_profile: Full Profile
+      day: Day
+      week: Week
+      month: Month
+      year: Year

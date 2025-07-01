@@ -1,0 +1,30 @@
+<div class="m-8">
+  <%= form_with(url: account_reports_path(Current.account), method: :get, data: { turbo_frame: :summary_session, turbo_action: :advance, controller: 'form--date-range-picker', form__date_range_picker_language_value: current_user.language }, class: 'flex gap-2 mb-5 justify-end') do |form| %>
+    <%= form.hidden_field :timezone_offset, data: { controller: "form--set-timezone-offset" } %>
+    <div class="relative">
+      <%= form.text_field :date_range,
+                     class: 'form-input w-full pl-10',
+                     value: params[:date_range],
+                     data: { form__date_range_picker_target: 'dateRangeForm' } %>
+      <i data-lucide="calendar-days" class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 color-fg-default stroke-1.25 "></i>
+    </div>
+    <%= form.select :group_by, [[t('activerecord.models.day'), 'day'], [t('activerecord.models.week'), 'week'], [t('activerecord.models.month'), 'month'], [t('activerecord.models.year'), 'year']], { selected: params[:group_by] }, class: 'form-input', onchange: 'this.form.requestSubmit()'  %>
+  <% end %>
+  <%= turbo_frame_tag :summary_session do %>
+    <%= turbo_frame_tag :summary_reports, src: summary_account_reports_path(Current.account, since: params[:since], until: params[:until], type: :account, group_by: params[:group_by]), loading: :lazy do  %>
+      <div class='grid grid-cols-[repeat(auto-fit,_minmax(275px,_1fr))] gap-4 mb-5'>
+        <% 3.times do %>
+          <%= render '/components/skeleton/reports/summary' %>
+        <% end %>
+      </div>
+      <div class='grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-3'>
+        <div class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-6 py-7 h-[350px] flex justify-center items-center content-center'>
+          <%= render '/components/skeleton/reports/chart' %>
+        </div>
+        <div class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-6 py-7 h-[350px] flex justify-center items-center content-center'>
+          <%= render '/components/skeleton/reports/chart' %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

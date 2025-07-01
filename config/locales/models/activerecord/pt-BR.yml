@@ -14,5 +14,10 @@ pt-BR:
       main_information: Informações principais
       need_information: Informações necessárias
       filter: "Filtrar %{model}"
+      reports: Relatórios
       connection_error: Não foi possível conectar. Tente novamente.
       full_profile: Perfil Completo
+      day: Dia
+      month: "Mês"
+      week: Semana
+      year: Ano

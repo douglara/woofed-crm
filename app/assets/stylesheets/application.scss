@@ -6,21 +6,26 @@
 @import '@yaireo/tagify/dist/tagify.css';
 @import "lightgallery.js/dist/css/lightgallery.css";
 @import "./fullcalendar.scss";
+@import "apexcharts/src/assets/apexcharts.css";
+@import "apexcharts/dist/apexcharts.css";
+@import "daterangepicker/daterangepicker.css";
+@import "./daterangepicker.scss";
 
 input[type=file]::file-selector-button {
   background-color: #FAF9FD;
   color: #888599
 }
+
 input[type=file]:hover::file-selector-button {
   background-color: #EDF1FD;
   color: #6857D9
 }
 
 .btn-remove {
-	font-size: 12px;
-	border-radius: 30px;
-	padding-left: 13px;
-	padding-right: 13px;
+  font-size: 12px;
+  border-radius: 30px;
+  padding-left: 13px;
+  padding-right: 13px;
   padding: 2px 15px;
   box-shadow: 0 2px 6px #fd9b96;
   background-color: #fc544b;
@@ -30,7 +35,7 @@ input[type=file]:hover::file-selector-button {
   margin-left: 15px;
 }
 
-.trix-content{
+.trix-content {
   font-weight: 500;
   font-size: .938rem;
   line-height: 200%;
@@ -42,17 +47,20 @@ input[type=file]:hover::file-selector-button {
   .main-content {
     padding-top: 0px !important;
   }
+
   background-color: #F6F8FE;
 }
 
 // event icons styles
-.message-circle{
+.message-circle {
   height: 15px;
   width: 15px;
   stroke: #369EF2;
   transform: rotate(-101deg);
 }
-.clipboard-list, .menu-square{
+
+.clipboard-list,
+.menu-square {
   height: 14px;
   width: 14px;
   stroke: #7161DB;

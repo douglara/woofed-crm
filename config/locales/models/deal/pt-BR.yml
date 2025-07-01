@@ -10,6 +10,11 @@ pt-BR:
         import_file_failed: "Erro na criação %{message_error}"
         kanban_mode: "Modo Kanban"
         list_mode: "Modo Lista"
+        lost_deals: "Negócios perdidos"
+        won_deals: "Negócios ganhos"
+        open_deals: "Negócios em aberto"
+        created_deals: "Negócios criados"
+        total_deals: "Total de %{count} negócios"
     attributes:
       deal:
         name: Nome

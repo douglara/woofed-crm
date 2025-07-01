@@ -10,6 +10,11 @@ en:
         import_file_failed: "Creation error %{message_error}"
         kanban_mode: "Kanban Mode"
         list_mode: "List Mode"
+        lost_deals: "Lost deals"
+        won_deals: "Won deals"
+        open_deals: "Open deals"
+        created_deals: "Created deals"
+        total_deals: "Total of %{count} deals"
     attributes:
       deal:
         name: Name

@@ -1,0 +1,68 @@
+<%= turbo_frame_tag :pipeline_summary_reports do %>
+  <div class='flex justify-between items-center gap-2 mb-6'>
+    <h1 class='typography-sub-title-900 color-fg-hard '>
+      <%= Pipeline.model_name.human(count: 1) %>
+    </h1>
+    <div class='w-3/5'>
+      <%= form_with(url: pipeline_summary_account_reports_path(Current.account), method: :get, data: { turbo_frame: :pipeline_summary_reports }, class: 'flex gap-2') do |form| %>
+        <%= form.hidden_field :timezone_offset, data: { controller: "form--set-timezone-offset" } %>
+        <%= form.hidden_field :metric, value: 'all_deals' %>
+        <%= form.hidden_field :since, value: params[:since] %>
+        <%= form.hidden_field :until, value: params[:until] %>
+        <%= form.select :pipeline_id, Pipeline.all.map { |pipeline| [pipeline.name, pipeline.id]}, { selected: params[:pipeline_id] || Pipeline.first&.id }, {class: 'form-input w-full', onchange: 'this.form.requestSubmit()'} %>
+        <div id="tooltip-filter-deal" role="tooltip" class="hidden absolute z-30 invisible sm:inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+          <%= t('activerecord.models.filter', model: Deal.model_name.human.pluralize) %>
+          <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+        <button id="dropdownSortDeals" data-dropdown-toggle="dropdownSort" class="button-default-blank-secondary-md" type="button" aria-selected="false" data-tooltip-target='tooltip-filter-deal'>
+          <%= embedded_svg("deals-icon.svg", class: "w-4 #{'color-fg-feedback-danger' if params[:metric] == 'lost_deals'} #{'color-fg-feedback-success' if params[:metric] == 'won_deals'} #{'color-fg-feedback-info' if params[:metric] == 'open_deals'} #{'color-fg-highlight' if params[:metric] == 'all_deals'}") %>
+        </button>
+        <div id="dropdownSort" class="z-30 hidden bg-white divide-y divide-gray-300 rounded-lg shadow w-64 dark:bg-gray-700 dark:divide-gray-600">
+          <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3 dark:text-gray-200">
+            <li>
+              <button type="button"
+              onclick="document.getElementById('metric').value = 'open_deals'; this.form.requestSubmit()"
+              class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 w-full
+                     hover:text-dark-gray-palette-p1 dark:hover:text-white
+                     <%= 'bg-brand-palette-07 text-brand-palette-03 pointer-events-none' if params[:metric] == 'open_deals' %>">
+                <i data-lucide="copy-plus"></i>
+                <p><%= t('views.layouts.shared.navbar_pipe.all_open_deals') %></p>
+              </button>
+            </li>
+            <li>
+              <button type="button"
+              onclick="document.getElementById('metric').value = 'won_deals'; this.form.requestSubmit()"
+              class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 w-full
+                     hover:text-dark-gray-palette-p1 dark:hover:text-white
+                     <%= 'bg-brand-palette-07 text-brand-palette-03 pointer-events-none' if params[:metric] == 'won_deals' %>">
+                <i data-lucide="copy-check"></i>
+                <p><%= t('views.layouts.shared.navbar_pipe.all_won_deals') %></p>
+              </button>
+            </li>
+            <li>
+              <button type="button"
+              onclick="document.getElementById('metric').value = 'lost_deals'; this.form.requestSubmit()"
+              class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 w-full
+                     hover:text-dark-gray-palette-p1 dark:hover:text-white
+                     <%= 'bg-brand-palette-07 text-brand-palette-03 pointer-events-none' if params[:metric] == 'lost_deals' %>">
+                <i data-lucide="copy-x"></i>
+                <p><%= t('views.layouts.shared.navbar_pipe.all_lost_deals') %></p>
+              </button>
+            </li>
+            <li>
+              <button type="button"
+              onclick="document.getElementById('metric').value = 'all_deals'; this.form.requestSubmit()"
+              class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 w-full
+                     hover:text-dark-gray-palette-p1 dark:hover:text-white
+                     <%= 'bg-brand-palette-07 text-brand-palette-03 pointer-events-none' if params[:metric] == 'all_deals' %>">
+                <i data-lucide="copy"></i>
+                <p><%= t('views.layouts.shared.navbar_pipe.all_deals') %></p>
+              </button>
+            </li>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div data-controller='reports--chart' data-reports--chart-chart-data-value='<%= @pipeline_summary %>' data-reports--chart-target='chart'></div>
+<% end %>

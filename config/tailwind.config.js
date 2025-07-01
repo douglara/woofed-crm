@@ -136,7 +136,7 @@ module.exports = {
     require("@tailwindcss/aspect-ratio"),
     require("@tailwindcss/typography"),
     require("@tailwindcss/container-queries"),
-    require("flowbite/plugin"),
+    require("flowbite/plugin")({ charts: false }),
     function ({ addVariant }) {
       addVariant("group-inline-edit", ".group.inline-edit &");
     },

@@ -35,5 +35,14 @@ FactoryBot.define do
     stage
     contact
     name { 'Deal 1' }
+    trait :won do
+      status { 'won' }
+    end
+    trait :lost do
+      status { 'lost' }
+    end
+    trait :lost do
+      status { 'open' }
+    end
   end
 end
