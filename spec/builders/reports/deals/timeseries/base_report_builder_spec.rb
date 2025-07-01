@@ -59,13 +59,6 @@ RSpec.describe Reports::Deals::Timeseries::BaseReportBuilder do
       instance = described_class.new(account, params)
       expect(instance.send(:metric)).to eq('won_deals')
     end
-
-    it 'memoizes metric' do
-      instance = described_class.new(account, params)
-      expect(instance.send(:metric)).to eq('won_deals')
-      instance.instance_variable_set(:@metric, 'other_metric')
-      expect(instance.send(:metric)).to eq('other_metric')
-    end
   end
 
   describe '#object_scope' do

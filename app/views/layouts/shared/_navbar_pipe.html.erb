@@ -26,7 +26,7 @@
         <div class="flex flex-col pb-4 gap-2 sm:pb-0 rounded-lg sm:gap-4 rtl:space-x-reverse sm:flex-row sm:mt-0 sm:border-0 sm:bg-white ">
           <div class="flex flex-wrap flex-1 h-10 shrink-0">
             <div class="h-10 w-10 flex items-center justify-center border-solid border-2 border-light-palette-p3 rounded-l-md bg-brand-palette-08">
-              <%= embedded_svg('vectooor2.svg', { class: 'h-5 w-5 fill-brand-palette-03' }) %>
+              <%= embedded_svg('vectooor2.svg', { class: 'h-5 w-5 color-fg-soft' }) %>
             </div>
             <select class="px-2.5 h-10 mx-[-2px] border-solid border-2 border-light-palette-p3 flex-1 sm:flex-none sm:w-40 md:w-52 hover:border-light-palette-p2 hover:z-10 hover:cursor-pointer focus:border-light-palette-p2 focus:ring-0 hover:text-brand-palette-04 focus:z-10 typography-text-r-lh150 text-dark-gray-palette-p3 truncate" onchange="window.location=this.value">
               <% @pipelines.each do |pipeline| %>
