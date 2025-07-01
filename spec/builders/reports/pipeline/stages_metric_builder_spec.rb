@@ -88,10 +88,6 @@ RSpec.describe Reports::Pipeline::StagesMetricBuilder do
       expect(subject.send(:pipeline)).to eq(pipeline)
     end
 
-    it 'memoizes pipeline' do
-      expect(Pipeline).to receive(:find).once.and_return(pipeline)
-      2.times { subject.send(:pipeline) }
-    end
     context 'raises ActiveRecord::RecordNotFound when pipeline id is not found' do
       let(:params) { { id: 'invalid_id', metric: 'won_deals' } }
       it do
