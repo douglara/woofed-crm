@@ -1,9 +1,9 @@
 :root {
   --fc-small-font-size: 0.85em;
   --fc-page-bg-color: #fff;
-  --fc-neutral-bg-color: rgba(208, 208, 208, 0.3);
+  --fc-neutral-bg-color: #FAF9FD;
   --fc-neutral-text-color: #808080;
-  --fc-border-color: #ddd;
+  --fc-border-color: #F2F1F7;
 
   /* Button variables */
   --fc-button-text-color: #888599;
@@ -84,9 +84,19 @@
 .fc-toolbar-title {
   font-weight: 600;
   color: #605E70;
+  font-size: 1.375rem !important;
 }
 
 .fc-event-title {
+  font-weight: 600;
+}
+
+.fc-daygrid-day-number {
+  color: #888599;
+}
+
+.fc .fc-list-empty-cushion {
+  color: #605E70;
   font-weight: 600;
 }
 
@@ -133,11 +143,21 @@
 .fc .fc-col-header-cell-cushion,
 .fc .fc-timegrid-axis-cushion,
 .fc .fc-timegrid-slot-label-cushion {
-  color: #605E70;
+  color: #888599;
+  font-weight: 600;
+}
+
+.fc a[data-navlink] {
+  color: #888599;
 }
 
 /* List view day header */
 .fc .fc-list-day-cushion {
   background-color: #FAF9FD;
   color: #605E70;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+  border-radius: .25rem !important;
+  border-width: 1.5px;
 }
