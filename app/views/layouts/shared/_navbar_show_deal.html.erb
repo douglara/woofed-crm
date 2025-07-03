@@ -1,6 +1,7 @@
+<% coming_from_creation_flow = request.referer&.include?("/deals/new") %>
 <nav class="navbar-container" id='navbar_deal' data-controller='load-lucid-icons'>
   <div class="flex items-center">
-    <%= link_to(account_pipeline_path(current_user.account, @deal.pipeline), class: "flex border-solid border-2 border-light-palette-p3 rounded-md hover:bg-brand-palette-08 focus:bg-brand-palette-08 p-1.5") do %>
+    <%= link_to (coming_from_creation_flow ? account_pipeline_path(current_user.account, @deal.pipeline) : :back ), class: "flex border-solid border-2 border-light-palette-p3 rounded-md hover:bg-brand-palette-08 focus:bg-brand-palette-08 p-1.5" do %>
       <i data-lucide="chevron-left"></i>
     <% end %>
     <div class="pl-4 lg:flex lg:items-center">

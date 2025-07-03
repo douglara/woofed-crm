@@ -20,6 +20,14 @@
         </span>
       <% end %>
     </li>
+    <li class="<%= 'bg-brand-palette-08 !border-brand-palette-07 rounded-md !text-brand-palette-03' if request.path.include?('calendar') %> text-dark-gray-palette-p3 border-2 border-transparent hover:bg-brand-palette-08 hover:rounded-md group-aria-[expanded=false]:w-full group-aria-[expanded=false]:h-[40px]">
+      <%= link_to(calendar_account_events_path(Current.account), class: 'group-aria-[expanded=false]:p-2 flex space-x-3 p-3 items-center') do %>
+        <i data-lucide="clipboard-list" class="w-[18px] h-[18px] <%= '!stroke-brand-palette-03 ' if request.path.include?('calendar') %> group-aria-[expanded=false]:mx-auto stroke-dark-gray-palette-p3" ></i>
+        <span class="group-aria-[expanded=false]:hidden inline-block ml-2 typography-text-m-lh150">
+          <%= Event.human_enum_name(:kind, :activity).pluralize %>
+        </span>
+      <% end %>
+    </li>
     <li class="<%= ' bg-brand-palette-08 !border-brand-palette-07 rounded-md !text-brand-palette-03' if request.path.include?('contact') %> text-dark-gray-palette-p3 border-2 border-transparent hover:bg-brand-palette-08 hover:rounded-md group-aria-[expanded=false]:w-full group-aria-[expanded=false]:h-[40px]">
       <%= link_to(account_contacts_path(Current.account), class: 'group-aria-[expanded=false]:p-2.5 flex space-x-3 p-3 items-center') do %>
         <%= embedded_svg("contacts-icon.svg", class: "w-4 #{'!fill-brand-palette-03 ' if request.path.include?('contact') or request.path.include?('contact')} group-aria-[expanded=false]:mx-auto fill-dark-gray-palette-p3") %>
@@ -33,14 +41,6 @@
         <i data-lucide="box" class="w-[18px] h-[18px] <%= '!stroke-brand-palette-03 ' if request.path.include?('product') %> group-aria-[expanded=false]:mx-auto stroke-dark-gray-palette-p3" ></i>
         <span class="group-aria-[expanded=false]:hidden inline-block ml-2 typography-text-m-lh150">
           <%= t('activerecord.models.product.one') %>
-        </span>
-      <% end %>
-    </li>
-    <li class="<%= 'bg-brand-palette-08 !border-brand-palette-07 rounded-md !text-brand-palette-03' if request.path.include?('calendar') %> text-dark-gray-palette-p3 border-2 border-transparent hover:bg-brand-palette-08 hover:rounded-md group-aria-[expanded=false]:w-full group-aria-[expanded=false]:h-[40px]">
-      <%= link_to(calendar_account_events_path(Current.account), class: 'group-aria-[expanded=false]:p-2 flex space-x-3 p-3 items-center') do %>
-        <i data-lucide="calendar-range" class="w-[18px] h-[18px] <%= '!stroke-brand-palette-03 ' if request.path.include?('calendar') %> group-aria-[expanded=false]:mx-auto stroke-dark-gray-palette-p3" ></i>
-        <span class="group-aria-[expanded=false]:hidden inline-block ml-2 typography-text-m-lh150">
-          <%= t('activerecord.models.event.activities_planned') %>
         </span>
       <% end %>
     </li>
