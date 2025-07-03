@@ -21,6 +21,7 @@ export default class extends Controller {
     this.configureLocaleTexts();
     this.calendar = new Calendar(this.calendarTarget, {
       navLinks: true,
+      allDaySlot: false,
       nowIndicator: true,
       events: this.eventsUrlValue,
       eventTextColor: "#FFFFFF",
