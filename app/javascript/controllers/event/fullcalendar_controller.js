@@ -18,9 +18,9 @@ export default class extends Controller {
   };
 
   connect() {
+    this.configureLocaleTexts();
     this.calendar = new Calendar(this.calendarTarget, {
       navLinks: true,
-      weekNumbers: true,
       nowIndicator: true,
       events: this.eventsUrlValue,
       eventTextColor: "#FFFFFF",
@@ -46,12 +46,20 @@ export default class extends Controller {
         },
       },
       plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
-      initialView: "dayGridMonth",
+      initialView: "listWeek",
       headerToolbar: {
-        left: "prev,next today",
+        right: "prev,next today",
         center: "title",
-        right: "dayGridMonth,timeGridWeek,listWeek",
+        left: "listWeek timeGridWeek dayGridMonth",
       },
+
+      loading: function (loading) {
+        if (loading) {
+          this.calendarTarget.classList.add("hidden");
+        } else {
+          this.calendarTarget.classList.remove("hidden");
+        }
+      }.bind(this),
     });
 
     this.calendar.render();
@@ -59,6 +67,12 @@ export default class extends Controller {
 
   disconnect() {
     this.calendar.destroy();
+  }
+
+  configureLocaleTexts() {
+    ptBrLocale.noEventsText = "Nenhuma atividade para mostrar";
+    enGbLocale.noEventsText = "No activities to display";
+    esLocale.noEventsText = "No hay actividades para mostrar";
   }
 
   get language() {
