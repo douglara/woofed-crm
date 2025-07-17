@@ -1,29 +1,34 @@
 class DealBuilder
-  def initialize(user, params, contact_search_if_exists = false)
+  def initialize(user, params)
     @params = params
     @user = user
-    @contact_search_if_exists = contact_search_if_exists
   end
 
   def build
-    @deal = Deal.new(deal_params(@params).merge(created_by_id: @user.id))
-    build_contact if @deal.contact.blank?
-    @deal
+    @deal = Deal.new(deal_params.merge(created_by_id: user.id))
+    attach_contact_if_needed
+    assign_user_to_deal
+    deal
   end
 
-  def perform
-    build
-    @deal
-  end
+  def perform = build
 
   private
 
-  def build_contact
-    @contact = ContactBuilder.new(@user, @params[:contact_attributes], @contact_search_if_exists).perform
-    @deal.contact = @contact
+  attr_reader :user, :params, :deal
+
+  def attach_contact_if_needed
+    return if deal_params[:contact_id].present? || deal_params[:contact_attributes].blank?
+
+    contact = ContactBuilder.new(user, deal_params[:contact_attributes], true).perform
+    deal.contact = contact
   end
 
-  def deal_params(params)
+  def assign_user_to_deal
+    deal.deal_assignees.build(user:)
+  end
+
+  def deal_params
     params.permit(
       :name, :status, :stage_id, :contact_id,
       contact_attributes: %i[id full_name phone email],
