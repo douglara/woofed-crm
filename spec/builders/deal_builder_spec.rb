@@ -29,20 +29,21 @@ RSpec.describe DealBuilder do
   end
 
   describe '#build' do
+    let!(:contact) { create(:contact) }
+
     context 'when contact_attributes is provided' do
-      let(:params) do
-        ActionController::Parameters.new(
-          name: 'Deal test name',
-          status: 'open',
-          stage_id: stage.id,
-          contact_attributes: {
-            full_name: 'Jane Doe',
-            email: 'jane@example.com'
-          }
-        )
-      end
-      context 'when there is contact with the same email or phone' do
-        let!(:contact) { create(:contact, email: 'jane@example.com') }
+      context 'when the email or phone matches an existing contact' do
+        let(:params) do
+          ActionController::Parameters.new(
+            name: 'Deal test name',
+            status: 'open',
+            stage_id: stage.id,
+            contact_attributes: {
+              full_name: 'Jane Doe',
+              email: contact.email
+            }
+          )
+        end
 
         it 'builds a deal, assigns the user and uses existing contact' do
           expect(ContactBuilder).to receive(:new).and_call_original
@@ -53,13 +54,23 @@ RSpec.describe DealBuilder do
           expect(deal.name).to eq('Deal test name')
           expect(deal.status).to eq('open')
           expect(deal.stage).to eq(stage)
-          expect(deal.contact).to be_present
-          expect(deal.contact.full_name).to eq('Jane Doe')
-          expect(deal.contact.email).to eq('jane@example.com')
+          expect(deal.contact).to eq(contact)
           expect(deal.deal_assignees.first.user).to eq(user)
         end
       end
-      context 'when there is no contact with the same email or phone' do
+      context 'when the email or phone does not match any existing contact' do
+        let(:params) do
+          ActionController::Parameters.new(
+            name: 'Deal test name',
+            status: 'open',
+            stage_id: stage.id,
+            contact_attributes: {
+              full_name: 'Jane Doe',
+              email: 'jane@example.com'
+            }
+          )
+        end
+
         it 'builds a deal, builds a contact, and assigns the user' do
           expect(ContactBuilder).to receive(:new).and_call_original
           deal = subject.build
@@ -78,7 +89,6 @@ RSpec.describe DealBuilder do
     end
 
     context 'when contact_id is provided' do
-      let!(:contact) { create(:contact, account:) }
       let(:params) do
         ActionController::Parameters.new(
           name: 'With existing contact',
