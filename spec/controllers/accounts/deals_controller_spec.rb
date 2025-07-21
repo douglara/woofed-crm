@@ -10,6 +10,7 @@ RSpec.describe Accounts::DealsController, type: :request do
   let(:event) { create(:event, account:, deal:, kind: 'activity') }
   let(:last_event) { Event.last }
   let(:last_deal) { Deal.last }
+  let(:last_deal_assignee) { DealAssignee.last }
 
   describe 'POST /accounts/{account.id}/deals' do
     let(:valid_params) { { deal: { name: 'Deal 1', contact_id: contact.id, stage_id: stage.id } } }
@@ -26,16 +27,19 @@ RSpec.describe Accounts::DealsController, type: :request do
         sign_in(user)
       end
 
-      context 'create deal and deal_opened event' do
+      context 'create deal, deal_opened event and deal_assignee' do
         it do
           expect do
             post "/accounts/#{account.id}/deals",
                  params: valid_params
           end.to change(Deal, :count).by(1)
                                      .and change(Event, :count).by(1)
+                                     .and change(DealAssignee, :count).by(1)
           expect(response).to redirect_to(account_deal_path(account, last_deal))
           expect(last_event.kind).to eq('deal_opened')
           expect(last_deal.creator).to eq(user)
+          expect(last_deal_assignee.user).to eq(user)
+          expect(last_deal_assignee.deal).to eq(last_deal)
         end
       end
     end
