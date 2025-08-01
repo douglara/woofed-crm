@@ -26,7 +26,6 @@
 #  index_events_on_deal_id     (deal_id)
 #
 class Event < ApplicationRecord
-  include Event::Decorators
   include Deal::Broadcastable
   # default_scope { order('created_at DESC') }
   DEAL_UPDATE_KINDS = %w[deal_stage_change deal_opened deal_won deal_lost deal_reopened deal_product_added
@@ -224,9 +223,9 @@ class Event < ApplicationRecord
 
   def primary_date
     if scheduled_at.present?
-      scheduled_at_format
+      scheduled_at.iso8601
     else
-      created_at.to_fs(:short)
+      created_at.iso8601
     end
   end
 

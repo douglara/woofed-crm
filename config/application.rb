@@ -50,9 +50,6 @@ module WoofedCrm
     config.assets.compile = true
     config.serve_static_assets = true
 
-    # Location
-    config.time_zone = ENV.fetch('DEFAULT_TIMEZONE', 'Brasilia')
-
     config.host = nil
 
     config.assets.css_compressor = nil

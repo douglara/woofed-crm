@@ -3,8 +3,7 @@
     <div class='w-4 h-4'>
       <i data-lucide="clock-4" class="w-4 h-4"></i>
     </div>
-    <span class='typography-body-800'>
-      <%= event.scheduled_at_format_distance %>
+    <span class='typography-body-800' data-controller="datetime-format" data-datetime-format-date-value="<%= event.primary_date %>" data-datetime-format-type-value="distance" data-datetime-format-locale-value="<%= current_user.language || '' %>">
     </span>
   </div>
 <% else %>
@@ -12,8 +11,7 @@
     <div class='w-4 h-4'>
       <i data-lucide="clock-4" class="w-4 h-4"></i>
     </div>
-    <span class='typography-body-800'>
-      <%= event.scheduled_at_format_distance %>
+    <span class='typography-body-800' data-controller="datetime-format" data-datetime-format-date-value="<%= event.primary_date %>" data-datetime-format-type-value="distance" data-datetime-format-locale-value="<%= current_user.language || '' %>">
     </span>
   </div>
 <% end %>
