@@ -143,7 +143,7 @@ RSpec.describe Accounts::UsersController, type: :request do
           expect(response).to have_http_status(200)
           expect(response.body).to include(product.name)
           expect(response.body).to include(product.identifier)
-          expect(response.body).to include(I18n.l(product.created_at, format: :long))
+          expect(response.body).to include(product.created_at.to_s)
         end
       end
       context 'when query params are present' do
