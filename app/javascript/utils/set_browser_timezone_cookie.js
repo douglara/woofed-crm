@@ -1,7 +1,7 @@
-import { getTimeZone } from "./locale";
+import { getBrowserTimeZone } from "./locale";
 
 export function setBrowserTimezoneCookie() {
   document.addEventListener("DOMContentLoaded", () => {
-    document.cookie = `browser_timezone=${getTimeZone()}; path=/`;
+    document.cookie = `browser_timezone=${getBrowserTimeZone()}; path=/`;
   });
 }

@@ -4,6 +4,6 @@ export function getBrowserLocale() {
     .replace("_", "-");
 }
 
-export function getTimeZone() {
+export function getBrowserTimeZone() {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }

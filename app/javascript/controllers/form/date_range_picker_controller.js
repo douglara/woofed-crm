@@ -3,7 +3,7 @@ import DateRangePicker from "daterangepicker";
 import "moment-timezone/node_modules/moment/locale/es";
 import "moment-timezone/node_modules/moment/locale/pt-br";
 import moment from "moment-timezone";
-import { getBrowserLocale, getTimeZone } from "../../utils/locale";
+import { getBrowserLocale, getBrowserTimeZone } from "../../utils/locale";
 
 export default class extends Controller {
   static targets = ["dateRangeForm"];
@@ -13,7 +13,7 @@ export default class extends Controller {
 
   connect() {
     this.setMomentJsLocale();
-    const now = moment.tz(getTimeZone());
+    const now = moment.tz(getBrowserTimeZone());
     const yesterday = now.clone().subtract(1, "days");
     const localeData = moment.localeData();
 
