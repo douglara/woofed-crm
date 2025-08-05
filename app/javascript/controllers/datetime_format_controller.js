@@ -3,6 +3,7 @@ import moment from "moment-timezone";
 import "moment/min/locales";
 import "moment-timezone/node_modules/moment/locale/es";
 import "moment-timezone/node_modules/moment/locale/pt-br";
+import { getBrowserLocale, getTimeZone } from "../utils/locale";
 
 export default class extends Controller {
   static values = {
@@ -22,24 +23,14 @@ export default class extends Controller {
     clearInterval(this.updateInterval);
   }
 
-  get timeZone() {
-    return Intl.DateTimeFormat().resolvedOptions().timeZone;
-  }
-
   get dateInTimezone() {
-    return moment.tz(this.dateValue, this.timeZone);
-  }
-
-  get browserLocale() {
-    return (navigator.language || navigator.languages[0] || "en")
-      .toLowerCase()
-      .replace("_", "-");
+    return moment.tz(this.dateValue, getTimeZone());
   }
 
   updateRealTime() {
     if (this.typeValue === "distance") {
       this.updateInterval = setInterval(() => {
-        const updatedDate = moment.tz(this.dateValue, this.timeZone);
+        const updatedDate = moment.tz(this.dateValue, getTimeZone());
         this.setMomentJsLocale();
         this.element.textContent = updatedDate.fromNow(true);
       }, 60000);
@@ -63,7 +54,7 @@ export default class extends Controller {
     return (
       this.localeValue && this.localeValue.trim() !== ""
         ? this.localeValue
-        : this.browserLocale
+        : getBrowserLocale()
     )
       .toLowerCase()
       .replace("_", "-");
