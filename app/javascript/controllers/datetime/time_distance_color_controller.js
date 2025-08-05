@@ -1,6 +1,6 @@
 import { Controller } from "stimulus";
 import moment from "moment-timezone";
-import { getTimeZone } from "../../utils/locale";
+import { getBrowserTimeZone } from "../../utils/locale";
 
 export default class extends Controller {
   static values = {
@@ -21,8 +21,8 @@ export default class extends Controller {
   updateColor() {
     if (!this.hasDateValue) return;
 
-    const now = moment.tz(getTimeZone());
-    const date = moment.tz(this.dateValue, getTimeZone());
+    const now = moment.tz(getBrowserTimeZone());
+    const date = moment.tz(this.dateValue, getBrowserTimeZone());
 
     const expired = date.isBefore(now);
 
