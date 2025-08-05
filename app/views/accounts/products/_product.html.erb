@@ -18,9 +18,9 @@
   <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[220px] truncate">
     <%= product.identifier %>
   </td>
-  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[130px] truncate" data-controller="datetime-format" data-datetime-format-date-value="<%= product.created_at %>" data-datetime-format-type-value="compact" data-datetime-format-locale-value="<%= current_user.language || '' %>">
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[130px] truncate" data-controller="datetime--format-exhibition" data-datetime--format-exhibition-date-value="<%= product.created_at %>" data-datetime--format-exhibition-type-value="compact" data-datetime--format-exhibition-locale-value="<%= current_user.language || '' %>">
   </td>
-  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[130px] truncate" data-controller="datetime-format" data-datetime-format-date-value="<%= product.updated_at %>" data-datetime-format-type-value="compact" data-datetime-format-locale-value="<%= current_user.language || '' %>">
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[130px] truncate" data-controller="datetime--format-exhibition" data-datetime--format-exhibition-date-value="<%= product.updated_at %>" data-datetime--format-exhibition-type-value="compact" data-datetime--format-exhibition-locale-value="<%= current_user.language || '' %>">
   </td>
   <td class="py-2.5 pl-4 pr-4 sticky right-0 bg-light-palette-p5 z-10">
     <div class="flex justify-end gap-2">

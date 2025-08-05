@@ -3,7 +3,7 @@ import moment from "moment-timezone";
 import "moment/min/locales";
 import "moment-timezone/node_modules/moment/locale/es";
 import "moment-timezone/node_modules/moment/locale/pt-br";
-import { getBrowserLocale, getTimeZone } from "../utils/locale";
+import { getBrowserLocale, getTimeZone } from "../../utils/locale";
 
 export default class extends Controller {
   static values = {

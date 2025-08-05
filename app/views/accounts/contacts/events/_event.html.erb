@@ -48,11 +48,11 @@
                 <span>
                   <%= t('views.accounts.contacts.events.event.deadline') %>:
                 </span>
-                <span data-controller="datetime-format" data-datetime-format-date-value="<%= event.primary_date %>" data-datetime-format-type-value="compact"       data-datetime-format-locale-value="<%= current_user.language || '' %>">
+                <span data-controller="datetime--format-exhibition" data-datetime--format-exhibition-date-value="<%= event.primary_date %>" data-datetime--format-exhibition-type-value="compact" data-datetime--format-exhibition-locale-value="<%= current_user.language || '' %>">
                 </span>
               </div>
             <% else %>
-              <p class="m-0 typography-subtext-m-lh150 text-dark-gray-palette-p4" data-controller="datetime-format" data-datetime-format-date-value="<%= event.primary_date %>" data-datetime-format-type-value="compact" data-datetime-format-locale-value="<%= current_user.language || '' %>">
+              <p class="m-0 typography-subtext-m-lh150 text-dark-gray-palette-p4" data-controller="datetime--format-exhibition" data-datetime--format-exhibition-date-value="<%= event.primary_date %>" data-datetime--format-exhibition-type-value="compact" data-datetime--format-exhibition-locale-value="<%= current_user.language || '' %>">
               </p>
             <% end %>
           </div>
