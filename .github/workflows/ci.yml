@@ -82,10 +82,3 @@ jobs:
 
       - name: Change owner of container working directory
         run: chown root:root .
-
-      - name: Publish code coverage
-        uses: paambaati/codeclimate-action@v8.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        with:
-          coverageLocations: ${{ github.workspace }}/coverage/coverage.json:simplecov
