@@ -10,6 +10,7 @@ RSpec.describe Accounts::DealAssigneesController, type: :request do
 
   describe 'DELETE /accounts/{account.id}/deal_assignees/{deal_assignee.id}' do
     let!(:deal_assignee) { create(:deal_assignee, deal:, user:) }
+
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         delete "/accounts/#{account.id}/deal_assignees/#{deal_assignee.id}"
@@ -55,10 +56,9 @@ RSpec.describe Accounts::DealAssigneesController, type: :request do
   end
 
   describe 'POST /accounts/{account.id}/deal_assignees' do
-    let(:valid_params) { { deal_assignee: { deal_id: deal.id, user_id: user.id } } }
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        post "/accounts/#{account.id}/deal_assignees", params: valid_params
+        post "/accounts/#{account.id}/deal_assignees", params: {}
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -67,10 +67,12 @@ RSpec.describe Accounts::DealAssigneesController, type: :request do
       before do
         sign_in(user)
       end
+
       context 'should create deal_assignee' do
         it do
+          params = { deal_assignee: { deal_id: deal.id, user_id: user.id } }
           expect do
-            post "/accounts/#{account.id}/deal_assignees", params: valid_params
+            post "/accounts/#{account.id}/deal_assignees", params:
           end.to change(DealAssignee, :count).by(1)
           expect(response).to have_http_status(302)
         end
