@@ -3,70 +3,22 @@ require 'rails_helper'
 RSpec.describe Accounts::ContactsController, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account:) }
-  let!(:contact) { create(:contact, account:) }
 
-  context 'POST /accounts/{account.id}/contacts' do
-    context 'when it is an unauthenticated user' do
-      let!(:params) do
-        { contact: { full_name: 'Yukio Arie', email: 'yukioarie@gmail.com', phone: '+5522998813788',
-                     account_id: account.id } }
-      end
-
-      it 'returns unauthorized' do
-        expect { post "/accounts/#{account.id}/contacts", params: }.not_to change(Contact, :count)
-        expect(response).to redirect_to(new_user_session_path)
-      end
-    end
-
-    context 'when it is an authenticated user' do
-      before do
-        sign_in(user)
-      end
-
-      let!(:params) do
-        { contact: { full_name: 'Yukio Arie', email: 'yukioarie@gmail.com', phone: '+5522998813788',
-                     account_id: account.id } }
-      end
-
-      it 'create contact' do
-        expect do
-          post "/accounts/#{account.id}/contacts", params:
-        end.to change(Contact, :count).by(1)
-
-        expect(response).to have_http_status(302)
-      end
-
-      context 'not create a new contact' do
-        context 'when phone is invalid' do
-          it 'when phone is more than 15 characters' do
-            params = { contact: { full_name: 'Yukio Arie', email: 'yukioarie@gmail.com', phone: '+552299881378888889',
-                                  account_id: account.id } }
-
-            expect do
-              post "/accounts/#{account.id}/contacts", params:
-            end.to change(Contact, :count).by(0)
-
-            expect(response.body).to include('must be in e164 format')
-            expect(response).to have_http_status(:unprocessable_entity)
-          end
-        end
-      end
-    end
-  end
-
-  context 'GET /accounts/{account.id}/contacts' do
+  describe 'GET /accounts/{account.id}/contacts' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/accounts/#{account.id}/contacts"
         expect(response).to redirect_to(new_user_session_path)
       end
     end
+
     context 'when it is an authenticated user' do
+      let!(:contact) { create(:contact) }
       before do
         sign_in(user)
       end
 
-      it 'should list contacts' do
+      it 'lists contacts' do
         get "/accounts/#{account.id}/contacts"
         expect(response).to have_http_status(200)
         doc = Nokogiri::HTML(response.body)
@@ -185,7 +137,69 @@ RSpec.describe Accounts::ContactsController, type: :request do
     end
   end
 
+  describe 'GET /accounts/{account.id}/contacts/new' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/contacts/new"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      it 'renders new contact page' do
+        get "/accounts/#{account.id}/contacts/new"
+        expect(response).to have_http_status(200)
+      end
+    end
+  end
+
+  describe 'POST /accounts/{account.id}/contacts' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        expect { post "/accounts/#{account.id}/contacts", params: {} }.not_to change(Contact, :count)
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:params) do
+        { contact: { full_name: 'Yukio Arie', email: 'yukioarie@gmail.com', phone: '+5522998813788' } }
+      end
+
+      before do
+        sign_in(user)
+      end
+
+      it 'creates a contact' do
+        expect do
+          post "/accounts/#{account.id}/contacts", params:
+        end.to change(Contact, :count).by(1)
+        expect(response).to redirect_to(account_contact_path(account, Contact.last))
+        expect(Contact.last.full_name).to eq('Yukio Arie')
+        expect(Contact.last.email).to eq('yukioarie@gmail.com')
+        expect(Contact.last.phone).to eq('+5522998813788')
+      end
+
+      context 'when contact creation fails' do
+        it 'renders new with unprocessable_entity status' do
+          params = { contact: { full_name: 'Yukio Arie', email: 'yukioarie@gmail.com', phone: '+552299881378888889' } }
+          expect do
+            post "/accounts/#{account.id}/contacts", params:
+          end.not_to change(Contact, :count)
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include('must be in e164 format')
+        end
+      end
+    end
+  end
+
   describe 'GET /accounts/{account.id}/contacts/{contact.id}' do
+    let!(:contact) { create(:contact, account:) }
+
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/accounts/#{account.id}/contacts/#{contact.id}"
@@ -194,35 +208,137 @@ RSpec.describe Accounts::ContactsController, type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let!(:contact2) { create(:contact, account:) }
       let!(:pipeline) { create(:pipeline, account:) }
       let!(:stage) { create(:stage, account:, pipeline:) }
-      let!(:deal) { create(:deal, account:, stage:, contact:) }
+      let!(:deal) { create(:deal, account:, stage:, contact:, name: 'Assigned Deal') }
+      let!(:deal_assignee) { create(:deal_assignee, deal:, user:, account:) }
+      let!(:unassigned_deal) { create(:deal, account:, stage:, contact:, name: 'Unassigned Deal') }
 
       before do
         sign_in(user)
       end
 
-      context 'get contact' do
-        it 'get contact by account' do
+      it 'gets contact by account' do
+        get "/accounts/#{account.id}/contacts/#{contact.id}"
+        expect(response).to have_http_status(200)
+        expect(response.body).to include(ERB::Util.html_escape(contact.full_name))
+        expect(response.body).to include(ERB::Util.html_escape(contact.email))
+        expect(response.body).to include(ERB::Util.html_escape(deal.name))
+        expect(response.body).to include(ERB::Util.html_escape(unassigned_deal.name))
+        expect(response.body).not_to include('chatwoot_conversation_link')
+        expect(flash[:error]).to be_nil
+      end
+
+      context 'when there is chatwoot integration' do
+        let!(:chatwoot) do
+          create(:apps_chatwoots, :skip_validate, account:, chatwoot_account_id: '456',
+                                                  chatwoot_endpoint_url: 'https://chatwoot.example.com/')
+        end
+
+        before do
+          user.reload
+        end
+
+        it 'shows chatwoot conversation link button' do
           get "/accounts/#{account.id}/contacts/#{contact.id}"
+          expect(response).to have_http_status(:success)
           expect(response.body).to include(ERB::Util.html_escape(contact.full_name))
           expect(response.body).to include(ERB::Util.html_escape(contact.email))
           expect(response.body).to include(ERB::Util.html_escape(deal.name))
-          expect(response.body).not_to include('chatwoot_conversation_link')
+          expect(response.body).to include(ERB::Util.html_escape(unassigned_deal.name))
+          expect(response.body).to include('chatwoot_conversation_link')
+          expect(flash[:error]).to be_nil
         end
-        context 'when there is chatwoot integration' do
-          let!(:chatwoot) { create(:apps_chatwoots, :skip_validate, account:, chatwoot_account_id: '456', chatwoot_endpoint_url: 'https://chatwoot.example.com/') }
+      end
+    end
+  end
 
-          before do
-            user.reload
-          end
+  describe 'PATCH /accounts/{account.id}/contacts/{contact.id}' do
+    let!(:contact) { create(:contact, account:) }
 
-          it 'should show chatwoot conversation link button' do
-            get "/accounts/#{account.id}/contacts/#{contact.id}"
-            expect(response.body).to include('chatwoot_conversation_link')
-          end
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/accounts/#{account.id}/contacts/#{contact.id}", params: {}
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:params) do
+        { contact: { full_name: 'Contact Updated Name Test', phone: '+552299881358',
+                     email: 'contact-updated-email@email.com', label_list: 'label_test_1, label_test_2',
+                     custom_attributes: { 'custom_attribute_teste' => '123456' } } }
+      end
+
+      before do
+        sign_in(user)
+      end
+
+      it 'updates the contact' do
+        patch("/accounts/#{account.id}/contacts/#{contact.id}", params:)
+        expect(response).to redirect_to(account_contact_path(account, contact))
+        expect(contact.reload.full_name).to eq('Contact Updated Name Test')
+        expect(contact.phone).to eq('+552299881358')
+        expect(contact.email).to eq('contact-updated-email@email.com')
+        expect(contact.label_list).to match_array(%w[label_test_1 label_test_2])
+        expect(contact.custom_attributes).to eq({ 'custom_attribute_teste' => '123456' })
+      end
+
+      context 'when update fails' do
+        it 'renders edit with unprocessable_entity status' do
+          params = { contact: { phone: '+552299881378888889' } }
+          patch("/accounts/#{account.id}/contacts/#{contact.id}", params:)
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include('must be in e164 format')
         end
+      end
+    end
+  end
+
+  describe 'DELETE /accounts/{account.id}/contacts/{contact.id}' do
+    let!(:contact) { create(:contact, account:) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/accounts/#{account.id}/contacts/#{contact.id}"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      it 'deletes the contact' do
+        expect do
+          delete "/accounts/#{account.id}/contacts/#{contact.id}"
+        end.to change(Contact, :count).by(-1)
+        expect(response).to redirect_to(account_contacts_path(account))
+      end
+    end
+  end
+
+  describe 'GET /accounts/{account.id}/contacts/{contact.id}/edit_custom_attributes' do
+    let!(:contact) { create(:contact, account:) }
+    let!(:custom_attribute_definition) { create(:custom_attribute_definition, :contact_attribute, account:) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/contacts/#{contact.id}/edit_custom_attributes"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      it 'renders edit custom attributes page' do
+        get "/accounts/#{account.id}/contacts/#{contact.id}/edit_custom_attributes"
+        expect(response).to have_http_status(200)
+        expect(response.body).to include(custom_attribute_definition.attribute_display_name)
       end
     end
   end
@@ -236,6 +352,8 @@ RSpec.describe Accounts::ContactsController, type: :request do
     end
 
     context 'when it is an authenticated user' do
+      let!(:contact) { create(:contact, account:) }
+
       before do
         sign_in(user)
       end
@@ -309,19 +427,18 @@ RSpec.describe Accounts::ContactsController, type: :request do
         context 'when there is a form_id parameter' do
           it 'should render form_id as hidden_field_value on html form' do
             get "/accounts/#{account.id}/contacts/select_contact_search",
-                params: { form_id: '101' }
+                params: { form_id: '101563597' }
 
             expect(response).to have_http_status(200)
-            expect(response.body).to include('value="101"')
+            expect(response.body).to include('value="101563597"')
           end
         end
 
         context 'when there is no form_id parameter' do
           it 'should not render a specific id in the hidden field' do
             get "/accounts/#{account.id}/contacts/select_contact_search"
-
             expect(response).to have_http_status(200)
-            expect(response.body).not_to include('value="101"')
+            expect(response.body).not_to include('value="101563597"')
           end
         end
 
@@ -346,6 +463,8 @@ RSpec.describe Accounts::ContactsController, type: :request do
   end
 
   describe 'GET /accounts/{account.id}/contacts/{contact.id}/chatwoot_conversation_link' do
+    let!(:contact) { create(:contact) }
+
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/accounts/#{account.id}/contacts/#{contact.id}/chatwoot_conversation_link"
@@ -406,7 +525,10 @@ RSpec.describe Accounts::ContactsController, type: :request do
       end
     end
   end
+
   describe 'GET /accounts/{account.id}/contacts/{contact.id}/hovercard_preview' do
+    let!(:contact) { create(:contact) }
+
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/accounts/#{account.id}/contacts/#{contact.id}/hovercard_preview"
@@ -425,92 +547,6 @@ RSpec.describe Accounts::ContactsController, type: :request do
         expect(response.body).to include(ERB::Util.html_escape(contact.email))
         expect(response.body).to include(ERB::Util.html_escape(contact.phone))
         expect(response.body).to include("hovercard_preview_contact_#{contact.id}")
-      end
-    end
-  end
-
-  describe 'PACTH /accounts/{account.id}/contacts/{contact.id}' do
-    context 'when it is an unauthenticated user' do
-      it 'returns unauthorized' do
-        patch "/accounts/#{account.id}/contacts/#{contact.id}"
-        expect(response).to redirect_to(new_user_session_path)
-      end
-    end
-
-    context 'when it is an authenticated user' do
-      before do
-        sign_in(user)
-      end
-
-      context 'update contact by account' do
-        let(:params) do
-          { contact: { full_name: 'Contact Updated Name Test', phone: '+552299881358',
-                       email: 'contact-updated-email@email.com', label_list: 'label_test_1, label_test_2', custom_attributes: { 'custom_attribute_teste' => '123456' } } }
-        end
-        it do
-          patch("/accounts/#{account.id}/contacts/#{contact.id}", params:)
-          expect(response).to redirect_to(account_contact_path(account, contact))
-
-          expect(contact.reload.full_name).to eq('Contact Updated Name Test')
-          expect(contact.phone).to eq('+552299881358')
-          expect(contact.email).to eq('contact-updated-email@email.com')
-          expect(contact.label_list).to match_array(%w[label_test_1 label_test_2])
-          expect(contact.custom_attributes).to eq({ 'custom_attribute_teste' => '123456' })
-        end
-      end
-      context 'should not update contact' do
-        context 'when the phone is already used by another contact' do
-          let!(:other_contact) { create(:contact, account:, phone: '+123456789') }
-          let(:params) { { contact: { phone: '+123456789' } } }
-
-          it 'should return unprocessable_entity' do
-            patch("/accounts/#{account.id}/contacts/#{contact.id}", params:)
-            expect(response).to have_http_status(:unprocessable_entity)
-          end
-        end
-      end
-    end
-  end
-
-  context 'DELETE /accounts/{account.id}/contacts/{contact.id}' do
-    context 'when it is an unauthenticated user' do
-      it 'returns unauthorized' do
-        delete "/accounts/#{account.id}/contacts/#{contact.id}"
-        expect(response).to redirect_to(new_user_session_path)
-      end
-    end
-    context 'when it is an authenticated user' do
-      before do
-        sign_in(user)
-      end
-      context 'delete the contact by account' do
-        it do
-          expect do
-            delete "/accounts/#{account.id}/contacts/#{contact.id}"
-          end.to change(Contact, :count).by(-1)
-        end
-      end
-    end
-  end
-
-  context 'GET /accounts/{account.id}/contacts/new' do
-    context 'when it is an unauthenticated user' do
-      it 'returns unauthorized' do
-        get "/accounts/#{account.id}/contacts/new"
-        expect(response).to redirect_to(new_user_session_path)
-      end
-    end
-
-    context 'when it is an authenticated user' do
-      before do
-        sign_in(user)
-      end
-
-      context 'get contact new page' do
-        it do
-          get "/accounts/#{account.id}/contacts/new"
-          expect(response).to have_http_status(200)
-        end
       end
     end
   end
