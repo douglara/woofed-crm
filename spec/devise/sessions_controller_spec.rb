@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Devise::SessionsController, type: :request do
   before do
-    ENV["ENABLE_USER_SIGNUP"] = "true"
+    ENV['ENABLE_USER_SIGNUP'] = 'true'
     Rails.application.reload_routes!
   end
 
   after do
-    ENV["ENABLE_USER_SIGNUP"] = "false"
+    ENV['ENABLE_USER_SIGNUP'] = 'false'
     Rails.application.reload_routes!
   end
 
@@ -29,21 +29,23 @@ RSpec.describe Devise::SessionsController, type: :request do
 
   describe 'POST /users' do
     context 'success' do
-      it 'should create a new user' do
+      it 'should create a new user and account' do
         expect do
           post '/users',
                params: valid_params
         end.to change(User, :count).by(1)
+                                   .and change(Account, :count).by(1)
         expect(response).to redirect_to(root_path)
       end
 
-      it 'create user without account fields' do
+      it 'create only user without account fields' do
         valid_params[:user].delete(:account_attributes)
 
         expect do
           post '/users',
                params: valid_params
         end.to change(User, :count).by(1)
+                                   .and change(Account, :count).by(0)
       end
     end
     context 'failed' do
@@ -72,6 +74,15 @@ RSpec.describe Devise::SessionsController, type: :request do
         end.to change(User, :count).by(0)
         expect(response.body).to include('Phone (cell) is invalid')
       end
+    end
+  end
+
+  describe 'GET users/sign_in' do
+    it 'should render the sign in page' do
+      get '/users/sign_in'
+      expect(response.body).to include('Log in')
+      expect(response.body).to include('Woofed CRM')
+      expect(response.body).to include('Create account')
     end
   end
 end
