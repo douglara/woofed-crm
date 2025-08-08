@@ -13,16 +13,16 @@ RSpec.describe Accounts::DealsController, type: :request do
   let(:last_deal_assignee) { DealAssignee.last }
 
   describe 'POST /accounts/{account.id}/deals' do
-    let(:valid_params) { { deal: { name: 'Deal 1', contact_id: contact.id, stage_id: stage.id } } }
-
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        expect { post "/accounts/#{account.id}/deals", params: valid_params }.not_to change(Deal, :count)
+        expect { post "/accounts/#{account.id}/deals", params: {} }.not_to change(Deal, :count)
         expect(response).to redirect_to(new_user_session_path)
       end
     end
 
     context 'when it is an authenticated user' do
+      let(:params) { { deal: { name: 'Deal 1', contact_id: contact.id, stage_id: stage.id } } }
+
       before do
         sign_in(user)
       end
@@ -31,7 +31,7 @@ RSpec.describe Accounts::DealsController, type: :request do
         it do
           expect do
             post "/accounts/#{account.id}/deals",
-                 params: valid_params
+                 params:
           end.to change(Deal, :count).by(1)
                                      .and change(Event, :count).by(1)
                                      .and change(DealAssignee, :count).by(1)
@@ -47,27 +47,28 @@ RSpec.describe Accounts::DealsController, type: :request do
 
   describe 'PUT /accounts/{account.id}/deals/:id' do
     let!(:deal) { create(:deal, account:, stage:) }
-    let(:valid_params) { { deal: { name: 'Deal Updated' } } }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        put "/accounts/#{account.id}/deals/#{deal.id}", params: valid_params
+        put "/accounts/#{account.id}/deals/#{deal.id}", params: {}
         expect(response).to redirect_to(new_user_session_path)
       end
     end
 
     context 'when it is an authenticated user' do
+      let(:params) { { deal: { name: 'Deal Updated' } } }
+
       before do
         sign_in(user)
       end
 
       context 'should update deal ' do
         it do
-          put "/accounts/#{account.id}/deals/#{deal.id}",
-              params: valid_params
+          put("/accounts/#{account.id}/deals/#{deal.id}",
+              params:)
 
-          # expect(response).to have_http_status(:success)
           expect(deal.reload.name).to eq('Deal Updated')
+          expect(response).to have_http_status(:redirect)
         end
       end
       context 'update deal position and create deal_stage_change event' do
@@ -191,6 +192,7 @@ RSpec.describe Accounts::DealsController, type: :request do
       end
     end
   end
+
   describe 'DELETE /accounts/{account.id}/deals/:id' do
     let!(:deal) { create(:deal, account:, stage:) }
 
@@ -207,20 +209,12 @@ RSpec.describe Accounts::DealsController, type: :request do
         sign_in(user)
       end
 
-      context 'delete deal' do
+      context 'delete a deal and its associated events' do
         it do
           expect do
             delete "/accounts/#{account.id}/deals/#{deal.id}"
             expect(response).to redirect_to(root_path)
-          end.to change(Deal, :count).by(-1)
-        end
-        it 'with events' do
-          event
-          expect do
-            delete "/accounts/#{account.id}/deals/#{deal.id}"
-            expect(response).to redirect_to(root_path)
-          end.to change(Deal, :count).by(-1) and change(Contact, :count).by(-1)
-          expect(account.events.count).to eq(0)
+          end.to change(Deal, :count).by(-1).and change(Event, :count).by(-1)
         end
       end
     end
@@ -240,10 +234,12 @@ RSpec.describe Accounts::DealsController, type: :request do
       before do
         sign_in(user)
       end
-      it 'should show edit deal page' do
+
+      it 'shows the edit deal page' do
         get "/accounts/#{account.id}/deals/#{deal.id}/edit"
-        expect(response).to have_http_status(200)
-        expect(response).not_to include('Created by')
+        expect(response).to have_http_status(:success)
+        expect(response.body).not_to include('Created by')
+        expect(flash[:error]).to be_nil
       end
     end
   end
@@ -437,6 +433,7 @@ RSpec.describe Accounts::DealsController, type: :request do
       end
     end
   end
+
   describe 'GET /accounts/{account.id}/deals' do
     let!(:deal) { create(:deal, stage:, contact:, creator: user, name: 'Test Deal') }
 
