@@ -1,0 +1,11 @@
+<nav>
+  <ul class="flex gap-2 border-b border-light-palette-p3">
+    <% tabs.each do |tab| %>
+      <li>
+        <% selected = request.path == tab[:path] %>
+        <%= link_to tab[:label], tab[:path],
+              class: "inline-flex items-center h-10 px-6 -mb-px border-b typography-body-s-lh150 leading-none #{selected ? 'border-brand-palette-03 text-dark-gray-palette-p1 pointer-events-none' : 'border-transparent text-gray-pallete-p3 hover:text-dark-gray-palette-p1 hover:border-brand-palette-06'}" %>
+      </li>
+    <% end %>
+  </ul>
+</nav>

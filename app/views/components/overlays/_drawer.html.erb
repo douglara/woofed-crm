@@ -1,0 +1,21 @@
+<% width_class ||= 'w-2/5' %>
+<%= turbo_frame_tag :drawer do %>
+  <div id="drawer-right" data-controller='drawer' class="fixed ease-in duration-300 top-0 right-0 z-[60] h-screen p-4 overflow-y-auto transition-transform translate-x-full color-bg-surface-default <%= width_class %>" tabindex="-1" aria-labelledby="drawer-right-label">
+    <div class='flex items-center justify-between mb-5'>
+      <h5 id="drawer-right-label" class="typography-title-700 color-fg-default">
+        <%= title %>
+      </h5>
+      <div class="flex items-center space-x-2">
+        <% if defined?(edit_path) && edit_path.present? %>
+          <%= link_to edit_path, class: "color-fg-extra-soft bg-transparent hover:bg-gray-200 hover:color-fg-default rounded-lg typography-label-900 w-8 h-8 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white" do %>
+            <i data-lucide="pencil" class=''></i>
+          <% end %>
+        <% end %>
+        <%= link_to :back, class: "color-fg-extra-soft bg-transparent hover:bg-gray-200 hover:color-fg-default rounded-lg typography-label-900 w-8 h-8 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white" do %>
+          <i data-lucide="x" class=''></i>
+        <% end %>
+      </div>
+    </div>
+    <%= yield %>
+  </div>
+<% end %>

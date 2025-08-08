@@ -1,0 +1,22 @@
+<% width_class ||= 'max-w-lg' %>
+<%= turbo_frame_tag :modal do %>
+  <div id="modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-[60] hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full" data-controller='modal load-lucid-icons'>
+    <div class="relative w-full <%= width_class %> max-h-full">
+      <!-- Modal content -->
+      <div class="relative color-bg-surface-default rounded-lg shadow">
+        <!-- Modal header -->
+        <div class="flex justify-between gap-3 p-4 md:p-5 rounded-t">
+          <h3 class="typography-title-700 color-fg-default">
+            <%= title %>
+          </h3>
+          <%= link_to :back, class: "color-fg-extra-soft bg-transparent hover:bg-gray-200 hover:color-fg-default rounded-lg typography-label-900 w-8 h-8 ms-auto inline-flex justify-center items-center" do %>
+            <i data-lucide="x" class=''></i>
+            <span class="sr-only">Close modal</span>
+          <% end %>
+        </div>
+        <!-- Modal body -->
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+<% end  %>
