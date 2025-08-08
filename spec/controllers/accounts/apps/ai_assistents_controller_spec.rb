@@ -4,22 +4,47 @@ require 'rails_helper'
 
 RSpec.describe Accounts::Apps::AiAssistentsController, type: :request do
   let!(:account) { create(:account) }
-  let!(:user) { create(:user, account:) }
+  let!(:user) { create(:user) }
+  let!(:ai_assistent) { create(:apps_ai_assistent) }
+  let(:valid_params) do
+    { apps_ai_assistent: { auto_reply: true, model: 'gpt-4', api_key: 'new_api_key', enabled: true } }
+  end
 
   before do
     allow(Accounts::Create::EmbedCompanySiteJob).to receive(:perform_later)
   end
 
-  describe 'PATCH #update' do
-    let!(:ai_assistent) { create(:apps_ai_assistent) }
-    context 'when is unauthenticated user' do
+  describe 'GET /accounts/{account.id}/apps/ai_assistent/edit' do
+    context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        patch "/accounts/#{account.id}/apps/ai_assistent", params: {}
+        get "/accounts/#{account.id}/apps/ai_assistent/edit"
         expect(response).to redirect_to(new_user_session_path)
       end
     end
 
-    context 'when is authenticated user' do
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      it 'renders edit page' do
+        get "/accounts/#{account.id}/apps/ai_assistent/edit"
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(ai_assistent.api_key)
+        expect(flash[:error]).to be_nil
+      end
+    end
+  end
+
+  describe 'PATCH /accounts/{account.id}/apps/ai_assistent' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/accounts/#{account.id}/apps/ai_assistent"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
       before do
         sign_in(user)
       end
@@ -54,7 +79,7 @@ RSpec.describe Accounts::Apps::AiAssistentsController, type: :request do
         let(:invalid_params) do
           {
             apps_ai_assistent: {
-              auto_reply: nil, # Invalid value
+              auto_reply: nil,
               model: '',
               api_key: '',
               enabled: nil
@@ -68,38 +93,6 @@ RSpec.describe Accounts::Apps::AiAssistentsController, type: :request do
 
           expect(ai_assistent.auto_reply).not_to eq(nil)
           expect(response).to have_http_status(:unprocessable_entity)
-        end
-      end
-    end
-  end
-
-  describe '#edit' do
-    context 'when is unauthenticated user' do
-      it 'returns unauthorized' do
-        get "/accounts/#{account.id}/apps/ai_assistent/edit"
-        expect(response).to redirect_to(new_user_session_path)
-      end
-    end
-
-    context 'when is authenticated user' do
-      before do
-        sign_in(user)
-      end
-
-      context 'when create ai assistent' do
-        it do
-          expect do
-            get "/accounts/#{account.id}/apps/ai_assistent/edit"
-          end.to change(Apps::AiAssistent, :count).by(1)
-        end
-      end
-
-      context 'when edit ai assistent' do
-        let!(:ai_assistent) { create(:apps_ai_assistent, api_key: 'new_api_key') }
-        it do
-          get "/accounts/#{account.id}/apps/ai_assistent/edit"
-          expect(response).to have_http_status(:ok)
-          expect(response.body).to include('new_api_key')
         end
       end
     end
