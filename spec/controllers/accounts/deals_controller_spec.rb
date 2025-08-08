@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Accounts::DealsController, type: :request do
   let!(:account) { create(:account) }
-  let!(:user) { create(:user, account:) }
-  let!(:pipeline) { create(:pipeline, account:) }
-  let!(:stage) { create(:stage, account:, pipeline:) }
-  let!(:stage_2) { create(:stage, account:, pipeline:, name: 'Stage 2') }
-  let!(:contact) { create(:contact, account:) }
-  let(:event) { create(:event, account:, deal:, kind: 'activity') }
+  let!(:user) { create(:user) }
+  let!(:pipeline) { create(:pipeline) }
+  let!(:stage) { create(:stage, pipeline:) }
+  let!(:stage_2) { create(:stage, pipeline:, name: 'Stage 2') }
+  let!(:contact) { create(:contact) }
+  let(:event) { create(:event, deal:, kind: 'activity') }
   let(:last_event) { Event.last }
   let(:last_deal) { Deal.last }
   let(:last_deal_assignee) { DealAssignee.last }
@@ -46,7 +46,7 @@ RSpec.describe Accounts::DealsController, type: :request do
   end
 
   describe 'PUT /accounts/{account.id}/deals/:id' do
-    let!(:deal) { create(:deal, account:, stage:) }
+    let!(:deal) { create(:deal, stage:) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -77,12 +77,12 @@ RSpec.describe Accounts::DealsController, type: :request do
             example.run
           end
         end
-        let!(:deal_stage_1_position_1) { create(:deal, account:, stage:, position: 1) }
-        let!(:deal_stage_1_position_2) { create(:deal, account:, stage:, position: 2) }
-        let!(:deal_stage_1_position_3) { create(:deal, account:, stage:, position: 3) }
-        let!(:deal_stage_2_position_1) { create(:deal, account:, stage: stage_2, position: 1) }
-        let!(:deal_stage_2_position_2) { create(:deal, account:, stage: stage_2, position: 2) }
-        let!(:deal_stage_2_position_3) { create(:deal, account:, stage: stage_2, position: 3) }
+        let!(:deal_stage_1_position_1) { create(:deal, stage:, position: 1) }
+        let!(:deal_stage_1_position_2) { create(:deal, stage:, position: 2) }
+        let!(:deal_stage_1_position_3) { create(:deal, stage:, position: 3) }
+        let!(:deal_stage_2_position_1) { create(:deal, stage: stage_2, position: 1) }
+        let!(:deal_stage_2_position_2) { create(:deal, stage: stage_2, position: 2) }
+        let!(:deal_stage_2_position_3) { create(:deal, stage: stage_2, position: 3) }
         skip 'between different stages' do
           it 'stage 1 position 3 to stage 2 position 1' do
             params =  { deal: { stage_id: stage_2.id, position: 1 } }
@@ -153,7 +153,7 @@ RSpec.describe Accounts::DealsController, type: :request do
           expect(last_event.kind).to eq('deal_lost')
         end
         context 'when deal is won ' do
-          let!(:won_deal) { create(:deal, account:, stage:, status: 'won') }
+          let!(:won_deal) { create(:deal, stage:, status: 'won') }
           it 'update to open and create reopen_lost event' do
             params = { deal: { status: 'open' } }
             expect do
@@ -168,7 +168,7 @@ RSpec.describe Accounts::DealsController, type: :request do
   end
 
   describe 'GET /accounts/{account.id}/deals/:id' do
-    let(:deal) { create(:deal, account:, stage:, creator: user) }
+    let(:deal) { create(:deal, stage:, creator: user) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -194,7 +194,7 @@ RSpec.describe Accounts::DealsController, type: :request do
   end
 
   describe 'DELETE /accounts/{account.id}/deals/:id' do
-    let!(:deal) { create(:deal, account:, stage:) }
+    let!(:deal) { create(:deal, stage:) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -221,7 +221,7 @@ RSpec.describe Accounts::DealsController, type: :request do
   end
 
   describe 'GET /accounts/{account.id}/deals/:id/edit' do
-    let!(:deal) { create(:deal, account:, stage:, contact:, creator: user) }
+    let!(:deal) { create(:deal, stage:, contact:, creator: user) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -245,12 +245,12 @@ RSpec.describe Accounts::DealsController, type: :request do
   end
 
   describe 'test events to do and done pages' do
-    let!(:deal) { create(:deal, account:, stage:, contact:) }
+    let!(:deal) { create(:deal, stage:, contact:) }
     let!(:event_to_do) do
-      create(:event, account:, deal:, kind: 'activity', title: 'event to do', contact:)
+      create(:event, deal:, kind: 'activity', title: 'event to do', contact:)
     end
     let!(:event_done) do
-      create(:event, account:, deal:, kind: 'activity', title: 'event done',
+      create(:event, deal:, kind: 'activity', title: 'event done',
                      done_at: Time.current - 3.minutes, contact:)
     end
 
@@ -276,7 +276,7 @@ RSpec.describe Accounts::DealsController, type: :request do
         context 'check if pagination is enabled' do
           it 'should return turboframe with id pagination' do
             5.times do
-              create(:event, account:, deal:, kind: 'activity', title: 'event to do', contact:)
+              create(:event, deal:, kind: 'activity', title: 'event to do', contact:)
             end
             get "/accounts/#{account.id}/deals/#{deal.id}/events_to_do"
             expect(response.body).to include('id="pagination_events_to_do"')
@@ -306,7 +306,7 @@ RSpec.describe Accounts::DealsController, type: :request do
         context 'check if pagination is enabled' do
           it 'should return turboframe with id pagination' do
             5.times do
-              create(:event, account:, deal:, kind: 'activity', title: 'event done',
+              create(:event, deal:, kind: 'activity', title: 'event done',
                              done_at: Time.current - 3.minutes, contact:)
             end
             get "/accounts/#{account.id}/deals/#{deal.id}/events_done"
@@ -318,10 +318,10 @@ RSpec.describe Accounts::DealsController, type: :request do
   end
 
   describe 'GET /accounts/{account.id}/deals/:id/deal_products' do
-    let!(:deal) { create(:deal, account:, stage:, contact:) }
-    let(:product) { create(:product, account:) }
+    let!(:deal) { create(:deal, stage:, contact:) }
+    let(:product) { create(:product) }
     let!(:deal_product) do
-      create(:deal_product, account:, deal:, product:, product_name: 'Product teste deal name',
+      create(:deal_product, deal:, product:, product_name: 'Product teste deal name',
                             unit_amount_in_cents: '10000', quantity: '65984123', product_identifier: 'Identifier 123 test')
     end
 
@@ -371,10 +371,10 @@ RSpec.describe Accounts::DealsController, type: :request do
   end
 
   describe 'GET /accounts/{account.id}/deals/:id/edit_deal_product?deal_product_id={deal_product.id}' do
-    let!(:deal) { create(:deal, account:, stage:, contact:) }
-    let(:product) { create(:product, account:) }
+    let!(:deal) { create(:deal, stage:, contact:) }
+    let(:product) { create(:product) }
     let!(:deal_product) do
-      create(:deal_product, account:, deal:, product:, product_name: 'Product teste deal name',
+      create(:deal_product, deal:, product:, product_name: 'Product teste deal name',
                             unit_amount_in_cents: '10000', quantity: '65984123', product_identifier: 'Identifier 123 test')
     end
 
@@ -401,7 +401,7 @@ RSpec.describe Accounts::DealsController, type: :request do
   end
 
   describe 'PATCH /accounts/{account.id}/deals/:id/update_deal_product?deal_product_id={deal_product.id}' do
-    let!(:deal_product) { create(:deal_product, account:) }
+    let!(:deal_product) { create(:deal_product) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

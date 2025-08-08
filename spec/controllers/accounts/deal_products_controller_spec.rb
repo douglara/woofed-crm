@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Accounts::DealProductsController, type: :request do
   let!(:account) { create(:account) }
-  let!(:user) { create(:user, account:) }
-  let!(:contact) { create(:contact, account:) }
-  let(:product) { create(:product, account:) }
-  let!(:pipeline) { create(:pipeline, account:) }
-  let!(:stage) { create(:stage, account:, pipeline:) }
-  let!(:deal) { create(:deal, account:, stage:, contact:) }
-  let!(:deal_product) { create(:deal_product, account:, deal:, product:) }
+  let!(:user) { create(:user) }
+  let!(:contact) { create(:contact) }
+  let(:product) { create(:product) }
+  let!(:pipeline) { create(:pipeline) }
+  let!(:stage) { create(:stage, pipeline:) }
+  let!(:deal) { create(:deal, stage:, contact:) }
+  let!(:deal_product) { create(:deal_product, deal:, product:) }
   let(:last_event) { Event.last }
   let(:last_deal_product) { DealProduct.last }
 
@@ -61,7 +61,7 @@ RSpec.describe Accounts::DealProductsController, type: :request do
   end
 
   describe 'POST /accounts/{account.id}/deal_products' do
-    let(:another_product) { create(:product, account:) }
+    let(:another_product) { create(:product) }
     let(:params) { { deal_product: { deal_id: deal.id, product_id: another_product.id, quantity: 2 } } }
 
     context 'when it is an unauthenticated user' do

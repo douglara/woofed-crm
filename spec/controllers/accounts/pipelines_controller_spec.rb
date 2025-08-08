@@ -90,7 +90,7 @@ RSpec.describe Accounts::PipelinesController, type: :request do
   end
 
   describe 'GET /accounts/{account.id}/pipelines/{pipeline.id}/edit' do
-    let!(:pipeline) { create(:pipeline, account: account) }
+    let!(:pipeline) { create(:pipeline) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -113,7 +113,7 @@ RSpec.describe Accounts::PipelinesController, type: :request do
   end
 
   describe 'PATCH /accounts/{account.id}/pipelines/{pipeline.id}' do
-    let!(:pipeline) { create(:pipeline, account: account) }
+    let!(:pipeline) { create(:pipeline) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -146,7 +146,7 @@ RSpec.describe Accounts::PipelinesController, type: :request do
   end
 
   skip 'DELETE /accounts/{account.id}/pipelines/{pipeline.id}' do
-    let!(:pipeline) { create(:pipeline, account: account) }
+    let!(:pipeline) { create(:pipeline) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

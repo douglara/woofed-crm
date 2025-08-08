@@ -2,16 +2,15 @@ require 'rails_helper'
 
 RSpec.describe Accounts::StagesController, type: :request do
   let!(:account) { create(:account) }
-  let!(:account_2) { create(:account) }
-  let!(:user) { create(:user, account:) }
-  let!(:stage_1) { create(:stage, account:, name: 'stage 1') }
-  let!(:stage_2) { create(:stage, account:, name: 'stage 2') }
-  let!(:stage_3) { create(:stage, account: account_2, name: 'stage 3') }
-  let!(:deal_1_stage_1_open) { create(:deal, account:, stage: stage_1, status: 'open', name: 'deal 1') }
-  let!(:deal_2_stage_1_open) { create(:deal, account:, stage: stage_1, status: 'open', name: 'deal 2') }
-  let!(:deal_3_stage_1_lost) { create(:deal, account:, stage: stage_1, status: 'lost', name: 'deal 3') }
-  let!(:deal_4_stage_2_open) { create(:deal, account:, stage: stage_2, status: 'open', name: 'deal 4') }
-  let!(:deal_5_stage_1_won) { create(:deal, account:, stage: stage_1, status: 'won', name: 'deal 5') }
+  let!(:user) { create(:user) }
+  let!(:stage_1) { create(:stage, name: 'stage 1') }
+  let!(:stage_2) { create(:stage, name: 'stage 2') }
+  let!(:stage_3) { create(:stage, name: 'stage 3') }
+  let!(:deal_1_stage_1_open) { create(:deal, stage: stage_1, status: 'open', name: 'deal 1') }
+  let!(:deal_2_stage_1_open) { create(:deal, stage: stage_1, status: 'open', name: 'deal 2') }
+  let!(:deal_3_stage_1_lost) { create(:deal, stage: stage_1, status: 'lost', name: 'deal 3') }
+  let!(:deal_4_stage_2_open) { create(:deal, stage: stage_2, status: 'open', name: 'deal 4') }
+  let!(:deal_5_stage_1_won) { create(:deal, stage: stage_1, status: 'won', name: 'deal 5') }
 
   describe 'GET /accounts/{account.id}/stages/{stage_1.id}' do
     context 'when it is an unauthenticated user' do

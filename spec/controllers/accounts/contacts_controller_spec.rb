@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Accounts::ContactsController, type: :request do
   let!(:account) { create(:account) }
-  let!(:user) { create(:user, account:) }
+  let!(:user) { create(:user) }
 
   describe 'GET /accounts/{account.id}/contacts' do
     context 'when it is an unauthenticated user' do
@@ -114,11 +114,11 @@ RSpec.describe Accounts::ContactsController, type: :request do
 
         context 'when there are multiple contacts and query does not match any' do
           let!(:contact2) do
-            create(:contact, account:, full_name: 'Jane Smith', email: 'jane.smith@example.com',
+            create(:contact, full_name: 'Jane Smith', email: 'jane.smith@example.com',
                              phone: '+55226598745699')
           end
           let!(:contact3) do
-            create(:contact, account:, full_name: 'Bob Johnson', email: 'bob.johnson@example.com',
+            create(:contact, full_name: 'Bob Johnson', email: 'bob.johnson@example.com',
                              phone: '+5541225695285')
           end
 
@@ -198,7 +198,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
   end
 
   describe 'GET /accounts/{account.id}/contacts/{contact.id}' do
-    let!(:contact) { create(:contact, account:) }
+    let!(:contact) { create(:contact) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -208,11 +208,11 @@ RSpec.describe Accounts::ContactsController, type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let!(:pipeline) { create(:pipeline, account:) }
-      let!(:stage) { create(:stage, account:, pipeline:) }
-      let!(:deal) { create(:deal, account:, stage:, contact:, name: 'Assigned Deal') }
-      let!(:deal_assignee) { create(:deal_assignee, deal:, user:, account:) }
-      let!(:unassigned_deal) { create(:deal, account:, stage:, contact:, name: 'Unassigned Deal') }
+      let!(:pipeline) { create(:pipeline) }
+      let!(:stage) { create(:stage, pipeline:) }
+      let!(:deal) { create(:deal, stage:, contact:, name: 'Assigned Deal') }
+      let!(:deal_assignee) { create(:deal_assignee, deal:, user:) }
+      let!(:unassigned_deal) { create(:deal, stage:, contact:, name: 'Unassigned Deal') }
 
       before do
         sign_in(user)
@@ -231,7 +231,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
 
       context 'when there is chatwoot integration' do
         let!(:chatwoot) do
-          create(:apps_chatwoots, :skip_validate, account:, chatwoot_account_id: '456',
+          create(:apps_chatwoots, :skip_validate, chatwoot_account_id: '456',
                                                   chatwoot_endpoint_url: 'https://chatwoot.example.com/')
         end
 
@@ -254,7 +254,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
   end
 
   describe 'PATCH /accounts/{account.id}/contacts/{contact.id}' do
-    let!(:contact) { create(:contact, account:) }
+    let!(:contact) { create(:contact) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -296,7 +296,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
   end
 
   describe 'DELETE /accounts/{account.id}/contacts/{contact.id}' do
-    let!(:contact) { create(:contact, account:) }
+    let!(:contact) { create(:contact) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -320,8 +320,8 @@ RSpec.describe Accounts::ContactsController, type: :request do
   end
 
   describe 'GET /accounts/{account.id}/contacts/{contact.id}/edit_custom_attributes' do
-    let!(:contact) { create(:contact, account:) }
-    let!(:custom_attribute_definition) { create(:custom_attribute_definition, :contact_attribute, account:) }
+    let!(:contact) { create(:contact) }
+    let!(:custom_attribute_definition) { create(:custom_attribute_definition, :contact_attribute) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -352,7 +352,7 @@ RSpec.describe Accounts::ContactsController, type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let!(:contact) { create(:contact, account:) }
+      let!(:contact) { create(:contact) }
 
       before do
         sign_in(user)
