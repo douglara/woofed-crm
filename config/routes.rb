@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
     resources :users do
       get 'select_user_search', on: :collection
+      get 'hovercard_preview', on: :member
     end
     resources :products do
       get 'edit_custom_attributes', on: :member

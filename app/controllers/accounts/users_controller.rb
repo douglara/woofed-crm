@@ -1,5 +1,5 @@
 class Accounts::UsersController < InternalController
-  before_action :set_user, only: %i[edit update destroy]
+  before_action :set_user, only: %i[edit update destroy hovercard_preview]
 
   def index
     @users = if params[:query].present?
@@ -55,6 +55,9 @@ class Accounts::UsersController < InternalController
              else
                User.order(updated_at: :desc).limit(5)
              end
+  end
+
+  def hovercard_preview
   end
 
   private

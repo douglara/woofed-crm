@@ -469,4 +469,26 @@ RSpec.describe Accounts::UsersController, type: :request do
       end
     end
   end
+  describe 'GET /accounts/{account.id}/users/{user.id}/hovercard_preview' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/users/#{user.id}/hovercard_preview"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      it 'get user hovercard preview by account' do
+        get "/accounts/#{account.id}/users/#{user.id}/hovercard_preview"
+        expect(response.body).to include(ERB::Util.html_escape(user.full_name))
+        expect(response.body).to include(ERB::Util.html_escape(user.email))
+        expect(response.body).to include(ERB::Util.html_escape(user.phone))
+        expect(response.body).to include("hovercard_preview_user_#{user.id}")
+      end
+    end
+  end
 end

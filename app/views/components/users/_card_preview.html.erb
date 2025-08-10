@@ -1,0 +1,36 @@
+<div class='rounded-md p-4 color-bg-surface-default border color-border-default'>
+  <div class='flex justify-between content-start mb-[9px]'>
+    <div class='h-10 w-10 rounded-full color-border-hard flex-shrink-0'>
+      <% if user.avatar_url.present? %>
+        <div data-controller='lightbox'>
+          <img class="rounded-full h-full w-full object-cover" src="<%= user.avatar_url %>" data-src="<%= user.avatar_url %>" data-sub-html="<%= user.full_name %>" alt="<%= user.full_name %>" >
+        </div>
+      <% else %>
+        <div class="border color-bg-surface-harder rounded-full h-full w-full flex items-center">
+          <i data-lucide="user-cog" class="color-fg-soft m-auto w-6 h-6"></i>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <h1 class='typography-sub-title-800 select-text color-fg-default break-all mb-2.5 <%= dom_id(user, :stream_full_name) %>'>
+    <%= user.full_name %>
+  </h1>
+  <div class='w-full border-[0.5px] color-border-default mb-2.5'>
+  </div>
+  <div class='mb-2'>
+    <div class='inline-flex items-center gap-2 color-fg-default'>
+      <i data-lucide="at-sign" class="w-5 h-5 stroke-1.04"></i>
+      <p class='typography-body-900 select-text break-all <%= dom_id(user, :stream_email) %>'>
+        <%= user.email %>
+      </p>
+    </div>
+  </div>
+  <div>
+    <div class='inline-flex items-center gap-2 color-fg-default'>
+      <i data-lucide="phone" class="w-5 h-5 stroke-1.04"></i>
+      <p class='typography-body-900 select-text break-all <%= dom_id(user, :stream_phone) %>'>
+        <%= user.phone %>
+      </p>
+    </div>
+  </div>
+</div>
