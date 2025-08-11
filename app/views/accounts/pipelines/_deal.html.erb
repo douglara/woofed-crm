@@ -1,4 +1,4 @@
-<%= content_tag :li, id: dom_id(deal), data: { id: deal.id, account_id: Current.account.id, position: deal.position } , class: 'hover:shadow-sm select-none' do %>
+<%= content_tag :li, id: dom_id(deal), data: { id: deal.id, account_id: Current.account.id, position: deal.position } , class: 'hover:shadow-sm select-none cursor-pointer' do %>
   <%= turbo_stream_from deal %>
   <div class="rounded border-2 color-border-default color-bg-fill-default" data-controller='load-lucid-icons'>
     <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top }, class: 'flex flex-col gap-2 pt-2 px-4' do %>
@@ -64,14 +64,33 @@
               <div class='w-4 h-4'>
                 <i data-lucide="circle-dollar-sign" class="w-4 h-4"></i>
               </div>
-              <span class='typography-body-800'>
-                <%= deal.total_amount_in_cents_at_format %>
-              </span>
             </div>
-          <% end %>
-          <%= render partial: 'accounts/pipelines/deal_event', locals: {event: deal.next_event_planned}  if deal.next_event_planned? %>
-        </div>
+            <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top }, class: 'h-2' do %>
+              &nbsp;
+            <% end %>
+          </div>
+        <% end %>
+        <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top }, class: 'flex-1' do %>
+          &nbsp;
+        <% end if !deal.total_amount_in_cents.zero? || deal.next_event_planned? || deal.users.present? %>
+      </div>
+      <% if !deal.total_amount_in_cents.zero? || deal.next_event_planned? %>
+        <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top } do %>
+          <div class='flex items-center flex-wrap gap-1.5 pr-4 pb-2'>
+            <% unless deal.total_amount_in_cents.zero? %>
+              <div class='inline-flex gap-1 items-center color-fg-feedback-neutral h-5'>
+                <div class='w-4 h-4'>
+                  <i data-lucide="circle-dollar-sign" class="w-4 h-4"></i>
+                </div>
+                <span class='typography-body-800'>
+                  <%= deal.total_amount_in_cents_at_format %>
+                </span>
+              </div>
+            <% end %>
+            <%= render partial: 'accounts/pipelines/deal_event', locals: {event: deal.next_event_planned}  if deal.next_event_planned? %>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
 <% end %>
