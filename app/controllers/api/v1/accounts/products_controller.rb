@@ -25,6 +25,11 @@ class Api::V1::Accounts::ProductsController < Api::V1::InternalController
 
     render json: { data: @products,
                    pagination: pagy_metadata(@pagy) }
+  rescue ArgumentError => e
+    render json: {
+      errors: 'Invalid search parameters',
+      details: e.message
+    }, status: :unprocessable_entity
   end
 
   def product_params

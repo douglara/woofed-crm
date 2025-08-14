@@ -159,6 +159,20 @@ RSpec.describe 'Products API', type: :request do
           expect(result['pagination']['count']).to eq(0)
         end
       end
+
+      context 'when params is invalid' do
+        context 'when there is no ransack prefix to contact params' do
+          it 'should raise an error' do
+            params = { query: { name: product.name } }.to_json
+
+            post "/api/v1/accounts/#{account.id}/products/search", params:, headers: auth_headers
+            expect(response).to have_http_status(:unprocessable_entity)
+            json = JSON.parse(response.body)
+            expect(json['errors']).to eq('Invalid search parameters')
+            expect(json['details']).to eq('No valid predicate for name')
+          end
+        end
+      end
     end
   end
 end

@@ -44,6 +44,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::InternalController
     @pagy, @contacts = pagy(contacts.result, metadata: %i[page items count pages from last to prev next])
     render json: { data: @contacts,
                    pagination: pagy_metadata(@pagy) }
+  rescue ArgumentError => e
+    render json: {
+      errors: 'Invalid search parameters',
+      details: e.message
+    }, status: :unprocessable_entity
   end
 
   def contact_params

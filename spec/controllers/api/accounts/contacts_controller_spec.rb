@@ -184,15 +184,18 @@ RSpec.describe 'Contacts API', type: :request do
         end
       end
 
-      skip 'when params is invalid' do
+      context 'when params is invalid' do
         context 'when there is no ransack prefix to contact params' do
           it 'should raise an error' do
             params = { query: { full_name: contact.full_name, email: contact.email } }.to_json
-            expect do
-              post("/api/v1/accounts/#{account.id}/contacts/search",
-                    headers: auth_headers,
-                    params:)
-            end.to raise_error(ArgumentError, /No valid predicate for full_name/)
+
+            post("/api/v1/accounts/#{account.id}/contacts/search",
+                  headers: auth_headers,
+                  params:)
+            expect(response).to have_http_status(:unprocessable_entity)
+            json = JSON.parse(response.body)
+            expect(json['errors']).to eq('Invalid search parameters')
+            expect(json['details']).to eq('No valid predicate for full_name')
           end
         end
       end
