@@ -8,16 +8,14 @@
       <div class="w-full border-[0.5px] color-border-default"></div>
     <% end %>
     <div class='flex items-center'>
-      <%= render '/components/links/hovercard_trigger', model: deal.contact, hovercard_preview_url: hovercard_preview_account_contact_path(Current.account, deal.contact), details_url: account_contact_path(Current.account, deal.contact) do %>
-        <div class='flex items-start py-2 pl-4 gap-1'>
-          <svg class="w-4 h-4 color-fg-default mt-px shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-          </svg>
-          <p class='typography-body-900 color-fg-soft hover:color-fg-default break-all <%= dom_id(deal.contact, :stream_full_name) %>'>
-            <%= deal.contact.full_name %>
-          </p>
-        </div>
-      <% end %>
+      <div class='flex items-start py-2 pl-4 gap-1'>
+        <svg class="w-4 h-4 color-fg-default mt-px shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+        </svg>
+        <p class='typography-body-900 color-fg-soft hover:color-fg-default break-all <%= dom_id(deal.contact, :stream_full_name) %>'>
+          <%= deal.contact.full_name %>
+        </p>
+      </div>
       <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top }, class: 'flex-1 py-2' do %>
         &nbsp;
       <% end %>
@@ -33,16 +31,14 @@
               <div class="flex -space-x-2 rtl:space-x-reverse">
                 <% deal.users.order(id: :desc).limit(2).each do |user| %>
                   <div class='w-5 h-5'>
-                    <%= render '/components/links/hovercard_trigger', model: user, hovercard_preview_url: hovercard_preview_account_user_path(Current.account, user), details_url: edit_account_user_path(Current.account, user), popover_placement: 'top' do %>
-                      <% if user.avatar_url.present? %>
-                        <img class="w-5 h-5 rounded-full object-cover" src="<%= user.avatar_url %>" alt="">
-                      <% else %>
-                        <div class="w-5 h-5 flex items-center justify-center bg-gray-300 rounded-full dark:bg-gray-600">
-                          <svg class="w-3 h-3 color-fg-default" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                          </svg>
-                        </div>
-                      <% end %>
+                    <% if user.avatar_url.present? %>
+                      <img class="w-5 h-5 rounded-full object-cover" src="<%= user.avatar_url %>" alt="">
+                    <% else %>
+                      <div class="w-5 h-5 flex items-center justify-center bg-gray-300 rounded-full dark:bg-gray-600">
+                        <svg class="w-3 h-3 color-fg-default" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                        </svg>
+                      </div>
                     <% end %>
                   </div>
                 <% end %>
