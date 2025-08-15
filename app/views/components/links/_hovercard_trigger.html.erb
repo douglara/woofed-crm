@@ -1,4 +1,4 @@
-<% hover_id = 1 %>
+<% hover_id = model.object_id %>
 <% popover_placement = popover_placement || "right" %>
 <%= link_to details_url, class: "cursor-pointer peer" , data: { popover_target: "popover-overview-#{model.class.name.downcase}-#{hover_id}", popover_placement: popover_placement, popover_offset: '5' , turbo_frame: :drawer } do %>
   <%= yield %>
