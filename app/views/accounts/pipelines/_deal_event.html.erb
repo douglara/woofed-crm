@@ -1,17 +1,7 @@
-<% if event.overdue? %>
-  <div class='inline-flex gap-1 items-center color-fg-feedback-danger h-5'>
-    <div class='w-4 h-4'>
-      <i data-lucide="clock-4" class="w-4 h-4"></i>
-    </div>
-    <span class='typography-body-800' data-controller="datetime--format-exhibition" data-datetime--format-exhibition-date-value="<%= event.primary_date %>" data-datetime--format-exhibition-type-value="distance" data-datetime--format-exhibition-locale-value="<%= current_user.language || '' %>">
-    </span>
+<div class='inline-flex gap-1 items-center h-5' data-controller="datetime--time-distance-color" data-datetime--time-distance-color-date-value="<%= event.primary_date %>">
+  <div class='w-4 h-4'>
+    <i data-lucide="clock-4" class="w-4 h-4"></i>
   </div>
-<% else %>
-  <div class='inline-flex gap-1 items-center color-fg-feedback-success h-5'>
-    <div class='w-4 h-4'>
-      <i data-lucide="clock-4" class="w-4 h-4"></i>
-    </div>
-    <span class='typography-body-800' data-controller="datetime--format-exhibition" data-datetime--format-exhibition-date-value="<%= event.primary_date %>" data-datetime--format-exhibition-type-value="distance" data-datetime--format-exhibition-locale-value="<%= current_user.language || '' %>">
-    </span>
-  </div>
-<% end %>
+  <span class='typography-body-800' data-controller="datetime--format-exhibition" data-datetime--format-exhibition-date-value="<%= event.primary_date %>" data-datetime--format-exhibition-type-value="distance" data-datetime--format-exhibition-locale-value="<%= current_user.language || '' %>">
+  </span>
+</div>

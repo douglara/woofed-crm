@@ -16,10 +16,25 @@ export default class extends Controller {
     const date = this.dateInTimezone;
     this.setMomentJsLocale();
     this.element.textContent = this.formattedDate(date);
+    this.updateRealTime();
+  }
+
+  disconnect() {
+    clearInterval(this.updateInterval);
   }
 
   get dateInTimezone() {
     return moment.tz(this.dateValue, getBrowserTimeZone());
+  }
+
+  updateRealTime() {
+    if (this.typeValue === "distance") {
+      this.updateInterval = setInterval(() => {
+        const updatedDate = moment.tz(this.dateValue, getBrowserTimeZone());
+        this.setMomentJsLocale();
+        this.element.textContent = updatedDate.fromNow(true);
+      }, 60000);
+    }
   }
 
   formattedDate(date) {
