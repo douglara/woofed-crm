@@ -29,7 +29,7 @@ class Installation < ApplicationRecord
     completed: 1
   }
   def self.installation_url
-    "https://store.woofedcrm.com/installations/new?installation_params=#{{ url: ENV.fetch('FRONTEND_URL', 'http://localhost:3001'),
+    "#{ENV.fetch('STORE_URL', 'https://store.woofedcrm.com')}/installations/new?installation_params=#{{ url: ENV.fetch('FRONTEND_URL', 'http://localhost:3001'),
                                                                            kind: :self_hosted }.to_json}"
   end
 

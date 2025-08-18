@@ -16,7 +16,7 @@ module Installation::Complete
     user = self.user
 
     result_request = Faraday.post(
-      'https://store.woofedcrm.com/installations/complete',
+      "#{ENV.fetch('STORE_URL', 'https://store.woofedcrm.com')}/installations/complete",
       {
         user_details: { name: user.full_name, email: user.email,
                         phone_number: user.phone, job_description: user.job_description },

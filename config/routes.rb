@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   draw(:installation)
 
   resources :accounts, module: :accounts do
+    resource :store, only: [:show]
     resources :webpush_subscriptions, only: [:create]
     resources :settings, only: [:index]
     resources :welcome, only: [:index]
