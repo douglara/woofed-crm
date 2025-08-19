@@ -76,7 +76,8 @@ RSpec.describe Accounts::ReportsController, type: :request do
 
           expect(summary_cards.size).to eq(4)
           expect(summary_cards[0].css('h1').text).to include('Open deals')
-          expect(summary_cards[0].css('p').text).to include('R$ 50,00')
+          expect(summary_cards[0].css('span').attr('data-currency--format-exhibition-amount-in-cents-value').value)
+            .to eq('5000')
           expect(summary_cards[0].css('span').text).to include(I18n.t('activerecord.models.deal.total_deals', count: 2))
 
           expect(response.body).to include(/data-controller='reports--chart'/)
