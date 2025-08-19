@@ -468,6 +468,7 @@ RSpec.describe InstallationController, type: :request do
         expect(response.body).to include('Company Site')
         expect(response.body).to include('Segment')
         expect(response.body).to include('Company Size')
+        expect(response.body).to include('USD')
       end
       context 'when an account is already registered' do
         let!(:account) { create(:account) }
@@ -499,12 +500,13 @@ RSpec.describe InstallationController, type: :request do
         it 'should update account and redirect to loading installation path' do
           expect do
             patch '/installation/update_step_3',
-                  params: { account: { name: 'Woofed company', site_url: 'app.woofedcrm.com' } }
+                  params: { account: { name: 'Woofed company', site_url: 'app.woofedcrm.com', currency_code: 'USD' } }
           end.to change(Account, :count).by(0)
           expect(response).to have_http_status(302)
           expect(response).to redirect_to(installation_loading_path)
           expect(first_account.name).to eq('Woofed company')
           expect(first_account.site_url).to eq('https://app.woofedcrm.com')
+          expect(first_account.currency_code).to eq('USD')
         end
         context 'when there are invalid params' do
           it 'should not update account and raise error' do

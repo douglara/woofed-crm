@@ -83,6 +83,6 @@ class InstallationController < ApplicationController
   end
 
   def account_params
-    params.require(:account).permit(:site_url, :name, :segment, :number_of_employees)
+    params.require(:account).permit(:site_url, :name, :segment, :number_of_employees, :currency_code)
   end
 end
