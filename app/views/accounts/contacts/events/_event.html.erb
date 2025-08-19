@@ -48,10 +48,10 @@
                 <span>
                   <%= t('views.accounts.contacts.events.event.deadline') %>:
                 </span>
-                <%= render "components/formartters/datetime", value: event.primary_date, type: "compact" %>
+                <%= render "components/formatters/datetime", value: event.primary_date, type: "compact" %>
               </div>
             <% else %>
-              <%= render "components/formartters/datetime", value: event.primary_date, type: "compact", class_style: "m-0 typography-subtext-m-lh150 text-dark-gray-palette-p4" %>
+              <%= render "components/formatters/datetime", value: event.primary_date, type: "compact", class_style: "m-0 typography-subtext-m-lh150 text-dark-gray-palette-p4" %>
             <% end %>
           </div>
           <% if event.editable? %>

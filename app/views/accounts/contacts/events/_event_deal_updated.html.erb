@@ -45,6 +45,6 @@
         <%= t('views.accounts.contacts.events.event_deal_updated.deal_product_removed', product_name: event.additional_attributes.fetch('product_name', '')) %>
       <% end %>
     </p>
-    <%= render "components/formartters/datetime", value: event.created_at, type: "compact", class_style: "typography-sub-text-m-lh150 text-dark-gray-palette-p4 truncate" %>
+    <%= render "components/formatters/datetime", value: event.created_at, type: "compact", class_style: "typography-sub-text-m-lh150 text-dark-gray-palette-p4 truncate" %>
   </div>
 </div>

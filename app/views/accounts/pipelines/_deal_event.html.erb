@@ -3,13 +3,13 @@
     <div class='w-4 h-4'>
       <i data-lucide="clock-4" class="w-4 h-4"></i>
     </div>
-    <%= render "components/formartters/datetime", value: event.primary_date, type: "distance", class_style: 'typography-body-800' %>
+    <%= render "components/formatters/datetime", value: event.primary_date, type: "distance", class_style: 'typography-body-800' %>
   </div>
 <% else %>
   <div class='inline-flex gap-1 items-center color-fg-feedback-success h-5'>
     <div class='w-4 h-4'>
       <i data-lucide="clock-4" class="w-4 h-4"></i>
     </div>
-    <%= render "components/formartters/datetime", value: event.primary_date, type: "distance", class_style: 'typography-body-800' %>
+    <%= render "components/formatters/datetime", value: event.primary_date, type: "distance", class_style: 'typography-body-800' %>
   </div>
 <% end %>
