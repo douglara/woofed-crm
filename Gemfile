@@ -69,7 +69,7 @@ gem 'down', '~> 5.0'
 gem 'elastic-apm', require: false
 gem 'highlight_io', require: false
 gem 'june-analytics-ruby', require: false
-gem 'money', '~> 6.19'
+gem 'money', '6.19'
 gem 'neighbor'
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', require: false

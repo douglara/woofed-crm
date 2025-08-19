@@ -835,7 +835,7 @@ DEPENDENCIES
   jwt (= 2.2.3)
   listen (~> 3.3)
   loofah (= 2.23.1)
-  money (~> 6.19)
+  money (= 6.19)
   motor-admin (= 0.4.20)
   neighbor
   newrelic-sidekiq-metrics
