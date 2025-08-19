@@ -17,6 +17,7 @@ pt-BR:
         number_of_employees: "Tamanho da Empresa"
         woofbot_auto_reply: "Resposta automática do Woofbot"
         ai_usage: "Uso de IA"
+        currency_code: "Moeda"
         segments:
           technology: "Tecnologia"
           health: "Saúde"

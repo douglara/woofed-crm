@@ -17,6 +17,7 @@ en:
         number_of_employees: "Company Size"
         woofbot_auto_reply: "Woofbot Auto Reply"
         ai_usage: "AI Usage"
+        currency_code: "Currency"
         segments:
           technology: "Technology"
           health: "Health"
