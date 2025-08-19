@@ -339,7 +339,7 @@ RSpec.describe Accounts::DealsController, type: :request do
 
       it 'should return only deal_products' do
         get "/accounts/#{account.id}/deals/#{deal.id}/deal_products"
-        expect(response.body).to include('100,00')
+        expect(response.body).to include('10000')
         expect(response.body).to include('65984123')
         expect(response.body).to include('Identifier 123 test')
         expect(response.body).to include('Product teste deal name')

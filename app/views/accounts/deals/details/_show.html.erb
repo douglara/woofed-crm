@@ -41,9 +41,15 @@
               <% if show_field.in?([:label_list, :chatwoot_conversations_label_list]) %>
                 <%= render 'components/list_labels', labels: model.send(show_field), max_width: '100%', justify_content: 'start' %>
               <% else %>
-                <p class='typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all <%= show_field == :total_amount_in_cents_at_format ? 'stream_deal_total_amount_in_cents' : '' %>'>
-                  <%= model.send(show_field) %>
-                </p>
+                <div class='typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all'>
+                  <% if show_field == :total_amount_in_cents %>
+                    <%= render 'components/formartters/currency', value: model.send(show_field), class_style: 'stream_deal_total_amount_in_cents' %>
+                  <% else %>
+                    <p>
+                      <%= model.send(show_field) %>
+                    </p>
+                  <% end %>
+                </div>
               <% end %>
             </div>
           <% end %>

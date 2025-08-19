@@ -5,9 +5,7 @@
         <%= render '/components/products/images_carousel_list', product: deal_product.product %>
       </div>
       <div class="mr-auto">
-        <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1">
-          <%= deal_product.total_amount_in_cents_at_format %>
-        </h2>
+        <%= render 'components/formartters/currency', value: deal_product.total_amount_in_cents, class_style: 'typography-text-s-lh150 text-dark-gray-palette-p1' %>
         <p class='typography-sub-text-s-lh150 text-dark-gray-palette-p4 '>
           <%= deal_product.quantity %> <%= t('views.accounts.deals.details.deal_products.deal_product.item') %>
         </p>
@@ -27,9 +25,13 @@
           <label class="typography-text-s-lh150 text-gray-pallete-p3">
             <%= deal_product.class.human_attribute_name(f) %>
           </label>
-          <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all">
-            <%= f == :unit_amount_in_cents ? deal_product.unit_amount_in_cents_at_format : deal_product["#{f}"] %>
-          </p>
+          <% if f == :unit_amount_in_cents %>
+            <%= render 'components/formartters/currency', value: deal_product.unit_amount_in_cents, class_style: 'typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all' %>
+          <% else %>
+            <p class="typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all">
+              <%= deal_product["#{f}"] %>
+            </p>
+          <% end %>
         </div>
       <% end %>
       <%= render 'accounts/deals/details/show_custom_attributes', model: deal_product.product %>

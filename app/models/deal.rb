@@ -31,11 +31,9 @@
 #  fk_rails_...  (stage_id => stages.id)
 #
 class Deal < ApplicationRecord
-  include Deal::Decorators
   include CustomAttributes
   include Deal::EventCreator
   include Deal::HandleInCentsValues
-  include Deal::Presenters
 
   belongs_to :contact
   belongs_to :stage
@@ -56,7 +54,7 @@ class Deal < ApplicationRecord
   FORM_FIELDS = %i[name creator total_amount_in_cents]
 
   SHOW_FIELDS = { deal_page_overview_details: [:name,
-                                               { relations: { stage: :name, creator: :full_name } }, :total_amount_in_cents_at_format] }.freeze
+                                               { relations: { stage: :name, creator: :full_name } }, :total_amount_in_cents] }.freeze
   before_validation do
     self.account = @current_account if account.blank? && @current_account.present?
 

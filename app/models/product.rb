@@ -15,7 +15,6 @@
 #
 class Product < ApplicationRecord
   include Product::Broadcastable
-  include Product::Presenters
   include CustomAttributes
 
   has_many :attachments, as: :attachable
@@ -26,7 +25,7 @@ class Product < ApplicationRecord
 
   FORM_FIELDS = %i[name amount_in_cents quantity_available identifier]
 
-  SHOW_FIELDS = { details: %i[name amount_in_cents_at_format quantity_available identifier description custom_attributes created_at
+  SHOW_FIELDS = { details: %i[name amount_in_cents quantity_available identifier description custom_attributes created_at
                               updated_at] }.freeze
 
   %i[image file video].each do |file_type|

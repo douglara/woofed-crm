@@ -10,7 +10,7 @@
     <%= product.name %>
   </td>
   <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[100px] truncate">
-    <%= product.amount_in_cents_at_format %>
+    <%= render 'components/formartters/currency', value: product.amount_in_cents %>
   </td>
   <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[120px] truncate">
     <%= product.quantity_available %>

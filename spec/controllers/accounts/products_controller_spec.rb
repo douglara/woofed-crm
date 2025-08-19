@@ -47,7 +47,7 @@ RSpec.describe Accounts::ProductsController, type: :request do
             table_body = doc.at_css('tbody#products').text
             expect(table_body).to include(ERB::Util.html_escape(product.name))
             expect(table_body).to include(product.identifier)
-            expect(table_body).to include(product.amount_in_cents_at_format)
+            expect(response.body).to include(product.amount_in_cents.to_s)
             expect(table_body).to include(product.quantity_available.to_s)
           end
         end

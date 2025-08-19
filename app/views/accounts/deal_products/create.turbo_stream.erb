@@ -4,8 +4,8 @@
 <%= turbo_stream.append :deal_products do %>
   <%= render partial: 'accounts/deals/details/deal_products/deal_product', locals: { deal_product: @deal_product } %>
 <% end %>
-<%= turbo_stream.update_all '.stream_deal_total_amount_in_cents' do %>
-  <%= @deal_product.deal.total_amount_in_cents_at_format %>
+<%= turbo_stream.replace_all '.stream_deal_total_amount_in_cents' do %>
+  <%= render 'components/formartters/currency', value: @deal_product.deal.total_amount_in_cents, class_style: 'stream_deal_total_amount_in_cents' %>
 <% end %>
 <%= turbo_stream.replace DealProduct.new do %>
   <%= turbo_frame_tag DealProduct.new do %>
