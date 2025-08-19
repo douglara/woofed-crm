@@ -3,5 +3,5 @@
   <%= render partial: 'components/flash_message', locals: { message: t('flash_messages.deleted', model: Product.model_name.human) } %>
 <% end %>
 <%= turbo_stream.replace_all '.stream_deal_total_amount_in_cents' do %>
-  <%= render 'components/formartters/currency', value: @deal_product.deal.total_amount_in_cents, class_style: 'stream_deal_total_amount_in_cents' %>
+  <%= render 'components/formatters/currency', value: @deal_product.deal.total_amount_in_cents, class_style: 'stream_deal_total_amount_in_cents' %>
 <% end %>

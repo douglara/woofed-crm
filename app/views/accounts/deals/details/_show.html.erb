@@ -43,7 +43,7 @@
               <% else %>
                 <div class='typography-sub-text-m-lh150 text-dark-gray-palette-p1 break-all'>
                   <% if show_field == :total_amount_in_cents %>
-                    <%= render 'components/formartters/currency', value: model.send(show_field), class_style: 'stream_deal_total_amount_in_cents' %>
+                    <%= render 'components/formatters/currency', value: model.send(show_field), class_style: 'stream_deal_total_amount_in_cents' %>
                   <% else %>
                     <p>
                       <%= model.send(show_field) %>
