@@ -334,6 +334,8 @@ GEM
     mini_magick (4.13.2)
     mini_mime (1.1.5)
     minitest (5.25.4)
+    money (6.19.0)
+      i18n (>= 0.6.4, <= 2)
     motor-admin (0.4.20)
       ar_lazy_preload (~> 1.0)
       audited (~> 5.0)
@@ -833,6 +835,7 @@ DEPENDENCIES
   jwt (= 2.2.3)
   listen (~> 3.3)
   loofah (= 2.23.1)
+  money (~> 6.19)
   motor-admin (= 0.4.20)
   neighbor
   newrelic-sidekiq-metrics
