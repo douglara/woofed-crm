@@ -4,6 +4,7 @@
 #
 #  id                  :bigint           not null, primary key
 #  ai_usage            :jsonb            not null
+#  currency_code       :string           default("BRL"), not null
 #  name                :string           default(""), not null
 #  number_of_employees :string           default("1-10"), not null
 #  segment             :string           default("other"), not null
