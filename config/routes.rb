@@ -132,6 +132,7 @@ Rails.application.routes.draw do
         resources :products, only: %i[create show] do
           match 'search', on: :collection, via: %i[get post]
         end
+        resources :deal_assignees, only: %i[create destroy]
       end
 
       resources :contacts, only: [:create] do
