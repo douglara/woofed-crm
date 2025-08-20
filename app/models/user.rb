@@ -78,6 +78,11 @@ class User < ApplicationRecord
     other: 'other'
   }
 
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[full_name email created_at updated_at phone language job_description id
+       avatar_url]
+  end
+
   def get_jwt_token
     Users::JsonWebToken.encode_user(self)
   end

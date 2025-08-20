@@ -132,7 +132,9 @@ Rails.application.routes.draw do
         resources :products, only: %i[create show] do
           match 'search', on: :collection, via: %i[get post]
         end
-        resources :users, only: [:index]
+        resources :users, only: [] do
+          match 'search', on: :collection, via: %i[get post]
+        end
       end
 
       resources :contacts, only: [:create] do
