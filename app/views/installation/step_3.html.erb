@@ -22,7 +22,7 @@
       <div class="grid gap-1">
         <%= f.label :currency_code, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
         <%= f.select :currency_code,
-          options_for_select(Money::Currency.table.map { |_k, v| [v[:name], v[:iso_code]] }, f.object.currency_code),
+          options_for_select(Money::Currency.table.map { |_k, v| ["#{v[:name]} - #{v[:iso_code]}", v[:iso_code]] }, f.object.currency_code),
           {}, { class: "form-input h-9" } %>
       </div>
       <%= f.submit 'Cadastrar Empresa', class:"btn-primary cursor-pointer justify-self-start" %>
