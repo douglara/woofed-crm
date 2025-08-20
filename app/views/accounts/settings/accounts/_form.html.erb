@@ -1,0 +1,42 @@
+<%= form_with(model: account, url: url, html: { class: "flex flex-col gap-5" } ) do | form | %>
+  <% if account.errors.any? %>
+    <div>
+      <ul>
+        <% account.errors.each do |error| %>
+          <li class="typography-sub-title-900 color-fg-feedback-danger"><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class= "grid lg:grid-cols-3 gap-4">
+    <div class="flex flex-col gap-1 lg:col-span-2">
+      <%= form.label :name, class: "typography-body-900 color-fg-default" %>
+      <%= form.text_field :name, placeholder: "XPTO account", class: 'form-input' %>
+    </div>
+    <div class="flex flex-col gap-1 lg:col-span-1">
+      <%= form.label :currency_code, class: "typography-body-900 color-fg-default" %>
+      <%= form.select :currency_code,
+          options_for_select(Money::Currency.table.map { |_k, v| ["#{v[:name]} - #{v[:iso_code]}", v[:iso_code]] }, form.object.currency_code),
+          {}, class: 'form-input' %>
+    </div>
+  </div>
+  <div class= "grid lg:grid-cols-6 gap-4">
+    <div class="flex flex-col gap-1 lg:col-span-2">
+      <%= form.label :site_url, class: "typography-body-900 color-fg-default" %>
+      <%= form.text_field :site_url, placeholder: "https://xpto.com/", class: 'form-input' %>
+    </div>
+    <div class="flex flex-col gap-1 lg:col-span-2">
+      <%= form.label :number_of_employees, class: "typography-body-900 color-fg-default" %>
+      <%= form.select :number_of_employees, options_for_select(Account.number_of_employees.keys.map { |number_of_employee| [Account.human_enum_name(:number_of_employeess, number_of_employee), number_of_employee] }, form.object.number_of_employees),
+          {}, class: 'form-input' %>
+    </div>
+    <div class="flex flex-col gap-1 lg:col-span-2">
+      <%= form.label :segment, class: "typography-body-900 color-fg-default" %>
+      <%= form.select :segment, options_for_select(Account.segments.keys.map { |segment| [Account.human_enum_name(:segment, segment), segment] }, form.object.segment),
+          {}, class: 'form-input' %>
+    </div>
+  </div>
+  <div class="flex gap-2 self-end">
+    <%= form.submit class: 'button-default-fill-primary-sm' %>
+  </div>
+<% end %>

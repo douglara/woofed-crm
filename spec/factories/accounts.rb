@@ -17,6 +17,7 @@ FactoryBot.define do
   factory :account do
     name { 'Account Testing' }
     site_url { 'https://woofedcrm.com' }
+    currency_code { Faker::Currency.code }
 
     before(:create) do |account, options|
       unless options.methods.include?(:run_embed_company_site) && options.run_embed_company_site

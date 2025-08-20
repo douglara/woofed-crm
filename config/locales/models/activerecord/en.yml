@@ -20,4 +20,5 @@ en:
       day: Day
       week: Week
       month: Month
-      year: Year
+      profile_settings: "Profile Settings"
+      account_settings: "Account Settings"

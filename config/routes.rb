@@ -14,6 +14,10 @@ Rails.application.routes.draw do
     resources :custom_attributes_definitions, module: :settings do
     end
 
+    resource :settings do
+      resource :account, only: %i[edit update], module: :settings
+    end
+
     resources :webhooks, module: :settings do
     end
 
