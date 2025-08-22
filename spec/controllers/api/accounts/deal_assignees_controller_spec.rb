@@ -27,11 +27,12 @@ RSpec.describe 'Deal Assignees API', type: :request do
       end
 
       it 'returns not found if deal_assignee does not exist' do
-        delete "/api/v1/accounts/#{account.id}/deal_assignees/xcdfdfkjgfdkbvkcj", headers: auth_headers
-
+        expect do
+          delete "/api/v1/accounts/#{account.id}/deal_assignees/xcdfdfkjgfdkbvkcj", headers: auth_headers
+        end.not_to change(DealAssignee, :count)
         expect(response).to have_http_status(:not_found)
         result = JSON.parse(response.body)
-        expect(result['errors']).to eq('Deal assignee not found')
+        expect(result['error']).to eq('Resource could not be found')
       end
     end
   end

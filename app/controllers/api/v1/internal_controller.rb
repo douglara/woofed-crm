@@ -1,7 +1,8 @@
 class Api::V1::InternalController < ActionController::API
   include Pagy::Backend
-
+  include Api::Concerns::RequestExceptionHandler
   before_action :authenticate_user
+  around_action :handle_with_exception, unless: :devise_controller?
 
   def authenticate_user
     header = request.headers['Authorization']

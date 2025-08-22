@@ -26,7 +26,6 @@ class Api::V1::Accounts::DealAssigneesController < Api::V1::InternalController
   end
 
   def set_deal_assignee
-    @deal_assignee = DealAssignee.find_by_id(params[:id])
-    render json: { errors: 'Deal assignee not found' }, status: :not_found and return unless @deal_assignee
+    @deal_assignee = DealAssignee.find(params[:id])
   end
 end

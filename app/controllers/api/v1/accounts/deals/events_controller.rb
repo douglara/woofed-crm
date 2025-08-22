@@ -1,9 +1,6 @@
 class Api::V1::Accounts::Deals::EventsController < Api::V1::InternalController
   def create
-    @deal = Deal.find_by_id(params['deal_id'])
-
-    render json: { errors: 'Not found' }, status: :not_found and return unless @deal
-
+    @deal = Deal.find(params['deal_id'])
     event = @deal.events.new(event_params)
     event.contact = @deal.contact
     event.from_me = true

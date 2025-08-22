@@ -1,6 +1,6 @@
 class Api::V1::Accounts::DealsController < Api::V1::InternalController
   def show
-    @deal = Deal.find_by_id(params['id'])
+    @deal = Deal.find(params['id'])
 
     if @deal
       render json: @deal, include: %i[contact stage pipeline deal_assignees], status: :ok
@@ -31,9 +31,7 @@ class Api::V1::Accounts::DealsController < Api::V1::InternalController
   end
 
   def update
-    @deal = Deal.find_by_id(params['id'])
-
-    render json: { errors: 'Not found' }, status: :not_found and return unless @deal
+    @deal = Deal.find(params['id'])
 
     if Deal::CreateOrUpdate.new(@deal, deal_params).call
       render json: @deal, status: :ok
