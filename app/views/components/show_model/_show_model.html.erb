@@ -1,0 +1,77 @@
+<%= render 'components/overlays/drawer_show_model', model: model do %>
+  <% model.class::SHOW_FIELDS.slice(:details).each do | show_field_category |  %>
+    <div class="mb-5 color-bg-surface-default border color-border-default rounded " aria-expanded="false" data-accordion="open" id="<%= "#{t('activerecord.models.show').downcase}-#{model.class.name.downcase}" %>-section">
+      <header class="flex flex-wrap items-center justify-between gap-2 p-4">
+        <div class='flex items-center gap-2'>
+          <i data-lucide="info" class='color-fg-default stroke-1.04 w-5 h-5'></i>
+          <h1 class='color-fg-default typography-sub-title-900 '>
+            <%= t("activerecord.models.show") %>
+          </h1>
+        </div>
+        <div class='flex items-center gap-2'>
+          <button type="button" class="button-default-blank-secondary-icon-only-sm" data-accordion-target="#accordion-collapse-details-<%= "#{model.class.name.downcase}-#{model.object_id}"%>" aria-expanded="true" aria-controls="accordion-collapse-details-<%= "#{model.class.name.downcase}-#{model.object_id}"%>">
+            <i data-accordion-icon data-lucide="chevron-down" class="rotate-180 shrink-0" height="16"></i>
+          </button>
+        </div>
+      </header>
+      <div class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 border-t color-border-default" id="accordion-collapse-details-<%= "#{model.class.name.downcase}-#{model.object_id}"%>" aria-labelledby="accordion-collapse-heading-<%= "#{model.class.name.downcase}-#{model.object_id}"%>">
+        <% show_field_category[1].each do | show_field |  %>
+          <% if show_field.is_a?(Hash) && show_field.key?(:enum_fields) %>
+            <% show_field[:enum_fields].each do |enum_field| %>
+              <div class='flex flex-col gap-1'>
+                <p class='typography-body-900 color-fg-soft'>
+                  <%= t("activerecord.attributes.#{model.model_name.i18n_key}.#{enum_field}") %>
+                </p>
+                <p class='typography-body-900 color-fg-default break-all'>
+                  <%= model.class.human_enum_name(enum_field, model.send(enum_field)) %>
+                </p>
+              </div>
+            <% end %>
+          <% elsif show_field.is_a?(Hash) && show_field.key?(:relations) %>
+            <% show_field[:relations].each do |relation_name, field| %>
+              <div class='flex flex-col gap-1'>
+                <p class='typography-body-900 color-fg-soft'>
+                  <%= t("activerecord.attributes.#{model.model_name.i18n_key}.#{relation_name}") %>
+                </p>
+                <p class='typography-body-900 color-fg-default break-all'>
+                  <%= model.send(relation_name)&.send(field) %>
+                </p>
+              </div>
+            <% end %>
+          <% else %>
+            <% if model[show_field].is_a?(Hash) %>
+              <% model[show_field].each do | custom_attribute | %>
+                <div class='flex flex-col gap-1'>
+                  <p class="typography-body-900 color-fg-soft">
+                    <%= model.custom_attribute_display_name(custom_attribute[0]) %>
+                  </p>
+                  <p class="typography-body-900 color-fg-default break-all">
+                    <%= custom_attribute[1] %>
+                  </p>
+                </div>
+              <% end %>
+            <% else %>
+              <div class='flex flex-col gap-1'>
+                <p class='typography-body-900 color-fg-soft'>
+                  <%= t("activerecord.attributes.#{model.model_name.i18n_key}.#{show_field}") %>
+                </p>
+                <% if show_field.in?([:label_list, :chatwoot_conversations_label_list]) %>
+                  <%= render 'components/list_labels', labels: model.send(show_field), max_width: '100%', justify_content: 'start' %>
+                <% elsif show_field.in?([:created_at, :updated_at]) %>
+                  <%= render 'components/formatters/datetime', value: model.send(show_field), type: 'short', class_style: 'typography-body-900 color-fg-default break-all' %>
+                <% elsif show_field.to_s.include?('amount') %>
+                  <%= render 'components/formatters/currency', value: model.send(show_field), class_style: 'typography-body-900 color-fg-default break-all' %>
+                <% else%>
+                  <p class='typography-body-900 color-fg-default break-all'>
+                    <%= model.send(show_field) %>
+                  </p>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <%= yield :show_additional_content %>
+<% end %>
