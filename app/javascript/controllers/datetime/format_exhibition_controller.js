@@ -3,13 +3,16 @@ import moment from "moment-timezone";
 import "moment/min/locales";
 import "moment-timezone/node_modules/moment/locale/es";
 import "moment-timezone/node_modules/moment/locale/pt-br";
-import { getBrowserLocale, getBrowserTimeZone } from "../../utils/locale";
+import {
+  getBrowserLocale,
+  getBrowserTimeZone,
+  getUserLocale,
+} from "../../utils/locale";
 
 export default class extends Controller {
   static values = {
     date: String,
     type: String,
-    locale: String,
   };
 
   connect() {
@@ -37,9 +40,7 @@ export default class extends Controller {
 
   get locale() {
     return (
-      this.localeValue && this.localeValue.trim() !== ""
-        ? this.localeValue
-        : getBrowserLocale()
+      getUserLocale().trim() !== "" ? getUserLocale() : getBrowserLocale()
     )
       .toLowerCase()
       .replace("_", "-");
