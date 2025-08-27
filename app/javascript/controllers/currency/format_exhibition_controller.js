@@ -1,15 +1,15 @@
 import { Controller } from "stimulus";
+import { getAccountCurrency } from "../../utils/locale";
 
 export default class extends Controller {
   static values = {
     amountInCents: Number,
-    currency: String,
   };
 
   connect() {
     this.element.textContent = this.formatCurrency(
       this.amountInCentsValue,
-      this.currencyValue
+      getAccountCurrency()
     );
   }
 

@@ -17,7 +17,7 @@
     <%= render "layouts/shared/analytics_scripts" %>
     <%= yield :stylesheets %>
   </head>
-  <body data-user-locale='<%= current_user&.language || '' %>'>
+  <body data-user-locale='<%= current_user&.language || '' %>' data-account-currency="<%= Current.account&.currency_code || '' %>">
     <div id="app" class="h-screen">
       <%= render partial: 'components/flash_message', locals: { message: flash[:notice] } %>
       <div class="flex h-full">
