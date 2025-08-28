@@ -1,6 +1,6 @@
 class Api::V1::Accounts::ContactsController < Api::V1::InternalController
   def show
-    @contact = Contact.find_by_id(params['id'])
+    @contact = Contact.find(params['id'])
 
     if @contact
       render json: @contact, include: %i[deals events], status: :ok

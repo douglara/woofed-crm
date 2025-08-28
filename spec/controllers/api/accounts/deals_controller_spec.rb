@@ -138,7 +138,8 @@ RSpec.describe 'Deals API', type: :request do
         it 'returns not found' do
           get "/api/v1/accounts/#{account.id}/deals/9999", headers: auth_headers
           expect(response).to have_http_status(:not_found)
-          expect(JSON.parse(response.body)).to eq({ 'errors' => 'Not found' })
+          result = JSON.parse(response.body)
+          expect(result['error']).to eq('Resource could not be found')
         end
       end
     end
@@ -207,7 +208,8 @@ RSpec.describe 'Deals API', type: :request do
         it 'returns not found' do
           patch "/api/v1/accounts/#{account.id}/deals/9999", params:, headers: auth_headers
           expect(response).to have_http_status(:not_found)
-          expect(JSON.parse(response.body)).to eq({ 'errors' => 'Not found' })
+          result = JSON.parse(response.body)
+          expect(result['error']).to eq('Resource could not be found')
         end
       end
 

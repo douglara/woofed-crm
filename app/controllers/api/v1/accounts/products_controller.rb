@@ -1,6 +1,6 @@
 class Api::V1::Accounts::ProductsController < Api::V1::InternalController
   def show
-    @product = Product.find_by_id(params['id'])
+    @product = Product.find(params['id'])
 
     if @product
       render json: @product, include: %i[deal_products], status: :ok
