@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Accounts::StoresController, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user) }
-  let(:store_base_url) { ENV.fetch('STORE_URL') }
+  let(:store_base_url) { ENV.fetch('STORE_URL', 'https://store.woofedcrm.com') }
 
   describe 'GET /accounts/{account.id}/store' do
     context 'when it is an unauthenticated user' do
