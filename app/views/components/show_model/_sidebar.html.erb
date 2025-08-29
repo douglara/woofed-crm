@@ -5,11 +5,11 @@
       <li>
         <%= link_to "##{link[:label].downcase}-#{model.class.name.downcase}-section",
               data: { turbo: false, tooltip_target: "#{link[:label]}-section", tooltip_placement: 'right'  },
-              class: "button-menu-default-md-icon-only w-11 2xl:w-full 2xl:button-menu-default-md group-aria-[expanded=false]:p-2.5" do %>
+              class: "button-menu-default-md-icon-only w-11 2xl:w-full 2xl:button-menu-default-md" do %>
           <% if link[:icon].include?('.svg') %>
-            <%= embedded_svg(link[:icon], class: "group-aria-[expanded=false]:mx-auto" ) %>
+            <%= embedded_svg(link[:icon] ) %>
           <% else %>
-            <i data-lucide=<%= link[:icon] %> class=" group-aria-[expanded=false]:mx-auto"></i>
+            <i data-lucide=<%= link[:icon] %> ></i>
           <% end %>
           <span class="hidden 2xl:block">
             <%= link[:label] %>
