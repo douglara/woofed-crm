@@ -194,7 +194,7 @@ class Event < ApplicationRecord
     if note?
       'menu-square'
     elsif activity?
-      'clipboard-list'
+      'calendar-check-2'
     elsif chatwoot_message?
       'message-circle'
     end
