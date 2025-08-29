@@ -2,7 +2,7 @@
   <div class="mb-5 color-bg-surface-default border color-border-default rounded " aria-expanded="false" data-accordion="open" id="<%= "#{Deal.model_name.human(count: 2).downcase}-#{@product.class.name.downcase}" %>-section">
     <header class="flex flex-wrap items-center justify-between gap-2 p-4">
       <div class='flex items-center gap-2'>
-        <%= embedded_svg('deals-icon.svg', class: "color-fg-default stroke-1.04 w-5 h-5" ) %>
+        <i data-lucide="clipboard-list" class='color-fg-default stroke-1.04 w-5 h-5'></i>
         <h1 class='color-fg-default typography-sub-title-900 '>
           <%= Deal.model_name.human(count: 2) %>
         </h1>
@@ -17,8 +17,8 @@
       <% @product.deal_products.each do |deal_product| %>
         <%= content_tag :li, id: dom_id(deal_product.deal), class: "grid gap-5 border-b-2 border-light-palette-p3 last:border-none py-5 first:pt-0 last:pb-0", data: {controller: 'load-lucid-icons'} do %>
           <div class= "flex items-center gap-4">
-            <div class="p-2.5 rounded-lg border-2 border-light-palette-p3 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200">
-              <%= embedded_svg("deals-icon.svg", class: "w-4") %>
+            <div class="h-10 w-10 flex items-center justify-center rounded-lg border-2 border-light-palette-p3 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200">
+              <i data-lucide="clipboard-list" class='w-5 h-5'></i>
             </div>
             <div class="mr-auto">
               <div class="flex flex-col">
@@ -47,7 +47,7 @@
   <%= render 'components/show_model/sidebar', model: @product,
       links: [
         { label: t('activerecord.models.show'), icon: "info" },
-        { label: t('activerecord.models.deal.other'), icon: "deals-icon.svg" }
+        { label: t('activerecord.models.deal.other'), icon: "clipboard-list" }
       ] %>
 <% end %>
 <%= render 'components/show_model/show_model', model: @product %>
