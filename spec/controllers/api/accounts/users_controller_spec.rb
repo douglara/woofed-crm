@@ -66,4 +66,49 @@ RSpec.describe 'Users API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/:account_id/users' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/users", params: {}
+        end.to change(User, :count).by(0)
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:params) do
+        { full_name: 'Yukio', email: 'yukio@email.com', password: '123456', password_confirmation: '123456',
+                  phone: '+5522998813788', language: 'pt-BR', avatar_url: 'avatar url 123', job_description: 'ceo' }.to_json
+      end
+
+      it 'creates an user' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/users", params:, headers: auth_headers
+        end.to change(User, :count).by(1)
+        expect(response).to have_http_status(:created)
+        result = JSON.parse(response.body)
+        expect(result['full_name']).to eq('Yukio')
+        expect(result['email']).to eq('yukio@email.com')
+        expect(result['phone']).to eq('+5522998813788')
+        expect(result['language']).to eq('pt-BR')
+        expect(result['avatar_url']).to eq('avatar url 123')
+        expect(result['job_description']).to eq('ceo')
+      end
+
+      context 'when user creation fails' do
+        it 'returns unprocessable_entity with errors' do
+          params = { full_name: 'Tim Maia', email: 'timaia@email.com', password: '123456', password_confirmation: '1234567' }.to_json
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/users", params:, headers: auth_headers
+          end.not_to change(User, :count)
+          expect(response).to have_http_status(:unprocessable_entity)
+          result = JSON.parse(response.body)
+          expect(result['errors']).to include(/Confirm your password doesn't match Password/)
+        end
+      end
+    end
+  end
 end

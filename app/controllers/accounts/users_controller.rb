@@ -1,4 +1,6 @@
 class Accounts::UsersController < InternalController
+  include UserConcern
+
   before_action :set_user, only: %i[edit update destroy hovercard_preview]
 
   def index
@@ -67,7 +69,6 @@ class Accounts::UsersController < InternalController
   end
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :full_name, :phone, :language,
-                                 :webpush_notify_on_event_expired)
+    params.require(:user).permit(*permitted_user_params)
   end
 end
