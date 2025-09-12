@@ -5,6 +5,8 @@ class Apps::ChatwootsController < ActionController::Base
   layout 'embed'
 
   def webhooks
+    return render json: { error: 'Chatwoot is inactive' }, status: :unprocessable_entity if @chatwoot.inactive?
+
     Accounts::Apps::Chatwoots::Webhooks::ProcessWebhookJob.perform_later(params.to_json, @chatwoot.account_id)
     render json: { ok: true }, status: 200
   end
