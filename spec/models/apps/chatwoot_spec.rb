@@ -3,13 +3,12 @@
 # Table name: apps_chatwoots
 #
 #  id                        :bigint           not null, primary key
-#  active                    :boolean          default(FALSE), not null
 #  chatwoot_endpoint_url     :string           default(""), not null
 #  chatwoot_user_token       :string           default(""), not null
 #  embedding_token           :string           default(""), not null
 #  inboxes                   :jsonb            not null
 #  name                      :string
-#  status                    :string           default("inactive"), not null
+#  status                    :string           default("active"), not null
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #  chatwoot_account_id       :integer          not null

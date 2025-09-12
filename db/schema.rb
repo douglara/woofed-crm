@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_19_205846) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_11_234351) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -87,8 +87,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_205846) do
 
   create_table "apps_chatwoots", force: :cascade do |t|
     t.string "name"
-    t.boolean "active", default: false, null: false
-    t.string "status", default: "inactive", null: false
+    t.string "status", default: "active", null: false
     t.string "embedding_token", default: "", null: false
     t.integer "chatwoot_account_id", null: false
     t.string "chatwoot_endpoint_url", default: "", null: false
