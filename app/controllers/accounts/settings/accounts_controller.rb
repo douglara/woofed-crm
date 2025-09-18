@@ -1,4 +1,6 @@
 class Accounts::Settings::AccountsController < InternalController
+  include AccountConcern
+
   def edit; end
 
   def update
@@ -13,6 +15,6 @@ class Accounts::Settings::AccountsController < InternalController
   private
 
   def account_params
-    params.require(:account).permit(:name, :currency_code, :site_url, :segment, :number_of_employees)
+    params.require(:account).permit(*permitted_account_params)
   end
 end
