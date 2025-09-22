@@ -64,22 +64,26 @@
           &nbsp;
         <% end if !deal.total_amount_in_cents.zero? || deal.next_event_planned? || deal.users.present? %>
       </div>
-      <% if !deal.total_amount_in_cents.zero? || deal.next_event_planned? %>
-        <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top } do %>
-          <div class='flex items-center flex-wrap gap-1.5 pr-4 pb-2'>
-            <% unless deal.total_amount_in_cents.zero? %>
-              <div class='inline-flex gap-1 items-center color-fg-feedback-neutral h-5'>
-                <div class='w-4 h-4'>
-                  <i data-lucide="circle-dollar-sign" class="w-4 h-4"></i>
-                </div>
-                <span class='typography-body-800'>
-                  <%= render 'components/formatters/currency', value: deal.total_amount_in_cents %>
-                </span>
-              </div>
-            <% end %>
-            <%= render partial: 'accounts/pipelines/deal_event', locals: {event: deal.next_event_planned}  if deal.next_event_planned? %>
+      <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top } do %>
+        <div class='flex items-center flex-wrap gap-1.5 pr-4 pb-2 justify-end'>
+          <div class='inline-flex gap-1 items-center <%= 'color-border-feedback-danger-hard color-fg-feedback-danger color-bg-feedback-danger-default' if deal.status == 'lost' %>
+        <%= 'color-border-feedback-success-harder color-fg-feedback-success color-bg-feedback-success-default' if deal.status == 'won' %> <%= 'color-border-highlight color-fg-highlight bg-purple-200' if deal.status == 'open' %>  border rounded p-1 h-5'>
+            <span class='typography-body-800'>
+              <%= Deal.human_enum_name(:status, deal.status) %>
+            </span>
           </div>
-        <% end %>
+          <% unless deal.total_amount_in_cents.zero? %>
+            <div class='inline-flex gap-1 items-center color-fg-feedback-neutral h-5'>
+              <div class='w-4 h-4'>
+                <i data-lucide="circle-dollar-sign" class="w-4 h-4"></i>
+              </div>
+              <span class='typography-body-800'>
+                <%= render 'components/formatters/currency', value: deal.total_amount_in_cents %>
+              </span>
+            </div>
+          <% end %>
+          <%= render partial: 'accounts/pipelines/deal_event', locals: {event: deal.next_event_planned}  if deal.next_event_planned? %>
+        </div>
       <% end %>
     </div>
   </div>
