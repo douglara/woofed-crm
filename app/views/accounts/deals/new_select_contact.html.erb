@@ -1,12 +1,23 @@
 <section class="px-4 py-5 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md m-8">
-  <%= form_with(model: @deal, url: new_account_deal_path(current_user.account), method: :get, class:"flex gap-3 items-center") do |form| %>
-    <%= form.label :contact_id, t('activerecord.models.contact.one'), class: "typography-text-s-lh150 text-dark-gray-palette-p1" %>
-    <div class="flex-1">
-      <%= turbo_frame_tag :select_contact_search,
+  <%= form_with(model: @deal, url: new_account_deal_path(current_user.account), method: :get) do |form| %>
+    <% if @deal.errors.any? %>
+      <div class='mb-4'>
+        <ul>
+          <% @deal.errors.each do |error| %>
+            <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class='flex gap-3 items-center'>
+      <%= form.label :contact_id, t('activerecord.models.contact.one'), class: "typography-text-s-lh150 text-dark-gray-palette-p1" %>
+      <div class="flex-1">
+        <%= turbo_frame_tag :select_contact_search,
           src: select_contact_search_account_contacts_path(Current.account, form_name: form.field_name(:contact_id)), class: "relative" do %>
-        <%= render 'components/loading' %>
-      <% end %>
+          <%= render 'components/loading' %>
+        <% end %>
+      </div>
+      <%= form.submit t('views.accounts.deals.new_select_contact.continue'), class: 'btn-primary cursor-pointer' %>
     </div>
-    <%= form.submit t('views.accounts.deals.new_select_contact.continue'), class: 'btn-primary cursor-pointer' %>
   <% end %>
 </section>

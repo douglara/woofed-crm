@@ -33,7 +33,13 @@ class Accounts::DealsController < InternalController
   def new
     @deal = Deal.new
     @stages = current_user.account.stages
-    @deal.contact_id = params[:deal][:contact_id]
+    @deal.contact_id = params.dig(:deal, :contact_id)
+
+    if @deal.contact_id.blank?
+      @deal.errors.add(:contact, :blank)
+      render :new_select_contact, status: :unprocessable_entity
+      return
+    end
   end
 
   def new_select_contact

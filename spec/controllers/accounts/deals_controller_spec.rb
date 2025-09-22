@@ -543,4 +543,58 @@ RSpec.describe Accounts::DealsController, type: :request do
       end
     end
   end
+
+  describe 'GET /accounts/{account.id}/deals/new' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/deals/new"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      context 'when there is contact_id on deals params' do
+        it 'returns new deals page' do
+          get "/accounts/#{account.id}/deals/new", params: { deal: { contact_id: contact.id } }
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include('New deal')
+        end
+      end
+
+      context 'when there is no contact_id on deals params' do
+        it 'renders new_select_contact with status unprocessable_entity' do
+          get "/accounts/#{account.id}/deals/new"
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include('select_contact_search')
+          expect(response.body).to match(/Contact can&#39;t be blank/)
+        end
+      end
+    end
+  end
+
+  describe 'GET /accounts/{account.id}/deals/new_select_contact' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/deals/new_select_contact"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      it 'returns new select contact deals page' do
+        get "/accounts/#{account.id}/deals/new_select_contact"
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('select_contact_search')
+        expect(response.body).to include('Continue')
+      end
+    end
+  end
 end
