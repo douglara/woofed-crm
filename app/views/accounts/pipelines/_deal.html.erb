@@ -2,6 +2,16 @@
   <%= turbo_stream_from deal %>
   <div class="rounded border-2 color-border-default color-bg-fill-default" data-controller='load-lucid-icons'>
     <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top }, class: 'flex flex-col gap-2 pt-2 px-4' do %>
+      <% unless deal.open? %>
+        <div class='w-full flex'>
+          <div class='inline-flex gap-1 items-center <%= 'color-border-feedback-danger-hard color-fg-feedback-danger color-bg-feedback-danger-default' if deal.lost? %>
+        <%= 'color-border-feedback-success-harder color-fg-feedback-success color-bg-feedback-success-default' if deal.won? %> border rounded p-1 h-4'>
+            <span class='typography-body-800'>
+              <%= Deal.human_enum_name(:status, deal.status) %>
+            </span>
+          </div>
+        </div>
+      <% end %>
       <p class="typography-body-900 color-fg-default">
         <%= deal.name %>
       </p>
@@ -66,7 +76,7 @@
       </div>
       <% if !deal.total_amount_in_cents.zero? || deal.next_event_planned? %>
         <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top } do %>
-          <div class='flex items-center flex-wrap gap-1.5 pr-4 pb-2'>
+          <div class='flex items-center flex-wrap justify-end gap-1.5 pr-4 pb-2'>
             <% unless deal.total_amount_in_cents.zero? %>
               <div class='inline-flex gap-1 items-center color-fg-feedback-neutral h-5'>
                 <div class='w-4 h-4'>
