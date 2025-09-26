@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_11_234351) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_26_060748) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -134,6 +134,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_11_234351) do
     t.datetime "updated_at", null: false
     t.index "NULLIF((phone)::text, ''::text)", name: "index_contacts_on_phone", unique: true
     t.index "lower(NULLIF((email)::text, ''::text))", name: "index_contacts_on_lower_email", unique: true
+    t.index ["additional_attributes"], name: "index_contacts_on_additional_attributes_gin", using: :gin
     t.index ["app_type", "app_id"], name: "index_contacts_on_app"
   end
 

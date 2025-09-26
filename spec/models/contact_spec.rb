@@ -15,9 +15,10 @@
 #
 # Indexes
 #
-#  index_contacts_on_app          (app_type,app_id)
-#  index_contacts_on_lower_email  (lower(NULLIF((email)::text, ''::text))) UNIQUE
-#  index_contacts_on_phone        (NULLIF((phone)::text, ''::text)) UNIQUE
+#  index_contacts_on_additional_attributes_gin  (additional_attributes) USING gin
+#  index_contacts_on_app                        (app_type,app_id)
+#  index_contacts_on_lower_email                (lower(NULLIF((email)::text, ''::text))) UNIQUE
+#  index_contacts_on_phone                      (NULLIF((phone)::text, ''::text)) UNIQUE
 #
 require 'rails_helper'
 RSpec.describe Contact do
