@@ -51,6 +51,8 @@ class Apps::Chatwoot < ApplicationRecord
   end
 
   def valid_token?
+    return false if chatwoot_account_is_suspended?
+
     response = Apps::Chatwoot::ApiClient.new(self).user_profile
 
     return false if response[:error].present?
@@ -131,6 +133,14 @@ class Apps::Chatwoot < ApplicationRecord
     true
   rescue StandardError
     true
+  end
+
+  def chatwoot_account_is_suspended?
+    response = Accounts::Apps::Chatwoots::GetInboxes.call(self)
+
+    response.key?(:error) && JSON.parse(response[:error]) == {"error"=>"Account is suspended"}
+  rescue Faraday::TimeoutError, Faraday::ConnectionFailed
+    false
   end
 
   private
