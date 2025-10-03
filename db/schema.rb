@@ -132,7 +132,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_26_060748) do
     t.bigint "app_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index "((additional_attributes ->> 'chatwoot_id'::text))", name: "index_contacts_on_chatwoot_id"
+    t.index "((additional_attributes ->> 'chatwoot_id'::text))", name: "index_contacts_on_chatwoot_id", where: "((additional_attributes -> 'chatwoot_id'::text) IS NOT NULL)"
     t.index "NULLIF((phone)::text, ''::text)", name: "index_contacts_on_phone", unique: true
     t.index "lower(NULLIF((email)::text, ''::text))", name: "index_contacts_on_lower_email", unique: true
     t.index ["app_type", "app_id"], name: "index_contacts_on_app"

@@ -16,7 +16,7 @@
 # Indexes
 #
 #  index_contacts_on_app          (app_type,app_id)
-#  index_contacts_on_chatwoot_id  (((additional_attributes ->> 'chatwoot_id'::text)))
+#  index_contacts_on_chatwoot_id  (((additional_attributes ->> 'chatwoot_id'::text))) WHERE ((additional_attributes -> 'chatwoot_id'::text) IS NOT NULL)
 #  index_contacts_on_lower_email  (lower(NULLIF((email)::text, ''::text))) UNIQUE
 #  index_contacts_on_phone        (NULLIF((phone)::text, ''::text)) UNIQUE
 #
