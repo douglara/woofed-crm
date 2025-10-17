@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_15_190351) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_17_012859) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -155,6 +155,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_15_190351) do
     t.index ["deal_id", "user_id"], name: "index_deal_assignees_on_deal_id_and_user_id", unique: true
     t.index ["deal_id"], name: "index_deal_assignees_on_deal_id"
     t.index ["user_id"], name: "index_deal_assignees_on_user_id"
+  end
+
+  create_table "deal_lost_reasons", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "deal_products", force: :cascade do |t|
