@@ -35,6 +35,7 @@ pt-BR:
         pipeline: Pipeline
         created_at: Criado em
         id: "Código do negócio"
+        lost_reason: "Motivo de perda"
         statuses:
           open: Aberto
           won: Ganhou

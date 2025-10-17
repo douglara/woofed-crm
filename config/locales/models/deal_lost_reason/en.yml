@@ -1,0 +1,14 @@
+en:
+  activerecord:
+    models:
+      deal_lost_reason:
+        one: "Lost reason"
+        other: "Lost reasons"
+        new: "New lost reason"
+        edit: "Edit lost reason"
+    attributes:
+      deal_lost_reason:
+        id: "ID"
+        name: "lost reason"
+        created_at: "Created at"
+        updated_at: "Updated at"

@@ -1,0 +1,14 @@
+es:
+  activerecord:
+    models:
+      deal_lost_reason:
+        one: "Razón de pérdida"
+        other: "Razones de pérdida"
+        new: "Nueva razón de pérdida"
+        edit: "Editar razón de pérdida"
+    attributes:
+      deal_lost_reason:
+        id: "ID"
+        name: "Razón de pérdida"
+        created_at: "Creado en"
+        updated_at: "Actualizado en"

@@ -35,6 +35,7 @@ en:
         pipeline: Pipeline
         created_at: Created at
         id: "Deal code"
+        lost_reason: "Lost reason"
         statuses:
           open: Open
           won: Won
