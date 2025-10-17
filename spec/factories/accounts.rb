@@ -8,6 +8,7 @@
 #  name                :string           default(""), not null
 #  number_of_employees :string           default("1-10"), not null
 #  segment             :string           default("other"), not null
+#  settings            :jsonb            not null
 #  site_url            :string           default(""), not null
 #  woofbot_auto_reply  :boolean          default(FALSE), not null
 #  created_at          :datetime         not null

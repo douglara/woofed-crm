@@ -8,12 +8,15 @@
 #  name                :string           default(""), not null
 #  number_of_employees :string           default("1-10"), not null
 #  segment             :string           default("other"), not null
+#  settings            :jsonb            not null
 #  site_url            :string           default(""), not null
 #  woofbot_auto_reply  :boolean          default(FALSE), not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
 class Account < ApplicationRecord
+  include Account::Settings
+
   validates :name, presence: true
   validates :name, length: { maximum: 255 }
   validates :currency_code, presence: true, inclusion: { in: Money::Currency.table.keys.map(&:to_s).map(&:upcase) }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_17_012859) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_17_013421) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_17_012859) do
     t.string "segment", default: "other", null: false
     t.string "number_of_employees", default: "1-10", null: false
     t.string "currency_code", default: "BRL", null: false
+    t.jsonb "settings", default: {}, null: false
   end
 
   create_table "action_text_rich_texts", force: :cascade do |t|
