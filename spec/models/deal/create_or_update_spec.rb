@@ -10,7 +10,7 @@ RSpec.describe Deal::CreateOrUpdate do
     context 'when the deal is valid' do
       context 'creating a new deal' do
         context 'with status won' do
-          let(:params) { { status: 'won' } }
+          let(:params) { { status: 'won', lost_reason: 'Lost reason test' } }
 
           it 'creates the deal and sets won_at to the current time' do
             expect(subject.call).to eq(deal)
@@ -18,23 +18,25 @@ RSpec.describe Deal::CreateOrUpdate do
             expect(deal.status).to eq('won')
             expect(deal.won_at).to be_a(Time)
             expect(deal.lost_at).to be_nil
+            expect(deal.lost_reason).to be_blank
           end
         end
 
         context 'with status lost' do
-          let(:params) { { status: 'lost' } }
+          let(:params) { { status: 'lost', lost_reason: 'Lost reason test' } }
 
           it 'creates the deal and sets lost_at to the current time' do
             expect(subject.call).to eq(deal)
             expect(deal).to be_persisted
             expect(deal.status).to eq('lost')
             expect(deal.lost_at).to be_a(Time)
+            expect(deal.lost_reason).to eq('Lost reason test')
             expect(deal.won_at).to be_nil
           end
         end
 
         context 'with status open' do
-          let(:params) { { status: 'open' } }
+          let(:params) { { status: 'open', lost_reason: 'Lost reason test' } }
 
           it 'creates the deal and sets lost_at and won_at to nil' do
             expect(subject.call).to eq(deal)
@@ -42,57 +44,62 @@ RSpec.describe Deal::CreateOrUpdate do
             expect(deal.status).to eq('open')
             expect(deal.won_at).to be_nil
             expect(deal.lost_at).to be_nil
+            expect(deal.lost_reason).to be_blank
           end
         end
       end
 
       context 'updating an existing deal' do
-        let(:deal) { create(:deal, account:, status: :open) }
+        let!(:deal) { create(:deal, account:, status: :open) }
 
         context 'when status changes to won' do
-          let(:params) { { status: 'won' } }
+          let(:params) { { status: 'won', lost_reason: 'Lost reason test' } }
 
           it 'updates the deal and sets won_at to the current time' do
             expect(subject.call).to eq(deal)
             expect(deal.status).to eq('won')
             expect(deal.won_at).to be_a(Time)
             expect(deal.lost_at).to be_nil
+            expect(deal.lost_reason).to be_blank
           end
         end
 
         context 'when status changes to lost' do
-          let(:params) { { status: 'lost' } }
+          let(:params) { { status: 'lost', lost_reason: 'Lost reason test' } }
 
           it 'updates the deal and sets lost_at to the current time' do
             expect(subject.call).to eq(deal)
             expect(deal.status).to eq('lost')
             expect(deal.lost_at).to be_a(Time)
             expect(deal.won_at).to be_nil
+            expect(deal.lost_reason).to eq('Lost reason test')
           end
         end
 
         context 'when status changes to open' do
-          let(:deal) { create(:deal, account:, status: :won, won_at: Time.parse('2025-05-01 10:00:00 UTC')) }
-          let(:params) { { status: 'open' } }
+          let!(:deal) { create(:deal, account:, status: :won, won_at: Time.parse('2025-05-01 10:00:00 UTC')) }
+          let(:params) { { status: 'open', lost_reason: 'Lost reason test' } }
 
-          it 'updates the deal and clears lost_at and won_at' do
+          it 'updates the deal and clears lost_at, won_at and lost_reason' do
             expect(subject.call).to eq(deal)
             expect(deal.status).to eq('open')
             expect(deal.won_at).to be_nil
             expect(deal.lost_at).to be_nil
+            expect(deal.lost_reason).to be_blank
           end
         end
 
         context 'when status does not change' do
-          let(:deal) { create(:deal, account:, status: :won, won_at: Time.parse('2025-05-01 10:00:00 UTC')) }
-          let(:params) { { name: 'Updated Name' } }
+          let!(:deal) { create(:deal, account:, status: :won, won_at: Time.parse('2025-05-01 10:00:00 UTC')) }
+          let(:params) { { name: 'Updated Name', lost_reason: 'Lost reason test' } }
 
-          it 'updates the deal and does not modify won_at or lost_at' do
+          it 'updates the deal and does not modify won_at, lost_at' do
             expect(subject.call).to eq(deal)
             expect(deal.name).to eq('Updated Name')
             expect(deal.status).to eq('won')
             expect(deal.won_at).to eq(Time.parse('2025-05-01 10:00:00 UTC'))
             expect(deal.lost_at).to be_nil
+            expect(deal.lost_reason).to eq('Lost reason test')
           end
         end
       end
