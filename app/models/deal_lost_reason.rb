@@ -8,4 +8,5 @@
 #  updated_at :datetime         not null
 #
 class DealLostReason < ApplicationRecord
+  validates :name, presence: true
 end
