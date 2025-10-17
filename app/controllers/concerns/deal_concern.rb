@@ -7,6 +7,7 @@ module DealConcern
       :pipeline_id,
       :contact_id,
       :position,
+      :lost_reason,
       { contact_attributes: %i[id full_name phone email] },
       { custom_attributes: {} }
     ]
