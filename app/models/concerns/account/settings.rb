@@ -4,6 +4,12 @@ module Account::Settings
   included do
     store_accessor :settings, :free_form_lost_reasons, prefix: :deal
 
+    def deal_free_form_lost_reasons
+      return false if DealLostReason.none?
+
+      super
+    end
+
     def deal_free_form_lost_reasons=(value)
       super(ActiveRecord::Type::Boolean.new.cast(value))
     end

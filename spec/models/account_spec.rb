@@ -49,4 +49,24 @@ RSpec.describe Account do
       end
     end
   end
+
+  describe '#deal_free_form_lost_reasons' do
+    let(:account) { create(:account, deal_free_form_lost_reasons: true) }
+
+    context 'when there are no DealLostReason records' do
+      before { DealLostReason.destroy_all }
+
+      it 'returns false' do
+        expect(account.deal_free_form_lost_reasons).to eq(false)
+      end
+    end
+
+    context 'when there are DealLostReason records' do
+      let!(:deal_lost_reason) { create(:deal_lost_reason) }
+
+      it 'returns the stored value' do
+        expect(account.deal_free_form_lost_reasons).to eq(true)
+      end
+    end
+  end
 end
