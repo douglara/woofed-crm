@@ -5,8 +5,13 @@ class Accounts::Settings::AccountsController < InternalController
 
   def update
     if @account.update(account_params)
-      redirect_to edit_account_settings_account_path(@account),
-                  notice: t('flash_messages.updated', model: Account.model_name.human)
+      respond_to do |format|
+        format.html do
+          redirect_to edit_account_settings_account_path(@account),
+                      notice: t('flash_messages.updated', model: Account.model_name.human)
+        end
+        format.turbo_stream
+      end
     else
       render :edit, status: :unprocessable_entity
     end

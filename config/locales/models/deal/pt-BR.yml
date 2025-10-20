@@ -15,6 +15,7 @@ pt-BR:
         open_deals: "Negócios em aberto"
         created_deals: "Negócios criados"
         total_deals: "Total de %{count} negócios"
+        settings: Configurações de negócios
     attributes:
       deal:
         name: Nome

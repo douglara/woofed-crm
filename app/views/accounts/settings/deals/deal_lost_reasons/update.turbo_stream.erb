@@ -1,0 +1,7 @@
+<%= turbo_stream.replace :drawer do %>
+  <%= turbo_frame_tag :drawer %>
+<% end %>
+<%= turbo_stream.replace :flash_message do %>
+  <%= render partial: 'components/flash_message', locals: { message: t('flash_messages.updated', model: DealLostReason.model_name.human) } %>
+<% end %>
+<%= turbo_stream.replace dom_id(@deal_lost_reason, :settings__deals__deal_lost_reasons__deal_lost_reason), @deal_lost_reason %>

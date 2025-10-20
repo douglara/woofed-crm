@@ -17,6 +17,9 @@ Rails.application.routes.draw do
 
     resource :settings do
       resource :account, only: %i[edit update], module: :settings
+      resource :deals, module: :settings do
+        resources :deal_lost_reasons, except: [:show], module: :deals
+      end
     end
 
     resources :webhooks, module: :settings do

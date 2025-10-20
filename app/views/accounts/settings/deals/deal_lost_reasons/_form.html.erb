@@ -1,0 +1,16 @@
+<%= form_with(model: [@account, :settings, :deals, deal_lost_reason], html:{class: "flex flex-col gap-5"}) do | form | %>
+  <% if deal_lost_reason.errors.any? %>
+    <div>
+      <ul>
+        <% deal_lost_reason.errors.each do |error| %>
+          <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="flex flex-col gap-1">
+    <%= form.label :name, class: "typography-body-900 color-fg-default"  %>
+    <%= form.text_field :name, placeholder: "#{DealLostReason.model_name.human(count: 1)}", class: 'form-input w-full' %>
+  </div>
+  <%= form.submit class: 'btn-primary cursor-pointer place-self-end' %>
+<% end %>

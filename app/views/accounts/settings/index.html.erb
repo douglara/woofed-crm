@@ -11,6 +11,9 @@
         <%= link_to t('activerecord.models.user.other'), account_users_path(current_user.account), class:"inline-block w-full px-4 py-3 border-2 border-transparent rounded-md typography-text-m-lh150 text-dark-gray-palette-p3 bg-transparent hover:bg-brand-palette-07" %>
       </li>
       <li>
+        <%= link_to t('activerecord.models.deal.settings'), account_settings_deals_deal_lost_reasons_path(Current.account), class:"inline-block w-full px-4 py-3 border-2 border-transparent rounded-md typography-text-m-lh150 text-dark-gray-palette-p3 bg-transparent hover:bg-brand-palette-07" %>
+      </li>
+      <li>
         <%= link_to t('activerecord.models.account_settings'), edit_account_settings_account_path(Current.account), class:"inline-block w-full px-4 py-3 border-2 border-transparent rounded-md typography-text-m-lh150 text-dark-gray-palette-p3 bg-transparent hover:bg-brand-palette-07" %>
       </li>
       <li>

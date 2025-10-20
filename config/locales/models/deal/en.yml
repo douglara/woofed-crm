@@ -15,6 +15,7 @@ en:
         open_deals: "Open deals"
         created_deals: "Created deals"
         total_deals: "Total of %{count} deals"
+        settings: Deal settings
     attributes:
       deal:
         name: Name

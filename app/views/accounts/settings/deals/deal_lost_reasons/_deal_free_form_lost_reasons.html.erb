@@ -1,0 +1,15 @@
+<%= turbo_frame_tag :settings__deals__deal_lost_reasons__deal_free_form_lost_reasons do %>
+  <% if DealLostReason.exists? %>
+    <div class='flex justify-end mx-8 mt-4'>
+      <%= form_with model: account, url: account_settings_account_path(account), method: :patch do |f| %>
+        <label class="inline-flex items-center cursor-pointer">
+          <%= f.check_box :deal_free_form_lost_reasons, class: "sr-only peer", onchange: "this.form.requestSubmit()"  %>
+          <div class="relative w-9 h-5 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:color-bg-fill-highlight"></div>
+          <span class="ms-3 typography-sub-title-800 color-fg-default">
+            <%= t('activerecord.attributes.account.deal_free_form_lost_reasons') %>
+          </span>
+        </label>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
