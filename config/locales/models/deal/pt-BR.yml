@@ -16,6 +16,8 @@ pt-BR:
         created_deals: "Negócios criados"
         total_deals: "Total de %{count} negócios"
         settings: Configurações de negócios
+        mark_as_lost: "Marcar como perdido"
+        select_a_reason: "Selecione um motivo"
     attributes:
       deal:
         name: Nome
@@ -37,6 +39,7 @@ pt-BR:
         created_at: Criado em
         id: "Código do negócio"
         lost_reason: "Motivo de perda"
+        other_lost_reason: "Outro motivo de perda"
         statuses:
           open: Aberto
           won: Ganhou

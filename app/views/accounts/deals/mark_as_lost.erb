@@ -1,0 +1,34 @@
+<%= render 'components/overlays/modal', title: t('activerecord.models.deal.mark_as_lost'), width_class: 'max-w-2xl' do %>
+  <!-- Modal body -->
+  <div class='border-t color-border-default p-4 md:p-5' data-controller='deal-form--select-lost-reason' data-deal-form--select-lost-reason-free-form-lost-reasons-value="<%= Current.account.deal_free_form_lost_reasons %>">
+    <%= form_with(model: [Current.account, @deal], html:{class: "flex flex-col gap-5"}) do | form | %>
+      <%= form.hidden_field :status, value: "lost" %>
+      <% if @deal.errors.any? %>
+        <div>
+          <ul>
+            <% @deal.errors.each do |error| %>
+              <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="flex flex-col gap-1">
+        <%= form.label :stage_id, class: "typography-body-900 color-fg-default" %>
+        <%= form.select(:stage_id, @stages.map { |stage| ["#{stage.pipeline.name} - #{stage.name}", stage.id] }, {}, { class: 'form-input' }) %>
+      </div>
+      <div class="flex flex-col gap-1">
+        <%= form.label :lost_reason, class: "typography-body-900 color-fg-default"  %>
+        <% if DealLostReason.exists? %>
+          <%= form.select(:lost_reason, @lost_reasons + [t('activerecord.models.other_option')], { include_blank: t('activerecord.models.deal.select_a_reason') }, { class: 'form-input', data: { deal_form__select_lost_reason_target: 'select', action: 'change->deal-form--select-lost-reason#toggle' } }) %>
+        <% else %>
+          <%= form.text_field :lost_reason, placeholder: DealLostReason.model_name.human(count: 1), class: 'form-input' %>
+        <% end %>
+      </div>
+      <div data-deal-form--select-lost-reason-target="otherField" class="hidden flex-col gap-1">
+        <%= form.label t('activerecord.attributes.deal.other_lost_reason'), class: "typography-body-900 color-fg-default" %>
+        <%= form.text_field :lost_reason, class: "form-input", data: { deal_form__select_lost_reason_target: 'input' } %>
+      </div>
+      <%= form.submit t('activerecord.models.deal.mark_as_lost'),class: 'btn-primary cursor-pointer place-self-end' %>
+    <% end %>
+  </div>
+<% end %>

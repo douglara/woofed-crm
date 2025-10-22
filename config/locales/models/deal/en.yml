@@ -16,6 +16,8 @@ en:
         created_deals: "Created deals"
         total_deals: "Total of %{count} deals"
         settings: Deal settings
+        mark_as_lost: "Mark as Lost"
+        select_a_reason: "Select a reason"
     attributes:
       deal:
         name: Name
@@ -37,6 +39,7 @@ en:
         created_at: Created at
         id: "Deal code"
         lost_reason: "Lost reason"
+        other_lost_reason: "Other lost reason"
         statuses:
           open: Open
           won: Won

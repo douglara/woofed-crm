@@ -78,6 +78,7 @@ Rails.application.routes.draw do
       get 'new_select_contact', on: :collection
       get 'edit_custom_attributes'
       patch 'update_custom_attributes'
+      get 'mark_as_lost', on: :member
     end
     resources :deal_products, only: %i[destroy new create]
     resources :deal_assignees, only: %i[destroy new create]

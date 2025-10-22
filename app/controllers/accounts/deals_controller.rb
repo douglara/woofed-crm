@@ -3,7 +3,7 @@ class Accounts::DealsController < InternalController
   include DealConcern
 
   before_action :set_deal,
-                only: %i[show edit update destroy events_to_do events_done deal_products deal_assignees]
+                only: %i[show edit update destroy events_to_do events_done deal_products deal_assignees mark_as_lost]
   before_action :set_deal_product, only: %i[edit_deal_product
                                             update_deal_product]
 
@@ -167,6 +167,10 @@ class Accounts::DealsController < InternalController
     end
   end
 
+  def mark_as_lost
+    @stages = Current.account.stages
+    @lost_reasons = DealLostReason.order(:name).pluck(:name).uniq
+  end
   private
 
   def set_deal
