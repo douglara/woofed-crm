@@ -609,14 +609,17 @@ RSpec.describe Accounts::DealsController, type: :request do
     end
 
     context 'when it is an authenticated user' do
+      let!(:deal_lost_reason) { create(:deal_lost_reason) }
+
       before do
         sign_in(user)
       end
 
-      it 'returns mark as lost deals page' do
+      it 'returns deal_lost_reasons and mark as lost deals page' do
         get "/accounts/#{account.id}/deals/#{deal.id}/mark_as_lost"
         expect(response).to have_http_status(:ok)
         expect(response.body).to include('Mark as Lost')
+        expect(response.body).to include(deal_lost_reason.name)
       end
     end
   end
