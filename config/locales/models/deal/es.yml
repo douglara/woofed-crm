@@ -17,6 +17,7 @@ es:
         total_deals: "Total de %{count} negocios"
         settings: Configuración de negocios
         mark_as_lost: "Marcar como perdido"
+        mark_as_won: "Marcar como ganado"
         select_a_reason: "Selecciona una razón"
     attributes:
       deal:

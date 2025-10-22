@@ -37,17 +37,16 @@
     class: 'deal-lost-btn') %>
       <%= link_to(
     t('views.layouts.shared.navbar_deal.won'),
-    account_deal_path(current_user.account, @deal, deal: { status: 'won'}),
-    method: :patch,
-    data: { confirm: t('views.layouts.shared.navbar_deal.are_you_sure?') },
+    mark_as_won_account_deal_path(Current.account, @deal),
+    data: { turbo_frame: :modal },
     class: 'deal-won-btn') %>
     <% else %>
-      <% if @deal.lost_reason %>
+      <% if @deal.lost_reason.present? %>
         <div id="<%= dom_id(@deal, "tooltip-#{@deal.status}") %>" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
           <%= @deal.lost_reason %>
         </div>
       <% end %>
-      <div class="deal-<%= @deal.status %>-element" data-controller="load-lucid-icons load-flowbite" data-tooltip-target="<%= dom_id(@deal, "tooltip-#{@deal.status}") %>">
+      <div class="deal-<%= @deal.status %>-element" data-controller="load-lucid-icons load-flowbite" data-tooltip-target="<%= dom_id(@deal, "tooltip-#{@deal.status}")  %>">
         <%= t("views.layouts.shared.navbar_deal.deal_#{@deal.status}") %>
       </div>
       <%= link_to(

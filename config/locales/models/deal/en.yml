@@ -17,6 +17,7 @@ en:
         total_deals: "Total of %{count} deals"
         settings: Deal settings
         mark_as_lost: "Mark as Lost"
+        mark_as_won: "Mark as won"
         select_a_reason: "Select a reason"
     attributes:
       deal:
