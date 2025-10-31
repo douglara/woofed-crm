@@ -2,8 +2,9 @@
   <% if event.deal_updates? %>
     <%= render 'accounts/contacts/events/event_deal_updated', event: event %>
   <% else %>
+    <% category_color = event.event_category&.color || '#6857D9' %>
     <div class="group event-<%= event.scheduled_kind %> event-item-<%= event.from %> my-5" data-controller="load-lucid-icons load-flowbite">
-      <div class="<%= event.has_media_attachment? ? 'w-[500px]' : 'w-[956px]' %> block rounded-lg bg-white border border-light-palette-p3 rounded dark:bg-neutral-700">
+      <div class="<%= event.has_media_attachment? ? 'w-[500px]' : 'w-[956px]' %> block rounded-lg bg-white <%= event.event_category.present? ? 'border-l-4 border-r border-t border-b' : 'border' %> border-light-palette-p3 rounded dark:bg-neutral-700" style="<%= event.event_category.present? ? "border-left-color: #{category_color};" : '' %>">
         <div class="border-b-2 border-neutral-100 bg-light-palette-p4 px-3 py-2 flex items-center space-x-3">
           <% if event.from_me? %>
             <% if event.note? %>
@@ -49,14 +50,16 @@
               <%  end  %>
             </div>
             <% if event.scheduled_at.present? %>
-              <div class="m-0 text-brand-palette-04 group-[.event-scheduled]:font-semibold group-[.event-item-from-contacts]:text-dark-gray-palette-p4 flex items-center gap-1">
+              <div class="m-0 group-[.event-scheduled]:font-semibold group-[.event-item-from-contacts]:text-dark-gray-palette-p4 flex items-center gap-1" style="color: <%= category_color %>;">
                 <span>
                   <%= t('views.accounts.contacts.events.event.deadline') %>:
                 </span>
                 <%= render "components/formatters/datetime", value: event.primary_date, type: "compact" %>
               </div>
             <% else %>
-              <%= render "components/formatters/datetime", value: event.primary_date, type: "compact", class_style: "m-0 typography-subtext-m-lh150 text-dark-gray-palette-p4" %>
+              <div class="m-0 typography-subtext-m-lh150" style="color: <%= category_color %>;">
+                <%= render "components/formatters/datetime", value: event.primary_date, type: "compact" %>
+              </div>
             <% end %>
           </div>
           <% if event.editable? %>
