@@ -1,0 +1,3 @@
+<%= turbo_stream.replace dom_id(@event) do %>
+  <%= render partial: 'accounts/contacts/events/event', locals: { event: @event } %>
+<% end %>

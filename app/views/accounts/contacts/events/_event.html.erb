@@ -36,6 +36,9 @@
             <div class="flex items-center gap-2">
               <span class="m-0 text-dark-gray-palette-p1 typography-text-s-lh150 flex items-center gap-1.5">
                 <%= event.activity? ? event.title : Event.human_enum_name(:kind, event.kind) %>
+                <% if event.event_category.present? %>
+                  <span class=\"text-dark-gray-palette-p3 text-xs\">(<%= event.event_category.name %>)</span>
+                <% end %>
               </span>
               <% if event.evolution_api_message? %>
                 <%= embedded_svg('icon-whtass.svg', {class: "w-3.5 fill-[#26D367]"})  %>
