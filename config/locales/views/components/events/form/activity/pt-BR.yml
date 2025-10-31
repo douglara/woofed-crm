@@ -5,3 +5,4 @@ pt-BR:
         form:
           activity:
             confirm: Confirmar
+            select_category: "Selecione uma categoria"

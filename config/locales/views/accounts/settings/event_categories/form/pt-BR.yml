@@ -1,0 +1,7 @@
+pt-BR:
+  views:
+    accounts:
+      settings:
+        event_categories:
+          form:
+            icon_help: "Use classes do Font Awesome, exemplo: fa fa-calendar"

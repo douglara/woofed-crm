@@ -1,6 +1,10 @@
 <div class="activity">
-  <div class="activity-icon bg-primary text-white shadow-primary">
-    <i class="<%= event.event_kind.icon_key %>"></i>
+  <div class="activity-icon text-white shadow-primary" style="background-color: <%= event.event_category&.color || '#6857D9' %>;">
+    <% if event.event_category&.icon.present? %>
+      <i class="<%= event.event_category.icon %>"></i>
+    <% else %>
+      <i class="<%= event.event_kind.icon_key %>"></i>
+    <% end %>
   </div>
   <div class="activity-detail <%= event.from_me == true ? 'activity-detail-from-me' : '' %>">
     <header>

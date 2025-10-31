@@ -1,0 +1,27 @@
+<%= form_with(model: [@account, :settings, event_category], html:{class: "flex flex-col gap-5"}) do | form | %>
+  <% if event_category.errors.any? %>
+    <div>
+      <ul>
+        <% event_category.errors.each do |error| %>
+          <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="flex flex-col gap-1">
+    <%= form.label :name, class: "typography-body-900 color-fg-default"  %>
+    <%= form.text_field :name, placeholder: "#{EventCategory.model_name.human(count: 1)}", class: 'form-input w-full' %>
+  </div>
+  <div class="flex flex-col gap-1">
+    <%= form.label :icon, class: "typography-body-900 color-fg-default"  %>
+    <%= form.text_field :icon, placeholder: "fa fa-icon", class: 'form-input w-full' %>
+    <p class="typography-sub-text-r-lh150 text-dark-gray-palette-p3">
+      <%= t('views.accounts.settings.event_categories.form.icon_help') %>
+    </p>
+  </div>
+  <div class="flex flex-col gap-1">
+    <%= form.label :color, class: "typography-body-900 color-fg-default"  %>
+    <%= form.color_field :color, class: 'form-input w-full' %>
+  </div>
+  <%= form.submit class: 'btn-primary cursor-pointer place-self-end' %>
+<% end %>

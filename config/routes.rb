@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       resource :deals, module: :settings do
         resources :deal_lost_reasons, except: [:show], module: :deals
       end
+      resources :event_categories, except: [:show], module: :settings
     end
 
     resources :webhooks, module: :settings do

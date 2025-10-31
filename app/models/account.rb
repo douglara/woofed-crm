@@ -117,6 +117,10 @@ class Account < ApplicationRecord
     Apps::AiAssistent.all
   end
 
+  def event_categories
+    EventCategory.where(account_id: id)
+  end
+
   def site_url=(url)
     super(normalize_url(url))
   end

@@ -128,7 +128,7 @@ class Accounts::DealsController < InternalController
   end
 
   def events_to_do
-    @pagy, @events = pagy(@deal.contact.events.where(deal_id: [nil, @deal.id]).to_do, items: 5)
+    @pagy, @events = pagy(@deal.contact.events.where(deal_id: [nil, @deal.id]).to_do.includes(:event_category), items: 5)
     respond_to do |format|
       format.turbo_stream
       format.html
@@ -136,7 +136,7 @@ class Accounts::DealsController < InternalController
   end
 
   def events_done
-    @pagy, @events = pagy(@deal.contact.events.where(deal_id: [nil, @deal.id]).done, items: 5)
+    @pagy, @events = pagy(@deal.contact.events.where(deal_id: [nil, @deal.id]).done.includes(:event_category), items: 5)
     respond_to do |format|
       format.turbo_stream
       format.html
