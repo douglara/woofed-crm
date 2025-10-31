@@ -28,7 +28,8 @@ class Accounts::PipelinesController < InternalController
 
   # GET /pipelines/new
   def new
-    @pipeline = Pipeline.new
+    @pipeline = Pipeline.new(active: true)
+    @stages = []
   end
 
   # GET /pipelines/1/edit
@@ -209,7 +210,7 @@ class Accounts::PipelinesController < InternalController
 
   # Only allow a list of trusted parameters through.
   def pipeline_params
-    params.require(:pipeline).permit(:name, stages_attributes: %i[id name _destroy account_id position])
+    params.require(:pipeline).permit(:name, :active, stages_attributes: %i[id name _destroy account_id position background_color text_color])
   end
 
   def set_bulk_action_event

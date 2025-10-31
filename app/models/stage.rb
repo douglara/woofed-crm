@@ -27,6 +27,9 @@ class Stage < ApplicationRecord
                                              joins(:pipeline).order('pipelines.name ASC, stages.position ASC')
                                            }
 
+  validates :background_color, format: { with: /\A#[0-9A-Fa-f]{6}\z/, message: "must be a valid hex color code", allow_blank: true }
+  validates :text_color, format: { with: /\A#[0-9A-Fa-f]{6}\z/, message: "must be a valid hex color code", allow_blank: true }
+
   def total_amount_deals(filter_status_deal)
     return deals.sum(&:total_amount_in_cents) if filter_status_deal == 'all'
 

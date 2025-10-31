@@ -35,7 +35,10 @@
                 </option>
                 <% end %>
               </select>
-              <%= link_to edit_account_pipeline_path(Current.account, @pipeline), class:'h-10 w-10 flex items-center justify-center border-solid border-2 border-light-palette-p3 rounded-r-lg sm:flex-1 hover:border-light-palette-p2' do %>
+              <%= link_to new_account_pipeline_path(Current.account), class:'h-10 w-10 flex items-center justify-center border-solid border-2 border-light-palette-p3 hover:border-light-palette-p2', title: t('activerecord.models.pipeline.new') do %>
+                <i data-lucide=\"plus\" class=\"w-4 h-4\"></i>
+              <% end %>
+              <%= link_to edit_account_pipeline_path(Current.account, @pipeline), class:'h-10 w-10 flex items-center justify-center border-solid border-2 border-light-palette-p3 rounded-r-lg sm:flex-1 hover:border-light-palette-p2', title: t('activerecord.models.pipeline.edit') do %>
                 <%= embedded_svg('pencil-icon.svg') %>
               <% end %>
             </div>
@@ -49,14 +52,14 @@
                 <%= t('activerecord.models.deal.new') %>
               </p>
             <% end %>
-            <div id="tooltip-new-pipeline-link" role="tooltip" class="hidden sm:inline-block lg:hidden absolute z-10 invisible px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-              <%= t('activerecord.models.pipeline.new') %>
+            <div id="tooltip-new-stage-link" role="tooltip" class="hidden sm:inline-block lg:hidden absolute z-10 invisible px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+              <%= t('views.layouts.shared.navbar_pipe.new_stage') %>
               <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
-            <%= link_to new_account_pipeline_path(Current.account), class: 'button-default-blank-secondary-md', data: {tooltip_target: 'tooltip-new-pipeline-link'} do %>
-              <i data-lucide="funnel-plus"></i>
+            <%= link_to new_account_pipeline_stage_path(Current.account, @pipeline), class: 'button-default-blank-secondary-md', data: {tooltip_target: 'tooltip-new-stage-link', turbo_frame: 'modal'} do %>
+              <i data-lucide="columns"></i>
               <p class="block sm:hidden lg:block">
-                <%= t('activerecord.models.pipeline.new') %>
+                <%= t('views.layouts.shared.navbar_pipe.new_stage') %>
               </p>
             <% end %>
             <div id="tooltip-filter-deal" role="tooltip" class="hidden absolute z-10 invisible sm:inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
