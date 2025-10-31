@@ -85,7 +85,11 @@ class Event < ApplicationRecord
   end
 
   def content=(value)
-    original_content.body = value
+    if value.present?
+      original_content.body = value
+    else
+      original_content.body = ''
+    end
   end
 
   def content

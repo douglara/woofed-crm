@@ -34,7 +34,15 @@ class Accounts::Contacts::EventsController < InternalController
   def update
     @deal = current_user.account.deals.find(params[:deal_id])
     @events = @deal.contact.events
-    render :edit, status: :unprocessable_entity unless @event.update(event_params)
+    
+    if @event.update(event_params)
+      respond_to do |format|
+        format.html { redirect_to account_deal_path(current_user.account, @deal) }
+        format.turbo_stream
+      end
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def show; end
