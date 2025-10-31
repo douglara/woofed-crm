@@ -1,0 +1,11 @@
+en:
+  activerecord:
+    models:
+      event_category:
+        one: "Event Category"
+        other: "Event Categories"
+    attributes:
+      event_category:
+        name: "Name"
+        icon: "Icon"
+        color: "Color"

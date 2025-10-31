@@ -35,6 +35,7 @@ class Event < ApplicationRecord
   # belongs_to :event_kind, default: -> { EventKind }
   # belongs_to :record, polymorphic: true
   belongs_to :app, polymorphic: true, optional: true
+  belongs_to :event_category, optional: true
   has_rich_text :content
   alias original_content content
 

@@ -6,14 +6,14 @@ class Accounts::EventsController < InternalController
     start_date = Time.zone.parse(params[:start])
     end_date = Time.zone.parse(params[:end])
 
-    events = Event.planned.where(scheduled_at: start_date..end_date)
+    events = Event.planned.where(scheduled_at: start_date..end_date).includes(:event_category)
 
     render json: events.map { |event| {
       id: event.id,
       title: "#{event.title} - #{event.contact.full_name}",
       start: event.scheduled_at.iso8601,
-      backgroundColor: events_kind_color(event.kind),
-      borderColor: events_kind_color(event.kind),
+      backgroundColor: event.event_category&.color || events_kind_color(event.kind),
+      borderColor: event.event_category&.color || events_kind_color(event.kind),
       extendedProps: {
         account_id: Current.account.id,
         contact_id: event.contact_id,

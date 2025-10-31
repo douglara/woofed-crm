@@ -5,3 +5,4 @@ en:
         form:
           activity:
             confirm: Confirm
+            select_category: "Select a category"
