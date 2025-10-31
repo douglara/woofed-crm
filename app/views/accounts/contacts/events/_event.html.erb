@@ -4,7 +4,7 @@
   <% else %>
     <% category_color = event.event_category&.color || '#6857D9' %>
     <div class="group event-<%= event.scheduled_kind %> event-item-<%= event.from %> my-5" data-controller="load-lucid-icons load-flowbite">
-      <div class="<%= event.has_media_attachment? ? 'w-[500px]' : 'w-[956px]' %> block rounded-lg bg-white <%= event.event_category.present? ? 'border-l-4 border-r border-t border-b' : 'border' %> border-light-palette-p3 rounded dark:bg-neutral-700" style="<%= event.event_category.present? ? "border-left-color: #{category_color};" : '' %>">
+      <div class="<%= event.has_media_attachment? ? 'w-[500px]' : 'w-[956px]' %> block rounded-lg bg-white <%= event.event_category.present? ? 'border-l-4 border-r border-t border-b' : 'border' %> border-light-palette-p3 rounded dark:bg-neutral-700" style="<%= event.event_category.present? ? "border-left-color: #{category_color}; border-left-width: 15px !important;" : '' %>">
         <div class="border-b-2 border-neutral-100 bg-light-palette-p4 px-3 py-2 flex items-center space-x-3">
           <% if event.from_me? %>
             <% if event.note? %>
