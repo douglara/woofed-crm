@@ -1,5 +1,6 @@
+<% text_color = stage.text_color.presence || '#000000' %>
 <div class='flex items-center justify-between gap-1.5' id='stage-<%= stage.id %>-<%= filter_status_deal %>-kaban-details'>
-  <div class='typography-body-900 color-fg-default cursor-default truncate' data-tooltip-target="tooltip-stage-<%= stage.id %>-deals-total-amount" data-tooltip-placement="bottom">
+  <div class='typography-body-900 cursor-default truncate' style="color: <%= text_color %>;" data-tooltip-target="tooltip-stage-<%= stage.id %>-deals-total-amount" data-tooltip-placement="bottom">
     <%= render 'components/formatters/currency', value: stage.total_amount_deals(filter_status_deal) %>
   </div>
   <div id="tooltip-stage-<%= stage.id %>-deals-total-amount" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 typography-label-900 font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">

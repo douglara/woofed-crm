@@ -59,6 +59,9 @@ Rails.application.routes.draw do
       get 'import'
       post 'import_file'
       get 'export'
+      resources :stages, only: [:new, :create], module: :pipelines do
+        patch 'update_position', on: :member
+      end
       member do
         get 'new_bulk_action'
         get 'bulk_action'

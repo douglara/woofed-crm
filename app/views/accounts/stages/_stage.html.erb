@@ -1,14 +1,16 @@
-<div class="px-4 pb-4 rounded border-2 border-light-palette-p3 bg-light-palette-p5 relative" data-controller="load-lucid-icons load-flowbite" id=<%= dom_id(stage, filter_status_deal) %>>
-  <div class='pt-2 pb-3.5 flex flex-col gap-1'>
+<% bg_color = stage.background_color.presence || '#FFFFFF' %>
+<% text_color = stage.text_color.presence || '#000000' %>
+<div class="px-4 pb-4 rounded border-2 border-light-palette-p3 relative stage-column" data-controller="load-lucid-icons load-flowbite" id=<%= dom_id(stage, filter_status_deal) %> style="background-color: <%= bg_color %>;">
+  <div class='pt-2 pb-3.5 flex flex-col gap-1 stage-header cursor-move'>
     <div class="flex justify-between items-center gap-1.5">
-      <h1 class="typography-text-s-lh150 color-fg-default truncate cursor-default" data-tooltip-target="tooltip-name-<%= stage.id %>" data-tooltip-placement="bottom">
+      <h1 class="typography-text-s-lh150 truncate cursor-default" style="color: <%= text_color %>;" data-tooltip-target="tooltip-name-<%= stage.id %>" data-tooltip-placement="bottom">
         <%= stage.name %>
       </h1>
       <div id="tooltip-name-<%= stage.id %>" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 typography-label-900 font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
         <%= stage.name %>
         <div class="tooltip-arrow" data-popper-arrow></div>
       </div>
-      <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownDotsHorizontal<%=stage.id%>" class="button-default-blank-secondary-icon-only-sm" type="button">
+      <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownDotsHorizontal<%=stage.id%>" class="button-default-blank-secondary-icon-only-sm" type="button" style="color: <%= text_color %>;">
         <i data-lucide="more-horizontal"></i>
       </button>
       <div class="p-0 w-6 rounded-tr-lg absolute border-t-2 border-r-2 border-light-palette-p3 left-[285px] bg-light-palette-p5 rotate-45">
