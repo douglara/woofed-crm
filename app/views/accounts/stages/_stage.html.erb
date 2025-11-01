@@ -1,6 +1,7 @@
 <% bg_color = stage.background_color.presence || '#FFFFFF' %>
 <% text_color = stage.text_color.presence || '#000000' %>
-<div class="px-4 pb-4 rounded border-2 border-light-palette-p3 relative stage-column" data-controller="load-lucid-icons load-flowbite" id=<%= dom_id(stage, filter_status_deal) %> style="background-color: <%= bg_color %>;">
+<% bg_color_with_transparency = with_transparency(bg_color, '40') %>
+<div class="px-4 pb-4 rounded border-2 border-light-palette-p3 relative stage-column" data-controller="load-lucid-icons load-flowbite" id=<%= dom_id(stage, filter_status_deal) %> style="background-color: <%= bg_color_with_transparency %>;">
   <div class='pt-2 pb-3.5 flex flex-col gap-1 stage-header cursor-move'>
     <div class="flex justify-between items-center gap-1.5">
       <h1 class="typography-text-s-lh150 truncate cursor-default" style="color: <%= text_color %>;" data-tooltip-target="tooltip-name-<%= stage.id %>" data-tooltip-placement="bottom">
