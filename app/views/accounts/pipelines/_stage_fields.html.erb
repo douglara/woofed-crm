@@ -1,4 +1,4 @@
-<div class='nested-fields border border-light-palette-p3 rounded-md p-4' data-controller="load-lucid-icons">
+<div class='nested-fields border border-light-palette-p3 rounded-md p-4' data-controller="load-lucid-icons stage-color-fields">
   <div class="grid grid-cols-12 gap-4 items-center">
     <div class="col-span-12 md:col-span-1 flex items-center justify-center cursor-move" title="<%= t('views.accounts.pipelines.stage_fields.drag_to_reorder') %>">
       <i data-lucide="grip-vertical" class="w-5 h-5 text-dark-gray-palette-p3"></i>
@@ -10,15 +10,15 @@
     <div class="col-span-12 md:col-span-3 flex flex-col gap-1">
       <%= f.label :background_color, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
       <div class="flex gap-2 items-center">
-        <%= f.color_field :background_color, class: "h-10 w-16 rounded border border-light-palette-p3 cursor-pointer", value: f.object.background_color.presence || '#FFFFFF' %>
-        <%= f.text_field :background_color, class: "form-input flex-1", placeholder: "#FFFFFF" %>
+        <input type="color" class="h-10 w-16 rounded border border-light-palette-p3 cursor-pointer" value="<%= f.object.background_color.presence || '#FFFFFF' %>" data-stage-color-fields-target="colorPicker" data-color-type="background" />
+        <%= f.text_field :background_color, class: "form-input flex-1", placeholder: "#FFFFFF", value: f.object.background_color.presence || '#FFFFFF', data: { "stage-color-fields-target": "colorInput", "color-type": "background" } %>
       </div>
     </div>
     <div class="col-span-12 md:col-span-3 flex flex-col gap-1">
       <%= f.label :text_color, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
       <div class="flex gap-2 items-center">
-        <%= f.color_field :text_color, class: "h-10 w-16 rounded border border-light-palette-p3 cursor-pointer", value: f.object.text_color.presence || '#000000' %>
-        <%= f.text_field :text_color, class: "form-input flex-1", placeholder: "#000000" %>
+        <input type="color" class="h-10 w-16 rounded border border-light-palette-p3 cursor-pointer" value="<%= f.object.text_color.presence || '#000000' %>" data-stage-color-fields-target="colorPicker" data-color-type="text" />
+        <%= f.text_field :text_color, class: "form-input flex-1", placeholder: "#000000", value: f.object.text_color.presence || '#000000', data: { "stage-color-fields-target": "colorInput", "color-type": "text" } %>
       </div>
     </div>
     <div class="col-span-12 md:col-span-1 flex items-end justify-center">
