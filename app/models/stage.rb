@@ -30,6 +30,8 @@ class Stage < ApplicationRecord
   validates :background_color, format: { with: /\A#[0-9A-Fa-f]{6}\z/, message: "must be a valid hex color code", allow_blank: true }
   validates :text_color, format: { with: /\A#[0-9A-Fa-f]{6}\z/, message: "must be a valid hex color code", allow_blank: true }
 
+  before_validation :set_default_colors
+
   def total_amount_deals(filter_status_deal)
     return deals.sum(&:total_amount_in_cents) if filter_status_deal == 'all'
 
@@ -40,6 +42,13 @@ class Stage < ApplicationRecord
     return deals.count if filter_status_deal == 'all'
 
     deals.where(status: filter_status_deal).count
+  end
+
+  private
+
+  def set_default_colors
+    self.background_color = '#FFFFFF' if background_color.blank?
+    self.text_color = '#000000' if text_color.blank?
   end
   # after_update_commit -> { Stages::BroadcastUpdatesWorker.perform_async(id) }
 end
