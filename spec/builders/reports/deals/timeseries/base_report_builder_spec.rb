@@ -64,8 +64,10 @@ RSpec.describe Reports::Deals::Timeseries::BaseReportBuilder do
   describe '#object_scope' do
     let(:params) do
       { metric:, type: :account, since: (Time.zone.today - 5.days).to_time.to_i.to_s,
-        until: Time.zone.today.end_of_day.to_i.to_s }
+        until: Time.zone.today.end_of_day.to_i.to_s, filter: }
     end
+
+    let(:filter) { nil }
 
     let!(:won_deal_on_range1) do
       create(:deal, :won, account:, stage:,
@@ -165,6 +167,51 @@ RSpec.describe Reports::Deals::Timeseries::BaseReportBuilder do
         expect(scope).not_to include(lost_deal_out_of_range)
         expect(scope).to include(open_deal_on_range1)
         expect(scope).not_to include(open_deal_out_of_range)
+      end
+    end
+
+    context 'when filter params is set' do
+      let!(:user) { create(:user) }
+
+      context 'valid filter params' do
+        context 'for won_deals and filtered by user id' do
+          let!(:deal_assignee) { create(:deal_assignee, deal: won_deal_on_range1, user:) }
+          let(:metric) { 'won_deals_count' }
+          let(:filter) { { users_id_eq: user.id } }
+
+          it 'returns correct scope for won_deals (scope_for_won_deals) filtered by users' do
+            instance = described_class.new(account, params)
+            scope = instance.send(:object_scope)
+            expect(scope).to be_a(ActiveRecord::Relation)
+            expect(scope).to include(won_deal_on_range1)
+            expect(scope).not_to include(won_deal_on_range2)
+            expect(scope).not_to include(won_deal_out_of_range)
+            expect(scope).not_to include(lost_deal_on_range1)
+            expect(scope).not_to include(lost_deal_out_of_range)
+            expect(scope).not_to include(open_deal_on_range1)
+            expect(scope).not_to include(open_deal_out_of_range)
+          end
+        end
+      end
+      context 'invalid filter params' do
+        context 'for won_deals and filtered by user id' do
+          let!(:deal_assignee) { create(:deal_assignee, deal: won_deal_on_range1, user:) }
+          let(:metric) { 'won_deals_count' }
+          let(:filter) { 'invalid' }
+
+          it 'returns correct scope for won_deals (scope_for_won_deals)' do
+            instance = described_class.new(account, params)
+            scope = instance.send(:object_scope)
+            expect(scope).to be_a(ActiveRecord::Relation)
+            expect(scope).to include(won_deal_on_range1)
+            expect(scope).to include(won_deal_on_range2)
+            expect(scope).not_to include(won_deal_out_of_range)
+            expect(scope).not_to include(lost_deal_on_range1)
+            expect(scope).not_to include(lost_deal_out_of_range)
+            expect(scope).not_to include(open_deal_on_range1)
+            expect(scope).not_to include(open_deal_out_of_range)
+          end
+        end
       end
     end
   end

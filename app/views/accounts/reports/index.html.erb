@@ -1,17 +1,37 @@
 <div class="m-8">
-  <%= form_with(url: account_reports_path(Current.account), method: :get, data: { turbo_frame: :summary_session, turbo_action: :advance, controller: 'form--date-range-picker', form__date_range_picker_language_value: current_user.language }, class: 'flex gap-2 mb-5 justify-end') do |form| %>
+  <%= form_with(url: account_reports_path(Current.account), method: :get, data: { turbo_frame: :summary_session, turbo_action: :advance, controller: 'form--date-range-picker', form__date_range_picker_language_value: current_user.language }, class: 'flex flex-wrap gap-2 mb-5 justify-end') do |form| %>
     <%= form.hidden_field :timezone_offset, data: { controller: "form--set-timezone-offset" } %>
-    <div class="relative">
-      <%= form.text_field :date_range,
-                     class: 'form-input w-full pl-10',
-                     value: params[:date_range],
-                     data: { form__date_range_picker_target: 'dateRangeForm' } %>
-      <i data-lucide="calendar-days" class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 color-fg-default stroke-1.25 "></i>
+    <div class='flex flex-wrap h-10 sm:w-96 shrink-0 '>
+      <div class='h-10 w-10 flex items-center justify-center border-solid border-2 color-border-default rounded-l-md bg-brand-palette-08'>
+        <i data-lucide="user" class="h-5 w-5 color-fg-soft stroke-1.25"></i>
+      </div>
+      <%= select_tag "filter[users_id_eq]",
+      options_for_select(
+        [[t("activerecord.models.user.all"), ""]] +
+        @users.pluck(:full_name, :id),
+        params.dig(:filter, :users_id_eq)
+      ),
+      class: "form-input border-solid border-2 color-border-default rounded-r-md rounded-l-none flex-1 h-10 ml-[-2px] hover:border-gray-400 hover:z-10 hover:cursor-pointer focus:border-gray-400 focus:ring-0 focus:z-10",
+      onchange: "this.form.requestSubmit()" %>
     </div>
-    <%= form.select :group_by, [[t('activerecord.models.day'), 'day'], [t('activerecord.models.week'), 'week'], [t('activerecord.models.month'), 'month'], [t('activerecord.models.year'), 'year']], { selected: params[:group_by] }, class: 'form-input', onchange: 'this.form.requestSubmit()'  %>
+    <div class='flex flex-wrap h-10 shrink-0 '>
+      <div class='h-10 w-10 flex items-center justify-center border-solid border-2 color-border-default rounded-l-md bg-brand-palette-08'>
+        <i data-lucide="calendar-days" class="h-5 w-5 color-fg-soft stroke-1.25"></i>
+      </div>
+      <%= form.text_field :date_range,
+        class: 'form-input border-solid border-2 color-border-default rounded-r-md rounded-l-none flex-1 h-10 ml-[-2px] hover:border-gray-400 hover:z-10 hover:cursor-pointer focus:border-gray-400 focus:ring-0 focus:z-10',
+        value: params[:date_range],
+        data: { form__date_range_picker_target: 'dateRangeForm' } %>
+    </div>
+    <div class='flex flex-wrap h-10 shrink-0 '>
+      <div class='h-10 w-10 flex items-center justify-center border-solid border-2 color-border-default rounded-l-md bg-brand-palette-08'>
+        <i data-lucide="calendar-clock" class="h-5 w-5 color-fg-soft stroke-1.25"></i>
+      </div>
+      <%= form.select :group_by, [[t('activerecord.models.day'), 'day'], [t('activerecord.models.week'), 'week'], [t('activerecord.models.month'), 'month'], [t('activerecord.models.year'), 'year']], { selected: params[:group_by] }, class: 'form-input border-solid border-2 color-border-default rounded-r-md rounded-l-none flex-1 h-10 ml-[-2px] hover:border-gray-400 hover:z-10 hover:cursor-pointer focus:border-gray-400 focus:ring-0 focus:z-10', onchange: 'this.form.requestSubmit()'  %>
+    </div>
   <% end %>
   <%= turbo_frame_tag :summary_session do %>
-    <%= turbo_frame_tag :summary_reports, src: summary_account_reports_path(Current.account, since: params[:since], until: params[:until], type: :account, group_by: params[:group_by]), loading: :lazy do  %>
+    <%= turbo_frame_tag :summary_reports, src: summary_account_reports_path(Current.account, since: params[:since], until: params[:until], type: :account, group_by: params[:group_by], filter: params[:filter]&.to_unsafe_h), loading: :lazy do  %>
       <div class='grid grid-cols-[repeat(auto-fit,_minmax(275px,_1fr))] gap-4 mb-5'>
         <% 3.times do %>
           <%= render '/components/skeleton/reports/summary' %>

@@ -2,6 +2,7 @@ class Accounts::ReportsController < InternalController
   before_action :set_date_range
 
   def index
+    @users = User.all
   end
 
   def summary
@@ -44,7 +45,8 @@ class Accounts::ReportsController < InternalController
     {
       type: params[:type]&.to_sym,
       id: params[:id],
-      group_by: params[:group_by]
+      group_by: params[:group_by],
+      filter: params[:filter]&.to_unsafe_h
     }
   end
 

@@ -93,6 +93,14 @@ class Deal < ApplicationRecord
   #   end
   # end
 
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[users]
+  end
+
   def total_amount_in_cents
     total_deal_products_amount_in_cents
   end

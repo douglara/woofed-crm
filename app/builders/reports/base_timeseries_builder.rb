@@ -19,11 +19,17 @@ class Reports::BaseTimeseriesBuilder
       account
     when :stage
       stage
+    when :user
+      user
     end
   end
 
   def stage
     @stage ||= Stage.find(params[:id])
+  end
+
+  def user
+    @user ||= User.find(params[:id])
   end
 
   def group_by

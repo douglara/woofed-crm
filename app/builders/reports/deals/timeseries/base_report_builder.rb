@@ -23,7 +23,9 @@ class Reports::Deals::Timeseries::BaseReportBuilder < Reports::BaseTimeseriesBui
   end
 
   def object_scope
-    send("scope_for_#{metric}")
+    scope = send("scope_for_#{metric}")
+
+    Query::Filter.new(scope, params[:filter]).call
   end
 
   def scope_for_won_deals

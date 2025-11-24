@@ -6,6 +6,7 @@ es:
         other: Usuarios
         new: "Nuevo usuario"
         edit: "Editar usuario"
+        all: "Todos los usuarios"
     attributes:
       user:
         email: Correo electrónico

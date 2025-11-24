@@ -32,6 +32,7 @@ RSpec.describe Accounts::ReportsController, type: :request do
         get "/accounts/#{account.id}/reports"
         expect(response).to have_http_status(200)
         expect(response.body).to include('Reports')
+        expect(response.body).to include(user.full_name)
       end
     end
   end
