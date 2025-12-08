@@ -22,7 +22,7 @@ export default class extends Controller {
   }
 
   get dateInTimezone() {
-    return moment.tz(this.dateValue, getBrowserTimeZone());
+    return moment(this.dateValue).tz(getBrowserTimeZone());
   }
 
   formattedDate(date) {

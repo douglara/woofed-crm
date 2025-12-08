@@ -115,6 +115,7 @@
             name: '<%= current_user&.full_name %>',
             account_id: '<%= current_user&.account&.id %>',
             account_name: '<%= current_user&.account&.name %>',
+            account_created_at: '<%= current_user&.account&.created_at %>',
             frontend_url: '<%= ENV.fetch('FRONTEND_URL', "") %>'
           }
         );
