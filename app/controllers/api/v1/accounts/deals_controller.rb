@@ -1,4 +1,6 @@
 class Api::V1::Accounts::DealsController < Api::V1::InternalController
+  include DealConcern
+
   def show
     @deal = Deal.find(params['id'])
 
@@ -41,7 +43,6 @@ class Api::V1::Accounts::DealsController < Api::V1::InternalController
   end
 
   def deal_params
-    params.permit(:name, :status, :stage_id, :pipeline_id, :contact_id,
-                  contacts_attributes: %i[id full_name phone email], custom_attributes: {})
+    params.permit(*permitted_deal_params)
   end
 end

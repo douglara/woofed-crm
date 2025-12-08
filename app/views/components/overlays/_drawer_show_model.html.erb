@@ -1,0 +1,19 @@
+<% width_class ||= 'w-10/12' %>
+<%= turbo_frame_tag :drawer do %>
+  <div id="drawer-right" data-controller='drawer' class="fixed ease-in duration-300 top-0 right-0 z-[60] h-screen overflow-y-auto transition-transform translate-x-full color-bg-surface-default <%= width_class %> flex" tabindex="-1" aria-labelledby="drawer-right-label">
+    <%= yield :sidebar %>
+    <div class='flex-1 flex flex-col'>
+      <nav class="navbar-container">
+        <h1 class="typography-title-b-lh150 text-dark-gray-palette-p1">
+          <%= t("activerecord.models.#{model.model_name.i18n_key}.one") %>
+        </h1>
+        <%= link_to :back, class: "button-default-blank-secondary-icon-only-sm" do %>
+          <i data-lucide="x"></i>
+        <% end %>
+      </nav>
+      <div class='flex-1 overflow-y-auto h-screen scroll-smooth p-4 color-bg-surface-harder'>
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -13,7 +13,11 @@
   <%= render 'components/events/form/attachments', form: form %>
   <div class="flex flex-row-reverse border-t border-light-palette-p3 p-4">
     <div class="flex items-center gap-2">
-      <%= form.submit t('views.components.events.form.note.confirm'), class: 'btn-primary cursor-pointer' %>
+      <% track_event = event.new_record? ? 'note_created' : 'note_updated' %>
+      <%= form.button t('views.components.events.form.activity.confirm'),
+      type: :submit,
+      class: 'btn-primary',
+      data: { track: track_event } %>
       <%= render '/components/events/form/cancel_button', event: event, pipeline: (defined?(pipeline) ? pipeline : nil), stage: (defined?(stage) ? stage : nil) %>
     </div>
   </div>

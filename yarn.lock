@@ -1169,6 +1169,18 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@openpanel/sdk@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@openpanel/sdk/-/sdk-1.0.0.tgz#f92a40a9f8accc855e1d063182751f8e9eab469f"
+  integrity sha512-FNmmfjdXoC/VHEjA+WkrQ4lyM5lxEmV7xDd57uj4E+lIS0sU3DLG2mV/dpS8AscnZbUvuMn3kPhiLCqYzuv/gg==
+
+"@openpanel/web@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@openpanel/web/-/web-1.0.1.tgz#2a42668966aca8a604659941fb3d4f398174f238"
+  integrity sha512-cVZ7Kr9SicczJ/RDIfEtZs8+1iGDzwkabVA/j3NqSl8VSucsC8m1+LVbjmCDzCJNnK4yVn6tEcc9PJRi2rtllw==
+  dependencies:
+    "@openpanel/sdk" "1.0.0"
+
 "@popperjs/core@^2.9.3":
   version "2.11.8"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"

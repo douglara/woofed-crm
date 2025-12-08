@@ -543,4 +543,124 @@ RSpec.describe Accounts::DealsController, type: :request do
       end
     end
   end
+
+  describe 'GET /accounts/{account.id}/deals/new' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/deals/new"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      context 'when there is contact_id on deals params' do
+        it 'returns new deals page' do
+          get "/accounts/#{account.id}/deals/new", params: { deal: { contact_id: contact.id } }
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include('New deal')
+        end
+      end
+
+      context 'when there is no contact_id on deals params' do
+        it 'renders new_select_contact with status unprocessable_entity' do
+          get "/accounts/#{account.id}/deals/new"
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include('select_contact_search')
+          expect(response.body).to match(/Contact can&#39;t be blank/)
+        end
+      end
+    end
+  end
+
+  describe 'GET /accounts/{account.id}/deals/new_select_contact' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/deals/new_select_contact"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      it 'returns new select contact deals page' do
+        get "/accounts/#{account.id}/deals/new_select_contact"
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('select_contact_search')
+        expect(response.body).to include('Continue')
+      end
+    end
+  end
+
+  describe 'GET /accounts/{account.id}/deals/:id/mark_as_lost' do
+    let!(:deal) { create(:deal, stage:) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/deals/#{deal.id}/mark_as_lost"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let!(:deal_lost_reason) { create(:deal_lost_reason) }
+      let!(:stage) { create(:stage) }
+
+      before do
+        sign_in(user)
+      end
+
+      it 'returns deal_lost_reasons and stages and mark as lost deals page' do
+        get "/accounts/#{account.id}/deals/#{deal.id}/mark_as_lost"
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('Mark as Lost')
+        expect(response.body).to include(deal_lost_reason.name)
+        expect(response.body).to include(stage.name)
+      end
+
+      context 'when there is no deal lost reasons' do
+        before do
+          DealLostReason.destroy_all
+        end
+
+        it 'does not display deal lost reasons select' do
+          get "/accounts/#{account.id}/deals/#{deal.id}/mark_as_lost"
+          expect(response).to have_http_status(:success)
+          expect(response.body).not_to include(I18n.t('activerecord.models.deal.select_a_reason'))
+        end
+      end
+    end
+  end
+
+  describe 'GET /accounts/{account.id}/deals/:id/mark_as_won' do
+    let!(:deal) { create(:deal, stage:) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/deals/#{deal.id}/mark_as_won"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let!(:stage) { create(:stage) }
+
+      before do
+        sign_in(user)
+      end
+
+      it 'returns stages and mark as won deals page' do
+        get "/accounts/#{account.id}/deals/#{deal.id}/mark_as_won"
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(I18n.t('activerecord.models.deal.mark_as_won'))
+        expect(response.body).to include(stage.name)
+      end
+    end
+  end
 end

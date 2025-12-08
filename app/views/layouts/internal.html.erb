@@ -12,12 +12,22 @@
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_pack_tag 'application', defer: true, 'data-turbo-track': 'reload' %>
     <%= tag.meta name: "vapid-public-key", content: Rails.configuration.x.vapid.public_key %>
+    <%= tag.meta name: "openpanel-token", content: ENV.fetch("OPENPANEL_TOKEN", "") %>
+    <%= tag.meta name: "openpanel-endpoint", content: ENV.fetch("OPENPANEL_ENDPOINT", "https://api.openpanel.dev") %>
+    <%= tag.meta name: "rails-environment", content: Rails.env %>
+    <%= tag.meta name: "user-data", content: {
+      id: current_user&.id,
+      full_name: current_user&.full_name,
+      email: current_user&.email,
+      account_id: current_user&.account&.id,
+      account_name: current_user&.account&.name
+    }.to_json %>
     <meta name="mobile-web-app-capable" content="yes">
     <%= tag.link rel: "manifest", href: webmanifest_path(format: :json) %>
     <%= render "layouts/shared/analytics_scripts" %>
     <%= yield :stylesheets %>
   </head>
-  <body data-user-locale='<%= current_user&.language || '' %>' data-account-currency="<%= Current.account&.currency_code || '' %>">
+  <body data-user-locale='<%= current_user&.language || '' %>' data-account-currency="<%= Current.account&.currency_code || '' %>" data-controller="analytics--openpanel" >
     <div id="app" class="h-screen">
       <%= render partial: 'components/flash_message', locals: { message: flash[:notice] } %>
       <div class="flex h-full">

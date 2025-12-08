@@ -141,8 +141,14 @@
   .deal-won-btn {
     @apply rounded-md px-4 py-2 bg-auxiliary-palette-green-down text-auxiliary-palette-green text-center hover:bg-auxiliary-palette-green  hover:no-underline font-semibold hover:text-white;
   }
+  .deal-won-element {
+    @apply rounded-md px-4 py-2 bg-auxiliary-palette-green-down text-auxiliary-palette-green text-center cursor-default;
+  }
   .deal-lost-btn {
     @apply rounded-md px-4 py-2 bg-auxiliary-palette-red-down text-auxiliary-palette-red text-center hover:bg-auxiliary-palette-red hover:text-white hover:no-underline font-semibold;
+  }
+  .deal-lost-element {
+    @apply rounded-md px-4 py-2 bg-auxiliary-palette-red-down text-auxiliary-palette-red text-center font-semibold cursor-default;
   }
 
   .typography-title-1000 {

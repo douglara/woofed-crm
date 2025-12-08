@@ -1,0 +1,10 @@
+<%= turbo_stream.replace :drawer do %>
+  <%= turbo_frame_tag :drawer %>
+<% end %>
+<%= turbo_stream.replace :flash_message do %>
+  <%= render partial: 'components/flash_message', locals: { message: t('flash_messages.created', model: DealLostReason.model_name.human) } %>
+<% end %>
+<%= turbo_stream.replace :settings__deals__deal_lost_reasons__deal_free_form_lost_reasons do %>
+  <%= render partial: 'accounts/settings/deals/deal_lost_reasons/deal_free_form_lost_reasons', locals: { account: @account } %>
+<% end %>
+<%= turbo_stream.append dom_id(DealLostReason, :settings__deals__deal_lost_reasons__index), @deal_lost_reason %>

@@ -1,8 +1,9 @@
 class Accounts::DealsController < InternalController
   include DealProductConcern
+  include DealConcern
 
   before_action :set_deal,
-                only: %i[show edit update destroy events_to_do events_done deal_products deal_assignees]
+                only: %i[show edit update destroy events_to_do events_done deal_products deal_assignees mark_as_lost mark_as_won]
   before_action :set_deal_product, only: %i[edit_deal_product
                                             update_deal_product]
 
@@ -32,8 +33,14 @@ class Accounts::DealsController < InternalController
   # GET /deals/new
   def new
     @deal = Deal.new
-    @stages = current_user.account.stages
-    @deal.contact_id = params[:deal][:contact_id]
+    @stages = Stage.ordered_by_pipeline_and_position
+    @deal.contact_id = params.dig(:deal, :contact_id)
+
+    if @deal.contact_id.blank?
+      @deal.errors.add(:contact, :blank)
+      render :new_select_contact, status: :unprocessable_entity
+      return
+    end
   end
 
   def new_select_contact
@@ -73,7 +80,7 @@ class Accounts::DealsController < InternalController
 
   # GET /deals/1/edit
   def edit
-    @stages = current_user.account.stages
+    @stages = Stage.ordered_by_pipeline_and_position
   end
 
   def edit_custom_attributes
@@ -83,7 +90,7 @@ class Accounts::DealsController < InternalController
 
   # POST /deals or /deals.json
   def create
-    @stages = current_user.account.stages
+    @stages = Stage.ordered_by_pipeline_and_position
     @deal = DealBuilder.new(current_user, deal_params).perform
 
     if Deal::CreateOrUpdate.new(@deal, deal_params).call
@@ -95,7 +102,7 @@ class Accounts::DealsController < InternalController
 
   # PATCH/PUT /deals/1 or /deals/1.json
   def update
-    @stages = @deal.pipeline.stages
+    @stages = Stage.ordered_by_pipeline_and_position
     if params[:deal][:att_key].present?
       @deal.custom_attributes[params[:deal][:att_key]] = params[:deal][:att_value]
     end
@@ -160,6 +167,16 @@ class Accounts::DealsController < InternalController
     end
   end
 
+  def mark_as_lost
+    @stages = Stage.ordered_by_pipeline_and_position
+    @lost_reasons = DealLostReason.order(:name).pluck(:name).uniq
+    @exists_deal_lost_reasons = DealLostReason.exists?
+  end
+
+  def mark_as_won
+    @stages = Stage.ordered_by_pipeline_and_position
+  end
+
   private
 
   def set_deal
@@ -176,10 +193,6 @@ class Accounts::DealsController < InternalController
 
   # Only allow a list of trusted parameters through.
   def deal_params
-    params.require(:deal).permit(
-      :name, :status, :stage_id, :contact_id, :position,
-      contact_attributes: %i[id full_name phone email],
-      custom_attributes: {}
-    )
+    params.require(:deal).permit(*permitted_deal_params)
   end
 end

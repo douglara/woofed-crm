@@ -23,12 +23,14 @@ class Deal::CreateOrUpdate
     if @deal.won?
       @deal.won_at = Time.current
       @deal.lost_at = nil
+      @deal.lost_reason = ''
     elsif @deal.lost?
       @deal.lost_at = Time.current
       @deal.won_at = nil
     else
       @deal.lost_at = nil
       @deal.won_at = nil
+      @deal.lost_reason = ''
     end
   end
 end

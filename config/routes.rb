@@ -17,6 +17,9 @@ Rails.application.routes.draw do
 
     resource :settings do
       resource :account, only: %i[edit update], module: :settings
+      resource :deals, module: :settings do
+        resources :deal_lost_reasons, except: [:show], module: :deals
+      end
     end
 
     resources :webhooks, module: :settings do
@@ -75,6 +78,8 @@ Rails.application.routes.draw do
       get 'new_select_contact', on: :collection
       get 'edit_custom_attributes'
       patch 'update_custom_attributes'
+      get 'mark_as_lost', on: :member
+      get 'mark_as_won', on: :member
     end
     resources :deal_products, only: %i[destroy new create]
     resources :deal_assignees, only: %i[destroy new create]
@@ -134,7 +139,7 @@ Rails.application.routes.draw do
           match 'search', on: :collection, via: %i[get post]
         end
         resources :deal_assignees, only: %i[create destroy]
-        resources :users, only: [] do
+        resources :users, only: [:create] do
           match 'search', on: :collection, via: %i[get post]
         end
       end

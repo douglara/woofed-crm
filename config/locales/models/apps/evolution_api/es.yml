@@ -3,6 +3,7 @@ es:
     models:
       apps/evolution_api:
         one: 'Whatsapp'
+        other: 'Whatsapp'
     attributes:
       apps/evolution_api:
         connection_statuses:

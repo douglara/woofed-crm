@@ -17,5 +17,7 @@
     </div>
   </div>
   <%= form.hidden_field :contact_id, class: 'form-control' %>
-  <%= form.submit class: 'btn-primary self-end cursor-pointer' %>
+  <%= form.button type: :submit,
+      class: 'btn-primary self-end',
+      data: { track: 'deal_created' } %>
 <% end %>

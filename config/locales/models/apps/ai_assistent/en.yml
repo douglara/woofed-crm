@@ -3,6 +3,7 @@ en:
     models:
       apps/ai_assistent:
         one: "Artificial Intelligence Assistant"
+        other: "Artificial Intelligence Assistants"
     attributes:
       apps/ai_assistent:
         api_key: "API Key"

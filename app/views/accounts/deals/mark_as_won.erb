@@ -1,0 +1,22 @@
+<%= render 'components/overlays/modal', title: t('activerecord.models.deal.mark_as_won'), width_class: 'max-w-2xl' do %>
+  <!-- Modal body -->
+  <div class='border-t color-border-default p-4 md:p-5'>
+    <%= form_with(model: [Current.account, @deal], html:{class: "flex flex-col gap-5"}) do | form | %>
+      <%= form.hidden_field :status, value: "won" %>
+      <% if @deal.errors.any? %>
+        <div>
+          <ul>
+            <% @deal.errors.each do |error| %>
+              <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="flex flex-col gap-1">
+        <%= form.label :stage_id, class: "typography-body-900 color-fg-default" %>
+        <%= form.select(:stage_id, @stages.map { |stage| ["#{stage.pipeline.name} - #{stage.name}", stage.id] }, {}, { class: 'form-input' }) %>
+      </div>
+      <%= form.submit t('activerecord.models.deal.mark_as_won'), class: 'btn-primary cursor-pointer place-self-end' %>
+    <% end %>
+  </div>
+<% end %>

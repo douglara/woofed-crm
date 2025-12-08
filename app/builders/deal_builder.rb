@@ -1,4 +1,6 @@
 class DealBuilder
+  include DealConcern
+
   def initialize(user, params)
     @params = params
     @user = user
@@ -29,10 +31,6 @@ class DealBuilder
   end
 
   def deal_params
-    params.permit(
-      :name, :status, :stage_id, :contact_id,
-      contact_attributes: %i[id full_name phone email],
-      custom_attributes: {}
-    )
+    params.permit(*permitted_deal_params)
   end
 end

@@ -15,6 +15,10 @@ pt-BR:
         open_deals: "Negócios em aberto"
         created_deals: "Negócios criados"
         total_deals: "Total de %{count} negócios"
+        settings: Configurações de negócios
+        mark_as_lost: "Marcar como perdido"
+        mark_as_won: "Marcar como ganho"
+        select_a_reason: "Selecione um motivo"
     attributes:
       deal:
         name: Nome
@@ -35,6 +39,8 @@ pt-BR:
         pipeline: Pipeline
         created_at: Criado em
         id: "Código do negócio"
+        lost_reason: "Motivo de perda"
+        other_lost_reason: "Outro motivo de perda"
         statuses:
           open: Aberto
           won: Ganhou

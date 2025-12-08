@@ -1,0 +1,25 @@
+<div class="group ease-in duration-300 h-full border-r color-border-default color-bg-surface-default w-16 2xl:w-1/5 2xl:space-y-4">
+  <%= render 'components/show_model/sidebar_header', model: model %>
+  <ul class="flex flex-col gap-2 px-[10px] py-2 border-y color-border-default 2xl:px-6 ">
+    <% links.each do |link| %>
+      <li>
+        <%= link_to "##{link[:label].downcase}-#{model.class.name.downcase}-section",
+              data: { turbo: false, tooltip_target: "#{link[:label]}-section", tooltip_placement: 'right'  },
+              class: "button-menu-default-md-icon-only w-11 2xl:w-full 2xl:button-menu-default-md" do %>
+          <% if link[:icon].include?('.svg') %>
+            <%= embedded_svg(link[:icon] ) %>
+          <% else %>
+            <i data-lucide=<%= link[:icon] %> class='<%= '-rotate-[101deg]' if link[:icon] == 'message-circle' %>' ></i>
+          <% end %>
+          <span class="hidden 2xl:block">
+            <%= link[:label] %>
+          </span>
+        <% end %>
+        <div id="<%= link[:label] %>-section" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip 2xl:hidden dark:bg-gray-700">
+          <%= link[:label] %>
+          <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>

@@ -1,0 +1,53 @@
+<% if model.class == Contact %>
+  <div class="flex items-center gap-3 p-4 2xl:mt-6 2xl:px-6 2xl:pt-2 2xl:pb-4">
+    <div class="w-8 h-8 2xl:w-[42px] 2xl:h-[42px] shrink-0">
+      <% if model[:avatar_url].present? %>
+        <div data-controller='lightbox' class='w-full h-full'>
+          <img class="rounded-full h-full w-full object-cover" src="<%= model.avatar_url %>" data-src="<%= model.avatar_url %>" data-sub-html="<%= model.full_name %>" alt="<%= model.full_name %>" >
+        </div>
+      <% else %>
+        <div class="border bg-brand-palette-08 rounded-full h-full w-full flex items-center color-fg-soft">
+          <i data-lucide="user" class="m-auto w-4 h-4 2xl:w-5 2xl:h-5"></i>
+        </div>
+      <% end %>
+    </div>
+    <div class='hidden 2xl:block flex-1 space-y-1'>
+      <h2 class='color-fg-default typography-sub-title-900'>
+        <%= model.full_name %>
+      </h2>
+      <div class='flex gap-2'>
+        <i data-lucide="at-sign" class="w-4 h-4 color-fg-default stroke-1.04" data-tooltip-target='contact-email-icon'></i>
+        <div id="contact-email-icon" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+          <%= model.email %>
+          <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+        <i data-lucide="phone" class="w-4 h-4 color-fg-default stroke-1.04" data-tooltip-target='contact-phone-icon'></i>
+        <div id="contact-phone-icon" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+          <%= model.phone %>
+          <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+        <div class='w-4 h-4 flex items-center'>
+          <%= render '/components/links/chatwoot_conversation_link', contact: model %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% elsif model.class == Product %>
+  <div class="flex items-center gap-3 p-4 2xl:mt-6 2xl:px-6 2xl:pt-2 2xl:pb-4">
+    <div class="w-8 h-8 shrink-0 2xl:w-[42px] 2xl:h-[42px]">
+      <% if model.image_attachments.present? %>
+        <% attachment = model.image_attachments.first %>
+        <div data-controller='lightbox' class='w-full h-full'>
+          <%= image_tag attachment.file, data: { src: rails_blob_url(attachment.file), sub_html: attachment.file.filename.to_s }, class:"rounded-md h-full w-full object-cover", alt: attachment.file.filename.to_s %>
+        </div>
+      <% else %>
+        <div class="border bg-brand-palette-08 rounded-md h-full w-full flex items-center color-fg-soft">
+          <i data-lucide="box" class="m-auto w-4 h-4 2xl:w-5 2xl:h-5"></i>
+        </div>
+      <% end %>
+    </div>
+    <h2 class='hidden 2xl:block color-fg-default typography-sub-title-900'>
+      <%= model.name %>
+    </h2>
+  </div>
+<% end %>

@@ -25,7 +25,11 @@
       <%= form.label :done, class: 'px-3 m-0 typography-text-m-lh150 text-dark-gray-palette-p1' %>
     </div>
     <div class="flex items-center gap-2">
-      <%= form.submit t('views.components.events.form.activity.confirm'), class: 'btn-primary cursor-pointer' %>
+      <% track_event = event.new_record? ? 'activity_created' : 'activity_updated' %>
+      <%= form.button t('views.components.events.form.activity.confirm'),
+      type: :submit,
+      class: 'btn-primary',
+      data: { track: track_event } %>
       <%= render '/components/events/form/cancel_button', event: event, pipeline: (defined?(pipeline) ? pipeline : nil), stage: (defined?(stage) ? stage : nil) %>
     </div>
   </div>

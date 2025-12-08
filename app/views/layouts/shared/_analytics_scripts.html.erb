@@ -1,4 +1,3 @@
-
 <% if ENV.fetch('MS_CLARITY_TOKEN', nil).present? && Rails.env.production? %>
   <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -12,7 +11,6 @@
     <% end %>
   </script>
 <% end %>
-
 <% if ENV.fetch('JUNE_KEY', nil).present? && Rails.env.production? %>
   <script>
     window.analytics = {};
@@ -39,7 +37,6 @@
     juneify('<%= ENV['JUNE_KEY'] %>');
   </script>
 <% end %>
-
 <% if ENV.fetch('COUNTLY_ENDPOINT', nil).present? && ENV.fetch('COUNTLY_KEY', nil).present? && Rails.env.production? %>
   <script type='text/javascript'>
   //some default pre init
@@ -83,8 +80,6 @@
   })();
   </script>
 <% end %>
-
-
 <% if ENV.fetch('MATOMO_ENDPOINT', nil).present? %>
   <script>
     var _paq = window._paq = window._paq || [];
@@ -108,11 +103,10 @@
     })();
   </script>
 <% end %>
-
 <% if Rails.env.production? %>
   <script>
       !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-      posthog.init('phc_zHo3xO5qpgjKQ1DkzNjfN9aCEPampO2ZL3ZVuxRIzaX',{api_host:'https://analytics.server1.woofedcrm.com'})
+      posthog.init("<%= ENV.fetch('POSTHOG_KEY', 'phc_zHo3xO5qpgjKQ1DkzNjfN9aCEPampO2ZL3ZVuxRIzaX') %>",{api_host: "<%= ENV.fetch('POSTHOG_HOST', 'https://analytics.server1.woofedcrm.com') %>"})
       <% if current_user.present? %>
         posthog.identify(
           '<%= current_user.id %>',
@@ -121,6 +115,7 @@
             name: '<%= current_user&.full_name %>',
             account_id: '<%= current_user&.account&.id %>',
             account_name: '<%= current_user&.account&.name %>',
+            account_created_at: '<%= current_user&.account&.created_at %>',
             frontend_url: '<%= ENV.fetch('FRONTEND_URL', "") %>'
           }
         );

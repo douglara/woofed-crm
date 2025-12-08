@@ -1,4 +1,7 @@
 class InstallationController < ApplicationController
+  include AccountConcern
+  include UserConcern
+
   before_action :authenticate_user!, except: %i[new create]
   before_action :set_user, except: %i[new create]
   before_action :set_account, only: %i[step_3 update_step_3]
@@ -78,11 +81,10 @@ class InstallationController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :full_name, :phone, :password, :password_confirmation, :avatar_url,
-                                 :job_description)
+    params.require(:user).permit(*permitted_user_params)
   end
 
   def account_params
-    params.require(:account).permit(:site_url, :name, :segment, :number_of_employees, :currency_code)
+    params.require(:account).permit(*permitted_account_params)
   end
 end

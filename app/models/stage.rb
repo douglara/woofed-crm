@@ -23,6 +23,10 @@ class Stage < ApplicationRecord
   acts_as_list scope: :pipeline
   has_many :deals, dependent: :destroy
 
+  scope :ordered_by_pipeline_and_position, lambda {
+                                             joins(:pipeline).order('pipelines.name ASC, stages.position ASC')
+                                           }
+
   def total_amount_deals(filter_status_deal)
     return deals.sum(&:total_amount_in_cents) if filter_status_deal == 'all'
 

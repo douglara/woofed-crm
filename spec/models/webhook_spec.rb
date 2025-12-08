@@ -4,15 +4,24 @@ RSpec.describe Webhook do
   let!(:account) { create(:account) }
 
   describe 'validations' do
-    context 'validates url' do
+    context 'validate_webhook_url' do
       context 'valid' do
-        before do
-          allow_any_instance_of(Webhook).to receive(:valid_url?).and_return(true)
-        end
+        context 'when status is active' do
+          before do
+            allow_any_instance_of(Webhook).to receive(:valid_url?).and_return(true)
+          end
 
-        it do
-          new_webhook = build(:webhook, url: 'https://www.webhook.com', status: :active)
-          expect(new_webhook).to be_valid
+          it do
+            new_webhook = build(:webhook, url: 'https://www.webhook.com', status: :active)
+            expect(new_webhook).to be_valid
+          end
+        end
+        context 'when status is inactive' do
+          it do
+            new_webhook = build(:webhook, url: 'https://www.webhook.com', status: :inactive)
+            expect(new_webhook).not_to receive(:validate_webhook_url)
+            expect(new_webhook).to be_valid
+          end
         end
       end
       context 'invalid' do

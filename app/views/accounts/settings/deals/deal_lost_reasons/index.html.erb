@@ -1,0 +1,30 @@
+<div class="mx-8 mt-4">
+  <%= render 'components/navs/nav_tabs',
+      tabs: [
+      { label: DealLostReason.model_name.human(count: 2), path: account_settings_deals_deal_lost_reasons_path(Current.account) },
+  ] %>
+</div>
+<%= render 'accounts/settings/deals/deal_lost_reasons/deal_free_form_lost_reasons', account: @account %>
+<div class="color-bg-surface-default border-2 color-border-default rounded mx-8 mb-8 mt-4">
+  <header class="border-b-2 border-neutral-100 flex items-center justify-end gap-2 p-4 sticky top-0 color-bg-surface-default z-20">
+    <%= link_to new_account_settings_deals_deal_lost_reason_path(Current.account), class: 'button-default-blank-secondary-icon-only-sm', data: { turbo_frame: :drawer } do %>
+      <i data-lucide="plus" class='h-4 w-4'></i>
+    <% end %>
+  </header>
+  <div class="overflow-x-auto">
+    <table class="w-full text-left rtl:text-right min-w-[1700px]">
+      <thead class="border-b color-border-default">
+        <tr>
+          <th scope="col" class="py-3 pl-4 pr-4 w-[52px]"></th>
+          <th scope="col" class="pr-4 py-3 typography-sub-title-900 color-fg-default max-w-[310px]">
+            <%= DealLostReason.human_attribute_name(:name) %>
+          </th>
+          <th scope="col" class="py-3 pl-4 pr-4 sticky right-0 color-bg-surface-default z-10 w-[50px]"></th>
+        </tr>
+      </thead>
+      <tbody class="w-full" id=<%= dom_id(DealLostReason, :settings__deals__deal_lost_reasons__index) %>>
+        <%= render partial: 'accounts/settings/deals/deal_lost_reasons/deal_lost_reason', collection: @deal_lost_reasons, as: :deal_lost_reason %>
+      </tbody>
+    </table>
+  </div>
+</div>

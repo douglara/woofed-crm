@@ -225,7 +225,8 @@ RSpec.describe Accounts::ContactsController, type: :request do
         expect(response.body).to include(ERB::Util.html_escape(contact.email))
         expect(response.body).to include(ERB::Util.html_escape(deal.name))
         expect(response.body).to include(ERB::Util.html_escape(unassigned_deal.name))
-        expect(response.body).not_to include('chatwoot_conversation_link')
+        expect(response.body).not_to include('icon_chatwoot_conversation_link')
+        expect(response.body).not_to include('chatwoot-contact-section')
         expect(flash[:error]).to be_nil
       end
 
@@ -237,16 +238,24 @@ RSpec.describe Accounts::ContactsController, type: :request do
 
         before do
           user.reload
+          contact.update!(additional_attributes: { chatwoot_id: 'contact_chatwoot_id_123456',
+                                                   chatwoot_identifier: 'chatwoot_identifier_123456' },
+                                                  chatwoot_conversations_label_list: 'chatwoot_label_1, chatwoot_label_2')
         end
 
-        it 'shows chatwoot conversation link button' do
+        it 'shows chatwoot section' do
           get "/accounts/#{account.id}/contacts/#{contact.id}"
           expect(response).to have_http_status(:success)
           expect(response.body).to include(ERB::Util.html_escape(contact.full_name))
           expect(response.body).to include(ERB::Util.html_escape(contact.email))
           expect(response.body).to include(ERB::Util.html_escape(deal.name))
           expect(response.body).to include(ERB::Util.html_escape(unassigned_deal.name))
-          expect(response.body).to include('chatwoot_conversation_link')
+          expect(response.body).to include('icon_chatwoot_conversation_link')
+          expect(response.body).to include('text_chatwoot_conversation_link')
+          expect(response.body).to include('chatwoot-contact-section')
+          expect(response.body).to include(contact.additional_attributes['chatwoot_id'])
+          expect(response.body).to include(contact.additional_attributes['chatwoot_identifier'])
+          expect(response.body).to include(*contact.chatwoot_conversations_labels.pluck(:name))
           expect(flash[:error]).to be_nil
         end
       end
@@ -487,11 +496,34 @@ RSpec.describe Accounts::ContactsController, type: :request do
               .and_return(double(call: { ok: link }))
           end
 
-          it 'assigns the conversation link and sets no error' do
-            get "/accounts/#{account.id}/contacts/#{contact.id}/chatwoot_conversation_link"
-            expect(response).to have_http_status(200)
-            expect(response.body).to include('Go to the last conversation')
-            expect(response.body).to include(link)
+          context 'when display_format param is "text"' do
+            it 'returns the conversation link in text format with no errors' do
+              get "/accounts/#{account.id}/contacts/#{contact.id}/chatwoot_conversation_link", params: { display_format: 'text' }
+              expect(response).to have_http_status(200)
+              expect(response.body).to include('text_chatwoot_conversation_link')
+              expect(response.body).to include('Go to the last conversation')
+              expect(response.body).to include(link)
+            end
+          end
+
+          context 'when display_format param is "icon"' do
+            it 'returns the conversation link in icon format with no errors' do
+              get "/accounts/#{account.id}/contacts/#{contact.id}/chatwoot_conversation_link", params: { display_format: 'icon' }
+              expect(response).to have_http_status(200)
+              expect(response.body).to include('icon_chatwoot_conversation_link')
+              expect(response.body).to include('Go to the last conversation')
+              expect(response.body).to include(link)
+            end
+          end
+
+          context 'when display_format param is not provided' do
+            it 'defaults to icon format and returns the conversation link with no errors' do
+              get "/accounts/#{account.id}/contacts/#{contact.id}/chatwoot_conversation_link"
+              expect(response).to have_http_status(200)
+              expect(response.body).to include('icon_chatwoot_conversation_link')
+              expect(response.body).to include('Go to the last conversation')
+              expect(response.body).to include(link)
+            end
           end
         end
         context 'when the Chatwoot conversation link is not generated successfully' do
@@ -513,6 +545,19 @@ RSpec.describe Accounts::ContactsController, type: :request do
               allow(Contact::Integrations::Chatwoot::GenerateConversationLink).to receive(:new)
                 .with(contact)
                 .and_raise(Faraday::TimeoutError)
+            end
+
+            it 'sets chatwoot_conversation_link to nil and connection_error to true' do
+              get "/accounts/#{account.id}/contacts/#{contact.id}/chatwoot_conversation_link"
+              expect(response).to have_http_status(200)
+              expect(response.body).to include('Could not connect. Please try again.')
+            end
+          end
+          context 'when GenerateConversationLink raises a JSON::ParserError' do
+            before do
+              allow(Contact::Integrations::Chatwoot::GenerateConversationLink).to receive(:new)
+                .with(contact)
+                .and_raise(JSON::ParserError)
             end
 
             it 'sets chatwoot_conversation_link to nil and connection_error to true' do

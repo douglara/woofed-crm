@@ -14,6 +14,8 @@ en:
         email: Email
         label_list: Labels
         chatwoot_conversations_label_list: Chatwoot Conversation Labels
+        chatwoot_last_conversation: "Last conversation in Chatwoot"
+        chatwoot_identifier: "Contact Identifier"
         id: "Contact Code"
         created_at: Created at
         updated_at: Updated at

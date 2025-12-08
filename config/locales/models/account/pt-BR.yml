@@ -18,6 +18,7 @@ pt-BR:
         woofbot_auto_reply: "Resposta automática do Woofbot"
         ai_usage: "Uso de IA"
         currency_code: "Moeda"
+        deal_free_form_lost_reasons: "Permitir motivos em formato livre"
         segments:
           technology: "Tecnologia"
           health: "Saúde"

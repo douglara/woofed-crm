@@ -3,6 +3,7 @@ es:
     models:
       apps/chatwoot:
         one: 'Chatwoot'
+        other: 'Chatwoot'
     attributes:
       apps/chatwoot:
         account_id: 'ID de Cuenta'

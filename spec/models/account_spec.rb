@@ -8,6 +8,7 @@
 #  name                :string           default(""), not null
 #  number_of_employees :string           default("1-10"), not null
 #  segment             :string           default("other"), not null
+#  settings            :jsonb            not null
 #  site_url            :string           default(""), not null
 #  woofbot_auto_reply  :boolean          default(FALSE), not null
 #  created_at          :datetime         not null
@@ -45,6 +46,26 @@ RSpec.describe Account do
           expect { new_account.save! }
             .to raise_error(ActiveRecord::RecordInvalid)
         end
+      end
+    end
+  end
+
+  describe '#deal_free_form_lost_reasons' do
+    let(:account) { create(:account, deal_free_form_lost_reasons: true) }
+
+    context 'when there are no DealLostReason records' do
+      before { DealLostReason.destroy_all }
+
+      it 'returns false' do
+        expect(account.deal_free_form_lost_reasons).to eq(false)
+      end
+    end
+
+    context 'when there are DealLostReason records' do
+      let!(:deal_lost_reason) { create(:deal_lost_reason) }
+
+      it 'returns the stored value' do
+        expect(account.deal_free_form_lost_reasons).to eq(true)
       end
     end
   end

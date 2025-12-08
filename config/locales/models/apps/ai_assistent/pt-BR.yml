@@ -3,6 +3,7 @@ pt-BR:
     models:
       apps/ai_assistent:
         one: 'Assistente de Inligência Artificial'
+        other: "Assistentes de Inteligência Artificial"
     attributes:
       apps/ai_assistent:
         api_key: 'Chave da API'

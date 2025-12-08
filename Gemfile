@@ -67,6 +67,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'dotenv-rails'
 gem 'down', '~> 5.0'
 gem 'elastic-apm', require: false
+gem 'faraday-retry', '2.3.2'
 gem 'highlight_io', require: false
 gem 'june-analytics-ruby', require: false
 gem 'money', '6.19'

@@ -11,7 +11,7 @@
 class Webhook < ApplicationRecord
   validates :url, presence: true, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])
   validates :status, presence: true
-  validate :validate_webhook_url
+  validate :validate_webhook_url, if: :active?
   enum status: {
     inactive: 'inactive',
     active: 'active'
@@ -37,7 +37,7 @@ class Webhook < ApplicationRecord
     return false if response.key?(:error)
 
     true
-  rescue Faraday::ConnectionFailed, Faraday::TimeoutError
+  rescue Faraday::ConnectionFailed, Faraday::TimeoutError, Faraday::SSLError
     false
   end
 

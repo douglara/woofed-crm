@@ -22,3 +22,6 @@
 <%= turbo_stream.replace 'navbar_deal' do %>
   <%= render "/layouts/shared/navbar_show_deal", deal: @deal %>
 <% end %>
+<%= turbo_stream.replace :modal do %>
+  <%= turbo_frame_tag :modal %>
+<% end %>

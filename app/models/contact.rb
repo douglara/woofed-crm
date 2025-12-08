@@ -16,6 +16,7 @@
 # Indexes
 #
 #  index_contacts_on_app          (app_type,app_id)
+#  index_contacts_on_chatwoot_id  (((additional_attributes ->> 'chatwoot_id'::text)), id)
 #  index_contacts_on_lower_email  (lower(NULLIF((email)::text, ''::text))) UNIQUE
 #  index_contacts_on_phone        (NULLIF((phone)::text, ''::text)) UNIQUE
 #
@@ -41,6 +42,9 @@ class Contact < ApplicationRecord
 
   has_many :deals, dependent: :destroy
   belongs_to :app, polymorphic: true, optional: true
+  scope :by_chatwoot_id, lambda { |chatwoot_id|
+    chatwoot_id.present? ? where("additional_attributes->>'chatwoot_id' = ?", chatwoot_id.to_s) : none
+  }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[additional_attributes app_id app_type created_at custom_attributes email full_name id
@@ -53,7 +57,7 @@ class Contact < ApplicationRecord
 
   FORM_FIELDS = %i[full_name email phone label_list chatwoot_conversations_label_list]
 
-  SHOW_FIELDS = { details: %i[full_name email phone id label_list chatwoot_conversations_label_list custom_attributes created_at
+  SHOW_FIELDS = { details: %i[full_name email phone id label_list custom_attributes created_at
                               updated_at],
                   deal_page_overview_details: %i[full_name email phone label_list
                                                  chatwoot_conversations_label_list] }.freeze

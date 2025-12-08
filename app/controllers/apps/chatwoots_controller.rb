@@ -5,6 +5,8 @@ class Apps::ChatwootsController < ActionController::Base
   layout 'embed'
 
   def webhooks
+    return render json: { error: 'Chatwoot is inactive' }, status: :unprocessable_entity if @chatwoot.inactive?
+
     Accounts::Apps::Chatwoots::Webhooks::ProcessWebhookJob.perform_later(params.to_json, @chatwoot.account_id)
     render json: { ok: true }, status: 200
   end
@@ -19,7 +21,7 @@ class Apps::ChatwootsController < ActionController::Base
   def embedding_authenticate
     event = JSON.parse(params['event'])
     @user_email = event['data']['currentAgent']['email']
-    user = User.find_by(email: @user_email, account_id: @chatwoot.account_id)
+    user = User.find_by(email: @user_email)
     return render 'user_not_found', status: 400 if user.blank?
 
     sign_out_all_scopes

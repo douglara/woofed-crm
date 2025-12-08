@@ -141,5 +141,11 @@ module.exports = {
       addVariant("group-inline-edit", ".group.inline-edit &");
     },
   ],
-  safelist: ["event-item-from-me", "event-from-contacts", "form-input-error"],
+  safelist: [
+    "event-item-from-me",
+    "event-from-contacts",
+    "form-input-error",
+    "deal-lost-element",
+    "deal-won-element",
+  ],
 };

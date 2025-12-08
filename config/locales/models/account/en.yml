@@ -18,6 +18,7 @@ en:
         woofbot_auto_reply: "Woofbot Auto Reply"
         ai_usage: "AI Usage"
         currency_code: "Currency"
+        deal_free_form_lost_reasons: "Allow free-form reasons"
         segments:
           technology: "Technology"
           health: "Health"

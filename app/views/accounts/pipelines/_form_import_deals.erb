@@ -1,5 +1,5 @@
 <div class="p-4 md:p-5 space-y-4">
-  <%= form_with url: account_pipeline_import_file_path(Current.account, 1), data: { turbo: false}, class: "grid gap-3" do |form| %>
+  <%= form_with url: account_pipeline_import_file_path(Current.account, params[:pipeline_id]), data: { turbo: false}, class: "grid gap-3" do |form| %>
     <%= form.hidden_field :stage_id, value: params[:stage_id] %>
     <div class="grid gap-1">
       <%= form.label :import_file, t('views.accounts.pipelines.form_import_deals.select_file'), class: "typography-text-m-lh150 text-dark-gray-palette-p1 dark:text-white" %>

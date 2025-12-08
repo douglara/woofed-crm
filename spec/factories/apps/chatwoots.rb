@@ -3,13 +3,12 @@
 # Table name: apps_chatwoots
 #
 #  id                        :bigint           not null, primary key
-#  active                    :boolean          default(FALSE), not null
 #  chatwoot_endpoint_url     :string           default(""), not null
 #  chatwoot_user_token       :string           default(""), not null
 #  embedding_token           :string           default(""), not null
 #  inboxes                   :jsonb            not null
 #  name                      :string
-#  status                    :string           default("inactive"), not null
+#  status                    :string           default("active"), not null
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #  chatwoot_account_id       :integer          not null
@@ -20,7 +19,6 @@ FactoryBot.define do
   factory :apps_chatwoots, class: 'Apps::Chatwoot' do
     name { 'Connection testing' }
     status { 'active' }
-    active { true }
     chatwoot_endpoint_url { ENV['CHATWOOT_ENDPOINT'] || 'http://localhost:3000' }
     chatwoot_user_token { ENV['CHATWOOT_TOKEN'] || 'token' }
     embedding_token { 'http://localhost:3002' }
@@ -31,6 +29,9 @@ FactoryBot.define do
 
     trait :skip_validate do
       to_create {|instance| instance.save(validate: false)}
+    end
+    trait :inactive do
+      status { 'inactive' }
     end
   end
 end

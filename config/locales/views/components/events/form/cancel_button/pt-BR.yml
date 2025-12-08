@@ -3,5 +3,5 @@ pt-BR:
     components:
       events:
         form:
-          attachments:
-            files: "Arquivos"
+          cancel_button:
+            cancel: "Cancelar"

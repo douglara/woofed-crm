@@ -1,0 +1,39 @@
+<tr id="<%= dom_id(deal_lost_reason, :settings__deals__deal_lost_reasons__deal_lost_reason) %>" is='turbo-frame' class="border-b-2 border-light-palette-p3 last:border-none" data-controller='load-lucid-icons load-flowbite'>
+  <td class="py-2.5 pl-4 pr-4 flex-shrink-0">
+    <div class="w-[52px] h-[52px] flex">
+      <div class="border-2 bg-brand-palette-08 rounded-md h-full w-full flex items-center color-fg-soft">
+        <i data-lucide="clipboard-x" class="m-auto"></i>
+      </div>
+    </div>
+  </td>
+  <td class="pr-4 py-2.5 typography-label-1000 color-fg-default max-w-[243px] truncate">
+    <%= deal_lost_reason.name %>
+  </td>
+  <td class="py-2.5 pl-4 pr-4 sticky right-0 bg-light-palette-p5 z-10">
+    <div class="flex justify-end gap-2">
+      <button id="dropdownDealLostReasonBtn_<%= deal_lost_reason.id %>" data-dropdown-toggle="dropdownDealLostReasonOptions<%= deal_lost_reason.id %>" data-dropdown-placement="left" class="button-default-blank-secondary-icon-only-sm" type="button">
+        <i data-lucide="ellipsis-vertical"></i>
+      </button>
+    </div>
+  </td>
+</tr>
+<div id="dropdownDealLostReasonOptions<%= deal_lost_reason.id %>" class="z-50 hidden bg-white divide-y divide-gray-200 rounded-lg shadow w-48 absolute dark:bg-gray-700">
+  <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+    <li>
+      <%= link_to edit_account_settings_deals_deal_lost_reason_path(Current.account, deal_lost_reason), data: { turbo_frame: :drawer }, class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white" do %>
+        <i data-lucide="pencil" class="color-fg-soft"></i>
+        <p>
+          <%= t('activerecord.models.edit') %>
+        </p>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to account_settings_deals_deal_lost_reason_path(Current.account, deal_lost_reason), method: :delete, data: { confirm: t('views.accounts.users.user.are_you_sure?') }, class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white" do %>
+        <i data-lucide="trash" class="color-fg-soft"></i>
+        <p>
+          <%= t('activerecord.models.delete') %>
+        </p>
+      <% end %>
+    </li>
+  </ul>
+</div>

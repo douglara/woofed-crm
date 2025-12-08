@@ -15,6 +15,10 @@ en:
         open_deals: "Open deals"
         created_deals: "Created deals"
         total_deals: "Total of %{count} deals"
+        settings: Deal settings
+        mark_as_lost: "Mark as Lost"
+        mark_as_won: "Mark as won"
+        select_a_reason: "Select a reason"
     attributes:
       deal:
         name: Name
@@ -35,6 +39,8 @@ en:
         pipeline: Pipeline
         created_at: Created at
         id: "Deal code"
+        lost_reason: "Lost reason"
+        other_lost_reason: "Other lost reason"
         statuses:
           open: Open
           won: Won

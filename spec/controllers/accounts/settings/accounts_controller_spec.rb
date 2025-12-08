@@ -38,8 +38,10 @@ RSpec.describe Accounts::Settings::AccountsController, type: :request do
     end
 
     context 'when it is an authenticated user' do
+      let!(:deal_lost_reason) { create(:deal_lost_reason) }
+
       let(:params) do
-        { account: { name: 'Company WoofedCRM', currency_code: 'USD', segment: 'education', site_url: 'https://woofedcrm.com', number_of_employees: '51-200' } }
+        { account: { name: 'Company WoofedCRM', currency_code: 'USD', segment: 'education', site_url: 'https://woofedcrm.com', number_of_employees: '51-200', deal_free_form_lost_reasons: true } }
       end
 
       before do
@@ -55,6 +57,7 @@ RSpec.describe Accounts::Settings::AccountsController, type: :request do
         expect(account.segment).to eq('education')
         expect(account.site_url).to eq('https://woofedcrm.com')
         expect(account.number_of_employees).to eq('51-200')
+        expect(account.deal_free_form_lost_reasons).to eq(true)
       end
 
       context 'when params is invalid' do

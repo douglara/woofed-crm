@@ -23,8 +23,12 @@
   </div>
   <%= render 'components/events/form/attachments', form: form %>
   <%= render 'components/events/form/send_now', form: form %>
-  <footer class="flex flex border-t border-light-palette-p3 p-4 gap-2 justify-end">
-    <%= form.submit t('views.components.events.form.chatwoot_message.confirm'), class: 'btn-primary cursor-pointer' %>
+  <footer class="flex border-t border-light-palette-p3 p-4 gap-2 justify-end">
+    <% track_event = event.new_record? ? 'chatwoot_message_created' : 'chatwoot_message_updated' %>
+    <%= form.button t('views.components.events.form.activity.confirm'),
+      type: :submit,
+      class: 'btn-primary',
+      data: { track: track_event } %>
     <%= render '/components/events/form/cancel_button', event: event, pipeline: (defined?(pipeline) ? pipeline : nil), stage: (defined?(stage) ? stage : nil) %>
   </footer>
 <% end %>

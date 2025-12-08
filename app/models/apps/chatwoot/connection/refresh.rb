@@ -6,11 +6,14 @@ class Apps::Chatwoot::Connection::Refresh
   end
 
   def call
-    if @chatwoot.valid_token?
-      @chatwoot.inboxes = Accounts::Apps::Chatwoots::GetInboxes.call(@chatwoot)[:ok]
+    return @chatwoot.inactive! if @chatwoot.invalid_token?
+
+    inboxes = Accounts::Apps::Chatwoots::GetInboxes.call(@chatwoot)
+
+    if inboxes.key?(:ok)
+      @chatwoot.inboxes = inboxes[:ok]
       @chatwoot.save!
-    else
-      @chatwoot.inactive!
     end
+    true
   end
 end

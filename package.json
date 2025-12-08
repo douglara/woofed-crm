@@ -12,6 +12,7 @@
     "@fullcalendar/timegrid": "6.1.17",
     "@hotwired/turbo-rails": "^8.0.12",
     "@nathanvda/cocoon": "^1.2.14",
+    "@openpanel/web": "1.0.1",
     "@rails/actioncable": "^7.1.501",
     "@rails/actiontext": "^7.1.501",
     "@rails/activestorage": "^7.1.501",

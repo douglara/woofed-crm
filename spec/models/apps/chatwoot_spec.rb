@@ -3,13 +3,12 @@
 # Table name: apps_chatwoots
 #
 #  id                        :bigint           not null, primary key
-#  active                    :boolean          default(FALSE), not null
 #  chatwoot_endpoint_url     :string           default(""), not null
 #  chatwoot_user_token       :string           default(""), not null
 #  embedding_token           :string           default(""), not null
 #  inboxes                   :jsonb            not null
 #  name                      :string
-#  status                    :string           default("inactive"), not null
+#  status                    :string           default("active"), not null
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #  chatwoot_account_id       :integer          not null
@@ -53,14 +52,16 @@ RSpec.describe Apps::Chatwoot do
       create(:apps_chatwoots, :skip_validate, chatwoot_user_token: 'valid_token', chatwoot_account_id: 1)
     end
 
-    context 'when is valid' do
-      let(:profile_response) do
-        File.read('spec/fixtures/models/apps/chatwoot/api_client/profile_administrator_request.json')
-      end
+    let(:profile_administrator_response) do
+      File.read('spec/fixtures/models/apps/chatwoot/api_client/profile_administrator_request.json')
+    end
 
+    context 'when is valid' do
       before do
         stub_request(:get, %r{api/v1/profile})
-          .to_return(status: 200, body: profile_response, headers: { 'Content-Type' => 'application/json' })
+          .to_return(status: 200, body: profile_administrator_response, headers: { 'Content-Type' => 'application/json' })
+
+        allow(chatwoot).to receive(:chatwoot_account_is_suspended?).and_return(false)
       end
 
       it do
@@ -73,6 +74,8 @@ RSpec.describe Apps::Chatwoot do
         before do
           stub_request(:get, %r{api/v1/profile})
             .to_return(status: 504, body: 'Bad gateway')
+
+          allow(chatwoot).to receive(:chatwoot_account_is_suspended?).and_return(true)
         end
 
         it do
@@ -80,7 +83,7 @@ RSpec.describe Apps::Chatwoot do
         end
       end
 
-      context 'when not administrator user' do
+      context 'when is not administrator user' do
         let(:profile_response) do
           File.read('spec/fixtures/models/apps/chatwoot/api_client/profile_agent_request.json')
         end
@@ -88,10 +91,78 @@ RSpec.describe Apps::Chatwoot do
         before do
           stub_request(:get, %r{api/v1/profile})
             .to_return(status: 200, body: profile_response, headers: { 'Content-Type' => 'application/json' })
+
+          allow(chatwoot).to receive(:chatwoot_account_is_suspended?).and_return(true)
         end
 
         it do
           expect(chatwoot.valid_token?).to be false
+        end
+      end
+
+      context 'when chatwoot account is suspended' do
+        before do
+          stub_request(:get, %r{api/v1/profile})
+            .to_return(status: 200, body: profile_administrator_response, headers: { 'Content-Type' => 'application/json' })
+
+          allow(chatwoot).to receive(:chatwoot_account_is_suspended?).and_return(true)
+        end
+
+        it do
+          expect(chatwoot.valid_token?).to be false
+        end
+      end
+    end
+  end
+
+  context '#chatwoot_account_is_suspended?' do
+    let(:chatwoot) do
+      create(:apps_chatwoots, :skip_validate, chatwoot_user_token: 'valid_token', chatwoot_account_id: 1)
+    end
+
+    context 'when account is not suspended' do
+      context 'when request response returns ok' do
+        before do
+          stub_request(:get, %r{/inboxes})
+            .to_return(status: 200, body: { ok: 'inboxes' }.to_json, headers: { 'Content-Type' => 'application/json' })
+        end
+
+        it do
+          expect(chatwoot.chatwoot_account_is_suspended?).to be false
+        end
+      end
+
+      context 'when request raises connection error' do
+        before do
+          allow(Accounts::Apps::Chatwoots::GetInboxes).to receive(:call).and_raise(Faraday::ConnectionFailed)
+        end
+
+        it do
+          expect(chatwoot.chatwoot_account_is_suspended?).to be false
+        end
+      end
+
+      context 'when request response returns error with generic info' do
+        before do
+          stub_request(:get, %r{/inboxes})
+            .to_return(status: 404, body: { error: 'generic error' }.to_json, headers: { 'Content-Type' => 'application/json' })
+        end
+
+        it do
+          expect(chatwoot.chatwoot_account_is_suspended?).to be false
+        end
+      end
+    end
+
+    context 'when account is suspended' do
+      context 'when request response returns error with Account is suspended info' do
+        before do
+          stub_request(:get, %r{/inboxes})
+            .to_return(status: 404, body: { error: 'Account is suspended' }.to_json, headers: { 'Content-Type' => 'application/json' })
+        end
+
+        it do
+          expect(chatwoot.chatwoot_account_is_suspended?).to be true
         end
       end
     end

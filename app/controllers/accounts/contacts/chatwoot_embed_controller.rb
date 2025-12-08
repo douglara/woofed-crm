@@ -57,9 +57,7 @@ class Accounts::Contacts::ChatwootEmbedController < InternalController
   end
 
   def contact_search
-    result = current_user.account.contacts.where(
-      "additional_attributes->>'chatwoot_id' = ?", chatwoot_contact['id'].to_s
-    ).first
+    result = current_user.account.contacts.by_chatwoot_id(chatwoot_contact['id']).first
     return result if result.present?
 
     Accounts::Contacts::GetByParams.call(current_user.account,
