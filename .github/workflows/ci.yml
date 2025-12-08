@@ -2,6 +2,9 @@ name: CI RSpec Tests
 
 on:
   pull_request:
+  push:
+    branches:
+      - development
 
 jobs:
   build:
@@ -62,7 +65,7 @@ jobs:
 
       - name: Bundle install
         run: |
-          gem install bundler
+          gem install bundler -v 2.4.22
           bundle install --jobs 4 --retry 3 --path vendor/bundle
 
       - name: Install yarn

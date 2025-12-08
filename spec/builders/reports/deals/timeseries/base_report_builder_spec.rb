@@ -7,13 +7,13 @@ RSpec.describe Reports::Deals::Timeseries::BaseReportBuilder do
   describe '#timeseries' do
     let(:grouped_count_mock) do
       {
-        Time.zone.parse('2025-06-07').to_date => 0,
-        Time.zone.parse('2025-06-08').to_date => 0,
-        Time.zone.parse('2025-06-09').to_date => 0,
-        Time.zone.parse('2025-06-10').to_date => 1,
-        Time.zone.parse('2025-06-11').to_date => 1,
-        Time.zone.parse('2025-06-12').to_date => 0,
-        Time.zone.parse('2025-06-13').to_date => 0
+        Time.zone.parse('2025-12-07').to_date => 0,
+        Time.zone.parse('2025-12-08').to_date => 0,
+        Time.zone.parse('2025-12-09').to_date => 0,
+        Time.zone.parse('2025-12-10').to_date => 1,
+        Time.zone.parse('2025-12-11').to_date => 1,
+        Time.zone.parse('2025-12-12').to_date => 0,
+        Time.zone.parse('2025-12-13').to_date => 0
       }
     end
 
@@ -35,13 +35,13 @@ RSpec.describe Reports::Deals::Timeseries::BaseReportBuilder do
 
       let(:expected_result) do
         [
-          { value: 0, timestamp: 1_749_265_200 },
-          { value: 0, timestamp: 1_749_351_600 },
-          { value: 0, timestamp: 1_749_438_000 },
-          { value: 1, timestamp: 1_749_524_400 },
-          { value: 1, timestamp: 1_749_610_800 },
-          { value: 0, timestamp: 1_749_697_200 },
-          { value: 0, timestamp: 1_749_783_600 }
+          { value: 0, timestamp: 1_765_076_400 },
+          { value: 0, timestamp: 1_765_162_800 },
+          { value: 0, timestamp: 1_765_249_200 },
+          { value: 1, timestamp: 1_765_335_600 },
+          { value: 1, timestamp: 1_765_422_000 },
+          { value: 0, timestamp: 1_765_508_400 },
+          { value: 0, timestamp: 1_765_594_800 }
         ]
       end
 
