@@ -7,7 +7,7 @@
     @apply rounded-md border-light-palette-p2 bg-light-palette-p4;
   }
   .navbar-container {
-    @apply flex flex-wrap items-center w-full ease-in duration-300 justify-between h-[60px] bg-light-palette-p5 sm:h-[72px] px-6 sm:px-8 border-b-2 border-light-palette-p3;
+    @apply flex flex-wrap items-center w-full ease-in duration-300 justify-between h-[60px] bg-light-palette-p5 sm:h-[72px] px-6 sm:px-8 border-b-[1.5px] color-border-default;
   }
   .event-item-from-me {
     @apply flex-row-reverse flex my-5;
@@ -318,25 +318,25 @@
     @apply inline-flex items-center justify-start typography-body-900 gap-3 px-3 h-[45px] color-fg-soft border border-transparent rounded-md active:color-bg-fill-hard active:color-border-harder active:color-fg-highlight focus:color-bg-fill-hard focus:color-border-harder focus:color-fg-highlight hover:color-bg-fill-hard;
   }
   .button-menu-default-md svg {
-    @apply stroke-1.04 w-5 h-5 shrink-0;
+    @apply stroke-1 w-5 h-5 shrink-0;
   }
   .button-menu-default-md-icon-only {
     @apply flex items-center justify-center gap-3 h-10 w-10 color-fg-soft border border-transparent rounded-md active:color-bg-fill-hard active:color-border-harder active:color-fg-highlight focus:color-bg-fill-hard focus:color-border-harder focus:color-fg-highlight hover:color-bg-fill-hard;
   }
   .button-menu-default-md-icon-only svg {
-    @apply stroke-1.04 w-5 h-5;
+    @apply stroke-1 w-5 h-5;
   }
   .button-menu-default-selected-md {
     @apply inline-flex items-center justify-start typography-body-900 gap-3 px-3 h-[45px] border rounded-md color-bg-fill-hard color-border-harder color-fg-highlight;
   }
   .button-menu-default-selected-md svg {
-    @apply stroke-1.04 w-5 h-5 shrink-0;
+    @apply stroke-1 w-5 h-5 shrink-0;
   }
   .button-menu-default-selected-md-icon-only {
     @apply flex items-center justify-center gap-3 h-10 w-10 border rounded-md color-bg-fill-hard color-border-harder color-fg-highlight;
   }
   .button-menu-default-selected-md-icon-only svg {
-    @apply stroke-1.04 w-5 h-5;
+    @apply stroke-1 w-5 h-5;
   }
   .button-default-blank-secondary-icon-only-md {
     @apply flex items-center justify-center rounded color-fg-soft w-10 h-10 hover:color-fg-default hover:color-bg-fill-default shrink-0 cursor-pointer;

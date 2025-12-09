@@ -1,62 +1,68 @@
-<div data-controller="element-expanded" aria-expanded="true" class="group ease-in duration-300 h-screen border-r-2 border-light-palette-p3 bg-light-palette-p5 relative p-4 space-y-4 w-[72px] aria-expanded:w-60" id="element-expand" data-element-expanded-target='sidebar'>
+<% menu_items = [
+  {
+    path: account_pipelines_path(Current.account),
+    icon: 'clipboard-list',
+    label: t('activerecord.models.deal.other'),
+    active_if: -> { request.path.include?('pipelines') || request.path.include?('deal') }
+  },
+  {
+    path: calendar_account_events_path(Current.account),
+    icon: 'calendar-check-2',
+    label: Event.human_enum_name(:kind, :activity).pluralize,
+    active_if: -> { request.path.include?('calendar') }
+  },
+  {
+    path: account_contacts_path(Current.account),
+    icon: 'contact',
+    label: t('activerecord.models.contact.other'),
+    active_if: -> { request.path.include?('contact') }
+  },
+  {
+    path: account_products_path(Current.account),
+    icon: 'box',
+    label: t('activerecord.models.product.other'),
+    active_if: -> { request.path.include?('product') }
+  },
+  {
+    path: account_reports_path(Current.account, type: :account, since: Date.today.beginning_of_month, until: Date.today.end_of_month, group_by: 'day'),
+    icon: 'chart-no-axes-combined',
+    label: t('activerecord.models.reports'),
+    active_if: -> { request.path.include?('reports') },
+    link_data: { controller: "form--set-timezone-offset" }
+  }
+]
+%>
+<div data-controller="element-expanded" aria-expanded="true" class="group ease-in h-screen duration-300 border-r-[1.5px] color-border-default color-bg-surface-default relative p-4 space-y-4 aria-expanded:space-y-8 w-[72px] aria-expanded:w-[200px] flex flex-col" id="element-expand" data-element-expanded-target='sidebar'>
   <div class="flex items-center flex-wrap justify-between">
-    <%= link_to(root_path()) do %>
-      <%= image_tag "logo.svg", class: 'w-36 block group-aria-[expanded=false]:hidden' %>
+    <%= link_to(root_path(), class: 'w-28') do %>
+      <%= image_tag "logo.svg", class: 'w-full h-full object-cover block group-aria-[expanded=false]:hidden' %>
     <% end %>
     <%= link_to(root_path()) do %>
-      <div  class= 'hidden group-aria-[expanded=false]:block w-[40px] border-2 border-light-palette-p3 p-1.5 rounded-md hover:bg-brand-palette-08' >
-        <%= image_tag "logo-patinha.svg"%>
+      <div  class= 'hidden group-aria-[expanded=false]:flex items-center justify-center w-10 h-10 border-[1.5px] color-border-default rounded-md hover:color-bg-fill-hard' >
+        <%= image_tag "logo-patinha.svg", class: 'w-6 h-6' %>
       </div>
     <% end %>
-    <button data-action="click->element-expanded#toggle" class="group-aria-[expanded=false]:mt-4 group-aria-[expanded=false]:h-[40px] group-aria-[expanded=false]:p-2 border-2 mt-0 h-auto border-light-palette-p3 p-2.5 rounded-md hover:bg-brand-palette-08"><i data-lucide="menu" class="w-5 stroke-dark-gray-palette-p3"></i></button>
+    <button data-action="click->element-expanded#toggle" class="flex items-center justify-center group-aria-[expanded=false]:mt-4 border-[1.5px] color-fg-default mt-0 color-border-default w-10 h-10 rounded-md hover:color-bg-fill-hard">
+      <i data-lucide="menu" class="w-5 stroke-1.25"></i>
+    </button>
   </div>
-  <div class="hidden group-aria-[expanded=false]:block h-[2px] w-full bg-light-palette-p3"></div>
-  <ul class="flex flex-col space-y-3 border-b-md">
-    <li class="<%= ' bg-brand-palette-08  !border-brand-palette-07 rounded-md !text-brand-palette-03' if request.path.include?('pipelines') or request.path.include?('deal') %> text-dark-gray-palette-p3 border-2 border-transparent hover:bg-brand-palette-08 hover:rounded-md group-aria-[expanded=false]:w-full group-aria-[expanded=false]:h-[40px]">
-      <%= link_to(account_pipelines_path(Current.account), class: 'group-aria-[expanded=false]:p-2.5 flex space-x-3 p-3 items-center') do %>
-        <%= embedded_svg("deals-icon.svg", class: "w-4 #{'!fill-brand-palette-03 ' if request.path.include?('pipelines') or request.path.include?('deal')} group-aria-[expanded=false]:mx-auto fill-dark-gray-palette-p3") %>
-        <span class="group-aria-[expanded=false]:hidden inline-block ml-2 typography-text-m-lh150">
-          <%= t('activerecord.models.deal.one') %>
-        </span>
-      <% end %>
-    </li>
-    <li class="<%= 'bg-brand-palette-08 !border-brand-palette-07 rounded-md !text-brand-palette-03' if request.path.include?('calendar') %> text-dark-gray-palette-p3 border-2 border-transparent hover:bg-brand-palette-08 hover:rounded-md group-aria-[expanded=false]:w-full group-aria-[expanded=false]:h-[40px]">
-      <%= link_to(calendar_account_events_path(Current.account), class: 'group-aria-[expanded=false]:p-2 flex space-x-3 p-3 items-center') do %>
-        <i data-lucide="clipboard-list" class="w-[18px] h-[18px] <%= '!stroke-brand-palette-03 ' if request.path.include?('calendar') %> group-aria-[expanded=false]:mx-auto stroke-dark-gray-palette-p3" ></i>
-        <span class="group-aria-[expanded=false]:hidden inline-block ml-2 typography-text-m-lh150">
-          <%= Event.human_enum_name(:kind, :activity).pluralize %>
-        </span>
-      <% end %>
-    </li>
-    <li class="<%= ' bg-brand-palette-08 !border-brand-palette-07 rounded-md !text-brand-palette-03' if request.path.include?('contact') %> text-dark-gray-palette-p3 border-2 border-transparent hover:bg-brand-palette-08 hover:rounded-md group-aria-[expanded=false]:w-full group-aria-[expanded=false]:h-[40px]">
-      <%= link_to(account_contacts_path(Current.account), class: 'group-aria-[expanded=false]:p-2.5 flex space-x-3 p-3 items-center') do %>
-        <%= embedded_svg("contacts-icon.svg", class: "w-4 #{'!fill-brand-palette-03 ' if request.path.include?('contact') or request.path.include?('contact')} group-aria-[expanded=false]:mx-auto fill-dark-gray-palette-p3") %>
-        <span class="group-aria-[expanded=false]:hidden inline-block ml-2 typography-text-m-lh150">
-          <%= t('activerecord.models.contact.one') %>
-        </span>
-      <% end %>
-    </li>
-    <li class="<%= ' bg-brand-palette-08 !border-brand-palette-07 rounded-md !text-brand-palette-03' if request.path.include?('product') %> text-dark-gray-palette-p3 border-2 border-transparent hover:bg-brand-palette-08 hover:rounded-md group-aria-[expanded=false]:w-full group-aria-[expanded=false]:h-[40px]">
-      <%= link_to(account_products_path(Current.account), class: 'group-aria-[expanded=false]:p-2 flex space-x-3 p-3 items-center') do %>
-        <i data-lucide="box" class="w-[18px] h-[18px] <%= '!stroke-brand-palette-03 ' if request.path.include?('product') %> group-aria-[expanded=false]:mx-auto stroke-dark-gray-palette-p3" ></i>
-        <span class="group-aria-[expanded=false]:hidden inline-block ml-2 typography-text-m-lh150">
-          <%= t('activerecord.models.product.one') %>
-        </span>
-      <% end %>
-    </li>
-    <li class="<%= ' bg-brand-palette-08 !border-brand-palette-07 rounded-md !text-brand-palette-03' if request.path.include?('reports') %> text-dark-gray-palette-p3 border-2 border-transparent hover:bg-brand-palette-08 hover:rounded-md group-aria-[expanded=false]:w-full group-aria-[expanded=false]:h-[40px]">
-      <%= link_to(account_reports_path(Current.account, type: :account, since: Date.today.beginning_of_month, until: Date.today.end_of_month, group_by: 'day' ), class: 'group-aria-[expanded=false]:p-2 flex space-x-3 p-3 items-center', data: { controller: "form--set-timezone-offset" } ) do %>
-        <i data-lucide="chart-no-axes-combined" class="w-[18px] h-[18px] <%= '!stroke-brand-palette-03 ' if request.path.include?('reports') %> group-aria-[expanded=false]:mx-auto stroke-dark-gray-palette-p3" ></i>
-        <span class="group-aria-[expanded=false]:hidden inline-block ml-2 typography-text-m-lh150">
-          <%= t('activerecord.models.reports') %>
-        </span>
-      <% end %>
-    </li>
-    <div class="h-[2px] w-full bg-light-palette-p3"></div>
-    <li class="<%= 'bg-brand-palette-08 !border-brand-palette-07 rounded-md !text-brand-palette-03' if request.path.include?('settings') %> text-dark-gray-palette-p3 border-2 border-transparent icons-button-sidebar mt-auto  absolute bottom-4 right-3 left-3 hover:bg-brand-palette-08 hover:rounded-md">
-      <%= link_to(account_settings_path(Current.account), class: 'icons-link-sidebar flex space-x-3 p-3 items-center') do %>
-        <%= embedded_svg("company-icon.svg", class: "w-4 lg:m-0 flex #{'!fill-brand-palette-03 ' if request.path.include?('settings')} group-aria-[expanded=false]:mx-auto fill-dark-gray-palette-p3") %>
-        <span class="group-aria-[expanded=false]:hidden inline-block ml-2 typography-text-m-lh150">
+  <ul class="flex flex-col flex-1 gap-4">
+    <div class="hidden group-aria-[expanded=false]:block h-[1.5px] w-full bg-light-palette-p3"></div>
+    <% menu_items.each do |item| %>
+      <li>
+        <%= link_to(item[:path], class: "#{'button-menu-default-selected-md' if item[:active_if].call } button-menu-default-md w-full group-aria-[expanded=false]:w-10 group-aria-[expanded=false]:h-10 group-aria-[expanded=false]:flex group-aria-[expanded=false]:items-center group-aria-[expanded=false]:justify-center group-aria-[expanded=false]:px-0", data: item[:link_data]) do %>
+          <i data-lucide="<%= item[:icon] %>"></i>
+          <span class="group-aria-[expanded=false]:hidden inline-block">
+            <%= item[:label] %>
+          </span>
+        <% end %>
+      </li>
+    <% end %>
+    <div class="h-[1.5px] w-full bg-light-palette-p3"></div>
+    <li class='mt-auto'>
+      <%= link_to(account_settings_path(Current.account), class: "#{'button-menu-default-selected-md' if request.path.include?('settings') } button-menu-default-md w-full group-aria-[expanded=false]:w-10 group-aria-[expanded=false]:h-10 group-aria-[expanded=false]:flex group-aria-[expanded=false]:items-center group-aria-[expanded=false]:justify-center group-aria-[expanded=false]:px-0") do %>
+        <i data-lucide="bolt" ></i>
+        <span class="group-aria-[expanded=false]:hidden inline-block">
           <%= t('views.layouts.shared.sidebar.company') %>
         </span>
       <% end %>
