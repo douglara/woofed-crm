@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe Reports::BaseTimeseriesBuilder do
   let(:account) { create(:account) }
   let(:stage) { create(:stage) }
-  let(:user) { create(:user) }
   let(:params) { { id: stage.id, type: 'stage', group_by: 'day', timezone_offset: '-03:00' } }
   let(:subject) { described_class.new(account, params) }
 
@@ -30,14 +29,6 @@ RSpec.describe Reports::BaseTimeseriesBuilder do
         expect(subject.scope).to eq(stage)
       end
     end
-
-    context 'when type is :user' do
-      let(:params) { { id: user.id, type: 'user' } }
-
-      it 'returns user' do
-        expect(subject.scope).to eq(user)
-      end
-    end
   end
 
   describe '#stage' do
@@ -49,24 +40,6 @@ RSpec.describe Reports::BaseTimeseriesBuilder do
       let(:params) { { id: 'invalid_id', type: 'stage' } }
       it do
         expect { subject.stage }.to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
-  end
-
-  describe '#user' do
-    context 'returns user based on params id' do
-      let(:params) { { id: user.id, type: 'user' } }
-
-      it do
-        expect(subject.user).to eq(user)
-      end
-    end
-
-    context 'raises ActiveRecord::RecordNotFound when user id is invalid' do
-      let(:params) { { id: 'invalid_id', type: 'user' } }
-
-      it do
-        expect { subject.user }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
