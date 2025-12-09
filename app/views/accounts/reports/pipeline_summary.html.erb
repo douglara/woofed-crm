@@ -9,6 +9,9 @@
         <%= form.hidden_field :metric, value: 'all_deals' %>
         <%= form.hidden_field :since, value: params[:since] %>
         <%= form.hidden_field :until, value: params[:until] %>
+        <% params[:filter]&.each do |k, v| %>
+          <%= hidden_field_tag "filter[#{k}]", v %>
+        <% end %>
         <%= form.select :pipeline_id, Pipeline.all.map { |pipeline| [pipeline.name, pipeline.id]}, { selected: params[:pipeline_id] || Pipeline.first&.id }, {class: 'form-input w-full', onchange: 'this.form.requestSubmit()'} %>
         <div id="tooltip-filter-deal" role="tooltip" class="hidden absolute z-30 invisible sm:inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
           <%= t('activerecord.models.filter', model: Deal.model_name.human.pluralize) %>

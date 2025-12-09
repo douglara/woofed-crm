@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class='bg-light-palette-p5 border-[1.5px] color-border-default rounded px-6 py-7'>
-      <%= turbo_frame_tag :pipeline_summary_reports, src: pipeline_summary_account_reports_path(Current.account, since: params[:since], until: params[:until], metric: 'all_deals'), loading: :lazy do  %>
+      <%= turbo_frame_tag :pipeline_summary_reports, src: pipeline_summary_account_reports_path(Current.account, since: params[:since], until: params[:until], metric: 'all_deals', filter: params[:filter]&.to_unsafe_h), loading: :lazy do  %>
         <div class='h-[350px] flex justify-center items-center content-center'>
           <%= render '/components/skeleton/reports/chart' %>
         </div>

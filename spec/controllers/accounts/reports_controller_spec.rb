@@ -13,7 +13,8 @@ RSpec.describe Accounts::ReportsController, type: :request do
       metric: 'open_deals',
       group_by: 'day',
       timezone_offset: '-03:00',
-      type: :account
+      type: :account,
+      filter: { users_id_eq: 'filter_test_123' }
     }
   end
 
@@ -85,6 +86,8 @@ RSpec.describe Accounts::ReportsController, type: :request do
           expect(response.body).to include('data-reports--chart-chart-data-value')
           expect(response.body).to include('#259C50')
           expect(response.body).to include('#CF4F27')
+          expected_filter_query = { filter: valid_params[:filter] }.to_query
+          expect(response.body).to include(expected_filter_query)
         end
       end
 
@@ -127,6 +130,7 @@ RSpec.describe Accounts::ReportsController, type: :request do
           expect(response.body).to include(/turbo-frame id="pipeline_summary_reports"/)
           expect(response.body).to include('color-fg-feedback-success')
           expect(response.body).not_to include('color-fg-feedback-danger')
+          expect(response.body).to include(valid_params[:filter][:users_id_eq])
         end
       end
 
