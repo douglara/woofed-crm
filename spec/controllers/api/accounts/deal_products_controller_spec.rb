@@ -91,4 +91,52 @@ RSpec.describe 'Deal Products API', type: :request do
       end
     end
   end
+
+  describe 'PATCH /api/v1/accounts/:account_id/deal_products/:id' do
+    let!(:deal_product) { create(:deal_product, account:, deal:, product:) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/api/v1/accounts/#{account.id}/deal_products/#{deal_product.id}", params: {}
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:params) do
+        { deal_id: deal.id, product_id: product.id, quantity: 3, unit_amount_in_cents: 150_000,
+          product_name: 'Product name updated test', product_identifier: 'Product identifier updated test' }.to_json
+      end
+
+      it 'update deal_product' do
+        patch "/api/v1/accounts/#{account.id}/deal_products/#{deal_product.id}", params:, headers: auth_headers
+        expect(response).to have_http_status(:ok)
+        result = JSON.parse(response.body)
+        expect(result['product_name']).to eq('Product name updated test')
+        expect(deal_product.reload.deal_id).to eq(deal.id)
+        expect(deal_product.product_id).to eq(product.id)
+        expect(deal_product.quantity).to eq(3)
+        expect(deal_product.unit_amount_in_cents).to eq(150_000)
+        expect(deal_product.product_name).to eq('Product name updated test')
+        expect(deal_product.product_identifier).to eq('Product identifier updated test')
+      end
+
+      context 'when params are invalid' do
+        it 'returns unprocessable_entity with errors' do
+          params = { deal_id: nil, product_id: nil }.to_json
+          patch "/api/v1/accounts/#{account.id}/deal_products/#{deal_product.id}", params:, headers: auth_headers
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(JSON.parse(response.body)['errors']).to include('Deal must exist', 'Product must exist')
+        end
+      end
+      context 'when deal_product is not found' do
+        it 'returns not found' do
+          patch "/api/v1/accounts/#{account.id}/deal_products/9999", params:, headers: auth_headers
+          expect(response).to have_http_status(:not_found)
+          result = JSON.parse(response.body)
+          expect(result['error']).to eq('Resource could not be found')
+        end
+      end
+    end
+  end
 end

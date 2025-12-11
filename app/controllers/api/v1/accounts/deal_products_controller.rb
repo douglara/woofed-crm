@@ -20,6 +20,16 @@ class Api::V1::Accounts::DealProductsController < Api::V1::InternalController
     end
   end
 
+  def update
+    @deal_product = DealProduct.find(params['id'])
+
+    if DealProduct::CreateOrUpdate.new(@deal_product, deal_product_params).call
+      render json: @deal_product, include: %i[product deal], status: :ok
+    else
+      render json: { errors: @deal_product.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   def deal_product_params
     params.permit(*permitted_deal_product_params)
   end

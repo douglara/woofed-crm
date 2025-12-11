@@ -134,7 +134,7 @@ Rails.application.routes.draw do
         namespace :apps do
           # resources :events, module: :contacts
         end
-        resources :deal_products, only: %i[create show]
+        resources :deal_products, only: %i[create show update]
         resources :products, only: %i[create show] do
           match 'search', on: :collection, via: %i[get post]
         end
