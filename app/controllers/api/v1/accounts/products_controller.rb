@@ -32,6 +32,16 @@ class Api::V1::Accounts::ProductsController < Api::V1::InternalController
     }, status: :unprocessable_entity
   end
 
+  def update
+    @product = Product.find(params['id'])
+
+    if @product.update(product_params)
+      render json: @product, status: :ok
+    else
+      render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   def product_params
     params.permit(:identifier, :amount_in_cents, :quantity_available, :description, :name, attachments_attributes: %i[file _destroy id],
                                                                                            custom_attributes: {}, additional_attributes: {})

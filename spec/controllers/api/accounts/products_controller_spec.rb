@@ -185,4 +185,59 @@ RSpec.describe 'Products API', type: :request do
       end
     end
   end
+
+  describe 'PATCH /api/v1/accounts/:account_id/products/:id' do
+    let!(:product) { create(:product, account:, name: 'Product old name') }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/api/v1/accounts/#{account.id}/products/#{product.id}", params: {}
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:params) do
+        {
+          identifier: 'PROD-123',
+          amount_in_cents: 150_099,
+          quantity_available: 2,
+          description: 'Test Product',
+          name: 'Product name updated test',
+          custom_attributes: { 'number_of_doors' => '4' }
+        }.to_json
+      end
+
+      it 'update product' do
+        patch("/api/v1/accounts/#{account.id}/products/#{product.id}", params:, headers: auth_headers)
+        expect(response).to have_http_status(:ok)
+        result = JSON.parse(response.body)
+        expect(result['name']).to eq('Product name updated test')
+        expect(product.reload.name).to eq('Product name updated test')
+        expect(product.identifier).to eq('PROD-123')
+        expect(product.amount_in_cents).to eq(150_099)
+        expect(product.quantity_available).to eq(2)
+        expect(product.description).to eq('Test Product')
+        expect(product.custom_attributes['number_of_doors']).to eq('4')
+      end
+
+      context 'when params are invalid' do
+        it 'returns unprocessable_entity' do
+          params = { amount_in_cents: -150_099 }.to_json
+          patch "/api/v1/accounts/#{account.id}/products/#{product.id}", params:, headers: auth_headers
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(JSON.parse(response.body)['errors']).to include('Price Can not be negative')
+        end
+      end
+
+      context 'when product is not found' do
+        it 'returns not found' do
+          patch "/api/v1/accounts/#{account.id}/products/9999", params:, headers: auth_headers
+          expect(response).to have_http_status(:not_found)
+          result = JSON.parse(response.body)
+          expect(result['error']).to eq('Resource could not be found')
+        end
+      end
+    end
+  end
 end
