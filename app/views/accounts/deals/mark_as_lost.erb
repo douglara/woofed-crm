@@ -16,6 +16,12 @@
         <%= form.label :stage_id, class: "typography-body-900 color-fg-default" %>
         <%= form.select(:stage_id, @stages.map { |stage| ["#{stage.pipeline.name} - #{stage.name}", stage.id] }, {}, { class: 'form-input' }) %>
       </div>
+      <% if @allow_edit_lost_at %>
+        <div class="flex flex-col gap-1">
+          <%= form.label :lost_at, class: "typography-body-900 color-fg-default" %>
+          <%= form.datetime_local_field :lost_at, class: "form-input", value: Time.zone.now %>
+        </div>
+      <% end %>
       <div class="flex flex-col gap-1">
         <%= form.label :lost_reason, class: "typography-body-900 color-fg-default"  %>
         <% if @exists_deal_lost_reasons %>

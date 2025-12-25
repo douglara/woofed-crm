@@ -20,12 +20,14 @@ class Deal::CreateOrUpdate
   end
 
   def set_lost_at_and_won_at
+    allow_edit = Current.account.deal_allow_edit_lost_at_won_at
+
     if @deal.won?
-      @deal.won_at = Time.current
+      @deal.won_at = Time.current unless allow_edit && @params[:won_at].present?
       @deal.lost_at = nil
       @deal.lost_reason = ''
     elsif @deal.lost?
-      @deal.lost_at = Time.current
+      @deal.lost_at = Time.current unless allow_edit && @params[:lost_at].present?
       @deal.won_at = nil
     else
       @deal.lost_at = nil

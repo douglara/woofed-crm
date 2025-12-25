@@ -36,6 +36,19 @@
                   <%= form.label :stage_id, class: "typography-text-s-lh150 text-gray-pallete-p3" %>
                   <%= form.select(:stage_id, @stages.map { |stage| ["#{stage.pipeline.name} - #{stage.name}", stage.id] }, {}, { class: 'form-input' }) %>
                 </div>
+                <% if Current.account.deal_allow_edit_lost_at_won_at %>
+                  <% if model.won? %>
+                    <div class="flex flex-col col-span-full gap-2">
+                      <%= form.label :won_at, class: "typography-text-s-lh150 text-gray-pallete-p3" %>
+                      <%= form.datetime_local_field :won_at, class: "form-input" %>
+                    </div>
+                  <% elsif model.lost? %>
+                    <div class="flex flex-col col-span-full gap-2">
+                      <%= form.label :lost_at, class: "typography-text-s-lh150 text-gray-pallete-p3" %>
+                      <%= form.datetime_local_field :lost_at, class: "form-input" %>
+                    </div>
+                  <% end %>
+                <% end %>
               <% end %>
             <% end %>
           <% end %>

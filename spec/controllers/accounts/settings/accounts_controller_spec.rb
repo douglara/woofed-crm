@@ -41,7 +41,7 @@ RSpec.describe Accounts::Settings::AccountsController, type: :request do
       let!(:deal_lost_reason) { create(:deal_lost_reason) }
 
       let(:params) do
-        { account: { name: 'Company WoofedCRM', currency_code: 'USD', segment: 'education', site_url: 'https://woofedcrm.com', number_of_employees: '51-200', deal_free_form_lost_reasons: true } }
+        { account: { name: 'Company WoofedCRM', currency_code: 'USD', segment: 'education', site_url: 'https://woofedcrm.com', number_of_employees: '51-200', deal_free_form_lost_reasons: true, deal_allow_edit_lost_at_won_at: true } }
       end
 
       before do
@@ -58,6 +58,7 @@ RSpec.describe Accounts::Settings::AccountsController, type: :request do
         expect(account.site_url).to eq('https://woofedcrm.com')
         expect(account.number_of_employees).to eq('51-200')
         expect(account.deal_free_form_lost_reasons).to eq(true)
+        expect(account.deal_allow_edit_lost_at_won_at).to eq(true)
       end
 
       context 'when params is invalid' do

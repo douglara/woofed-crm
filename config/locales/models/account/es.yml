@@ -19,6 +19,7 @@ es:
         ai_usage: "Uso de IA"
         currency_code: "Moneda"
         deal_free_form_lost_reasons: "Permitir razones de formato libre"
+        deal_allow_edit_lost_at_won_at: "Permitir edición de las fechas de ganancia/pérdida"
         segments:
           technology: "Tecnología"
           health: "Salud"

@@ -5,6 +5,8 @@ RSpec.describe Deal::CreateOrUpdate do
   let(:deal) { build(:deal, account:, status: :open) }
   let(:params) { { status: 'won' } }
   let(:subject) { described_class.new(deal, params) }
+  let(:custom_won_at) { Time.zone.parse('2025-01-15 10:30:00') }
+  let(:custom_lost_at) { Time.zone.parse('2022-01-15 10:30:00') }
 
   describe '#call' do
     context 'when the deal is valid' do
@@ -20,6 +22,17 @@ RSpec.describe Deal::CreateOrUpdate do
             expect(deal.lost_at).to be_nil
             expect(deal.lost_reason).to be_blank
           end
+
+          context 'when allow_edit_lost_at_won_at is enabled and won_at is provided' do
+            before { account.update(settings: { allow_edit_lost_at_won_at: true }) }
+
+            let(:params) { { status: 'won', won_at: custom_won_at } }
+
+            it 'respects the provided won_at' do
+              expect(subject.call).to eq(deal)
+              expect(deal.won_at).to eq(custom_won_at)
+            end
+          end
         end
 
         context 'with status lost' do
@@ -32,6 +45,17 @@ RSpec.describe Deal::CreateOrUpdate do
             expect(deal.lost_at).to be_a(Time)
             expect(deal.lost_reason).to eq('Lost reason test')
             expect(deal.won_at).to be_nil
+          end
+
+          context 'when allow_edit_lost_at_won_at is enabled and lost_at is provided' do
+            before { account.update(settings: { allow_edit_lost_at_won_at: true }) }
+
+            let(:params) { { status: 'lost', lost_at: custom_lost_at, lost_reason: 'Test' } }
+
+            it 'respects the provided lost_at' do
+              expect(subject.call).to eq(deal)
+              expect(deal.lost_at).to eq(custom_lost_at)
+            end
           end
         end
 
@@ -62,6 +86,28 @@ RSpec.describe Deal::CreateOrUpdate do
             expect(deal.lost_at).to be_nil
             expect(deal.lost_reason).to be_blank
           end
+
+          context 'when allow_edit_lost_at_won_at is enabled' do
+            before { account.update(settings: { allow_edit_lost_at_won_at: true }) }
+
+            context 'and won_at is provided' do
+              let(:params) { { status: 'won', won_at: custom_won_at } }
+
+              it 'respects the provided won_at' do
+                expect(subject.call).to eq(deal)
+                expect(deal.won_at).to eq(custom_won_at)
+              end
+            end
+
+            context 'and won_at is not provided' do
+              let(:params) { { status: 'won' } }
+
+              it 'sets won_at to the current time' do
+                expect(subject.call).to eq(deal)
+                expect(deal.won_at).to be_a(Time)
+              end
+            end
+          end
         end
 
         context 'when status changes to lost' do
@@ -73,6 +119,28 @@ RSpec.describe Deal::CreateOrUpdate do
             expect(deal.lost_at).to be_a(Time)
             expect(deal.won_at).to be_nil
             expect(deal.lost_reason).to eq('Lost reason test')
+          end
+
+          context 'when allow_edit_lost_at_won_at is enabled' do
+            before { account.update(settings: { allow_edit_lost_at_won_at: true }) }
+
+            context 'and lost_at is provided' do
+              let(:params) { { status: 'lost', lost_at: custom_lost_at, lost_reason: 'Test' } }
+
+              it 'respects the provided lost_at' do
+                expect(subject.call).to eq(deal)
+                expect(deal.lost_at).to eq(custom_lost_at)
+              end
+            end
+
+            context 'and lost_at is not provided' do
+              let(:params) { { status: 'lost', lost_reason: 'Test' } }
+
+              it 'sets lost_at to the current time' do
+                expect(subject.call).to eq(deal)
+                expect(deal.lost_at).to be_a(Time)
+              end
+            end
           end
         end
 

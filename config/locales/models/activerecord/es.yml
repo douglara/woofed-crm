@@ -24,3 +24,5 @@ es:
       profile_settings: "Configuración del Perfil"
       account_settings: "Configuración de la Cuenta"
       other_option: Otro..
+      general: "General"
+      fields_configuration: "Configuración de Campos"

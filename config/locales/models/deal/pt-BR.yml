@@ -41,6 +41,8 @@ pt-BR:
         id: "Código do negócio"
         lost_reason: "Motivo de perda"
         other_lost_reason: "Outro motivo de perda"
+        lost_at: "Perdido em"
+        won_at: "Ganho em"
         statuses:
           open: Aberto
           won: Ganhou

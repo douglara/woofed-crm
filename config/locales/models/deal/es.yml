@@ -41,6 +41,8 @@ es:
         id: "Código del negocio"
         lost_reason: "Razón de pérdida"
         other_lost_reason: "Otra razón de la pérdida"
+        lost_at: "Perdido en"
+        won_at: "Ganado en"
         statuses:
           open: Abierto
           won: Ganado

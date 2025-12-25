@@ -41,6 +41,8 @@ en:
         id: "Deal code"
         lost_reason: "Lost reason"
         other_lost_reason: "Other lost reason"
+        lost_at: "Lost at"
+        won_at: "Won at"
         statuses:
           open: Open
           won: Won

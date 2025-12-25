@@ -1,6 +1,7 @@
 <div class="mx-8 mt-4">
   <%= render 'components/navs/nav_tabs',
       tabs: [
+      { label: t('activerecord.models.general'), path: edit_account_settings_deals_path(Current.account) },
       { label: DealLostReason.model_name.human(count: 2), path: account_settings_deals_deal_lost_reasons_path(Current.account) },
   ] %>
 </div>

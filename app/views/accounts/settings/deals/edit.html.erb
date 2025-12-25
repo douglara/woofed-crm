@@ -1,0 +1,26 @@
+<div class="mx-8 mt-4">
+  <%= render 'components/navs/nav_tabs',
+      tabs: [
+      { label: t('activerecord.models.general'), path: edit_account_settings_deals_path(Current.account) },
+      { label: DealLostReason.model_name.human(count: 2), path: account_settings_deals_deal_lost_reasons_path(Current.account) },
+  ] %>
+</div>
+<div class="color-bg-surface-default border-2 color-border-default rounded mx-8 mb-8 mt-4">
+  <div class="flex items-center py-4 justify-between px-4 border-b color-border-default">
+    <div class="flex items-center gap-2 text-dark-gray-palette-p1">
+      <i data-lucide="text-cursor-input" class='w-5 h-5 stroke-1.04'></i>
+      <p class="typography-body-s-lh150">
+        <%= t('activerecord.models.fields_configuration') %>
+      </p>
+    </div>
+  </div>
+  <%= form_with model: Current.account, url: account_settings_account_path(Current.account), method: :patch, class: "flex px-4 my-4" do |f| %>
+    <label class="inline-flex items-center cursor-pointer">
+      <%= f.check_box :deal_allow_edit_lost_at_won_at, class: "sr-only peer", onchange: "this.form.requestSubmit()"  %>
+      <div class="relative w-9 h-5 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:color-bg-fill-highlight"></div>
+      <span class="ms-3 typography-sub-title-800 color-fg-default">
+        <%= t('activerecord.attributes.account.deal_allow_edit_lost_at_won_at') %>
+      </span>
+    </label>
+  <% end %>
+</div>

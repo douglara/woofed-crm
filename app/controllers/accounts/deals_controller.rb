@@ -171,10 +171,12 @@ class Accounts::DealsController < InternalController
     @stages = Stage.ordered_by_pipeline_and_position
     @lost_reasons = DealLostReason.order(:name).pluck(:name).uniq
     @exists_deal_lost_reasons = DealLostReason.exists?
+    @allow_edit_lost_at = Current.account.deal_allow_edit_lost_at_won_at
   end
 
   def mark_as_won
     @stages = Stage.ordered_by_pipeline_and_position
+    @allow_edit_won_at = Current.account.deal_allow_edit_lost_at_won_at
   end
 
   private

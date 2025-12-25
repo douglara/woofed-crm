@@ -168,7 +168,9 @@ RSpec.describe Accounts::DealsController, type: :request do
   end
 
   describe 'GET /accounts/{account.id}/deals/:id' do
-    let(:deal) { create(:deal, stage:, creator: user) }
+    let(:deal) do
+      create(:deal, :lost, stage:, creator: user)
+    end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -189,6 +191,45 @@ RSpec.describe Accounts::DealsController, type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include(deal.name)
         expect(response.body).to include(deal.creator.full_name)
+        expect(response.body).not_to include(I18n.t('activerecord.attributes.deal.won_at'))
+        expect(response.body).not_to include(I18n.t('activerecord.attributes.deal.lost_at'))
+      end
+
+      context 'when deal is lost' do
+        let(:lost_at) { Time.zone.parse('2025-01-15 10:30:00') }
+        let(:lost_reason) { 'test lost reason' }
+
+        let(:deal) do
+          create(:deal, :lost, stage:, creator: user, lost_reason: lost_reason,
+                              lost_at: lost_at)
+        end
+
+        it 'show lost at date and lost reason' do
+          get "/accounts/#{account.id}/deals/#{deal.id}"
+          expect(response).to have_http_status(:success)
+          expect(response.body).to include(lost_at.to_s)
+          expect(response.body).to include(lost_reason)
+          expect(response.body).to include(I18n.t('activerecord.attributes.deal.lost_at'))
+          expect(response.body).not_to include(I18n.t('activerecord.attributes.deal.won_at'))
+        end
+      end
+
+      context 'when deal is won' do
+        let(:won_at) { Time.zone.parse('2025-02-20 15:45:00') }
+
+        let(:deal) do
+          create(:deal, :won, stage:, creator: user,
+                              won_at: won_at)
+        end
+
+        it 'show won at date' do
+          get "/accounts/#{account.id}/deals/#{deal.id}"
+
+          expect(response).to have_http_status(:success)
+          expect(response.body).to include(won_at.to_s)
+          expect(response.body).to include(I18n.t('activerecord.attributes.deal.won_at'))
+          expect(response.body).not_to include(I18n.t('activerecord.attributes.deal.lost_at'))
+        end
       end
     end
   end
@@ -221,7 +262,8 @@ RSpec.describe Accounts::DealsController, type: :request do
   end
 
   describe 'GET /accounts/{account.id}/deals/:id/edit' do
-    let!(:deal) { create(:deal, stage:, contact:, creator: user) }
+    let!(:deal) { create(:deal, :lost, stage:, contact:, creator: user, lost_reason: 'test lost reason',
+                           lost_at: Time.zone.parse('2024-01-15 10:30:00')) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -239,7 +281,24 @@ RSpec.describe Accounts::DealsController, type: :request do
         get "/accounts/#{account.id}/deals/#{deal.id}/edit"
         expect(response).to have_http_status(:success)
         expect(response.body).not_to include('Created by')
+        expect(response.body).not_to include('Lost at')
         expect(flash[:error]).to be_nil
+      end
+
+      context 'when deal is won' do
+        let(:deal) do
+          create(:deal, :lost, stage:, creator: user,
+                              won_at: Time.zone.parse('2025-01-15 10:30:00'))
+        end
+
+        it 'show won at field date' do
+          won_deal = create(:deal, :won, stage:, creator: user,
+                                       won_at: Time.zone.parse('2025-02-20 15:45:00'))
+          get "/accounts/#{account.id}/deals/#{won_deal.id}"
+
+          expect(response).to have_http_status(:success)
+          expect(response.body).to include('Won at')
+        end
       end
     end
   end
