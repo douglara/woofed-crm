@@ -38,7 +38,7 @@
     "wavesurfer.js": "^7.7.3",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "3.11.2"
+    "webpack-dev-server": "5.2.1"
   },
   "version": "0.1.0",
   "devDependencies": {
