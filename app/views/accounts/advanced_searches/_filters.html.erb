@@ -2,7 +2,7 @@
   <%= link_to account_advanced_searches_path(Current.account, q: params[:q]),
         class: "search-filter-button #{params[:search_type].blank? ? 'search-filter-button-active' : ''}" do %>
     <i data-lucide="layout-grid" class="w-4 h-4"></i>
-    <%= t('views.accounts.search.filters.all') %>
+    <%= t('views.accounts.advanced_searches.filters.all') %>
   <% end %>
   <%= link_to account_advanced_searches_path(Current.account, q: params[:q], search_type: 'contact'),
         class: "search-filter-button #{params[:search_type] == 'contact' ? 'search-filter-button-active' : ''}" do %>
