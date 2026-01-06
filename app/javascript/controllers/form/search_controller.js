@@ -14,7 +14,7 @@ export default class extends Controller {
     }
   }
 
-  focusEnd(event) {
+  InputFocusEnd(event) {
     const input = event.target;
     if (input.value) {
       input.setSelectionRange(input.value.length, input.value.length);

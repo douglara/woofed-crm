@@ -1,10 +1,9 @@
 pt-BR:
   views:
     accounts:
-      search:
+      advanced_searches:
         title: Buscar
         placeholder: Buscar contatos, negócios, produtos...
-        start_typing: Comece a digitar para buscar
         no_results: Nenhum resultado encontrado
         filters:
           all: Todos

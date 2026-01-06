@@ -1,13 +1,29 @@
-<%= render layout: 'components/overlays/modal', locals: { title: t('views.accounts.search.title'), width_class: 'max-w-2xl' } do %>
-  <div class="p-4 md:p-5" data-controller="load-lucid-icons">
-    <%= render 'accounts/advanced_searches/search_form' %>
-    <%= turbo_frame_tag :search_results_session do %>
-      <%= turbo_frame_tag :search_results, src: search_results_account_advanced_searches_path(Current.account, q: params[:q] || ' ', search_type: params[:search_type] || ' '), loading: :lazy do  %>
-        <div class="text-center py-8">
-          <i data-lucide="search" class="w-12 h-12 mx-auto color-fg-extra-soft mb-2 animate-spin"></i>
-          <p class="typography-text-r-lh150 color-fg-soft"><%= t('activerecord.models.processing') %></p>
+<% width_class ||= 'max-w-2xl' %>
+<% modal_placement ||= 'top-center' %>
+<% modal_closeable ||= 'true' %>
+<% modal_backdrop ||= 'dynamic' %>
+<%= turbo_frame_tag :modal do %>
+  <div id="modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-[60] hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full" data-controller='modal load-lucid-icons' data-modal-placement-value="<%= modal_placement %>" data-modal-closeable-value="<%= modal_closeable %>" data-modal-backdrop-value="<%= modal_backdrop %>" data-action="keydown.esc->modal#modalRemove">
+    <div class="relative w-full <%= width_class %> max-h-full">
+      <!-- Modal content -->
+      <div class="relative color-bg-surface-default rounded-lg shadow">
+        <!-- Modal header -->
+        <div class="flex justify-between gap-3 px-4 pt-4 md:px-5 md:pt-5 rounded-t">
+          <%= render 'search_form' %>
         </div>
-      <% end %>
-    <% end %>
+        <!-- Modal body -->
+        <div class="p-4 md:p-5" data-controller="load-lucid-icons">
+          <%= render 'filters' %>
+          <%= turbo_frame_tag :search_results_session do %>
+            <%= turbo_frame_tag :search_results, src: search_results_account_advanced_searches_path(Current.account, q: params[:q] || ' ', search_type: params[:search_type] || ' '), loading: :lazy do  %>
+              <div class="text-center py-8">
+                <i data-lucide="search" class="w-12 h-12 mx-auto color-fg-extra-soft mb-2 animate-spin"></i>
+                <p class="typography-text-r-lh150 color-fg-soft"><%= t('activerecord.models.processing') %></p>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>

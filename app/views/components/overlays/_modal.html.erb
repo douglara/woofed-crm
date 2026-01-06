@@ -1,6 +1,9 @@
 <% width_class ||= 'max-w-lg' %>
+<% modal_placement ||= 'center-center' %>
+<% modal_closeable ||= 'false' %>
+<% modal_backdrop ||= 'static' %>
 <%= turbo_frame_tag :modal do %>
-  <div id="modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-[60] hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full" data-controller='modal load-lucid-icons'>
+  <div id="modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-[60] hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full" data-controller='modal load-lucid-icons' data-modal-placement-value="<%= modal_placement %>" data-modal-closeable-value="<%= modal_closeable %>" data-modal-backdrop-value="<%= modal_backdrop %>">
     <div class="relative w-full <%= width_class %> max-h-full">
       <!-- Modal content -->
       <div class="relative color-bg-surface-default rounded-lg shadow">
