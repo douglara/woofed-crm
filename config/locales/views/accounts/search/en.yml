@@ -1,0 +1,10 @@
+en:
+  views:
+    accounts:
+      search:
+        title: Search
+        placeholder: Search contacts, deals, products...
+        start_typing: Start typing to search
+        no_results: No results found
+        filters:
+          all: All

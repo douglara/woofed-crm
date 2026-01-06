@@ -48,6 +48,14 @@
   </div>
   <ul class="flex flex-col flex-1 gap-4">
     <div class="hidden group-aria-[expanded=false]:block h-[1.5px] w-full bg-light-palette-p3"></div>
+    <li>
+      <%= link_to account_advanced_searches_path(Current.account), class: "button-menu-default-md w-full group-aria-[expanded=false]:w-10 group-aria-[expanded=false]:h-10 group-aria-[expanded=false]:flex group-aria-[expanded=false]:items-center group-aria-[expanded=false]:justify-center group-aria-[expanded=false]:px-0 rounded-full color-bg-fill-default hover:color-bg-fill-hard focus:border-0 focus:color-fg-default active:border-0 active:color-border-default active:color-fg-defaul", data: { turbo_frame: :modal } do %>
+        <i data-lucide="search"></i>
+        <span class="group-aria-[expanded=false]:hidden inline-block">
+          <%= t('views.layouts.shared.sidebar.search') %>
+        </span>
+      <% end %>
+    </li>
     <% menu_items.each do |item| %>
       <li>
         <%= link_to(item[:path], class: "#{'button-menu-default-selected-md' if item[:active_if].call } button-menu-default-md w-full group-aria-[expanded=false]:w-10 group-aria-[expanded=false]:h-10 group-aria-[expanded=false]:flex group-aria-[expanded=false]:items-center group-aria-[expanded=false]:justify-center group-aria-[expanded=false]:px-0", data: item[:link_data]) do %>

@@ -1,0 +1,10 @@
+es:
+  views:
+    accounts:
+      search:
+        title: Buscar
+        placeholder: Buscar contactos, oportunidades, productos...
+        start_typing: Comience a escribir para buscar
+        no_results: No se encontraron resultados
+        filters:
+          all: Todo
