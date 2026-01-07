@@ -1,21 +1,14 @@
-<%= form_with url: account_advanced_searches_path(Current.account), method: :get, class: 'w-full', data: {
-    controller: 'form--search',
-    action: 'input->form--search#submit',
-    form__search_target: :form
-  } do |f| %>
-  <%= f.hidden_field :search_type, value: params[:search_type] %>
-  <div class="relative">
-    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-      <i data-lucide="search" class="w-5 h-5 color-fg-soft"></i>
-    </div>
-    <%= f.search_field :q,
-      value: params[:q],
-      placeholder: t('views.accounts.advanced_searches.placeholder'),
-      class: 'form-input pl-10 w-full',
-      autofocus: true,
-      autocomplete: 'off',
-      data: {
-        action: 'focus->form--search#InputFocusEnd'
-      } %>
+<div class="relative w-full">
+  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+    <i data-lucide="search" class="w-5 h-5 color-fg-soft"></i>
   </div>
-<% end %>
+  <%= f.search_field :q,
+        value: params[:q],
+        placeholder: t('views.accounts.advanced_searches.placeholder'),
+        class: 'form-input pl-10 w-full',
+        autofocus: true,
+        autocomplete: 'off',
+        data: {
+          form__advanced_search_target: :searchInput
+        } %>
+</div>

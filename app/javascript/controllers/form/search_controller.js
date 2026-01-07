@@ -13,11 +13,4 @@ export default class extends Controller {
       this.formTarget.requestSubmit();
     }
   }
-
-  InputFocusEnd(event) {
-    const input = event.target;
-    if (input.value) {
-      input.setSelectionRange(input.value.length, input.value.length);
-    }
-  }
 }

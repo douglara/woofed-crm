@@ -1,32 +1,50 @@
+<% filters = [
+  {
+    value: "",
+    icon: "layout-grid",
+    label: t('views.accounts.advanced_searches.filters.all'),
+    is_default: true
+  },
+  {
+    value: "contact",
+    icon: "contact",
+    label: t('activerecord.models.contact.other')
+  },
+  {
+    value: "deal",
+    icon: "clipboard-list",
+    label: t('activerecord.models.deal.other')
+  },
+  {
+    value: "product",
+    icon: "box",
+    label: t('activerecord.models.product.other')
+  },
+  {
+    value: "pipeline",
+    icon: "funnel",
+    label: t('activerecord.models.pipeline.other')
+  },
+  {
+    value: "activity",
+    icon: "calendar-check-2",
+    label: Event.human_enum_name(:kind, :activity).pluralize
+  }
+]
+%>
+<%= f.hidden_field :search_type, value: "", data: { form__advanced_search_target: :searchTypeField } %>
 <div class="flex gap-2 mb-4 flex-wrap">
-  <%= link_to account_advanced_searches_path(Current.account, q: params[:q]),
-        class: "search-filter-button #{params[:search_type].blank? ? 'search-filter-button-active' : ''}" do %>
-    <i data-lucide="layout-grid" class="w-4 h-4"></i>
-    <%= t('views.accounts.advanced_searches.filters.all') %>
-  <% end %>
-  <%= link_to account_advanced_searches_path(Current.account, q: params[:q], search_type: 'contact'),
-        class: "search-filter-button #{params[:search_type] == 'contact' ? 'search-filter-button-active' : ''}" do %>
-    <i data-lucide="contact" class="w-4 h-4"></i>
-    <%= t('activerecord.models.contact.other') %>
-  <% end %>
-  <%= link_to account_advanced_searches_path(Current.account, q: params[:q], search_type: 'deal'),
-        class: "search-filter-button #{params[:search_type] == 'deal' ? 'search-filter-button-active' : ''}" do %>
-    <i data-lucide="clipboard-list" class="w-4 h-4"></i>
-    <%= t('activerecord.models.deal.other') %>
-  <% end %>
-  <%= link_to account_advanced_searches_path(Current.account, q: params[:q], search_type: 'product'),
-        class: "search-filter-button #{params[:search_type] == 'product' ? 'search-filter-button-active' : ''}" do %>
-    <i data-lucide="box" class="w-4 h-4"></i>
-    <%= t('activerecord.models.product.other') %>
-  <% end %>
-  <%= link_to account_advanced_searches_path(Current.account, q: params[:q], search_type: 'pipeline'),
-        class: "search-filter-button #{params[:search_type] == 'pipeline' ? 'search-filter-button-active' : ''}" do %>
-    <i data-lucide="funnel" class="w-4 h-4"></i>
-    <%= t('activerecord.models.pipeline.other') %>
-  <% end %>
-  <%= link_to account_advanced_searches_path(Current.account, q: params[:q], search_type: 'activity'),
-        class: "search-filter-button #{params[:search_type] == 'activity' ? 'search-filter-button-active' : ''}" do %>
-    <i data-lucide="calendar-check-2" class="w-4 h-4"></i>
-    <%= Event.human_enum_name(:kind, :activity).pluralize %>
+  <% filters.each do |filter| %>
+    <%= link_to "",
+          class: "search-filter-button",
+          data: {
+            form__advanced_search_target: :filterButton,
+            action: 'click->form--advanced-search#selectFilter',
+            value: filter[:value]
+          },
+          aria: { selected: filter[:is_default] } do %>
+      <i data-lucide="<%= filter[:icon] %>" class="w-4 h-4"></i>
+      <%= filter[:label] %>
+    <% end %>
   <% end %>
 </div>

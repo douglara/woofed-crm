@@ -416,7 +416,7 @@
   .search-filter-button svg {
     @apply stroke-1.25 w-4 h-4;
   }
-  .search-filter-button-active {
+  .search-filter-button[aria-selected="true"] {
     @apply color-bg-fill-highlight color-fg-inverse border-transparent hover:color-bg-fill-highlight-hover hover:color-fg-inverse;
   }
 }
