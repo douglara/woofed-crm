@@ -14,6 +14,9 @@ export default class extends Controller {
 			backdrop: this.backdropValue,
       backdropClasses:
         "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-50 pointer-events-none",
+      onHide: () => {
+        this.modalRemove()
+      },
 		})
 		this.modal.show()
   }
