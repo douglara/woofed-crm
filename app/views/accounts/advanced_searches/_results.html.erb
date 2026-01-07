@@ -89,7 +89,7 @@
                 type: :activity,
                 item: activity,
                 title: activity.title,
-                subtitle: activity.scheduled_at&.strftime('%d/%m/%Y %H:%M'),
+                subtitle: (capture { render 'components/formatters/datetime', value: activity.scheduled_at, type: 'datetime' } if activity.scheduled_at.present?),
                 path: account_deal_path(Current.account, activity.deal) %>
           <% end %>
         </div>
