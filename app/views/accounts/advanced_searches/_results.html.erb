@@ -1,10 +1,10 @@
 <% if results.values.all?(&:blank?) %>
-  <div class="text-center py-8">
+  <div class="text-center py-8" data-controller="load-lucid-icons">
     <i data-lucide="search-x" class="w-12 h-12 mx-auto color-fg-extra-soft mb-2"></i>
     <p class="typography-text-r-lh150 color-fg-soft"><%= t('views.accounts.advanced_searches.no_results') %></p>
   </div>
 <% else %>
-  <div class="space-y-4 max-h-96 overflow-y-auto">
+  <div class="space-y-4 max-h-96 overflow-y-auto" data-controller="load-lucid-icons">
     <% if results[:contacts].present? %>
       <div>
         <div class="sticky top-0 color-bg-surface-default typography-label-700 color-fg-soft h-9 flex items-center gap-2">

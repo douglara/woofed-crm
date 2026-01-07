@@ -22,7 +22,7 @@
           <%= render 'filters', f: f %>
           <%= turbo_frame_tag :search_results_session do %>
             <%= turbo_frame_tag :search_results, src: search_results_account_advanced_searches_path(Current.account, q: params[:q] || ' ', search_type: params[:search_type] || ' '), loading: :lazy do  %>
-              <div class="text-center py-8">
+              <div class="text-center py-8" data-controller="load-lucid-icons">
                 <i data-lucide="search" class="w-12 h-12 mx-auto color-fg-extra-soft mb-2 animate-spin"></i>
                 <p class="typography-text-r-lh150 color-fg-soft"><%= t('activerecord.models.processing') %></p>
               </div>
