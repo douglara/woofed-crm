@@ -410,13 +410,13 @@
   .button-default-fill-secondary-sm svg {
     @apply stroke-1.25 w-4 h-4;
   }
-  .search-filter-button {
+  .advanced-search-filter-button {
     @apply inline-flex gap-1.5 items-center typography-body-900 rounded-full color-fg-soft color-bg-fill-default border border-transparent h-8 px-3 hover:color-bg-fill-hard hover:color-border-harder hover:color-fg-highlight shrink-0 cursor-pointer transition-colors;
   }
-  .search-filter-button svg {
+  .advanced-search-filter-button svg {
     @apply stroke-1.25 w-4 h-4;
   }
-  .search-filter-button[aria-selected="true"] {
+  .advanced-search-filter-button[aria-selected="true"] {
     @apply color-bg-fill-highlight color-fg-inverse border-transparent hover:color-bg-fill-highlight-hover hover:color-fg-inverse;
   }
 }

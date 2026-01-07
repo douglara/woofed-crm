@@ -36,7 +36,7 @@
 <div class="flex gap-2 mb-4 flex-wrap">
   <% filters.each do |filter| %>
     <%= link_to "",
-          class: "search-filter-button",
+          class: "advanced-search-filter-button",
           data: {
             form__advanced_search_target: :filterButton,
             action: 'click->form--advanced-search#selectFilter',
