@@ -34,7 +34,7 @@ RSpec.describe Accounts::AdvancedSearchesController, type: :request do
   describe 'GET /accounts/{account.id}/advanced_searches/search_results' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get "/accounts/#{account.id}/advanced_searches/search_results", params
+        get("/accounts/#{account.id}/advanced_searches/search_results", params:)
         expect(response).to redirect_to(new_user_session_path)
       end
     end
