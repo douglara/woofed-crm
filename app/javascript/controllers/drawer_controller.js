@@ -15,12 +15,15 @@ export default class extends Controller {
         }, 300);
       },
     });
-    this.drawer.show();
+    setTimeout(() => {
+      this.drawer.show();
+    }, 100);
   }
   disconnect() {
     this.drawer.hide();
   }
-  modalRemove() {
-    this.drawer.remove();
+  drawerHide(event) {
+    event.preventDefault();
+    this.drawer.hide();
   }
 }

@@ -11,7 +11,7 @@
             <i data-lucide="pencil" class=''></i>
           <% end %>
         <% end %>
-        <%= link_to :back, class: "color-fg-extra-soft bg-transparent hover:bg-gray-200 hover:color-fg-default rounded-lg typography-label-900 w-8 h-8 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white" do %>
+        <%= link_to :back, class: "color-fg-extra-soft bg-transparent hover:bg-gray-200 hover:color-fg-default rounded-lg typography-label-900 w-8 h-8 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white", data: { action: "click->drawer#drawerHide" } do %>
           <i data-lucide="x" class=''></i>
         <% end %>
       </div>
