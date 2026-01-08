@@ -32,6 +32,13 @@ RSpec.describe 'Contacts API', type: :request do
         expect(result['deals'].map { |d| d['name'] }).to include('Test Deal')
         expect(result['events'].map { |e| e['title'] }).to include('Test Event')
       end
+
+      it 'returns not found when contact does not exist' do
+        get "/api/v1/accounts/#{account.id}/contacts/99999", headers: auth_headers
+        expect(response).to have_http_status(:not_found)
+        result = JSON.parse(response.body)
+        expect(result['error']).to eq('Resource could not be found')
+      end
     end
   end
 
@@ -207,6 +214,39 @@ RSpec.describe 'Contacts API', type: :request do
             expect(json['details']).to eq('No valid predicate for full_name')
           end
         end
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/contacts/{contact.id}' do
+    let!(:contact) do
+      create(:contact, account:, full_name: 'John Doe', email: 'john.doe@example.com', phone: '+5522998813788')
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        expect do
+          delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}"
+        end.not_to change(Contact, :count)
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'deletes the contact' do
+        expect do
+          delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}", headers: auth_headers
+        end.to change(Contact, :count).by(-1)
+        expect(response).to have_http_status(:no_content)
+      end
+
+      it 'returns not found when contact does not exist' do
+        expect do
+          delete "/api/v1/accounts/#{account.id}/contacts/99999", headers: auth_headers
+        end.not_to change(Contact, :count)
+        expect(response).to have_http_status(:not_found)
+        result = JSON.parse(response.body)
+        expect(result['error']).to eq('Resource could not be found')
       end
     end
   end

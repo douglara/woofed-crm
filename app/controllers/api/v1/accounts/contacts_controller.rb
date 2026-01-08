@@ -1,12 +1,8 @@
 class Api::V1::Accounts::ContactsController < Api::V1::InternalController
-  def show
-    @contact = Contact.find(params['id'])
+  before_action :set_contact, only: %i[show destroy]
 
-    if @contact
-      render json: @contact, include: %i[deals events], status: :ok
-    else
-      render json: { errors: 'Not found' }, status: :not_found
-    end
+  def show
+    render json: @contact, include: %i[deals events], status: :ok
   end
 
   def create
@@ -51,8 +47,22 @@ class Api::V1::Accounts::ContactsController < Api::V1::InternalController
     }, status: :unprocessable_entity
   end
 
+  def destroy
+    if @contact.destroy
+      head :no_content
+    else
+      render json: { errors: @contact.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
   def contact_params
     params.permit(:full_name, :phone, :email, :label_list,
                   custom_attributes: {})
+  end
+
+  def set_contact
+    @contact = Contact.find(params[:id])
   end
 end

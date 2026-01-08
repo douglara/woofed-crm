@@ -130,7 +130,7 @@ Rails.application.routes.draw do
           resources :events, only: [:create], module: :deals do
           end
         end
-        resources :contacts, only: %i[show create] do
+        resources :contacts, only: %i[show create destroy] do
           post 'upsert', on: :collection
           match 'search', on: :collection, via: %i[get post]
         end
