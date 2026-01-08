@@ -9,6 +9,11 @@ export default class extends Controller {
       bodyScrolling: false,
       backdropClasses:
         "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-50 pointer-events-none",
+      onHide: () => {
+        setTimeout(() => {
+          this.element.remove();
+        }, 300);
+      },
     });
     this.drawer.show();
   }
