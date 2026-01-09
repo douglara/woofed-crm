@@ -3,7 +3,6 @@
 
 if Rails.env.development? && User.count.zero?
 
-  # Installation
   Installation.create!(
     id: SecureRandom.uuid,
     key1: Faker::Alphanumeric.alphanumeric(number: 10),
@@ -12,7 +11,6 @@ if Rails.env.development? && User.count.zero?
     token: Faker::Alphanumeric.alphanumeric(number: 20)
   )
 
-  # Account
   account = Account.create!(
     name: 'Demo Company',
     currency_code: 'BRL',
@@ -20,7 +18,6 @@ if Rails.env.development? && User.count.zero?
     number_of_employees: '11-50'
   )
 
-  # Users
   users = []
   [
     { full_name: 'Admin', email: 'user1@email.com' },
@@ -176,14 +173,12 @@ if Rails.env.development? && User.count.zero?
     end
   end
 
-  # Assign users to deals
   deals.each do |deal|
     DealAssignee.create!(deal: deal, user: users.sample, account: account)
   end
 
   # Create activities and notes
   deals.each do |deal|
-    # Initial note
     Event.create!(
       deal: deal,
       contact: deal.contact,
