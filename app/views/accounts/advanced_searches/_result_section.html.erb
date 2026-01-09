@@ -1,0 +1,12 @@
+<%# locals: (items:, icon:, label:) %>
+<% if items.present? %>
+  <div>
+    <div class="sticky top-0 color-bg-surface-default typography-label-700 color-fg-soft h-9 flex items-center gap-2">
+      <i data-lucide="<%= icon %>" class="w-4 h-4"></i>
+      <h4><%= label %></h4>
+    </div>
+    <div class="space-y-1">
+      <%= yield %>
+    </div>
+  </div>
+<% end %>
