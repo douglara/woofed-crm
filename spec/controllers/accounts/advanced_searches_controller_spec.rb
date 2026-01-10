@@ -5,10 +5,10 @@ RSpec.describe Accounts::AdvancedSearchesController, type: :request do
   let!(:user) { create(:user) }
   let(:params) { { q: 'John Doe', search_type: 'contacts' } }
 
-  describe 'GET /accounts/{account.id}/advanced_searches' do
+  describe 'GET /accounts/{account.id}/advanced_search' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get("/accounts/#{account.id}/advanced_searches", params:)
+        get("/accounts/#{account.id}/advanced_search", params:)
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -19,19 +19,19 @@ RSpec.describe Accounts::AdvancedSearchesController, type: :request do
       end
 
       it 'returns advanced searches page' do
-        get("/accounts/#{account.id}/advanced_searches", params:)
+        get("/accounts/#{account.id}/advanced_search", params:)
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('search_results_session')
+        expect(response.body).to include('results_session')
         expect(response.body).to include(params[:q])
         expect(response.body).to include(params[:search_type])
       end
     end
   end
 
-  describe 'GET /accounts/{account.id}/advanced_searches/search_results' do
+  describe 'GET /accounts/{account.id}/advanced_search/results' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get("/accounts/#{account.id}/advanced_searches/search_results", params:)
+        get("/accounts/#{account.id}/advanced_search/results", params:)
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -73,10 +73,10 @@ RSpec.describe Accounts::AdvancedSearchesController, type: :request do
             activities: [activity_mock] }
         end
 
-        it 'returns search results page with results' do
-          get("/accounts/#{account.id}/advanced_searches/search_results", params:)
+        it 'returns search results page' do
+          get("/accounts/#{account.id}/advanced_search/results", params:)
           expect(response).to have_http_status(:success)
-          expect(response.body).to include('search_results')
+          expect(response.body).to include('results')
           expect(response.body).to include(params[:q])
           expect(response.body).to include(params[:search_type])
           expect(response.body).to include(contact_mock.full_name)
@@ -97,9 +97,9 @@ RSpec.describe Accounts::AdvancedSearchesController, type: :request do
         let(:result_mock) { {} }
 
         it 'returns no results' do
-          get("/accounts/#{account.id}/advanced_searches/search_results", params:)
+          get("/accounts/#{account.id}/advanced_search/results", params:)
           expect(response).to have_http_status(:success)
-          expect(response.body).to include('search_results')
+          expect(response.body).to include('results')
           expect(response.body).to include(I18n.t('views.accounts.advanced_searches.no_results'))
         end
       end

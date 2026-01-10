@@ -49,7 +49,7 @@
   <ul class="flex flex-col flex-1 gap-4">
     <div class="hidden group-aria-[expanded=false]:block h-[1.5px] w-full bg-light-palette-p3"></div>
     <li>
-      <%= link_to account_advanced_searches_path(Current.account), class: "button-menu-default-md w-full group-aria-[expanded=false]:w-10 group-aria-[expanded=false]:h-10 group-aria-[expanded=false]:flex group-aria-[expanded=false]:items-center group-aria-[expanded=false]:justify-center group-aria-[expanded=false]:px-0 rounded-full color-bg-fill-default hover:color-bg-fill-hard focus:border-transparent focus:color-fg-default h-9 gap-2", data: { turbo_frame: :modal } do %>
+      <%= link_to account_advanced_search_path(Current.account), class: "button-menu-default-md w-full group-aria-[expanded=false]:w-10 group-aria-[expanded=false]:h-10 group-aria-[expanded=false]:flex group-aria-[expanded=false]:items-center group-aria-[expanded=false]:justify-center group-aria-[expanded=false]:px-0 rounded-full color-bg-fill-default hover:color-bg-fill-hard focus:border-transparent focus:color-fg-default h-9 gap-2", data: { turbo_frame: :modal } do %>
         <i data-lucide="search" class="w-4 h-4"></i>
         <span class="group-aria-[expanded=false]:hidden inline-block typography-body-800">
           <%= t('activerecord.models.search', model: '') %>

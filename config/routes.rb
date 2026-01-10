@@ -12,8 +12,8 @@ Rails.application.routes.draw do
     resources :webpush_subscriptions, only: [:create]
     resources :settings, only: [:index]
     resources :welcome, only: [:index]
-    resources :advanced_searches, only: [:index] do
-      get 'search_results', on: :collection
+    resource :advanced_search, only: [:show] do
+      get :results
     end
     resources :custom_attributes_definitions, module: :settings do
     end

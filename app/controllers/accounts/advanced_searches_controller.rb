@@ -2,7 +2,7 @@ class Accounts::AdvancedSearchesController < InternalController
   def index
   end
 
-  def search_results
+  def results
     @results = Query::AdvancedSearch.new(current_user, current_user.account, search_params).call
   end
 
