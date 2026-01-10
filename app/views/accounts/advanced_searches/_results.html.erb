@@ -5,95 +5,13 @@
   </div>
 <% else %>
   <div class="space-y-4 max-h-96 overflow-y-auto" data-controller="load-lucid-icons">
-    <% if results[:contacts].present? %>
-      <div>
-        <div class="sticky top-0 color-bg-surface-default typography-label-700 color-fg-soft h-9 flex items-center gap-2">
-          <i data-lucide="contact" class="w-4 h-4"></i>
-          <h4><%= t('activerecord.models.contact.other') %></h4>
-        </div>
-        <div class="space-y-1">
-          <% results[:contacts].each do |contact| %>
-            <%= render 'accounts/advanced_searches/result_item',
-                type: :contact,
-                item: contact,
-                title: contact.full_name,
-                subtitle: [contact.email, contact.phone].compact.join(' • '),
-                path: account_contact_path(Current.account, contact) %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-    <% if results[:deals].present? %>
-      <div>
-        <div class="sticky top-0 color-bg-surface-default typography-label-700 color-fg-soft h-9 flex items-center gap-2">
-          <i data-lucide="clipboard-list" class="w-4 h-4"></i>
-          <h4><%= t('activerecord.models.deal.other') %></h4>
-        </div>
-        <div class="space-y-1">
-          <% results[:deals].each do |deal| %>
-            <%= render 'accounts/advanced_searches/result_item',
-                type: :deal,
-                item: deal,
-                title: deal.name,
-                subtitle: deal.stage&.name,
-                path: account_deal_path(Current.account, deal) %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-    <% if results[:products].present? %>
-      <div>
-        <div class="sticky top-0 color-bg-surface-default typography-label-700 color-fg-soft h-9 flex items-center gap-2">
-          <i data-lucide="box" class="w-4 h-4"></i>
-          <h4><%= t('activerecord.models.product.other') %></h4>
-        </div>
-        <div class="space-y-1">
-          <% results[:products].each do |product| %>
-            <%= render 'accounts/advanced_searches/result_item',
-                type: :product,
-                item: product,
-                title: product.name,
-                subtitle: product.identifier,
-                path: account_product_path(Current.account, product) %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-    <% if results[:pipelines].present? %>
-      <div>
-        <div class="sticky top-0 color-bg-surface-default typography-label-700 color-fg-soft h-9 flex items-center gap-2">
-          <i data-lucide="funnel" class="w-4 h-4"></i>
-          <h4><%= t('activerecord.models.pipeline.other') %></h4>
-        </div>
-        <div class="space-y-1">
-          <% results[:pipelines].each do |pipeline| %>
-            <%= render 'accounts/advanced_searches/result_item',
-                type: :pipeline,
-                item: pipeline,
-                title: pipeline.name,
-                subtitle: nil,
-                path: account_pipeline_path(Current.account, pipeline) %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-    <% if results[:activities].present? %>
-      <div>
-        <div class="sticky top-0 color-bg-surface-default typography-label-700 color-fg-soft h-9 flex items-center gap-2">
-          <i data-lucide="calendar-check-2" class="w-4 h-4"></i>
-          <h4><%= Event.human_enum_name(:kind, :activity).pluralize %></h4>
-        </div>
-        <div class="space-y-1">
-          <% results[:activities].each do |activity| %>
-            <%= render 'accounts/advanced_searches/result_item',
-                type: :activity,
-                item: activity,
-                title: activity.title,
-                subtitle: (capture { render 'components/formatters/datetime', value: activity.scheduled_at, type: 'datetime' } if activity.scheduled_at.present?),
-                path: account_deal_path(Current.account, activity.deal) %>
-          <% end %>
-        </div>
-      </div>
+    <% search_types.each do |search_type| %>
+      <% items = results[search_type[:key]] %>
+      <%= render layout: 'accounts/advanced_searches/result_section', locals: { items: items, icon: search_type[:icon], label: search_type[:label] } do %>
+        <% items&.each do |item| %>
+          <%= render 'accounts/advanced_searches/result_item', type: search_type[:type], item: item %>
+        <% end %>
+      <% end %>
     <% end %>
   </div>
 <% end %>

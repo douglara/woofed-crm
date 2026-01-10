@@ -1,18 +1,24 @@
-<% turbo_target = [:deal, :pipeline, :activity].include?(type) ? :_top : :drawer %>
+<%# locals: (type:, item:) %>
+<%
+  icons = { contact: 'user', deal: 'clipboard-list', product: 'box', pipeline: 'funnel', activity: 'calendar-check-2' }
+  turbo_target = [:deal, :pipeline, :activity].include?(type) ? :_top : :drawer
+
+  title, subtitle, path = case type
+    when :contact
+      [item.full_name, [item.email, item.phone].compact.join(' • '), account_contact_path(Current.account, item)]
+    when :deal
+      [item.name, item.stage&.name, account_deal_path(Current.account, item)]
+    when :product
+      [item.name, item.identifier, account_product_path(Current.account, item)]
+    when :pipeline
+      [item.name, nil, account_pipeline_path(Current.account, item)]
+    when :activity
+      [item.title, (capture { render 'components/formatters/datetime', value: item.scheduled_at, type: 'datetime' } if item.scheduled_at.present?), account_deal_path(Current.account, item.deal)]
+  end
+%>
 <%= link_to path, class: 'flex items-center gap-3 p-2 rounded-lg hover:color-bg-fill-hard transition-colors', data: { turbo_frame: turbo_target } do %>
   <div class="w-8 h-8 rounded-full color-bg-fill-hard flex items-center justify-center flex-shrink-0">
-    <% case type %>
-    <% when :contact %>
-      <i data-lucide="user" class="w-4 h-4 color-fg-soft"></i>
-    <% when :deal %>
-      <i data-lucide="clipboard-list" class="w-4 h-4 color-fg-soft"></i>
-    <% when :product %>
-      <i data-lucide="box" class="w-4 h-4 color-fg-soft"></i>
-    <% when :pipeline %>
-      <i data-lucide="funnel" class="w-4 h-4 color-fg-soft"></i>
-    <% when :activity %>
-      <i data-lucide="calendar-check-2" class="w-4 h-4 color-fg-soft"></i>
-    <% end %>
+    <i data-lucide="<%= icons[type] %>" class="w-4 h-4 color-fg-soft"></i>
   </div>
   <div class="flex-1 min-w-0">
     <p class="typography-text-m-lh150 color-fg-default truncate"><%= title %></p>

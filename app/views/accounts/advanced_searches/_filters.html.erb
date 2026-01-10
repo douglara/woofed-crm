@@ -1,50 +1,27 @@
-<% filters = [
-  {
-    value: "",
-    icon: "layout-grid",
-    label: t('views.accounts.advanced_searches.filters.all'),
-    is_default: true
-  },
-  {
-    value: "contact",
-    icon: "contact",
-    label: t('activerecord.models.contact.other')
-  },
-  {
-    value: "deal",
-    icon: "clipboard-list",
-    label: t('activerecord.models.deal.other')
-  },
-  {
-    value: "product",
-    icon: "box",
-    label: t('activerecord.models.product.other')
-  },
-  {
-    value: "pipeline",
-    icon: "funnel",
-    label: t('activerecord.models.pipeline.other')
-  },
-  {
-    value: "activity",
-    icon: "calendar-check-2",
-    label: Event.human_enum_name(:kind, :activity).pluralize
-  }
-]
-%>
 <%= f.hidden_field :search_type, value: "", data: { form__advanced_search_target: :searchTypeField } %>
 <div class="flex gap-2 mb-4 flex-wrap">
-  <% filters.each do |filter| %>
+  <%= link_to "",
+        class: "advanced-search-filter-button",
+        data: {
+          form__advanced_search_target: :filterButton,
+          action: 'click->form--advanced-search#selectFilter',
+          value: ''
+        },
+        aria: { selected: true } do %>
+    <i data-lucide="layout-grid" class="w-4 h-4"></i>
+    <%= t('views.accounts.advanced_searches.filters.all') %>
+  <% end %>
+  <% search_types.each do |search_type| %>
     <%= link_to "",
           class: "advanced-search-filter-button",
           data: {
             form__advanced_search_target: :filterButton,
             action: 'click->form--advanced-search#selectFilter',
-            value: filter[:value]
+            value: search_type[:value]
           },
-          aria: { selected: filter[:is_default] } do %>
-      <i data-lucide="<%= filter[:icon] %>" class="w-4 h-4"></i>
-      <%= filter[:label] %>
+          aria: { selected: false } do %>
+      <i data-lucide="<%= search_type[:icon] %>" class="w-4 h-4"></i>
+      <%= search_type[:label] %>
     <% end %>
   <% end %>
 </div>
