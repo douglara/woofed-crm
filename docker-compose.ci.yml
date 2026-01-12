@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  postgres:
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    volumes: []
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env.github
+    environment:
+      RAILS_ENV: test
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/
+      REDIS_URL: redis://redis:6379/0
+    command: >
+      bash -c "
+        bundle exec rails db:create db:schema:load &&
+        bundle exec rspec
+      "

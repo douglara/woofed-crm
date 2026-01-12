@@ -1,0 +1,18 @@
+steps:
+  - label: ":docker: Build"
+    plugins:
+      - docker-compose#v5.3.0:
+          build: app
+          config:
+            - docker-compose.yml
+            - docker-compose.ci.yml
+
+  - wait
+
+  - label: ":rspec: Tests"
+    plugins:
+      - docker-compose#v5.3.0:
+          run: app
+          config:
+            - docker-compose.yml
+            - docker-compose.ci.yml
