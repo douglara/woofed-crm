@@ -1,4 +1,4 @@
-import { Controller } from "stimulus";
+import { Controller } from "@hotwired/stimulus";
 import moment from "moment-timezone";
 import "moment/min/locales";
 import "moment-timezone/node_modules/moment/locale/es";

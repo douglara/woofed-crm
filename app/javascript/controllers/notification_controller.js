@@ -1,4 +1,4 @@
-import Notification from 'stimulus-notification'
+import Notification from '@stimulus-components/notification'
 
 export default class extends Notification {
   connect() {

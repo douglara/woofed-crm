@@ -1,4 +1,4 @@
-import { Controller } from "stimulus";
+import { Controller } from "@hotwired/stimulus";
 import { Dropdown } from "flowbite";
 
 export default class extends Controller {

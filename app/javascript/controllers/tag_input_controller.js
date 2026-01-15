@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 import Tagify from '@yaireo/tagify';
 
 export default class extends Controller {

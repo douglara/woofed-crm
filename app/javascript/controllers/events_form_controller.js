@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 import lucide from "lucide/dist/umd/lucide"
 import { animate } from "motion"
 

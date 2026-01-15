@@ -1,4 +1,4 @@
-import { Controller } from "stimulus";
+import { Controller } from "@hotwired/stimulus";
 import { getAccountCurrency } from "../../utils/locale";
 
 export default class extends Controller {

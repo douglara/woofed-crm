@@ -1,4 +1,4 @@
-import { Controller } from "stimulus";
+import { Controller } from "@hotwired/stimulus";
 import UploadFile from "./upload_file";
 
 export default class extends Controller {

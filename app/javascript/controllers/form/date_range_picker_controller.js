@@ -1,4 +1,4 @@
-import { Controller } from "stimulus";
+import { Controller } from "@hotwired/stimulus";
 import DateRangePicker from "daterangepicker";
 import "moment-timezone/node_modules/moment/locale/es";
 import "moment-timezone/node_modules/moment/locale/pt-br";

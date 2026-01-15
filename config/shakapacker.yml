@@ -1,0 +1,63 @@
+# Note: You must restart bin/shakapacker-dev-server for changes to take effect
+
+default: &default
+  source_path: app/javascript
+  source_entry_path: packs
+  public_root_path: public
+  public_output_path: packs
+  cache_path: tmp/cache/shakapacker
+  shakapacker_precompile: true
+  webpack_compile_output: true
+
+  # Additional paths webpack should look up modules
+  additional_paths: []
+
+  # Cache manifest.json for performance
+  cache_manifest: false
+
+  # Extract and emit a css file
+  css_extract_ignore_order_warnings: true
+
+  # Select loader to use, available options are 'babel' (default), 'swc' or 'esbuild'
+  javascript_transpiler: 'babel'
+
+  nested_entries: false
+
+  # Ensure consistent casing in Module paths  
+  ensure_consistent_versioning: true
+
+development:
+  <<: *default
+  compile: true
+
+  # Reference: https://webpack.js.org/configuration/dev-server/
+  dev_server:
+    https: false
+    host: localhost
+    port: 3035
+    hmr: false
+    server: http
+    compress: true
+    allowed_hosts: "all"
+    pretty: false
+    headers:
+      Access-Control-Allow-Origin: "*"
+    static:
+      watch:
+        ignored: "**/node_modules/**"
+
+test:
+  <<: *default
+  compile: true
+
+  # Compile test packs to a separate directory
+  public_output_path: packs-test
+
+production:
+  <<: *default
+
+  # Production depends on precompilation of packs prior to booting for performance.
+  compile: false
+
+  # Cache manifest.json for performance
+  cache_manifest: true

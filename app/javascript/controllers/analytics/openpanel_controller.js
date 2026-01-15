@@ -1,4 +1,4 @@
-import { Controller } from "stimulus";
+import { Controller } from "@hotwired/stimulus";
 import { OpenPanel } from "@openpanel/web";
 import {
   getMetaJSON,
