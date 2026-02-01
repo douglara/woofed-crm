@@ -47,7 +47,7 @@
   <ul data-controller="drag" data-drag-url="/accounts/:account_id/deals/:deal_id" data-id="<%= stage.id %>" class="space-y-4 overflow-y-auto custom-scroll-list-deal h-[calc(100vh-260px)]" id=<%= dom_id(stage, :deals) %>>
     <%= render partial: 'accounts/pipelines/deal', collection: deals, as: :deal %>
     <% if pagy.next.present? %>
-      <%= turbo_frame_tag dom_id(stage, :pagination_deals), src: account_stage_path(Current.account, stage, filter_status_deal: filter_status_deal, page: pagy.next, format: :turbo_stream), loading: :lazy do  %>
+      <%= turbo_frame_tag dom_id(stage, :pagination_deals), src: account_stage_path(Current.account, stage, filter_status_deal: filter_status_deal, page: pagy.next, format: :turbo_stream), refresh: :morph, data: { controller: "frame", action: "turbo:before-frame-render->frame#morphRender turbo:before-morph-element->frame#morphReload" }, loading: :lazy do  %>
         <div class='py-5'>
           <%= render '/components/loading' %>
         </div>

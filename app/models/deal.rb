@@ -38,7 +38,7 @@ class Deal < ApplicationRecord
 
   belongs_to :contact
   belongs_to :stage
-  belongs_to :pipeline
+  belongs_to :pipeline, touch: true
   belongs_to :creator, class_name: 'User', foreign_key: 'created_by_id', optional: true
   acts_as_list scope: :stage
   has_many :events, dependent: :destroy

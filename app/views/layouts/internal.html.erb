@@ -10,6 +10,7 @@
     <%= action_cable_meta_tag %>
     <%= vite_stylesheet_tag 'application', 'data-turbolinks-track': 'reload', media: 'all' %>
     <%= vite_javascript_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
     <%= tag.meta name: "vapid-public-key", content: Rails.configuration.x.vapid.public_key %>
     <%= tag.meta name: "openpanel-token", content: ENV.fetch("OPENPANEL_TOKEN", "") %>
     <%= tag.meta name: "openpanel-endpoint", content: ENV.fetch("OPENPANEL_ENDPOINT", "https://api.openpanel.dev") %>
@@ -25,6 +26,7 @@
     <%= tag.link rel: "manifest", href: webmanifest_path(format: :json) %>
     <%= render "layouts/shared/analytics_scripts" %>
     <%= yield :stylesheets %>
+    <%= yield :head %>
   </head>
   <body data-user-locale='<%= current_user&.language || '' %>' data-account-currency="<%= Current.account&.currency_code || '' %>" data-controller="analytics--openpanel" >
     <div id="app" class="h-screen">

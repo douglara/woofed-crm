@@ -170,17 +170,17 @@
   integrity sha512-eGeIqNOQpXoPAIP7tC1+1Yc1yl1xnwYqg+3mzqxyrbE5pg5YFBZcA6YoTiByJB6DKAEsiWtl6tjTJS4IYtbB7A==
 
 "@hotwired/turbo-rails@^8.0.12":
-  version "8.0.12"
-  resolved "https://registry.yarnpkg.com/@hotwired/turbo-rails/-/turbo-rails-8.0.12.tgz#6f1a2661122c0a2bf717f3bc68b5106638798c89"
-  integrity sha512-ZXwu9ez+Gd4RQNeHIitqOQgi/LyqY8J4JqsUN0nnYiZDBRq7IreeFdMbz29VdJpIsmYqwooE4cFzPU7QvJkQkA==
+  version "8.0.23"
+  resolved "https://registry.yarnpkg.com/@hotwired/turbo-rails/-/turbo-rails-8.0.23.tgz#7a84ad041cb0f3e5d9ff97d1a1f0291550a93fc9"
+  integrity sha512-iBILwda3qmQC7FYM70+4s6kEQ7Fx9dJ6+yGxjPyrz9a5JDx1+y7OAA5TA7GGVOZJoicMLrKGdFDNorl40X35lw==
   dependencies:
-    "@hotwired/turbo" "^8.0.12"
-    "@rails/actioncable" "^7.0"
+    "@hotwired/turbo" "^8.0.23"
+    "@rails/actioncable" ">=7.0"
 
-"@hotwired/turbo@^8.0.12":
-  version "8.0.12"
-  resolved "https://registry.yarnpkg.com/@hotwired/turbo/-/turbo-8.0.12.tgz#50aa8345d7f62402680c6d2d9814660761837001"
-  integrity sha512-l3BiQRkD7qrnQv6ms6sqPLczvwbQpXt5iAVwjDvX0iumrz6yEonQkNAzNjeDX25/OJMFDTxpHjkJZHGpM9ikWw==
+"@hotwired/turbo@^8.0.23":
+  version "8.0.23"
+  resolved "https://registry.yarnpkg.com/@hotwired/turbo/-/turbo-8.0.23.tgz#a6eebc9ab4a5faadae265a4cbec8cfcb5731e77c"
+  integrity sha512-GZ7cijxEZ6Ig71u7rD6LHaRv/wcE/hNsc+nEfiWOkLNqUgLOwo5MNGWOy5ZV9ZUDSiQx1no7YxjTNnT4O6//cQ==
 
 "@jridgewell/gen-mapping@^0.3.2":
   version "0.3.3"
@@ -417,7 +417,12 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
-"@rails/actioncable@^7.0", "@rails/actioncable@^7.1.501":
+"@rails/actioncable@>=7.0":
+  version "8.1.200"
+  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-8.1.200.tgz#acecf74ab4846144eefdbc16618786df0cebedf9"
+  integrity sha512-on0DSb7AFUkq1ocxivDNQhhGW/RQpY91zvRVyyaEWP4gOOZWy33P/UyxjQk74IENWNrTqs8+zOGHwTjiiFruRw==
+
+"@rails/actioncable@^7.1.501":
   version "7.2.201"
   resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-7.2.201.tgz#bfb3da01b3e2462f5a18f372c52dedd7de76037f"
   integrity sha512-wsTdWoZ5EfG5k3t7ORdyQF0ZmDEgN4aVPCanHAiNEwCROqibSZMXXmCbH7IDJUVri4FOeAVwwbPINI7HVHPKBw==

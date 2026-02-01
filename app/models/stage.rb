@@ -19,7 +19,7 @@
 #
 class Stage < ApplicationRecord
   include Stage::Decorators
-  belongs_to :pipeline
+  belongs_to :pipeline, touch: true
   acts_as_list scope: :pipeline
   has_many :deals, dependent: :destroy
 
