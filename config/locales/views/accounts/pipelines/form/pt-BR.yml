@@ -4,5 +4,6 @@ pt-BR:
       pipelines:
         form:
           pipeline_data: Dados do funil
+          drag_to_reorder: Arrastar para reordenar
 
 
