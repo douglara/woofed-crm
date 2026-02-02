@@ -32,6 +32,8 @@ import jquery from "jquery";
 window.jQuery = jquery;
 window.$ = jquery;
 
+import("@nathanvda/cocoon");
+
 import Rails from "@rails/ujs";
 import "@hotwired/turbo-rails";
 import * as ActiveStorage from "@rails/activestorage";
@@ -44,7 +46,6 @@ Rails.start();
 ActiveStorage.start();
 import "trix";
 import "@rails/actiontext";
-// import "@nathanvda/cocoon";
 import "flowbite/dist/flowbite.turbo.js";
 
 $(document).on("turbo:load", () => {
