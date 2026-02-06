@@ -6,6 +6,7 @@ export default class extends Controller {
     connect() {
     this.moveFormFieldInputsToNestedFields();
     this.Sortable = Sortable.create(this.element, {
+      animation: 150,
       onEnd: this.end.bind(this)
     });
   }

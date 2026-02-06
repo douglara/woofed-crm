@@ -4,3 +4,4 @@ es:
       pipelines:
         form:
           pipeline_data: Datos del embudo
+          drag_to_reorder: Arrastrar para reordenar

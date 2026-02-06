@@ -4,3 +4,4 @@ en:
       pipelines:
         form:
           pipeline_data: Pipeline data
+          drag_to_reorder: Drag to reorder
