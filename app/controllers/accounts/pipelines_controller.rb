@@ -177,16 +177,13 @@ class Accounts::PipelinesController < InternalController
 
   # PATCH/PUT /pipelines/1 or /pipelines/1.json
   def update
-    respond_to do |format|
-      if @pipeline.update(pipeline_params)
+    if @pipeline.update(pipeline_params)
+      respond_to do |format|
         format.html do
           redirect_to account_pipeline_path(Current.account, @pipeline),
                       notice: t('flash_messages.updated', model: Pipeline.model_name.human)
         end
-        format.json { render :show, status: :ok, location: @pipeline }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @pipeline.errors, status: :unprocessable_entity }
+        format.turbo_stream
       end
     end
   end
