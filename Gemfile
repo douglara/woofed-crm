@@ -130,3 +130,5 @@ gem 'tailwindcss-rails', '~> 2.0'
 gem 'opentelemetry-exporter-otlp', '~> 0.26.1'
 gem 'opentelemetry-instrumentation-all', '~> 0.50.1'
 gem 'opentelemetry-sdk', '~> 1.3'
+
+gem "inertia_rails", "~> 3.17"
