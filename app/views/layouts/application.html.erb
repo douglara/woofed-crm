@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Woofed CRM</title>
+    <title data-inertia>Woofed CRM</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= vite_stylesheet_tag "application" %>
+    <%= vite_react_refresh_tag %>
     <%= vite_client_tag %>
+    <%= vite_typescript_tag "inertia.tsx" %>
+    <%= inertia_ssr_head %>
     <%= vite_stylesheet_tag 'application', 'data-turbolinks-track': 'reload', media: 'all' %>
     <%= vite_javascript_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= render "layouts/shared/analytics_scripts" %>
