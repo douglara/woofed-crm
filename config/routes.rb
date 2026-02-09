@@ -67,6 +67,8 @@ Rails.application.routes.draw do
       get 'import'
       post 'import_file'
       get 'export'
+      get 'load_more_deals', on: :member
+      get 'refresh_stage', on: :member
       member do
         get 'new_bulk_action'
         get 'bulk_action'
