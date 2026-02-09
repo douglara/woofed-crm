@@ -38,6 +38,21 @@ export default class extends Controller {
     }
   }
 
+  beforeMorphRefresh(event) {
+    const newElement = event.detail?.newElement;
+
+    if (!newElement) return;
+
+    const date = newElement.getAttribute(
+      "data-datetime--format-exhibition-date-value",
+    );
+
+    if (!date) return;
+
+    this.setMomentJsLocale();
+    newElement.textContent = this.formattedDate(date);
+  }
+
   get locale() {
     return (
       getUserLocale().trim() !== "" ? getUserLocale() : getBrowserLocale()
