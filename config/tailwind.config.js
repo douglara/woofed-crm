@@ -4,7 +4,7 @@ module.exports = {
   content: [
     "./public/*.html",
     "./app/helpers/**/*.rb",
-    "./app/javascript/**/*.js",
+    "./app/javascript/**/*.{js,ts,jsx,tsx}",
     "./app/javascript/**/*.css",
     "./app/views/**/*.{erb,haml,html,slim}",
     "./node_modules/flowbite/**/*.js",

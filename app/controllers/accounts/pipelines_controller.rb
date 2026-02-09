@@ -2,6 +2,8 @@ require 'csv'
 require 'json_csv'
 
 class Accounts::PipelinesController < InternalController
+  layout 'inertia', only: %i[show load_more_deals refresh_stage]
+
   before_action :set_pipeline, only: %i[show edit update destroy bulk_action new_bulk_action]
   before_action :set_bulk_action_event, only: %i[bulk_action new_bulk_action]
   before_action :set_stage, only: %i[bulk_action new_bulk_action]
@@ -16,14 +18,118 @@ class Accounts::PipelinesController < InternalController
     end
   end
 
-  # GET /pipelines/1 or /pipelines/1.json
+  # GET /pipelines/1 or /pipelines/1.json (Inertia)
   def show
+    filter_status_deal = params[:filter_status_deal].presence || 'open'
+    account = Account.find(params[:account_id])
     @pipelines = Pipeline.all
-    @filter_status_deal = if params[:filter_status_deal].present?
-                            params[:filter_status_deal]
-                          else
-                            'open'
-                          end
+
+    stages_data = @pipeline.stages.sort_by(&:position).map do |stage|
+      deals_query = if filter_status_deal == 'all'
+                      stage.deals.order(position: :desc)
+                    else
+                      stage.deals.where(status: filter_status_deal).order(position: :desc)
+                    end
+
+      pagy_result, deals = pagy(deals_query, items: 20)
+
+      {
+        id: stage.id,
+        name: stage.name,
+        position: stage.position,
+        total_amount: stage.total_amount_deals(filter_status_deal),
+        total_quantity: stage.total_quantity_deals(filter_status_deal),
+        total_quantity_resume: stage.total_quantity_deals_resume(filter_status_deal),
+        deals: deals.map { |deal| serialize_deal(deal) },
+        has_more_deals: pagy_result.next.present?,
+        next_page: pagy_result.next
+      }
+    end
+
+    render inertia: 'accounts/pipelines/show', props: {
+      pipeline: {
+        id: @pipeline.id,
+        name: @pipeline.name,
+        stages: stages_data
+      },
+      pipelines: Pipeline.all.map { |p| { id: p.id, name: p.name } },
+      filter_status_deal: filter_status_deal,
+      account_id: account.id,
+      account_currency: account.currency_code || 'USD',
+      user_locale: current_user.language || 'en'
+    }
+  end
+
+  def load_more_deals
+    # Only allow partial Inertia requests
+    unless request.headers['X-Inertia-Partial-Data'].present?
+      return redirect_to account_pipeline_path(params[:account_id], params[:id])
+    end
+
+    @pipelines = Pipeline.all
+    stage = Stage.find(params[:stage_id])
+    filter_status_deal = params[:filter_status_deal].presence || 'open'
+    page = (params[:page] || 1).to_i
+
+    deals_query = if filter_status_deal == 'all'
+                    stage.deals.order(position: :desc)
+                  else
+                    stage.deals.where(status: filter_status_deal).order(position: :desc)
+                  end
+
+    pagy_result, deals = pagy(deals_query, items: 20, page: page)
+
+    stage_deals_data = {
+      stage_id: stage.id,
+      deals: deals.map { |deal| serialize_deal(deal) },
+      has_more_deals: pagy_result.next.present?,
+      next_page: pagy_result.next
+    }
+
+    render inertia: 'accounts/pipelines/show', props: {
+      stage_deals: stage_deals_data
+    }
+  end
+
+  def refresh_stage
+    # Only allow partial Inertia requests
+    unless request.headers['X-Inertia-Partial-Data'].present?
+      return redirect_to account_pipeline_path(params[:account_id], params[:id])
+    end
+
+    @pipelines = Pipeline.all
+    stage = Stage.find(params[:stage_id])
+    filter_status_deal = params[:filter_status_deal].presence || 'open'
+    # Load at least as many items as currently loaded in frontend
+    current_count = (params[:current_count] || 8).to_i
+    items_to_load = [current_count, 20].max
+
+    deals_query = if filter_status_deal == 'all'
+                    stage.deals.order(position: :desc)
+                  else
+                    stage.deals.where(status: filter_status_deal).order(position: :desc)
+                  end
+
+    total_count = deals_query.count
+    deals = deals_query.limit(items_to_load)
+    has_more = total_count > items_to_load
+    next_page = has_more ? (items_to_load / 20) + 1 : nil
+
+    stage_refresh_data = {
+      id: stage.id,
+      name: stage.name,
+      position: stage.position,
+      total_amount: stage.total_amount_deals(filter_status_deal),
+      total_quantity: stage.total_quantity_deals(filter_status_deal),
+      total_quantity_resume: stage.total_quantity_deals_resume(filter_status_deal),
+      deals: deals.map { |deal| serialize_deal(deal) },
+      has_more_deals: has_more,
+      next_page: next_page
+    }
+
+    render inertia: 'accounts/pipelines/show', props: {
+      stage_refresh: stage_refresh_data
+    }
   end
 
   # GET /pipelines/new
@@ -231,5 +337,32 @@ class Accounts::PipelinesController < InternalController
                                                                                                                        custom_attributes: {}, additional_attributes: {})
   rescue StandardError
     {}
+  end
+
+  def serialize_deal(deal)
+    {
+      id: deal.id,
+      name: deal.name,
+      status: deal.status,
+      position: deal.position,
+      total_amount_in_cents: deal.total_amount_in_cents,
+      contact: {
+        id: deal.contact.id,
+        full_name: deal.contact.full_name
+      },
+      users: deal.users.order(id: :desc).limit(3).map do |user|
+        {
+          id: user.id,
+          full_name: user.full_name,
+          avatar_url: user.avatar_url
+        }
+      end,
+      users_count: deal.users.count,
+      next_event_planned: deal.next_event_planned ? {
+        id: deal.next_event_planned.id,
+        primary_date: deal.next_event_planned.primary_date.to_s,
+        overdue: deal.next_event_planned.overdue?
+      } : nil
+    }
   end
 end

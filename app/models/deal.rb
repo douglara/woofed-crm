@@ -39,6 +39,9 @@ class Deal < ApplicationRecord
   belongs_to :contact
   belongs_to :stage
   belongs_to :pipeline
+
+  # Broadcast updates when deal changes
+  after_update_commit :broadcast_stage_updates
   belongs_to :creator, class_name: 'User', foreign_key: 'created_by_id', optional: true
   acts_as_list scope: :stage
   has_many :events, dependent: :destroy
@@ -138,5 +141,27 @@ class Deal < ApplicationRecord
 
   def publish_updated
     broadcast(:deal_updated, self)
+  end
+
+  def broadcast_stage_updates
+    timestamp = Time.current.to_i
+
+    # Always broadcast for current stage
+    ActionCable.server.broadcast(
+      "pipeline_#{stage.pipeline_id}",
+      { type: 'stage_updated', stage_id: stage.id, pipeline_id: stage.pipeline_id, updated_at: timestamp }
+    )
+
+    # If stage changed, also broadcast for the previous stage
+    if saved_change_to_stage_id?
+      previous_stage_id = saved_change_to_stage_id[0]
+      previous_stage = Stage.find_by(id: previous_stage_id)
+      if previous_stage
+        ActionCable.server.broadcast(
+          "pipeline_#{previous_stage.pipeline_id}",
+          { type: 'stage_updated', stage_id: previous_stage.id, pipeline_id: previous_stage.pipeline_id, updated_at: timestamp }
+        )
+      end
+    end
   end
 end

@@ -23,6 +23,8 @@ class Stage < ApplicationRecord
   acts_as_list scope: :pipeline
   has_many :deals, dependent: :destroy
 
+  after_update_commit :broadcast_pipeline_update
+
   scope :ordered_by_pipeline_and_position, lambda {
                                              joins(:pipeline).order('pipelines.name ASC, stages.position ASC')
                                            }
@@ -38,5 +40,13 @@ class Stage < ApplicationRecord
 
     deals.where(status: filter_status_deal).count
   end
-  # after_update_commit -> { Stages::BroadcastUpdatesWorker.perform_async(id) }
+
+  private
+
+  def broadcast_pipeline_update
+    ActionCable.server.broadcast(
+      "pipeline_#{pipeline_id}",
+      { type: 'stage_updated', stage_id: id, pipeline_id: pipeline_id, updated_at: updated_at.to_i }
+    )
+  end
 end
