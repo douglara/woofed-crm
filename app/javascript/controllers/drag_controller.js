@@ -1,7 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 import Sortable from "sortablejs";
-import Rails from "@rails/ujs";
-import * as Turbo from "@hotwired/turbo";
+import { patch } from "@rails/request.js";
 
 export default class extends Controller {
   connect() {
@@ -30,36 +29,41 @@ export default class extends Controller {
     const toStageId = event.to.dataset.id;
     const newPosition = new Position(event).getNewPosition();
     const fromStageId = event.from.dataset.id;
-    let data = new FormData();
-    data.append("deal[position]", newPosition);
-    data.append("deal[stage_id]", toStageId);
-    Rails.ajax({
-      url: this.data
-        .get("url")
-        .replace(":deal_id", dealId)
-        .replace(":account_id", accountId),
-      type: "PATCH",
-      data: data,
-      beforeSend: (xhr) => {
-        xhr.setRequestHeader("Accept", "text/vnd.turbo-stream.html");
-        return true;
-      },
-      success: (response) => {
-        Turbo.renderStreamMessage(response);
+
+    const body = new FormData();
+    body.append("deal[position]", newPosition);
+    body.append("deal[stage_id]", toStageId);
+
+    const url = this.data
+      .get("url")
+      .replace(":deal_id", dealId)
+      .replace(":account_id", accountId);
+
+    try {
+      const response = await patch(url, {
+        body,
+        responseKind: "turbo-stream",
+      });
+
+      if (response.ok) {
         event.from.classList.remove("pointer-events-none");
         event.to.classList.remove("pointer-events-none");
-      },
-      error: (response) => {
-        Turbo.renderStreamMessage(response);
+      } else {
         const fromList = document.querySelector(`ul[data-id="${fromStageId}"]`);
         if (fromList && event.item) {
           fromList.insertBefore(event.item, fromList.firstChild);
         }
-
         event.from.classList.remove("pointer-events-none");
         event.to.classList.remove("pointer-events-none");
-      },
-    });
+      }
+    } catch (error) {
+      const fromList = document.querySelector(`ul[data-id="${fromStageId}"]`);
+      if (fromList && event.item) {
+        fromList.insertBefore(event.item, fromList.firstChild);
+      }
+      event.from.classList.remove("pointer-events-none");
+      event.to.classList.remove("pointer-events-none");
+    }
   }
 
   disableDrag() {

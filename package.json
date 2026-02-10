@@ -17,7 +17,7 @@
     "@rails/actioncable": "^7.1.501",
     "@rails/actiontext": "^7.1.501",
     "@rails/activestorage": "^7.1.501",
-    "@rails/request.js": "^0.0.8",
+    "@rails/request.js": "0.0.13",
     "@rails/ujs": "^7.1.501",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/container-queries": "^0.1.1",
