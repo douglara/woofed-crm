@@ -48,21 +48,12 @@ export default class extends Controller {
       if (response.ok) {
         event.from.classList.remove("pointer-events-none");
         event.to.classList.remove("pointer-events-none");
+        new Position(event).setDealsNewPositions();
       } else {
-        const fromList = document.querySelector(`ul[data-id="${fromStageId}"]`);
-        if (fromList && event.item) {
-          fromList.insertBefore(event.item, fromList.firstChild);
-        }
-        event.from.classList.remove("pointer-events-none");
-        event.to.classList.remove("pointer-events-none");
+        this.errorAction(event, fromStageId);
       }
     } catch (error) {
-      const fromList = document.querySelector(`ul[data-id="${fromStageId}"]`);
-      if (fromList && event.item) {
-        fromList.insertBefore(event.item, fromList.firstChild);
-      }
-      event.from.classList.remove("pointer-events-none");
-      event.to.classList.remove("pointer-events-none");
+      this.errorAction(event, fromStageId);
     }
   }
 
@@ -72,6 +63,14 @@ export default class extends Controller {
 
   enableDrag() {
     this.sortable.option("disabled", false);
+  }
+  errorAction(event, fromStageId) {
+    const fromList = document.querySelector(`ul[data-id="${fromStageId}"]`);
+    if (fromList && event.item) {
+      fromList.insertBefore(event.item, fromList.firstChild);
+    }
+    event.from.classList.remove("pointer-events-none");
+    event.to.classList.remove("pointer-events-none");
   }
 }
 
@@ -83,10 +82,14 @@ class Position {
   }
   getNewPosition() {
     if (this.isMovedBetweenStages) {
-      return this.positionForNewStage();
+      return this.#positionForNewStage();
     } else {
-      return this.positionInCurrentStage();
+      return this.#positionInCurrentStage();
     }
+  }
+  setDealsNewPositions() {
+    const deal = this.event.item;
+    deal.dataset.position = this.getNewPosition();
   }
   get isMovedBetweenStages() {
     return this.event.from !== this.event.to;
@@ -108,7 +111,7 @@ class Position {
     return parseInt(this.event.item.dataset.position, 10);
   }
 
-  positionForNewStage() {
+  #positionForNewStage() {
     if (this.nextElement) {
       return this.nextElementPosition + 1;
     }
@@ -119,7 +122,7 @@ class Position {
 
     return null;
   }
-  positionInCurrentStage() {
+  #positionInCurrentStage() {
     if (this.quantityElementsPassed === 0) return this.elementCurrentPosition;
     return this.movementDirection === "up"
       ? this.nextElementPosition
