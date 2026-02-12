@@ -38,5 +38,4 @@ class Stage < ApplicationRecord
 
     deals.where(status: filter_status_deal).count
   end
-  # after_update_commit -> { Stages::BroadcastUpdatesWorker.perform_async(id) }
 end
