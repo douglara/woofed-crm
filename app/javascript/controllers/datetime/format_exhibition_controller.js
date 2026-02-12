@@ -38,7 +38,7 @@ export default class extends Controller {
     }
   }
 
-  beforeMorphRefresh(event) {
+  formatDateBeforeMorph(event) {
     const newElement = event.detail?.newElement;
 
     if (!newElement) return;
