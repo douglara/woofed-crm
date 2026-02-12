@@ -13,7 +13,7 @@ export default class extends Controller {
     );
   }
 
-  formatCurrencyBeforeMorph(event) {
+  formatCurrencyBeforeMorphRefresh(event) {
     const newElement = event.detail?.newElement;
 
     if (!newElement) return;
