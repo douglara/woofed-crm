@@ -43,11 +43,13 @@ export default class extends Controller {
 
     if (!newElement) return;
 
-    const date = newElement.getAttribute(
+    const dateString = newElement.getAttribute(
       "data-datetime--format-exhibition-date-value",
     );
 
-    if (!date) return;
+    if (!dateString) return;
+
+    const date = moment(dateString).tz(getBrowserTimeZone());
 
     this.setMomentJsLocale();
     newElement.textContent = this.formattedDate(date);
