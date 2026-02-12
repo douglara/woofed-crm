@@ -1,6 +1,6 @@
 <% width_class ||= 'w-2/5' %>
 <%= turbo_frame_tag :drawer do %>
-  <div id="drawer-right" data-controller='drawer' class="fixed ease-in duration-300 top-0 right-0 z-[60] h-screen p-4 overflow-y-auto transition-transform translate-x-full color-bg-surface-default <%= width_class %>" tabindex="-1" aria-labelledby="drawer-right-label">
+  <div id="drawer-right" data-controller='drawer' class="fixed ease-in duration-300 top-0 right-0 z-[60] h-screen p-4 overflow-y-auto transition-transform translate-x-full color-bg-surface-default <%= width_class %>" tabindex="-1" aria-labelledby="drawer-right-label" data-turbo-permanent>
     <div class='flex items-center justify-between mb-5'>
       <h5 id="drawer-right-label" class="typography-title-700 color-fg-default">
         <%= title %>
