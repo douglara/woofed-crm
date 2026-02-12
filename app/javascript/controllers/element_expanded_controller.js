@@ -23,4 +23,7 @@ export default class extends Controller {
   setAriaExpanded(value) {
     this.element.setAttribute("aria-expanded", value);
   }
+  preventSidebarStateAfterMorphRefresh(event) {
+    event.preventDefault();
+  }
 }
