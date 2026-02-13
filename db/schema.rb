@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_17_013421) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_13_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -187,7 +187,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_17_013421) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "pipeline_id"
-    t.integer "position", default: 1, null: false
+    t.integer "position"
     t.integer "created_by_id"
     t.bigint "total_deal_products_amount_in_cents", default: 0, null: false
     t.datetime "lost_at"
@@ -545,7 +545,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_17_013421) do
   create_table "stages", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.bigint "pipeline_id", null: false
-    t.integer "position", default: 1, null: false
+    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["pipeline_id"], name: "index_stages_on_pipeline_id"

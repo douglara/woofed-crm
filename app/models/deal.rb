@@ -7,7 +7,7 @@
 #  lost_at                             :datetime
 #  lost_reason                         :string           default(""), not null
 #  name                                :string           default(""), not null
-#  position                            :integer          default(1), not null
+#  position                            :integer
 #  status                              :string           default("open"), not null
 #  total_deal_products_amount_in_cents :bigint           default(0), not null
 #  won_at                              :datetime
