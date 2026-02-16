@@ -77,8 +77,8 @@ export default class extends Controller {
 class Position {
   constructor(event) {
     this.event = event;
-    this.previousElement = event.item.previousElementSibling || null;
-    this.nextElement = event.item.nextElementSibling || null;
+    this.topElement = event.item.previousElementSibling || null;
+    this.bottomElement = event.item.nextElementSibling || null;
   }
   getNewPosition() {
     if (this.isMovedBetweenStages) {
@@ -98,11 +98,11 @@ class Position {
     const { oldIndex: startIndex, newIndex: endIndex } = this.event;
     return endIndex > startIndex ? "down" : "up";
   }
-  get previousElementPosition() {
-    return parseInt(this.previousElement.dataset.position, 10);
+  get topElementPosition() {
+    return parseInt(this.topElement.dataset.position, 10);
   }
-  get nextElementPosition() {
-    return parseInt(this.nextElement.dataset.position, 10);
+  get bottomElementPosition() {
+    return parseInt(this.bottomElement.dataset.position, 10);
   }
   get quantityElementsPassed() {
     return Math.abs(this.event.oldIndex - this.event.newIndex);
@@ -112,12 +112,12 @@ class Position {
   }
 
   #positionForNewStage() {
-    if (this.nextElement) {
-      return this.nextElementPosition + 1;
+    if (this.bottomElement) {
+      return this.bottomElementPosition + 1;
     }
-    if (this.previousElement) {
-      if (this.previousElementPosition === 1) return 1;
-      return this.previousElementPosition - 1;
+    if (this.topElement) {
+      if (this.topElementPosition === 1) return 1;
+      return this.topElementPosition - 1;
     }
 
     return null;
@@ -125,7 +125,7 @@ class Position {
   #positionInCurrentStage() {
     if (this.quantityElementsPassed === 0) return this.elementCurrentPosition;
     return this.movementDirection === "up"
-      ? this.nextElementPosition
-      : this.previousElementPosition;
+      ? this.bottomElementPosition
+      : this.topElementPosition;
   }
 }
