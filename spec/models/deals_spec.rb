@@ -118,7 +118,7 @@ RSpec.describe Deal do
         end
       end
 
-      context 'when position is not provided' do
+      context 'when position is provided' do
         it 'inserts the new deal at the specified position' do
           new_deal = build(:deal, stage: stage1, position: 2)
           new_deal = Deal::CreateOrUpdate.new(new_deal, {}).call
