@@ -5,13 +5,13 @@ export default class DropParamsBuilder {
     this.bottomElement = event.item.nextElementSibling || null;
   }
   buildDropParams() {
-    if (this.isMovedBetweenStages) {
-      return this.#paramsForNewStage();
+    if (this.isMovedBetweenScopes) {
+      return this.#paramsForNewScope();
     } else {
-      return this.#paramsInCurrentStage();
+      return this.#paramsInCurrentScope();
     }
   }
-  get isMovedBetweenStages() {
+  get isMovedBetweenScopes() {
     return this.event.from !== this.event.to;
   }
   get movementDirection() {
@@ -31,27 +31,27 @@ export default class DropParamsBuilder {
     return Math.abs(this.event.oldIndex - this.event.newIndex);
   }
 
-  #paramsForNewStage() {
+  #paramsForNewScope() {
     if (this.bottomElement) {
       return {
-        closest_deal_id: this.bottomElementId,
-        closest_deal_direction: "bottom",
+        element_reference_id: this.bottomElementId,
+        element_reference_direction: "bottom",
       };
     }
     if (this.topElement) {
       return {
-        closest_deal_id: this.topElementId,
-        closest_deal_direction: "top",
+        element_reference_id: this.topElementId,
+        element_reference_direction: "top",
       };
     }
 
-    return { closest_deal_id: this.selfElementId };
+    return { element_reference_id: this.selfElementId };
   }
-  #paramsInCurrentStage() {
+  #paramsInCurrentScope() {
     if (this.quantityElementsPassed === 0)
-      return { closest_deal_id: this.selfElementId };
+      return { element_reference_id: this.selfElementId };
     return this.movementDirection === "up"
-      ? { closest_deal_id: this.bottomElementId }
-      : { closest_deal_id: this.topElementId };
+      ? { element_reference_id: this.bottomElementId }
+      : { element_reference_id: this.topElementId };
   }
 }
