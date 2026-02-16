@@ -27,12 +27,16 @@ export default class extends Controller {
     const dealId = event.item.dataset.id;
     const accountId = event.item.dataset.accountId;
     const toStageId = event.to.dataset.id;
-    const newPosition = new Position(event).getNewPosition();
     const fromStageId = event.from.dataset.id;
+    const { closest_deal_id, closest_deal_direction = null } =
+      new DropParamsBuilder(event).buildDropParams();
 
     const body = new FormData();
-    body.append("deal[position]", newPosition);
     body.append("deal[stage_id]", toStageId);
+    body.append("deal[closest_deal_id]", closest_deal_id);
+    if (closest_deal_direction != null) {
+      body.append("deal[closest_deal_direction]", closest_deal_direction);
+    }
 
     const url = this.data
       .get("url")
@@ -48,7 +52,6 @@ export default class extends Controller {
       if (response.ok) {
         event.from.classList.remove("pointer-events-none");
         event.to.classList.remove("pointer-events-none");
-        new Position(event).setDealsNewPositions();
       } else {
         this.errorAction(event, fromStageId);
       }
@@ -74,22 +77,18 @@ export default class extends Controller {
   }
 }
 
-class Position {
+class DropParamsBuilder {
   constructor(event) {
     this.event = event;
     this.topElement = event.item.previousElementSibling || null;
     this.bottomElement = event.item.nextElementSibling || null;
   }
-  getNewPosition() {
+  buildDropParams() {
     if (this.isMovedBetweenStages) {
-      return this.#positionForNewStage();
+      return this.#paramsForNewStage();
     } else {
-      return this.#positionInCurrentStage();
+      return this.#paramsInCurrentStage();
     }
-  }
-  setDealsNewPositions() {
-    const deal = this.event.item;
-    deal.dataset.position = this.getNewPosition();
   }
   get isMovedBetweenStages() {
     return this.event.from !== this.event.to;
@@ -98,34 +97,40 @@ class Position {
     const { oldIndex: startIndex, newIndex: endIndex } = this.event;
     return endIndex > startIndex ? "down" : "up";
   }
-  get topElementPosition() {
-    return parseInt(this.topElement.dataset.position, 10);
+  get topElementId() {
+    return this.topElement.dataset.id;
   }
-  get bottomElementPosition() {
-    return parseInt(this.bottomElement.dataset.position, 10);
+  get bottomElementId() {
+    return this.bottomElement.dataset.id;
+  }
+  get selfElementId() {
+    return this.event.item.dataset.id;
   }
   get quantityElementsPassed() {
     return Math.abs(this.event.oldIndex - this.event.newIndex);
   }
-  get elementCurrentPosition() {
-    return parseInt(this.event.item.dataset.position, 10);
-  }
 
-  #positionForNewStage() {
+  #paramsForNewStage() {
     if (this.bottomElement) {
-      return this.bottomElementPosition + 1;
+      return {
+        closest_deal_id: this.bottomElementId,
+        closest_deal_direction: "bottom",
+      };
     }
     if (this.topElement) {
-      if (this.topElementPosition === 1) return 1;
-      return this.topElementPosition - 1;
+      return {
+        closest_deal_id: this.topElementId,
+        closest_deal_direction: "top",
+      };
     }
 
-    return null;
+    return { closest_deal_id: this.selfElementId };
   }
-  #positionInCurrentStage() {
-    if (this.quantityElementsPassed === 0) return this.elementCurrentPosition;
+  #paramsInCurrentStage() {
+    if (this.quantityElementsPassed === 0)
+      return { closest_deal_id: this.selfElementId };
     return this.movementDirection === "up"
-      ? this.bottomElementPosition
-      : this.topElementPosition;
+      ? { closest_deal_id: this.bottomElementId }
+      : { closest_deal_id: this.topElementId };
   }
 }
