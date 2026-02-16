@@ -106,7 +106,7 @@ RSpec.describe Deal do
     end
 
     context 'create a deal' do
-      context 'when position is provided' do
+      context 'when position is not provided' do
         it 'places the new deal at the end of the stage' do
           new_deal = build(:deal, stage: stage1)
           new_deal = Deal::CreateOrUpdate.new(new_deal, {}).call
