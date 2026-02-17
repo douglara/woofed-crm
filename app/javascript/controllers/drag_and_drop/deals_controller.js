@@ -33,13 +33,10 @@ export default class extends Controller {
       new DropParamsBuilder(event).buildDropParams();
 
     const body = new FormData();
-    body.append("deal[stage_id]", toStageId);
-    body.append("deal[element_reference_id]", element_reference_id);
+    body.append("stage_id", toStageId);
+    body.append("element_reference_id", element_reference_id);
     if (element_reference_direction != null) {
-      body.append(
-        "deal[element_reference_direction]",
-        element_reference_direction,
-      );
+      body.append("element_reference_direction", element_reference_direction);
     }
 
     const url = this.data
@@ -52,7 +49,6 @@ export default class extends Controller {
         body,
         responseKind: "turbo-stream",
       });
-
       if (response.ok) {
         event.from.classList.remove("pointer-events-none");
         event.to.classList.remove("pointer-events-none");
@@ -72,7 +68,9 @@ export default class extends Controller {
     this.sortable.option("disabled", false);
   }
   errorAction(event, fromStageId) {
-    const fromList = document.querySelector(`ul[data-id="${fromStageId}"]`);
+    const fromList = document.querySelector(
+      `turbo-frame[data-id="${fromStageId}"]`,
+    );
     if (fromList && event.item) {
       fromList.insertBefore(event.item, fromList.firstChild);
     }
