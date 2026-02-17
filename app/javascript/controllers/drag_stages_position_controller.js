@@ -32,6 +32,16 @@ export default class extends Controller {
       url: this.data.get('url'),
       type: 'PATCH',
       data: data,
+      beforeSend: (xhr) => {
+        xhr.setRequestHeader("Accept", "text/vnd.turbo-stream.html");
+        return true;
+      },
+      success: (response) => {
+        Turbo.renderStreamMessage(response);
+      },
+      error: (response) => {
+        Turbo.renderStreamMessage(response);
+      },
     });
   }
 }

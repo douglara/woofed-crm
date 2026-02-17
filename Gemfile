@@ -34,7 +34,7 @@ gem 'google-cloud-storage', require: false
 gem 'image_processing'
 
 # Authentication
-gem 'acts_as_list'
+gem 'acts_as_list', '1.2.6'
 gem 'acts-as-taggable-on', '12.0.0'
 gem 'cocoon'
 gem 'csv'
