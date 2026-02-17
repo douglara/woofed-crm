@@ -1,0 +1,9 @@
+<% if @deal.previous_changes.key?(:stage_id) %>
+  <% @deal.previous_changes[:stage_id].each do |stage_id| %>
+    <% ['all', @deal.status].each do |status| %>
+      <%= turbo_stream.replace "stage-#{stage_id}-#{status}-kaban-details" do %>
+        <%= render 'accounts/stages/kanban_details', stage: Stage.find(stage_id), filter_status_deal: status %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -3,7 +3,7 @@ class Accounts::DealsController < InternalController
   include DealConcern
 
   before_action :set_deal,
-                only: %i[show edit update destroy events_to_do events_done deal_products deal_assignees mark_as_lost mark_as_won]
+                only: %i[show edit update destroy events_to_do events_done deal_products deal_assignees mark_as_lost mark_as_won drag_and_drop]
   before_action :set_deal_product, only: %i[edit_deal_product
                                             update_deal_product]
 
@@ -179,6 +179,19 @@ class Accounts::DealsController < InternalController
     @allow_edit_won_at = Current.account.deal_allow_edit_lost_at_won_at
   end
 
+  def drag_and_drop
+    deal_reference = Deal.find(drag_and_drop_params[:element_reference_id])
+    result = Deal::DragAndDrop.new(deal: @deal, position: deal_reference.position, new_stage_id: drag_and_drop_params[:stage_id], element_reference_direction: drag_and_drop_params[:element_reference_direction]).call
+
+    if result.key?(:ok)
+      respond_to do |format|
+        format.turbo_stream
+      end
+    else
+      head :unprocessable_entity
+    end
+  end
+
   private
 
   def set_deal
@@ -191,6 +204,10 @@ class Accounts::DealsController < InternalController
 
   def deal_product_params
     params.require(:deal_product).permit(*permitted_deal_product_params)
+  end
+
+  def drag_and_drop_params
+    params.permit(:stage_id, :element_reference_id, :element_reference_direction)
   end
 
   # Only allow a list of trusted parameters through.
