@@ -1,4 +1,4 @@
-class Deal::DragAndDrop
+class DragAndDrop::Deal
   def initialize(deal:, position:, new_stage_id: nil, element_reference_direction: nil)
     raise ArgumentError, 'deal is required' unless deal
     raise ArgumentError, 'position is required' unless position
