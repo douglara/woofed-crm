@@ -1,83 +1,74 @@
 <% content_for :show_additional_content do %>
   <% if Apps::Chatwoot.first.present? %>
-    <div class="mb-5 color-bg-surface-default border color-border-default rounded " aria-expanded="false" data-accordion="open" id="<%= "#{Apps::Chatwoot.model_name.human.downcase}-#{contact.class.name.downcase}" %>-section">
+    <%# Card do Chatwoot ajustado para Azul Marinho %>
+    <div class="mb-5 bg-slate-900 border border-slate-700 rounded shadow-sm" aria-expanded="false" data-accordion="open" id="<%= "#{Apps::Chatwoot.model_name.human.downcase}-#{contact.class.name.downcase}" %>-section">
       <header class="flex flex-wrap items-center justify-between gap-2 p-4">
         <div class='flex items-center gap-2'>
-          <i data-lucide="message-circle" class='color-fg-default stroke-1.04 w-5 h-5 -rotate-[101deg]'></i>
-          <h1 class='color-fg-default typography-sub-title-900 '>
+          <i data-lucide="message-circle" class='text-slate-300 stroke-1.04 w-5 h-5 -rotate-[101deg]'></i>
+          <h1 class='text-white font-bold typography-sub-title-900 '>
             <%= Apps::Chatwoot.model_name.human %>
           </h1>
         </div>
         <div class='flex items-center gap-2'>
-          <button type="button" class="button-default-blank-secondary-icon-only-sm" data-accordion-target="#accordion-collapse-<%= "#{Apps::Chatwoot.model_name.human}-#{contact.class.name.downcase}-#{contact.object_id}"%>" aria-expanded="true" aria-controls="accordion-collapse-<%= "#{Apps::Chatwoot.model_name.human}-#{contact.class.name.downcase}-#{contact.object_id}"%>">
+          <button type="button" class="button-default-blank-secondary-icon-only-sm text-slate-400" data-accordion-target="#accordion-collapse-<%= "#{Apps::Chatwoot.model_name.human}-#{contact.class.name.downcase}-#{contact.object_id}"%>" aria-expanded="true" aria-controls="accordion-collapse-<%= "#{Apps::Chatwoot.model_name.human}-#{contact.class.name.downcase}-#{contact.object_id}"%>">
             <i data-accordion-icon data-lucide="chevron-down" class="rotate-180 shrink-0" height="16"></i>
           </button>
         </div>
       </header>
-      <div class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 border-t color-border-default" id="accordion-collapse-<%= "#{Apps::Chatwoot.model_name.human}-#{contact.class.name.downcase}-#{contact.object_id}"%>" aria-labelledby="accordion-collapse-heading-<%= "#{Apps::Chatwoot.model_name.human}-#{contact.class.name.downcase}-#{contact.object_id}"%>">
+      <div class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 border-t border-slate-700" id="accordion-collapse-<%= "#{Apps::Chatwoot.model_name.human}-#{contact.class.name.downcase}-#{contact.object_id}"%>">
         <div class='flex flex-col gap-1'>
-          <p class='typography-body-900 color-fg-soft'>
-            <%= t("activerecord.attributes.contact.id") %>
-          </p>
-          <p class='typography-body-900 color-fg-default break-all'>
-            <%= contact.additional_attributes['chatwoot_id'] %>
-          </p>
+          <p class='typography-body-900 text-slate-400 font-semibold'>ID Chatwoot</p>
+          <p class='typography-body-900 text-white break-all'><%= contact.additional_attributes['chatwoot_id'] %></p>
         </div>
         <div class='flex flex-col gap-1'>
-          <p class='typography-body-900 color-fg-soft'>
-            <%= Contact.human_attribute_name(:chatwoot_identifier) %>
-          </p>
-          <p class='typography-body-900 color-fg-default break-all'>
-            <%= contact.additional_attributes['chatwoot_identifier'] %>
-          </p>
-        </div>
-        <div class='flex flex-col gap-1'>
-          <p class='typography-body-900 color-fg-soft'>
-            <%= Contact.human_attribute_name(:chatwoot_last_conversation) %>
-          </p>
-          <div class='typography-body-900 color-fg-default break-all'>
-            <%= render '/components/links/chatwoot_conversation_link', contact: contact, display_format: 'text' %>
-          </div>
-        </div>
-        <div class='flex flex-col gap-1 col-span-full'>
-          <p class='typography-body-900 color-fg-soft'>
-            <%= Contact.human_attribute_name(:chatwoot_conversations_label_list) %>
-          </p>
-          <%= render 'components/list_labels', labels: contact.chatwoot_conversations_label_list, max_width: '100%', justify_content: 'start' %>
+          <p class='typography-body-900 text-slate-400 font-semibold'>Identificador</p>
+          <p class='typography-body-900 text-white break-all'><%= contact.additional_attributes['chatwoot_identifier'] %></p>
         </div>
       </div>
     </div>
   <% end %>
-  <div class="mb-5 color-bg-surface-default border color-border-default rounded " aria-expanded="false" data-accordion="open" id="<%= "#{Deal.model_name.human(count: 2).downcase}-#{contact.class.name.downcase}" %>-section">
+
+  <%# Card de Negócios ajustado para Azul Marinho e Ordenação v1.0.2 %>
+  <div class="mb-5 bg-slate-900 border border-slate-700 rounded shadow-sm" aria-expanded="false" data-accordion="open" id="<%= "#{Deal.model_name.human(count: 2).downcase}-#{contact.class.name.downcase}" %>-section">
     <header class="flex flex-wrap items-center justify-between gap-2 p-4">
       <div class='flex items-center gap-2'>
-        <i data-lucide="clipboard-list" class='color-fg-default stroke-1.04 w-5 h-5'></i>
-        <h1 class='color-fg-default typography-sub-title-900 '>
+        <i data-lucide="clipboard-list" class='text-slate-300 stroke-1.04 w-5 h-5'></i>
+        <h1 class='text-white font-bold typography-sub-title-900 '>
           <%= Deal.model_name.human(count: 2) %>
         </h1>
       </div>
       <div class='flex items-center gap-2'>
-        <button type="button" class="button-default-blank-secondary-icon-only-sm" data-accordion-target="#accordion-collapse-<%= "#{Deal.model_name.human(count: 2)}-#{contact.class.name.downcase}-#{contact.object_id}"%>" aria-expanded="true" aria-controls="accordion-collapse-<%= "#{Deal.model_name.human(count: 2)}-#{contact.class.name.downcase}-#{contact.object_id}"%>">
+        <button type="button" class="button-default-blank-secondary-icon-only-sm text-slate-400" data-accordion-target="#accordion-collapse-<%= "#{Deal.model_name.human(count: 2)}-#{contact.class.name.downcase}-#{contact.object_id}"%>" aria-expanded="true" aria-controls="accordion-collapse-<%= "#{Deal.model_name.human(count: 2)}-#{contact.class.name.downcase}-#{contact.object_id}"%>">
           <i data-accordion-icon data-lucide="chevron-down" class="rotate-180 shrink-0" height="16"></i>
         </button>
       </div>
     </header>
-    <ul class="p-4 flex flex-col gap-2 border-t color-border-default" id="accordion-collapse-<%= "#{Deal.model_name.human(count: 2)}-#{contact.class.name.downcase}-#{contact.object_id}"%>" aria-labelledby="accordion-collapse-heading-<%= "#{Deal.model_name.human(count: 2)}-#{contact.class.name.downcase}-#{contact.object_id}"%>">
-      <% contact.deals.each do |deal| %>
-        <%= content_tag :li, id: dom_id(deal), class: "grid gap-5 border-b-2 border-light-palette-p3 last:border-none py-5 first:pt-0 last:pb-0", data: {controller: 'load-lucid-icons'} do %>
+
+    <ul class="p-4 flex flex-col gap-2 border-t border-slate-700" id="accordion-collapse-<%= "#{Deal.model_name.human(count: 2)}-#{contact.class.name.downcase}-#{contact.object_id}"%>">
+      <%# LOGICA DE ORDENAÇÃO: Aberto > Ganho > Perdido %>
+      <% ordered_deals = contact.deals.sort_by { |d| { 'open' => 1, 'won' => 2, 'lost' => 3 }[d.status] || 4 } %>
+      
+      <% ordered_deals.each do |deal| %>
+        <%= content_tag :li, id: dom_id(deal), class: "grid gap-5 border-b border-slate-800 last:border-none py-5 first:pt-0 last:pb-0", data: {controller: 'load-lucid-icons'} do %>
           <div class= "flex items-center gap-4">
-            <div class="h-10 w-10 flex items-center justify-center rounded-lg border-2 border-light-palette-p3 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200">
+            <%# Ícone com borda adaptada %>
+            <div class="h-10 w-10 flex items-center justify-center rounded-lg border-2 border-slate-700 bg-slate-800 text-slate-300">
               <i data-lucide="clipboard-list" class='w-5 h-5'></i>
             </div>
             <div class="mr-auto">
               <div class="flex flex-col">
-                <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1">
+                <h2 class="typography-text-s-lh150 text-white font-medium">
                   <%= deal.name %>
                 </h2>
+                <%# Etiqueta de Status Colorida %>
+                <span class="text-[10px] uppercase font-bold <%= deal.status == 'open' ? 'text-green-400' : (deal.status == 'won' ? 'text-blue-400' : 'text-red-400') %>">
+                  ● <%= Deal.human_enum_name(:status, deal.status) %>
+                </span>
               </div>
             </div>
-            <%= link_to account_deal_path(Current.account, deal), data: {turbo_frame: :_top} , class: 'flex items-center justify-center rounded text-gray-pallete-p3 w-8 h-8 hover:bg-light-palette-p4 hover:text-dark-gray-palette-p1 dark:hover:bg-gray-600 dark:hover:text-white' do %>
-              <i data-lucide="arrow-right"></i>
+            <%# Botão de seta ajustado para o modo escuro %>
+            <%= link_to account_deal_path(Current.account, deal), data: {turbo_frame: :_top} , class: 'flex items-center justify-center rounded text-slate-400 w-8 h-8 hover:bg-slate-700 hover:text-white transition-colors' do %>
+              <i data-lucide="arrow-right" class="w-5 h-5"></i>
             <% end %>
           </div>
         <% end %>
@@ -85,6 +76,8 @@
     </ul>
   </div>
 <% end %>
+
+<%# Sidebar Lateral %>
 <% content_for :sidebar do %>
   <%= render 'components/show_model/sidebar', model: contact,
       links: [
@@ -93,4 +86,5 @@
         { label: t('activerecord.models.deal.other'), icon: "clipboard-list" }
       ].compact %>
 <% end %>
+
 <%= render 'components/show_model/show_model', model: contact, edit_path: edit_account_contact_path(Current.account, contact) %>
