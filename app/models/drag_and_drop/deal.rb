@@ -1,18 +1,16 @@
-class DragAndDrop::Deal < DragAndDrop::DropPosition
+class DragAndDrop::Deal
   def initialize(deal:, deal_reference_position:, deal_reference_direction: nil, new_stage_id: nil)
     raise ArgumentError, 'deal is required' unless deal
     raise ArgumentError, 'deal_reference_position is required' unless deal_reference_position
 
     @deal = deal
     @new_stage_id = new_stage_id&.to_i
-    @deal_reference_position = deal_reference_position
+    @deal_reference_position = deal_reference_position&.to_i
     @deal_reference_direction = deal_reference_direction&.downcase
-
-    super(element_reference_position: deal_reference_position, element_reference_direction: deal_reference_direction)
+    @position = DragAndDrop::DropPosition.new(element_reference_position: @deal_reference_position, element_reference_direction: @deal_reference_direction).call
   end
 
   def call
-    @position = super
     { ok: Deal::CreateOrUpdate.new(deal, deal_params).call }
   end
 

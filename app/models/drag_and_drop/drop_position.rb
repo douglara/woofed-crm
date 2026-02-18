@@ -2,7 +2,7 @@ class DragAndDrop::DropPosition
   def initialize(element_reference_position:, element_reference_direction: nil)
     raise ArgumentError, 'element_reference_position is required' unless element_reference_position
 
-    @element_reference_position = element_reference_position
+    @element_reference_position = element_reference_position&.to_i
     @element_reference_direction = element_reference_direction&.downcase
 
     raise ArgumentError, 'invalid direction' unless validate_direction
