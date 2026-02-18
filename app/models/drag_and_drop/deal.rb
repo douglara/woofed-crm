@@ -1,45 +1,32 @@
-class DragAndDrop::Deal
-  def initialize(deal:, position:, new_stage_id: nil, element_reference_direction: nil)
+class DragAndDrop::Deal < DragAndDrop::DropPosition
+  def initialize(deal:, deal_reference_position:, deal_reference_direction: nil, new_stage_id: nil)
     raise ArgumentError, 'deal is required' unless deal
-    raise ArgumentError, 'position is required' unless position
+    raise ArgumentError, 'deal_reference_position is required' unless deal_reference_position
 
     @deal = deal
-    @new_stage_id = new_stage_id
-    @position = position
-    @element_reference_direction = element_reference_direction
+    @new_stage_id = new_stage_id&.to_i
+    @deal_reference_position = deal_reference_position
+    @deal_reference_direction = deal_reference_direction&.downcase
+
+    super(element_reference_position: deal_reference_position, element_reference_direction: deal_reference_direction)
   end
 
   def call
-    return { error: 'invalid direction' } unless validate_direction
-
+    @position = super
     { ok: Deal::CreateOrUpdate.new(deal, deal_params).call }
   end
 
   private
 
-  attr_reader :deal, :new_stage_id, :position, :element_reference_direction
+  attr_reader :deal, :new_stage_id, :deal_reference_position, :deal_reference_direction, :position
 
   def deal_params
-    return { stage_id: new_stage_id, position: new_position } if move_between_stages?
+    return { stage_id: new_stage_id, position: } if move_between_stages?
 
-    { position: new_position }
-  end
-
-  def new_position
-    return position unless move_between_stages? || element_reference_direction.present?
-
-    return position + 1 if element_reference_direction == 'bottom'
-
-    return 1 if position == 1
-
-    position - 1
-  end
-
-  def validate_direction
-    [nil, 'bottom', 'top'].include?(element_reference_direction)
+    { position: }
   end
 
   def move_between_stages?
-    new_stage_id.present? && new_stage_id != deal.stage_id.to_s
+    new_stage_id.present? && new_stage_id != deal.stage_id
   end
 end
