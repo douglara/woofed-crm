@@ -33,7 +33,7 @@ export default class extends Controller {
       new DropParamsBuilder(event).buildDropParams();
 
     const body = new FormData();
-    body.append("stage_id", toStageId);
+    body.append("deal[stage_id]", toStageId);
     body.append("element_reference_id", element_reference_id);
     if (element_reference_direction != null) {
       body.append("element_reference_direction", element_reference_direction);

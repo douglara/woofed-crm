@@ -181,9 +181,9 @@ class Accounts::DealsController < InternalController
 
   def drag_and_drop
     deal_reference = Deal.find(drag_and_drop_params[:element_reference_id])
-    result = DragAndDrop::Deal.new(deal: @deal, deal_reference_position: deal_reference.position, deal_reference_direction: drag_and_drop_params[:element_reference_direction], new_stage_id: drag_and_drop_params[:stage_id]).call
+    position = DragAndDrop::DropPosition.new(element_reference_position: deal_reference.position, element_reference_direction: drag_and_drop_params[:element_reference_direction]).call
 
-    if result.key?(:ok)
+    if Deal::CreateOrUpdate.new(@deal, deal_params.merge(position:)).call
       respond_to do |format|
         format.turbo_stream
       end
@@ -207,7 +207,7 @@ class Accounts::DealsController < InternalController
   end
 
   def drag_and_drop_params
-    params.permit(:stage_id, :element_reference_id, :element_reference_direction)
+    params.permit(:element_reference_id, :element_reference_direction)
   end
 
   # Only allow a list of trusted parameters through.
