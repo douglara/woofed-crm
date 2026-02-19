@@ -181,7 +181,7 @@ class Accounts::DealsController < InternalController
 
   def drag_and_drop
     deal_reference = Deal.find(drag_and_drop_params[:element_reference_id])
-    position = DragAndDrop::DropPosition.new(element_reference_position: deal_reference.position, element_reference_direction: drag_and_drop_params[:element_reference_direction]).call
+    position = Deal::DragAndDropPosition.new(deal_reference_position: deal_reference.position, deal_reference_direction: drag_and_drop_params[:element_reference_direction]).call
 
     if Deal::CreateOrUpdate.new(@deal, deal_params.merge(position:)).call
       respond_to do |format|
