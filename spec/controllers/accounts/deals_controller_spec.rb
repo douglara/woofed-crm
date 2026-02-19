@@ -713,4 +713,63 @@ RSpec.describe Accounts::DealsController, type: :request do
       end
     end
   end
+
+  describe 'PATCH /accounts/{account.id}/deals/:id/drag_and_drop' do
+    let!(:deal_position1) { create(:deal, stage:, position: 1) }
+    let!(:deal_position2) { create(:deal, stage:, position: 2) }
+    let!(:deal_position3) { create(:deal, stage:, position: 3) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        params = { element_reference_id: deal_position2.id,
+                   deal: { stage_id: stage.id } }
+
+        patch("/accounts/#{account.id}/deals/#{deal_position3.id}/drag_and_drop",
+              params:)
+
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      context 'when moving within same stage' do
+        it 'moves deal within the same stage' do
+          params = { element_reference_id: deal_position2.id,
+                     deal: { stage_id: stage.id } }
+
+          patch "/accounts/#{account.id}/deals/#{deal_position3.id}/drag_and_drop",
+                params:,
+                as: :turbo_stream
+
+          expect(response).to have_http_status(:ok)
+          expect(deal_position1.reload.position).to eq(1)
+          expect(deal_position3.reload.position).to eq(2)
+          expect(deal_position2.reload.position).to eq(3)
+        end
+      end
+
+      context 'when moving between stages' do
+        let!(:stage2) { create(:stage, pipeline:) }
+        let!(:deal_position1_stage2) { create(:deal, stage: stage2, position: 1) }
+
+        it 'moves deal to another stage at specified position' do
+          params = { element_reference_id: deal_position1_stage2.id, element_reference_direction: 'top',
+                     deal: { stage_id: stage2.id } }
+
+          patch "/accounts/#{account.id}/deals/#{deal_position2.id}/drag_and_drop",
+                params:,
+                as: :turbo_stream
+
+          expect(response).to have_http_status(:ok)
+          expect(deal_position2.reload.stage_id).to eq(stage2.id)
+          expect(deal_position2.reload.position).to eq(1)
+          expect(deal_position1_stage2.reload.position).to eq(2)
+        end
+      end
+    end
+  end
 end
