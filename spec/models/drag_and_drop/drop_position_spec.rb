@@ -1,73 +1,120 @@
 require 'rails_helper'
 
 RSpec.describe DragAndDrop::DropPosition do
+  subject { described_class.new(element_reference_position:, element_reference_direction:) }
+
   describe '#initialize' do
-    it 'raises ArgumentError when element_reference_position is nil' do
-      expect { described_class.new(element_reference_position: nil) }.to raise_error(ArgumentError, 'element_reference_position is required')
+    context 'when element_reference_position is nil' do
+      let(:element_reference_position) { nil }
+      let(:element_reference_direction) { 'bottom' }
+
+      it 'raises ArgumentError' do
+        expect { subject }.to raise_error(ArgumentError, 'element_reference_position is required')
+      end
     end
 
-    it 'raises ArgumentError when direction is invalid' do
-      expect { described_class.new(element_reference_position: 1, element_reference_direction: 'invalid') }.to raise_error(ArgumentError, 'invalid direction')
+    context 'when direction is invalid' do
+      let(:element_reference_position) { 1 }
+      let(:element_reference_direction) { 'invalid' }
+
+      it 'raises ArgumentError' do
+        expect { subject }.to raise_error(ArgumentError, 'invalid direction')
+      end
     end
 
-    it 'accepts nil direction' do
-      expect { described_class.new(element_reference_position: 1, element_reference_direction: nil) }.not_to raise_error
+    context 'when direction is nil' do
+      let(:element_reference_position) { 1 }
+      let(:element_reference_direction) { nil }
+
+      it 'does not raise error' do
+        expect { subject }.not_to raise_error
+      end
     end
 
-    it 'accepts bottom direction' do
-      expect { described_class.new(element_reference_position: 1, element_reference_direction: 'bottom') }.not_to raise_error
+    context 'when direction is bottom' do
+      let(:element_reference_position) { 1 }
+      let(:element_reference_direction) { 'bottom' }
+
+      it 'does not raise error' do
+        expect { subject }.not_to raise_error
+      end
     end
 
-    it 'accepts top direction' do
-      expect { described_class.new(element_reference_position: 1, element_reference_direction: 'top') }.not_to raise_error
+    context 'when direction is top' do
+      let(:element_reference_position) { 1 }
+      let(:element_reference_direction) { 'top' }
+
+      it 'does not raise error' do
+        expect { subject }.not_to raise_error
+      end
     end
 
-    it 'accepts direction case insensitive' do
-      expect { described_class.new(element_reference_position: 1, element_reference_direction: 'BOTTOM') }.not_to raise_error
+    context 'when direction is uppercase' do
+      let(:element_reference_position) { 1 }
+      let(:element_reference_direction) { 'BOTTOM' }
+
+      it 'accepts direction case insensitive' do
+        expect { subject }.not_to raise_error
+      end
     end
   end
 
   describe '#call' do
     context 'without direction' do
-      it 'returns same position when direction is nil' do
-        result = described_class.new(element_reference_position: 5).call
-        expect(result).to eq(5)
+      let(:element_reference_position) { 5 }
+      let(:element_reference_direction) { nil }
+
+      it 'returns same position' do
+        expect(subject.call).to eq(5)
       end
     end
 
     context 'with bottom direction' do
-      it 'returns position + 1' do
-        result = described_class.new(element_reference_position: 3, element_reference_direction: 'bottom').call
-        expect(result).to eq(4)
+      let(:element_reference_direction) { 'bottom' }
+
+      context 'when position is 3' do
+        let(:element_reference_position) { 3 }
+
+        it 'returns position + 1' do
+          expect(subject.call).to eq(4)
+        end
       end
 
-      it 'returns position + 1 for position 1' do
-        result = described_class.new(element_reference_position: 1, element_reference_direction: 'bottom').call
-        expect(result).to eq(2)
+      context 'when position is 1' do
+        let(:element_reference_position) { 1 }
+
+        it 'returns position + 1' do
+          expect(subject.call).to eq(2)
+        end
       end
     end
 
     context 'with top direction' do
-      it 'returns position - 1 when position > 1' do
-        result = described_class.new(element_reference_position: 3, element_reference_direction: 'top').call
-        expect(result).to eq(2)
+      let(:element_reference_direction) { 'top' }
+
+      context 'when position > 1' do
+        let(:element_reference_position) { 3 }
+
+        it 'returns position - 1' do
+          expect(subject.call).to eq(2)
+        end
       end
 
-      it 'returns 1 when position is 1' do
-        result = described_class.new(element_reference_position: 1, element_reference_direction: 'top').call
-        expect(result).to eq(1)
-      end
+      context 'when position is 1' do
+        let(:element_reference_position) { 1 }
 
-      it 'returns position - 1 for position 2' do
-        result = described_class.new(element_reference_position: 2, element_reference_direction: 'top').call
-        expect(result).to eq(1)
+        it 'returns 1' do
+          expect(subject.call).to eq(1)
+        end
       end
     end
 
     context 'with string position' do
+      let(:element_reference_position) { '5' }
+      let(:element_reference_direction) { 'bottom' }
+
       it 'converts string position to integer' do
-        result = described_class.new(element_reference_position: '5', element_reference_direction: 'bottom').call
-        expect(result).to eq(6)
+        expect(subject.call).to eq(6)
       end
     end
   end
