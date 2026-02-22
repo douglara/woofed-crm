@@ -51,7 +51,7 @@ export default class DropParamsBuilder {
     if (this.quantityElementsPassed === 0)
       return { element_reference_id: this.selfElementId };
     return this.movementDirection === "up"
-      ? { element_reference_id: this.bottomElementId }
-      : { element_reference_id: this.topElementId };
+      ? { element_reference_id: this.bottomElementId, element_reference_direction: "bottom" }
+      : { element_reference_id: this.topElementId, element_reference_direction: "top" };
   }
 }
