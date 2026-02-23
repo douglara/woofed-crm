@@ -1,4 +1,12 @@
 {
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "app/javascript/*"
+      ]
+    }
+  },
   "files": [],
   "references": [
     {
