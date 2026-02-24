@@ -1,7 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 import Sortable from "sortablejs";
-import Rails from "@rails/ujs";
-import * as Turbo from "@hotwired/turbo";
+import { patch } from "@rails/request.js";
 
 export default class extends Controller {
   connect() {
@@ -30,36 +29,32 @@ export default class extends Controller {
     const toStageId = event.to.dataset.id;
     const newPosition = new Position(event).getNewPosition();
     const fromStageId = event.from.dataset.id;
-    let data = new FormData();
-    data.append("deal[position]", newPosition);
-    data.append("deal[stage_id]", toStageId);
-    Rails.ajax({
-      url: this.data
-        .get("url")
-        .replace(":deal_id", dealId)
-        .replace(":account_id", accountId),
-      type: "PATCH",
-      data: data,
-      beforeSend: (xhr) => {
-        xhr.setRequestHeader("Accept", "text/vnd.turbo-stream.html");
-        return true;
-      },
-      success: (response) => {
-        Turbo.renderStreamMessage(response);
-        event.from.classList.remove("pointer-events-none");
-        event.to.classList.remove("pointer-events-none");
-      },
-      error: (response) => {
-        Turbo.renderStreamMessage(response);
-        const fromList = document.querySelector(`ul[data-id="${fromStageId}"]`);
-        if (fromList && event.item) {
-          fromList.insertBefore(event.item, fromList.firstChild);
-        }
 
+    const body = new FormData();
+    body.append("deal[position]", newPosition);
+    body.append("deal[stage_id]", toStageId);
+
+    const url = this.data
+      .get("url")
+      .replace(":deal_id", dealId)
+      .replace(":account_id", accountId);
+
+    try {
+      const response = await patch(url, {
+        body,
+        responseKind: "turbo-stream",
+      });
+
+      if (response.ok) {
         event.from.classList.remove("pointer-events-none");
         event.to.classList.remove("pointer-events-none");
-      },
-    });
+        new Position(event).setDealsNewPositions();
+      } else {
+        this.errorAction(event, fromStageId);
+      }
+    } catch (error) {
+      this.errorAction(event, fromStageId);
+    }
   }
 
   disableDrag() {
@@ -68,6 +63,14 @@ export default class extends Controller {
 
   enableDrag() {
     this.sortable.option("disabled", false);
+  }
+  errorAction(event, fromStageId) {
+    const fromList = document.querySelector(`ul[data-id="${fromStageId}"]`);
+    if (fromList && event.item) {
+      fromList.insertBefore(event.item, fromList.firstChild);
+    }
+    event.from.classList.remove("pointer-events-none");
+    event.to.classList.remove("pointer-events-none");
   }
 }
 
@@ -79,10 +82,14 @@ class Position {
   }
   getNewPosition() {
     if (this.isMovedBetweenStages) {
-      return this.positionForNewStage();
+      return this.#positionForNewStage();
     } else {
-      return this.positionInCurrentStage();
+      return this.#positionInCurrentStage();
     }
+  }
+  setDealsNewPositions() {
+    const deal = this.event.item;
+    deal.dataset.position = this.getNewPosition();
   }
   get isMovedBetweenStages() {
     return this.event.from !== this.event.to;
@@ -104,7 +111,7 @@ class Position {
     return parseInt(this.event.item.dataset.position, 10);
   }
 
-  positionForNewStage() {
+  #positionForNewStage() {
     if (this.nextElement) {
       return this.nextElementPosition + 1;
     }
@@ -115,7 +122,7 @@ class Position {
 
     return null;
   }
-  positionInCurrentStage() {
+  #positionInCurrentStage() {
     if (this.quantityElementsPassed === 0) return this.elementCurrentPosition;
     return this.movementDirection === "up"
       ? this.nextElementPosition

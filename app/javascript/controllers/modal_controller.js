@@ -13,12 +13,13 @@ export default class extends Controller {
 			closable: this.closeableValue,
 			backdrop: this.backdropValue,
       backdropClasses:
-        "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-50 pointer-events-none",
+        "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-50 pointer-events-none modal-backdrop",
       onHide: () => {
         this.modalRemove()
       },
 		})
 		this.modal.show()
+    this.preventBackdropAfterMorphRefresh()
   }
 	disconnect() {
 		this.modal.hide()
@@ -26,4 +27,8 @@ export default class extends Controller {
 	modalRemove() {
 		this.element.remove()
 	}
+  preventBackdropAfterMorphRefresh(){
+    const backdrop = document.getElementsByClassName("modal-backdrop")[0]
+    backdrop.dataset.turboPermanent = true
+  }
 }

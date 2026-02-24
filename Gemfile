@@ -34,7 +34,7 @@ gem 'google-cloud-storage', require: false
 gem 'image_processing'
 
 # Authentication
-gem 'acts_as_list'
+gem 'acts_as_list', '1.2.6'
 gem 'acts-as-taggable-on', '12.0.0'
 gem 'cocoon'
 gem 'csv'
@@ -91,6 +91,7 @@ group :development, :test do
   gem 'faker'
   gem 'rspec-rails', '7.1.0'
   gem 'rubocop', require: false
+  gem 'rubycritic', require: false
   gem 'ruby-lsp'
 end
 
@@ -100,7 +101,8 @@ group :development do
   # Display performance information such as SQL time and flame graphs for each request in your browser.
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
   gem 'listen', '~> 3.3'
-  gem 'rack-mini-profiler', '~> 2.0'
+  gem 'memory_profiler'
+  gem 'rack-mini-profiler', '~> 4.0', require: %w[enable_rails_patches rack-mini-profiler]
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'annotate'
   gem 'htmlbeautifier'

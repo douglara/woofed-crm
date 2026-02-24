@@ -9,7 +9,24 @@ export default class extends Controller {
   connect() {
     this.element.textContent = this.formatCurrency(
       this.amountInCentsValue,
-      getAccountCurrency()
+      getAccountCurrency(),
+    );
+  }
+
+  formatCurrencyBeforeMorphRefresh(event) {
+    const newElement = event.detail?.newElement;
+
+    if (!newElement) return;
+
+    const amount = newElement.getAttribute(
+      "data-currency--format-exhibition-amount-in-cents-value",
+    );
+
+    if (!amount) return;
+
+    newElement.textContent = this.formatCurrency(
+      Number(amount),
+      getAccountCurrency(),
     );
   }
 

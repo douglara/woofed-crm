@@ -38,6 +38,23 @@ export default class extends Controller {
     }
   }
 
+  formatDateBeforeMorphRefresh(event) {
+    const newElement = event.detail?.newElement;
+
+    if (!newElement) return;
+
+    const dateString = newElement.getAttribute(
+      "data-datetime--format-exhibition-date-value",
+    );
+
+    if (!dateString) return;
+
+    const date = moment(dateString).tz(getBrowserTimeZone());
+
+    this.setMomentJsLocale();
+    newElement.textContent = this.formattedDate(date);
+  }
+
   get locale() {
     return (
       getUserLocale().trim() !== "" ? getUserLocale() : getBrowserLocale()

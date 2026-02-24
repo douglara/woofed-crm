@@ -4,7 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  name        :string           default(""), not null
-#  position    :integer          default(1), not null
+#  position    :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  pipeline_id :bigint           not null
@@ -19,7 +19,7 @@
 #
 class Stage < ApplicationRecord
   include Stage::Decorators
-  belongs_to :pipeline
+  belongs_to :pipeline, touch: true
   acts_as_list scope: :pipeline
   has_many :deals, dependent: :destroy
 
@@ -38,5 +38,4 @@ class Stage < ApplicationRecord
 
     deals.where(status: filter_status_deal).count
   end
-  # after_update_commit -> { Stages::BroadcastUpdatesWorker.perform_async(id) }
 end

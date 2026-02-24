@@ -1,3 +1,4 @@
 <% class_style ||= "" %>
-<span class="<%= class_style %>" data-controller="datetime--format-exhibition" data-datetime--format-exhibition-date-value="<%= value %>" data-datetime--format-exhibition-type-value="<%= type %>">
+<span class="<%= class_style %>" data-controller="datetime--format-exhibition" data-datetime--format-exhibition-date-value="<%= value %>" data-datetime--format-exhibition-type-value="<%= type %>"
+data-action="turbo:before-morph-element->datetime--format-exhibition#formatDateBeforeMorphRefresh">
 </span>

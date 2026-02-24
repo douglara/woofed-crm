@@ -32,7 +32,7 @@
   }
 ]
 %>
-<div data-controller="element-expanded" aria-expanded="true" class="group ease-in h-screen duration-300 border-r-[1.5px] color-border-default color-bg-surface-default relative p-4 space-y-4 aria-expanded:space-y-8 w-[72px] aria-expanded:w-[200px] flex flex-col" id="element-expand" data-element-expanded-target='sidebar'>
+<div data-controller="element-expanded" aria-expanded="true" class="group ease-in h-screen duration-300 border-r-[1.5px] color-border-default color-bg-surface-default relative p-4 space-y-4 aria-expanded:space-y-8 w-[72px] aria-expanded:w-[200px] flex flex-col" id="element-expand" data-element-expanded-target='sidebar' data-action="turbo:before-morph-element->element-expanded#preventSidebarStateAfterMorphRefresh">
   <div class="flex items-center flex-wrap justify-between">
     <%= link_to(root_path(), class: 'w-28') do %>
       <%= image_tag "logo.svg", class: 'w-full h-full object-cover block group-aria-[expanded=false]:hidden' %>

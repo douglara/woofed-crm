@@ -21,7 +21,7 @@
     "@rails/actioncable": "^7.1.501",
     "@rails/actiontext": "^7.1.501",
     "@rails/activestorage": "^7.1.501",
-    "@rails/request.js": "^0.0.8",
+    "@rails/request.js": "0.0.13",
     "@rails/ujs": "^7.1.501",
     "@stimulus-components/lightbox": "^4.0.0",
     "@stimulus-components/notification": "^3.0.0",

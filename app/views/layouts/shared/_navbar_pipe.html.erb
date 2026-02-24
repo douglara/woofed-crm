@@ -63,7 +63,7 @@
               <%= t('activerecord.models.filter', model: Deal.model_name.human.pluralize) %>
               <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
-            <div data-controller="filter-select-status-deal" class='w-full sm:w-auto'>
+            <div data-controller="filter-select-status-deal" class='w-full sm:w-auto' data-turbo-permanent>
               <button id="dropdownSortDeals" data-dropdown-toggle="dropdownSort" class="button-default-blank-secondary-md aria-selected:button-default-fill-primary-md w-full sm:auto" type="button" aria-selected="false" data-filter-select-status-deal-target="button" data-tooltip-target='tooltip-filter-deal'>
                 <i data-lucide="sliders-horizontal"></i>
                 <p class="block sm:hidden">

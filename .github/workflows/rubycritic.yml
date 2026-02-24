@@ -1,0 +1,134 @@
+name: RubyCritic
+
+on:
+  workflow_run:
+    workflows: ["CI RSpec Tests"]
+    types:
+      - completed
+
+jobs:
+  rubycritic:
+    name: RubyCritic
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Download coverage artifact
+        id: download-coverage
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage
+          path: tmp/coverage
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.4
+          bundler-cache: true
+
+      - name: Get PR number
+        id: pr
+        run: |
+          if [ "${{ github.event.workflow_run.event }}" = "pull_request" ]; then
+            PR_NUMBER=$(gh pr list --head "${{ github.event.workflow_run.head_branch }}" --json number --jq '.[0].number')
+            echo "number=$PR_NUMBER" >> $GITHUB_OUTPUT
+            echo "is_pr=true" >> $GITHUB_OUTPUT
+          else
+            echo "number=${{ github.event.workflow_run.run_number }}" >> $GITHUB_OUTPUT
+            echo "is_pr=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run RubyCritic on changed files
+        run: |
+          mkdir -p tmp/rubycritic/pr-${{ steps.pr.outputs.number }}
+          files=$(git diff --name-only origin/development...HEAD -- '*.rb' | xargs)
+          if [ -n "$files" ]; then
+            bundle exec rubycritic --no-browser --format html --path tmp/rubycritic/pr-${{ steps.pr.outputs.number }}/changed $files
+          else
+            mkdir -p tmp/rubycritic/pr-${{ steps.pr.outputs.number }}/changed
+            echo "No Ruby files changed" > tmp/rubycritic/pr-${{ steps.pr.outputs.number }}/changed/index.html
+          fi
+
+      - name: Run RubyCritic on full codebase
+        run: |
+          bundle exec rubycritic --no-browser --format html --path tmp/rubycritic/pr-${{ steps.pr.outputs.number }}/full app lib
+
+      - name: Copy coverage report
+        if: steps.download-coverage.outcome == 'success'
+        run: |
+          cp -r tmp/coverage tmp/rubycritic/pr-${{ steps.pr.outputs.number }}/coverage
+
+      - name: Create index page
+        run: |
+          COVERAGE_LINK=""
+          if [ -d "tmp/rubycritic/pr-${{ steps.pr.outputs.number }}/coverage" ]; then
+            COVERAGE_LINK="<li><a href=\"coverage/index.html\">Code Coverage Report</a></li>"
+          fi
+          cat > tmp/rubycritic/pr-${{ steps.pr.outputs.number }}/index.html << EOF
+          <!DOCTYPE html>
+          <html>
+          <head><title>Code Quality Reports - PR #${{ steps.pr.outputs.number }}</title></head>
+          <body>
+            <h1>Code Quality Reports - PR #${{ steps.pr.outputs.number }}</h1>
+            <ul>
+              $COVERAGE_LINK
+              <li><a href="changed/overview.html">RubyCritic - Changed Files</a></li>
+              <li><a href="full/overview.html">RubyCritic - Full Codebase</a></li>
+            </ul>
+          </body>
+          </html>
+          EOF
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: tmp/rubycritic
+          destination_dir: rubycritic
+          keep_files: true
+
+      - name: Comment PR with report links
+        if: ${{ steps.pr.outputs.is_pr == 'true' }}
+        uses: actions/github-script@v7
+        env:
+          COVERAGE_AVAILABLE: ${{ steps.download-coverage.outcome == 'success' }}
+        with:
+          script: |
+            const prNumber = ${{ steps.pr.outputs.number }};
+            const repoOwner = context.repo.owner;
+            const repoName = context.repo.repo;
+            const baseUrl = `https://${repoOwner}.github.io/${repoName}/rubycritic/pr-${prNumber}`;
+            const coverageAvailable = process.env.COVERAGE_AVAILABLE === 'true';
+
+            let coverageRow = '';
+            if (coverageAvailable) {
+              coverageRow = `| Code Coverage | [View Report](${baseUrl}/coverage/index.html) |\n`;
+            }
+
+            const body = `## Code Quality Reports
+
+            | Report | Link |
+            |--------|------|
+            ${coverageRow}| RubyCritic - Changed Files | [View Report](${baseUrl}/changed/overview.html) |
+            | RubyCritic - Full Codebase | [View Report](${baseUrl}/full/overview.html) |
+            `;
+
+            github.rest.issues.createComment({
+              owner: repoOwner,
+              repo: repoName,
+              issue_number: prNumber,
+              body: body
+            });

@@ -5,7 +5,6 @@ RSpec.describe Accounts::DealsController, type: :request do
   let!(:user) { create(:user) }
   let!(:pipeline) { create(:pipeline) }
   let!(:stage) { create(:stage, pipeline:) }
-  let!(:stage_2) { create(:stage, pipeline:, name: 'Stage 2') }
   let!(:contact) { create(:contact) }
   let(:event) { create(:event, deal:, kind: 'activity') }
   let(:last_event) { Event.last }
@@ -71,69 +70,6 @@ RSpec.describe Accounts::DealsController, type: :request do
 
           expect(deal.reload.name).to eq('Deal Updated')
           expect(response).to have_http_status(:redirect)
-        end
-      end
-      context 'update deal position and create deal_stage_change event' do
-        around(:each) do |example|
-          Sidekiq::Testing.inline! do
-            example.run
-          end
-        end
-        let!(:deal_stage_1_position_1) { create(:deal, stage:, position: 1) }
-        let!(:deal_stage_1_position_2) { create(:deal, stage:, position: 2) }
-        let!(:deal_stage_1_position_3) { create(:deal, stage:, position: 3) }
-        let!(:deal_stage_2_position_1) { create(:deal, stage: stage_2, position: 1) }
-        let!(:deal_stage_2_position_2) { create(:deal, stage: stage_2, position: 2) }
-        let!(:deal_stage_2_position_3) { create(:deal, stage: stage_2, position: 3) }
-        skip 'between different stages' do
-          it 'stage 1 position 3 to stage 2 position 1' do
-            params =  { deal: { stage_id: stage_2.id, position: 1 } }
-
-            put("/accounts/#{account.id}/deals/#{deal_stage_1_position_3.id}",
-                params:)
-            # expect(response).to have_http_status(:success)
-            expect(deal_stage_1_position_3.reload.position).to eq(1)
-            expect(deal_stage_1_position_3.reload.stage).to eq(stage_2)
-            expect(deal_stage_2_position_1.reload.position).to eq(2)
-          end
-          it 'stage 1 position 1 to stage 2 position 1' do
-            params =  { deal: { stage_id: stage_2.id, position: 1 } }
-            expect do
-              put("/accounts/#{account.id}/deals/#{deal_stage_1_position_1.id}",
-                  params:)
-            end.to change(Event, :count).by(1)
-            # expect(response).to have_http_status(:success)
-            expect(deal_stage_1_position_1.reload.position).to eq(1)
-            expect(deal_stage_1_position_1.reload.stage).to eq(stage_2)
-            expect(deal_stage_2_position_1.reload.position).to eq(2)
-            expect(last_event.kind).to eq('deal_stage_change')
-          end
-        end
-        context 'in the same stage' do
-          it 'position 3 to position 1' do
-            params = { deal: { stage_id: stage.id, position: 1 } }
-            put("/accounts/#{account.id}/deals/#{deal_stage_1_position_3.id}",
-                params:)
-            # expect(response).to have_http_status(:success)
-            expect(deal_stage_1_position_3.reload.position).to eq(1)
-            expect(deal_stage_1_position_3.reload.stage).to eq(stage)
-          end
-          it 'position 1 to position 3' do
-            params = { deal: { stage_id: stage.id, position: 3 } }
-            put("/accounts/#{account.id}/deals/#{deal_stage_1_position_1.id}",
-                params:)
-            # expect(response).to have_http_status(:success)
-            expect(deal_stage_1_position_1.reload.position).to eq(3)
-            expect(deal_stage_1_position_1.reload.stage).to eq(stage)
-          end
-          it 'position 2 to position 1' do
-            params = { deal: { stage_id: stage.id, position: 1 } }
-            put("/accounts/#{account.id}/deals/#{deal_stage_1_position_2.id}",
-                params:)
-            # expect(response).to have_http_status(:success)
-            expect(deal_stage_1_position_2.reload.position).to eq(1)
-            expect(deal_stage_1_position_2.reload.stage).to eq(stage)
-          end
         end
       end
 

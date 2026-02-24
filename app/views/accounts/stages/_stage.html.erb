@@ -16,7 +16,7 @@
       </div>
     </div>
     <!-- Dropdown menu -->
-    <div id="dropdownDotsHorizontal<%=stage.id%>" class="z-10 hidden left-16 bg-white divide-y divide-gray-300 rounded-lg shadow w-48 dark:bg-gray-700">
+    <div id="dropdownDotsHorizontal<%=stage.id%>" class="z-10 hidden left-16 bg-white divide-y divide-gray-300 rounded-lg shadow w-48 dark:bg-gray-700" data-turbo-permanent>
       <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3  dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
         <li>
           <%= link_to bulk_action_account_pipeline_path(Current.account, stage.pipeline.id, stage_id: stage.id), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-dark-gray-palette-p1 dark:hover:text-white", data: { turbo_frame: 'modal' } do %>
@@ -44,14 +44,14 @@
     </div>
     <%= render 'accounts/stages/kanban_details', stage: stage, filter_status_deal: params[:filter_status_deal] %>
   </div>
-  <ul data-controller="drag" data-drag-url="/accounts/:account_id/deals/:deal_id" data-id="<%= stage.id %>" class="space-y-4 overflow-y-auto custom-scroll-list-deal h-[calc(100vh-260px)]" id=<%= dom_id(stage, :deals) %>>
+  <%= turbo_frame_tag "#{stage.id}_pagination_deals_#{pagy.page}", refresh: "morph", data: { controller: "drag", drag_url: "/accounts/:account_id/deals/:deal_id", id: stage.id }, class: "block space-y-4 overflow-y-auto custom-scroll-list-deal h-[calc(100vh-260px)]" do %>
     <%= render partial: 'accounts/pipelines/deal', collection: deals, as: :deal %>
     <% if pagy.next.present? %>
-      <%= turbo_frame_tag dom_id(stage, :pagination_deals), src: account_stage_path(Current.account, stage, filter_status_deal: filter_status_deal, page: pagy.next, format: :turbo_stream), loading: :lazy do  %>
+      <%= turbo_frame_tag "#{stage.id}_pagination_deals_#{pagy.next}", src: account_stage_path(Current.account, stage, filter_status_deal: filter_status_deal, page: pagy.next), refresh: :morph, data: { controller: "frame drag", action: "turbo:before-frame-render->frame#morphRender turbo:before-morph-element->frame#morphReload", drag_url: "/accounts/:account_id/deals/:deal_id", id: stage.id }, class: "block space-y-4 mt-4", loading: :lazy do  %>
         <div class='py-5'>
           <%= render '/components/loading' %>
         </div>
       <% end %>
     <% end %>
-  </ul>
+  <% end %>
 </div>

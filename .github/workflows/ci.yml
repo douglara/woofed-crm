@@ -83,5 +83,13 @@ jobs:
       - name: Run tests
         run: bundle exec rspec
 
+      - name: Upload coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+          retention-days: 7
+
       - name: Change owner of container working directory
         run: chown root:root .
