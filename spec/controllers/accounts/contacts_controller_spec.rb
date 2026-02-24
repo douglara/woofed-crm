@@ -230,6 +230,28 @@ RSpec.describe Accounts::ContactsController, type: :request do
         expect(flash[:error]).to be_nil
       end
 
+      context 'when paginating deals' do
+        let!(:deals) { create_list(:deal, 15, stage:, contact:) }
+
+        it 'returns first page of deals by default' do
+          get "/accounts/#{account.id}/contacts/#{contact.id}"
+          expect(response).to have_http_status(200)
+          doc = Nokogiri::HTML(response.body)
+          deals_frame = doc.at_css("turbo-frame#contact_#{contact.id}_deals")
+          expect(deals_frame).to be_present
+        end
+
+        it 'returns second page of deals via turbo_stream' do
+          get "/accounts/#{account.id}/contacts/#{contact.id}",
+              params: { deals_page: 2 },
+              headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+          expect(response).to have_http_status(200)
+          expect(response.media_type).to eq('text/vnd.turbo-stream.html')
+          expect(response.body).to include("turbo-stream")
+          expect(response.body).to include("contact_#{contact.id}_deals")
+        end
+      end
+
       context 'when there is chatwoot integration' do
         let!(:chatwoot) do
           create(:apps_chatwoots, :skip_validate, chatwoot_account_id: '456',

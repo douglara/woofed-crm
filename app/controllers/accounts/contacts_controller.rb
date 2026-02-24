@@ -1,6 +1,14 @@
 class Accounts::ContactsController < InternalController
   before_action :set_contact, only: %i[show edit update destroy chatwoot_conversation_link hovercard_preview]
 
+  def show
+    @pagy_deals, @deals = pagy(@contact.deals.order(created_at: :desc), items: 10, page_param: :deals_page)
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
+  end
+
   # GET /contacts or /contacts.json
   def index
     @contacts = if params[:query].present?
@@ -59,6 +67,7 @@ class Accounts::ContactsController < InternalController
   def create
     @contact = current_user.account.contacts.new(contact_params)
     if @contact.save
+      @pagy_deals, @deals = pagy(@contact.deals.order(created_at: :desc), items: 10, page_param: :deals_page)
       respond_to do |format|
         format.html do
           redirect_to account_contact_path(current_user.account, @contact),
