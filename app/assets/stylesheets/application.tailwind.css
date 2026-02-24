@@ -1,73 +1,447 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+@plugin "flowbite/plugin";
+
+/* Source paths for content not auto-detected by Vite */
+@source "../../helpers";
+@source "../../views";
+@source "../../../public";
+@source "../../../node_modules/flowbite";
+
+/* Custom variant */
+@custom-variant group-inline-edit {
+  .group.inline-edit & {
+    @slot;
+  }
+}
+
+/* Custom stroke-width utilities (dot in class name) */
+@utility stroke-1\.04 {
+  stroke-width: 1.04;
+}
+@utility stroke-1\.25 {
+  stroke-width: 1.25;
+}
+
+@theme {
+  /* Gray (custom scale, extends defaults) */
+  --color-gray-100: #ffffff;
+  --color-gray-200: #faf9fd;
+  --color-gray-300: #f2f1f7;
+  --color-gray-400: #e7e6ef;
+  --color-gray-500: #cbc8db;
+  --color-gray-600: #b1aec2;
+  --color-gray-700: #9c99ad;
+  --color-gray-800: #888599;
+  --color-gray-900: #737185;
+  --color-gray-1000: #605e70;
+  --color-gray-1100: #4d4b5c;
+  --color-gray-1200: #3a3847;
+  --color-gray-1300: #282733;
+  --color-gray-1400: #17161e;
+
+  /* Green (custom scale, extends defaults) */
+  --color-green-100: #d8f2e1;
+  --color-green-200: #d5fad3;
+  --color-green-300: #aaf5af;
+  --color-green-400: #53c371;
+  --color-green-500: #259c50;
+  --color-green-600: #1b864c;
+  --color-green-700: #127047;
+  --color-green-800: #0b5a3f;
+  --color-green-900: #074a3a;
+
+  /* Red (custom scale, extends defaults) */
+  --color-red-100: #faeeeb;
+  --color-red-200: #fbe0d8;
+  --color-red-300: #f0a87b;
+  --color-red-400: #e28358;
+  --color-red-500: #cf4f27;
+  --color-red-600: #b2351c;
+  --color-red-700: #951f13;
+  --color-red-800: #780e0c;
+  --color-red-900: #63070b;
+
+  /* Blue (custom scale, extends defaults) */
+  --color-blue-100: #ddeefe;
+  --color-blue-200: #dae8fe;
+  --color-blue-300: #98c5fc;
+  --color-blue-400: #7eb1f9;
+  --color-blue-500: #5491f5;
+  --color-blue-600: #3d70d2;
+  --color-blue-700: #2a52b0;
+  --color-blue-800: #1a398e;
+  --color-blue-900: #102675;
+
+  /* Purple (custom scale, extends defaults) */
+  --color-purple-100: #f6f8fe;
+  --color-purple-200: #edf1fd;
+  --color-purple-300: #d9deff;
+  --color-purple-400: #b8c0f4;
+  --color-purple-500: #8686e8;
+  --color-purple-600: #6857d9;
+  --color-purple-700: #31388d;
+  --color-purple-800: #1b2c58;
+  --color-purple-900: #121d3a;
+
+  /* Legacy palette colors */
+  --color-green-down-2: #e8f2ec;
+  --color-dark-palette-p1: #17161e;
+  --color-dark-palette-p2: #282733;
+  --color-dark-palette-p3: #3a3847;
+  --color-dark-palette-p4: #4d4b5c;
+  --color-gray-pallete-p3: #888599;
+  --color-dark-gray-palette-p1: #605e70;
+  --color-dark-gray-palette-p2: #737185;
+  --color-dark-gray-palette-p3: #888599;
+  --color-dark-gray-palette-p4: #9c99ad;
+  --color-dark-gray-palette-p5: #b1aec2;
+  --color-light-palette-p1: #cbc8db;
+  --color-light-palette-p2: #e7e6ef;
+  --color-light-palette-p3: #f2f1f7;
+  --color-light-palette-p4: #faf9fd;
+  --color-light-palette-p5: #ffffff;
+  --color-brand-palette-01: #121d3a;
+  --color-brand-palette-02: #31388d;
+  --color-brand-palette-03: #6857d9;
+  --color-brand-palette-04: #8686e8;
+  --color-brand-palette-05: #b8c0f4;
+  --color-brand-palette-06: #d9deff;
+  --color-brand-palette-07: #edf1fd;
+  --color-brand-palette-08: #f6f8fe;
+  --color-auxiliary-palette-green: #259c50;
+  --color-auxiliary-palette-green-down: #d8f2e1;
+  --color-auxiliary-palette-green-down-2: #edf9f1;
+  --color-auxiliary-palette-red: #cf4f27;
+  --color-auxiliary-palette-red-down: #fbe0d8;
+  --color-auxiliary-palette-red-down-2: #faeeeb;
+  --color-auxiliary-palette-blue: #5491f5;
+  --color-auxiliary-palette-blue-down: #dae8fe;
+
+  /* Font family */
+  --font-sans: "Nunito", "Arial", sans-serif;
+
+  /* Font sizes */
+  --text-title: 1.5rem;
+  --text-body: 1rem;
+  --text-text: 0.938rem;
+  --text-subtext: 0.875rem;
+  --text-micro: 0.813rem;
+
+  /* Line heights */
+  --leading-150: 150%;
+  --leading-200: 200%;
+}
+
+/* ============================================
+   Design Token Utilities (for @apply support)
+   ============================================ */
+
+/* Typography - theme-based */
+@utility typography-title-b-lh150 {
+  font-size: var(--text-title);
+  line-height: var(--leading-150);
+  font-weight: 700;
+}
+@utility typography-body-s-lh150 {
+  font-size: var(--text-body);
+  line-height: var(--leading-150);
+  font-weight: 600;
+}
+@utility typography-body-r-lh150 {
+  font-size: var(--text-body);
+  line-height: var(--leading-150);
+  font-weight: 400;
+}
+@utility typography-text-s-lh150 {
+  font-size: var(--text-text);
+  line-height: var(--leading-150);
+  font-weight: 600;
+}
+@utility typography-text-m-lh150 {
+  font-size: var(--text-text);
+  line-height: var(--leading-150);
+  font-weight: 500;
+}
+@utility typography-text-r-lh150 {
+  font-size: var(--text-text);
+  line-height: var(--leading-150);
+  font-weight: 400;
+}
+@utility typography-text-s-lh200 {
+  font-size: var(--text-text);
+  line-height: var(--leading-200);
+  font-weight: 600;
+}
+@utility typography-text-m-lh200 {
+  font-size: var(--text-text);
+  line-height: var(--leading-200);
+  font-weight: 500;
+}
+@utility typography-text-r-lh200 {
+  font-size: var(--text-text);
+  line-height: var(--leading-200);
+  font-weight: 400;
+}
+@utility typography-sub-text-s-lh150 {
+  font-size: var(--text-subtext);
+  line-height: var(--leading-150);
+  font-weight: 600;
+}
+@utility typography-sub-text-m-lh150 {
+  font-size: var(--text-subtext);
+  line-height: var(--leading-150);
+  font-weight: 500;
+}
+@utility typography-sub-text-r-lh150 {
+  font-size: var(--text-subtext);
+  line-height: var(--leading-150);
+  font-weight: 400;
+}
+@utility typography-sub-text-s-lh200 {
+  font-size: var(--text-subtext);
+  line-height: var(--leading-200);
+  font-weight: 600;
+}
+@utility typography-sub-text-m-lh200 {
+  font-size: var(--text-subtext);
+  line-height: var(--leading-200);
+  font-weight: 500;
+}
+@utility typography-sub-text-r-lh200 {
+  font-size: var(--text-subtext);
+  line-height: var(--leading-200);
+  font-weight: 400;
+}
+@utility typography-micro-b-lh150 {
+  font-size: var(--text-micro);
+  line-height: var(--leading-150);
+  font-weight: 700;
+}
+@utility typography-micro-s-lh150 {
+  font-size: var(--text-micro);
+  line-height: var(--leading-150);
+  font-weight: 600;
+}
+@utility typography-micro-m-lh150 {
+  font-size: var(--text-micro);
+  line-height: var(--leading-150);
+  font-weight: 500;
+}
+
+/* Typography - fixed sizes */
+@utility typography-title-1000 {
+  font-size: 3rem;
+  line-height: 3.5rem;
+  font-weight: 700;
+}
+@utility typography-title-900 {
+  font-size: 2.5rem;
+  line-height: 3rem;
+  font-weight: 700;
+}
+@utility typography-title-800 {
+  font-size: 2rem;
+  line-height: 2.5rem;
+  font-weight: 700;
+}
+@utility typography-title-700 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+@utility typography-sub-title-1000 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
+}
+@utility typography-sub-title-950 {
+  font-size: 1.25rem;
+  line-height: 2rem;
+  font-weight: 600;
+}
+@utility typography-sub-title-900 {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+}
+@utility typography-sub-title-800 {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+@utility typography-button-1000 {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+}
+@utility typography-button-900 {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+}
+@utility typography-button-800 {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+}
+@utility typography-body-1000 {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+}
+@utility typography-body-900 {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+@utility typography-body-800 {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+}
+@utility typography-label-1000 {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+}
+@utility typography-label-900 {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+}
+@utility typography-label-800 {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 400;
+}
+
+/* Background - Surface */
+@utility color-bg-surface-harder {
+  background-color: var(--color-purple-100);
+}
+@utility color-bg-surface-hard {
+  background-color: var(--color-gray-200);
+}
+@utility color-bg-surface-default {
+  background-color: var(--color-gray-100);
+}
+
+/* Background - Fill */
+@utility color-bg-fill-highlight {
+  background-color: var(--color-purple-600);
+}
+@utility color-bg-fill-highlight-hover {
+  background-color: var(--color-purple-700);
+}
+@utility color-bg-fill-hard {
+  background-color: var(--color-purple-100);
+}
+@utility color-bg-fill-default {
+  background-color: var(--color-gray-200);
+}
+@utility color-bg-fill-soft {
+  background-color: var(--color-gray-100);
+}
+
+/* Background - Feedback */
+@utility color-bg-feedback-success-default {
+  background-color: var(--color-green-200);
+}
+@utility color-bg-feedback-success-harder {
+  background-color: var(--color-green-500);
+}
+@utility color-bg-feedback-neutral {
+  background-color: var(--color-gray-200);
+}
+@utility color-bg-feedback-danger-default {
+  background-color: var(--color-red-100);
+}
+@utility color-bg-feedback-danger-hard {
+  background-color: var(--color-red-500);
+}
+@utility color-bg-feedback-info-default {
+  background-color: var(--color-blue-100);
+}
+@utility color-bg-feedback-another-info-default {
+  background-color: var(--color-gray-200);
+}
+
+/* Foreground (text color) */
+@utility color-fg-highlight {
+  color: var(--color-purple-600);
+}
+@utility color-fg-hard {
+  color: var(--color-gray-1200);
+}
+@utility color-fg-default {
+  color: var(--color-gray-1000);
+}
+@utility color-fg-soft {
+  color: var(--color-gray-800);
+}
+@utility color-fg-extra-soft {
+  color: var(--color-gray-400);
+}
+@utility color-fg-inverse {
+  color: var(--color-gray-100);
+}
+@utility color-fg-feedback-success {
+  color: var(--color-green-500);
+}
+@utility color-fg-feedback-danger {
+  color: var(--color-red-500);
+}
+@utility color-fg-feedback-info {
+  color: var(--color-blue-500);
+}
+@utility color-fg-feedback-neutral {
+  color: var(--color-gray-900);
+}
+
+/* Border color */
+@utility color-border-highlight {
+  border-color: var(--color-purple-600);
+}
+@utility color-border-harder {
+  border-color: var(--color-purple-300);
+}
+@utility color-border-hard {
+  border-color: var(--color-gray-500);
+}
+@utility color-border-default {
+  border-color: var(--color-gray-300);
+}
+@utility color-border-feedback-success-default {
+  border-color: var(--color-green-300);
+}
+@utility color-border-feedback-success-harder {
+  border-color: var(--color-green-500);
+}
+@utility color-border-feedback-danger-default {
+  border-color: var(--color-red-200);
+}
+@utility color-border-feedback-danger-hard {
+  border-color: var(--color-red-500);
+}
+@utility color-border-feedback-info {
+  border-color: var(--color-blue-600);
+}
+@utility color-border-feedback-neutral {
+  border-color: var(--color-gray-900);
+}
+
+/* ============================================
+   Component Classes
+   ============================================ */
 
 @layer components {
-  .woo-input {
-    @apply rounded-md border-light-palette-p2 bg-light-palette-p4;
-  }
-  .navbar-container {
-    @apply flex flex-wrap items-center w-full ease-in duration-300 justify-between h-[60px] bg-light-palette-p5 sm:h-[72px] px-6 sm:px-8 border-b-[1.5px] color-border-default;
-  }
   .event-item-from-me {
     @apply flex-row-reverse flex my-5;
   }
   .event-from-contacts {
     @apply flex-row flex my-5;
-  }
-  .typography-title-b-lh150 {
-    @apply text-title leading-150 font-bold;
-  }
-  .typography-body-s-lh150 {
-    @apply text-body leading-150 font-semibold;
-  }
-  .typography-body-r-lh150 {
-    @apply text-body leading-150 font-normal;
-  }
-  .typography-text-s-lh150 {
-    @apply text-text leading-150 font-semibold;
-  }
-  .typography-text-m-lh150 {
-    @apply text-text leading-150 font-medium;
-  }
-  .typography-text-r-lh150 {
-    @apply text-text leading-150 font-normal;
-  }
-  .typography-text-s-lh200 {
-    @apply text-text leading-200 font-semibold;
-  }
-  .typography-text-m-lh200 {
-    @apply text-text leading-200 font-medium;
-  }
-  .typography-text-r-lh200 {
-    @apply text-text leading-200 font-normal;
-  }
-  .typography-sub-text-s-lh150 {
-    @apply text-subtext leading-150 font-semibold;
-  }
-  .typography-sub-text-m-lh150 {
-    @apply text-subtext leading-150 font-medium;
-  }
-  .typography-sub-text-r-lh150 {
-    @apply text-subtext leading-150 font-normal;
-  }
-  .typography-sub-text-s-lh200 {
-    @apply text-subtext leading-200 font-semibold;
-  }
-  .typography-sub-text-m-lh200 {
-    @apply text-subtext leading-200 font-medium;
-  }
-  .typography-sub-text-r-lh200 {
-    @apply text-subtext leading-200 font-normal;
-  }
-  .typography-micro-b-lh150 {
-    @apply text-micro leading-150 font-bold;
-  }
-  .typography-micro-s-lh150 {
-    @apply text-micro leading-150 font-semibold;
-  }
-  .typography-micro-m-lh150 {
-    @apply text-micro leading-150 font-medium;
   }
   .btn-primary {
     @apply typography-text-s-lh150 py-2 px-4 rounded bg-brand-palette-03 hover:bg-brand-palette-04 hover:no-underline text-light-palette-p5 cursor-pointer;
@@ -148,171 +522,13 @@
     @apply rounded-md px-4 py-2 bg-auxiliary-palette-red-down text-auxiliary-palette-red text-center hover:bg-auxiliary-palette-red hover:text-white hover:no-underline font-semibold;
   }
   .deal-lost-element {
-    @apply rounded-md px-4 py-2 bg-auxiliary-palette-red-down text-auxiliary-palette-red text-center font-semibold cursor-default;
+    @apply rounded-md px-4 py-2 color-bg-feedback-danger-default color-fg-feedback-danger text-center font-semibold cursor-default;
   }
-
-  .typography-title-1000 {
-    @apply text-[3rem] leading-[3.5rem] font-bold;
+  .woo-input {
+    @apply rounded-md color-border-default color-bg-surface-hard;
   }
-  .typography-title-900 {
-    @apply text-[2.5rem] leading-[3rem] font-bold;
-  }
-  .typography-title-800 {
-    @apply text-[2rem] leading-[2.5rem] font-bold;
-  }
-  .typography-title-700 {
-    @apply text-[1.5rem] leading-[2rem] font-bold;
-  }
-  .typography-sub-title-1000 {
-    @apply text-[1.5rem] leading-[2rem] font-semibold;
-  }
-  .typography-sub-title-950 {
-    @apply text-[1.25rem] leading-[2rem] font-semibold;
-  }
-  .typography-sub-title-900 {
-    @apply text-[1rem] leading-[1.5rem] font-semibold;
-  }
-  .typography-sub-title-800 {
-    @apply text-[0.875rem] leading-[1.25rem] font-semibold;
-  }
-  .typography-button-1000 {
-    @apply text-[1rem] leading-[1.5rem] font-bold;
-  }
-  .typography-button-900 {
-    @apply text-[0.875rem] leading-[1.25rem] font-bold;
-  }
-  .typography-button-800 {
-    @apply text-[0.75rem] leading-[1rem] font-bold;
-  }
-  .typography-body-1000 {
-    @apply text-[1rem] leading-[1.5rem] font-medium;
-  }
-  .typography-body-900 {
-    @apply text-[0.875rem] leading-[1.25rem] font-medium;
-  }
-  .typography-body-800 {
-    @apply text-[0.75rem] leading-[1rem] font-medium;
-  }
-  .typography-label-1000 {
-    @apply text-[1rem] leading-[1.5rem] font-normal;
-  }
-  .typography-label-900 {
-    @apply text-[0.875rem] leading-[1.25rem] font-normal;
-  }
-  .typography-label-800 {
-    @apply text-[0.75rem] leading-[1rem] font-normal;
-  }
-
-  .color-bg-surface-harder {
-    @apply bg-purple-100;
-  }
-  .color-bg-surface-hard {
-    @apply bg-gray-200;
-  }
-  .color-bg-surface-default {
-    @apply bg-gray-100;
-  }
-
-  .color-bg-fill-highlight {
-    @apply bg-purple-600;
-  }
-  .color-bg-fill-highlight-hover {
-    @apply bg-purple-700;
-  }
-  .color-bg-fill-hard {
-    @apply bg-purple-100;
-  }
-  .color-bg-fill-default {
-    @apply bg-gray-200;
-  }
-  .color-bg-fill-soft {
-    @apply bg-gray-100;
-  }
-
-  .color-bg-feedback-success-default {
-    @apply bg-green-200;
-  }
-  .color-bg-feedback-success-harder {
-    @apply bg-green-500;
-  }
-  .color-bg-feedback-neutral {
-    @apply bg-gray-200;
-  }
-
-  .color-bg-feedback-danger-default {
-    @apply bg-red-100;
-  }
-  .color-bg-feedback-danger-hard {
-    @apply bg-red-500;
-  }
-  .color-bg-feedback-info-default {
-    @apply bg-blue-100;
-  }
-  .color-bg-feedback-another-info-default {
-    @apply bg-gray-200;
-  }
-
-  .color-fg-highlight {
-    @apply text-purple-600;
-  }
-  .color-fg-hard {
-    @apply text-gray-1200;
-  }
-  .color-fg-default {
-    @apply text-gray-1000;
-  }
-  .color-fg-soft {
-    @apply text-gray-800;
-  }
-  .color-fg-extra-soft {
-    @apply text-gray-400;
-  }
-  .color-fg-inverse {
-    @apply text-gray-100;
-  }
-
-  .color-fg-feedback-success {
-    @apply text-green-500;
-  }
-
-  .color-fg-feedback-danger {
-    @apply text-red-500;
-  }
-  .color-fg-feedback-info {
-    @apply text-blue-500;
-  }
-  .color-fg-feedback-neutral {
-    @apply text-gray-900;
-  }
-  .color-border-highlight {
-    @apply border-purple-600;
-  }
-  .color-border-harder {
-    @apply border-purple-300;
-  }
-  .color-border-hard {
-    @apply border-gray-500;
-  }
-  .color-border-default {
-    @apply border-gray-300;
-  }
-  .color-border-feedback-success-default {
-    @apply border-green-300;
-  }
-  .color-border-feedback-success-harder {
-    @apply border-green-500;
-  }
-  .color-border-feedback-danger-default {
-    @apply border-red-200;
-  }
-  .color-border-feedback-danger-hard {
-    @apply border-red-500;
-  }
-  .color-border-feedback-info {
-    @apply border-blue-600;
-  }
-  .color-border-feedback-neutral {
-    @apply border-gray-900;
+  .navbar-container {
+    @apply flex flex-wrap items-center w-full ease-in duration-300 justify-between h-[60px] color-bg-surface-default sm:h-[72px] px-6 sm:px-8 border-b-[1.5px] color-border-default;
   }
   .button-menu-default-md {
     @apply inline-flex items-center justify-start typography-body-900 gap-3 px-3 h-[45px] color-fg-soft border border-transparent rounded-md active:color-bg-fill-hard active:color-border-harder active:color-fg-highlight focus:color-bg-fill-hard focus:color-border-harder focus:color-fg-highlight hover:color-bg-fill-hard;

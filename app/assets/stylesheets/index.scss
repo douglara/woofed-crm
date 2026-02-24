@@ -1,10 +1,10 @@
-// Main index file that imports all stylesheets
+/* Main index file that imports all stylesheets */
 @import "./application.tailwind.css";
 @import "./actiontext.scss";
 @import "./flatpickr-custom.scss";
 @import "./fullcalendar.scss";
 @import "./stages_nav.scss";
 
-// Commons
+/* Commons */
 @import "./commons/w-btn-block.scss";
 @import "./commons/w-btn-outline.scss";
