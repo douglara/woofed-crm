@@ -1,0 +1,31 @@
+/*
+ * shadcn/ui Tailwind v3-compatible styles.
+ *
+ * The npm "shadcn" package ships a tailwind.css targeting Tailwind v4 syntax
+ * (@theme inline, @custom-variant, @utility) which is incompatible with the
+ * Tailwind v3 CLI bundled in tailwindcss-rails.
+ *
+ * The equivalent v3 configuration (keyframes, animations, data-* variants,
+ * and the no-scrollbar utility) lives in config/tailwind.config.js.
+ *
+ * This file intentionally only contains plain-CSS keyframes so that
+ * postcss-import can resolve `@import "shadcn/tailwind.css"` without errors.
+ */
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height, auto);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height, auto);
+  }
+  to {
+    height: 0;
+  }
+}

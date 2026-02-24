@@ -5,6 +5,71 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    /* shadcn/ui semantic color tokens (HSL values without hsl() wrapper) */
+    --background: 0 0% 100%;
+    --foreground: 249 10% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 249 10% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 249 10% 10%;
+
+    --primary: 249 63% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 249 30% 96%;
+    --secondary-foreground: 249 10% 10%;
+
+    --muted: 249 30% 96%;
+    --muted-foreground: 249 10% 46%;
+
+    --accent: 249 30% 96%;
+    --accent-foreground: 249 10% 10%;
+
+    --destructive: 18 71% 48%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 249 30% 90%;
+    --input: 249 30% 90%;
+    --ring: 249 63% 60%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 249 16% 10%;
+    --foreground: 249 10% 95%;
+
+    --card: 249 16% 10%;
+    --card-foreground: 249 10% 95%;
+
+    --popover: 249 16% 10%;
+    --popover-foreground: 249 10% 95%;
+
+    --primary: 249 63% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 249 16% 20%;
+    --secondary-foreground: 249 10% 95%;
+
+    --muted: 249 16% 20%;
+    --muted-foreground: 249 10% 65%;
+
+    --accent: 249 16% 20%;
+    --accent-foreground: 249 10% 95%;
+
+    --destructive: 18 71% 48%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 249 16% 20%;
+    --input: 249 16% 20%;
+    --ring: 249 63% 60%;
+  }
+}
+
 @layer components {
   .woo-input {
     @apply rounded-md border-light-palette-p2 bg-light-palette-p4;
@@ -426,7 +491,6 @@
 
 @layer base {
   :root {
-
     --background: oklch(1 0 0);
 
     --foreground: oklch(0.145 0 0);
@@ -489,10 +553,9 @@
 
     --sidebar-border: oklch(0.922 0 0);
 
-    --sidebar-ring: oklch(0.708 0 0)
+    --sidebar-ring: oklch(0.708 0 0);
   }
   .dark {
-
     --background: oklch(0.145 0 0);
 
     --foreground: oklch(0.985 0 0);
@@ -505,7 +568,7 @@
 
     --popover-foreground: oklch(0.985 0 0);
 
-    --primary: oklch(0.87 0.00 0);
+    --primary: oklch(0.87 0 0);
 
     --primary-foreground: oklch(0.205 0 0);
 
@@ -553,11 +616,10 @@
 
     --sidebar-border: oklch(1 0 0 / 10%);
 
-    --sidebar-ring: oklch(0.556 0 0)
+    --sidebar-ring: oklch(0.556 0 0);
   }
   .theme {
-
-    --font-sans: 'Inter Variable', sans-serif
+    --font-sans: "Inter Variable", sans-serif;
   }
   * {
     @apply border-border outline-ring/50;
