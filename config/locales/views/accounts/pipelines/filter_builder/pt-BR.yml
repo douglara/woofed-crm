@@ -1,0 +1,32 @@
+pt-BR:
+  views:
+    accounts:
+      pipelines:
+        filter_builder:
+          title: "Filtros Avancados"
+          description: "Adicione condicoes para filtrar negocios"
+          add_filter: "Adicionar filtro"
+          clear_all: "Limpar tudo"
+          apply: "Aplicar filtros"
+          select_model: "Selecione o modelo..."
+          select_field: "Selecione o campo..."
+          select_operator: "Selecione o operador..."
+          select_field_first: "Selecione o campo primeiro..."
+          enter_value: "Digite o valor..."
+          creator: "Criador"
+          assignees: "Responsaveis"
+          assigned_users: "Usuarios responsaveis"
+          operators:
+            contains: "Contem"
+            not_contains: "Nao contem"
+            equals: "Igual a"
+            not_equals: "Diferente de"
+            includes: "Inclui qualquer um de"
+            excludes: "Exclui todos de"
+            present: "Tem algum valor"
+            blank: "Esta vazio"
+            greater_or_equal: "Maior ou igual a"
+            less_or_equal: "Menor ou igual a"
+            on: "Em"
+            after: "Em ou apos"
+            before: "Em ou antes"

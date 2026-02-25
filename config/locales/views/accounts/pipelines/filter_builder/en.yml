@@ -1,0 +1,32 @@
+en:
+  views:
+    accounts:
+      pipelines:
+        filter_builder:
+          title: "Advanced Filters"
+          description: "Add conditions to filter deals"
+          add_filter: "Add filter"
+          clear_all: "Clear all"
+          apply: "Apply filters"
+          select_model: "Select model..."
+          select_field: "Select field..."
+          select_operator: "Select operator..."
+          select_field_first: "Select field first..."
+          enter_value: "Enter value..."
+          creator: "Creator"
+          assignees: "Assignees"
+          assigned_users: "Assigned users"
+          operators:
+            contains: "Contains"
+            not_contains: "Does not contain"
+            equals: "Equals"
+            not_equals: "Does not equal"
+            includes: "Includes any of"
+            excludes: "Excludes all of"
+            present: "Has any value"
+            blank: "Is empty"
+            greater_or_equal: "Greater than or equal"
+            less_or_equal: "Less than or equal"
+            on: "On"
+            after: "On or after"
+            before: "On or before"

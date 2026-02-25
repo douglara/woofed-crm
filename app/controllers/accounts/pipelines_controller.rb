@@ -19,11 +19,8 @@ class Accounts::PipelinesController < InternalController
   # GET /pipelines/1 or /pipelines/1.json
   def show
     @pipelines = Pipeline.all
-    @filter_status_deal = if params[:filter_status_deal].present?
-                            params[:filter_status_deal]
-                          else
-                            'open'
-                          end
+    @filter_status_deal = params[:filter_status_deal].presence || 'open'
+    @filter_params = params[:q]&.to_unsafe_h || {}
   end
 
   # GET /pipelines/new

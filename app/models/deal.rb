@@ -65,11 +65,49 @@ class Deal < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[]
+    base_attrs = %w[name status position total_deal_products_amount_in_cents
+                    created_at updated_at won_at lost_at lost_reason
+                    contact_id stage_id pipeline_id created_by_id]
+
+    # Add custom attribute ransackers dynamically
+    custom_attrs = custom_attribute_ransacker_names
+
+    base_attrs + custom_attrs
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    %w[users]
+    %w[contact creator users stage pipeline deal_assignees]
+  end
+
+  def self.custom_attribute_ransacker_names
+    return [] unless table_exists? && CustomAttributeDefinition.table_exists?
+
+    CustomAttributeDefinition.where(attribute_model: 'deal_attribute').pluck(:attribute_key).map do |key|
+      "custom_attributes_#{key}"
+    end
+  rescue StandardError
+    []
+  end
+
+  # Override ransack to dynamically add custom attribute ransackers
+  def self.ransack(params = {}, options = {})
+    register_custom_attribute_ransackers
+    super
+  end
+
+  def self.register_custom_attribute_ransackers
+    return unless table_exists? && CustomAttributeDefinition.table_exists?
+
+    CustomAttributeDefinition.where(attribute_model: 'deal_attribute').each do |custom_attr|
+      ransacker_name = "custom_attributes_#{custom_attr.attribute_key}"
+      next if _ransackers.key?(ransacker_name)
+
+      ransacker ransacker_name do
+        Arel.sql("deals.custom_attributes->>'#{custom_attr.attribute_key}'")
+      end
+    end
+  rescue StandardError
+    # Ignore errors during migrations
   end
 
   def total_amount_in_cents

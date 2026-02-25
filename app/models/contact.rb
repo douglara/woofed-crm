@@ -47,8 +47,44 @@ class Contact < ApplicationRecord
   }
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[additional_attributes app_id app_type created_at custom_attributes email full_name id
-       phone updated_at]
+    base_attrs = %w[additional_attributes app_id app_type created_at custom_attributes email full_name id
+                    phone updated_at]
+
+    # Add custom attribute ransackers dynamically
+    custom_attrs = custom_attribute_ransacker_names
+
+    base_attrs + custom_attrs
+  end
+
+  def self.custom_attribute_ransacker_names
+    return [] unless table_exists? && CustomAttributeDefinition.table_exists?
+
+    CustomAttributeDefinition.where(attribute_model: 'contact_attribute').pluck(:attribute_key).map do |key|
+      "custom_attributes_#{key}"
+    end
+  rescue StandardError
+    []
+  end
+
+  # Override ransack to dynamically add custom attribute ransackers
+  def self.ransack(params = {}, options = {})
+    register_custom_attribute_ransackers
+    super
+  end
+
+  def self.register_custom_attribute_ransackers
+    return unless table_exists? && CustomAttributeDefinition.table_exists?
+
+    CustomAttributeDefinition.where(attribute_model: 'contact_attribute').each do |custom_attr|
+      ransacker_name = "custom_attributes_#{custom_attr.attribute_key}"
+      next if _ransackers.key?(ransacker_name)
+
+      ransacker ransacker_name do
+        Arel.sql("contacts.custom_attributes->>'#{custom_attr.attribute_key}'")
+      end
+    end
+  rescue StandardError
+    # Ignore errors during migrations
   end
 
   def connected_with_chatwoot?

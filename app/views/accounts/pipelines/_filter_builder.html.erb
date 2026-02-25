@@ -1,0 +1,114 @@
+<div data-controller="deal-filter-builder"
+     data-deal-filter-builder-models-value="<%= deal_filter_models_json %>"
+     data-deal-filter-builder-fields-by-model-value="<%= deal_filter_fields_by_model_json %>"
+     data-deal-filter-builder-operators-value="<%= deal_filter_operators_json %>"
+     data-deal-filter-builder-users-value="<%= deal_filter_users_json %>"
+     class="w-full sm:w-auto">
+
+  <div id="tooltip-advanced-filter" role="tooltip" class="hidden absolute z-10 invisible sm:inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+    <%= t('views.accounts.pipelines.filter_builder.title', default: 'Advanced Filters') %>
+    <div class="tooltip-arrow" data-popper-arrow></div>
+  </div>
+
+  <button id="advancedFilterButton"
+          data-dropdown-toggle="advancedFilterDropdown"
+          data-deal-filter-builder-target="button"
+          class="button-default-blank-secondary-md aria-selected:button-default-fill-primary-md w-full sm:auto"
+          type="button"
+          aria-selected="false"
+          data-tooltip-target="tooltip-advanced-filter">
+    <i data-lucide="filter"></i>
+    <span data-deal-filter-builder-target="activeFiltersCount"
+          class="hidden px-1.5 py-0.5 text-xs rounded-full bg-brand-palette-03 text-white">0</span>
+    <p class="block sm:hidden">
+      <%= t('views.accounts.pipelines.filter_builder.title', default: 'Advanced Filters') %>
+    </p>
+  </button>
+
+  <div id="advancedFilterDropdown"
+       class="z-20 hidden bg-white rounded-lg shadow-lg w-[40rem] border border-light-palette-p3 dark:bg-gray-700">
+
+    <%= form_with url: account_pipeline_path(Current.account, @pipeline),
+                  method: :get,
+                  data: { turbo_frame: :stages,
+                          'deal-filter-builder-target': 'form',
+                          turbo_action: 'advance' } do |form| %>
+
+      <%= hidden_field_tag "filter_status_deal", @filter_status_deal %>
+
+      <div class="p-4 border-b border-light-palette-p3">
+        <h3 class="typography-text-b-lh150 color-fg-default">
+          <%= t('views.accounts.pipelines.filter_builder.title', default: 'Advanced Filters') %>
+        </h3>
+        <p class="typography-text-s-lh150 color-fg-soft mt-1">
+          <%= t('views.accounts.pipelines.filter_builder.description', default: 'Add conditions to filter deals') %>
+        </p>
+      </div>
+
+      <div data-deal-filter-builder-target="filterContainer"
+           class="p-4 space-y-3 max-h-80 overflow-y-auto">
+      </div>
+
+      <div class="px-4 pb-3">
+        <button type="button"
+                data-action="deal-filter-builder#addFilter"
+                class="flex items-center gap-2 text-brand-palette-03 hover:text-brand-palette-02 typography-text-m-lh150">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i>
+          <%= t('views.accounts.pipelines.filter_builder.add_filter', default: 'Add filter') %>
+        </button>
+      </div>
+
+      <div class="flex justify-between items-center p-4 border-t border-light-palette-p3 bg-light-palette-p5 rounded-b-lg">
+        <button type="button"
+                data-action="deal-filter-builder#clearFilters"
+                class="button-default-blank-secondary-sm">
+          <%= t('views.accounts.pipelines.filter_builder.clear_all', default: 'Clear all') %>
+        </button>
+        <button type="submit"
+                data-action="deal-filter-builder#applyFilters"
+                class="button-default-fill-primary-sm">
+          <%= t('views.accounts.pipelines.filter_builder.apply', default: 'Apply filters') %>
+        </button>
+      </div>
+    <% end %>
+  </div>
+
+  <template data-deal-filter-builder-target="filterTemplate">
+    <div class="filter-row flex flex-wrap items-start gap-2 p-3 bg-light-palette-p5 rounded-lg border border-light-palette-p3">
+      <!-- Model selector -->
+      <select data-role="modelSelect"
+              data-action="change->deal-filter-builder#modelChanged"
+              class="form-input w-full sm:w-32 text-sm">
+        <option value=""><%= t('views.accounts.pipelines.filter_builder.select_model', default: 'Select model...') %></option>
+      </select>
+
+      <!-- Field selector -->
+      <select data-role="fieldSelect"
+              data-action="change->deal-filter-builder#fieldChanged"
+              class="form-input w-full sm:w-40 text-sm"
+              disabled>
+        <option value=""><%= t('views.accounts.pipelines.filter_builder.select_field', default: 'Select field...') %></option>
+      </select>
+
+      <!-- Operator selector -->
+      <select data-role="operatorSelect"
+              data-action="change->deal-filter-builder#operatorChanged"
+              class="form-input w-full sm:w-36 text-sm"
+              disabled>
+        <option value=""><%= t('views.accounts.pipelines.filter_builder.select_operator', default: 'Select operator...') %></option>
+      </select>
+
+      <!-- Value input container -->
+      <div data-role="valueContainer" class="flex-1 min-w-[120px]">
+        <input type="text" class="form-input w-full text-sm" placeholder="<%= t('views.accounts.pipelines.filter_builder.select_field_first', default: 'Select field first...') %>" disabled>
+      </div>
+
+      <!-- Remove button -->
+      <button type="button"
+              data-action="deal-filter-builder#removeFilter"
+              class="p-2 text-gray-400 hover:text-red-500 transition-colors shrink-0">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </template>
+</div>
