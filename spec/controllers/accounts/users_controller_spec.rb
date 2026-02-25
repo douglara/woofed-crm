@@ -469,6 +469,95 @@ RSpec.describe Accounts::UsersController, type: :request do
       end
     end
   end
+
+  describe 'GET /accounts/{account.id}/users/combobox_select' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/users/combobox_select"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      def extract_inertia_props(response_body)
+        doc = Nokogiri::HTML(response_body)
+        script = doc.at_css('script[data-page]')
+        return nil unless script
+
+        JSON.parse(script.text)
+      end
+
+      it 'renders inertia page with users data' do
+        get "/accounts/#{account.id}/users/combobox_select"
+        expect(response).to have_http_status(:success)
+        # Verify Inertia page is rendered
+        expect(response.body).to include('data-page')
+        expect(response.body).to include('Users/ComboboxSelect')
+      end
+
+      it 'includes all users with "All" option' do
+        get "/accounts/#{account.id}/users/combobox_select"
+        expect(response).to have_http_status(:success)
+
+        # Parse Inertia response from HTML
+        inertia_page = extract_inertia_props(response.body)
+        users = inertia_page['props']['users']
+
+        # Should include "All" option at the beginning
+        expect(users.first['id']).to be_nil
+        expect(users.first['full_name']).to eq(I18n.t('activerecord.models.user.all'))
+
+        # Should include actual users
+        user_ids = users.map { |u| u['id'] }.compact
+        expect(user_ids).to include(user.id)
+      end
+
+      context 'when input_name parameter is provided' do
+        it 'passes input_name to props' do
+          get "/accounts/#{account.id}/users/combobox_select", params: { input_name: 'custom[user_id]' }
+          expect(response).to have_http_status(:success)
+
+          inertia_page = extract_inertia_props(response.body)
+          expect(inertia_page['props']['input_name']).to eq('custom[user_id]')
+        end
+      end
+
+      context 'when selected_user_id parameter is provided' do
+        it 'passes selected_user_id to props' do
+          get "/accounts/#{account.id}/users/combobox_select", params: { selected_user_id: user.id }
+          expect(response).to have_http_status(:success)
+
+          inertia_page = extract_inertia_props(response.body)
+          expect(inertia_page['props']['selected_user_id']).to eq(user.id.to_s)
+        end
+      end
+
+      context 'when form_id parameter is provided' do
+        it 'passes form_id to props' do
+          get "/accounts/#{account.id}/users/combobox_select", params: { form_id: 'my-form' }
+          expect(response).to have_http_status(:success)
+
+          inertia_page = extract_inertia_props(response.body)
+          expect(inertia_page['props']['form_id']).to eq('my-form')
+        end
+      end
+
+      context 'when placeholder parameter is provided' do
+        it 'passes placeholder to props' do
+          get "/accounts/#{account.id}/users/combobox_select", params: { placeholder: 'Choose user' }
+          expect(response).to have_http_status(:success)
+
+          inertia_page = extract_inertia_props(response.body)
+          expect(inertia_page['props']['placeholder']).to eq('Choose user')
+        end
+      end
+    end
+  end
+
   describe 'GET /accounts/{account.id}/users/{user.id}/hovercard_preview' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

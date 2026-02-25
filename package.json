@@ -62,6 +62,7 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "@vitejs/plugin-react-swc": "^4.2.3",
     "localtunnel": "^2.0.2",
     "postcss": "^8.5.6",
     "postcss-import": "^16.1.1",

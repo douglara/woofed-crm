@@ -7,6 +7,7 @@ es:
         new: "Nuevo usuario"
         edit: "Editar usuario"
         all: "Todos los usuarios"
+        select: "Seleccionar un usuario"
     attributes:
       user:
         email: Correo electrónico

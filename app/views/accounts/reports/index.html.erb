@@ -1,18 +1,23 @@
 <div class="m-8">
-  <%= form_with(url: account_reports_path(Current.account), method: :get, data: { turbo_frame: :summary_session, turbo_action: :advance, controller: 'form--date-range-picker' }, class: 'flex flex-wrap gap-2 mb-5 justify-end') do |form| %>
+  <%= form_with(url: account_reports_path(Current.account), method: :get, id: 'reports-filter-form', data: { turbo_frame: :summary_session, turbo_action: :advance, controller: 'form--date-range-picker' }, class: 'flex flex-wrap gap-2 mb-5 justify-end') do |form| %>
     <%= form.hidden_field :timezone_offset, data: { controller: "form--set-timezone-offset" } %>
     <div class='flex flex-wrap h-10 sm:w-96 shrink-0 '>
       <div class='h-10 w-10 flex items-center justify-center border-solid border-2 color-border-default rounded-l-md bg-brand-palette-08'>
         <i data-lucide="user" class="h-5 w-5 color-fg-soft stroke-1.25"></i>
       </div>
-      <%= select_tag "filter[users_id_eq]",
-      options_for_select(
-        [[t("activerecord.models.user.all"), ""]] +
-        @users.pluck(:full_name, :id),
-        params.dig(:filter, :users_id_eq)
-      ),
-      class: "form-input border-solid border-2 color-border-default rounded-r-md rounded-l-none flex-1 h-10 ml-[-2px] hover:border-gray-400 hover:z-10 hover:cursor-pointer focus:border-gray-400 focus:ring-0 focus:z-10",
-      onchange: "this.form.requestSubmit()" %>
+      <%
+        users_data = [{ id: nil, full_name: t("activerecord.models.user.all") }] +
+                     @users.map { |u| { id: u.id, full_name: u.full_name } }
+        selected_user_id = params.dig(:filter, :users_id_eq)&.to_i
+      %>
+      <div class="flex-1"
+           data-controller="users-combobox"
+           data-users-combobox-users-value="<%= users_data.to_json %>"
+           data-users-combobox-selected-user-id-value="<%= selected_user_id %>"
+           data-users-combobox-input-name-value="filter[users_id_eq]"
+           data-users-combobox-placeholder-value="<%= t('activerecord.models.user.all') %>"
+           data-users-combobox-form-id-value="reports-filter-form">
+      </div>
     </div>
     <div class='flex flex-wrap h-10 shrink-0 '>
       <div class='h-10 w-10 flex items-center justify-center border-solid border-2 color-border-default rounded-l-md bg-brand-palette-08'>

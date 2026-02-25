@@ -59,6 +59,24 @@ class Accounts::UsersController < InternalController
              end
   end
 
+  def combobox_select
+    users = current_user.account.users.order(:full_name).map do |user|
+      { id: user.id, full_name: user.full_name }
+    end
+
+    # Add "All users" option at the beginning
+    all_option = { id: nil, full_name: I18n.t('activerecord.models.user.all') }
+    users_with_all = [all_option] + users
+
+    render inertia: 'Users/ComboboxSelect', props: {
+      users: users_with_all,
+      selected_user_id: params[:selected_user_id],
+      input_name: params[:input_name] || 'filter[users_id_eq]',
+      placeholder: params[:placeholder] || I18n.t('activerecord.models.user.select'),
+      form_id: params[:form_id]
+    }
+  end
+
   def hovercard_preview
   end
 

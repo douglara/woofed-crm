@@ -36,6 +36,7 @@ Rails.application.routes.draw do
 
     resources :users do
       get 'select_user_search', on: :collection
+      get 'combobox_select', on: :collection
       get 'hovercard_preview', on: :member
     end
     resources :products do
