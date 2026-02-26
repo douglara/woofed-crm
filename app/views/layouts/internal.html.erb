@@ -9,7 +9,9 @@
     <%= csp_meta_tag %>
     <%= action_cable_meta_tag %>
     <%= vite_stylesheet_tag 'application', 'data-turbolinks-track': 'reload', media: 'all' %>
+    <%= vite_react_refresh_tag %>
     <%= vite_javascript_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= vite_typescript_tag "inertia.tsx" %>
     <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
     <%= tag.meta name: "vapid-public-key", content: Rails.configuration.x.vapid.public_key %>
     <%= tag.meta name: "openpanel-token", content: ENV.fetch("OPENPANEL_TOKEN", "") %>

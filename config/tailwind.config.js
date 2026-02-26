@@ -4,8 +4,7 @@ module.exports = {
   content: [
     "./public/*.html",
     "./app/helpers/**/*.rb",
-    "./app/javascript/**/*.js",
-    "./app/javascript/**/*.css",
+    "./app/javascript/**/*.{css,js,ts,jsx,tsx}",
     "./app/views/**/*.{erb,haml,html,slim}",
     "./node_modules/flowbite/**/*.js",
   ],
@@ -138,6 +137,7 @@ module.exports = {
     require("@tailwindcss/typography"),
     require("@tailwindcss/container-queries"),
     require("flowbite/plugin")({ charts: false }),
+    require("tailwindcss-animate"),
     function ({ addVariant }) {
       addVariant("group-inline-edit", ".group.inline-edit &");
     },
