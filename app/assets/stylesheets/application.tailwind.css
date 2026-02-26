@@ -425,6 +425,8 @@
 
 :root {
   --radius: 0.625rem;
+  --radius-md: 0.375rem;
+  --radius-sm: 0.25rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -440,6 +442,7 @@
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
@@ -474,6 +477,7 @@
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
@@ -499,4 +503,43 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Tailwind v3 compatibility styles */
+[data-highlighted] {
+  @apply bg-accent text-accent-foreground;
+}
+
+[data-slot="combobox-content"] {
+  width: var(--anchor-width);
+  max-width: var(--available-width);
+  max-height: var(--available-height);
+  transform-origin: var(--transform-origin);
+}
+
+[data-slot="combobox-list"] {
+  max-height: min(
+    calc(18rem - 2.25rem),
+    calc(var(--available-height) - 2.25rem)
+  );
+}
+
+/* Override browser default focus styles */
+[data-slot="combobox-chip-input"]:focus,
+[data-slot="combobox-chip-input"]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+[data-slot="input-group-control"]:focus,
+[data-slot="input-group-control"]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* ComboboxChips proper focus styling */
+[data-slot="combobox-chips"]:focus-within {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px var(--ring);
+  box-shadow: 0 0 0 3px oklch(0.708 0 0 / 50%);
 }
