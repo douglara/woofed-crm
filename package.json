@@ -44,7 +44,6 @@
     "lucide-react": "^0.575.0",
     "moment-timezone": "0.6.0",
     "motion": "^10.16.2",
-    "radix-ui": "^1.4.3",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "shadcn": "3.8.5",
