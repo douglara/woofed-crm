@@ -111,6 +111,10 @@ class Accounts::ContactsController < InternalController
   def hovercard_preview
   end
 
+  def test
+    render inertia: 'v1/Test/Index'
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

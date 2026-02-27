@@ -62,6 +62,7 @@ Rails.application.routes.draw do
         end
       end
       get 'hovercard_preview', on: :member
+      get 'test', on: :collection
     end
     resources :pipelines do
       get 'import'
@@ -154,6 +155,17 @@ Rails.application.routes.draw do
       end
 
       resources :contacts, only: [:create] do
+      end
+    end
+  end
+
+  namespace :inertia do
+    resources :accounts, module: :accounts do
+      resources :contacts, only: [:index] do
+        get 'search', on: :collection
+      end
+      resources :users, only: [] do
+        get 'search', on: :collection
       end
     end
   end

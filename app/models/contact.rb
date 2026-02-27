@@ -51,6 +51,10 @@ class Contact < ApplicationRecord
        phone updated_at]
   end
 
+  def self.ransackable_associations(_auth_object = nil)
+    []
+  end
+
   def connected_with_chatwoot?
     additional_attributes['chatwoot_id'].present?
   end

@@ -83,6 +83,10 @@ class User < ApplicationRecord
        avatar_url]
   end
 
+  def self.ransackable_associations(_auth_object = nil)
+    []
+  end
+
   def get_jwt_token
     Users::JsonWebToken.encode_user(self)
   end
