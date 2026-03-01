@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../../../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../../../../overview.html"><img src="../../../../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../../../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2025-04-25 12:53:06 -0300'>2025-04-25 12:53:06 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>app/use_cases/accounts/contacts/events /</small> generate_ai_response.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating a big">
+              A
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">114</span><small> lines of codes</small></div>
+              <div><span class="metric">9</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">5.2</span><small> complexity/method</small></div>
+              <div><span class="metric">9</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">46.71</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                3
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Accounts::Contacts::Events::GenerateAiResponse<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Accounts::Contacts::Events::GenerateAiResponse has no descriptive comment</span>          </div>  </li></ol>
+  def initialize(event)
+    @event = event
+    @account = event.account
+    @ai_assistent = Apps::AiAssistent.first
+  end
+
+  def call<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::Contacts::Events::GenerateAiResponse#call has approx 10 statements</span>          </div>  </li></ol>
+    return &#39;&#39; if @ai_assistent.exceeded_usage_limit?
+
+    question = @event.content.to_s
+    context = get_context(question)
+    data = prepare_data(context, question)
+    response = post_request(data)
+    response_body = JSON.parse(response.body)
+    update_ai_usage(response_body[&#39;usage&#39;][&#39;total_tokens&#39;])
+    content = response_body.dig(&#39;output&#39;, 0, &#39;content&#39;, 0, &#39;text&#39;)
+    JSON.parse(content)[&#39;response&#39;]
+  rescue StandardError
+    &#39;&#39;
+  end
+
+  def update_ai_usage(tokens)
+    @ai_assistent.usage[&#39;tokens&#39;] += tokens
+    @ai_assistent.save
+  end
+
+  def get_context(query)
+    embedding = OpenAi::Embeddings.new.get_embedding(@ai_assistent, query, &#39;text-embedding-3-small&#39;)
+    documents = EmbeddingDocumment.nearest_neighbors(:embedding, embedding, distance: &#39;cosine&#39;).first(6)
+    documents.pluck(:content, :source_reference)
+  end
+
+  def post_request(data)
+    Rails.logger.info &quot;Requesting Chat GPT with body: #{data}&quot;<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Contacts::Events::GenerateAiResponse#post_request calls 'Rails.logger' 2 times</span>              <span>Locations:</span>                  <a href="generate_ai_response.html#L35" class="js-smell-location">0</a>                  <a href="generate_ai_response.html#L41" class="js-smell-location">1</a>                  </div>  </li></ol>
+    response = Faraday.post(
+      &#39;https://api.openai.com/v1/responses&#39;,
+      data.to_json,
+      headers
+    )
+    Rails.logger.info &quot;Chat GPT response: #{response.body}&quot;<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Contacts::Events::GenerateAiResponse#post_request calls 'Rails.logger' 2 times</span>              <span>Locations:</span>                  <a href="generate_ai_response.html#L35" class="js-smell-location">0</a>                  <a href="generate_ai_response.html#L41" class="js-smell-location">1</a>                  </div>  </li></ol>
+    response
+  end
+
+  def headers
+    {
+      &#39;Content-Type&#39; =&gt; &#39;application/json&#39;,
+      &#39;Authorization&#39; =&gt; &quot;Bearer #{@ai_assistent.api_key}&quot;
+    }
+  end
+
+  def prepare_data(context, question)
+    {
+      model: @ai_assistent.model,
+      input: build_prompt(context, question),
+      text: response_format,
+      max_output_tokens: 2048,
+      temperature: 0.3,
+    }
+  end
+
+  def response_format
+    {
+      format: {
+        type: &#39;json_schema&#39;,
+        name: &#39;suggestion&#39;,
+        schema: {
+          type: &#39;object&#39;,
+          properties: {
+            response: {
+              type: &#39;string&#39;
+            },
+            confidence: {
+              type: &#39;integer&#39;
+            }
+          },
+          required: %w[response confidence],
+          additionalProperties: false
+        },
+        strict: true
+      }
+    }
+  end
+
+  def build_prompt(context, question)
+    system_prompt_message = &lt;&lt;~SYSTEM_PROMPT_MESSAGE
+      You are an assistant that will help answer questions from potential customers.
+      Only respond if you are 100% certain; otherwise, your response should be left blank.
+      If it is relevant to the response, include the link to the page where the information was found so the user can obtain more details.
+      Respond in the language the customer used to ask the question.
+      Never make up information.
+      Respond in a short and objective manner, always in plain text, without Markdown formatting, without lists, without bold text, without formatted code, and without special symbols.
+    SYSTEM_PROMPT_MESSAGE
+
+    user_prompt_message = &lt;&lt;~USER_PROMPT_MESSAGE
+      Context sections:
+      #{context}
+
+      Question:
+      #{question}
+    USER_PROMPT_MESSAGE
+
+    [
+      {
+        role: &#39;system&#39;,
+        content: system_prompt_message
+      },
+      {
+        role: &#39;user&#39;,
+        content: user_prompt_message
+      }
+    ]
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../../../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../../../../assets/javascripts/application.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../../overview.html"><img src="../../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-03-01 14:23:04 +1000'>2026-03-01 14:23:04 +1000</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>app/controllers/accounts /</small> contacts_controller.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating d big">
+              D
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">126</span><small> lines of codes</small></div>
+              <div><span class="metric">13</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">12.9</span><small> complexity/method</small></div>
+              <div><span class="metric">47</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">167.36</span><small> complexity</small></div>
+              <div><span class="metric">121</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                25
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Accounts::ContactsController &lt; InternalController<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Accounts::ContactsController assumes too much for instance variable '@contact'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Accounts::ContactsController assumes too much for instance variable '@contacts'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Accounts::ContactsController assumes too much for instance variable '@results'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Accounts::ContactsController has no descriptive comment</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Instance-Variables.md" target="_blank"><b>TooManyInstanceVariables</b></a>        </span>      </div>      <span>Accounts::ContactsController has at least 8 instance variables</span>          </div>  </li></ol>
+  before_action :set_contact, only: %i[show edit update destroy chatwoot_conversation_link hovercard_preview]
+
+  # GET /contacts or /contacts.json
+  def index<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L5" class="js-smell-location">0</a>                  <a href="products_controller.html#L46" class="js-smell-location">1</a>                  <a href="users_controller.html#L6" class="js-smell-location">2</a>                  </div>  </li></ol>
+    @contacts = if params[:query].present?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#index calls 'params[:query]' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L6" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L8" class="js-smell-location">1</a>                  </div>  </li></ol>
+                  Contact.where(
+                    &#39;full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search&#39;, search: &quot;%#{params[:query]}%&quot;<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#index calls 'params[:query]' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L6" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L8" class="js-smell-location">1</a>                  </div>  </li></ol>
+                  ).order(updated_at: :desc)
+                else
+                  Contact.all.order(created_at: :desc)
+                end
+
+    @pagy, @contacts = pagy(@contacts)
+  end
+
+  def select_contact_search<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L17" class="js-smell-location">0</a>                  <a href="products_controller.html#L69" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>Accounts::ContactsController#select_contact_search has a flog score of 25</span>          </div>  </li></ol>
+    @contacts = if params[:query].present?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#select_contact_search calls 'params[:query]' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L18" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L20" class="js-smell-location">1</a>                  </div>  </li></ol>
+                  current_user.account.contacts.where(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#select_contact_search calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L19" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L23" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#select_contact_search calls 'current_user.account.contacts' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L19" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L23" class="js-smell-location">1</a>                  </div>  </li></ol>
+                    &#39;full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search&#39;, search: &quot;%#{params[:query]}%&quot;<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#select_contact_search calls 'params[:query]' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L18" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L20" class="js-smell-location">1</a>                  </div>  </li></ol>
+                  ).order(updated_at: :desc).limit(5)
+                else
+                  current_user.account.contacts.order(updated_at: :desc).limit(5)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#select_contact_search calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L19" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L23" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#select_contact_search calls 'current_user.account.contacts' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L19" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L23" class="js-smell-location">1</a>                  </div>  </li></ol>
+                end
+  end
+
+  def search<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::ContactsController#search has approx 7 statements</span>          </div>  </li></ol>
+    @contacts = current_user.account.contacts.where(
+      &#39;full_name ILIKE :search OR email ILIKE :search OR phone ILIKE :search&#39;, search: &quot;%#{params[:q]}%&quot;
+    ).limit(5).map(&amp;:attributes)
+
+    @results = @contacts.each do |c|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md" target="_blank"><b>UncommunicativeVariableName</b></a>        </span>      </div>      <span>Accounts::ContactsController#search has the variable name 'c'</span>          </div>  </li></ol>
+      c[:text] = &quot;#{c[&#39;full_name&#39;]} - #{c[&#39;email&#39;]} - #{c[&#39;phone&#39;]}&quot;
+      c
+    end
+
+    @results.insert(0, { &quot;id&quot;: 0, &quot;text&quot;: &#39;New contact&#39; })
+
+    json = {
+      &quot;results&quot;: @results
+    }
+    render json:
+  end
+
+  # GET /contacts/new
+  def new
+    @contact = Contact.new
+  end
+
+  # GET /contacts/1/edit
+  def edit; end
+
+  def edit_custom_attributes
+    @contact = current_user.account.contacts.find(params[:contact_id])<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#edit_custom_attributes calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L54" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L55" class="js-smell-location">1</a>                  </div>  </li></ol>
+    @custom_attribute_definitions = current_user.account.custom_attribute_definitions.contact_attribute<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#edit_custom_attributes calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L54" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L55" class="js-smell-location">1</a>                  </div>  </li></ol>
+  end
+
+  # POST /contacts or /contacts.json
+  def create<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>Accounts::ContactsController#create has a flog score of 25</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::ContactsController#create has approx 6 statements</span>          </div>  </li></ol>
+    @contact = current_user.account.contacts.new(contact_params)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#create calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L60" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L64" class="js-smell-location">1</a>                  </div>  </li></ol>
+    if @contact.save
+      respond_to do |format|
+        format.html do
+          redirect_to account_contact_path(current_user.account, @contact),<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#create calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L60" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L64" class="js-smell-location">1</a>                  </div>  </li></ol>
+                      notice: t(&#39;flash_messages.created&#39;, model: Contact.model_name.human)
+        end
+        format.turbo_stream
+      end
+
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  # PATCH/PUT /contacts/1 or /contacts/1.json
+  def update<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>Accounts::ContactsController#update has a flog score of 34</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::ContactsController#update has approx 7 statements</span>          </div>  </li></ol>
+    if params[:contact][:att_key].present?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L77" class="js-smell-location">0</a>                  <a href="deals_controller.html#L106" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#update calls 'params[:contact]' 3 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L77" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L78" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#update calls 'params[:contact][:att_key]' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L77" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L78" class="js-smell-location">1</a>                  </div>  </li></ol>
+      @contact.custom_attributes[params[:contact][:att_key]] = params[:contact][:att_value]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#update calls 'params[:contact]' 3 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L77" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L78" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#update calls 'params[:contact][:att_key]' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L77" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L78" class="js-smell-location">1</a>                  </div>  </li></ol>
+    end
+
+    if @contact.update(contact_params)
+      flash[:notice] = t(&#39;flash_messages.updated&#39;, model: Contact.model_name.human)
+      respond_to do |format|
+        format.html { redirect_to account_contact_path(current_user.account, @contact) }
+        format.turbo_stream
+      end
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /contacts/1 or /contacts/1.json
+  def destroy<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L93" class="js-smell-location">0</a>                  <a href="products_controller.html#L58" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::ContactsController#destroy has approx 6 statements</span>          </div>  </li></ol>
+    @contact.destroy
+    respond_to do |format|
+      format.html do
+        redirect_to account_contacts_path(current_user.account),
+                    notice: t(&#39;flash_messages.deleted&#39;, model: Contact.model_name.human)
+      end
+      format.json { head :no_content }
+    end
+  end
+
+  def chatwoot_conversation_link
+    @display_format = params[:display_format].presence || &#39;icon&#39;
+    @chatwoot_conversation_link = Contact::Integrations::Chatwoot::GenerateConversationLink.new(@contact).call[:ok]
+  rescue Faraday::TimeoutError, Faraday::ConnectionFailed, JSON::ParserError
+    @connection_error = true
+  end
+
+  def hovercard_preview
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_contact
+    @contact = Contact.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def contact_params
+    params.require(:contact).permit(:full_name, :phone, :email, :label_list,
+                                    custom_attributes: {})
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../../assets/javascripts/application.js"></script>
+    <script src="../../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>
