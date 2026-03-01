@@ -180,16 +180,18 @@ class Accounts::DealsController < InternalController
   end
 
   def drag_and_drop
-    deal_reference = Deal.find(drag_and_drop_params[:element_reference_id])
-    position = Deal::DragAndDropPosition.new(deal_reference_position: deal_reference.position, deal_reference_direction: drag_and_drop_params[:element_reference_direction]).call
+    Deal::DragAndDrop.new(
+      @deal,
+      stage_id: drag_and_drop_params.dig(:deal, :stage_id),
+      element_reference_id: drag_and_drop_params[:element_reference_id],
+      element_reference_drop_direction: drag_and_drop_params[:element_reference_drop_direction]
+    ).call
 
-    if Deal::CreateOrUpdate.new(@deal, deal_params.merge(position:)).call
-      respond_to do |format|
-        format.turbo_stream
-      end
-    else
-      head :unprocessable_entity
+    respond_to do |format|
+      format.turbo_stream
     end
+  rescue StandardError
+    head :unprocessable_entity
   end
 
   private
@@ -207,7 +209,7 @@ class Accounts::DealsController < InternalController
   end
 
   def drag_and_drop_params
-    params.permit(:element_reference_id, :element_reference_direction)
+    params.permit(:element_reference_id, :element_reference_drop_direction, deal: [:stage_id])
   end
 
   # Only allow a list of trusted parameters through.

@@ -757,7 +757,7 @@ RSpec.describe Accounts::DealsController, type: :request do
         let!(:deal_position1_stage2) { create(:deal, stage: stage2, position: 1) }
 
         it 'moves deal to another stage at specified position' do
-          params = { element_reference_id: deal_position1_stage2.id, element_reference_direction: 'top',
+          params = { element_reference_id: deal_position1_stage2.id, element_reference_drop_direction: 'top',
                      deal: { stage_id: stage2.id } }
 
           patch "/accounts/#{account.id}/deals/#{deal_position2.id}/drag_and_drop",

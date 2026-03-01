@@ -28,15 +28,16 @@ export default class extends Controller {
     const dealId = event.item.dataset.id;
     const accountId = event.item.dataset.accountId;
     const toStageId = event.to.dataset.id;
-    const fromStageId = event.from.dataset.id;
-    const { element_reference_id, element_reference_direction = null } =
-      new DropParamsBuilder(event).buildDropParams();
+    const dropParams = new DropParamsBuilder(event).buildDropParams();
+    const { element_reference_id, element_reference_drop_direction } = dropParams;
 
     const body = new FormData();
     body.append("deal[stage_id]", toStageId);
-    body.append("element_reference_id", element_reference_id);
-    if (element_reference_direction != null) {
-      body.append("element_reference_direction", element_reference_direction);
+    if (element_reference_id) {
+      body.append("element_reference_id", element_reference_id);
+    }
+    if (element_reference_drop_direction) {
+      body.append("element_reference_drop_direction", element_reference_drop_direction);
     }
 
     const url = this.data
