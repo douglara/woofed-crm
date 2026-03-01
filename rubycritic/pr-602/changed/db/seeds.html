@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../overview.html"><img src="../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-03-01 14:10:21 +1000'>2026-03-01 14:10:21 +1000</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>db /</small> seeds.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating b big">
+              B
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">168</span><small> lines of codes</small></div>
+              <div><span class="metric">0</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">N/A</span><small> complexity/method</small></div>
+              <div><span class="metric">30</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">0.0</span><small> complexity</small></div>
+              <div><span class="metric">58</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                1
+                smell
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># This file should contain all the record creation needed to seed the database with its default values.
+# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
+
+if Rails.env.development? &amp;&amp; User.count.zero?
+
+  Installation.create!(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="seeds.html#L6" class="js-smell-location">0</a>                  <a href="seeds.html#L160" class="js-smell-location">1</a>                  </div>  </li></ol>
+    id: SecureRandom.uuid,
+    key1: Faker::Alphanumeric.alphanumeric(number: 10),
+    key2: Faker::Alphanumeric.alphanumeric(number: 10),
+    status: &#39;completed&#39;,
+    token: Faker::Alphanumeric.alphanumeric(number: 20)
+  )
+
+  account = Account.create!(
+    name: &#39;Demo Company&#39;,
+    currency_code: &#39;BRL&#39;,
+    segment: &#39;technology&#39;,
+    number_of_employees: &#39;11-50&#39;
+  )
+
+  users = []
+  [
+    { full_name: &#39;Admin&#39;, email: &#39;user1@email.com&#39; },
+    { full_name: &#39;Maria Sales&#39;, email: &#39;maria@email.com&#39; },
+    { full_name: &#39;John Commercial&#39;, email: &#39;john@email.com&#39; }
+  ].each do |user_data|
+    users &lt;&lt; User.create!(
+      full_name: user_data[:full_name],
+      email: user_data[:email],
+      password: &#39;123456&#39;,
+      password_confirmation: &#39;123456&#39;,
+      account: account
+    )
+  end
+
+  # Pipeline and Stages
+  pipeline = Pipeline.create!(name: &#39;Sales&#39;, account: account)
+
+  stages_data = [
+    { name: &#39;New Lead&#39;, position: 1 },
+    { name: &#39;Qualification&#39;, position: 2 },
+    { name: &#39;Proposal Sent&#39;, position: 3 },
+    { name: &#39;Negotiation&#39;, position: 4 },
+    { name: &#39;Closing&#39;, position: 5 }
+  ]
+
+  stages = stages_data.map do |stage_data|
+    Stage.create!(pipeline: pipeline, name: stage_data[:name], position: stage_data[:position], account: account)
+  end
+
+  # Products
+  products_data = [
+    { name: &#39;Starter Plan&#39;, identifier: &#39;PLAN-STARTER&#39;, amount_in_cents: 9_900, quantity_available: 999,
+      description: &#39;Starter plan for small businesses&#39; },
+    { name: &#39;Professional Plan&#39;, identifier: &#39;PLAN-PRO&#39;, amount_in_cents: 29_900, quantity_available: 999,
+      description: &#39;Professional plan with advanced features&#39; },
+    { name: &#39;Enterprise Plan&#39;, identifier: &#39;PLAN-ENT&#39;, amount_in_cents: 99_900, quantity_available: 999,
+      description: &#39;Enterprise plan with dedicated support&#39; },
+    { name: &#39;Consulting (hour)&#39;, identifier: &#39;CONSULT-HR&#39;, amount_in_cents: 35_000, quantity_available: 500,
+      description: &#39;Specialized consulting hour&#39; },
+    { name: &#39;Basic Implementation&#39;, identifier: &#39;IMPL-BASIC&#39;, amount_in_cents: 150_000, quantity_available: 100,
+      description: &#39;Basic implementation service&#39; },
+    { name: &#39;Full Implementation&#39;, identifier: &#39;IMPL-FULL&#39;, amount_in_cents: 500_000, quantity_available: 50,
+      description: &#39;Full implementation service with training&#39; },
+    { name: &#39;Online Training&#39;, identifier: &#39;TRAIN-ONLINE&#39;, amount_in_cents: 50_000, quantity_available: 200,
+      description: &#39;Online training for teams&#39; },
+    { name: &#39;On-site Training&#39;, identifier: &#39;TRAIN-ONSITE&#39;, amount_in_cents: 150_000, quantity_available: 50,
+      description: &#39;On-site training at the company&#39; }
+  ]
+
+  products = products_data.map do |product_data|
+    Product.create!(
+      name: product_data[:name],
+      identifier: product_data[:identifier],
+      amount_in_cents: product_data[:amount_in_cents],
+      quantity_available: product_data[:quantity_available],
+      description: product_data[:description],
+      account: account
+    )
+  end
+
+  # Contacts
+  contacts_data = [
+    { full_name: &#39;Ana Silva&#39;, email: &#39;ana.silva@techcorp.com&#39;, phone: &#39;+5511999001001&#39; },
+    { full_name: &#39;Bruno Costa&#39;, email: &#39;bruno.costa@innovation.com&#39;, phone: &#39;+5511999002002&#39; },
+    { full_name: &#39;Carla Oliveira&#39;, email: &#39;carla@startupx.io&#39;, phone: &#39;+5511999003003&#39; },
+    { full_name: &#39;Daniel Santos&#39;, email: &#39;daniel.santos@bigcompany.com&#39;, phone: &#39;+5511999004004&#39; },
+    { full_name: &#39;Elena Ferreira&#39;, email: &#39;elena@consulting.com&#39;, phone: &#39;+5511999005005&#39; },
+    { full_name: &#39;Fernando Lima&#39;, email: &#39;fernando@industry.com&#39;, phone: &#39;+5511999006006&#39; },
+    { full_name: &#39;Gabriela Rocha&#39;, email: &#39;gabi@ecommerce.com&#39;, phone: &#39;+5511999007007&#39; },
+    { full_name: &#39;Henrique Almeida&#39;, email: &#39;henrique@finance.com&#39;, phone: &#39;+5511999008008&#39; },
+    { full_name: &#39;Isabela Martins&#39;, email: &#39;isabela@education.com&#39;, phone: &#39;+5511999009009&#39; },
+    { full_name: &#39;John Smith&#39;, email: &#39;john.smith@logistics.com&#39;, phone: &#39;+5511999010010&#39; },
+    { full_name: &#39;Karen Dias&#39;, email: &#39;karen@healthcare.com&#39;, phone: &#39;+5511999011011&#39; },
+    { full_name: &#39;Lucas Mendes&#39;, email: &#39;lucas@agency.com&#39;, phone: &#39;+5511999012012&#39; },
+    { full_name: &#39;Mariana Nunes&#39;, email: &#39;mariana@retail.com&#39;, phone: &#39;+5511999013013&#39; },
+    { full_name: &#39;Nicolas Barbosa&#39;, email: &#39;nicolas@tech.io&#39;, phone: &#39;+5511999014014&#39; },
+    { full_name: &#39;Olivia Cardoso&#39;, email: &#39;olivia@media.com&#39;, phone: &#39;+5511999015015&#39; }
+  ]
+
+  contacts = contacts_data.map do |contact_data|
+    Contact.create!(
+      full_name: contact_data[:full_name],
+      email: contact_data[:email],
+      phone: contact_data[:phone],
+      account: account
+    )
+  end
+
+  # Deals - 1000 per stage per status (5 stages x 3 statuses x 1000 = 15,000 deals)
+  statuses = %w[open won lost]
+  contact_ids = contacts.map(&amp;:id)
+  user_ids = users.map(&amp;:id)
+  now = Time.current
+
+  deal_records = []
+
+  stages.each do |stage|
+    stage_position = 0
+
+    statuses.each do |status|
+      status_label = status.capitalize
+
+      1000.times do |i|
+        stage_position += 1
+        seq = i + 1
+
+        won_at = status == &#39;won&#39; ? rand(1..90).days.ago : nil
+        lost_at = status == &#39;lost&#39; ? rand(1..90).days.ago : nil
+        lost_reason = status == &#39;lost&#39; ? &#39;Budget constraints&#39; : &#39;&#39;
+
+        deal_records &lt;&lt; {
+          name: &quot;[#{stage.name}] #{status_label} ##{seq} (pos #{stage_position})&quot;,
+          stage_id: stage.id,
+          pipeline_id: pipeline.id,
+          contact_id: contact_ids.sample,
+          status: status,
+          position: stage_position,
+          won_at: won_at,
+          lost_at: lost_at,
+          lost_reason: lost_reason,
+          total_deal_products_amount_in_cents: 0,
+          created_by_id: user_ids.sample,
+          created_at: now,
+          updated_at: now
+        }
+      end
+    end
+  end
+
+  # Bulk insert for performance (bypasses callbacks/acts_as_list)
+  deal_records.each_slice(500) do |batch|
+    Deal.insert_all(batch)
+  end
+
+  puts &#39;Created seed data&#39;
+end
+
+if Rails.env.test?
+  Installation.create!(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="seeds.html#L6" class="js-smell-location">0</a>                  <a href="seeds.html#L160" class="js-smell-location">1</a>                  </div>  </li></ol>
+    id: SecureRandom.uuid,
+    key1: Faker::Alphanumeric.alphanumeric(number: 10),
+    key2: Faker::Alphanumeric.alphanumeric(number: 10),
+    status: &#39;completed&#39;,
+    token: Faker::Alphanumeric.alphanumeric(number: 20)
+  )
+  puts &#39;Created seed test data&#39;
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../assets/javascripts/application.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>
