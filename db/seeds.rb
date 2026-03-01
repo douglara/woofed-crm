@@ -107,138 +107,50 @@ if Rails.env.development? && User.count.zero?
     )
   end
 
-  # Deals in different stages and statuses
-  deals_data = [
-    # Deals in New Lead
-    { name: 'CRM Project - TechCorp', stage: stages[0], contact: contacts[0], status: 'open' },
-    { name: 'Sales System - Innovation', stage: stages[0], contact: contacts[1], status: 'open' },
+  # Deals - 1000 per stage per status (5 stages x 3 statuses x 1000 = 15,000 deals)
+  statuses = %w[open won lost]
+  contact_ids = contacts.map(&:id)
+  user_ids = users.map(&:id)
+  now = Time.current
 
-    # Deals in Qualification
-    { name: 'Marketing Automation - StartupX', stage: stages[1], contact: contacts[2], status: 'open' },
-    { name: 'Full ERP - BigCompany', stage: stages[1], contact: contacts[3], status: 'open' },
-    { name: 'Digital Consulting - Consulting SA', stage: stages[1], contact: contacts[4], status: 'open' },
+  deal_records = []
 
-    # Deals in Proposal Sent
-    { name: 'Cloud Migration - Industry', stage: stages[2], contact: contacts[5], status: 'open' },
-    { name: 'B2B E-commerce - Ecommerce', stage: stages[2], contact: contacts[6], status: 'open' },
+  stages.each do |stage|
+    stage_position = 0
 
-    # Deals in Negotiation
-    { name: 'Financial Platform - Finance', stage: stages[3], contact: contacts[7], status: 'open' },
-    { name: 'Corporate LMS - Education', stage: stages[3], contact: contacts[8], status: 'open' },
-    { name: 'Logistics System - Logistics', stage: stages[3], contact: contacts[9], status: 'open' },
+    statuses.each do |status|
+      status_label = status.capitalize
 
-    # Deals in Closing
-    { name: 'Healthcare App - Healthcare', stage: stages[4], contact: contacts[10], status: 'open' },
+      1000.times do |i|
+        stage_position += 1
+        seq = i + 1
 
-    # Won Deals
-    { name: 'Corporate Website - Agency', stage: stages[4], contact: contacts[11], status: 'won',
-      won_at: 5.days.ago },
-    { name: 'Integrated POS - Retail', stage: stages[4], contact: contacts[12], status: 'won', won_at: 2.weeks.ago },
-    { name: 'API Gateway - Tech.io', stage: stages[3], contact: contacts[13], status: 'won', won_at: 1.month.ago },
+        won_at = status == 'won' ? rand(1..90).days.ago : nil
+        lost_at = status == 'lost' ? rand(1..90).days.ago : nil
+        lost_reason = status == 'lost' ? 'Budget constraints' : ''
 
-    # Lost Deals
-    { name: 'Media Portal - Media', stage: stages[2], contact: contacts[14], status: 'lost', lost_at: 1.week.ago,
-      lost_reason: 'Budget above expected' }
-  ]
-
-  deals = deals_data.map do |deal_data|
-    Deal.create!(
-      name: deal_data[:name],
-      stage: deal_data[:stage],
-      pipeline: pipeline,
-      contact: deal_data[:contact],
-      status: deal_data[:status],
-      creator: users.sample,
-      won_at: deal_data[:won_at],
-      lost_at: deal_data[:lost_at],
-      lost_reason: deal_data[:lost_reason] || '',
-      account: account
-    )
-  end
-
-  # Add products to deals
-  deals.each do |deal|
-    products.sample(rand(1..3)).each do |product|
-      quantity = rand(1..5)
-      DealProduct.create!(
-        deal: deal,
-        product: product,
-        account: account,
-        product_name: product.name,
-        product_identifier: product.identifier,
-        unit_amount_in_cents: product.amount_in_cents,
-        quantity: quantity,
-        total_amount_in_cents: product.amount_in_cents * quantity
-      )
+        deal_records << {
+          name: "[#{stage.name}] #{status_label} ##{seq} (pos #{stage_position})",
+          stage_id: stage.id,
+          pipeline_id: pipeline.id,
+          contact_id: contact_ids.sample,
+          status: status,
+          position: stage_position,
+          won_at: won_at,
+          lost_at: lost_at,
+          lost_reason: lost_reason,
+          total_deal_products_amount_in_cents: 0,
+          created_by_id: user_ids.sample,
+          created_at: now,
+          updated_at: now
+        }
+      end
     end
   end
 
-  deals.each do |deal|
-    DealAssignee.create!(deal: deal, user: users.sample, account: account)
-  end
-
-  # Create activities and notes
-  deals.each do |deal|
-    Event.create!(
-      deal: deal,
-      contact: deal.contact,
-      kind: 'note',
-      title: 'First contact',
-      content: "Customer reached out interested in our services. Showed initial interest in #{products.sample.name}.",
-      account: account
-    )
-
-    # Scheduled activities (future)
-    Event.create!(
-      deal: deal,
-      contact: deal.contact,
-      kind: 'activity',
-      title: 'Follow-up',
-      scheduled_at: rand(1..14).days.from_now,
-      content: 'Make follow-up call to check interest',
-      account: account
-    )
-
-    # Overdue activities (for some deals)
-    if [true, false].sample
-      Event.create!(
-        deal: deal,
-        contact: deal.contact,
-        kind: 'activity',
-        title: 'Send proposal',
-        scheduled_at: rand(1..7).days.ago,
-        content: 'Prepare and send commercial proposal',
-        account: account
-      )
-    end
-
-    # Completed activities (for some deals)
-    next unless [true, false].sample
-
-    Event.create!(
-      deal: deal,
-      contact: deal.contact,
-      kind: 'activity',
-      title: 'Initial meeting',
-      scheduled_at: rand(7..30).days.ago,
-      done_at: rand(7..30).days.ago,
-      content: 'Service presentation meeting',
-      account: account
-    )
-  end
-
-  # Create additional overdue activities
-  3.times do |i|
-    deal = deals.sample
-    Event.create!(
-      deal: deal,
-      contact: deal.contact,
-      kind: 'activity',
-      title: "Urgent task #{i + 1}",
-      scheduled_at: rand(1..5).days.ago,
-      content: 'This activity is overdue and needs attention',
-      account: account
-    )
+  # Bulk insert for performance (bypasses callbacks/acts_as_list)
+  deal_records.each_slice(500) do |batch|
+    Deal.insert_all(batch)
   end
 
   puts 'Created seed data'
