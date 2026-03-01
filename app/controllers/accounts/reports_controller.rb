@@ -2,7 +2,7 @@ class Accounts::ReportsController < InternalController
   before_action :set_date_range
 
   def index
-    @users = User.all
+    @selected_user = User.find_by(id: params.dig(:filter, :users_id_eq))
   end
 
   def summary
