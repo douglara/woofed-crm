@@ -126,6 +126,12 @@ Rails.application.routes.draw do
     devise_for :users, skip: [:registrations]
   end
 
+  namespace :inertia do
+    namespace :components do
+      get 'combobox', to: 'combobox#search'
+    end
+  end
+
   root to: 'accounts/pipelines#index'
 
   namespace :api do
