@@ -7,6 +7,9 @@ services:
       POSTGRES_DB: postgres
     volumes: []
 
+  redis:
+    image: 'redis:6.2.7-alpine'
+
   app:
     build:
       context: .
