@@ -13,6 +13,12 @@ GIT
       net-http-persistent (~> 4.0)
       nokogiri (~> 1, >= 1.10.8)
 
+PATH
+  remote: plugins/example
+  specs:
+    example (0.1.0)
+      rails (>= 7.1.5.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -819,6 +825,7 @@ DEPENDENCIES
   drb
   elastic-apm
   erb_lint
+  example!
   factory_bot_rails
   faker
   faraday

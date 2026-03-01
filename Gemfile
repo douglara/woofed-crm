@@ -128,3 +128,9 @@ gem 'tailwindcss-rails', '~> 2.0'
 gem 'opentelemetry-exporter-otlp', '~> 0.26.1'
 gem 'opentelemetry-instrumentation-all', '~> 0.50.1'
 gem 'opentelemetry-sdk', '~> 1.3'
+
+# Load Plugins and set plugins dependencies
+require_relative 'lib/plugins'
+::Plugins.plugins.each do |plugin_path|
+  gem plugin_path.basename.to_s, path: plugin_path.to_s
+end
