@@ -3,10 +3,6 @@ class Accounts::ContactsController < InternalController
 
   def show
     @pagy_deals, @deals = pagy(@contact.deals.order(created_at: :desc), items: 10, page_param: :deals_page)
-    respond_to do |format|
-      format.html
-      format.turbo_stream
-    end
   end
 
   # GET /contacts or /contacts.json

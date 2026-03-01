@@ -1,3 +1,0 @@
-<%= turbo_stream.replace "contact_#{@contact.id}_deals" do %>
-  <%= render 'accounts/contacts/deals_list', deals: @deals, pagy: @pagy_deals, contact: @contact %>
-<% end %>
