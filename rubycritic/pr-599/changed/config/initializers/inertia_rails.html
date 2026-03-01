@@ -47,12 +47,12 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-02-27 21:55:14 -0300'>2026-02-27 21:55:14 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-02-07 22:36:53 +1000'>2026-02-07 22:36:53 +1000</time>
         
       </span>
     </div>
     <div>
-      <h3><small>app/models /</small> stage.rb</h3>
+      <h3><small>config/initializers /</small> inertia_rails.rb</h3>
     </div>
   </div>
   <!--End Page Title -->
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">41</span><small> lines of codes</small></div>
-              <div><span class="metric">2</span><small> methods</small></div>
+              <div><span class="metric">9</span><small> lines of codes</small></div>
+              <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">8.3</span><small> complexity/method</small></div>
-              <div><span class="metric">33</span><small> churn</small></div>
+              <div><span class="metric">N/A</span><small> complexity/method</small></div>
+              <div><span class="metric">4</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">16.62</span><small> complexity</small></div>
+              <div><span class="metric">0.0</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -97,46 +97,14 @@
       </div>
     </div>
 
-    <code class="prettyprint linenums lang-ruby file-code js-file-code"># == Schema Information
-#
-# Table name: stages
-#
-#  id          :bigint           not null, primary key
-#  name        :string           default(&quot;&quot;), not null
-#  position    :integer
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  pipeline_id :bigint           not null
-#
-# Indexes
-#
-#  index_stages_on_pipeline_id  (pipeline_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (pipeline_id =&gt; pipelines.id)
-#
-class Stage &lt; ApplicationRecord
-  include Stage::Decorators
-  belongs_to :pipeline, touch: true
-  acts_as_list scope: :pipeline
-  has_many :deals, dependent: :destroy
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># frozen_string_literal: true
 
-  scope :ordered_by_pipeline_and_position, lambda {
-                                             joins(:pipeline).order(&#39;pipelines.name ASC, stages.position ASC&#39;)
-                                           }
-
-  def total_amount_deals(filter_status_deal)
-    return deals.sum(&amp;:total_amount_in_cents) if filter_status_deal == &#39;all&#39;
-
-    deals.where(status: filter_status_deal).sum(&amp;:total_amount_in_cents)
-  end
-
-  def total_quantity_deals(filter_status_deal)
-    return deals.count if filter_status_deal == &#39;all&#39;
-
-    deals.where(status: filter_status_deal).count
-  end
+InertiaRails.configure do |config|
+  config.version = ViteRuby.digest
+  config.encrypt_history = true
+  config.always_include_errors_hash = true
+  config.use_script_element_for_initial_page = true
+  config.use_data_inertia_head_attribute = true
 end
 </code>
   </div>
