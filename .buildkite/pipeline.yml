@@ -44,7 +44,7 @@ steps:
       bin/rails db:create db:schema:load
 
       echo "--- :art: Precompiling assets"
-      bundle exec rails assets:clean assets:precompile
+      NODE_OPTIONS=--openssl-legacy-provider bundle exec rails assets:clean assets:precompile
 
       echo "--- :rspec: Running RSpec tests"
       bundle exec rspec
