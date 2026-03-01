@@ -38,7 +38,7 @@ steps:
 
       echo "--- :yarn: Installing Yarn and building assets"
       npm install -g yarn
-      yarn build
+      NODE_OPTIONS=--openssl-legacy-provider yarn build
 
       echo "--- :database: Setting up database"
       bin/rails db:create db:schema:load
