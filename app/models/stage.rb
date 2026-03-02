@@ -27,15 +27,25 @@ class Stage < ApplicationRecord
                                              joins(:pipeline).order('pipelines.name ASC, stages.position ASC')
                                            }
 
-  def total_amount_deals(filter_status_deal)
-    return deals.sum(&:total_amount_in_cents) if filter_status_deal == 'all'
-
-    deals.where(status: filter_status_deal).sum(&:total_amount_in_cents)
+  def total_amount_deals(filter_deals)
+    ::Query::Filter.new(deals, JSON.parse(filter_deals)).call.sum(&:total_amount_in_cents)
   end
 
-  def total_quantity_deals(filter_status_deal)
-    return deals.count if filter_status_deal == 'all'
+  def total_quantity_deals(filter_deals)
+    ::Query::Filter.new(deals, JSON.parse(filter_deals)).call.count
+  end
 
-    deals.where(status: filter_status_deal).count
+  def self.ransackable_attributes(auth_object = nil)
+    %w[
+      id
+      name
+      position
+      created_at
+      updated_at
+    ]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[deals pipeline]
   end
 end

@@ -1,0 +1,9 @@
+<%= render 'components/overlays/drawer', title: t('activerecord.models.filter', model: @model_class.model_name.human.pluralize), width_class: 'w-2/5' do %>
+  <div
+    data-controller="advanced-filter"
+    data-advanced-filter-resource-value="<%= @model_class.model_name.plural %>"
+    data-advanced-filter-fields-value="<%= @fields.to_json %>"
+    data-advanced-filter-account-id-value="<%= @account.id %>"
+    data-advanced-filter-redirect-url-value="<%= @redirect_url %>"
+  ></div>
+<% end %>

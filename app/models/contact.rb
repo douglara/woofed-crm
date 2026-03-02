@@ -52,7 +52,7 @@ class Contact < ApplicationRecord
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    []
+    %w[labels chatwoot_conversations_labels deals]
   end
 
   def connected_with_chatwoot?

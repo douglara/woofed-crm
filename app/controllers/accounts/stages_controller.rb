@@ -2,16 +2,9 @@ class Accounts::StagesController < InternalController
   before_action :set_stage, only: %i[show]
 
   def show
-    @filter_status_deal = if params[:filter_status_deal].present?
-                            params[:filter_status_deal]
-                          else
-                            'open'
-                          end
-    if @filter_status_deal == 'all'
-      @pagy, @deals = pagy(@stage.deals.order(position: :desc), items: 8)
-    else
-      @pagy, @deals = pagy(@stage.deals.where(status: @filter_status_deal).order(position: :desc), items: 8)
-    end
+    @filter_deals = params[:filter]
+    @pagy, @deals = pagy(Query::Filter.new(@stage.deals, JSON.parse(@filter_deals)).call.order(position: :desc),
+                         items: 8)
   end
 
   private

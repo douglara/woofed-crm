@@ -84,7 +84,7 @@ class User < ApplicationRecord
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    []
+    %w[deals]
   end
 
   def get_jwt_token

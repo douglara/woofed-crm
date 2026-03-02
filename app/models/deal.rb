@@ -65,11 +65,11 @@ class Deal < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[]
+    %w[name status lost_at lost_reason total_deal_products_amount_in_cents won_at created_at updated_at]
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    %w[users]
+    %w[users contact stage pipeline creator]
   end
 
   def total_amount_in_cents

@@ -46,7 +46,6 @@ function useDebouncedCallback<T extends (...args: Parameters<T>) => void>(
 export interface DynamicComboboxOption {
   value: string | number;
   label: string;
-  [key: string]: unknown;
 }
 
 export interface DynamicComboboxProps {
@@ -57,22 +56,16 @@ export interface DynamicComboboxProps {
     value: string | number | null,
     option?: DynamicComboboxOption,
   ) => void;
-  /** API endpoint to fetch options (e.g., "/inertia/accounts/1/contacts/search") */
-  endpoint: string;
-  /** Ransack search key (e.g., "full_name_cont" or "email_or_full_name_cont") */
-  searchKey?: string;
-  /** Key in response object to use as label (e.g., "full_name") */
-  labelKey?: string;
-  /** Key in response object to use as value (e.g., "id") */
-  valueKey?: string;
+  /** Model name for the combobox controller (e.g., "user", "contact", "product") */
+  modelName: string;
+  /** Ransack search predicate (e.g., "full_name_or_email_cont") */
+  ransackParam: string;
+  /** Account ID for building the combobox search URL */
+  accountId: number;
   /** Placeholder text */
   placeholder?: string;
-  /** Minimum characters to trigger search */
-  minChars?: number;
   /** Debounce delay in ms */
   debounceMs?: number;
-  /** Initial options to display */
-  initialOptions?: DynamicComboboxOption[];
   /** Additional className for the input */
   className?: string;
   /** Disabled state */
@@ -83,33 +76,30 @@ export interface DynamicComboboxProps {
   emptyMessage?: string;
   /** Loading state message */
   loadingMessage?: string;
-  /** Transform response data (useful for nested responses) */
-  transformResponse?: (data: unknown) => unknown[];
   /** Fetch initial results when combobox opens (default: true) */
   fetchOnOpen?: boolean;
+}
+
+function buildComboboxUrl(accountId: number, modelName: string): string {
+  return `/inertia/accounts/${encodeURIComponent(accountId)}/components/combobox?model=${encodeURIComponent(modelName)}`;
 }
 
 export function DynamicCombobox({
   value,
   onChange,
-  endpoint,
-  searchKey = "full_name_cont",
-  labelKey = "full_name",
-  valueKey = "id",
+  modelName,
+  ransackParam,
+  accountId,
   placeholder = "Search...",
-  minChars = 1,
   debounceMs = 300,
-  initialOptions = [],
   className,
   disabled = false,
   showClear = false,
   emptyMessage = "No results found.",
   loadingMessage = "Loading...",
-  transformResponse,
   fetchOnOpen = true,
 }: DynamicComboboxProps) {
-  const [options, setOptions] =
-    React.useState<DynamicComboboxOption[]>(initialOptions);
+  const [options, setOptions] = React.useState<DynamicComboboxOption[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
   const [error, setError] = React.useState<string | null>(null);
@@ -121,11 +111,52 @@ export function DynamicCombobox({
     return options.find((opt) => String(opt.value) === String(value)) || null;
   }, [value, options]);
 
+  // Auto-fetch label for an initial value that has no matching option yet
+  // (e.g., when filters are reconstructed from URL params)
+  const initialFetchDone = React.useRef(false);
+  React.useEffect(() => {
+    if (
+      value !== null &&
+      value !== undefined &&
+      !selectedOption &&
+      !initialFetchDone.current
+    ) {
+      initialFetchDone.current = true;
+      const url = new URL(
+        buildComboboxUrl(accountId, modelName),
+        window.location.origin,
+      );
+      url.searchParams.set("q[id_eq]", String(value));
+      fetch(url.toString(), {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        credentials: "same-origin",
+      })
+        .then((res) => (res.ok ? res.json() : []))
+        .then((data: DynamicComboboxOption[]) => {
+          if (data.length > 0) {
+            setOptions((prev) => {
+              const existing = new Set(prev.map((p) => String(p.value)));
+              const newOpts = data.filter(
+                (d) => !existing.has(String(d.value)),
+              );
+              return newOpts.length > 0 ? [...prev, ...newOpts] : prev;
+            });
+          }
+        })
+        .catch(() => {
+          // ignore - label just won't show
+        });
+    }
+  }, [value, selectedOption, accountId, modelName]);
+
   const fetchOptions = React.useCallback(
     async (searchTerm: string, isInitialFetch = false) => {
-      // Allow initial fetch or typed search that meets minChars
-      if (!isInitialFetch && searchTerm.length < minChars) {
-        setOptions(initialOptions);
+      if (!isInitialFetch && searchTerm.length < 1) {
+        setOptions([]);
         return;
       }
 
@@ -134,15 +165,18 @@ export function DynamicCombobox({
       setHasFetched(true);
 
       try {
-        // Build ransack query params
-        const params = new URLSearchParams();
-        params.set(`query[${searchKey}]`, searchTerm);
+        const url = new URL(
+          buildComboboxUrl(accountId, modelName),
+          window.location.origin,
+        );
+        if (searchTerm) {
+          url.searchParams.set(`q[${ransackParam}]`, searchTerm);
+        }
 
-        const response = await fetch(`${endpoint}?${params.toString()}`, {
+        const response = await fetch(url.toString(), {
           method: "GET",
           headers: {
             Accept: "application/json",
-            "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest",
           },
           credentials: "same-origin",
@@ -152,30 +186,21 @@ export function DynamicCombobox({
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const result = await response.json();
+        const data: DynamicComboboxOption[] = await response.json();
 
-        // Transform response if transformer provided, otherwise use data directly
-        let items: unknown[];
-        if (transformResponse) {
-          items = transformResponse(result);
-        } else if (Array.isArray(result.data)) {
-          items = result.data;
-        } else if (Array.isArray(result)) {
-          items = result;
-        } else {
-          items = [];
-        }
-
-        // Map to options format
-        const mappedOptions: DynamicComboboxOption[] = (
-          items as Record<string, unknown>[]
-        ).map((item) => ({
-          value: item[valueKey] as string | number,
-          label: item[labelKey] as string,
-          ...item,
-        }));
-
-        setOptions(mappedOptions);
+        // Preserve the currently selected option in the list so its label
+        // keeps showing even if the new results don't include it
+        setOptions((prev) => {
+          if (value === null || value === undefined) return data;
+          const selectedInNew = data.some(
+            (d) => String(d.value) === String(value),
+          );
+          if (selectedInNew) return data;
+          const selectedOpt = prev.find(
+            (p) => String(p.value) === String(value),
+          );
+          return selectedOpt ? [selectedOpt, ...data] : data;
+        });
       } catch (err) {
         console.error("DynamicCombobox fetch error:", err);
         setError(
@@ -186,15 +211,7 @@ export function DynamicCombobox({
         setIsLoading(false);
       }
     },
-    [
-      endpoint,
-      searchKey,
-      labelKey,
-      valueKey,
-      minChars,
-      initialOptions,
-      transformResponse,
-    ],
+    [accountId, modelName, ransackParam, value],
   );
 
   const debouncedFetch = useDebouncedCallback(fetchOptions, debounceMs);
