@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: password
+    volumes: []
+
+  redis:
+    image: 'redis:6.2.7-alpine'
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env.github
+    environment:
+      RAILS_ENV: test
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/
+      REDIS_URL: redis://redis:6379/0
+    command: >
+      bash -c "
+        bundle exec rails db:create db:schema:load &&
+        bundle exec rspec
+      "

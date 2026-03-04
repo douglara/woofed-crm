@@ -1,0 +1,10 @@
+<%= turbo_frame_tag "contact_#{contact.id}_deals" do %>
+  <% deals.each do |deal| %>
+    <%= render 'accounts/contacts/deal_item', deal: deal %>
+  <% end %>
+  <% if pagy.pages > 1 %>
+    <div class="flex justify-end pt-4 border-t color-border-default mt-4">
+      <%== pagy_nav(pagy) %>
+    </div>
+  <% end %>
+<% end %>

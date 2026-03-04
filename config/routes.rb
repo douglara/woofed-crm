@@ -89,6 +89,7 @@ Rails.application.routes.draw do
       patch 'update_custom_attributes'
       get 'mark_as_lost', on: :member
       get 'mark_as_won', on: :member
+      patch 'drag_and_drop', on: :member
     end
     resources :deal_products, only: %i[destroy new create]
     resources :deal_assignees, only: %i[destroy new create]

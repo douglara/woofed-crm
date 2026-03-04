@@ -1,6 +1,6 @@
 <% width_class ||= 'w-10/12' %>
 <%= turbo_frame_tag :drawer do %>
-  <div id="drawer-right" data-controller='drawer load-lucid-icons' class="fixed ease-in duration-300 top-0 right-0 z-[60] h-screen overflow-y-auto transition-transform translate-x-full color-bg-surface-default <%= width_class %> flex" tabindex="-1" aria-labelledby="drawer-right-label" data-turbo-permanent>
+  <div id="drawer-right" data-controller='drawer load-lucid-icons' class="fixed ease-in duration-300 top-0 right-0 z-[60] h-screen overflow-y-auto transition-transform translate-x-full color-bg-surface-default <%= width_class %> flex" tabindex="-1" aria-labelledby="drawer-right-label" data-action='turbo:before-morph-element->drawer#preventMorphForDrawer'>
     <%= yield :sidebar %>
     <div class='flex-1 flex flex-col'>
       <nav class="navbar-container">

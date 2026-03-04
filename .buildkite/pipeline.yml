@@ -1,0 +1,53 @@
+steps:
+  - label: ":test_tube: CI RSpec Tests"
+    key: "ci-rspec"
+    plugins:
+      - docker-compose#v5.3.0:
+          run: app
+          config: docker-compose.ci.yml
+          env:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=password
+            - POSTGRES_DB=postgres
+            - REDIS_URL=redis://redis:6379
+    command: |
+      echo "--- :package: Installing system dependencies"
+      apt-get update
+      apt-get install -y libnss3-dev libgdk-pixbuf2.0-dev libgtk-3-dev libxss-dev libasound2 sudo wget gnupg unzip
+
+      echo "--- :chrome: Installing Chrome"
+      wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+      sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+      apt-get update && apt-get install -y google-chrome-stable
+
+      echo "--- :chrome: Installing ChromeDriver"
+      wget -q https://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_linux64.zip
+      unzip chromedriver_linux64.zip
+      mv chromedriver /usr/local/bin/
+      chmod +x /usr/local/bin/chromedriver
+
+      echo "--- :chrome: Starting ChromeDriver"
+      export DISPLAY=:99
+      chromedriver --url-base=/wd/hub &
+      sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+      google-chrome-stable --version
+
+      echo "--- :ruby: Bundle install"
+      gem install bundler -v 2.4.22
+      bundle install --jobs 4 --retry 3 --path vendor/bundle
+
+      echo "--- :yarn: Installing Yarn and building assets"
+      npm install -g yarn
+      NODE_OPTIONS=--openssl-legacy-provider yarn build
+
+      echo "--- :database: Setting up database"
+      bin/rails db:create db:schema:load
+
+      echo "--- :art: Precompiling assets"
+      NODE_OPTIONS=--openssl-legacy-provider bundle exec rails assets:clean assets:precompile
+
+      echo "--- :rspec: Running RSpec tests"
+      bundle exec rspec
+
+      echo "--- :gear: Cleanup"
+      chown root:root .

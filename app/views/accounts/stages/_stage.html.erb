@@ -44,10 +44,10 @@
     </div>
     <%= render 'accounts/stages/kanban_details', stage: stage, filter_status_deal: params[:filter_status_deal] %>
   </div>
-  <%= turbo_frame_tag "#{stage.id}_pagination_deals_#{pagy.page}", refresh: "morph", data: { controller: "drag", drag_url: "/accounts/:account_id/deals/:deal_id", id: stage.id }, class: "block space-y-4 overflow-y-auto custom-scroll-list-deal h-[calc(100vh-260px)]" do %>
+  <%= turbo_frame_tag "#{stage.id}_pagination_deals_#{pagy.page}", refresh: "morph", data: { controller: "drag-and-drop--deals", drag_and_drop__deals_url: "/accounts/:account_id/deals/:deal_id/drag_and_drop", id: stage.id }, class: "block space-y-4 overflow-y-auto custom-scroll-list-deal h-[calc(100vh-260px)]" do %>
     <%= render partial: 'accounts/pipelines/deal', collection: deals, as: :deal %>
     <% if pagy.next.present? %>
-      <%= turbo_frame_tag "#{stage.id}_pagination_deals_#{pagy.next}", src: account_stage_path(Current.account, stage, filter_status_deal: filter_status_deal, page: pagy.next), refresh: :morph, data: { controller: "frame drag", action: "turbo:before-frame-render->frame#morphRender turbo:before-morph-element->frame#morphReload", drag_url: "/accounts/:account_id/deals/:deal_id", id: stage.id }, class: "block space-y-4 mt-4", loading: :lazy do  %>
+      <%= turbo_frame_tag "#{stage.id}_pagination_deals_#{pagy.next}", src: account_stage_path(Current.account, stage, filter_status_deal: filter_status_deal, page: pagy.next), refresh: :morph, data: { controller: "frame drag-and-drop--deals", action: "turbo:before-frame-render->frame#morphRender turbo:before-morph-element->frame#morphReload", drag_and_drop__deals_url: "/accounts/:account_id/deals/:deal_id/drag_and_drop", id: stage.id }, class: "block space-y-4 mt-4", loading: :lazy do  %>
         <div class='py-5'>
           <%= render '/components/loading' %>
         </div>

@@ -713,4 +713,137 @@ RSpec.describe Accounts::DealsController, type: :request do
       end
     end
   end
+
+  describe 'PATCH /accounts/{account.id}/deals/:id/drag_and_drop' do
+    let!(:deal_position1) { create(:deal, stage:, position: 1) }
+    let!(:deal_position2) { create(:deal, stage:, position: 2) }
+    let!(:deal_position3) { create(:deal, stage:, position: 3) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        params = { element_reference_id: deal_position2.id,
+                   deal: { stage_id: stage.id } }
+
+        patch("/accounts/#{account.id}/deals/#{deal_position3.id}/drag_and_drop",
+              params:)
+
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      context 'when moving within same stage' do
+        it 'moves deal below the reference card (direction: bottom)' do
+          params = { element_reference_id: deal_position2.id,
+                     element_reference_drop_direction: 'bottom',
+                     deal: { stage_id: stage.id } }
+
+          patch "/accounts/#{account.id}/deals/#{deal_position3.id}/drag_and_drop",
+                params:,
+                as: :turbo_stream
+
+          expect(response).to have_http_status(:ok)
+          expect(deal_position1.reload.position).to eq(1)
+          expect(deal_position3.reload.position).to eq(2)
+          expect(deal_position2.reload.position).to eq(3)
+          expect(response.body).to be_empty
+        end
+
+        it 'moves deal above the reference card (direction: top)' do
+          params = { element_reference_id: deal_position2.id,
+                     element_reference_drop_direction: 'top',
+                     deal: { stage_id: stage.id } }
+
+          patch "/accounts/#{account.id}/deals/#{deal_position1.id}/drag_and_drop",
+                params:,
+                as: :turbo_stream
+
+          expect(response).to have_http_status(:ok)
+          expect(deal_position2.reload.position).to eq(1)
+          expect(deal_position1.reload.position).to eq(2)
+          expect(deal_position3.reload.position).to eq(3)
+          expect(response.body).to be_empty
+        end
+      end
+
+      context 'when moving between stages' do
+        let!(:stage2) { create(:stage, pipeline:) }
+        let!(:deal_position1_stage2) { create(:deal, stage: stage2, position: 1) }
+
+        it 'moves deal to another stage below the reference card (direction: bottom)' do
+          params = { element_reference_id: deal_position1_stage2.id,
+                     element_reference_drop_direction: 'bottom',
+                     deal: { stage_id: stage2.id } }
+
+          patch "/accounts/#{account.id}/deals/#{deal_position2.id}/drag_and_drop",
+                params:,
+                as: :turbo_stream
+
+          expect(response).to have_http_status(:ok)
+          expect(deal_position2.reload.stage_id).to eq(stage2.id)
+          expect(deal_position2.reload.position).to eq(1)
+          expect(deal_position1_stage2.reload.position).to eq(2)
+          expect(response.body).to include("stage-#{stage.id}-all-kaban-details")
+          expect(response.body).to include("stage-#{stage2.id}-all-kaban-details")
+        end
+
+        it 'moves deal to another stage above the reference card (direction: top)' do
+          params = { element_reference_id: deal_position1_stage2.id,
+                     element_reference_drop_direction: 'top',
+                     deal: { stage_id: stage2.id } }
+
+          patch "/accounts/#{account.id}/deals/#{deal_position2.id}/drag_and_drop",
+                params:,
+                as: :turbo_stream
+
+          expect(response).to have_http_status(:ok)
+          expect(deal_position2.reload.stage_id).to eq(stage2.id)
+          expect(deal_position2.reload.position).to eq(2)
+          expect(deal_position1_stage2.reload.position).to eq(1)
+          expect(response.body).to include("stage-#{stage.id}-all-kaban-details")
+          expect(response.body).to include("stage-#{stage2.id}-all-kaban-details")
+        end
+      end
+
+      context 'when there is no reference card' do
+        it 'does nothing when dropped on the same stage' do
+          params = { deal: { stage_id: stage.id } }
+
+          patch "/accounts/#{account.id}/deals/#{deal_position2.id}/drag_and_drop",
+                params:,
+                as: :turbo_stream
+
+          expect(response).to have_http_status(:ok)
+          expect(deal_position1.reload.position).to eq(1)
+          expect(deal_position2.reload.position).to eq(2)
+          expect(deal_position3.reload.position).to eq(3)
+          expect(response.body).to be_empty
+        end
+
+        it 'moves deal to the top of the new stage when dropped on a different stage' do
+          stage2 = create(:stage, pipeline:)
+          deal_position1_stage2 = create(:deal, stage: stage2, position: 1)
+
+          params = { deal: { stage_id: stage2.id } }
+
+          patch "/accounts/#{account.id}/deals/#{deal_position2.id}/drag_and_drop",
+                params:,
+                as: :turbo_stream
+
+          expect(response).to have_http_status(:ok)
+          expect(deal_position2.reload.stage_id).to eq(stage2.id)
+          expect(deal_position2.reload.position).to eq(2) # max_position + 1 = top of Kanban (DESC)
+          expect(deal_position1_stage2.reload.position).to eq(1) # unchanged
+          expect(deal_position1.reload.position).to eq(1) # gap closed in original stage
+          expect(deal_position3.reload.position).to eq(2) # gap closed in original stage
+          expect(response.body).to include("stage-#{stage.id}-all-kaban-details")
+          expect(response.body).to include("stage-#{stage2.id}-all-kaban-details")
+        end
+      end
+    end
+  end
 end
