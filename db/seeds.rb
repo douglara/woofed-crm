@@ -21,8 +21,8 @@ if Rails.env.development? && User.count.zero?
   users = []
   [
     { full_name: 'Admin', email: 'user1@email.com' },
-    { full_name: 'Maria Sales', email: 'maria@email.com' },
-    { full_name: 'John Commercial', email: 'john@email.com' }
+    { full_name: 'Maria Sales', email: 'user2@email.com' },
+    { full_name: 'John Commercial', email: 'user3@email.com' }
   ].each do |user_data|
     users << User.create!(
       full_name: user_data[:full_name],
@@ -48,23 +48,23 @@ if Rails.env.development? && User.count.zero?
     Stage.create!(pipeline: pipeline, name: stage_data[:name], position: stage_data[:position], account: account)
   end
 
-  # Products
+  # Products - random values between R$10,000 and R$50,000
   products_data = [
-    { name: 'Starter Plan', identifier: 'PLAN-STARTER', amount_in_cents: 9_900, quantity_available: 999,
+    { name: 'Starter Plan', identifier: 'PLAN-STARTER', quantity_available: 999,
       description: 'Starter plan for small businesses' },
-    { name: 'Professional Plan', identifier: 'PLAN-PRO', amount_in_cents: 29_900, quantity_available: 999,
+    { name: 'Professional Plan', identifier: 'PLAN-PRO', quantity_available: 999,
       description: 'Professional plan with advanced features' },
-    { name: 'Enterprise Plan', identifier: 'PLAN-ENT', amount_in_cents: 99_900, quantity_available: 999,
+    { name: 'Enterprise Plan', identifier: 'PLAN-ENT', quantity_available: 999,
       description: 'Enterprise plan with dedicated support' },
-    { name: 'Consulting (hour)', identifier: 'CONSULT-HR', amount_in_cents: 35_000, quantity_available: 500,
+    { name: 'Consulting (hour)', identifier: 'CONSULT-HR', quantity_available: 500,
       description: 'Specialized consulting hour' },
-    { name: 'Basic Implementation', identifier: 'IMPL-BASIC', amount_in_cents: 150_000, quantity_available: 100,
+    { name: 'Basic Implementation', identifier: 'IMPL-BASIC', quantity_available: 100,
       description: 'Basic implementation service' },
-    { name: 'Full Implementation', identifier: 'IMPL-FULL', amount_in_cents: 500_000, quantity_available: 50,
+    { name: 'Full Implementation', identifier: 'IMPL-FULL', quantity_available: 50,
       description: 'Full implementation service with training' },
-    { name: 'Online Training', identifier: 'TRAIN-ONLINE', amount_in_cents: 50_000, quantity_available: 200,
+    { name: 'Online Training', identifier: 'TRAIN-ONLINE', quantity_available: 200,
       description: 'Online training for teams' },
-    { name: 'On-site Training', identifier: 'TRAIN-ONSITE', amount_in_cents: 150_000, quantity_available: 50,
+    { name: 'On-site Training', identifier: 'TRAIN-ONSITE', quantity_available: 50,
       description: 'On-site training at the company' }
   ]
 
@@ -72,7 +72,7 @@ if Rails.env.development? && User.count.zero?
     Product.create!(
       name: product_data[:name],
       identifier: product_data[:identifier],
-      amount_in_cents: product_data[:amount_in_cents],
+      amount_in_cents: rand(1_000..5_000_000),
       quantity_available: product_data[:quantity_available],
       description: product_data[:description],
       account: account
@@ -114,6 +114,7 @@ if Rails.env.development? && User.count.zero?
   now = Time.current
 
   deal_records = []
+  deal_products_data = []
 
   stages.each do |stage|
     stage_position = 0
@@ -129,6 +130,10 @@ if Rails.env.development? && User.count.zero?
         lost_at = status == 'lost' ? rand(1..90).days.ago : nil
         lost_reason = status == 'lost' ? 'Budget constraints' : ''
 
+        product = products.sample
+        quantity = rand(1..20)
+        deal_amount = product.amount_in_cents * quantity
+
         deal_records << {
           name: "[#{stage.name}] #{status_label} ##{seq} (pos #{stage_position})",
           stage_id: stage.id,
@@ -139,8 +144,19 @@ if Rails.env.development? && User.count.zero?
           won_at: won_at,
           lost_at: lost_at,
           lost_reason: lost_reason,
-          total_deal_products_amount_in_cents: 0,
+          total_deal_products_amount_in_cents: deal_amount,
           created_by_id: user_ids.sample,
+          created_at: now,
+          updated_at: now
+        }
+
+        deal_products_data << {
+          product_id: product.id,
+          product_name: product.name,
+          product_identifier: product.identifier,
+          unit_amount_in_cents: product.amount_in_cents,
+          quantity: quantity,
+          total_amount_in_cents: deal_amount,
           created_at: now,
           updated_at: now
         }
@@ -148,9 +164,18 @@ if Rails.env.development? && User.count.zero?
     end
   end
 
-  # Bulk insert for performance (bypasses callbacks/acts_as_list)
-  deal_records.each_slice(500) do |batch|
-    Deal.insert_all(batch)
+  # Bulk insert deals and deal_products together per batch to guarantee ID pairing
+  deal_records.each_slice(500).with_index do |deal_batch, batch_idx|
+    result = Deal.insert_all(deal_batch, returning: [:id])
+    deal_ids = result.rows.flatten
+
+    dp_batch = deal_products_data.slice(batch_idx * 500, deal_batch.size)
+
+    dp_records = deal_ids.zip(dp_batch).map do |deal_id, dp|
+      dp.merge(deal_id: deal_id)
+    end
+
+    DealProduct.insert_all(dp_records)
   end
 
   puts 'Created seed data'
