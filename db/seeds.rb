@@ -1,7 +1,7 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
-if Rails.env.development? && User.count.zero?
+if (Rails.env.development? || ENV['PREVIEW_APP'].present?) && User.count.zero?
 
   Installation.create!(
     id: SecureRandom.uuid,
