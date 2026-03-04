@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-04 13:46:32 +1000'>2026-03-04 13:46:32 +1000</time>
+          Updated <time class='js-timeago' datetime='2026-03-04 14:21:54 +1000'>2026-03-04 14:21:54 +1000</time>
         
       </span>
     </div>
@@ -73,11 +73,11 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">32</span><small> churn</small></div>
+              <div><span class="metric">33</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">0.0</span><small> complexity</small></div>
-              <div><span class="metric">58</span><small> duplications</small></div>
+              <div><span class="metric">40</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -104,10 +104,10 @@ if (Rails.env.development? || ENV[&#39;PREVIEW_APP&#39;].present?) &amp;&amp; Us
 
   Installation.create!(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="seeds.html#L6" class="js-smell-location">0</a>                  <a href="seeds.html#L185" class="js-smell-location">1</a>                  </div>  </li></ol>
     id: SecureRandom.uuid,
-    key1: Faker::Alphanumeric.alphanumeric(number: 10),
-    key2: Faker::Alphanumeric.alphanumeric(number: 10),
+    key1: SecureRandom.alphanumeric(10),
+    key2: SecureRandom.alphanumeric(10),
     status: &#39;completed&#39;,
-    token: Faker::Alphanumeric.alphanumeric(number: 20)
+    token: SecureRandom.alphanumeric(20)
   )
 
   account = Account.create!(
@@ -283,10 +283,10 @@ end
 if Rails.env.test?
   Installation.create!(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="seeds.html#L6" class="js-smell-location">0</a>                  <a href="seeds.html#L185" class="js-smell-location">1</a>                  </div>  </li></ol>
     id: SecureRandom.uuid,
-    key1: Faker::Alphanumeric.alphanumeric(number: 10),
-    key2: Faker::Alphanumeric.alphanumeric(number: 10),
+    key1: SecureRandom.alphanumeric(10),
+    key2: SecureRandom.alphanumeric(10),
     status: &#39;completed&#39;,
-    token: Faker::Alphanumeric.alphanumeric(number: 20)
+    token: SecureRandom.alphanumeric(20)
   )
   puts &#39;Created seed test data&#39;
 end
