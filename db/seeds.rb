@@ -5,10 +5,10 @@ if (Rails.env.development? || ENV['PREVIEW_APP'].present?) && User.count.zero?
 
   Installation.create!(
     id: SecureRandom.uuid,
-    key1: Faker::Alphanumeric.alphanumeric(number: 10),
-    key2: Faker::Alphanumeric.alphanumeric(number: 10),
+    key1: SecureRandom.alphanumeric(10),
+    key2: SecureRandom.alphanumeric(10),
     status: 'completed',
-    token: Faker::Alphanumeric.alphanumeric(number: 20)
+    token: SecureRandom.alphanumeric(20)
   )
 
   account = Account.create!(
@@ -184,10 +184,10 @@ end
 if Rails.env.test?
   Installation.create!(
     id: SecureRandom.uuid,
-    key1: Faker::Alphanumeric.alphanumeric(number: 10),
-    key2: Faker::Alphanumeric.alphanumeric(number: 10),
+    key1: SecureRandom.alphanumeric(10),
+    key2: SecureRandom.alphanumeric(10),
     status: 'completed',
-    token: Faker::Alphanumeric.alphanumeric(number: 20)
+    token: SecureRandom.alphanumeric(20)
   )
   puts 'Created seed test data'
 end
