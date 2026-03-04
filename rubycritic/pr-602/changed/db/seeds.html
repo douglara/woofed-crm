@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-04 13:16:19 +1000'>2026-03-04 13:16:19 +1000</time>
+          Updated <time class='js-timeago' datetime='2026-03-04 13:46:32 +1000'>2026-03-04 13:46:32 +1000</time>
         
       </span>
     </div>
@@ -73,7 +73,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">31</span><small> churn</small></div>
+              <div><span class="metric">32</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">0.0</span><small> complexity</small></div>
@@ -100,7 +100,7 @@
     <code class="prettyprint linenums lang-ruby file-code js-file-code"># This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
-if Rails.env.development? &amp;&amp; User.count.zero?
+if (Rails.env.development? || ENV[&#39;PREVIEW_APP&#39;].present?) &amp;&amp; User.count.zero?
 
   Installation.create!(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="seeds.html#L6" class="js-smell-location">0</a>                  <a href="seeds.html#L185" class="js-smell-location">1</a>                  </div>  </li></ol>
     id: SecureRandom.uuid,
