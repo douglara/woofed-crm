@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-01 14:10:21 +1000'>2026-03-01 14:10:21 +1000</time>
+          Updated <time class='js-timeago' datetime='2026-03-04 13:16:19 +1000'>2026-03-04 13:16:19 +1000</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">168</span><small> lines of codes</small></div>
+              <div><span class="metric">193</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">30</span><small> churn</small></div>
+              <div><span class="metric">31</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">0.0</span><small> complexity</small></div>
@@ -102,7 +102,7 @@
 
 if Rails.env.development? &amp;&amp; User.count.zero?
 
-  Installation.create!(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="seeds.html#L6" class="js-smell-location">0</a>                  <a href="seeds.html#L160" class="js-smell-location">1</a>                  </div>  </li></ol>
+  Installation.create!(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="seeds.html#L6" class="js-smell-location">0</a>                  <a href="seeds.html#L185" class="js-smell-location">1</a>                  </div>  </li></ol>
     id: SecureRandom.uuid,
     key1: Faker::Alphanumeric.alphanumeric(number: 10),
     key2: Faker::Alphanumeric.alphanumeric(number: 10),
@@ -120,8 +120,8 @@ if Rails.env.development? &amp;&amp; User.count.zero?
   users = []
   [
     { full_name: &#39;Admin&#39;, email: &#39;user1@email.com&#39; },
-    { full_name: &#39;Maria Sales&#39;, email: &#39;maria@email.com&#39; },
-    { full_name: &#39;John Commercial&#39;, email: &#39;john@email.com&#39; }
+    { full_name: &#39;Maria Sales&#39;, email: &#39;user2@email.com&#39; },
+    { full_name: &#39;John Commercial&#39;, email: &#39;user3@email.com&#39; }
   ].each do |user_data|
     users &lt;&lt; User.create!(
       full_name: user_data[:full_name],
@@ -147,23 +147,23 @@ if Rails.env.development? &amp;&amp; User.count.zero?
     Stage.create!(pipeline: pipeline, name: stage_data[:name], position: stage_data[:position], account: account)
   end
 
-  # Products
+  # Products - random values between R$10,000 and R$50,000
   products_data = [
-    { name: &#39;Starter Plan&#39;, identifier: &#39;PLAN-STARTER&#39;, amount_in_cents: 9_900, quantity_available: 999,
+    { name: &#39;Starter Plan&#39;, identifier: &#39;PLAN-STARTER&#39;, quantity_available: 999,
       description: &#39;Starter plan for small businesses&#39; },
-    { name: &#39;Professional Plan&#39;, identifier: &#39;PLAN-PRO&#39;, amount_in_cents: 29_900, quantity_available: 999,
+    { name: &#39;Professional Plan&#39;, identifier: &#39;PLAN-PRO&#39;, quantity_available: 999,
       description: &#39;Professional plan with advanced features&#39; },
-    { name: &#39;Enterprise Plan&#39;, identifier: &#39;PLAN-ENT&#39;, amount_in_cents: 99_900, quantity_available: 999,
+    { name: &#39;Enterprise Plan&#39;, identifier: &#39;PLAN-ENT&#39;, quantity_available: 999,
       description: &#39;Enterprise plan with dedicated support&#39; },
-    { name: &#39;Consulting (hour)&#39;, identifier: &#39;CONSULT-HR&#39;, amount_in_cents: 35_000, quantity_available: 500,
+    { name: &#39;Consulting (hour)&#39;, identifier: &#39;CONSULT-HR&#39;, quantity_available: 500,
       description: &#39;Specialized consulting hour&#39; },
-    { name: &#39;Basic Implementation&#39;, identifier: &#39;IMPL-BASIC&#39;, amount_in_cents: 150_000, quantity_available: 100,
+    { name: &#39;Basic Implementation&#39;, identifier: &#39;IMPL-BASIC&#39;, quantity_available: 100,
       description: &#39;Basic implementation service&#39; },
-    { name: &#39;Full Implementation&#39;, identifier: &#39;IMPL-FULL&#39;, amount_in_cents: 500_000, quantity_available: 50,
+    { name: &#39;Full Implementation&#39;, identifier: &#39;IMPL-FULL&#39;, quantity_available: 50,
       description: &#39;Full implementation service with training&#39; },
-    { name: &#39;Online Training&#39;, identifier: &#39;TRAIN-ONLINE&#39;, amount_in_cents: 50_000, quantity_available: 200,
+    { name: &#39;Online Training&#39;, identifier: &#39;TRAIN-ONLINE&#39;, quantity_available: 200,
       description: &#39;Online training for teams&#39; },
-    { name: &#39;On-site Training&#39;, identifier: &#39;TRAIN-ONSITE&#39;, amount_in_cents: 150_000, quantity_available: 50,
+    { name: &#39;On-site Training&#39;, identifier: &#39;TRAIN-ONSITE&#39;, quantity_available: 50,
       description: &#39;On-site training at the company&#39; }
   ]
 
@@ -171,7 +171,7 @@ if Rails.env.development? &amp;&amp; User.count.zero?
     Product.create!(
       name: product_data[:name],
       identifier: product_data[:identifier],
-      amount_in_cents: product_data[:amount_in_cents],
+      amount_in_cents: rand(1_000..5_000_000),
       quantity_available: product_data[:quantity_available],
       description: product_data[:description],
       account: account
@@ -213,6 +213,7 @@ if Rails.env.development? &amp;&amp; User.count.zero?
   now = Time.current
 
   deal_records = []
+  deal_products_data = []
 
   stages.each do |stage|
     stage_position = 0
@@ -228,6 +229,10 @@ if Rails.env.development? &amp;&amp; User.count.zero?
         lost_at = status == &#39;lost&#39; ? rand(1..90).days.ago : nil
         lost_reason = status == &#39;lost&#39; ? &#39;Budget constraints&#39; : &#39;&#39;
 
+        product = products.sample
+        quantity = rand(1..20)
+        deal_amount = product.amount_in_cents * quantity
+
         deal_records &lt;&lt; {
           name: &quot;[#{stage.name}] #{status_label} ##{seq} (pos #{stage_position})&quot;,
           stage_id: stage.id,
@@ -238,8 +243,19 @@ if Rails.env.development? &amp;&amp; User.count.zero?
           won_at: won_at,
           lost_at: lost_at,
           lost_reason: lost_reason,
-          total_deal_products_amount_in_cents: 0,
+          total_deal_products_amount_in_cents: deal_amount,
           created_by_id: user_ids.sample,
+          created_at: now,
+          updated_at: now
+        }
+
+        deal_products_data &lt;&lt; {
+          product_id: product.id,
+          product_name: product.name,
+          product_identifier: product.identifier,
+          unit_amount_in_cents: product.amount_in_cents,
+          quantity: quantity,
+          total_amount_in_cents: deal_amount,
           created_at: now,
           updated_at: now
         }
@@ -247,16 +263,25 @@ if Rails.env.development? &amp;&amp; User.count.zero?
     end
   end
 
-  # Bulk insert for performance (bypasses callbacks/acts_as_list)
-  deal_records.each_slice(500) do |batch|
-    Deal.insert_all(batch)
+  # Bulk insert deals and deal_products together per batch to guarantee ID pairing
+  deal_records.each_slice(500).with_index do |deal_batch, batch_idx|
+    result = Deal.insert_all(deal_batch, returning: [:id])
+    deal_ids = result.rows.flatten
+
+    dp_batch = deal_products_data.slice(batch_idx * 500, deal_batch.size)
+
+    dp_records = deal_ids.zip(dp_batch).map do |deal_id, dp|
+      dp.merge(deal_id: deal_id)
+    end
+
+    DealProduct.insert_all(dp_records)
   end
 
   puts &#39;Created seed data&#39;
 end
 
 if Rails.env.test?
-  Installation.create!(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="seeds.html#L6" class="js-smell-location">0</a>                  <a href="seeds.html#L160" class="js-smell-location">1</a>                  </div>  </li></ol>
+  Installation.create!(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="seeds.html#L6" class="js-smell-location">0</a>                  <a href="seeds.html#L185" class="js-smell-location">1</a>                  </div>  </li></ol>
     id: SecureRandom.uuid,
     key1: Faker::Alphanumeric.alphanumeric(number: 10),
     key2: Faker::Alphanumeric.alphanumeric(number: 10),
