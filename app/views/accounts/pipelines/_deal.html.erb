@@ -1,4 +1,4 @@
-<%= content_tag :div, id: dom_id(deal), data: { id: deal.id, account_id: Current.account.id, position: deal.position } , class: 'hover:shadow-sm select-none cursor-pointer' do %>
+<%= content_tag :div, id: dom_id(deal), data: { id: deal.id, account_id: Current.account.id } , class: 'hover:shadow-sm select-none cursor-pointer' do %>
   <div class="rounded border-2 color-border-default color-bg-fill-default" data-controller='load-lucid-icons'>
     <%= link_to account_deal_path(Current.account, deal.id), data: { turbo_frame: :_top }, class: 'flex flex-col gap-2 pt-2 px-4' do %>
       <% unless deal.open? %>

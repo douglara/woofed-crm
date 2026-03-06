@@ -27,8 +27,13 @@ export default class extends Controller {
     event.preventDefault();
     this.drawer.hide();
   }
-  preventBackdropAfterMorphRefresh(){
-    const backdrop = document.getElementsByClassName("drawer-backdrop")[0]
-    backdrop.dataset.turboPermanent = true
+  preventMorphForDrawer(event) {
+    event.preventDefault();
+  }
+  preventBackdropAfterMorphRefresh() {
+    const backdrop = document.getElementsByClassName("drawer-backdrop")[0];
+    if (backdrop) {
+      backdrop.dataset.turboPermanent = true;
+    }
   }
 }
