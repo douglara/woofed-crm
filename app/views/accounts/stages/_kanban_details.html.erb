@@ -1,4 +1,4 @@
-<div class='flex items-center justify-between gap-1.5' id='stage-<%= stage.id %>-<%= filter_deals %>-kaban-details'>
+<div class='flex items-center justify-between gap-1.5' id='stage-<%= stage.id %>-kaban-details'>
   <div class='typography-body-900 color-fg-default cursor-default truncate' data-tooltip-target="tooltip-stage-<%= stage.id %>-deals-total-amount" data-tooltip-placement="bottom">
     <%= render 'components/formatters/currency', value: stage.total_amount_deals(filter_deals) %>
   </div>

@@ -4,6 +4,10 @@ import { patch } from "@rails/request.js";
 import DropParamsBuilder from "./helpers";
 
 export default class extends Controller {
+  static values = {
+    filter: { type: Object, default: {} },
+  };
+
   connect() {
     this.sort();
   }
@@ -39,6 +43,7 @@ export default class extends Controller {
     if (element_reference_drop_direction) {
       body.append("element_reference_drop_direction", element_reference_drop_direction);
     }
+    body.append("filter", JSON.stringify(this.filterValue));
 
     const url = this.data
       .get("url")

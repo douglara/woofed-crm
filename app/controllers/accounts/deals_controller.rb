@@ -181,12 +181,15 @@ class Accounts::DealsController < InternalController
 
   def drag_and_drop
     previous_stage_id = @deal.stage_id
+    @filter_deals = params[:filter]
+
     Deal::DragAndDrop.new(
       @deal,
       stage_id: drag_and_drop_params.dig(:deal, :stage_id),
       element_reference_id: drag_and_drop_params[:element_reference_id],
       element_reference_drop_direction: drag_and_drop_params[:element_reference_drop_direction]
     ).call
+    
     @changed_stage_ids = if previous_stage_id != @deal.stage_id
                            [previous_stage_id, @deal.stage_id].uniq
                          else
