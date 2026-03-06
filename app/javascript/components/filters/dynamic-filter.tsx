@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { FilterItem } from "./filter-item";
 import { useFilterState } from "./use-filter-state";
+import { tFilter } from "./i18n";
 import {
   FilterField,
   FilterGroup,
@@ -90,7 +91,7 @@ export function DynamicFilter({
         <div className="flex items-center gap-2">
           <FilterIcon className="size-4 text-muted-foreground" />
           <span className="text-sm font-medium">
-            Filters
+            {tFilter("filters")}
             {filterCount > 0 && (
               <span className="ml-1 text-muted-foreground">
                 ({filterCount})
@@ -101,7 +102,7 @@ export function DynamicFilter({
         {enableSavedFilters && (
           <Button variant="ghost" size="sm">
             <SaveIcon className="size-4 mr-1" />
-            Save
+            {tFilter("save")}
           </Button>
         )}
       </div>
@@ -131,10 +132,10 @@ export function DynamicFilter({
           onClick={handleClear}
           disabled={!hasFilters}
         >
-          Clear All
+          {tFilter("clear_all")}
         </Button>
         <Button type="button" size="sm" onClick={handleApply}>
-          Apply Filters
+          {tFilter("apply_filters")}
         </Button>
       </div>
     </div>
@@ -274,7 +275,7 @@ function FilterGroupComponent({
           className="text-muted-foreground"
         >
           <PlusIcon className="size-4 mr-1" />
-          Add condition
+          {tFilter("add_condition")}
         </Button>
         {enableGrouping && level < 2 && (
           <Button
@@ -285,7 +286,7 @@ function FilterGroupComponent({
             className="text-muted-foreground"
           >
             <PlusIcon className="size-4 mr-1" />
-            Add group
+            {tFilter("add_group")}
           </Button>
         )}
       </div>

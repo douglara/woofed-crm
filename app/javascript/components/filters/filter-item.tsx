@@ -35,6 +35,7 @@ import {
   getOperatorsForField,
   OPERATORS,
 } from "./types";
+import { tFilter } from "./i18n";
 
 export interface FilterItemProps {
   condition: FilterCondition;
@@ -146,7 +147,7 @@ export function FilterItem({
             onValueChange={handleOperatorChange}
           >
             <SelectTrigger className="w-full h-9">
-              <SelectValue placeholder="Operator..." />
+              <SelectValue placeholder={tFilter("select_operator")} />
             </SelectTrigger>
             <SelectContent>
               {operators.map((op) => (
@@ -233,7 +234,7 @@ function FieldSelectorCombobox({
       filter={null} // We handle filtering ourselves
     >
       <ComboboxInput
-        placeholder="Select field..."
+        placeholder={tFilter("select_field")}
         className="w-full"
         value={displayValue}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -246,7 +247,7 @@ function FieldSelectorCombobox({
         <ComboboxList>
           {filteredFields.length === 0 ? (
             <div className="py-2 text-center text-sm text-muted-foreground">
-              No fields found.
+              {tFilter("no_fields_found")}
             </div>
           ) : (
             filteredFields.map((field) => (
@@ -292,7 +293,7 @@ function FilterValueInput({
     return (
       <Input
         type="text"
-        placeholder="Enter value..."
+        placeholder={tFilter("enter_value")}
         value={String(value ?? "")}
         onChange={(e) => onChange(e.target.value)}
       />
@@ -309,11 +310,11 @@ function FilterValueInput({
             onChange(v === "true" ? true : v === "false" ? false : null)
           }
         >
-          <ComboboxInput placeholder="Select..." className="w-full" />
+          <ComboboxInput placeholder={tFilter("select")} className="w-full" />
           <ComboboxContent>
             <ComboboxList>
-              <ComboboxItem value="true">Yes</ComboboxItem>
-              <ComboboxItem value="false">No</ComboboxItem>
+              <ComboboxItem value="true">{tFilter("yes")}</ComboboxItem>
+              <ComboboxItem value="false">{tFilter("no")}</ComboboxItem>
             </ComboboxList>
           </ComboboxContent>
         </Combobox>
@@ -325,7 +326,7 @@ function FilterValueInput({
           value={String(value ?? "")}
           onValueChange={(v) => onChange(v)}
         >
-          <ComboboxInput placeholder="Select..." className="w-full" />
+          <ComboboxInput placeholder={tFilter("select")} className="w-full" />
           <ComboboxContent>
             <ComboboxList>
               {(field.options || []).map((opt) => (
@@ -359,14 +360,14 @@ function FilterValueInput({
             modelName={field.reference.model.toLowerCase()}
             ransackParam={`${field.reference.displayKey}_cont`}
             accountId={accountId}
-            placeholder="Search..."
+            placeholder={tFilter("search")}
           />
         );
       }
       return (
         <Input
           type="text"
-          placeholder="Enter ID..."
+          placeholder={tFilter("enter_id")}
           value={String(value ?? "")}
           onChange={(e) => onChange(e.target.value)}
         />
@@ -379,7 +380,7 @@ function FilterValueInput({
       return (
         <Input
           type="number"
-          placeholder="Enter number..."
+          placeholder={tFilter("enter_number")}
           value={String(value ?? "")}
           onChange={(e) => {
             const num = parseFloat(e.target.value);
@@ -413,7 +414,7 @@ function FilterValueInput({
       return (
         <Input
           type="text"
-          placeholder="Enter value..."
+          placeholder={tFilter("enter_value")}
           value={String(value ?? "")}
           onChange={(e) => onChange(e.target.value)}
         />
@@ -454,7 +455,7 @@ function RelationValueInput({
         modelName={relation.modelName}
         ransackParam={relation.searchKey || `${relation.labelKey}_cont`}
         accountId={accountId}
-        placeholder="Search..."
+        placeholder={tFilter("search")}
         fetchOnOpen={true}
       />
     );
@@ -464,7 +465,7 @@ function RelationValueInput({
   return (
     <Input
       type="text"
-      placeholder="Enter ID..."
+      placeholder={tFilter("enter_id")}
       value={String(value ?? "")}
       onChange={(e) => onChange(e.target.value)}
     />

@@ -96,7 +96,7 @@ class SchemaBuilder
       # Add options for select fields (enums)
       if field_type == 'select' && model_class.respond_to?(:defined_enums) && model_class.defined_enums.key?(attr)
         field[:options] = model_class.defined_enums[attr].map do |key, _value|
-          { value: key, label: key.humanize }
+          { value: key, label: model_class.human_enum_name(attr, key) }
         end
       end
 
@@ -192,10 +192,12 @@ class SchemaBuilder
 
         current_visited = visited | Set[assoc_class.name]
 
+        assoc_human_name = assoc_class.model_name.human
+
         assoc_label = if label_prefix
-                        "#{label_prefix} > #{assoc_name.to_s.humanize.titleize}"
+                        "#{label_prefix} > #{assoc_human_name}"
                       else
-                        assoc_name.to_s.humanize.titleize
+                        assoc_human_name
                       end
 
         # Build Ransack prefix: e.g., "contact", "contact_labels"

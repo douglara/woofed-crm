@@ -237,105 +237,72 @@ export interface SavedFilter {
 // Operator Configuration
 // ============================================================================
 
-export const OPERATORS: Record<OperatorKey, Operator> = {
-  eq: {
-    key: "eq",
-    label: "is equal to",
-    requiresValue: true,
-    ransackSuffix: "_eq",
-  },
-  not_eq: {
-    key: "not_eq",
-    label: "is not equal to",
-    requiresValue: true,
-    ransackSuffix: "_not_eq",
-  },
-  cont: {
-    key: "cont",
-    label: "contains",
-    requiresValue: true,
-    ransackSuffix: "_cont",
-  },
+import { tOperator } from "./i18n";
+
+interface OperatorDef {
+  key: OperatorKey;
+  requiresValue: boolean;
+  ransackSuffix: string;
+}
+
+const OPERATOR_DEFS: Record<OperatorKey, OperatorDef> = {
+  eq: { key: "eq", requiresValue: true, ransackSuffix: "_eq" },
+  not_eq: { key: "not_eq", requiresValue: true, ransackSuffix: "_not_eq" },
+  cont: { key: "cont", requiresValue: true, ransackSuffix: "_cont" },
   not_cont: {
     key: "not_cont",
-    label: "does not contain",
     requiresValue: true,
     ransackSuffix: "_not_cont",
   },
-  start: {
-    key: "start",
-    label: "starts with",
-    requiresValue: true,
-    ransackSuffix: "_start",
-  },
-  end: {
-    key: "end",
-    label: "ends with",
-    requiresValue: true,
-    ransackSuffix: "_end",
-  },
-  matches: {
-    key: "matches",
-    label: "matches pattern",
-    requiresValue: true,
-    ransackSuffix: "_matches",
-  },
-  gt: {
-    key: "gt",
-    label: "greater than",
-    requiresValue: true,
-    ransackSuffix: "_gt",
-  },
-  gteq: {
-    key: "gteq",
-    label: "greater than or equal",
-    requiresValue: true,
-    ransackSuffix: "_gteq",
-  },
-  lt: {
-    key: "lt",
-    label: "less than",
-    requiresValue: true,
-    ransackSuffix: "_lt",
-  },
-  lteq: {
-    key: "lteq",
-    label: "less than or equal",
-    requiresValue: true,
-    ransackSuffix: "_lteq",
-  },
-  null: {
-    key: "null",
-    label: "is null",
-    requiresValue: false,
-    ransackSuffix: "_null",
-  },
+  start: { key: "start", requiresValue: true, ransackSuffix: "_start" },
+  end: { key: "end", requiresValue: true, ransackSuffix: "_end" },
+  matches: { key: "matches", requiresValue: true, ransackSuffix: "_matches" },
+  gt: { key: "gt", requiresValue: true, ransackSuffix: "_gt" },
+  gteq: { key: "gteq", requiresValue: true, ransackSuffix: "_gteq" },
+  lt: { key: "lt", requiresValue: true, ransackSuffix: "_lt" },
+  lteq: { key: "lteq", requiresValue: true, ransackSuffix: "_lteq" },
+  null: { key: "null", requiresValue: false, ransackSuffix: "_null" },
   not_null: {
     key: "not_null",
-    label: "is not null",
     requiresValue: false,
     ransackSuffix: "_not_null",
   },
-  present: {
-    key: "present",
-    label: "is present",
-    requiresValue: false,
-    ransackSuffix: "_present",
-  },
-  blank: {
-    key: "blank",
-    label: "is blank",
-    requiresValue: false,
-    ransackSuffix: "_blank",
-  },
-  in: { key: "in", label: "is in", requiresValue: true, ransackSuffix: "_in" },
-  not_in: {
-    key: "not_in",
-    label: "is not in",
-    requiresValue: true,
-    ransackSuffix: "_not_in",
-  },
+  present: { key: "present", requiresValue: false, ransackSuffix: "_present" },
+  blank: { key: "blank", requiresValue: false, ransackSuffix: "_blank" },
+  in: { key: "in", requiresValue: true, ransackSuffix: "_in" },
+  not_in: { key: "not_in", requiresValue: true, ransackSuffix: "_not_in" },
 };
+
+export function getOperator(key: OperatorKey): Operator {
+  const def = OPERATOR_DEFS[key];
+  return { ...def, label: tOperator(key) };
+}
+
+export const OPERATORS: Record<OperatorKey, Operator> = new Proxy(
+  {} as Record<OperatorKey, Operator>,
+  {
+    get(_target, prop: string) {
+      if (prop in OPERATOR_DEFS) {
+        return getOperator(prop as OperatorKey);
+      }
+      return undefined;
+    },
+    ownKeys() {
+      return Object.keys(OPERATOR_DEFS);
+    },
+    getOwnPropertyDescriptor(_target, prop: string) {
+      if (prop in OPERATOR_DEFS) {
+        return {
+          configurable: true,
+          enumerable: true,
+          writable: false,
+          value: getOperator(prop as OperatorKey),
+        };
+      }
+      return undefined;
+    },
+  },
+);
 
 // ============================================================================
 // Operators by Field Type
@@ -363,7 +330,7 @@ export const OPERATORS_BY_TYPE: Record<FieldType, OperatorKey[]> = {
 export function getOperatorsForField(field: FilterField): Operator[] {
   const operatorKeys =
     OPERATORS_BY_TYPE[field.type] || OPERATORS_BY_TYPE.string;
-  return operatorKeys.map((key) => OPERATORS[key]);
+  return operatorKeys.map((key) => getOperator(key));
 }
 
 export function isFilterGroup(

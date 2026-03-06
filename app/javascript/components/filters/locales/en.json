@@ -1,0 +1,39 @@
+{
+  "operators": {
+    "eq": "is equal to",
+    "not_eq": "is not equal to",
+    "cont": "contains",
+    "not_cont": "does not contain",
+    "start": "starts with",
+    "end": "ends with",
+    "matches": "matches pattern",
+    "gt": "greater than",
+    "gteq": "greater than or equal",
+    "lt": "less than",
+    "lteq": "less than or equal",
+    "null": "is null",
+    "not_null": "is not null",
+    "present": "is present",
+    "blank": "is blank",
+    "in": "is in",
+    "not_in": "is not in"
+  },
+  "filter": {
+    "filters": "Filters",
+    "save": "Save",
+    "clear_all": "Clear All",
+    "apply_filters": "Apply Filters",
+    "add_condition": "Add condition",
+    "add_group": "Add group",
+    "select_field": "Select field...",
+    "select_operator": "Operator...",
+    "enter_value": "Enter value...",
+    "enter_number": "Enter number...",
+    "enter_id": "Enter ID...",
+    "select": "Select...",
+    "search": "Search...",
+    "no_fields_found": "No fields found.",
+    "yes": "Yes",
+    "no": "No"
+  }
+}
