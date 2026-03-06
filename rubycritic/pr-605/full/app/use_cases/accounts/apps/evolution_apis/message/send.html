@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../../../../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../../../../../overview.html"><img src="../../../../../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../../../../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2024-05-08 06:25:06 -0300'>2024-05-08 06:25:06 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>app/use_cases/accounts/apps/evolution_apis/message /</small> send.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating b big">
+              B
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">94</span><small> lines of codes</small></div>
+              <div><span class="metric">9</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">6.8</span><small> complexity/method</small></div>
+              <div><span class="metric">10</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">61.24</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                4
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Accounts::Apps::EvolutionApis::Message::Send<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Send has no descriptive comment</span>          </div>  </li></ol>
+  def initialize(event)
+    @event = event
+    @evolution_api = event.app
+    @phone = sending_to_group? ? event.contact.additional_attributes[&#39;group_id&#39;] : @event.contact.phone
+  end
+
+  def call
+    if @event.attachment.present?
+      send_message_with_attachment
+    else
+      send_request(&#39;sendText&#39;, build_message_text_body)
+    end
+  end
+
+  def send_message_with_attachment
+    if @event.attachment.audio?
+      send_request(&#39;sendWhatsAppAudio&#39;, build_message_audio_body)
+    else
+      send_request(&#39;sendMedia&#39;, build_message_file_body)
+    end
+  end
+
+  def send_request(type, body)
+    request = Faraday.post(
+      &quot;#{@evolution_api.endpoint_url}/message/#{type}/#{@evolution_api.instance}&quot;,
+      body.to_json,
+      @evolution_api.request_instance_headers
+    )
+    if request.status == 201
+      { ok: JSON.parse(request.body) }<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Send#send_request calls 'JSON.parse(request.body)' 2 times</span>              <span>Locations:</span>                  <a href="send.html#L31" class="js-smell-location">0</a>                  <a href="send.html#L34" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Send#send_request calls 'request.body' 2 times</span>              <span>Locations:</span>                  <a href="send.html#L31" class="js-smell-location">0</a>                  <a href="send.html#L34" class="js-smell-location">1</a>                  </div>  </li></ol>
+
+    else
+      { error: JSON.parse(request.body) }<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Send#send_request calls 'JSON.parse(request.body)' 2 times</span>              <span>Locations:</span>                  <a href="send.html#L31" class="js-smell-location">0</a>                  <a href="send.html#L34" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Send#send_request calls 'request.body' 2 times</span>              <span>Locations:</span>                  <a href="send.html#L31" class="js-smell-location">0</a>                  <a href="send.html#L34" class="js-smell-location">1</a>                  </div>  </li></ol>
+    end
+  end
+
+  def build_message_file_body
+    file_media_type = if @event.attachment.image? || @event.attachment.video?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Send#build_message_file_body calls '@event.attachment' 4 times</span>              <span>Locations:</span>                  <a href="send.html#L39" class="js-smell-location">0</a>                  <a href="send.html#L40" class="js-smell-location">1</a>                  <a href="send.html#L54" class="js-smell-location">2</a>                  </div>  </li></ol>
+                        @event.attachment.file_type<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Send#build_message_file_body calls '@event.attachment' 4 times</span>              <span>Locations:</span>                  <a href="send.html#L39" class="js-smell-location">0</a>                  <a href="send.html#L40" class="js-smell-location">1</a>                  <a href="send.html#L54" class="js-smell-location">2</a>                  </div>  </li></ol>
+                      else
+                        &#39;document&#39;
+                      end
+    {
+      &quot;number&quot;: normalize_phone,
+      &quot;options&quot;: {
+        &quot;delay&quot;: 1200,
+        &quot;presence&quot;: &#39;composing&#39;,
+        &quot;linkPreview&quot;: false
+      },
+      &quot;mediaMessage&quot;: {
+        &quot;mediatype&quot;: file_media_type,
+        &quot;caption&quot;: @event.generate_content_hash(&#39;content&#39;, @event.content)[&#39;content&#39;],
+        &quot;media&quot;: @event.attachment.download_url<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Send#build_message_file_body calls '@event.attachment' 4 times</span>              <span>Locations:</span>                  <a href="send.html#L39" class="js-smell-location">0</a>                  <a href="send.html#L40" class="js-smell-location">1</a>                  <a href="send.html#L54" class="js-smell-location">2</a>                  </div>  </li></ol>
+      }
+    }
+  end
+
+  def build_message_audio_body
+    {
+      &quot;number&quot;: normalize_phone,
+      &quot;options&quot;: {
+        &quot;delay&quot;: 1200,
+        &quot;presence&quot;: &#39;recording&#39;,
+        &quot;linkPreview&quot;: false
+      },
+      &quot;audioMessage&quot;: {
+        &quot;audio&quot;: @event.attachment.download_url
+      }
+    }
+  end
+
+  def build_message_text_body
+    {
+      &quot;number&quot;: normalize_phone,
+      &quot;options&quot;: {
+        &quot;delay&quot;: 1200,
+        &quot;presence&quot;: &#39;composing&#39;,
+        &quot;linkPreview&quot;: false
+      },
+      &quot;textMessage&quot;: {
+        &quot;text&quot;: @event.content
+      }
+    }
+  end
+
+  def normalize_phone
+    @phone.sub(/^\+/, &#39;&#39;)
+  end
+
+  def sending_to_group?
+    @event.contact.additional_attributes[&#39;group_id&#39;].present?
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../../../../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../../../../../assets/javascripts/application.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>

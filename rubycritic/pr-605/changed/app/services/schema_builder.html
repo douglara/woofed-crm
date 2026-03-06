@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../overview.html"><img src="../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-03-02 17:55:26 -0300'>2026-03-02 17:55:26 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>app/services /</small> schema_builder.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating d big">
+              D
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">280</span><small> lines of codes</small></div>
+              <div><span class="metric">10</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">21.8</span><small> complexity/method</small></div>
+              <div><span class="metric">1</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">218.29</span><small> complexity</small></div>
+              <div><span class="metric">40</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                33
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># frozen_string_literal: true
+
+# Service for generating filter schema metadata from ActiveRecord models.
+# Used by the DynamicFilter component to dynamically build filter UIs.
+#
+# Generates Motor Admin-like field list including:
+# - Model&#39;s own attributes
+# - Association attributes (e.g., &quot;Contact - Full name&quot; =&gt; contact_full_name)
+# - Foreign key lookups with dynamic search endpoints
+#
+# Example usage:
+#   SchemaBuilder.build(Deal, account, account_id: 1)
+#
+# Returns an array of field definitions with metadata for the filter UI.
+class SchemaBuilder
+  # Maps Rails column types to filter field types
+  COLUMN_TYPE_MAP = {
+    string: &#39;text&#39;,
+    text: &#39;text&#39;,
+    integer: &#39;number&#39;,
+    bigint: &#39;number&#39;,
+    float: &#39;number&#39;,
+    decimal: &#39;number&#39;,
+    boolean: &#39;boolean&#39;,
+    date: &#39;date&#39;,
+    datetime: &#39;date&#39;,
+    jsonb: &#39;text&#39;,
+    json: &#39;text&#39;
+  }.freeze
+
+  # Fields to exclude from schema attributes
+  EXCLUDED_FIELDS = %w[encrypted_password reset_password_token remember_token
+                       confirmation_token unlock_token password_digest account_id].freeze
+
+  # Associations to exclude from schema (internal/multi-tenant)
+  EXCLUDED_ASSOCIATIONS = %w[account accounts].freeze
+
+  class &lt;&lt; self
+    # Build schema for a given model class
+    # @param model_class [Class] ActiveRecord model class
+    # @param account [Account] Current account for loading options (optional)
+    # @param options [Hash] Additional options (account_id for endpoint URLs)
+    # @return [Array&lt;Hash&gt;] Array of field definitions
+    def build(model_class, account = nil, options = {})<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>SchemaBuilder::build has a flog score of 29</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Data-Clump.md" target="_blank"><b>DataClump</b></a>        </span>      </div>      <span>SchemaBuilder takes parameters ['account', 'model_class'] to 3 methods</span>              <span>Locations:</span>                  <a href="schema_builder.html#L44" class="js-smell-location">0</a>                  <a href="schema_builder.html#L85" class="js-smell-location">1</a>                  <a href="schema_builder.html#L169" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>SchemaBuilder#build has approx 14 statements</span>          </div>  </li></ol>
+      return [] unless model_class.respond_to?(:ransackable_attributes)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md" target="_blank"><b>ManualDispatch</b></a>        </span>      </div>      <span>SchemaBuilder#build manually dispatches method call</span>              <span>Locations:</span>                  <a href="schema_builder.html#L45" class="js-smell-location">0</a>                  <a href="schema_builder.html#L63" class="js-smell-location">1</a>                  </div>  </li></ol>
+
+      account_id = options[:account_id] || account&amp;.id
+      fields = []
+
+      # 1. Build model&#39;s own attributes
+      ransackable_attrs = model_class.ransackable_attributes(nil)
+      columns = model_class.columns_hash
+
+      ransackable_attrs.each do |attr|
+        next if EXCLUDED_FIELDS.include?(attr)
+
+        column = columns[attr]
+        field = build_field(attr, column, model_class, account, account_id)
+        fields &lt;&lt; field if field
+      end
+
+      # 2. Build association nested attributes (Motor Admin style)
+      if model_class.respond_to?(:ransackable_associations)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md" target="_blank"><b>ManualDispatch</b></a>        </span>      </div>      <span>SchemaBuilder#build manually dispatches method call</span>              <span>Locations:</span>                  <a href="schema_builder.html#L45" class="js-smell-location">0</a>                  <a href="schema_builder.html#L63" class="js-smell-location">1</a>                  </div>  </li></ol>
+        ransackable_associations = model_class.ransackable_associations(nil)
+        association_fields = build_nested_association_fields(model_class, ransackable_associations, account, account_id)
+        fields.concat(association_fields)
+      end
+
+      fields
+    end
+
+    # Build schema for multiple resources
+    # @param resources [Hash] Hash of resource_name =&gt; model_class
+    # @param account [Account] Current account
+    # @param options [Hash] Additional options
+    # @return [Hash] Hash of resource_name =&gt; fields array
+    def build_multiple(resources, account = nil, options = {})
+      resources.transform_values do |model_class|
+        build(model_class, account, options)
+      end
+    end
+
+    private
+
+    def build_field(attr, column, model_class, account, account_id, prefix: nil, assoc_label: nil)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>SchemaBuilder::build_field has a flog score of 34</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Data-Clump.md" target="_blank"><b>DataClump</b></a>        </span>      </div>      <span>SchemaBuilder takes parameters ['account', 'model_class'] to 3 methods</span>              <span>Locations:</span>                  <a href="schema_builder.html#L44" class="js-smell-location">0</a>                  <a href="schema_builder.html#L85" class="js-smell-location">1</a>                  <a href="schema_builder.html#L169" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Data-Clump.md" target="_blank"><b>DataClump</b></a>        </span>      </div>      <span>SchemaBuilder takes parameters ['attr', 'model_class'] to 3 methods</span>              <span>Locations:</span>                  <a href="schema_builder.html#L85" class="js-smell-location">0</a>                  <a href="schema_builder.html#L133" class="js-smell-location">1</a>                  <a href="schema_builder.html#L152" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md" target="_blank"><b>LongParameterList</b></a>        </span>      </div>      <span>SchemaBuilder#build_field has 7 parameters</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>SchemaBuilder#build_field has approx 11 statements</span>          </div>  </li></ol>
+      field_type = determine_field_type(attr, column, model_class)
+      field_name = prefix ? &quot;#{prefix}_#{attr}&quot; : attr
+      label = build_label(attr, model_class, assoc_label)
+
+      field = {
+        name: field_name,
+        label:,
+        type: field_type
+      }
+
+      # Add options for select fields (enums)
+      if field_type == &#39;select&#39; &amp;&amp; model_class.respond_to?(:defined_enums) &amp;&amp; model_class.defined_enums.key?(attr)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#build_field calls 'model_class.defined_enums' 2 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L97" class="js-smell-location">0</a>                  <a href="schema_builder.html#L98" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md" target="_blank"><b>ManualDispatch</b></a>        </span>      </div>      <span>SchemaBuilder#build_field manually dispatches method call</span>          </div>  </li></ol>
+        field[:options] = model_class.defined_enums[attr].map do |key, _value|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#build_field calls 'model_class.defined_enums' 2 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L97" class="js-smell-location">0</a>                  <a href="schema_builder.html#L98" class="js-smell-location">1</a>                  </div>  </li></ol>
+          { value: key, label: key.humanize }
+        end
+      end
+
+      # Add relation metadata for foreign key fields
+      if attr.end_with?(&#39;_id&#39;)
+        association_name = attr.sub(/_id$/, &#39;&#39;)
+        association = model_class.reflect_on_association(association_name.to_sym)
+
+        add_relation_metadata(field, association, account, account_id) if association &amp;&amp; !association.polymorphic?
+      end
+
+      field
+    end
+
+    def add_relation_metadata(field, association, _account, account_id)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md" target="_blank"><b>LongParameterList</b></a>        </span>      </div>      <span>SchemaBuilder#add_relation_metadata has 4 parameters</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md" target="_blank"><b>UnusedParameters</b></a>        </span>      </div>      <span>SchemaBuilder#add_relation_metadata has unused parameter 'account_id'</span>          </div>  </li></ol>
+      assoc_class = association.klass
+      label_method = determine_label_method(assoc_class)
+
+      field[:relation] = {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema_builder.html#L118" class="js-smell-location">0</a>                  <a href="schema_builder.html#L261" class="js-smell-location">1</a>                  </div>  </li></ol>
+        model: assoc_class.name,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#add_relation_metadata calls 'assoc_class.name' 2 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L119" class="js-smell-location">0</a>                  <a href="schema_builder.html#L120" class="js-smell-location">1</a>                  </div>  </li></ol>
+        modelName: assoc_class.name.underscore,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#add_relation_metadata calls 'assoc_class.name' 2 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L119" class="js-smell-location">0</a>                  <a href="schema_builder.html#L120" class="js-smell-location">1</a>                  </div>  </li></ol>
+        labelKey: label_method.to_s,
+        valueKey: &#39;id&#39;,
+        searchKey: build_search_key(assoc_class, label_method)
+      }
+    end
+
+    def build_search_key(assoc_class, label_method)
+      search_fields = [label_method.to_s]
+      search_fields &lt;&lt; &#39;email&#39; if assoc_class.column_names.include?(&#39;email&#39;)
+      search_fields.join(&#39;_or_&#39;) + &#39;_cont&#39;
+    end
+
+    def determine_field_type(attr, column, model_class)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>SchemaBuilder::determine_field_type has a flog score of 26</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Data-Clump.md" target="_blank"><b>DataClump</b></a>        </span>      </div>      <span>SchemaBuilder takes parameters ['attr', 'model_class'] to 3 methods</span>              <span>Locations:</span>                  <a href="schema_builder.html#L85" class="js-smell-location">0</a>                  <a href="schema_builder.html#L133" class="js-smell-location">1</a>                  <a href="schema_builder.html#L152" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>SchemaBuilder#determine_field_type has approx 7 statements</span>          </div>  </li></ol>
+      # Check for enum fields
+      return &#39;select&#39; if model_class.respond_to?(:defined_enums) &amp;&amp; model_class.defined_enums.key?(attr)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md" target="_blank"><b>ManualDispatch</b></a>        </span>      </div>      <span>SchemaBuilder#determine_field_type manually dispatches method call</span>          </div>  </li></ol>
+
+      # Check for foreign key relationships
+      if attr.end_with?(&#39;_id&#39;)
+        association = model_class.reflect_on_association(attr.sub(/_id$/, &#39;&#39;).to_sym)
+        return &#39;relation&#39; if association &amp;&amp; !association.polymorphic?
+      end
+
+      # Special cases
+      return &#39;text&#39; if %w[email phone].include?(attr)
+      return &#39;date&#39; if attr.end_with?(&#39;_at&#39;)
+
+      # Default to column type mapping
+      column_type = column&amp;.type || :string<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Control-Parameter.md" target="_blank"><b>ControlParameter</b></a>        </span>      </div>      <span>SchemaBuilder#determine_field_type is controlled by argument 'column'</span>          </div>  </li></ol>
+      COLUMN_TYPE_MAP[column_type] || &#39;text&#39;
+    end
+
+    def build_label(attr, model_class, assoc_label)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Data-Clump.md" target="_blank"><b>DataClump</b></a>        </span>      </div>      <span>SchemaBuilder takes parameters ['attr', 'model_class'] to 3 methods</span>              <span>Locations:</span>                  <a href="schema_builder.html#L85" class="js-smell-location">0</a>                  <a href="schema_builder.html#L133" class="js-smell-location">1</a>                  <a href="schema_builder.html#L152" class="js-smell-location">2</a>                  </div>  </li></ol>
+      attr_label = if model_class.respond_to?(:human_attribute_name)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md" target="_blank"><b>ManualDispatch</b></a>        </span>      </div>      <span>SchemaBuilder#build_label manually dispatches method call</span>          </div>  </li></ol>
+                     model_class.human_attribute_name(attr)
+                   else
+                     attr.humanize.titleize
+                   end
+
+      if assoc_label
+        &quot;#{assoc_label} - #{attr_label}&quot;
+      else
+        attr_label
+      end
+    end
+
+    # Maximum nesting depth for associations (e.g., Deal → Contact → Labels = depth 2)
+    MAX_NESTING_DEPTH = 2
+
+    def build_nested_association_fields(model_class, associations, account, account_id,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>SchemaBuilder::build_nested_association_fields has a flog score of 74</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Data-Clump.md" target="_blank"><b>DataClump</b></a>        </span>      </div>      <span>SchemaBuilder takes parameters ['account', 'model_class'] to 3 methods</span>              <span>Locations:</span>                  <a href="schema_builder.html#L44" class="js-smell-location">0</a>                  <a href="schema_builder.html#L85" class="js-smell-location">1</a>                  <a href="schema_builder.html#L169" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md" target="_blank"><b>LongParameterList</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields has 8 parameters</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields has approx 29 statements</span>          </div>  </li></ol>
+                                        prefix: nil, label_prefix: nil, depth: 1, visited: Set.new)
+      return [] if depth &gt; MAX_NESTING_DEPTH
+
+      fields = []
+
+      associations.each do |assoc_name|
+        next if EXCLUDED_ASSOCIATIONS.include?(assoc_name.to_s)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields calls 'assoc_name.to_s' 4 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L176" class="js-smell-location">0</a>                  <a href="schema_builder.html#L196" class="js-smell-location">1</a>                  <a href="schema_builder.html#L198" class="js-smell-location">2</a>                  <a href="schema_builder.html#L202" class="js-smell-location">3</a>                  </div>  </li></ol>
+
+        assoc = model_class.reflect_on_association(assoc_name.to_sym)
+        next unless assoc
+        next if assoc.polymorphic?
+
+        begin
+          assoc_class = assoc.klass
+        rescue StandardError
+          next
+        end
+
+        # Avoid circular references
+        next if visited.include?(assoc_class.name)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields calls 'assoc_class.name' 2 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L189" class="js-smell-location">0</a>                  <a href="schema_builder.html#L193" class="js-smell-location">1</a>                  </div>  </li></ol>
+
+        next unless assoc_class.respond_to?(:ransackable_attributes)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md" target="_blank"><b>ManualDispatch</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields manually dispatches method call</span>              <span>Locations:</span>                  <a href="schema_builder.html#L191" class="js-smell-location">0</a>                  <a href="schema_builder.html#L230" class="js-smell-location">1</a>                  </div>  </li></ol>
+
+        current_visited = visited | Set[assoc_class.name]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields calls 'assoc_class.name' 2 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L189" class="js-smell-location">0</a>                  <a href="schema_builder.html#L193" class="js-smell-location">1</a>                  </div>  </li></ol>
+
+        assoc_label = if label_prefix
+                        &quot;#{label_prefix} &gt; #{assoc_name.to_s.humanize.titleize}&quot;<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields calls 'assoc_name.to_s' 4 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L176" class="js-smell-location">0</a>                  <a href="schema_builder.html#L196" class="js-smell-location">1</a>                  <a href="schema_builder.html#L198" class="js-smell-location">2</a>                  <a href="schema_builder.html#L202" class="js-smell-location">3</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields calls 'assoc_name.to_s.humanize' 2 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L196" class="js-smell-location">0</a>                  <a href="schema_builder.html#L198" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields calls 'assoc_name.to_s.humanize.titleize' 2 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L196" class="js-smell-location">0</a>                  <a href="schema_builder.html#L198" class="js-smell-location">1</a>                  </div>  </li></ol>
+                      else
+                        assoc_name.to_s.humanize.titleize<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields calls 'assoc_name.to_s' 4 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L176" class="js-smell-location">0</a>                  <a href="schema_builder.html#L196" class="js-smell-location">1</a>                  <a href="schema_builder.html#L198" class="js-smell-location">2</a>                  <a href="schema_builder.html#L202" class="js-smell-location">3</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields calls 'assoc_name.to_s.humanize' 2 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L196" class="js-smell-location">0</a>                  <a href="schema_builder.html#L198" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields calls 'assoc_name.to_s.humanize.titleize' 2 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L196" class="js-smell-location">0</a>                  <a href="schema_builder.html#L198" class="js-smell-location">1</a>                  </div>  </li></ol>
+                      end
+
+        # Build Ransack prefix: e.g., &quot;contact&quot;, &quot;contact_labels&quot;
+        ransack_prefix = prefix ? &quot;#{prefix}_#{assoc_name}&quot; : assoc_name.to_s<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields calls 'assoc_name.to_s' 4 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L176" class="js-smell-location">0</a>                  <a href="schema_builder.html#L196" class="js-smell-location">1</a>                  <a href="schema_builder.html#L198" class="js-smell-location">2</a>                  <a href="schema_builder.html#L202" class="js-smell-location">3</a>                  </div>  </li></ol>
+
+        # Get association&#39;s ransackable attributes
+        assoc_attrs = assoc_class.ransackable_attributes(nil)
+        assoc_columns = assoc_class.columns_hash
+
+        assoc_attrs.each do |attr|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Nested-Iterators.md" target="_blank"><b>NestedIterators</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields contains iterators nested 2 deep</span>          </div>  </li></ol>
+          next if EXCLUDED_FIELDS.include?(attr)
+
+          column = assoc_columns[attr]
+
+          field = if attr == &#39;id&#39;
+                    build_association_id_field(assoc_name, assoc_class, account_id, ransack_prefix, assoc_label)
+                  else
+                    build_field(
+                      attr,
+                      column,
+                      assoc_class,
+                      account,
+                      account_id,
+                      prefix: ransack_prefix,
+                      assoc_label:
+                    )
+                  end
+          fields &lt;&lt; field if field
+        end
+
+        # Recurse into sub-associations (nested relations)
+        next unless assoc_class.respond_to?(:ransackable_associations)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md" target="_blank"><b>ManualDispatch</b></a>        </span>      </div>      <span>SchemaBuilder#build_nested_association_fields manually dispatches method call</span>              <span>Locations:</span>                  <a href="schema_builder.html#L191" class="js-smell-location">0</a>                  <a href="schema_builder.html#L230" class="js-smell-location">1</a>                  </div>  </li></ol>
+
+        sub_associations = assoc_class.ransackable_associations(nil)
+        nested_fields = build_nested_association_fields(
+          assoc_class,
+          sub_associations,
+          account,
+          account_id,
+          prefix: ransack_prefix,
+          label_prefix: assoc_label,
+          depth: depth + 1,
+          visited: current_visited
+        )
+        fields.concat(nested_fields)
+      end
+
+      fields
+    end
+
+    def build_association_id_field(assoc_name, assoc_class, account_id, ransack_prefix, assoc_label)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md" target="_blank"><b>LongParameterList</b></a>        </span>      </div>      <span>SchemaBuilder#build_association_id_field has 5 parameters</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>SchemaBuilder#build_association_id_field has approx 6 statements</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md" target="_blank"><b>UnusedParameters</b></a>        </span>      </div>      <span>SchemaBuilder#build_association_id_field has unused parameter 'account_id'</span>          </div>  </li></ol>
+      field_name = &quot;#{ransack_prefix}_id&quot;
+      label = &quot;#{assoc_label} - ID&quot;
+      label_method = determine_label_method(assoc_class)
+
+      field = {
+        name: field_name,
+        label:,
+        type: &#39;relation&#39;,
+        association: assoc_name.to_s
+      }
+
+      field[:relation] = {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema_builder.html#L118" class="js-smell-location">0</a>                  <a href="schema_builder.html#L261" class="js-smell-location">1</a>                  </div>  </li></ol>
+        model: assoc_class.name,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#build_association_id_field calls 'assoc_class.name' 2 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L262" class="js-smell-location">0</a>                  <a href="schema_builder.html#L263" class="js-smell-location">1</a>                  </div>  </li></ol>
+        modelName: assoc_class.name.underscore,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>SchemaBuilder#build_association_id_field calls 'assoc_class.name' 2 times</span>              <span>Locations:</span>                  <a href="schema_builder.html#L262" class="js-smell-location">0</a>                  <a href="schema_builder.html#L263" class="js-smell-location">1</a>                  </div>  </li></ol>
+        labelKey: label_method.to_s,
+        valueKey: &#39;id&#39;,
+        searchKey: build_search_key(assoc_class, label_method)
+      }
+
+      field
+    end
+
+    def determine_label_method(klass)
+      # Use column_names to check for real DB-backed attributes (not inherited methods like to_s)
+      label_candidates = %w[full_name name title display_name email]
+      columns = klass.respond_to?(:column_names) ? klass.column_names : []<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Manual-Dispatch.md" target="_blank"><b>ManualDispatch</b></a>        </span>      </div>      <span>SchemaBuilder#determine_label_method manually dispatches method call</span>          </div>  </li></ol>
+
+      label_candidates.find { |col| columns.include?(col) } || &#39;id&#39;
+    end
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../assets/javascripts/application.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>
