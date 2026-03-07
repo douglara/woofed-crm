@@ -1,14 +1,14 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
-if Rails.env.development? && User.count.zero?
+if (Rails.env.development? || ENV['PREVIEW_APP'].present?) && User.count.zero?
 
   Installation.create!(
     id: SecureRandom.uuid,
-    key1: Faker::Alphanumeric.alphanumeric(number: 10),
-    key2: Faker::Alphanumeric.alphanumeric(number: 10),
+    key1: SecureRandom.alphanumeric(10),
+    key2: SecureRandom.alphanumeric(10),
     status: 'completed',
-    token: Faker::Alphanumeric.alphanumeric(number: 20)
+    token: SecureRandom.alphanumeric(20)
   )
 
   account = Account.create!(
@@ -21,8 +21,8 @@ if Rails.env.development? && User.count.zero?
   users = []
   [
     { full_name: 'Admin', email: 'user1@email.com' },
-    { full_name: 'Maria Sales', email: 'maria@email.com' },
-    { full_name: 'John Commercial', email: 'john@email.com' }
+    { full_name: 'Maria Sales', email: 'user2@email.com' },
+    { full_name: 'John Commercial', email: 'user3@email.com' }
   ].each do |user_data|
     users << User.create!(
       full_name: user_data[:full_name],
@@ -48,23 +48,23 @@ if Rails.env.development? && User.count.zero?
     Stage.create!(pipeline: pipeline, name: stage_data[:name], position: stage_data[:position], account: account)
   end
 
-  # Products
+  # Products - random values between R$10,000 and R$50,000
   products_data = [
-    { name: 'Starter Plan', identifier: 'PLAN-STARTER', amount_in_cents: 9_900, quantity_available: 999,
+    { name: 'Starter Plan', identifier: 'PLAN-STARTER', quantity_available: 999,
       description: 'Starter plan for small businesses' },
-    { name: 'Professional Plan', identifier: 'PLAN-PRO', amount_in_cents: 29_900, quantity_available: 999,
+    { name: 'Professional Plan', identifier: 'PLAN-PRO', quantity_available: 999,
       description: 'Professional plan with advanced features' },
-    { name: 'Enterprise Plan', identifier: 'PLAN-ENT', amount_in_cents: 99_900, quantity_available: 999,
+    { name: 'Enterprise Plan', identifier: 'PLAN-ENT', quantity_available: 999,
       description: 'Enterprise plan with dedicated support' },
-    { name: 'Consulting (hour)', identifier: 'CONSULT-HR', amount_in_cents: 35_000, quantity_available: 500,
+    { name: 'Consulting (hour)', identifier: 'CONSULT-HR', quantity_available: 500,
       description: 'Specialized consulting hour' },
-    { name: 'Basic Implementation', identifier: 'IMPL-BASIC', amount_in_cents: 150_000, quantity_available: 100,
+    { name: 'Basic Implementation', identifier: 'IMPL-BASIC', quantity_available: 100,
       description: 'Basic implementation service' },
-    { name: 'Full Implementation', identifier: 'IMPL-FULL', amount_in_cents: 500_000, quantity_available: 50,
+    { name: 'Full Implementation', identifier: 'IMPL-FULL', quantity_available: 50,
       description: 'Full implementation service with training' },
-    { name: 'Online Training', identifier: 'TRAIN-ONLINE', amount_in_cents: 50_000, quantity_available: 200,
+    { name: 'Online Training', identifier: 'TRAIN-ONLINE', quantity_available: 200,
       description: 'Online training for teams' },
-    { name: 'On-site Training', identifier: 'TRAIN-ONSITE', amount_in_cents: 150_000, quantity_available: 50,
+    { name: 'On-site Training', identifier: 'TRAIN-ONSITE', quantity_available: 50,
       description: 'On-site training at the company' }
   ]
 
@@ -72,7 +72,7 @@ if Rails.env.development? && User.count.zero?
     Product.create!(
       name: product_data[:name],
       identifier: product_data[:identifier],
-      amount_in_cents: product_data[:amount_in_cents],
+      amount_in_cents: rand(1_000..5_000_000),
       quantity_available: product_data[:quantity_available],
       description: product_data[:description],
       account: account
@@ -107,138 +107,75 @@ if Rails.env.development? && User.count.zero?
     )
   end
 
-  # Deals in different stages and statuses
-  deals_data = [
-    # Deals in New Lead
-    { name: 'CRM Project - TechCorp', stage: stages[0], contact: contacts[0], status: 'open' },
-    { name: 'Sales System - Innovation', stage: stages[0], contact: contacts[1], status: 'open' },
+  # Deals - 1000 per stage per status (5 stages x 3 statuses x 1000 = 15,000 deals)
+  statuses = %w[open won lost]
+  contact_ids = contacts.map(&:id)
+  user_ids = users.map(&:id)
+  now = Time.current
 
-    # Deals in Qualification
-    { name: 'Marketing Automation - StartupX', stage: stages[1], contact: contacts[2], status: 'open' },
-    { name: 'Full ERP - BigCompany', stage: stages[1], contact: contacts[3], status: 'open' },
-    { name: 'Digital Consulting - Consulting SA', stage: stages[1], contact: contacts[4], status: 'open' },
+  deal_records = []
+  deal_products_data = []
 
-    # Deals in Proposal Sent
-    { name: 'Cloud Migration - Industry', stage: stages[2], contact: contacts[5], status: 'open' },
-    { name: 'B2B E-commerce - Ecommerce', stage: stages[2], contact: contacts[6], status: 'open' },
+  stages.each do |stage|
+    stage_position = 0
 
-    # Deals in Negotiation
-    { name: 'Financial Platform - Finance', stage: stages[3], contact: contacts[7], status: 'open' },
-    { name: 'Corporate LMS - Education', stage: stages[3], contact: contacts[8], status: 'open' },
-    { name: 'Logistics System - Logistics', stage: stages[3], contact: contacts[9], status: 'open' },
+    statuses.each do |status|
+      status_label = status.capitalize
 
-    # Deals in Closing
-    { name: 'Healthcare App - Healthcare', stage: stages[4], contact: contacts[10], status: 'open' },
+      1000.times do |i|
+        stage_position += 1
+        seq = i + 1
 
-    # Won Deals
-    { name: 'Corporate Website - Agency', stage: stages[4], contact: contacts[11], status: 'won',
-      won_at: 5.days.ago },
-    { name: 'Integrated POS - Retail', stage: stages[4], contact: contacts[12], status: 'won', won_at: 2.weeks.ago },
-    { name: 'API Gateway - Tech.io', stage: stages[3], contact: contacts[13], status: 'won', won_at: 1.month.ago },
+        won_at = status == 'won' ? rand(1..90).days.ago : nil
+        lost_at = status == 'lost' ? rand(1..90).days.ago : nil
+        lost_reason = status == 'lost' ? 'Budget constraints' : ''
 
-    # Lost Deals
-    { name: 'Media Portal - Media', stage: stages[2], contact: contacts[14], status: 'lost', lost_at: 1.week.ago,
-      lost_reason: 'Budget above expected' }
-  ]
+        product = products.sample
+        quantity = rand(1..20)
+        deal_amount = product.amount_in_cents * quantity
 
-  deals = deals_data.map do |deal_data|
-    Deal.create!(
-      name: deal_data[:name],
-      stage: deal_data[:stage],
-      pipeline: pipeline,
-      contact: deal_data[:contact],
-      status: deal_data[:status],
-      creator: users.sample,
-      won_at: deal_data[:won_at],
-      lost_at: deal_data[:lost_at],
-      lost_reason: deal_data[:lost_reason] || '',
-      account: account
-    )
-  end
+        deal_records << {
+          name: "[#{stage.name}] #{status_label} ##{seq} (pos #{stage_position})",
+          stage_id: stage.id,
+          pipeline_id: pipeline.id,
+          contact_id: contact_ids.sample,
+          status: status,
+          position: stage_position,
+          won_at: won_at,
+          lost_at: lost_at,
+          lost_reason: lost_reason,
+          total_deal_products_amount_in_cents: deal_amount,
+          created_by_id: user_ids.sample,
+          created_at: now,
+          updated_at: now
+        }
 
-  # Add products to deals
-  deals.each do |deal|
-    products.sample(rand(1..3)).each do |product|
-      quantity = rand(1..5)
-      DealProduct.create!(
-        deal: deal,
-        product: product,
-        account: account,
-        product_name: product.name,
-        product_identifier: product.identifier,
-        unit_amount_in_cents: product.amount_in_cents,
-        quantity: quantity,
-        total_amount_in_cents: product.amount_in_cents * quantity
-      )
+        deal_products_data << {
+          product_id: product.id,
+          product_name: product.name,
+          product_identifier: product.identifier,
+          unit_amount_in_cents: product.amount_in_cents,
+          quantity: quantity,
+          total_amount_in_cents: deal_amount,
+          created_at: now,
+          updated_at: now
+        }
+      end
     end
   end
 
-  deals.each do |deal|
-    DealAssignee.create!(deal: deal, user: users.sample, account: account)
-  end
+  # Bulk insert deals and deal_products together per batch to guarantee ID pairing
+  deal_records.each_slice(500).with_index do |deal_batch, batch_idx|
+    result = Deal.insert_all(deal_batch, returning: [:id])
+    deal_ids = result.rows.flatten
 
-  # Create activities and notes
-  deals.each do |deal|
-    Event.create!(
-      deal: deal,
-      contact: deal.contact,
-      kind: 'note',
-      title: 'First contact',
-      content: "Customer reached out interested in our services. Showed initial interest in #{products.sample.name}.",
-      account: account
-    )
+    dp_batch = deal_products_data.slice(batch_idx * 500, deal_batch.size)
 
-    # Scheduled activities (future)
-    Event.create!(
-      deal: deal,
-      contact: deal.contact,
-      kind: 'activity',
-      title: 'Follow-up',
-      scheduled_at: rand(1..14).days.from_now,
-      content: 'Make follow-up call to check interest',
-      account: account
-    )
-
-    # Overdue activities (for some deals)
-    if [true, false].sample
-      Event.create!(
-        deal: deal,
-        contact: deal.contact,
-        kind: 'activity',
-        title: 'Send proposal',
-        scheduled_at: rand(1..7).days.ago,
-        content: 'Prepare and send commercial proposal',
-        account: account
-      )
+    dp_records = deal_ids.zip(dp_batch).map do |deal_id, dp|
+      dp.merge(deal_id: deal_id)
     end
 
-    # Completed activities (for some deals)
-    next unless [true, false].sample
-
-    Event.create!(
-      deal: deal,
-      contact: deal.contact,
-      kind: 'activity',
-      title: 'Initial meeting',
-      scheduled_at: rand(7..30).days.ago,
-      done_at: rand(7..30).days.ago,
-      content: 'Service presentation meeting',
-      account: account
-    )
-  end
-
-  # Create additional overdue activities
-  3.times do |i|
-    deal = deals.sample
-    Event.create!(
-      deal: deal,
-      contact: deal.contact,
-      kind: 'activity',
-      title: "Urgent task #{i + 1}",
-      scheduled_at: rand(1..5).days.ago,
-      content: 'This activity is overdue and needs attention',
-      account: account
-    )
+    DealProduct.insert_all(dp_records)
   end
 
   puts 'Created seed data'
@@ -247,10 +184,10 @@ end
 if Rails.env.test?
   Installation.create!(
     id: SecureRandom.uuid,
-    key1: Faker::Alphanumeric.alphanumeric(number: 10),
-    key2: Faker::Alphanumeric.alphanumeric(number: 10),
+    key1: SecureRandom.alphanumeric(10),
+    key2: SecureRandom.alphanumeric(10),
     status: 'completed',
-    token: Faker::Alphanumeric.alphanumeric(number: 20)
+    token: SecureRandom.alphanumeric(20)
   )
   puts 'Created seed test data'
 end
