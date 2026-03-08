@@ -390,23 +390,51 @@ function FilterValueInput({
         />
       );
 
-    case "date":
-      return (
-        <Input
-          type="date"
-          value={String(value ?? "")}
-          onChange={(e) => onChange(e.target.value)}
-        />
-      );
+    case "date": {
+      const toLocalDatetime = (value) => {
+        if (!value) return "";
 
-    case "datetime":
+        const date = new Date(value);
+        const pad = (n) => String(n).padStart(2, "0");
+
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+      };
+
       return (
         <Input
           type="datetime-local"
-          value={String(value ?? "")}
-          onChange={(e) => onChange(e.target.value)}
+          value={toLocalDatetime(value)}
+          onChange={(e) => {
+            const localValue = e.target.value;
+            const utcValue = new Date(localValue).toISOString();
+            onChange(utcValue);
+          }}
         />
       );
+    }
+
+    case "datetime": {
+      const toLocalDatetime = (value) => {
+        if (!value) return "";
+
+        const date = new Date(value);
+        const pad = (n) => String(n).padStart(2, "0");
+
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+      };
+
+      return (
+        <Input
+          type="datetime-local"
+          value={toLocalDatetime(value)}
+          onChange={(e) => {
+            const localValue = e.target.value;
+            const utcValue = new Date(localValue).toISOString();
+            onChange(utcValue);
+          }}
+        />
+      );
+    }
 
     case "string":
     case "text":
