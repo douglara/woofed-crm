@@ -22,7 +22,6 @@ import {
   isFilterGroup,
   isFilterCondition,
 } from "./types";
-import { getBrowserTimeZone } from "@/utils/locale";
 
 /**
  * Converts a FilterGroup to Ransack query parameters
@@ -348,11 +347,6 @@ export function parseRansackQuery(query: Record<string, unknown>): FilterGroup {
       continue;
     }
 
-    // Skip timezone parameter (not a filter condition)
-    if (key === "tz") {
-      continue;
-    }
-
     if (key === "g") {
       gValue = value;
       continue;
@@ -506,12 +500,6 @@ function parseValue(value: unknown): FilterCondition["value"] {
 export function serializeToUrlParams(group: FilterGroup): URLSearchParams {
   const query = buildRansackQuery(group);
   const params = new URLSearchParams();
-
-  // Include browser timezone for correct date filtering
-  const tz = getBrowserTimeZone();
-  if (tz) {
-    params.set("filter[tz]", tz);
-  }
 
   function addParams(obj: Record<string, unknown>, prefix: string = "filter") {
     for (const [key, value] of Object.entries(obj)) {

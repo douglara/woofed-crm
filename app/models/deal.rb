@@ -35,7 +35,6 @@ class Deal < ApplicationRecord
   include CustomAttributes
   include Deal::EventCreator
   include Deal::HandleInCentsValues
-  include RansackDatetimeSearch
 
   belongs_to :contact
   belongs_to :stage
@@ -46,7 +45,6 @@ class Deal < ApplicationRecord
   has_many :activities
   has_many :contact_events, through: :primary_contact, source: :events
   has_many :deal_products, dependent: :destroy
-  has_many :products, through: :deal_products
   has_many :deal_assignees, dependent: :destroy
   has_many :users, through: :deal_assignees
 
@@ -67,13 +65,11 @@ class Deal < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[id name status lost_at lost_reason total_deal_products_amount_in_cents won_at created_at updated_at]
+    %w[name status lost_at lost_reason total_deal_products_amount_in_cents won_at created_at updated_at]
   end
 
-  ransack_date_search :created_at, :updated_at, :won_at, :lost_at
-
   def self.ransackable_associations(_auth_object = nil)
-    %w[users contact stage pipeline creator products]
+    %w[users contact stage pipeline creator]
   end
 
   def total_amount_in_cents
