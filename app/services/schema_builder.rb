@@ -9,7 +9,7 @@
 # - Foreign key lookups with dynamic search endpoints
 #
 # Example usage:
-#   SchemaBuilder.build(Deal, account, account_id: 1)
+#   SchemaBuilder.build(Deal)
 #
 # Returns an array of field definitions with metadata for the filter UI.
 class SchemaBuilder
@@ -38,13 +38,11 @@ class SchemaBuilder
   class << self
     # Build schema for a given model class
     # @param model_class [Class] ActiveRecord model class
-    # @param account [Account] Current account for loading options (optional)
-    # @param options [Hash] Additional options (account_id for endpoint URLs)
+    # @param options [Hash] Additional options
     # @return [Array<Hash>] Array of field definitions
-    def build(model_class, account = nil, options = {})
+    def build(model_class, options = {})
       return [] unless model_class.respond_to?(:ransackable_attributes)
 
-      account_id = options[:account_id] || account&.id
       fields = []
 
       # 1. Build model's own attributes
@@ -55,14 +53,14 @@ class SchemaBuilder
         next if EXCLUDED_FIELDS.include?(attr)
 
         column = columns[attr]
-        field = build_field(attr, column, model_class, account, account_id)
+        field = build_field(attr, column, model_class)
         fields << field if field
       end
 
       # 2. Build association nested attributes (Motor Admin style)
       if model_class.respond_to?(:ransackable_associations)
         ransackable_associations = model_class.ransackable_associations(nil)
-        association_fields = build_nested_association_fields(model_class, ransackable_associations, account, account_id)
+        association_fields = build_nested_association_fields(model_class, ransackable_associations)
         fields.concat(association_fields)
       end
 
@@ -71,18 +69,17 @@ class SchemaBuilder
 
     # Build schema for multiple resources
     # @param resources [Hash] Hash of resource_name => model_class
-    # @param account [Account] Current account
     # @param options [Hash] Additional options
     # @return [Hash] Hash of resource_name => fields array
-    def build_multiple(resources, account = nil, options = {})
+    def build_multiple(resources, options = {})
       resources.transform_values do |model_class|
-        build(model_class, account, options)
+        build(model_class, options)
       end
     end
 
     private
 
-    def build_field(attr, column, model_class, account, account_id, prefix: nil, assoc_label: nil)
+    def build_field(attr, column, model_class, prefix: nil, assoc_label: nil)
       field_type = determine_field_type(attr, column, model_class)
       field_name = prefix ? "#{prefix}_#{attr}" : attr
       label = build_label(attr, model_class, assoc_label)
@@ -105,13 +102,13 @@ class SchemaBuilder
         association_name = attr.sub(/_id$/, '')
         association = model_class.reflect_on_association(association_name.to_sym)
 
-        add_relation_metadata(field, association, account, account_id) if association && !association.polymorphic?
+        add_relation_metadata(field, association) if association && !association.polymorphic?
       end
 
       field
     end
 
-    def add_relation_metadata(field, association, _account, account_id)
+    def add_relation_metadata(field, association)
       assoc_class = association.klass
       label_method = determine_label_method(assoc_class)
 
@@ -166,7 +163,7 @@ class SchemaBuilder
     # Maximum nesting depth for associations (e.g., Deal → Contact → Labels = depth 2)
     MAX_NESTING_DEPTH = 2
 
-    def build_nested_association_fields(model_class, associations, account, account_id,
+    def build_nested_association_fields(model_class, associations,
                                         prefix: nil, label_prefix: nil, depth: 1, visited: Set.new)
       return [] if depth > MAX_NESTING_DEPTH
 
@@ -213,14 +210,12 @@ class SchemaBuilder
           column = assoc_columns[attr]
 
           field = if attr == 'id'
-                    build_association_id_field(assoc_name, assoc_class, account_id, ransack_prefix, assoc_label)
+                    build_association_id_field(assoc_name, assoc_class, ransack_prefix, assoc_label)
                   else
                     build_field(
                       attr,
                       column,
                       assoc_class,
-                      account,
-                      account_id,
                       prefix: ransack_prefix,
                       assoc_label:
                     )
@@ -235,8 +230,6 @@ class SchemaBuilder
         nested_fields = build_nested_association_fields(
           assoc_class,
           sub_associations,
-          account,
-          account_id,
           prefix: ransack_prefix,
           label_prefix: assoc_label,
           depth: depth + 1,
@@ -248,7 +241,7 @@ class SchemaBuilder
       fields
     end
 
-    def build_association_id_field(assoc_name, assoc_class, account_id, ransack_prefix, assoc_label)
+    def build_association_id_field(assoc_name, assoc_class, ransack_prefix, assoc_label)
       field_name = "#{ransack_prefix}_id"
       label = "#{assoc_label} - ID"
       label_method = determine_label_method(assoc_class)
