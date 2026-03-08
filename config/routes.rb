@@ -62,7 +62,6 @@ Rails.application.routes.draw do
         end
       end
       get 'hovercard_preview', on: :member
-      get 'test', on: :collection
     end
     resources :pipelines do
       get 'import'
@@ -165,9 +164,6 @@ Rails.application.routes.draw do
     resources :accounts, module: :accounts do
       namespace :components do
         get 'combobox', to: 'combobox#search'
-      end
-      resource :filters, only: [:show] do
-        get 'schema', on: :member
       end
     end
   end

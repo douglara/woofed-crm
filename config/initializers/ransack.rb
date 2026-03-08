@@ -13,7 +13,6 @@ ActsAsTaggableOn::Tag.class_eval do
     %w[
       id
       name
-      taggings_count
       created_at
       updated_at
     ]
