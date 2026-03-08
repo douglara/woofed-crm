@@ -145,7 +145,7 @@ class Contact &lt; ApplicationRecord
     chatwoot_id.present? ? where(&quot;additional_attributes-&gt;&gt;&#39;chatwoot_id&#39; = ?&quot;, chatwoot_id.to_s) : none
   }
 
-  def self.ransackable_attributes(_auth_object = nil)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="contact.html#L49" class="js-smell-location">0</a>                  <a href="../../config/initializers/ransack.html#L22" class="js-smell-location">1</a>                  </div>  </li></ol>
+  def self.ransackable_attributes(_auth_object = nil)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="contact.html#L49" class="js-smell-location">0</a>                  <a href="../../config/initializers/ransack.html#L21" class="js-smell-location">1</a>                  </div>  </li></ol>
     %w[additional_attributes app_id app_type created_at custom_attributes email full_name id
        phone updated_at]
   end

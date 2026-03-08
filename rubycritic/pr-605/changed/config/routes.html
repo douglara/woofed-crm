@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-02 17:55:26 -0300'>2026-03-02 17:55:26 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-08 10:30:18 -0300'>2026-03-08 10:30:18 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">201</span><small> lines of codes</small></div>
+              <div><span class="metric">197</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">160</span><small> churn</small></div>
+              <div><span class="metric">161</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">168.74</span><small> complexity</small></div>
+              <div><span class="metric">164.25</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -161,7 +161,6 @@ Rails.application.routes.draw do
         end
       end
       get &#39;hovercard_preview&#39;, on: :member
-      get &#39;test&#39;, on: :collection
     end
     resources :pipelines do
       get &#39;import&#39;
@@ -264,9 +263,6 @@ Rails.application.routes.draw do
     resources :accounts, module: :accounts do
       namespace :components do
         get &#39;combobox&#39;, to: &#39;combobox#search&#39;
-      end
-      resource :filters, only: [:show] do
-        get &#39;schema&#39;, on: :member
       end
     end
   end

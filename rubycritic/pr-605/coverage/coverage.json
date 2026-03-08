@@ -1061,10 +1061,6 @@
         null,
         null,
         1,
-        0,
-        null,
-        null,
-        1,
         null,
         null,
         1,
@@ -2948,159 +2944,6 @@
         0,
         null,
         0,
-        null,
-        null
-      ]
-    },
-    "/__w/woofed-crm/woofed-crm/app/controllers/inertia/accounts/contacts_controller.rb": {
-      "lines": [
-        1,
-        1,
-        0,
-        null,
-        0,
-        0,
-        null,
-        null,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        1,
-        0,
-        null,
-        null
-      ]
-    },
-    "/__w/woofed-crm/woofed-crm/app/controllers/inertia/accounts/deals_controller.rb": {
-      "lines": [
-        null,
-        null,
-        1,
-        1,
-        0,
-        null,
-        0,
-        0,
-        null,
-        null,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    },
-    "/__w/woofed-crm/woofed-crm/app/controllers/inertia/accounts/filters_controller.rb": {
-      "lines": [
-        null,
-        null,
-        1,
-        null,
-        null,
-        1,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        1,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        1,
-        0,
-        null,
-        0,
-        0,
-        null,
-        null,
-        0,
-        0,
-        null,
-        0,
-        null,
-        null,
-        1,
-        null,
-        1,
-        0,
-        0,
-        null,
-        null,
-        null,
-        1,
-        0,
-        0,
-        null,
-        null,
-        null
-      ]
-    },
-    "/__w/woofed-crm/woofed-crm/app/controllers/inertia/accounts/pipelines_controller.rb": {
-      "lines": [
-        null,
-        null,
-        1,
-        1,
-        0,
-        null,
-        0,
-        0,
-        null,
-        null,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    },
-    "/__w/woofed-crm/woofed-crm/app/controllers/inertia/accounts/stages_controller.rb": {
-      "lines": [
-        null,
-        null,
-        1,
-        1,
-        0,
-        null,
-        0,
-        0,
-        null,
-        null,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    },
-    "/__w/woofed-crm/woofed-crm/app/controllers/inertia/accounts/users_controller.rb": {
-      "lines": [
-        1,
-        1,
-        0,
-        null,
-        0,
-        0,
-        null,
-        null,
-        0,
-        null,
-        null,
-        null,
         null,
         null
       ]
@@ -8333,7 +8176,7 @@
   "groups": {
     "Controllers": {
       "lines": {
-        "covered_percent": 82.12520593080725
+        "covered_percent": 84.16523235800344
       }
     },
     "Channels": {
