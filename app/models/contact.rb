@@ -25,6 +25,7 @@ class Contact < ApplicationRecord
   include ChatwootLabels
   include CustomAttributes
   include Contact::Presenters
+  include RansackDatetimeSearch
 
   has_many :events
 
@@ -50,6 +51,8 @@ class Contact < ApplicationRecord
     %w[additional_attributes app_id app_type created_at custom_attributes email full_name id
        phone updated_at]
   end
+
+  ransack_date_search :created_at, :updated_at
 
   def self.ransackable_associations(_auth_object = nil)
     %w[labels chatwoot_conversations_labels deals]

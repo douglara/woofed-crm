@@ -1,7 +1,8 @@
 class Query::Filter
   def initialize(rel, params)
     @rel = rel
-    @params = params
+    @params = params.is_a?(Hash) ? params.dup : params
+    @timezone = @params.is_a?(Hash) ? @params.delete('tz') || @params.delete(:tz) : nil
   end
 
   def call
@@ -10,9 +11,17 @@ class Query::Filter
 
   private
 
-  attr_reader :rel, :params
+  attr_reader :rel, :params, :timezone
 
   def apply_filters
-    rel.ransack(params).result
+    if timezone.present? && valid_timezone?(timezone)
+      Time.use_zone(timezone) { rel.ransack(params).result }
+    else
+      rel.ransack(params).result
+    end
+  end
+
+  def valid_timezone?(tz)
+    ActiveSupport::TimeZone[tz].present?
   end
 end
