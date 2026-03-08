@@ -33,7 +33,7 @@ class SchemaBuilder
                        confirmation_token unlock_token password_digest account_id].freeze
 
   # Associations to exclude from schema (internal/multi-tenant)
-  EXCLUDED_ASSOCIATIONS = %w[account accounts].freeze
+  EXCLUDED_ASSOCIATIONS = %w[account accounts deal_products].freeze
 
   class << self
     # Build schema for a given model class
@@ -50,7 +50,7 @@ class SchemaBuilder
       columns = model_class.columns_hash
 
       ransackable_attrs.each do |attr|
-        next if EXCLUDED_FIELDS.include?(attr)
+        next if EXCLUDED_FIELDS.include?(attr) || attr.end_with?('_id')
 
         column = columns[attr]
         field = build_field(attr, column, model_class)
@@ -65,16 +65,6 @@ class SchemaBuilder
       end
 
       fields
-    end
-
-    # Build schema for multiple resources
-    # @param resources [Hash] Hash of resource_name => model_class
-    # @param options [Hash] Additional options
-    # @return [Hash] Hash of resource_name => fields array
-    def build_multiple(resources, options = {})
-      resources.transform_values do |model_class|
-        build(model_class, options)
-      end
     end
 
     private
@@ -130,12 +120,6 @@ class SchemaBuilder
     def determine_field_type(attr, column, model_class)
       # Check for enum fields
       return 'select' if model_class.respond_to?(:defined_enums) && model_class.defined_enums.key?(attr)
-
-      # Check for foreign key relationships
-      if attr.end_with?('_id')
-        association = model_class.reflect_on_association(attr.sub(/_id$/, '').to_sym)
-        return 'relation' if association && !association.polymorphic?
-      end
 
       # Special cases
       return 'text' if %w[email phone].include?(attr)
@@ -243,7 +227,7 @@ class SchemaBuilder
 
     def build_association_id_field(assoc_name, assoc_class, ransack_prefix, assoc_label)
       field_name = "#{ransack_prefix}_id"
-      label = "#{assoc_label} - ID"
+      label = "#{assoc_label}"
       label_method = determine_label_method(assoc_class)
 
       field = {
