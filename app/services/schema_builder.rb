@@ -60,7 +60,9 @@ class SchemaBuilder
       # 2. Build association nested attributes (Motor Admin style)
       if model_class.respond_to?(:ransackable_associations)
         ransackable_associations = model_class.ransackable_associations(nil)
-        association_fields = build_nested_association_fields(model_class, ransackable_associations)
+        association_fields = build_nested_association_fields(
+          model_class, ransackable_associations, visited: Set[model_class.name]
+        )
         fields.concat(association_fields)
       end
 
@@ -173,7 +175,7 @@ class SchemaBuilder
 
         current_visited = visited | Set[assoc_class.name]
 
-        assoc_human_name = assoc_class.model_name.human
+        assoc_human_name = assoc_name.to_s.humanize
 
         assoc_label = if label_prefix
                         "#{label_prefix} > #{assoc_human_name}"
