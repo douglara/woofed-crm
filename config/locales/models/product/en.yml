@@ -9,6 +9,7 @@ en:
         add: "Add product"
     attributes:
       product:
+        id: ID
         name: Name
         identifier: Identifier
         amount_in_cents: Price

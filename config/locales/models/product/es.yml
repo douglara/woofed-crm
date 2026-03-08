@@ -9,6 +9,7 @@ es:
         add: "Añadir producto"
     attributes:
       product:
+        id: ID
         name: Nombre
         identifier: Identificador
         amount_in_cents: Precio

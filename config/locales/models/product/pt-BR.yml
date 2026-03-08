@@ -9,6 +9,7 @@ pt-BR:
         add: "Adicionar produto"
     attributes:
       product:
+        id: ID
         name: Nome
         identifier: Identificador
         amount_in_cents: Preço
