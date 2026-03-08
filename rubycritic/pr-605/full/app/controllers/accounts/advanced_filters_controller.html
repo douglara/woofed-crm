@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-02 17:55:26 -0300'>2026-03-02 17:55:26 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-07 23:19:53 -0300'>2026-03-07 23:19:53 -0300</time>
         
       </span>
     </div>
@@ -72,11 +72,11 @@
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">9.3</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">8.2</span><small> complexity/method</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">9.27</span><small> complexity</small></div>
+              <div><span class="metric">8.21</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,8 +88,8 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                2
-                smells
+                1
+                smell
               </a>
             </li>
           </ul>
@@ -97,7 +97,7 @@
       </div>
     </div>
 
-    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Accounts::AdvancedFiltersController &lt; InternalController<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Accounts::AdvancedFiltersController assumes too much for instance variable '@account'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Accounts::AdvancedFiltersController has no descriptive comment</span>          </div>  </li></ol>
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Accounts::AdvancedFiltersController &lt; InternalController<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Accounts::AdvancedFiltersController has no descriptive comment</span>          </div>  </li></ol>
   MODELS = {
     &#39;deal&#39; =&gt; Deal,
     &#39;contact&#39; =&gt; Contact,
@@ -109,7 +109,7 @@
     model_class = MODELS[params[:model]] || Deal
     @model_class = model_class
     @redirect_url = params[:redirect_url]
-    @fields = SchemaBuilder.build(model_class, @account, account_id: @account.id)
+    @fields = SchemaBuilder.build(model_class)
   end
 end
 </code>
