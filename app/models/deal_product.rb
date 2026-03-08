@@ -32,4 +32,13 @@ class DealProduct < ApplicationRecord
   validates :product_id, uniqueness: { scope: :deal_id, message: :taken }
 
   FORM_FIELDS = %i[product_name unit_amount_in_cents product_identifier]
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[created_at deal_id id id_value product_id product_identifier product_name quantity total_amount_in_cents
+       unit_amount_in_cents updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[account deal product]
+  end
 end

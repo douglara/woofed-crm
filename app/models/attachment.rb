@@ -71,4 +71,12 @@ class Attachment < ApplicationRecord
   def acceptable_file_size
     file.byte_size > 40.megabytes
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[attachable_id attachable_type created_at file_type id id_value updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[account attachable file_attachment file_blob]
+  end
 end
