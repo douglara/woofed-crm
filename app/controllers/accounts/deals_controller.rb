@@ -181,7 +181,7 @@ class Accounts::DealsController < InternalController
 
   def drag_and_drop
     previous_stage_id = @deal.stage_id
-    @filter_deals = params[:filter]
+    @filter = params[:filter]
 
     Deal::DragAndDrop.new(
       @deal,

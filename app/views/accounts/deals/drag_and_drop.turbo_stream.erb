@@ -2,7 +2,7 @@
   <% @changed_stage_ids.each do |stage_id| %>
     <% ['all', @deal.status].each do |status| %>
       <%= turbo_stream.replace "stage-#{stage_id}-kaban-details" do %>
-        <%= render 'accounts/stages/kanban_details', stage: Stage.find(stage_id), filter_deals: @filter_deals %>
+        <%= render 'accounts/stages/kanban_details', stage: Stage.find(stage_id), filter: @filter %>
       <% end %>
     <% end %>
   <% end %>
