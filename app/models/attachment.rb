@@ -73,10 +73,10 @@ class Attachment < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[attachable_id attachable_type created_at file_type id id_value updated_at]
+    %w[created_at file_type]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    %w[account attachable file_attachment file_blob]
+    %w[]
   end
 end

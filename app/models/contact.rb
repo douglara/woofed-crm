@@ -47,8 +47,7 @@ class Contact < ApplicationRecord
   }
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[additional_attributes app_id app_type created_at custom_attributes email full_name id
-       phone updated_at]
+    %w[id full_name email phone created_at updated_at custom_attributes additional_attributes]
   end
 
   def self.ransackable_associations(_auth_object = nil)

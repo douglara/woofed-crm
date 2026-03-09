@@ -39,6 +39,6 @@ class DealProduct < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object = nil)
-    %w[account deal product]
+    %w[deal product]
   end
 end

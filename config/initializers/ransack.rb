@@ -12,14 +12,10 @@ ActsAsTaggableOn::Tag.class_eval do
   def self.ransackable_attributes(auth_object = nil)
     %w[
       id
-      name
-      created_at
-      updated_at
     ]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    %w[context created_at id id_value tag_id taggable_id taggable_type tagger_id tagger_type
-       tenant]
+    %w[]
   end
 end
