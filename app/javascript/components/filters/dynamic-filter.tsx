@@ -311,7 +311,7 @@ function ConditionLogicToggle({ logic, onToggle }: ConditionLogicToggleProps) {
           : "bg-auxiliary-palette-red-down-2 text-auxiliary-palette-red border-auxiliary-palette-red-down hover:bg-auxiliary-palette-red-down",
       )}
     >
-      {logic}
+      {logic === "and" ? tFilter("logic_and") : tFilter("logic_or")}
     </button>
   );
 }

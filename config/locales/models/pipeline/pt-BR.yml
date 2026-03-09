@@ -4,8 +4,11 @@ pt-BR:
       pipeline:
         one: Funil
         other: Funis
-        new: 'Novo funil'
-        edit: 'Editar funil'
+        new: "Novo funil"
+        edit: "Editar funil"
     attributes:
       pipeline:
         name: Nome
+        created_at: Criado em
+        updated_at: Atualizado em
+        stages: Estágios

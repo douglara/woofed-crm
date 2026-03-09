@@ -20,6 +20,7 @@ pt-BR:
         chatwoot_identifier: "Identificador do contato"
         id: "Código do contato"
         custom_attributes: Atributos Personalizados
+        additional_attributes: Atributos adicionais
         created_at: Criado em
         updated_at: Atualizado em
     errors:

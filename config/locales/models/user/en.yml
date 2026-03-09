@@ -19,6 +19,9 @@ en:
         phone: Phone (cell)
         job_description: "Job Role"
         avatar_url: "Avatar URL"
+        language: Language
+        created_at: Created at
+        updated_at: Updated at
         webpush_notify_on_event_expired: "Send push notifications when a deal action expires"
         job_descriptions:
           ceo: "Chief Executive Officer (CEO)"

@@ -4,8 +4,11 @@ en:
       pipeline:
         one: Pipeline
         other: Pipelines
-        new: 'New pipeline'
-        edit: 'Edit pipeline'
+        new: "New pipeline"
+        edit: "Edit pipeline"
     attributes:
       pipeline:
         name: Name
+        created_at: Created at
+        updated_at: Updated at
+        stages: Stages

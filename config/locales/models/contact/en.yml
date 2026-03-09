@@ -22,6 +22,7 @@ en:
         created_at: Created at
         updated_at: Updated at
         custom_attributes: Custom Attributes
+        additional_attributes: Additional attributes
     errors:
       contact:
         email:

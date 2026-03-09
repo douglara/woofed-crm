@@ -43,6 +43,9 @@ en:
         other_lost_reason: "Other lost reason"
         lost_at: "Lost at"
         won_at: "Won at"
+        updated_at: Updated at
+        total_deal_products_amount_in_cents: Total products amount
+        users: Users
         statuses:
           open: Open
           won: Won

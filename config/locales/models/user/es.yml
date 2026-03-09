@@ -19,6 +19,9 @@ es:
         phone: Teléfono (celular)
         job_description: "Puesto de trabajo"
         avatar_url: "URL del avatar"
+        language: Idioma
+        created_at: Creado en
+        updated_at: Actualizado en
         webpush_notify_on_event_expired: "Enviar notificaciones push cuando una acción de negocio expire"
         job_descriptions:
           ceo: "Director Ejecutivo (CEO)"

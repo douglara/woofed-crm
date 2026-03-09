@@ -19,6 +19,9 @@ pt-BR:
         phone: Telefone (celular)
         job_description: "Cargo"
         avatar_url: "URL do avatar"
+        language: Idioma
+        created_at: Criado em
+        updated_at: Atualizado em
         webpush_notify_on_event_expired: "Enviar notificações push quando uma ação de negócio expirar"
         job_descriptions:
           ceo: "Diretor Executivo (CEO)"

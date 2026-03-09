@@ -43,6 +43,9 @@ pt-BR:
         other_lost_reason: "Outro motivo de perda"
         lost_at: "Perdido em"
         won_at: "Ganho em"
+        updated_at: Atualizado em
+        total_deal_products_amount_in_cents: Valor total dos produtos
+        users: Usuários
         statuses:
           open: Aberto
           won: Ganhou

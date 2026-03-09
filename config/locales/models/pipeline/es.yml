@@ -4,8 +4,11 @@ es:
       pipeline:
         one: Embudo
         other: Embudos
-        new: 'Nuevo embudo'
-        edit: 'Editar embudo'
+        new: "Nuevo embudo"
+        edit: "Editar embudo"
     attributes:
       pipeline:
         name: Nombre
+        created_at: Creado en
+        updated_at: Actualizado en
+        stages: Etapas
