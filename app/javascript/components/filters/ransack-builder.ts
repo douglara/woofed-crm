@@ -437,13 +437,28 @@ export function parseRansackQuery(query: Record<string, unknown>): FilterGroup {
  * Example: 'name_cont' => { field: 'name', operator: 'cont' }
  */
 function parsePredicate(key: string, value: unknown): FilterCondition | null {
-  // Find the operator suffix
-  for (const [opKey, op] of Object.entries(OPERATORS)) {
+  // Backward compat: handle old _not_null suffix from saved filters
+  // Must check before main loop since _null would falsely match _not_null keys
+  if (key.endsWith("_not_null")) {
+    const field = key.slice(0, -"_not_null".length);
+    return {
+      id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      field: field,
+      operator: "not_null",
+      value: parseValue(value),
+    };
+  }
+
+  // Sort operators by suffix length descending so longer suffixes match first
+  // (e.g. _not_cont before _cont, _not_eq before _eq)
+  const sortedOperators = Object.entries(OPERATORS).sort(
+    ([, a], [, b]) => b.ransackSuffix.length - a.ransackSuffix.length,
+  );
+
+  for (const [opKey, op] of sortedOperators) {
     const suffix = op.ransackSuffix;
     if (key.endsWith(suffix)) {
       const field = key.slice(0, -suffix.length);
-      // Convert underscores back to dots for nested fields
-      // This is a heuristic - we assume the last part before the operator is the field name
       return {
         id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         field: field,
