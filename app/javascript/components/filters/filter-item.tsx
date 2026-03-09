@@ -128,8 +128,8 @@ export function FilterItem({
   );
 
   return (
-    <div className="relative pb-1">
-      <div className="flex items-center gap-2">
+    <div className="relative pb-2">
+      <div className="flex items-stretch gap-2">
         {/* Field Selector */}
         <div className="flex-1 min-w-0">
           <FieldSelectorCombobox
@@ -140,7 +140,7 @@ export function FilterItem({
         </div>
 
         {/* Operator Selector (fixed Select, not searchable) */}
-        <div className="w-48 shrink-0">
+        <div className="w-32 shrink-0">
           <Select
             value={condition.operator}
             onValueChange={handleOperatorChange}

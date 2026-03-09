@@ -122,7 +122,7 @@ function ComboboxContent({
             "bg-popover text-popover-foreground",
             "data-[open]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[open]:fade-in-0 data-[closed]:zoom-out-95 data-[open]:zoom-in-95",
             "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-            "ring-foreground/10 group/combobox-content relative max-h-96 overflow-hidden rounded-md border border-border shadow-md ring-1 duration-100",
+            "ring-foreground/10 group/combobox-content relative max-h-96 overflow-hidden rounded-md border-solid border-2 color-border-default shadow-md ring-1 duration-100",
             // Regular combobox: add extra width for dropdown items
             "w-[var(--anchor-width)] min-w-[calc(var(--anchor-width)+1.75rem)] max-w-[var(--available-width)]",
             // Multiple combobox (chips): match anchor width exactly

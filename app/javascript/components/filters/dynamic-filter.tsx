@@ -200,7 +200,10 @@ function FilterGroupComponent({
 
   return (
     <div
-      className={cn("space-y-3", !isRoot && "pl-4 border-l-2 border-border")}
+      className={cn(
+        "flex flex-col gap-2",
+        !isRoot && "pl-4 border-l-2 border-border",
+      )}
     >
       {conditions.map((item, index) => {
         const isLastCondition = index === conditions.length - 1;
