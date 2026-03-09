@@ -19,6 +19,7 @@ RSpec.describe Reports::Deals::Timeseries::BaseReportBuilder do
 
     context 'returns the expected timeseries with correct timestamps and values' do
       before do
+        travel_to Time.zone.local(2025, 12, 10, 12, 0, 0)
         allow_any_instance_of(described_class).to receive(:grouped_count).and_return(grouped_count_mock)
       end
       let(:params) do
