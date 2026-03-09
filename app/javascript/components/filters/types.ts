@@ -40,6 +40,8 @@ export interface RelationMeta {
   valueKey: string;
   /** Ransack search key (e.g., 'full_name_or_email_cont') */
   searchKey?: string;
+  /** Tag context for ActsAsTaggableOn scoping (e.g., 'labels', 'chatwoot_conversations_labels') */
+  tagContext?: string;
 }
 
 export interface FilterField {
@@ -265,7 +267,7 @@ const OPERATOR_DEFS: Record<OperatorKey, OperatorDef> = {
   not_null: {
     key: "not_null",
     requiresValue: false,
-    ransackSuffix: "_not_null",
+    ransackSuffix: "_present",
   },
   present: { key: "present", requiresValue: false, ransackSuffix: "_present" },
   blank: { key: "blank", requiresValue: false, ransackSuffix: "_blank" },

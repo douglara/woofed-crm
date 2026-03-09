@@ -10,7 +10,6 @@
 
 import * as React from "react";
 import { XIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Combobox,
@@ -174,15 +173,13 @@ export function FilterItem({
 
         {/* Remove Button */}
         {showRemove && (
-          <Button
+          <button
             type="button"
-            variant="ghost"
-            size="icon-xs"
+            className="button-default-blank-secondary-icon-only-sm shrink-0 hover:text-auxiliary-palette-red"
             onClick={() => onRemove(condition.id)}
-            className="shrink-0 text-muted-foreground hover:text-destructive"
           >
             <XIcon className="size-4" />
-          </Button>
+          </button>
         )}
       </div>
     </div>
@@ -485,6 +482,7 @@ function RelationValueInput({
         accountId={accountId}
         placeholder={tFilter("search")}
         fetchOnOpen={true}
+        tagContext={relation.tagContext}
       />
     );
   }

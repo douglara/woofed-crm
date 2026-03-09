@@ -175,7 +175,7 @@ class SchemaBuilder
 
         current_visited = visited | Set[assoc_class.name]
 
-        assoc_human_name = assoc_name.to_s.humanize
+        assoc_human_name = translate_association_name(model_class, assoc_name)
 
         assoc_label = if label_prefix
                         "#{label_prefix} > #{assoc_human_name}"
@@ -247,6 +247,9 @@ class SchemaBuilder
         searchKey: build_search_key(assoc_class, label_method)
       }
 
+      # Add tag context for ActsAsTaggableOn::Tag associations
+      field[:relation][:tagContext] = assoc_name.to_s if assoc_class == ActsAsTaggableOn::Tag
+
       field
     end
 
@@ -256,6 +259,10 @@ class SchemaBuilder
       columns = klass.respond_to?(:column_names) ? klass.column_names : []
 
       label_candidates.find { |col| columns.include?(col) } || 'id'
+    end
+
+    def translate_association_name(model_class, assoc_name)
+      model_class.human_attribute_name(assoc_name.to_s)
     end
   end
 end
