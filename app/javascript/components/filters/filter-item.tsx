@@ -482,7 +482,6 @@ function RelationValueInput({
         accountId={accountId}
         placeholder={tFilter("search")}
         fetchOnOpen={true}
-        tagContext={relation.tagContext}
       />
     );
   }

@@ -9,7 +9,7 @@ class Inertia::Accounts::Components::ComboboxController < Inertia::InternalContr
   }.freeze
 
   def search
-    return render json: search_tags if params[:model] == 'acts_as_taggable_on/tag'
+    return render json: search_label if model_labelable?
 
     config = MODELS[params[:model]]
     return render json: [] unless config
@@ -21,10 +21,14 @@ class Inertia::Accounts::Components::ComboboxController < Inertia::InternalContr
 
   private
 
-  def search_tags
+  def search_label
     scope = ActsAsTaggableOn::Tag
-    scope = scope.for_context(params[:context]).order(name: :asc).limit(10) if params[:context].present?
+    scope = scope.for_context(params[:model]).order(name: :asc).limit(10)
     scope = scope.ransack(params[:q]).result
     scope.map { |tag| { value: tag.id.to_s, label: tag.name } }
+  end
+
+  def model_labelable?
+    ActsAsTaggableOn::Tag.for_context(params[:model]).exists?
   end
 end

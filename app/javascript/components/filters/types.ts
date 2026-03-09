@@ -40,8 +40,6 @@ export interface RelationMeta {
   valueKey: string;
   /** Ransack search key (e.g., 'full_name_or_email_cont') */
   searchKey?: string;
-  /** Tag context for ActsAsTaggableOn scoping (e.g., 'labels', 'chatwoot_conversations_labels') */
-  tagContext?: string;
 }
 
 export interface FilterField {

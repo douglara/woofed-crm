@@ -229,7 +229,7 @@ class SchemaBuilder
 
     def build_association_id_field(assoc_name, assoc_class, ransack_prefix, assoc_label)
       field_name = "#{ransack_prefix}_id"
-      label = "#{assoc_label}"
+      label = assoc_label.to_s
       label_method = determine_label_method(assoc_class)
 
       field = {
@@ -247,8 +247,7 @@ class SchemaBuilder
         searchKey: build_search_key(assoc_class, label_method)
       }
 
-      # Add tag context for ActsAsTaggableOn::Tag associations
-      field[:relation][:tagContext] = assoc_name.to_s if assoc_class == ActsAsTaggableOn::Tag
+      field[:relation][:modelName] = assoc_name.to_s if assoc_class == ActsAsTaggableOn::Tag
 
       field
     end

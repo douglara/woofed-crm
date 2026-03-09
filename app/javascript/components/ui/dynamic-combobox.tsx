@@ -78,19 +78,10 @@ export interface DynamicComboboxProps {
   loadingMessage?: string;
   /** Fetch initial results when combobox opens (default: true) */
   fetchOnOpen?: boolean;
-  /** Tag context for ActsAsTaggableOn scoping (e.g., 'labels', 'chatwoot_conversations_labels') */
-  tagContext?: string;
 }
 
-function buildComboboxUrl(
-  accountId: number,
-  modelName: string,
-  tagContext?: string,
-): string {
+function buildComboboxUrl(accountId: number, modelName: string): string {
   let url = `/inertia/accounts/${encodeURIComponent(accountId)}/components/combobox?model=${encodeURIComponent(modelName)}`;
-  if (tagContext) {
-    url += `&context=${encodeURIComponent(tagContext)}`;
-  }
   return url;
 }
 
@@ -108,7 +99,6 @@ export function DynamicCombobox({
   emptyMessage = "No results found.",
   loadingMessage = "Loading...",
   fetchOnOpen = true,
-  tagContext,
 }: DynamicComboboxProps) {
   const [options, setOptions] = React.useState<DynamicComboboxOption[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -134,7 +124,7 @@ export function DynamicCombobox({
     ) {
       initialFetchDone.current = true;
       const url = new URL(
-        buildComboboxUrl(accountId, modelName, tagContext),
+        buildComboboxUrl(accountId, modelName),
         window.location.origin,
       );
       url.searchParams.set("q[id_eq]", String(value));
@@ -162,7 +152,7 @@ export function DynamicCombobox({
           // ignore - label just won't show
         });
     }
-  }, [value, selectedOption, accountId, modelName, tagContext]);
+  }, [value, selectedOption, accountId, modelName]);
 
   const fetchOptions = React.useCallback(
     async (searchTerm: string, isInitialFetch = false) => {
@@ -177,7 +167,7 @@ export function DynamicCombobox({
 
       try {
         const url = new URL(
-          buildComboboxUrl(accountId, modelName, tagContext),
+          buildComboboxUrl(accountId, modelName),
           window.location.origin,
         );
         if (searchTerm) {
@@ -222,7 +212,7 @@ export function DynamicCombobox({
         setIsLoading(false);
       }
     },
-    [accountId, modelName, ransackParam, tagContext, value],
+    [accountId, modelName, ransackParam, value],
   );
 
   const debouncedFetch = useDebouncedCallback(fetchOptions, debounceMs);
