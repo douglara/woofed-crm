@@ -181,7 +181,12 @@ class Accounts::DealsController < InternalController
 
   def drag_and_drop
     previous_stage_id = @deal.stage_id
-    @filter = params[:filter]
+    @filter =
+      if params[:filter].is_a?(String)
+        params[:filter]
+      else
+        params[:filter]&.to_json
+      end
 
     Deal::DragAndDrop.new(
       @deal,
@@ -189,7 +194,6 @@ class Accounts::DealsController < InternalController
       element_reference_id: drag_and_drop_params[:element_reference_id],
       element_reference_drop_direction: drag_and_drop_params[:element_reference_drop_direction]
     ).call
-    
     @changed_stage_ids = if previous_stage_id != @deal.stage_id
                            [previous_stage_id, @deal.stage_id].uniq
                          else

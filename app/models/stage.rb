@@ -28,10 +28,12 @@ class Stage < ApplicationRecord
                                            }
 
   def total_amount_deals(filter_deals)
+    filter_deals = filter_deals.to_json if filter_deals.is_a?(Hash)
     ::Query::Filter.new(deals, JSON.parse(filter_deals)).call.sum(&:total_amount_in_cents)
   end
 
   def total_quantity_deals(filter_deals)
+    filter_deals = filter_deals.to_json if filter_deals.is_a?(Hash)
     ::Query::Filter.new(deals, JSON.parse(filter_deals)).call.count
   end
 

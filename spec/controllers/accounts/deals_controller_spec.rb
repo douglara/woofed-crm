@@ -740,7 +740,7 @@ RSpec.describe Accounts::DealsController, type: :request do
         it 'moves deal below the reference card (direction: bottom)' do
           params = { element_reference_id: deal_position2.id,
                      element_reference_drop_direction: 'bottom',
-                     deal: { stage_id: stage.id } }
+                     deal: { stage_id: stage.id }, filter: { name_eq: 'test' } }
 
           patch "/accounts/#{account.id}/deals/#{deal_position3.id}/drag_and_drop",
                 params:,
@@ -756,7 +756,7 @@ RSpec.describe Accounts::DealsController, type: :request do
         it 'moves deal above the reference card (direction: top)' do
           params = { element_reference_id: deal_position2.id,
                      element_reference_drop_direction: 'top',
-                     deal: { stage_id: stage.id } }
+                     deal: { stage_id: stage.id }, filter: { name_eq: 'test' } }
 
           patch "/accounts/#{account.id}/deals/#{deal_position1.id}/drag_and_drop",
                 params:,
@@ -777,7 +777,7 @@ RSpec.describe Accounts::DealsController, type: :request do
         it 'moves deal to another stage below the reference card (direction: bottom)' do
           params = { element_reference_id: deal_position1_stage2.id,
                      element_reference_drop_direction: 'bottom',
-                     deal: { stage_id: stage2.id } }
+                     deal: { stage_id: stage2.id }, filter: { name_eq: 'test' } }
 
           patch "/accounts/#{account.id}/deals/#{deal_position2.id}/drag_and_drop",
                 params:,
@@ -787,14 +787,14 @@ RSpec.describe Accounts::DealsController, type: :request do
           expect(deal_position2.reload.stage_id).to eq(stage2.id)
           expect(deal_position2.reload.position).to eq(1)
           expect(deal_position1_stage2.reload.position).to eq(2)
-          expect(response.body).to include("stage-#{stage.id}-all-kaban-details")
-          expect(response.body).to include("stage-#{stage2.id}-all-kaban-details")
+          expect(response.body).to include("stage-#{stage.id}-kaban-details")
+          expect(response.body).to include("stage-#{stage2.id}-kaban-details")
         end
 
         it 'moves deal to another stage above the reference card (direction: top)' do
           params = { element_reference_id: deal_position1_stage2.id,
                      element_reference_drop_direction: 'top',
-                     deal: { stage_id: stage2.id } }
+                     deal: { stage_id: stage2.id }, filter: { name_eq: 'test' } }
 
           patch "/accounts/#{account.id}/deals/#{deal_position2.id}/drag_and_drop",
                 params:,
@@ -804,14 +804,14 @@ RSpec.describe Accounts::DealsController, type: :request do
           expect(deal_position2.reload.stage_id).to eq(stage2.id)
           expect(deal_position2.reload.position).to eq(2)
           expect(deal_position1_stage2.reload.position).to eq(1)
-          expect(response.body).to include("stage-#{stage.id}-all-kaban-details")
-          expect(response.body).to include("stage-#{stage2.id}-all-kaban-details")
+          expect(response.body).to include("stage-#{stage.id}-kaban-details")
+          expect(response.body).to include("stage-#{stage2.id}-kaban-details")
         end
       end
 
       context 'when there is no reference card' do
         it 'does nothing when dropped on the same stage' do
-          params = { deal: { stage_id: stage.id } }
+          params = { deal: { stage_id: stage.id }, filter: { name_eq: 'test' } }
 
           patch "/accounts/#{account.id}/deals/#{deal_position2.id}/drag_and_drop",
                 params:,
@@ -828,7 +828,7 @@ RSpec.describe Accounts::DealsController, type: :request do
           stage2 = create(:stage, pipeline:)
           deal_position1_stage2 = create(:deal, stage: stage2, position: 1)
 
-          params = { deal: { stage_id: stage2.id } }
+          params = { deal: { stage_id: stage2.id }, filter: { name_eq: 'test' } }
 
           patch "/accounts/#{account.id}/deals/#{deal_position2.id}/drag_and_drop",
                 params:,
@@ -840,8 +840,8 @@ RSpec.describe Accounts::DealsController, type: :request do
           expect(deal_position1_stage2.reload.position).to eq(1) # unchanged
           expect(deal_position1.reload.position).to eq(1) # gap closed in original stage
           expect(deal_position3.reload.position).to eq(2) # gap closed in original stage
-          expect(response.body).to include("stage-#{stage.id}-all-kaban-details")
-          expect(response.body).to include("stage-#{stage2.id}-all-kaban-details")
+          expect(response.body).to include("stage-#{stage.id}-kaban-details")
+          expect(response.body).to include("stage-#{stage2.id}-kaban-details")
         end
       end
     end
