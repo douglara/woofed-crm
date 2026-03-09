@@ -47,12 +47,12 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-09 01:39:13 -0300'>2026-03-09 01:39:13 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-09 06:32:28 -0300'>2026-03-09 06:32:28 -0300</time>
         
       </span>
     </div>
     <div>
-      <h3><small>app/models /</small> deal_product.rb</h3>
+      <h3><small>spec/models /</small> stage_spec.rb</h3>
     </div>
   </div>
   <!--End Page Title -->
@@ -62,22 +62,22 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating a big">
-              A
+            <div class="rating c big">
+              C
             </div>
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">44</span><small> lines of codes</small></div>
-              <div><span class="metric">2</span><small> methods</small></div>
+              <div><span class="metric">63</span><small> lines of codes</small></div>
+              <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">1.0</span><small> complexity/method</small></div>
-              <div><span class="metric">19</span><small> churn</small></div>
+              <div><span class="metric">N/A</span><small> complexity/method</small></div>
+              <div><span class="metric">4</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">2.0</span><small> complexity</small></div>
-              <div><span class="metric">0</span><small> duplications</small></div>
+              <div><span class="metric">103.4</span><small> complexity</small></div>
+              <div><span class="metric">68</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,8 +88,8 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                2
-                smells
+                1
+                smell
               </a>
             </li>
           </ul>
@@ -99,46 +99,65 @@
 
     <code class="prettyprint linenums lang-ruby file-code js-file-code"># == Schema Information
 #
-# Table name: deal_products
+# Table name: stages
 #
-#  id                    :bigint           not null, primary key
-#  product_identifier    :string           default(&quot;&quot;), not null
-#  product_name          :string           default(&quot;&quot;), not null
-#  quantity              :bigint           default(1), not null
-#  total_amount_in_cents :bigint           default(0), not null
-#  unit_amount_in_cents  :bigint           default(0), not null
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  deal_id               :bigint           not null
-#  product_id            :bigint           not null
+#  id          :bigint           not null, primary key
+#  name        :string           default(&quot;&quot;), not null
+#  position    :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  pipeline_id :bigint           not null
 #
 # Indexes
 #
-#  index_deal_products_on_deal_id     (deal_id)
-#  index_deal_products_on_product_id  (product_id)
+#  index_stages_on_pipeline_id  (pipeline_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (deal_id =&gt; deals.id)
-#  fk_rails_...  (product_id =&gt; products.id)
+#  fk_rails_...  (pipeline_id =&gt; pipelines.id)
 #
-class DealProduct &lt; ApplicationRecord
-  include DealProduct::Broadcastable
-  include DealProduct::EventCreator
-  include DealProduct::HandleInCentsValues
-  belongs_to :product
-  belongs_to :deal
-  validates :product_id, uniqueness: { scope: :deal_id, message: :taken }
+require &#39;rails_helper&#39;
 
-  FORM_FIELDS = %i[product_name unit_amount_in_cents product_identifier]
+RSpec.describe Stage do
+  context &#39;scopes&#39; do
+    let(:account) { create(:account) }
+    let!(:pipeline) { create(:pipeline, account:) }
+    let!(:stage) { create(:stage, account:, pipeline:) }
+    let!(:another_stage) { create(:stage, account:, pipeline:, name: &#39;Stage 2&#39;) }
+    let!(:deal_open_1) { create(:deal, account:, stage:, total_deal_products_amount_in_cents: &#39;6&#39;, status: &#39;open&#39;) }
+    let!(:deal_open_2) { create(:deal, account:, stage:, total_deal_products_amount_in_cents: &#39;8&#39;, status: &#39;open&#39;) }
+    let!(:deal_open_3) { create(:deal, account:, stage:, total_deal_products_amount_in_cents: &#39;7&#39;, status: &#39;open&#39;) }
+    let!(:deal_lost_1) { create(:deal, account:, stage:, total_deal_products_amount_in_cents: &#39;8&#39;, status: &#39;lost&#39;) }
+    let!(:deal_lost_2) { create(:deal, account:, stage:, total_deal_products_amount_in_cents: &#39;8&#39;, status: &#39;lost&#39;) }
+    let!(:deal_from_another_stage) do
+      create(:deal, account:, stage: another_stage, total_deal_products_amount_in_cents: &#39;7&#39;)
+    end
+    let(:filter_open) { { status_eq: &#39;open&#39; } }
+    let(:filter_lost) { { status_eq: &#39;lost&#39; } }
 
-  def self.ransackable_attributes(auth_object = nil)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md" target="_blank"><b>UnusedParameters</b></a>        </span>      </div>      <span>DealProduct#self.ransackable_attributes has unused parameter 'auth_object'</span>          </div>  </li></ol>
-    %w[created_at deal_id id id_value product_id product_identifier product_name quantity total_amount_in_cents
-       unit_amount_in_cents updated_at]
-  end
+    describe &#39;#total_amount_deals&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="stage_spec.html#L39" class="js-smell-location">0</a>                  <a href="stage_spec.html#L51" class="js-smell-location">1</a>                  </div>  </li></ol>
+      it &#39;status open&#39; do
+        expect(stage.total_amount_deals(filter_open)).to be 21
+      end
+      it &#39;status lost&#39; do
+        expect(stage.total_amount_deals(filter_lost)).to be 16
+      end
+      it &#39;status is blank&#39; do
+        expect(stage.total_amount_deals({})).to be 37
+      end
+    end
 
-  def self.ransackable_associations(auth_object = nil)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md" target="_blank"><b>UnusedParameters</b></a>        </span>      </div>      <span>DealProduct#self.ransackable_associations has unused parameter 'auth_object'</span>          </div>  </li></ol>
-    %w[deal product]
+    describe &#39;#total_quantity_deals&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="stage_spec.html#L39" class="js-smell-location">0</a>                  <a href="stage_spec.html#L51" class="js-smell-location">1</a>                  </div>  </li></ol>
+      it &#39;status open&#39; do
+        expect(stage.total_quantity_deals(filter_open)).to be 3
+      end
+      it &#39;status lost&#39; do
+        expect(stage.total_quantity_deals(filter_lost)).to be 2
+      end
+      it &#39;status is blank&#39; do
+        expect(stage.total_quantity_deals({})).to be 5
+      end
+    end
   end
 end
 </code>

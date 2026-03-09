@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-06 17:03:05 -0300'>2026-03-06 17:03:05 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-09 06:32:28 -0300'>2026-03-09 06:32:28 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">227</span><small> lines of codes</small></div>
+              <div><span class="metric">231</span><small> lines of codes</small></div>
               <div><span class="metric">26</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">10.6</span><small> complexity/method</small></div>
-              <div><span class="metric">102</span><small> churn</small></div>
+              <div><span class="metric">10.9</span><small> complexity/method</small></div>
+              <div><span class="metric">104</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">274.45</span><small> complexity</small></div>
+              <div><span class="metric">283.56</span><small> complexity</small></div>
               <div><span class="metric">114</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                27
+                28
                 smells
               </a>
             </li>
@@ -278,9 +278,14 @@
     @allow_edit_won_at = Current.account.deal_allow_edit_lost_at_won_at
   end
 
-  def drag_and_drop<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>Accounts::DealsController#drag_and_drop has a flog score of 26</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::DealsController#drag_and_drop has approx 8 statements</span>          </div>  </li></ol>
-    previous_stage_id = @deal.stage_id<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::DealsController#drag_and_drop calls '@deal.stage_id' 3 times</span>              <span>Locations:</span>                  <a href="deals_controller.html#L183" class="js-smell-location">0</a>                  <a href="deals_controller.html#L193" class="js-smell-location">1</a>                  <a href="deals_controller.html#L194" class="js-smell-location">2</a>                  </div>  </li></ol>
-    @filter_deals = params[:filter]
+  def drag_and_drop<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>Accounts::DealsController#drag_and_drop has a flog score of 35</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::DealsController#drag_and_drop has approx 9 statements</span>          </div>  </li></ol>
+    previous_stage_id = @deal.stage_id<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::DealsController#drag_and_drop calls '@deal.stage_id' 3 times</span>              <span>Locations:</span>                  <a href="deals_controller.html#L183" class="js-smell-location">0</a>                  <a href="deals_controller.html#L197" class="js-smell-location">1</a>                  <a href="deals_controller.html#L198" class="js-smell-location">2</a>                  </div>  </li></ol>
+    @filter =
+      if params[:filter].is_a?(String)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::DealsController#drag_and_drop calls 'params[:filter]' 3 times</span>              <span>Locations:</span>                  <a href="deals_controller.html#L185" class="js-smell-location">0</a>                  <a href="deals_controller.html#L186" class="js-smell-location">1</a>                  <a href="deals_controller.html#L188" class="js-smell-location">2</a>                  </div>  </li></ol>
+        params[:filter]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::DealsController#drag_and_drop calls 'params[:filter]' 3 times</span>              <span>Locations:</span>                  <a href="deals_controller.html#L185" class="js-smell-location">0</a>                  <a href="deals_controller.html#L186" class="js-smell-location">1</a>                  <a href="deals_controller.html#L188" class="js-smell-location">2</a>                  </div>  </li></ol>
+      else
+        params[:filter]&amp;.to_json<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::DealsController#drag_and_drop calls 'params[:filter]' 3 times</span>              <span>Locations:</span>                  <a href="deals_controller.html#L185" class="js-smell-location">0</a>                  <a href="deals_controller.html#L186" class="js-smell-location">1</a>                  <a href="deals_controller.html#L188" class="js-smell-location">2</a>                  </div>  </li></ol>
+      end
 
     Deal::DragAndDrop.new(
       @deal,
@@ -288,9 +293,8 @@
       element_reference_id: drag_and_drop_params[:element_reference_id],
       element_reference_drop_direction: drag_and_drop_params[:element_reference_drop_direction]
     ).call
-    
-    @changed_stage_ids = if previous_stage_id != @deal.stage_id<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::DealsController#drag_and_drop calls '@deal.stage_id' 3 times</span>              <span>Locations:</span>                  <a href="deals_controller.html#L183" class="js-smell-location">0</a>                  <a href="deals_controller.html#L193" class="js-smell-location">1</a>                  <a href="deals_controller.html#L194" class="js-smell-location">2</a>                  </div>  </li></ol>
-                           [previous_stage_id, @deal.stage_id].uniq<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::DealsController#drag_and_drop calls '@deal.stage_id' 3 times</span>              <span>Locations:</span>                  <a href="deals_controller.html#L183" class="js-smell-location">0</a>                  <a href="deals_controller.html#L193" class="js-smell-location">1</a>                  <a href="deals_controller.html#L194" class="js-smell-location">2</a>                  </div>  </li></ol>
+    @changed_stage_ids = if previous_stage_id != @deal.stage_id<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::DealsController#drag_and_drop calls '@deal.stage_id' 3 times</span>              <span>Locations:</span>                  <a href="deals_controller.html#L183" class="js-smell-location">0</a>                  <a href="deals_controller.html#L197" class="js-smell-location">1</a>                  <a href="deals_controller.html#L198" class="js-smell-location">2</a>                  </div>  </li></ol>
+                           [previous_stage_id, @deal.stage_id].uniq<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::DealsController#drag_and_drop calls '@deal.stage_id' 3 times</span>              <span>Locations:</span>                  <a href="deals_controller.html#L183" class="js-smell-location">0</a>                  <a href="deals_controller.html#L197" class="js-smell-location">1</a>                  <a href="deals_controller.html#L198" class="js-smell-location">2</a>                  </div>  </li></ol>
                          else
                            []
                          end

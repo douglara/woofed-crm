@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-08 10:30:18 -0300'>2026-03-08 10:30:18 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-09 05:14:56 -0300'>2026-03-09 05:14:56 -0300</time>
         
       </span>
     </div>
@@ -68,16 +68,16 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">25</span><small> lines of codes</small></div>
+              <div><span class="metric">22</span><small> lines of codes</small></div>
               <div><span class="metric">2</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">1.3</span><small> complexity/method</small></div>
-              <div><span class="metric">5</span><small> churn</small></div>
+              <div><span class="metric">7</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">2.6</span><small> complexity</small></div>
-              <div><span class="metric">16</span><small> duplications</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                3
+                2
                 smells
               </a>
             </li>
@@ -110,16 +110,13 @@ end
 ActsAsTaggableOn::Tag.class_eval do
   def self.ransackable_attributes(auth_object = nil)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md" target="_blank"><b>UnusedParameters</b></a>        </span>      </div>      <span>self.ransackable_attributes has unused parameter 'auth_object'</span>          </div>  </li></ol>
     %w[
-      id
       name
-      created_at
-      updated_at
+      id
     ]
   end
 
-  def self.ransackable_associations(auth_object = nil)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../../app/models/contact.html#L49" class="js-smell-location">0</a>                  <a href="ransack.html#L21" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md" target="_blank"><b>UnusedParameters</b></a>        </span>      </div>      <span>self.ransackable_associations has unused parameter 'auth_object'</span>          </div>  </li></ol>
-    %w[context created_at id id_value tag_id taggable_id taggable_type tagger_id tagger_type
-       tenant]
+  def self.ransackable_associations(auth_object = nil)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md" target="_blank"><b>UnusedParameters</b></a>        </span>      </div>      <span>self.ransackable_associations has unused parameter 'auth_object'</span>          </div>  </li></ol>
+    %w[]
   end
 end
 </code>

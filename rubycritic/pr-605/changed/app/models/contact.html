@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-08 08:46:15 -0300'>2026-03-08 08:46:15 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-09 01:39:13 -0300'>2026-03-09 01:39:13 -0300</time>
         
       </span>
     </div>
@@ -62,22 +62,22 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating b big">
-              B
+            <div class="rating a big">
+              A
             </div>
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">97</span><small> lines of codes</small></div>
+              <div><span class="metric">96</span><small> lines of codes</small></div>
               <div><span class="metric">7</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">3.6</span><small> complexity/method</small></div>
-              <div><span class="metric">71</span><small> churn</small></div>
+              <div><span class="metric">72</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">25.39</span><small> complexity</small></div>
-              <div><span class="metric">16</span><small> duplications</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                4
+                3
                 smells
               </a>
             </li>
@@ -145,9 +145,8 @@ class Contact &lt; ApplicationRecord
     chatwoot_id.present? ? where(&quot;additional_attributes-&gt;&gt;&#39;chatwoot_id&#39; = ?&quot;, chatwoot_id.to_s) : none
   }
 
-  def self.ransackable_attributes(_auth_object = nil)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="contact.html#L49" class="js-smell-location">0</a>                  <a href="../../config/initializers/ransack.html#L21" class="js-smell-location">1</a>                  </div>  </li></ol>
-    %w[additional_attributes app_id app_type created_at custom_attributes email full_name id
-       phone updated_at]
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[id full_name email phone created_at updated_at custom_attributes additional_attributes]
   end
 
   def self.ransackable_associations(_auth_object = nil)
@@ -181,8 +180,8 @@ class Contact &lt; ApplicationRecord
   private
 
   def export_contact_to_chatwoot
-    account.apps_chatwoots.present? &amp;&amp; Accounts::Apps::Chatwoots::ExportContactWorker.perform_async(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Contact#export_contact_to_chatwoot calls 'account.apps_chatwoots' 2 times</span>              <span>Locations:</span>                  <a href="contact.html#L85" class="js-smell-location">0</a>                  <a href="contact.html#L86" class="js-smell-location">1</a>                  </div>  </li></ol>
-      account.apps_chatwoots.first.id, id<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Contact#export_contact_to_chatwoot calls 'account.apps_chatwoots' 2 times</span>              <span>Locations:</span>                  <a href="contact.html#L85" class="js-smell-location">0</a>                  <a href="contact.html#L86" class="js-smell-location">1</a>                  </div>  </li></ol>
+    account.apps_chatwoots.present? &amp;&amp; Accounts::Apps::Chatwoots::ExportContactWorker.perform_async(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Contact#export_contact_to_chatwoot calls 'account.apps_chatwoots' 2 times</span>              <span>Locations:</span>                  <a href="contact.html#L84" class="js-smell-location">0</a>                  <a href="contact.html#L85" class="js-smell-location">1</a>                  </div>  </li></ol>
+      account.apps_chatwoots.first.id, id<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Contact#export_contact_to_chatwoot calls 'account.apps_chatwoots' 2 times</span>              <span>Locations:</span>                  <a href="contact.html#L84" class="js-smell-location">0</a>                  <a href="contact.html#L85" class="js-smell-location">1</a>                  </div>  </li></ol>
     )
   end
 

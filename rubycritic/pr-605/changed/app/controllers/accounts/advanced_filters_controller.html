@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-07 23:19:53 -0300'>2026-03-07 23:19:53 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-09 05:14:56 -0300'>2026-03-09 05:14:56 -0300</time>
         
       </span>
     </div>
@@ -73,7 +73,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">8.2</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">8.21</span><small> complexity</small></div>
@@ -109,7 +109,7 @@
     model_class = MODELS[params[:model]] || Deal
     @model_class = model_class
     @redirect_url = params[:redirect_url]
-    @fields = SchemaBuilder.build(model_class)
+    @fields = ModelSchemaBuilder.build(model_class)
   end
 end
 </code>

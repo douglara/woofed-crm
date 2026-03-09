@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-02 17:55:26 -0300'>2026-03-02 17:55:26 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-09 06:32:28 -0300'>2026-03-09 06:32:28 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">51</span><small> lines of codes</small></div>
+              <div><span class="metric">52</span><small> lines of codes</small></div>
               <div><span class="metric">4</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">4.2</span><small> complexity/method</small></div>
-              <div><span class="metric">33</span><small> churn</small></div>
+              <div><span class="metric">5.3</span><small> complexity/method</small></div>
+              <div><span class="metric">35</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">16.8</span><small> complexity</small></div>
+              <div><span class="metric">21.23</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                2
+                4
                 smells
               </a>
             </li>
@@ -127,10 +127,12 @@ class Stage &lt; ApplicationRecord
                                            }
 
   def total_amount_deals(filter_deals)
+    filter_deals = filter_deals.to_json if filter_deals.is_a?(Hash)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Stage#total_amount_deals refers to 'filter_deals' more than self (maybe move it to another class?)</span>          </div>  </li></ol>
     ::Query::Filter.new(deals, JSON.parse(filter_deals)).call.sum(&amp;:total_amount_in_cents)
   end
 
   def total_quantity_deals(filter_deals)
+    filter_deals = filter_deals.to_json if filter_deals.is_a?(Hash)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Stage#total_quantity_deals refers to 'filter_deals' more than self (maybe move it to another class?)</span>          </div>  </li></ol>
     ::Query::Filter.new(deals, JSON.parse(filter_deals)).call.count
   end
 
@@ -138,7 +140,6 @@ class Stage &lt; ApplicationRecord
     %w[
       id
       name
-      position
       created_at
       updated_at
     ]
