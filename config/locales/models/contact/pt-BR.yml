@@ -13,7 +13,9 @@ pt-BR:
         phone: Telefone (celular)
         email: Email
         label_list: Etiquetas
+        labels: Etiquetas
         chatwoot_conversations_label_list: Etiquetas de conversas no Chatwoot
+        chatwoot_conversations_labels: Etiquetas de conversas no Chatwoot
         chatwoot_last_conversation: "Última conversa no Chatwoot"
         chatwoot_identifier: "Identificador do contato"
         id: "Código do contato"

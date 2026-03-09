@@ -13,7 +13,9 @@ en:
         phone: Phone (cell)
         email: Email
         label_list: Labels
+        labels: Labels
         chatwoot_conversations_label_list: Chatwoot Conversation Labels
+        chatwoot_conversations_labels: Chatwoot Conversation Labels
         chatwoot_last_conversation: "Last conversation in Chatwoot"
         chatwoot_identifier: "Contact Identifier"
         id: "Contact Code"
