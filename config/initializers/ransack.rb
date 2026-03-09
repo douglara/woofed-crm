@@ -11,6 +11,7 @@ end
 ActsAsTaggableOn::Tag.class_eval do
   def self.ransackable_attributes(auth_object = nil)
     %w[
+      name
       id
     ]
   end

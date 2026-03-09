@@ -9,10 +9,10 @@
 # - Foreign key lookups with dynamic search endpoints
 #
 # Example usage:
-#   SchemaBuilder.build(Deal)
+#   ModelSchemaBuilder.build(Deal)
 #
 # Returns an array of field definitions with metadata for the filter UI.
-class SchemaBuilder
+class ModelSchemaBuilder
   # Maps Rails column types to filter field types
   COLUMN_TYPE_MAP = {
     string: 'text',

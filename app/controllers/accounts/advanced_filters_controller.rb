@@ -10,6 +10,6 @@ class Accounts::AdvancedFiltersController < InternalController
     model_class = MODELS[params[:model]] || Deal
     @model_class = model_class
     @redirect_url = params[:redirect_url]
-    @fields = SchemaBuilder.build(model_class)
+    @fields = ModelSchemaBuilder.build(model_class)
   end
 end
