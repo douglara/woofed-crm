@@ -15,7 +15,6 @@
 import * as React from "react";
 import { PlusIcon, FilterIcon, XIcon, SaveIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { FilterItem } from "./filter-item";
 import { useFilterState } from "./use-filter-state";
 import { tFilter } from "./i18n";
@@ -100,10 +99,10 @@ export function DynamicFilter({
           </span>
         </div>
         {enableSavedFilters && (
-          <Button variant="ghost" size="sm">
-            <SaveIcon className="size-4 mr-1" />
+          <button type="button" className="button-default-blank-secondary-sm">
+            <SaveIcon className="size-4" />
             {tFilter("save")}
-          </Button>
+          </button>
         )}
       </div>
 
@@ -124,19 +123,22 @@ export function DynamicFilter({
       />
 
       {/* Actions */}
-      <div className="flex items-center justify-between gap-2 pt-2 border-t border-border">
-        <Button
+      <div className="flex items-center justify-between gap-2 pt-2">
+        <button
           type="button"
-          variant="ghost"
-          size="sm"
+          className="button-default-blank-secondary-sm disabled:opacity-50 disabled:pointer-events-none"
           onClick={handleClear}
           disabled={!hasFilters}
         >
           {tFilter("clear_all")}
-        </Button>
-        <Button type="button" size="sm" onClick={handleApply}>
+        </button>
+        <button
+          type="button"
+          className="button-default-fill-primary-sm"
+          onClick={handleApply}
+        >
           {tFilter("apply_filters")}
-        </Button>
+        </button>
       </div>
     </div>
   );
@@ -249,15 +251,13 @@ function FilterGroupComponent({
                 accountId={accountId}
                 level={level + 1}
               />
-              <Button
+              <button
                 type="button"
-                variant="ghost"
-                size="icon-xs"
-                className="absolute -right-1 -top-1 text-muted-foreground hover:text-destructive"
+                className="absolute -right-1 -top-1 button-default-blank-secondary-icon-only-sm hover:text-auxiliary-palette-red"
                 onClick={() => onRemoveGroup(item.id)}
               >
                 <XIcon className="size-3" />
-              </Button>
+              </button>
             </div>
           );
         }
@@ -267,27 +267,23 @@ function FilterGroupComponent({
 
       {/* Add condition/group buttons */}
       <div className="flex items-center gap-2 pt-2">
-        <Button
+        <button
           type="button"
-          variant="ghost"
-          size="sm"
+          className="button-default-blank-secondary-sm"
           onClick={() => onAddCondition(group.id)}
-          className="text-muted-foreground"
         >
-          <PlusIcon className="size-4 mr-1" />
+          <PlusIcon className="size-4" />
           {tFilter("add_condition")}
-        </Button>
+        </button>
         {enableGrouping && level < 2 && (
-          <Button
+          <button
             type="button"
-            variant="ghost"
-            size="sm"
+            className="button-default-blank-secondary-sm"
             onClick={() => onAddGroup(group.id, "and")}
-            className="text-muted-foreground"
           >
-            <PlusIcon className="size-4 mr-1" />
+            <PlusIcon className="size-4" />
             {tFilter("add_group")}
-          </Button>
+          </button>
         )}
       </div>
     </div>
@@ -311,8 +307,8 @@ function ConditionLogicToggle({ logic, onToggle }: ConditionLogicToggleProps) {
       className={cn(
         "px-3 py-1 text-xs font-semibold rounded uppercase cursor-pointer transition-colors border shadow-sm",
         logic === "and"
-          ? "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
-          : "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100",
+          ? "bg-brand-palette-08 text-brand-palette-03 border-brand-palette-05 hover:bg-brand-palette-07"
+          : "bg-auxiliary-palette-red-down-2 text-auxiliary-palette-red border-auxiliary-palette-red-down hover:bg-auxiliary-palette-red-down",
       )}
     >
       {logic}
