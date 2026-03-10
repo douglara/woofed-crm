@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="overview.html"><img src="assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+    <!--Page Title -->
+    <div class="Page_Title">
+      <h3>Code</h3>
+    </div>
+    <!--End Page Title -->
+    <div class="Content_Wrapper">
+      <table id="codeTable" class="table code sortable-table tablesorter">
+        <thead>
+          <tr>
+            
+              <th width="10%" class="table-header center">Rating<span class="sort-type"></span></th>
+            
+            <th width="50%" class="table-header left">Name<span class="sort-type"></span></th>
+            <th width="10%" class="table-header">Churn<span class="sort-type"></span></th>
+            <th width="10%" class="table-header">Complexity<span class="sort-type"></span></th>
+            <th width="10%" class="table-header">Duplication<span class="sort-type"></span></th>
+            <th width="10%" class="table-header">Smells<span class="sort-type"></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/advanced_filters_controller.html">AdvancedFiltersController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>8.21</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating d">D</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/contacts_controller.html">ContactsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>49</td>
+              <td>178.14</td>
+              <td>54</td>
+              <td>23</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating d">D</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/deals_controller.html">DealsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>104</td>
+              <td>283.56</td>
+              <td>114</td>
+              <td>28</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating d">D</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/pipelines_controller.html">PipelinesController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>69</td>
+              <td>324.1</td>
+              <td>34</td>
+              <td>40</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/stages_controller.html">StagesController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>12</td>
+              <td>23.37</td>
+              <td>0</td>
+              <td>4</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/inertia/accounts/components/combobox_controller.html">ComboboxController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>51.64</td>
+              <td>0</td>
+              <td>6</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/inertia/internal_controller.html">InternalController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/attachment.html">Attachment</a>
+                  </li>
+                </ul>
+              </td>
+              <td>17</td>
+              <td>58.13</td>
+              <td>0</td>
+              <td>6</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/contact.html">Contact</a>
+                  </li>
+                </ul>
+              </td>
+              <td>73</td>
+              <td>26.39</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/deal.html">Deal</a>
+                  </li>
+                </ul>
+              </td>
+              <td>92</td>
+              <td>18.56</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/deal_product.html">DealProduct</a>
+                  </li>
+                </ul>
+              </td>
+              <td>19</td>
+              <td>2.0</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating d">D</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/model_schema_builder.html">ModelSchemaBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>8</td>
+              <td>203.48</td>
+              <td>40</td>
+              <td>27</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/pipeline.html">Pipeline</a>
+                  </li>
+                </ul>
+              </td>
+              <td>15</td>
+              <td>3.0</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/product.html">Product</a>
+                  </li>
+                </ul>
+              </td>
+              <td>33</td>
+              <td>5.24</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/stage.html">Stage</a>
+                  </li>
+                </ul>
+              </td>
+              <td>36</td>
+              <td>22.23</td>
+              <td>0</td>
+              <td>4</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/user.html">User</a>
+                  </li>
+                </ul>
+              </td>
+              <td>54</td>
+              <td>7.35</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="config/initializers/ransack.html">Ransack</a>
+                  </li>
+                </ul>
+              </td>
+              <td>7</td>
+              <td>2.6</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="config/routes.html">Routes</a>
+                  </li>
+                </ul>
+              </td>
+              <td>161</td>
+              <td>164.25</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating f">F</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="spec/controllers/accounts/advanced_filters_controller_spec.html">AdvancedFiltersControllerSpec</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>234.72</td>
+              <td>163</td>
+              <td>9</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating f">F</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="spec/controllers/accounts/deals_controller_spec.html">DealsControllerSpec</a>
+                  </li>
+                </ul>
+              </td>
+              <td>56</td>
+              <td>3150.77</td>
+              <td>1235</td>
+              <td>57</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating f">F</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="spec/controllers/accounts/stages_controller_spec.html">StagesControllerSpec</a>
+                  </li>
+                </ul>
+              </td>
+              <td>5</td>
+              <td>749.68</td>
+              <td>421</td>
+              <td>11</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating f">F</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="spec/controllers/inertia/accounts/components/combobox_controller_spec.html">ComboboxControllerSpec</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>446.32</td>
+              <td>189</td>
+              <td>11</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating f">F</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="spec/models/model_schema_builde_spec.html">ModelSchemaBuildeSpec</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>379.76</td>
+              <td>113</td>
+              <td>7</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="spec/models/stage_spec.html">StageSpec</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>103.4</td>
+              <td>68</td>
+              <td>1</td>
+            </tr>
+          
+        </tbody>
+      </table>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="assets/vendor/javascripts/prettify.js"></script>
+    <script src="assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="assets/javascripts/application.js"></script>
+    <script src="assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>
