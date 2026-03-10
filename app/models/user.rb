@@ -94,4 +94,8 @@ class User < ApplicationRecord
   def webpush_notify_on_event_expired=(value)
     self[:notifications][:webpush_notify_on_event_expired] = ActiveRecord::Type::Boolean.new.cast(value)
   end
+
+  def label
+    full_name
+  end
 end

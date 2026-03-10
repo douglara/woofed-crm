@@ -101,6 +101,10 @@ class Deal < ApplicationRecord
   after_commit :publish_created, on: :create
   after_commit :publish_updated, on: :update
 
+  def label
+    name
+  end
+
   private
 
   def publish_created

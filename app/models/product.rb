@@ -46,4 +46,8 @@ class Product < ApplicationRecord
     amount = sanitize_amount(amount)
     super(amount)
   end
+
+  def label
+    name
+  end
 end

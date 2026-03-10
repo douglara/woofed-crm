@@ -25,4 +25,8 @@ class Pipeline < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     %w[deals stages]
   end
+
+  def label
+    name
+  end
 end

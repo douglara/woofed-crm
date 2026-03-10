@@ -78,6 +78,10 @@ class Contact < ApplicationRecord
   after_commit :publish_created, on: :create, unless: :skip_validation
   after_commit :publish_updated, on: :update, unless: :skip_validation
 
+  def label
+    full_name
+  end
+
   private
 
   def export_contact_to_chatwoot
