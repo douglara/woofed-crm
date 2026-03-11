@@ -122,15 +122,15 @@ RSpec.describe Inertia::Accounts::Components::ComboboxController, type: :request
       end
 
       context 'when model param is invalid' do
-        it 'returns empty array' do
+        it 'returns 422 with error message' do
           get base_url, params: { model: 'nonexistent' }
-          expect(response).to have_http_status(:success)
+          expect(response).to have_http_status(:unprocessable_entity)
           json = JSON.parse(response.body)
-          expect(json).to eq([])
+          expect(json['error']).to eq('Invalid parameters')
         end
       end
 
-      context 'when model has tag context (labels)' do
+      context 'when searching labels (tags)' do
         let!(:contact) do
           create(:contact, full_name: 'Tag Test Contact', email: 'tagtest@test.com', phone: '+5511999990099')
         end

@@ -19,7 +19,8 @@ class Accounts::PipelinesController < InternalController
   # GET /pipelines/1 or /pipelines/1.json
   def show
     @pipelines = Pipeline.all
-    @filter = params[:filter].to_json
+    params[:filter] ||=  { status_eq: 'open' }
+    @filter = params[:filter]
   end
 
   # GET /pipelines/new

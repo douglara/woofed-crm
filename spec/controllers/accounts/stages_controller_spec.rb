@@ -42,7 +42,7 @@ RSpec.describe Accounts::StagesController, type: :request do
 
       context 'check filter status deal' do
         context 'when is open' do
-          let(:filter) { { status_eq: 'open' } }
+          let(:filter) { { status_eq: 'open' }.to_json }
 
           it 'should return only open deals from stage_1' do
             get("/accounts/#{account.id}/stages/#{stage_1.id}", params:)
@@ -68,7 +68,7 @@ RSpec.describe Accounts::StagesController, type: :request do
           end
         end
         context 'when is lost' do
-          let(:filter) { { status_eq: 'lost' } }
+          let(:filter) { { status_eq: 'lost' }.to_json }
 
           it 'should return only lost deals from stage_1' do
             get("/accounts/#{account.id}/stages/#{stage_1.id}", params:)
@@ -94,7 +94,7 @@ RSpec.describe Accounts::StagesController, type: :request do
           end
         end
         context 'when is won' do
-          let(:filter) { { status_eq: 'won' } }
+          let(:filter) { { status_eq: 'won' }.to_json }
 
           it 'should return won deals from stage_1' do
             get("/accounts/#{account.id}/stages/#{stage_1.id}", params:)

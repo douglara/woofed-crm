@@ -124,8 +124,6 @@ class ModelSchemaBuilder
       return 'select' if model_class.respond_to?(:defined_enums) && model_class.defined_enums.key?(attr)
 
       # Special cases
-      return 'text' if %w[email phone].include?(attr)
-      return 'date' if attr.end_with?('_at')
 
       # Default to column type mapping
       column_type = column&.type || :string

@@ -63,9 +63,9 @@
               <%= t('activerecord.models.filter', model: Deal.model_name.human.pluralize) %>
               <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
-            <%= link_to account_advanced_filter_path(Current.account, model: 'deal', redirect_url: request.fullpath), class: "relative #{params[:filter].present? ? 'button-menu-default-selected-md' : 'button-default-blank-secondary-md'}", data: { tooltip_target: "tooltip-filter-deal", turbo_frame: :drawer } do %>
+            <%= link_to account_advanced_filter_path(Current.account, model: 'deal', redirect_url: request.fullpath, filter: params[:filter].to_json), class: "relative #{params[:filter].present? && !(params[:filter].to_unsafe_h == { "status_eq" => "open" }) ? 'button-menu-default-selected-md' : 'button-default-blank-secondary-md'}", data: { tooltip_target: "tooltip-filter-deal", turbo_frame: :drawer } do %>
               <i data-lucide="funnel"></i>
-              <% if params[:filter].present? %>
+              <% if params[:filter].present? && !(params[:filter].to_unsafe_h == { "status_eq" => "open" }) %>
                 <span class="absolute -top-1 -right-1 flex size-3">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-light-palette-p5 opacity-75"></span>
                   <span class="relative inline-flex rounded-full size-3 bg-light-palette-p5 border border-brand-palette-03"></span>

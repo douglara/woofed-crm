@@ -16,15 +16,15 @@ RSpec.describe Accounts::AdvancedFiltersController, type: :request do
       before { sign_in(user) }
 
       it 'returns advanced filters page' do
-        get "/accounts/#{account.id}/advanced_filter"
+        get "/accounts/#{account.id}/advanced_filter", params: { model: 'deal' }
         expect(response).to have_http_status(:success)
       end
 
       context 'when model param is not provided' do
-        it 'defaults to Deal model' do
+        it 'returns 422 with error message' do
           get "/accounts/#{account.id}/advanced_filter"
-          expect(response).to have_http_status(:success)
-          expect(response.body).to include('deals')
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include('Invalid model')
         end
       end
 
@@ -61,17 +61,17 @@ RSpec.describe Accounts::AdvancedFiltersController, type: :request do
       end
 
       context 'when model param is invalid' do
-        it 'defaults to Deal model' do
-          get "/accounts/#{account.id}/advanced_filter", params: { model: 'invalid' }
-          expect(response).to have_http_status(:success)
-          expect(response.body).to include('deals')
+        it 'returns 422 with error message' do
+          get "/accounts/#{account.id}/advanced_filter", params: { model: 'nonexistent' }
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include('Invalid model')
         end
       end
 
       context 'when redirect_url param is provided' do
         it 'includes redirect_url in the response' do
           redirect_url = "/accounts/#{account.id}/pipelines"
-          get "/accounts/#{account.id}/advanced_filter", params: { redirect_url: }
+          get "/accounts/#{account.id}/advanced_filter", params: { redirect_url:, model: 'deal' }
           expect(response).to have_http_status(:success)
           expect(response.body).to include(redirect_url)
         end

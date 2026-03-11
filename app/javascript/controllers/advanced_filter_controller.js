@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 import { createElement } from "react";
 import { createRoot } from "react-dom/client";
 import { DynamicFilter } from "@/components/filters";
-import { parseRansackParams } from "@/components/filters/ransack-builder";
+import { parseRansackQuery } from "@/components/filters/ransack-builder";
 
 export default class extends Controller {
   static values = {
@@ -12,6 +12,7 @@ export default class extends Controller {
     baseUrl: { type: String, default: "" },
     redirectUrl: { type: String, default: "" },
     enableGrouping: { type: Boolean, default: false },
+    initialFilters: { type: Object, default: {} },
   };
 
   connect() {
@@ -24,19 +25,17 @@ export default class extends Controller {
   }
 
   _render() {
-    // Parse initial filters from the redirect_url's query params
+    // Parse initial filters
     // so filters are reconstructed when the drawer is reopened
     let initialFilters;
-    if (this.redirectUrlValue) {
+
+    if (this.initialFiltersValue) {
       try {
-        const url = new URL(this.redirectUrlValue, window.location.origin);
-        const parsed = parseRansackParams(url.searchParams);
+        const parsed = parseRansackQuery(this.initialFiltersValue);
         if (parsed.conditions.length > 0) {
           initialFilters = parsed;
         }
-      } catch {
-        // ignore invalid URL
-      }
+      } catch {}
     }
 
     this.root.render(
@@ -47,7 +46,7 @@ export default class extends Controller {
         baseUrl: this.baseUrlValue || undefined,
         redirectUrl: this.redirectUrlValue || undefined,
         enableGrouping: this.enableGroupingValue,
-        initialFilters,
+        initialFilters: initialFilters,
       }),
     );
   }
