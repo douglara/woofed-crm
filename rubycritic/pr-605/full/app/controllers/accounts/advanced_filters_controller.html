@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-09 05:14:56 -0300'>2026-03-09 05:14:56 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-11 03:17:16 -0300'>2026-03-11 03:17:16 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">15</span><small> lines of codes</small></div>
+              <div><span class="metric">11</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">8.2</span><small> complexity/method</small></div>
-              <div><span class="metric">3</span><small> churn</small></div>
+              <div><span class="metric">13.5</span><small> complexity/method</small></div>
+              <div><span class="metric">4</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">8.21</span><small> complexity</small></div>
+              <div><span class="metric">13.48</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,8 +88,8 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                1
-                smell
+                3
+                smells
               </a>
             </li>
           </ul>
@@ -97,19 +97,15 @@
       </div>
     </div>
 
-    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Accounts::AdvancedFiltersController &lt; InternalController<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Accounts::AdvancedFiltersController has no descriptive comment</span>          </div>  </li></ol>
-  MODELS = {
-    &#39;deal&#39; =&gt; Deal,
-    &#39;contact&#39; =&gt; Contact,
-    &#39;user&#39; =&gt; User,
-    &#39;product&#39; =&gt; Product
-  }.freeze
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Accounts::AdvancedFiltersController &lt; InternalController<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Accounts::AdvancedFiltersController assumes too much for instance variable '@model_class'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Accounts::AdvancedFiltersController has no descriptive comment</span>          </div>  </li></ol>
+  MODELS = %w[deal contact user product].freeze
 
   def show
-    model_class = MODELS[params[:model]] || Deal
-    @model_class = model_class
+    return render json: { error: &#39;Invalid parameters&#39; }, status: :unprocessable_entity unless MODELS.include?(params[:model])<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::AdvancedFiltersController#show calls 'params[:model]' 2 times</span>              <span>Locations:</span>                  <a href="advanced_filters_controller.html#L5" class="js-smell-location">0</a>                  <a href="advanced_filters_controller.html#L7" class="js-smell-location">1</a>                  </div>  </li></ol>
+
+    @model_class = params[:model].classify.constantize<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::AdvancedFiltersController#show calls 'params[:model]' 2 times</span>              <span>Locations:</span>                  <a href="advanced_filters_controller.html#L5" class="js-smell-location">0</a>                  <a href="advanced_filters_controller.html#L7" class="js-smell-location">1</a>                  </div>  </li></ol>
     @redirect_url = params[:redirect_url]
-    @fields = ModelSchemaBuilder.build(model_class)
+    @fields = ModelSchemaBuilder.build(@model_class)
   end
 end
 </code>
