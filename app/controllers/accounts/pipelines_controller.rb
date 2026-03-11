@@ -123,9 +123,9 @@ class Accounts::PipelinesController < InternalController
   def new_bulk_action; end
 
   def create_bulk_action
-    filter =  params[:event][:filter]
+    @filter =  JSON.parse(params[:event][:filter])
     @stage = Stage.find(params['event']['stage_id'])
-    @deals = Query::Filter.new(@stage.deals, JSON.parse(filter)).call.order(position: :desc)
+    @deals = Query::Filter.new(@stage.deals, @filter).call.order(position: :desc)
 
     if params['event']['send_now'] == 'true'
       time_start = DateTime.current
