@@ -1,15 +1,11 @@
 class Accounts::AdvancedFiltersController < InternalController
-  MODELS = {
-    'deal' => Deal,
-    'contact' => Contact,
-    'user' => User,
-    'product' => Product
-  }.freeze
+  MODELS = %w[deal contact user product].freeze
 
   def show
-    model_class = MODELS[params[:model]] || Deal
-    @model_class = model_class
+    return render json: { error: 'Invalid parameters' }, status: :unprocessable_entity unless MODELS.include?(params[:model])
+
+    @model_class = params[:model].classify.constantize
     @redirect_url = params[:redirect_url]
-    @fields = ModelSchemaBuilder.build(model_class)
+    @fields = ModelSchemaBuilder.build(@model_class)
   end
 end
