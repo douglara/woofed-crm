@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-10 10:51:21 +1000'>2026-03-10 10:51:21 +1000</time>
+          Updated <time class='js-timeago' datetime='2026-03-11 04:30:57 -0300'>2026-03-11 04:30:57 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">34</span><small> lines of codes</small></div>
+              <div><span class="metric">33</span><small> lines of codes</small></div>
               <div><span class="metric">3</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">17.4</span><small> complexity/method</small></div>
-              <div><span class="metric">4</span><small> churn</small></div>
+              <div><span class="metric">18.6</span><small> complexity/method</small></div>
+              <div><span class="metric">5</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">52.33</span><small> complexity</small></div>
+              <div><span class="metric">55.91</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -107,14 +107,13 @@
     &#39;deal&#39; =&gt; { model: Deal, label: :name }
   }.freeze
 
-  def search<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>Inertia::Accounts::Components::ComboboxController#search has a flog score of 30</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Inertia::Accounts::Components::ComboboxController#search has approx 6 statements</span>          </div>  </li></ol>
+  def search<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>Inertia::Accounts::Components::ComboboxController#search has a flog score of 33</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Inertia::Accounts::Components::ComboboxController#search has approx 6 statements</span>          </div>  </li></ol>
     return render json: search_label if model_labelable?
 
-    config = MODELS[params[:model]]
-    return render json: [] unless config
+    return render json: { error: &#39;Invalid parameters&#39; }, status: :unprocessable_entity unless MODELS.include?(params[:model])<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Inertia::Accounts::Components::ComboboxController#search calls 'params[:model]' 2 times</span>              <span>Locations:</span>                  <a href="combobox_controller.html#L14" class="js-smell-location">0</a>                  <a href="combobox_controller.html#L16" class="js-smell-location">1</a>                  </div>  </li></ol>
 
-    records = config[:model].ransack(params[:q]).result.order(updated_at: :desc).limit(10)
-
+    config = MODELS[params[:model]]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Inertia::Accounts::Components::ComboboxController#search calls 'params[:model]' 2 times</span>              <span>Locations:</span>                  <a href="combobox_controller.html#L14" class="js-smell-location">0</a>                  <a href="combobox_controller.html#L16" class="js-smell-location">1</a>                  </div>  </li></ol>
+    records = Query::Filter.new(config[:model], params[:q]).call.order(updated_at: :desc).limit(10)
     render json: records.map { |r| { value: r.id.to_s, label: r.send(config[:label]) } }<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md" target="_blank"><b>UncommunicativeVariableName</b></a>        </span>      </div>      <span>Inertia::Accounts::Components::ComboboxController#search has the variable name 'r'</span>          </div>  </li></ol>
   end
 
@@ -122,9 +121,9 @@
 
   def search_label
     scope = ActsAsTaggableOn::Tag
-    scope = scope.for_context(params[:model]).order(name: :asc).limit(10)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Inertia::Accounts::Components::ComboboxController#search_label refers to 'scope' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="combobox_controller.html#L26" class="js-smell-location">0</a>                  <a href="combobox_controller.html#L27" class="js-smell-location">1</a>                  <a href="combobox_controller.html#L28" class="js-smell-location">2</a>                  </div>  </li></ol>
-    scope = scope.ransack(params[:q]).result<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Inertia::Accounts::Components::ComboboxController#search_label refers to 'scope' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="combobox_controller.html#L26" class="js-smell-location">0</a>                  <a href="combobox_controller.html#L27" class="js-smell-location">1</a>                  <a href="combobox_controller.html#L28" class="js-smell-location">2</a>                  </div>  </li></ol>
-    scope.map { |tag| { value: tag.id.to_s, label: tag.name } }<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Inertia::Accounts::Components::ComboboxController#search_label refers to 'scope' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="combobox_controller.html#L26" class="js-smell-location">0</a>                  <a href="combobox_controller.html#L27" class="js-smell-location">1</a>                  <a href="combobox_controller.html#L28" class="js-smell-location">2</a>                  </div>  </li></ol>
+    scope = scope.for_context(params[:model]).order(name: :asc).limit(10)
+    records = Query::Filter.new(scope, params[:q]).call
+    records.map { |tag| { value: tag.id.to_s, label: tag.name } }
   end
 
   def model_labelable?

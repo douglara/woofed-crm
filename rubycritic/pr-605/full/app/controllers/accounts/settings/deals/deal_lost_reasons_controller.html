@@ -108,7 +108,7 @@
 
   def update
     if @deal_lost_reason.update(deal_lost_reason_params)
-      respond_to do |format|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../../pipelines_controller.html#L177" class="js-smell-location">0</a>                  <a href="deal_lost_reasons_controller.html#L12" class="js-smell-location">1</a>                  </div>  </li></ol>
+      respond_to do |format|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../../pipelines_controller.html#L178" class="js-smell-location">0</a>                  <a href="deal_lost_reasons_controller.html#L12" class="js-smell-location">1</a>                  </div>  </li></ol>
         format.html do
           redirect_to edit_account_settings_deals_deal_lost_reason_path(Current.account, @deal_lost_reason),
                       notice: t(&#39;flash_messages.updated&#39;, model: DealLostReason.model_name.human)

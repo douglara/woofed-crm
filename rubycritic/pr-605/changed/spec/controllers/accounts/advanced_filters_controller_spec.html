@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-09 05:13:32 -0300'>2026-03-09 05:13:32 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-11 04:30:57 -0300'>2026-03-11 04:30:57 -0300</time>
         
       </span>
     </div>
@@ -73,7 +73,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">234.72</span><small> complexity</small></div>
@@ -115,15 +115,15 @@ RSpec.describe Accounts::AdvancedFiltersController, type: :request do
       before { sign_in(user) }
 
       it &#39;returns advanced filters page&#39; do
-        get &quot;/accounts/#{account.id}/advanced_filter&quot;
+        get &quot;/accounts/#{account.id}/advanced_filter&quot;, params: { model: &#39;deal&#39; }
         expect(response).to have_http_status(:success)
       end
 
       context &#39;when model param is not provided&#39; do
-        it &#39;defaults to Deal model&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(GET /accounts/{account.id}/advanced_filter)::context(when it is an authenticated user)::context(when model param is not provided)::it#defaults to Deal model has a flog score of 25</span>          </div>  </li></ol>
+        it &#39;returns 422 with error message&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(GET /accounts/{account.id}/advanced_filter)::context(when it is an authenticated user)::context(when model param is not provided)::it#returns 422 with error message has a flog score of 25</span>          </div>  </li></ol>
           get &quot;/accounts/#{account.id}/advanced_filter&quot;
-          expect(response).to have_http_status(:success)
-          expect(response.body).to include(&#39;deals&#39;)
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include(&#39;Invalid model&#39;)
         end
       end
 
@@ -160,17 +160,17 @@ RSpec.describe Accounts::AdvancedFiltersController, type: :request do
       end
 
       context &#39;when model param is invalid&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 5 nodes</span>              <span>Locations:</span>                  <a href="advanced_filters_controller_spec.html#L31" class="js-smell-location">0</a>                  <a href="advanced_filters_controller_spec.html#L39" class="js-smell-location">1</a>                  <a href="advanced_filters_controller_spec.html#L47" class="js-smell-location">2</a>                  <a href="advanced_filters_controller_spec.html#L55" class="js-smell-location">3</a>                  <a href="advanced_filters_controller_spec.html#L63" class="js-smell-location">4</a>                  </div>  </li></ol>
-        it &#39;defaults to Deal model&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(GET /accounts/{account.id}/advanced_filter)::context(when it is an authenticated user)::context(when model param is invalid)::it#defaults to Deal model has a flog score of 25</span>          </div>  </li></ol>
-          get &quot;/accounts/#{account.id}/advanced_filter&quot;, params: { model: &#39;invalid&#39; }
-          expect(response).to have_http_status(:success)
-          expect(response.body).to include(&#39;deals&#39;)
+        it &#39;returns 422 with error message&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(GET /accounts/{account.id}/advanced_filter)::context(when it is an authenticated user)::context(when model param is invalid)::it#returns 422 with error message has a flog score of 25</span>          </div>  </li></ol>
+          get &quot;/accounts/#{account.id}/advanced_filter&quot;, params: { model: &#39;nonexistent&#39; }
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include(&#39;Invalid model&#39;)
         end
       end
 
       context &#39;when redirect_url param is provided&#39; do
         it &#39;includes redirect_url in the response&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(GET /accounts/{account.id}/advanced_filter)::context(when it is an authenticated user)::context(when redirect_url param is provided)::it#includes redirect_url in the response has a flog score of 29</span>          </div>  </li></ol>
           redirect_url = &quot;/accounts/#{account.id}/pipelines&quot;
-          get &quot;/accounts/#{account.id}/advanced_filter&quot;, params: { redirect_url: }
+          get &quot;/accounts/#{account.id}/advanced_filter&quot;, params: { redirect_url:, model: &#39;deal&#39; }
           expect(response).to have_http_status(:success)
           expect(response.body).to include(redirect_url)
         end

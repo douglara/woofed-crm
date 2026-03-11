@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-09 06:32:28 -0300'>2026-03-09 06:32:28 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-11 04:30:57 -0300'>2026-03-11 04:30:57 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">21</span><small> lines of codes</small></div>
+              <div><span class="metric">15</span><small> lines of codes</small></div>
               <div><span class="metric">2</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">11.7</span><small> complexity/method</small></div>
-              <div><span class="metric">12</span><small> churn</small></div>
+              <div><span class="metric">7.9</span><small> complexity/method</small></div>
+              <div><span class="metric">13</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">23.37</span><small> complexity</small></div>
+              <div><span class="metric">15.72</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                4
+                3
                 smells
               </a>
             </li>
@@ -101,13 +101,7 @@
   before_action :set_stage, only: %i[show]
 
   def show
-    @filter =
-      if params[:filter].is_a?(String)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::StagesController#show calls 'params[:filter]' 3 times</span>              <span>Locations:</span>                  <a href="stages_controller.html#L6" class="js-smell-location">0</a>                  <a href="stages_controller.html#L7" class="js-smell-location">1</a>                  <a href="stages_controller.html#L9" class="js-smell-location">2</a>                  </div>  </li></ol>
-        params[:filter]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::StagesController#show calls 'params[:filter]' 3 times</span>              <span>Locations:</span>                  <a href="stages_controller.html#L6" class="js-smell-location">0</a>                  <a href="stages_controller.html#L7" class="js-smell-location">1</a>                  <a href="stages_controller.html#L9" class="js-smell-location">2</a>                  </div>  </li></ol>
-      else
-        params[:filter]&amp;.to_json<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::StagesController#show calls 'params[:filter]' 3 times</span>              <span>Locations:</span>                  <a href="stages_controller.html#L6" class="js-smell-location">0</a>                  <a href="stages_controller.html#L7" class="js-smell-location">1</a>                  <a href="stages_controller.html#L9" class="js-smell-location">2</a>                  </div>  </li></ol>
-      end
-
+    @filter = params[:filter]
     @pagy, @deals = pagy(Query::Filter.new(@stage.deals, JSON.parse(@filter)).call.order(position: :desc),
                          items: 8)
   end
