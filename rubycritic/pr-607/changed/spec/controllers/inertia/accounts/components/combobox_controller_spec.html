@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-09 05:13:32 -0300'>2026-03-09 05:13:32 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-11 04:30:57 -0300'>2026-03-11 04:30:57 -0300</time>
         
       </span>
     </div>
@@ -73,10 +73,10 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">444.32</span><small> complexity</small></div>
+              <div><span class="metric">446.32</span><small> complexity</small></div>
               <div><span class="metric">189</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                10
+                11
                 smells
               </a>
             </li>
@@ -221,15 +221,15 @@ RSpec.describe Inertia::Accounts::Components::ComboboxController, type: :request
       end
 
       context &#39;when model param is invalid&#39; do
-        it &#39;returns empty array&#39; do
+        it &#39;returns 422 with error message&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(GET /inertia/accounts/{account.id}/components/combobox)::context(when it is an authenticated user)::context(when model param is invalid)::it#returns 422 with error message has a flog score of 25</span>          </div>  </li></ol>
           get base_url, params: { model: &#39;nonexistent&#39; }
-          expect(response).to have_http_status(:success)
+          expect(response).to have_http_status(:unprocessable_entity)
           json = JSON.parse(response.body)
-          expect(json).to eq([])
+          expect(json[&#39;error&#39;]).to eq(&#39;Invalid parameters&#39;)
         end
       end
 
-      context &#39;when model has tag context (labels)&#39; do
+      context &#39;when searching labels (tags)&#39; do
         let!(:contact) do
           create(:contact, full_name: &#39;Tag Test Contact&#39;, email: &#39;tagtest@test.com&#39;, phone: &#39;+5511999990099&#39;)
         end
@@ -239,7 +239,7 @@ RSpec.describe Inertia::Accounts::Components::ComboboxController, type: :request
           contact.save!
         end
 
-        it &#39;returns tags instead of model records&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(GET /inertia/accounts/{account.id}/components/combobox)::context(when it is an authenticated user)::context(when model has tag context (labels))::it#returns tags instead of model records has a flog score of 37</span>          </div>  </li></ol>
+        it &#39;returns tags instead of model records&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(GET /inertia/accounts/{account.id}/components/combobox)::context(when it is an authenticated user)::context(when searching labels (tags))::it#returns tags instead of model records has a flog score of 37</span>          </div>  </li></ol>
           get base_url, params: { model: &#39;labels&#39;, q: { name_cont: &#39;VIP&#39; } }
           expect(response).to have_http_status(:success)
           json = JSON.parse(response.body)
