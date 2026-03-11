@@ -2,13 +2,7 @@ class Accounts::StagesController < InternalController
   before_action :set_stage, only: %i[show]
 
   def show
-    @filter =
-      if params[:filter].is_a?(String)
-        params[:filter]
-      else
-        params[:filter]&.to_json
-      end
-
+    @filter = params[:filter]
     @pagy, @deals = pagy(Query::Filter.new(@stage.deals, JSON.parse(@filter)).call.order(position: :desc),
                          items: 8)
   end
