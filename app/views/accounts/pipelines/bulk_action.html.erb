@@ -1,6 +1,6 @@
 <%= render 'components/overlays/modal', title: t('views.accounts.pipelines.bulk_action.title', stage: @stage.name), width_class: 'max-w-4xl' do %>
   <!-- Modal body -->
   <div class='border-t color-border-default'>
-    <%= render partial: 'accounts/pipelines/bulk_action/form_modal', locals: {pipeline: @pipeline, stage: @stage, event: @event} %>
+    <%= render partial: 'accounts/pipelines/bulk_action/form_modal', locals: {pipeline: @pipeline, stage: @stage, event: @event, filter: @filter} %>
   </div>
 <% end %>
