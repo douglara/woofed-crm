@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../overview.html"><img src="../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-03-12 21:30:22 -0300'>2026-03-12 21:30:22 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>spec/models /</small> stage_spec.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating c big">
+              C
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">63</span><small> lines of codes</small></div>
+              <div><span class="metric">0</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">N/A</span><small> complexity/method</small></div>
+              <div><span class="metric">5</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">103.4</span><small> complexity</small></div>
+              <div><span class="metric">68</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                1
+                smell
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># == Schema Information
+#
+# Table name: stages
+#
+#  id          :bigint           not null, primary key
+#  name        :string           default(&quot;&quot;), not null
+#  position    :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  pipeline_id :bigint           not null
+#
+# Indexes
+#
+#  index_stages_on_pipeline_id  (pipeline_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (pipeline_id =&gt; pipelines.id)
+#
+require &#39;rails_helper&#39;
+
+RSpec.describe Stage do
+  context &#39;scopes&#39; do
+    let(:account) { create(:account) }
+    let!(:pipeline) { create(:pipeline, account:) }
+    let!(:stage) { create(:stage, account:, pipeline:) }
+    let!(:another_stage) { create(:stage, account:, pipeline:, name: &#39;Stage 2&#39;) }
+    let!(:deal_open_1) { create(:deal, account:, stage:, total_deal_products_amount_in_cents: &#39;6&#39;, status: &#39;open&#39;) }
+    let!(:deal_open_2) { create(:deal, account:, stage:, total_deal_products_amount_in_cents: &#39;8&#39;, status: &#39;open&#39;) }
+    let!(:deal_open_3) { create(:deal, account:, stage:, total_deal_products_amount_in_cents: &#39;7&#39;, status: &#39;open&#39;) }
+    let!(:deal_lost_1) { create(:deal, account:, stage:, total_deal_products_amount_in_cents: &#39;8&#39;, status: &#39;lost&#39;) }
+    let!(:deal_lost_2) { create(:deal, account:, stage:, total_deal_products_amount_in_cents: &#39;8&#39;, status: &#39;lost&#39;) }
+    let!(:deal_from_another_stage) do
+      create(:deal, account:, stage: another_stage, total_deal_products_amount_in_cents: &#39;7&#39;)
+    end
+    let(:filter_open) { { status_eq: &#39;open&#39; } }
+    let(:filter_lost) { { status_eq: &#39;lost&#39; } }
+
+    describe &#39;#total_amount_deals&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="stage_spec.html#L39" class="js-smell-location">0</a>                  <a href="stage_spec.html#L51" class="js-smell-location">1</a>                  </div>  </li></ol>
+      it &#39;status open&#39; do
+        expect(stage.total_amount_deals(filter_open)).to be 21
+      end
+      it &#39;status lost&#39; do
+        expect(stage.total_amount_deals(filter_lost)).to be 16
+      end
+      it &#39;status is blank&#39; do
+        expect(stage.total_amount_deals({})).to be 37
+      end
+    end
+
+    describe &#39;#total_quantity_deals&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="stage_spec.html#L39" class="js-smell-location">0</a>                  <a href="stage_spec.html#L51" class="js-smell-location">1</a>                  </div>  </li></ol>
+      it &#39;status open&#39; do
+        expect(stage.total_quantity_deals(filter_open)).to be 3
+      end
+      it &#39;status lost&#39; do
+        expect(stage.total_quantity_deals(filter_lost)).to be 2
+      end
+      it &#39;status is blank&#39; do
+        expect(stage.total_quantity_deals({})).to be 5
+      end
+    end
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../assets/javascripts/application.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>
