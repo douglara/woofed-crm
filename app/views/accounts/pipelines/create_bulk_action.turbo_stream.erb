@@ -1,5 +1,11 @@
-<%= turbo_stream.replace dom_id(Event) do %>
-  <div class="flex justify-center text-center p-5">
-    <%= t('activerecord.models.other') %>: <%= @result.count %>
-  </div>
+<%= turbo_stream.replace :flash_message do %>
+  <%= render partial: 'components/flash_message', locals: { message: "#{t('activerecord.models.other')}: #{@result.count}" } %>
+<% end %>
+<%= turbo_stream.replace :modal do %>
+  <%= turbo_frame_tag :modal %>
+<% end %>
+<%= turbo_stream.replace @stage do %>
+  <%= turbo_frame_tag @stage, src: account_stage_path(Current.account, @stage, filter: @filter.to_json), refresh: :morph, data: { controller: "frame", action: "turbo:before-frame-render->frame#morphRender turbo:before-morph-element->frame#morphReload" }, loading: :lazy do %>
+    <%= render '/components/skeleton/stage'%>
+  <% end %>
 <% end %>

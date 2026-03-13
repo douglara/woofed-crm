@@ -1,11 +1,11 @@
 <% if event.chatwoot_message? %>
-  <%= render "components/events/form/chatwoot_message", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage)%>
+  <%= render "components/events/form/chatwoot_message", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage, filter: params[:filter])%>
 <% elsif event.activity? %>
-  <%= render "components/events/form/activity", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage)%>
+  <%= render "components/events/form/activity", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage, filter: params[:filter])%>
 <% elsif event.note? %>
-  <%= render "components/events/form/note", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage)%>
+  <%= render "components/events/form/note", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage, filter: params[:filter])%>
 <% elsif event.evolution_api_message? %>
-  <%= render "components/events/form/evolution_api_message", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage)%>
+  <%= render "components/events/form/evolution_api_message", event: event, pipeline: stage.pipeline, stage: stage, url: create_bulk_action_account_pipeline_path(current_user.account, stage.pipeline, stage_id: stage, filter: params[:filter])%>
 <% else %>
   <%= render 'components/events/form/no_content' %>
 <% end %>

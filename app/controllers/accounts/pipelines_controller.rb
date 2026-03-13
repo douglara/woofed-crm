@@ -116,13 +116,17 @@ class Accounts::PipelinesController < InternalController
     end
   end
 
-  def bulk_action; end
+  def bulk_action
+    @filter = params[:filter]
+  end
 
   def new_bulk_action; end
 
   def create_bulk_action
-    @deals = Deal.where(stage_id: params['event']['stage_id'], status: 'open')
+    @filter =  JSON.parse(params[:event][:filter])
     @stage = Stage.find(params['event']['stage_id'])
+    @deals = Query::Filter.new(@stage.deals, @filter).call.order(position: :desc)
+
     if params['event']['send_now'] == 'true'
       time_start = DateTime.current
     elsif !params['event']['scheduled_at'].nil?
