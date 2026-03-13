@@ -145,6 +145,47 @@ RSpec.describe Accounts::PipelinesController, type: :request do
     end
   end
 
+  describe 'GET /accounts/{account.id}/pipelines/{pipeline.id}' do
+    let!(:pipeline) { create(:pipeline) }
+    let!(:stage) { create(:stage, pipeline:) }
+    let!(:stage_from_another_pipeline) { create(:stage) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/pipelines/#{pipeline.id}", params: {}
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      it 'get pipeline and stages with open deals filtered by default' do
+        get "/accounts/#{account.id}/pipelines/#{pipeline.id}"
+        expect(response).to have_http_status(200)
+        body = response.body
+        expect(body).to include("filter=#{CGI.escape({status_eq: 'open'}.to_json)}")
+        expect(body).to include(ActionView::RecordIdentifier.dom_id(stage))
+        expect(body).not_to include(ActionView::RecordIdentifier.dom_id(stage_from_another_pipeline))
+      end
+
+      context 'when there is a filter param' do
+        it 'get pipeline and stages with deals filtered by the filter param' do
+          filter = { status_eq: 'won' }
+
+          get "/accounts/#{account.id}/pipelines/#{pipeline.id}", params: { filter: }
+          expect(response).to have_http_status(200)
+          body = response.body
+          expect(body).to include("filter=#{CGI.escape(filter.to_json)}")
+          expect(body).to include(ActionView::RecordIdentifier.dom_id(stage))
+          expect(body).not_to include(ActionView::RecordIdentifier.dom_id(stage_from_another_pipeline))
+        end
+      end
+    end
+  end
+
   skip 'DELETE /accounts/{account.id}/pipelines/{pipeline.id}' do
     let!(:pipeline) { create(:pipeline) }
 
