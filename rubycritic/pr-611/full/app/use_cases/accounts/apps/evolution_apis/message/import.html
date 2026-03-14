@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../../../../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../../../../../overview.html"><img src="../../../../../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../../../../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2024-07-18 21:14:26 -0300'>2024-07-18 21:14:26 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>app/use_cases/accounts/apps/evolution_apis/message /</small> import.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating c big">
+              C
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">103</span><small> lines of codes</small></div>
+              <div><span class="metric">11</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">10.2</span><small> complexity/method</small></div>
+              <div><span class="metric">14</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">112.18</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                10
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Accounts::Apps::EvolutionApis::Message::Import<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import has no descriptive comment</span>          </div>  </li></ol>
+  def initialize(evolution_api, webhook, content)
+    @evolution_api = evolution_api
+    @webhook = webhook
+    @content = content
+  end
+
+  def call
+    result = create_evolution_api_message_event
+    { ok: result }
+  end
+
+  def create_evolution_api_message_event
+    contact = find_or_create_contact
+    import_message(contact)
+  end
+
+  def find_or_create_contact
+    if group_message?
+      find_or_create_group_contact
+    else
+      find_or_create_person_contact
+    end
+  end
+
+  def find_or_create_person_contact
+    phone_number = &#39;+&#39; + @webhook[&#39;data&#39;][&#39;key&#39;][&#39;remoteJid&#39;].gsub(/\D/, &#39;&#39;)
+    contact = Accounts::Contacts::GetByParams.call(@evolution_api.account, { phone: phone_number })[:ok]
+    contact = create_person_contact(phone_number) if contact.blank?
+    update_contact_name_if_missing(contact)
+    contact
+  end
+
+  def update_contact_name_if_missing(contact)
+    if @webhook[&#39;data&#39;][&#39;key&#39;][&#39;fromMe&#39;].to_s == &#39;false&#39; &amp;&amp; contact.full_name.blank?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#update_contact_name_if_missing calls '@webhook['data']' 2 times</span>              <span>Locations:</span>                  <a href="import.html#L35" class="js-smell-location">0</a>                  <a href="import.html#L36" class="js-smell-location">1</a>                  </div>  </li></ol>
+      contact.update(full_name: @webhook[&#39;data&#39;][&#39;pushName&#39;])<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#update_contact_name_if_missing calls '@webhook['data']' 2 times</span>              <span>Locations:</span>                  <a href="import.html#L35" class="js-smell-location">0</a>                  <a href="import.html#L36" class="js-smell-location">1</a>                  </div>  </li></ol>
+    end
+  end
+
+  def find_or_create_group_contact<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#find_or_create_group_contact has a flog score of 29</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#find_or_create_group_contact has approx 9 statements</span>          </div>  </li></ol>
+    group_id = @webhook[&#39;data&#39;][&#39;key&#39;][&#39;remoteJid&#39;]
+    group_details = group_details(group_id)
+    contact_params = {
+      full_name: &quot;#{group_details[:group_name]} - Grupo&quot;,
+      additional_attributes: group_details
+    }
+
+    contact = @evolution_api.account.contacts.where(&#39;additional_attributes @&gt; ?&#39;, { group_id: group_id }.to_json).first<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#find_or_create_group_contact calls '@evolution_api.account' 2 times</span>              <span>Locations:</span>                  <a href="import.html#L48" class="js-smell-location">0</a>                  <a href="import.html#L54" class="js-smell-location">1</a>                  </div>  </li></ol>
+    if contact.present?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#find_or_create_group_contact refers to 'contact' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="import.html#L49" class="js-smell-location">0</a>                  <a href="import.html#L50" class="js-smell-location">1</a>                  <a href="import.html#L51" class="js-smell-location">2</a>                  <a href="import.html#L59" class="js-smell-location">3</a>                  </div>  </li></ol>
+      contact.full_name = contact_params[:full_name]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#find_or_create_group_contact refers to 'contact' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="import.html#L49" class="js-smell-location">0</a>                  <a href="import.html#L50" class="js-smell-location">1</a>                  <a href="import.html#L51" class="js-smell-location">2</a>                  <a href="import.html#L59" class="js-smell-location">3</a>                  </div>  </li></ol>
+      contact.additional_attributes = contact.additional_attributes.merge(contact_params[:additional_attributes])<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#find_or_create_group_contact refers to 'contact' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="import.html#L49" class="js-smell-location">0</a>                  <a href="import.html#L50" class="js-smell-location">1</a>                  <a href="import.html#L51" class="js-smell-location">2</a>                  <a href="import.html#L59" class="js-smell-location">3</a>                  </div>  </li></ol>
+    else
+      contact = ContactBuilder.new(
+        @evolution_api.account.users.first,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#find_or_create_group_contact calls '@evolution_api.account' 2 times</span>              <span>Locations:</span>                  <a href="import.html#L48" class="js-smell-location">0</a>                  <a href="import.html#L54" class="js-smell-location">1</a>                  </div>  </li></ol>
+        ActionController::Parameters.new(contact_params)
+      ).perform
+    end
+
+    contact.save!<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#find_or_create_group_contact refers to 'contact' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="import.html#L49" class="js-smell-location">0</a>                  <a href="import.html#L50" class="js-smell-location">1</a>                  <a href="import.html#L51" class="js-smell-location">2</a>                  <a href="import.html#L59" class="js-smell-location">3</a>                  </div>  </li></ol>
+    contact
+  end
+
+  def create_person_contact(phone_number)
+    if @webhook[&#39;data&#39;][&#39;key&#39;][&#39;fromMe&#39;].to_s == &#39;true&#39;<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#create_person_contact calls '@webhook['data']' 2 times</span>              <span>Locations:</span>                  <a href="import.html#L64" class="js-smell-location">0</a>                  <a href="import.html#L68" class="js-smell-location">1</a>                  </div>  </li></ol>
+      Contact.create(phone: phone_number,
+                     account: @evolution_api.account)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#create_person_contact calls '@evolution_api.account' 2 times</span>              <span>Locations:</span>                  <a href="import.html#L66" class="js-smell-location">0</a>                  <a href="import.html#L69" class="js-smell-location">1</a>                  </div>  </li></ol>
+    else
+      Contact.create(full_name: @webhook[&#39;data&#39;][&#39;pushName&#39;], phone: phone_number,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#create_person_contact calls '@webhook['data']' 2 times</span>              <span>Locations:</span>                  <a href="import.html#L64" class="js-smell-location">0</a>                  <a href="import.html#L68" class="js-smell-location">1</a>                  </div>  </li></ol>
+                     account: @evolution_api.account)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#create_person_contact calls '@evolution_api.account' 2 times</span>              <span>Locations:</span>                  <a href="import.html#L66" class="js-smell-location">0</a>                  <a href="import.html#L69" class="js-smell-location">1</a>                  </div>  </li></ol>
+    end
+  end
+
+  def group_details(group_id)
+    request = Faraday.get(
+      &quot;#{@evolution_api.endpoint_url}/group/findGroupInfos/#{@evolution_api.instance}?groupJid=#{group_id}&quot;,
+      {},
+      @evolution_api.request_instance_headers
+    )
+    request_body = JSON.parse(request.body)
+
+    { group_id: group_id,
+      group_name: request_body[&#39;subject&#39;],
+      group_owner_id: request_body[&#39;subjectOwner&#39;] }
+  end
+
+  def group_message?
+    @webhook[&#39;data&#39;][&#39;key&#39;][&#39;remoteJid&#39;].gsub(/\D/, &#39;&#39;).size &gt; 15
+  end
+
+  def import_message(contact)
+    Event.create(
+      account: @evolution_api.account,
+      kind: &#39;evolution_api_message&#39;,
+      from_me: @webhook[&#39;data&#39;][&#39;key&#39;][&#39;fromMe&#39;],<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#import_message calls '@webhook['data']' 2 times</span>              <span>Locations:</span>                  <a href="import.html#L94" class="js-smell-location">0</a>                  <a href="import.html#L100" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#import_message calls '@webhook['data']['key']' 2 times</span>              <span>Locations:</span>                  <a href="import.html#L94" class="js-smell-location">0</a>                  <a href="import.html#L100" class="js-smell-location">1</a>                  </div>  </li></ol>
+      contact: contact,
+      content: @content,
+      done: true,
+      done_at: @webhook[&#39;date_time&#39;],
+      app: @evolution_api,
+      additional_attributes: { message_id: @webhook[&#39;data&#39;][&#39;key&#39;][&#39;id&#39;] }<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#import_message calls '@webhook['data']' 2 times</span>              <span>Locations:</span>                  <a href="import.html#L94" class="js-smell-location">0</a>                  <a href="import.html#L100" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Apps::EvolutionApis::Message::Import#import_message calls '@webhook['data']['key']' 2 times</span>              <span>Locations:</span>                  <a href="import.html#L94" class="js-smell-location">0</a>                  <a href="import.html#L100" class="js-smell-location">1</a>                  </div>  </li></ol>
+    )
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../../../../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../../../../../assets/javascripts/application.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>
