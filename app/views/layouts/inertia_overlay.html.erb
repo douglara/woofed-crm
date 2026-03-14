@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Woofed CRM — Plugins</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%# Only CSS + React — NO application.js (no Turbo, no Stimulus, no jQuery) %>
+    <%= vite_stylesheet_tag 'application', media: 'all' %>
+    <%= vite_react_refresh_tag %>
+    <%= vite_typescript_tag "inertia.tsx" %>
+    <%= tag.meta name: "user-data", content: {
+      id: current_user&.id,
+      full_name: current_user&.full_name,
+      email: current_user&.email,
+      account_id: current_user&.account&.id,
+      account_name: current_user&.account&.name
+    }.to_json %>
+  </head>
+  <body class="h-screen overflow-hidden bg-light-palette-p3">
+    <%# Modal overlay with blur — sits on top of the blurred background %>
+    <div class="fixed inset-0 bg-black/20 backdrop-blur-md flex items-center justify-center p-4 md:p-6">
+      <%# The actual modal panel — Inertia mounts here %>
+      <div id="app"
+           class="w-full max-w-[1400px] h-full max-h-[calc(100vh-3rem)] bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/10"
+           style="animation: overlayIn 0.25s cubic-bezier(0.16,1,0.3,1) both;">
+        <%= yield %>
+      </div>
+    </div>
+    <style>
+      @keyframes overlayIn {
+        from { opacity: 0; transform: scale(0.97) translateY(8px); }
+        to   { opacity: 1; transform: scale(1)    translateY(0);   }
+      }
+    </style>
+  </body>
+</html>

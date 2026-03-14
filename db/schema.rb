@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_13_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_14_061610) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -530,6 +530,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_13_000000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "plugins", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.text "prompt", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_plugins_on_account_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "identifier", default: "", null: false
     t.integer "amount_in_cents", default: 0, null: false
@@ -631,6 +642,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_13_000000) do
   add_foreign_key "motor_note_tag_tags", "motor_note_tags", column: "tag_id"
   add_foreign_key "motor_note_tag_tags", "motor_notes", column: "note_id"
   add_foreign_key "motor_taggable_tags", "motor_tags", column: "tag_id"
+  add_foreign_key "plugins", "accounts"
   add_foreign_key "stages", "pipelines"
   add_foreign_key "taggings", "tags"
   add_foreign_key "webpush_subscriptions", "users"

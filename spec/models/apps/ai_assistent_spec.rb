@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: apps_ai_assistents
+#
+#  id         :bigint           not null, primary key
+#  api_key    :string           default(""), not null
+#  auto_reply :boolean          default(FALSE), not null
+#  enabled    :boolean          default(FALSE), not null
+#  model      :string           default("gpt-4o"), not null
+#  usage      :jsonb            not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 require 'rails_helper'
 
 RSpec.describe Apps::AiAssistent, type: :model do

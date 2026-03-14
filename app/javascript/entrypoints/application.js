@@ -51,7 +51,7 @@ import "flowbite/dist/flowbite.turbo.js";
 $(document).on("turbo:load", () => {
   initLibraries();
 });
-//
+// teste
 
 // $(document).on("turbo:frame-load", function (e) {
 //   lucide.createIcons();

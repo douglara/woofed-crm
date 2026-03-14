@@ -117,6 +117,10 @@ class Account < ApplicationRecord
     Apps::AiAssistent.all
   end
 
+  def plugins
+    Plugin.all
+  end
+
   def site_url=(url)
     super(normalize_url(url))
   end

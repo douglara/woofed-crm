@@ -29,6 +29,10 @@ Rails.application.routes.draw do
       resource :deals, only: %i[edit update], module: :settings do
         resources :deal_lost_reasons, except: [:show], module: :deals
       end
+      resources :plugins, only: %i[index new create show destroy], module: :settings
+      scope module: :settings do
+        post 'plugins/:plugin_id/chat', to: 'plugins/chat#create', as: :plugin_chat
+      end
     end
 
     resources :webhooks, module: :settings do
