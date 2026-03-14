@@ -2,15 +2,19 @@
   <%= render 'components/loading' %>
 </div>
 
-<%= form_with(url: search_account_chatwoot_embed_index_path(current_user.account), :authenticity_token => true, id: 'embed_search' ) do |form| %>
+<%= form_with(url: search_account_chatwoot_embed_index_path(@embed_user.account), id: 'embed_search') do |form| %>
   <%= form.hidden_field :chatwoot_contact %>
+  <%= hidden_field_tag :ut, params[:ut] %>
 <% end %>
 
 <script>
   window.addEventListener("message", function (event) {
-    var event_json = JSON.parse(event.data);
-    var contact = event_json.data.contact;
-    document.getElementById('chatwoot_contact').value = JSON.stringify(contact);
-    document.getElementById('embed_search').submit();
+    try {
+      var event_json = JSON.parse(event.data);
+      if (!event_json.data || !event_json.data.contact) return;
+      var contact = event_json.data.contact;
+      document.getElementById('chatwoot_contact').value = JSON.stringify(contact);
+      document.getElementById('embed_search').submit();
+    } catch(e) {}
   });
 </script>
