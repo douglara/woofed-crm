@@ -4,6 +4,7 @@ ENV RAILS_ENV production
 ENV RAILS_SERVE_STATIC_FILES true
 ENV RAILS_LOG_TO_STDOUT true
 ENV SECRET_KEY_BASE e3a0972a1f0e0d3850d56cead8f4bccd0b41f8cfeff9f1664aea00518db989ff5bace371f2a9ea7299dbbf08f0302811dbcb9141
+ENV PORT=80
 
 RUN apt-get update -qq \
         && apt-get install -y \
@@ -45,5 +46,9 @@ RUN echo "Waiting for postgres to become ready...."
 RUN sleep 10
 
 RUN chmod +x /app/bin/easyinstall
+
+EXPOSE 80
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+  CMD ["curl", "-f", "http://localhost/up"]
 
 CMD bundle exec rails db:create; bundle exec rails db:migrate; bundle exec puma -C config/puma.rb

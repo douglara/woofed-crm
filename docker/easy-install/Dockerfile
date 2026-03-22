@@ -11,9 +11,9 @@ ENV SECRET_KEY_BASE dummy_secret_key_base
 ENV REDIS_URL=redis://localhost:6379/0
 ENV MOTOR_AUTH_USERNAME=lovewoofed
 ENV MOTOR_AUTH_PASSWORD=lovewoofed
-ENV PORT=3001
+ENV PORT=80
 ENV ENABLE_USER_SIGNUP=false
-ENV FRONTEND_URL=http://0.0.0.0:3001
+ENV FRONTEND_URL=http://0.0.0.0
 
 RUN apt-get update && apt-get install -y \
   build-essential \
@@ -59,5 +59,10 @@ RUN /usr/lib/postgresql/16/bin/initdb -E UTF8 -D /app/storage/postgresql/data
 USER root
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-EXPOSE 3001 5432 6379
+
+EXPOSE 80 5432 6379
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=5 \
+  CMD ["curl", "-f", "http://localhost/up"]
+
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

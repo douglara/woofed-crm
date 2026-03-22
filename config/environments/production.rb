@@ -44,8 +44,9 @@ Rails.application.configure do
   # config.action_cable.url = "wss://example.com/cable"
   config.action_cable.allowed_request_origins = [ENV.fetch('FRONTEND_URL', '')]
 
-  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  # Disable when SSL is terminated at the proxy/load balancer level.
+  config.force_ssl = ENV.fetch("FORCE_SSL", "false") == "true"
+  config.ssl_options = { redirect: { exclude: ->(request) { request.path == '/up' } } }
 
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new(STDOUT)
