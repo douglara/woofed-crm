@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-22 18:24:17 +1000'>2026-03-22 18:24:17 +1000</time>
+          Updated <time class='js-timeago' datetime='2026-03-22 18:40:08 +1000'>2026-03-22 18:40:08 +1000</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">114</span><small> lines of codes</small></div>
+              <div><span class="metric">107</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">19</span><small> churn</small></div>
+              <div><span class="metric">20</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">0.0</span><small> complexity</small></div>
@@ -143,16 +143,9 @@ Rails.application.configure do
   # config.action_cable.url = &quot;wss://example.com/cable&quot;
   config.action_cable.allowed_request_origins = [ENV.fetch(&#39;FRONTEND_URL&#39;, &#39;&#39;)]
 
-  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
-  config.ssl_options = {
-    redirect: {
-      exclude: -&gt;(request) { request.path == &#39;/up&#39; }
-    }
-  }
-  config.host_authorization = {
-    exclude: -&gt;(request) { request.path == &#39;/up&#39; }
-  }
+  # Disable when SSL is terminated at the proxy/load balancer level.
+  config.force_ssl = ENV.fetch(&quot;FORCE_SSL&quot;, &quot;false&quot;) == &quot;true&quot;
+  config.ssl_options = { redirect: { exclude: -&gt;(request) { request.path == &#39;/up&#39; } } }
 
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new(STDOUT)
