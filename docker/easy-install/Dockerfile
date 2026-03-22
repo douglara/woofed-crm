@@ -45,7 +45,7 @@ RUN gem install bundler
 ## Install app
 WORKDIR /rails
 COPY . /rails
-RUN chmod +x /rails/bin/easyinstall
+RUN chmod +x /rails/bin/easyinstall /rails/bin/docker-entrypoint-easyinstall
 RUN bundle install
 RUN yarn build
 RUN yarn install --check-files
@@ -58,15 +58,5 @@ EXPOSE 80 5432 6379
 HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=5 \
   CMD curl -f http://localhost/up || exit 1
 
-CMD ["/bin/sh", "-c", "\
-  if [ -d /app/storage ] && [ ! -L /app/storage ]; then \
-    echo 'Migrating /app/storage -> /rails/storage...' && \
-    cp -a /app/storage/. /rails/storage/ 2>/dev/null || true; \
-  fi && \
-  mkdir -p /rails/storage/postgresql/data && \
-  chown -R postgres:postgres /rails/storage/postgresql/data && \
-  if [ ! -f /rails/storage/postgresql/data/PG_VERSION ]; then \
-    su -s /bin/bash postgres -c '/usr/lib/postgresql/16/bin/initdb -E UTF8 -D /rails/storage/postgresql/data'; \
-  fi && \
-  exec supervisord -c /etc/supervisor/conf.d/supervisord.conf \
-"]
+ENTRYPOINT ["/rails/bin/docker-entrypoint-easyinstall"]
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

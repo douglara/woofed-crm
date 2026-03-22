@@ -45,14 +45,11 @@ RUN npm i -g flat
 RUN echo "Waiting for postgres to become ready...."
 RUN sleep 10
 
-RUN chmod +x /rails/bin/easyinstall
+RUN chmod +x /rails/bin/easyinstall /rails/bin/docker-entrypoint
 
 EXPOSE 80
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
   CMD curl -f http://localhost/up || exit 1
 
-CMD if [ -d /app/storage ] && [ ! -L /app/storage ]; then \
-      echo "Migrating /app/storage -> /rails/storage..." && \
-      cp -a /app/storage/. /rails/storage/ 2>/dev/null || true; \
-    fi; \
-    bundle exec rails db:create; bundle exec rails db:migrate; bundle exec puma -C config/puma.rb
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
