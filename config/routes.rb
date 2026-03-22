@@ -1,6 +1,8 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  get '/up', to: 'health_check#show'
+
   if Rails.env.development?
     # Redirect to localhost from 127.0.0.1 to use same IP address with Vite server
     constraints(host: '127.0.0.1') do

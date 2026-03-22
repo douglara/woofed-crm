@@ -4,6 +4,7 @@ ENV RAILS_ENV production
 ENV RAILS_SERVE_STATIC_FILES true
 ENV RAILS_LOG_TO_STDOUT true
 ENV SECRET_KEY_BASE e3a0972a1f0e0d3850d56cead8f4bccd0b41f8cfeff9f1664aea00518db989ff5bace371f2a9ea7299dbbf08f0302811dbcb9141
+ENV PORT=80
 
 RUN apt-get update -qq \
         && apt-get install -y \
@@ -24,7 +25,7 @@ WORKDIR /tmp
 RUN gem install bundler
 RUN bundle install
 
-ENV app /app
+ENV app /rails
 RUN mkdir $app
 WORKDIR $app
 
@@ -44,6 +45,14 @@ RUN npm i -g flat
 RUN echo "Waiting for postgres to become ready...."
 RUN sleep 10
 
-RUN chmod +x /app/bin/easyinstall
+RUN chmod +x /rails/bin/easyinstall
 
-CMD bundle exec rails db:create; bundle exec rails db:migrate; bundle exec puma -C config/puma.rb
+EXPOSE 80
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost/up || exit 1
+
+CMD if [ -d /app/storage ] && [ ! -L /app/storage ]; then \
+      echo "Migrating /app/storage -> /rails/storage..." && \
+      cp -a /app/storage/. /rails/storage/ 2>/dev/null || true; \
+    fi; \
+    bundle exec rails db:create; bundle exec rails db:migrate; bundle exec puma -C config/puma.rb

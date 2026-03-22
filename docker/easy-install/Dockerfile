@@ -11,9 +11,9 @@ ENV SECRET_KEY_BASE dummy_secret_key_base
 ENV REDIS_URL=redis://localhost:6379/0
 ENV MOTOR_AUTH_USERNAME=lovewoofed
 ENV MOTOR_AUTH_PASSWORD=lovewoofed
-ENV PORT=3001
+ENV PORT=80
 ENV ENABLE_USER_SIGNUP=false
-ENV FRONTEND_URL=http://0.0.0.0:3001
+ENV FRONTEND_URL=http://0.0.0.0
 
 RUN apt-get update && apt-get install -y \
   build-essential \
@@ -43,21 +43,30 @@ RUN ruby -v
 RUN gem install bundler
 
 ## Install app
-WORKDIR /app
-COPY . /app
-RUN chmod +x /app/bin/easyinstall
+WORKDIR /rails
+COPY . /rails
+RUN chmod +x /rails/bin/easyinstall
 RUN bundle install
 RUN yarn build
 RUN yarn install --check-files
 RUN bundle exec rake assets:precompile
 
-## Postgres
-RUN mkdir -p /app/storage/postgresql/data
-RUN chown -R postgres:postgres /app/storage/postgresql/data
-USER postgres
-RUN /usr/lib/postgresql/16/bin/initdb -E UTF8 -D /app/storage/postgresql/data
-USER root
-
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-EXPOSE 3001 5432 6379
-CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+
+EXPOSE 80 5432 6379
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=5 \
+  CMD curl -f http://localhost/up || exit 1
+
+CMD ["/bin/sh", "-c", "\
+  if [ -d /app/storage ] && [ ! -L /app/storage ]; then \
+    echo 'Migrating /app/storage -> /rails/storage...' && \
+    cp -a /app/storage/. /rails/storage/ 2>/dev/null || true; \
+  fi && \
+  mkdir -p /rails/storage/postgresql/data && \
+  chown -R postgres:postgres /rails/storage/postgresql/data && \
+  if [ ! -f /rails/storage/postgresql/data/PG_VERSION ]; then \
+    su -s /bin/bash postgres -c '/usr/lib/postgresql/16/bin/initdb -E UTF8 -D /rails/storage/postgresql/data'; \
+  fi && \
+  exec supervisord -c /etc/supervisor/conf.d/supervisord.conf \
+"]
