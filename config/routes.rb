@@ -137,6 +137,7 @@ Rails.application.routes.draw do
       resources :accounts, module: :accounts do
         resources :deals, only: %i[show create update] do
           post 'upsert', on: :collection
+          match 'search', on: :collection, via: %i[get post]
           resources :events, only: [:create], module: :deals do
           end
         end

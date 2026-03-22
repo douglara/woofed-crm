@@ -149,6 +149,68 @@ RSpec.describe 'Deals API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/:account_id/deals/search' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/deals/search", params: {},
+                                                            headers: { 'Content-Type': 'application/json' }
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let!(:deal_open) { create(:deal, account:, contact:, stage:, name: 'Open Deal', status: 'open') }
+      let!(:deal_won)  { create(:deal, account:, contact:, stage:, name: 'Won Deal', status: 'won') }
+
+      it 'returns matching deals by name' do
+        params = { query: { name_cont: 'Open Deal' } }.to_json
+        post("/api/v1/accounts/#{account.id}/deals/search", params:, headers: auth_headers)
+        expect(response).to have_http_status(:ok)
+        result = JSON.parse(response.body)
+        expect(result['pagination']['count']).to eq(1)
+        expect(result['data'].first['name']).to eq('Open Deal')
+      end
+
+      it 'returns matching deals by status' do
+        params = { query: { status_eq: 'won' } }.to_json
+        post("/api/v1/accounts/#{account.id}/deals/search", params:, headers: auth_headers)
+        expect(response).to have_http_status(:ok)
+        result = JSON.parse(response.body)
+        expect(result['pagination']['count']).to eq(1)
+        expect(result['data'].first['name']).to eq('Won Deal')
+        expect(result['data'].first['status']).to eq('won')
+      end
+
+      it 'returns no deals when query does not match' do
+        params = { query: { name_cont: 'Deal not found' } }.to_json
+        post("/api/v1/accounts/#{account.id}/deals/search", params:, headers: auth_headers)
+        expect(response).to have_http_status(:ok)
+        result = JSON.parse(response.body)
+        expect(result['pagination']['count']).to eq(0)
+        expect(result['data']).to be_empty
+      end
+
+      it 'returns all deals when query params is blank' do
+        params = { query: {} }.to_json
+        post("/api/v1/accounts/#{account.id}/deals/search", params:, headers: auth_headers)
+        expect(response).to have_http_status(:ok)
+        result = JSON.parse(response.body)
+        expect(result['data'].size).to eq(Deal.count)
+      end
+
+      context 'when params is invalid' do
+        it 'returns unprocessable_entity when there is no ransack prefix' do
+          params = { query: { name: deal_open.name } }.to_json
+          post("/api/v1/accounts/#{account.id}/deals/search", params:, headers: auth_headers)
+          expect(response).to have_http_status(:unprocessable_entity)
+          json = JSON.parse(response.body)
+          expect(json['errors']).to eq('Invalid search parameters')
+          expect(json['details']).to eq('No valid predicate for name')
+        end
+      end
+    end
+  end
+
   describe 'PATCH /api/v1/accounts/:account_id/deals/:id' do
     let!(:deal) { create(:deal, account:, contact:) }
 

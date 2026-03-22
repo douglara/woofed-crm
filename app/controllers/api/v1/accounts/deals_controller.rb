@@ -42,6 +42,19 @@ class Api::V1::Accounts::DealsController < Api::V1::InternalController
     end
   end
 
+  def search
+    deals = Deal.ransack(params[:query])
+
+    @pagy, @deals = pagy(deals.result, metadata: %i[page items count pages from last to prev next])
+    render json: { data: @deals,
+                   pagination: pagy_metadata(@pagy) }
+  rescue ArgumentError => e
+    render json: {
+      errors: 'Invalid search parameters',
+      details: e.message
+    }, status: :unprocessable_entity
+  end
+
   def deal_params
     params.permit(*permitted_deal_params)
   end
