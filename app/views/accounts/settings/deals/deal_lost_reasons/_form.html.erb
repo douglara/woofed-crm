@@ -12,5 +12,5 @@
     <%= form.label :name, class: "typography-body-900 color-fg-default"  %>
     <%= form.text_field :name, placeholder: "#{DealLostReason.model_name.human(count: 1)}", class: 'form-input w-full' %>
   </div>
-  <%= form.submit class: 'btn-primary cursor-pointer place-self-end' %>
+  <%= submit_button(form, class: 'place-self-end') %>
 <% end %>

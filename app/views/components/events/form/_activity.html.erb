@@ -27,10 +27,7 @@
     </div>
     <div class="flex items-center gap-2">
       <% track_event = event.new_record? ? 'activity_created' : 'activity_updated' %>
-      <%= form.button t('views.components.events.form.activity.confirm'),
-      type: :submit,
-      class: 'btn-primary',
-      data: { track: track_event } %>
+      <%= submit_button(form, t('views.components.events.form.activity.confirm'), size: :md, data: { track: track_event }) %>
       <%= render '/components/events/form/cancel_button', event: event, pipeline: (defined?(pipeline) ? pipeline : nil), stage: (defined?(stage) ? stage : nil) %>
     </div>
   </div>

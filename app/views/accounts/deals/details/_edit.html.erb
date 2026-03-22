@@ -10,7 +10,7 @@
           </p>
         </div>
         <div class='flex gap-2'>
-          <%= form.submit t('views.accounts.deals.details.edit.save_changes'), class: 'button-default-blank-secondary-sm', data: { turbo_frame: "form_#{model.class.name.downcase}_#{model.id}" } %>
+          <%= submit_button(form, t('views.accounts.deals.details.edit.save_changes'), variant: :blank, color: :secondary, data: { turbo_frame: "form_#{model.class.name.downcase}_#{model.id}" } ) %>
           <%= link_to :back, class: 'button-default-blank-secondary-icon-only-sm' do %>
             <i data-lucide="x"></i>
           <% end %>

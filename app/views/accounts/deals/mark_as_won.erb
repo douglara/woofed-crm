@@ -22,7 +22,7 @@
           <%= form.datetime_local_field :won_at, class: "form-input", value: Time.zone.now %>
         </div>
       <% end %>
-      <%= form.submit t('activerecord.models.deal.mark_as_won'), class: 'btn-primary cursor-pointer place-self-end' %>
+      <%= submit_button(form, t('activerecord.models.deal.mark_as_won'), class: 'place-self-end', size: :md ) %>
     <% end %>
   </div>
 <% end %>

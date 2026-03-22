@@ -17,7 +17,7 @@
             </div>
           </div>
           <div class='flex items-center gap-2 self-start' >
-            <%= form.submit t('views.accounts.deals.details.deal_products.edit.save_changes'), class: 'button-default-blank-secondary-sm' %>
+            <%= submit_button(form, t('views.accounts.deals.details.deal_products.edit.save_changes'), variant: :blank, color: :secondary ) %>
             <%= link_to deal_products_account_deal_path(current_user.account, deal_product.deal), class: 'button-default-blank-secondary-icon-only-sm' do %>
               <i data-lucide="x" height="16"></i>
             <% end %>

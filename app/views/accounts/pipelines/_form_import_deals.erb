@@ -6,7 +6,7 @@
       <%= form.file_field :import_file, required: true, class: 'block w-full text-sm text-gray-900 border color-border-default rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400' %>
     </div>
     <div class="flex justify-end">
-      <%= form.submit t('views.accounts.pipelines.form_import_deals.send'), class: 'btn-primary cursor-pointer'%>
+      <%= submit_button(form, t('views.accounts.pipelines.form_import_deals.send'), size: :md ) %>
     </div>
   <% end %>
 </div>

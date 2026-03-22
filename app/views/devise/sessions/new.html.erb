@@ -18,7 +18,7 @@
         </div>
         <%= f.password_field :password, autocomplete: "current-password", class: "form-input w-full h-9" %>
       </div>
-      <%= f.submit t('views.devise.sessions.new.log_in'), class: "btn-primary cursor-pointer" %>
+      <%= submit_button(f, t('views.devise.sessions.new.log_in'), class: 'grid justify-items-center', size: :md) %>
     </div>
   <% end %>
   <% if ENV.fetch('ENABLE_USER_SIGNUP', 'false') == 'true' %>

@@ -34,7 +34,7 @@
         <%= form.label t('activerecord.attributes.deal.other_lost_reason'), class: "typography-body-900 color-fg-default" %>
         <%= form.text_field :other_lost_reason, class: "form-input", data: { deal_form__select_lost_reason_target: 'input' } %>
       </div>
-      <%= form.submit t('activerecord.models.deal.mark_as_lost'),class: 'btn-primary cursor-pointer place-self-end' %>
+      <%= submit_button(form, t('activerecord.models.deal.mark_as_lost'), class: 'place-self-end', size: :md ) %>
     <% end %>
   </div>
 <% end %>

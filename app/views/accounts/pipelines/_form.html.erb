@@ -29,7 +29,7 @@
     <% end %>
   </div>
   <div class="flex gap-2 self-end mt-5">
-    <%= link_to_add_association t('activerecord.models.stage.new'), form, :stages, class: "btn-secondary"%>
-    <%= form.submit  class: 'btn-primary self-end cursor-pointer' %>
+    <%= link_to_add_association t('activerecord.models.stage.new'), form, :stages, class: "button-default-fill-secondary-sm"%>
+    <%= submit_button(form, class: 'self-end') %>
   </div>
 <% end %>

@@ -47,7 +47,7 @@
         <%= f.label :password_confirmation, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
         <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-input h-9 w-full", required: true %>
       </div>
-      <%= f.submit t('views.devise.registrations.new.register'), class:"btn-primary cursor-pointer" %>
+      <%= submit_button(f, t('views.devise.registrations.new.register'), class: 'grid justify-items-center', size: :md) %>
     <% end %>
     <%= render "devise/shared/links" %>
   </div>
