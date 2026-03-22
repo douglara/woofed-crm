@@ -43,20 +43,26 @@ RUN ruby -v
 RUN gem install bundler
 
 ## Install app
-WORKDIR /rails
-COPY . /rails
-RUN chmod +x /rails/bin/easyinstall /rails/bin/docker-entrypoint-easyinstall
+WORKDIR /app
+COPY . /app
+RUN chmod +x /app/bin/easyinstall
 RUN bundle install
 RUN yarn build
 RUN yarn install --check-files
 RUN bundle exec rake assets:precompile
+
+## Postgres
+RUN mkdir -p /app/storage/postgresql/data
+RUN chown -R postgres:postgres /app/storage/postgresql/data
+USER postgres
+RUN /usr/lib/postgresql/16/bin/initdb -E UTF8 -D /app/storage/postgresql/data
+USER root
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 EXPOSE 80 5432 6379
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=5 \
-  CMD curl -f http://localhost/up || exit 1
+  CMD ["curl", "-f", "http://localhost/up"]
 
-ENTRYPOINT ["/rails/bin/docker-entrypoint-easyinstall"]
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

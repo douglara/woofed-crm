@@ -25,7 +25,7 @@ WORKDIR /tmp
 RUN gem install bundler
 RUN bundle install
 
-ENV app /rails
+ENV app /app
 RUN mkdir $app
 WORKDIR $app
 
@@ -45,11 +45,10 @@ RUN npm i -g flat
 RUN echo "Waiting for postgres to become ready...."
 RUN sleep 10
 
-RUN chmod +x /rails/bin/easyinstall /rails/bin/docker-entrypoint
+RUN chmod +x /app/bin/easyinstall
 
 EXPOSE 80
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-  CMD curl -f http://localhost/up || exit 1
+  CMD ["curl", "-f", "http://localhost/up"]
 
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+CMD bundle exec rails db:create; bundle exec rails db:migrate; bundle exec puma -C config/puma.rb
