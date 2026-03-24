@@ -53,7 +53,7 @@ class Apps::ChatwootsController < ActionController::Base
 
   def load_chatwoot
     @chatwoot = Apps::Chatwoot.find_by(embedding_token: params['token'])
-    render plain: 'Invalid token', status: :bad_request if @chatwoot.blank?
+    render plain: 'Unauthorized', status: :bad_request if @chatwoot.blank?
   end
 
   def load_account
