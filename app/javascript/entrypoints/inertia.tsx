@@ -1,6 +1,31 @@
-import { createInertiaApp, type ResolvedComponent } from '@inertiajs/react'
+import { createInertiaApp, router, type ResolvedComponent } from '@inertiajs/react'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+
+// Inject JWT into Inertia requests and native fetch() when inside an iframe
+// (e.g. Chatwoot Dashboard App where 3rd-party cookies are blocked)
+if (window.self !== window.top) {
+  const jwtKey = () => Object.keys(localStorage).find((k) => k.startsWith('embed_jwt_'))
+
+  router.on('before', (event) => {
+    const key = jwtKey()
+    const jwt = key ? localStorage.getItem(key) : null
+    if (jwt) {
+      event.detail.visit.headers = event.detail.visit.headers ?? {}
+      event.detail.visit.headers['Authorization'] = `Bearer ${jwt}`
+    }
+  })
+
+  const _originalFetch = window.fetch.bind(window)
+  window.fetch = function (input: RequestInfo | URL, init: RequestInit = {}) {
+    const key = jwtKey()
+    const jwt = key ? localStorage.getItem(key) : null
+    if (jwt) {
+      init.headers = { ...(init.headers as Record<string, string> ?? {}), Authorization: `Bearer ${jwt}` }
+    }
+    return _originalFetch(input, init)
+  }
+}
 
 void createInertiaApp({
   // Set default page title

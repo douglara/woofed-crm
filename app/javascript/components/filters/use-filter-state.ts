@@ -308,6 +308,15 @@ export function useFilterState(
       });
       keysToDelete.forEach((key) => urlObj.searchParams.delete(key));
 
+      // Preserve embed_jwt when inside an iframe (3rd-party cookies blocked)
+      if (window.self !== window.top) {
+        const jwtKey = Object.keys(localStorage).find((k) =>
+          k.startsWith("embed_jwt_"),
+        );
+        const jwt = jwtKey ? localStorage.getItem(jwtKey) : null;
+        if (jwt) urlObj.searchParams.set("embed_jwt", jwt);
+      }
+
       const cleanUrl = urlObj.pathname + (urlObj.search ? urlObj.search : "");
       const separator = cleanUrl.includes("?") ? "&" : "?";
       const url = queryString

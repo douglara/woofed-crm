@@ -6,7 +6,7 @@ class Accounts::Contacts::ChatwootEmbedController < InternalController
     contact = contact_search
 
     if contact.present?
-      redirect_to account_chatwoot_embed_path(current_user.account, contact)
+      redirect_to account_chatwoot_embed_path(current_user.account, contact, embed_jwt: params[:embed_jwt])
     else
       chatwoot_contact = JSON.parse(params['chatwoot_contact'])
       @contact = current_user.account.contacts.new({
@@ -35,7 +35,7 @@ class Accounts::Contacts::ChatwootEmbedController < InternalController
     @contact = current_user.account.contacts.new(contact_params)
 
     if @contact.save
-      redirect_to account_chatwoot_embed_path(current_user.account, @contact),
+      redirect_to account_chatwoot_embed_path(current_user.account, @contact, embed_jwt: params[:embed_jwt]),
                   notice: t('flash_messages.created', model: Contact.model_name.human)
     else
       render :new, status: :unprocessable_entity
