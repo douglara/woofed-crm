@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-24 15:20:43 +1000'>2026-03-24 15:20:43 +1000</time>
+          Updated <time class='js-timeago' datetime='2026-03-24 15:48:16 +1000'>2026-03-24 15:48:16 +1000</time>
         
       </span>
     </div>
@@ -73,7 +73,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">6.4</span><small> complexity/method</small></div>
-              <div><span class="metric">21</span><small> churn</small></div>
+              <div><span class="metric">22</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">57.61</span><small> complexity</small></div>
@@ -152,7 +152,7 @@
 
   def load_chatwoot
     @chatwoot = Apps::Chatwoot.find_by(embedding_token: params[&#39;token&#39;])
-    render plain: &#39;Invalid token&#39;, status: :bad_request if @chatwoot.blank?
+    render plain: &#39;Unauthorized&#39;, status: :bad_request if @chatwoot.blank?
   end
 
   def load_account
