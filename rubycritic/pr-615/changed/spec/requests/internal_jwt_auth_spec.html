@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../overview.html"><img src="../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-03-24 15:20:43 +1000'>2026-03-24 15:20:43 +1000</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>spec/requests /</small> internal_jwt_auth_spec.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating d big">
+              D
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">89</span><small> lines of codes</small></div>
+              <div><span class="metric">0</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">N/A</span><small> complexity/method</small></div>
+              <div><span class="metric">1</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">223.15</span><small> complexity</small></div>
+              <div><span class="metric">52</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                4
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">require &#39;rails_helper&#39;
+
+RSpec.describe &#39;InternalController JWT auth fallback&#39; do
+  let!(:account) { create(:account) }
+  let(:user) { create(:user) }
+  let(:protected_path) { account_contacts_path(account) }
+
+  context &#39;JWT authentication&#39; do
+    context &#39;Authorization: Bearer header (Turbo/Inertia XHR)&#39; do
+      it &#39;authenticates with a valid JWT&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>context(JWT authentication)::context(Authorization: Bearer header (Turbo/Inertia XHR))::it#authenticates with a valid JWT has a flog score of 27</span>          </div>  </li></ol>
+        jwt = Users::JsonWebToken.encode_embed(user)
+        get protected_path, headers: { &#39;Authorization&#39; =&gt; &quot;Bearer #{jwt}&quot; }
+        expect(response).not_to redirect_to(new_user_session_path)
+        # JWT auth should not create a Devise session
+        expect(session[:warden_user_user_key]).to be_nil
+      end
+
+      it &#39;skips CSRF on POST with JWT&#39; do
+        jwt = Users::JsonWebToken.encode_embed(user)
+        post protected_path, headers: { &#39;Authorization&#39; =&gt; &quot;Bearer #{jwt}&quot; }
+        expect(response.status).not_to eq(422)
+      end
+    end
+
+    context &#39;params[:embed_jwt] (full page reload with JWT in URL)&#39; do
+      it &#39;authenticates via query param&#39; do
+        jwt = Users::JsonWebToken.encode_embed(user)
+        get protected_path, params: { embed_jwt: jwt }
+        expect(response).not_to redirect_to(new_user_session_path)
+      end
+
+      it &#39;header takes precedence over query param when both are present&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>context(JWT authentication)::context(params[:embed_jwt] (full page reload with JWT in URL))::it#header takes precedence over query param when both are present has a flog score of 27</span>          </div>  </li></ol>
+        valid_jwt   = Users::JsonWebToken.encode_embed(user)
+        expired_jwt = travel_to(9.hours.ago) { Users::JsonWebToken.encode_embed(user) }
+        get protected_path,
+            headers: { &#39;Authorization&#39; =&gt; &quot;Bearer #{expired_jwt}&quot; },
+            params:  { embed_jwt: valid_jwt }
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+    context &#39;token without embed audience (API token)&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="internal_jwt_auth_spec.html#L41" class="js-smell-location">0</a>                  <a href="internal_jwt_auth_spec.html#L49" class="js-smell-location">1</a>                  </div>  </li></ol>
+      it &#39;rejects token without aud and redirects to login&#39; do
+        legacy_token = Users::JsonWebToken.encode_user(user)
+        get protected_path, headers: { &#39;Authorization&#39; =&gt; &quot;Bearer #{legacy_token}&quot; }
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context &#39;Authorization header with incorrect scheme&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="internal_jwt_auth_spec.html#L41" class="js-smell-location">0</a>                  <a href="internal_jwt_auth_spec.html#L49" class="js-smell-location">1</a>                  </div>  </li></ol>
+      it &#39;ignores Token scheme header and redirects to login&#39; do
+        jwt = Users::JsonWebToken.encode_embed(user)
+        get protected_path, headers: { &#39;Authorization&#39; =&gt; &quot;Token #{jwt}&quot; }
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    # Simulates the Authorization: Bearer header injected by router.on(&#39;before&#39;, ...) in inertia.tsx
+    context &#39;Inertia controller endpoint (combobox)&#39; do
+      let(:combobox_path) { inertia_account_components_combobox_path(account, model: &#39;contact&#39;) }
+
+      it &#39;authenticates with JWT in Authorization header&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>context(JWT authentication)::context(Inertia controller endpoint (combobox))::it#authenticates with JWT in Authorization header has a flog score of 34</span>          </div>  </li></ol>
+        jwt = Users::JsonWebToken.encode_embed(user)
+        get combobox_path, headers: { &#39;Authorization&#39; =&gt; &quot;Bearer #{jwt}&quot; }
+        expect(response).to be_successful
+        expect(response.parsed_body).to be_an(Array)
+        # JWT auth should not create a Devise session
+        expect(session[:warden_user_user_key]).to be_nil
+      end
+
+      it &#39;redirects to login without JWT and without session&#39; do
+        get combobox_path
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+  end
+
+  context &#39;Cookie-based authentication&#39; do
+    it &#39;uses Devise cookie normally&#39; do
+      sign_in user
+      get protected_path
+      expect(response).to be_successful
+    end
+
+    it &#39;redirects to login without cookie and without JWT&#39; do
+      get protected_path
+      expect(response).to redirect_to(new_user_session_path)
+    end
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../assets/javascripts/application.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>
