@@ -35,7 +35,7 @@ export default function AgentPluginBuilderShell({ settingsUrl, children }: Props
 
         <button
           onClick={handleClose}
-          aria-label="Fechar"
+          aria-label="Close"
           className="button-default-blank-secondary-icon-only-sm"
         >
           <X className="w-4 h-4" />

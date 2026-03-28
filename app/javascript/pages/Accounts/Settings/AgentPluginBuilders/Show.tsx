@@ -38,25 +38,25 @@ interface Props {
 
 const STATUS_CONFIG = {
   pending: {
-    label: 'Aguardando',
+    label: 'Pending',
     icon: Clock,
     dot: 'bg-dark-gray-palette-p4',
     className: 'color-bg-feedback-neutral color-fg-feedback-neutral border color-border-hard',
   },
   processing: {
-    label: 'Construindo...',
+    label: 'Building...',
     icon: Loader2,
     dot: 'bg-auxiliary-palette-blue animate-pulse',
     className: 'color-bg-feedback-info-default color-fg-feedback-info border color-border-feedback-info',
   },
   completed: {
-    label: 'Concluído',
+    label: 'Completed',
     icon: CheckCircle2,
     dot: 'bg-auxiliary-palette-green',
     className: 'color-bg-feedback-success-default color-fg-feedback-success border color-border-feedback-success-default',
   },
   failed: {
-    label: 'Falhou',
+    label: 'Failed',
     icon: XCircle,
     dot: 'bg-auxiliary-palette-red',
     className: 'color-bg-feedback-danger-default color-fg-feedback-danger border color-border-feedback-danger-default',
@@ -119,12 +119,12 @@ export default function AgentPluginBuildersShow({ agent_plugin_builder: apb, cur
   }, [apb.logs])
 
   const statusConfig = isRestarting
-    ? { label: 'Instalando...', icon: Loader2, dot: 'bg-auxiliary-palette-blue animate-pulse', className: 'color-bg-feedback-info-default color-fg-feedback-info border color-border-feedback-info' }
+    ? { label: 'Installing...', icon: Loader2, dot: 'bg-auxiliary-palette-blue animate-pulse', className: 'color-bg-feedback-info-default color-fg-feedback-info border color-border-feedback-info' }
     : STATUS_CONFIG[apb.status] ?? STATUS_CONFIG.pending
   const StatusIcon = statusConfig.icon
 
   const handleDelete = async () => {
-    if (!confirm(`Tem certeza que deseja remover "${apb.name}"?`)) return
+    if (!confirm(`Are you sure you want to remove "${apb.name}"?`)) return
     await fetch(`/accounts/${current_account.id}/settings/agent_plugin_builders/${apb.id}`, {
       method: 'DELETE',
       headers: { 'X-CSRF-Token': getCsrfToken() },
@@ -204,7 +204,7 @@ export default function AgentPluginBuildersShow({ agent_plugin_builder: apb, cur
                     rel="noopener noreferrer"
                     className="truncate hover:text-brand-palette-03 transition-colors"
                   >
-                    Repositório
+                    Repository
                   </a>
                 </div>
               )}
@@ -221,7 +221,7 @@ export default function AgentPluginBuildersShow({ agent_plugin_builder: apb, cur
           <div className="p-4 flex flex-col gap-2 mt-auto">
             <div className="flex items-center gap-2 typography-micro-m-lh150 text-dark-gray-palette-p3">
               <Calendar className="w-3.5 h-3.5" />
-              {new Date(apb.created_at).toLocaleDateString('pt-BR', {
+              {new Date(apb.created_at).toLocaleDateString('en-US', {
                 day: '2-digit',
                 month: 'short',
                 year: 'numeric',
@@ -229,7 +229,7 @@ export default function AgentPluginBuildersShow({ agent_plugin_builder: apb, cur
             </div>
             <div className="flex items-center gap-2 typography-micro-m-lh150 text-dark-gray-palette-p3">
               <RefreshCw className="w-3.5 h-3.5" />
-              {new Date(apb.updated_at).toLocaleDateString('pt-BR', {
+              {new Date(apb.updated_at).toLocaleDateString('en-US', {
                 day: '2-digit',
                 month: 'short',
                 year: 'numeric',
@@ -240,7 +240,7 @@ export default function AgentPluginBuildersShow({ agent_plugin_builder: apb, cur
               className="flex items-center gap-2 typography-micro-m-lh150 text-auxiliary-palette-red hover:bg-auxiliary-palette-red-down px-3 py-1.5 rounded-md transition-colors mt-1"
             >
               <Trash2 className="w-3.5 h-3.5" />
-              Remover
+              Remove
             </button>
           </div>
         </div>
@@ -266,22 +266,22 @@ export default function AgentPluginBuildersShow({ agent_plugin_builder: apb, cur
                         style={{ animationDelay: `${i * 150}ms` }}
                       />
                     ))}
-                    <span className="ml-0.5 text-brand-palette-03">Executando opencode...</span>
+                    <span className="ml-0.5 text-brand-palette-03">Running opencode...</span>
                   </>
                 ) : isRestarting ? (
                   <>
                     <Loader2 className="w-3 h-3 animate-spin text-auxiliary-palette-blue" />
-                    <span className="text-auxiliary-palette-blue">Instalando plugin... aguardando o sistema reiniciar</span>
+                    <span className="text-auxiliary-palette-blue">Installing plugin... waiting for the system to restart</span>
                   </>
                 ) : apb.status === 'completed' ? (
                   <>
                     <span className="w-1.5 h-1.5 rounded-full bg-auxiliary-palette-green inline-block" />
-                    Build concluído
+                    Build completed
                   </>
                 ) : (
                   <>
                     <span className="w-1.5 h-1.5 rounded-full bg-auxiliary-palette-red inline-block" />
-                    Build falhou
+                    Build failed
                   </>
                 )}
               </p>
@@ -301,7 +301,7 @@ export default function AgentPluginBuildersShow({ agent_plugin_builder: apb, cur
               <div className="flex flex-col items-center justify-center h-full text-center">
                 <Loader2 className="w-8 h-8 text-brand-palette-03 animate-spin mb-3" />
                 <p className="typography-sub-text-r-lh150 text-dark-gray-palette-p3">
-                  Aguardando o início do build...
+                  Waiting for the build to start...
                 </p>
               </div>
             )}

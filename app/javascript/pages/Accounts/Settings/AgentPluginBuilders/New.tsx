@@ -21,10 +21,10 @@ interface Props {
 }
 
 const PROMPT_EXAMPLES = [
-  'Crie um plugin que automaticamente categorize contatos com base nas interações e crie tags personalizadas para segmentação.',
-  'Desenvolva um plugin que gere relatórios de performance de vendas com gráficos e insights de IA semanalmente.',
-  'Implemente um plugin que analise o histórico de deals e sugira o melhor momento para entrar em contato com o cliente.',
-  'Crie um plugin que integre com WhatsApp para enviar mensagens automáticas de follow-up após reuniões.',
+  'Create a plugin that automatically categorizes contacts based on interactions and creates custom tags for segmentation.',
+  'Develop a plugin that generates weekly sales performance reports with charts and AI insights.',
+  'Implement a plugin that analyzes deal history and suggests the best time to reach out to a client.',
+  'Create a plugin that integrates with WhatsApp to send automatic follow-up messages after meetings.',
 ]
 
 export default function AgentPluginBuildersNew({ current_account, errors, values }: Props) {
@@ -78,7 +78,7 @@ export default function AgentPluginBuildersNew({ current_account, errors, values
             }
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200" />
-            Voltar para Agent Plugin Builders
+            Back to Agent Plugin Builders
           </button>
 
           {/* Header */}
@@ -88,9 +88,9 @@ export default function AgentPluginBuildersNew({ current_account, errors, values
                 <Wand2 className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="typography-body-s-lh150 text-dark-gray-palette-p1">Novo Agent Plugin Builder</h1>
+                <h1 className="typography-body-s-lh150 text-dark-gray-palette-p1">New Agent Plugin Builder</h1>
                 <p className="typography-sub-text-r-lh150 text-dark-gray-palette-p3">
-                  Descreva o que você quer e a IA vai construir para você
+                  Describe what you want and the AI will build it for you
                 </p>
               </div>
             </div>
@@ -103,9 +103,9 @@ export default function AgentPluginBuildersNew({ current_account, errors, values
           >
             <Bot className="w-5 h-5 text-brand-palette-03 mt-0.5 flex-shrink-0" />
             <div className="typography-sub-text-r-lh150 text-brand-palette-02">
-              <strong className="font-semibold">Como funciona:</strong> Você descreve o
-              plugin que precisa, a IA analisa o prompt e constrói automaticamente o
-              código. Acompanhe o progresso em tempo real via chat.
+              <strong className="font-semibold">How it works:</strong> You describe the
+              plugin you need, the AI analyzes the prompt and automatically builds the
+              code. Track progress in real time via chat.
             </div>
           </div>
 
@@ -113,11 +113,11 @@ export default function AgentPluginBuildersNew({ current_account, errors, values
             {/* Name */}
             <div data-animate className="flex flex-col gap-1">
               <label className="typography-text-m-lh150 text-dark-gray-palette-p1">
-                Nome <span className="text-auxiliary-palette-red">*</span>
+                Name <span className="text-auxiliary-palette-red">*</span>
               </label>
               <input
                 type="text"
-                placeholder="ex: Auto-categorização de contatos"
+                placeholder="e.g. Auto-categorization of contacts"
                 value={data.agent_plugin_builder.name}
                 onChange={(e) =>
                   setData('agent_plugin_builder', { ...data.agent_plugin_builder, name: e.target.value })
@@ -139,7 +139,7 @@ export default function AgentPluginBuildersNew({ current_account, errors, values
             <div data-animate className="flex flex-col gap-1">
               <div className="flex items-center justify-between">
                 <label className="typography-text-m-lh150 text-dark-gray-palette-p1">
-                  Prompt para a IA <span className="text-auxiliary-palette-red">*</span>
+                  AI Prompt <span className="text-auxiliary-palette-red">*</span>
                 </label>
                 <button
                   type="button"
@@ -147,12 +147,12 @@ export default function AgentPluginBuildersNew({ current_account, errors, values
                   className="flex items-center gap-1.5 typography-micro-m-lh150 text-brand-palette-03 hover:text-brand-palette-02 font-medium transition-colors"
                 >
                   <Lightbulb className="w-3.5 h-3.5" />
-                  Ver exemplo
+                  See example
                 </button>
               </div>
               <div className="relative">
                 <textarea
-                  placeholder="Descreva detalhadamente o plugin que você quer criar..."
+                  placeholder="Describe in detail the plugin you want to create..."
                   value={data.agent_plugin_builder.description}
                   onChange={(e) => {
                     setData('agent_plugin_builder', { ...data.agent_plugin_builder, description: e.target.value })
@@ -165,7 +165,7 @@ export default function AgentPluginBuildersNew({ current_account, errors, values
                   )}
                 />
                 <div className="absolute bottom-3 right-3 typography-micro-m-lh150 text-dark-gray-palette-p3">
-                  {charCount} caracteres
+                  {charCount} characters
                 </div>
               </div>
               {hasError('description') && (
@@ -175,7 +175,7 @@ export default function AgentPluginBuildersNew({ current_account, errors, values
                 </div>
               )}
               <p className="typography-micro-m-lh150 text-dark-gray-palette-p3">
-                Dica: quanto mais detalhado o prompt, melhor o resultado.
+                Tip: the more detailed the prompt, the better the result.
               </p>
             </div>
 
@@ -189,12 +189,12 @@ export default function AgentPluginBuildersNew({ current_account, errors, values
                 {processing ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    Criando...
+                    Creating...
                   </>
                 ) : (
                   <>
                     <Sparkles className="w-4 h-4" />
-                    Criar Agent Plugin Builder
+                    Create Agent Plugin Builder
                   </>
                 )}
               </button>
@@ -205,7 +205,7 @@ export default function AgentPluginBuildersNew({ current_account, errors, values
                   router.visit(`/accounts/${current_account.id}/settings/agent_plugin_builders`)
                 }
               >
-                Cancelar
+                Cancel
               </button>
             </div>
           </form>

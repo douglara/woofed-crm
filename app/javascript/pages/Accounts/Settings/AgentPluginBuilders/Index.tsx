@@ -42,25 +42,25 @@ interface Props {
 
 const STATUS_CONFIG = {
   pending: {
-    label: 'Aguardando',
+    label: 'Pending',
     icon: Clock,
     className: 'color-bg-feedback-neutral color-fg-feedback-neutral border color-border-hard',
     dotClass: 'bg-dark-gray-palette-p4',
   },
   processing: {
-    label: 'Construindo',
+    label: 'Building',
     icon: Loader2,
     className: 'color-bg-feedback-info-default color-fg-feedback-info border color-border-feedback-info',
     dotClass: 'bg-auxiliary-palette-blue animate-pulse',
   },
   completed: {
-    label: 'Concluído',
+    label: 'Completed',
     icon: CheckCircle2,
     className: 'color-bg-feedback-success-default color-fg-feedback-success border color-border-feedback-success-default',
     dotClass: 'bg-auxiliary-palette-green',
   },
   failed: {
-    label: 'Falhou',
+    label: 'Failed',
     icon: XCircle,
     className: 'color-bg-feedback-danger-default color-fg-feedback-danger border color-border-feedback-danger-default',
     dotClass: 'bg-auxiliary-palette-red',
@@ -95,17 +95,17 @@ function EmptyState({ accountId }: { accountId: number }) {
           <Sparkles className="w-3.5 h-3.5 text-white" />
         </div>
       </div>
-      <h3 className="typography-body-s-lh150 text-dark-gray-palette-p1 mb-2">Nenhum Agent Plugin Builder ainda</h3>
+      <h3 className="typography-body-s-lh150 text-dark-gray-palette-p1 mb-2">No Agent Plugin Builders yet</h3>
       <p className="typography-sub-text-r-lh150 text-dark-gray-palette-p3 max-w-sm mb-8">
-        Crie seu primeiro plugin com IA. Descreva o que você precisa e a IA vai
-        construir automaticamente para você.
+        Create your first AI-powered plugin. Describe what you need and the AI
+        will build it automatically for you.
       </p>
       <button
         onClick={() => router.visit(`/accounts/${accountId}/settings/agent_plugin_builders/new`)}
         className="btn-primary flex items-center gap-2"
       >
         <PlusCircle className="w-4 h-4" />
-        Criar primeiro Agent Plugin Builder
+        Create first Agent Plugin Builder
       </button>
     </div>
   )
@@ -134,7 +134,7 @@ export default function AgentPluginBuildersIndex({ agent_plugin_builders, curren
           <div>
             <h1 className="typography-body-s-lh150 text-dark-gray-palette-p1 mb-0.5">Agent Plugin Builders</h1>
             <p className="typography-sub-text-r-lh150 text-dark-gray-palette-p3">
-              Plugins criados por IA para o seu CRM
+              AI-built plugins for your CRM
             </p>
           </div>
           {agent_plugin_builders.length > 0 && (
@@ -145,7 +145,7 @@ export default function AgentPluginBuildersIndex({ agent_plugin_builders, curren
               className="btn-primary flex items-center gap-2"
             >
               <PlusCircle className="w-4 h-4" />
-              Novo Agent Plugin Builder
+              New Agent Plugin Builder
             </button>
           )}
         </div>
@@ -175,7 +175,7 @@ export default function AgentPluginBuildersIndex({ agent_plugin_builders, curren
                       className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 button-default-blank-secondary-icon-only-sm"
                       onClick={async (e) => {
                         e.stopPropagation()
-                        if (!confirm(`Remover "${apb.name}"?`)) return
+                        if (!confirm(`Remove "${apb.name}"?`)) return
                         await fetch(
                           `/accounts/${current_account.id}/settings/agent_plugin_builders/${apb.id}`,
                           { method: 'DELETE', headers: { 'X-CSRF-Token': getCsrfToken() } },
@@ -202,7 +202,7 @@ export default function AgentPluginBuildersIndex({ agent_plugin_builders, curren
 
                 <div className="flex items-center justify-between">
                   <span className="typography-micro-m-lh150 text-dark-gray-palette-p3">
-                    {new Date(apb.created_at).toLocaleDateString('pt-BR', {
+                    {new Date(apb.created_at).toLocaleDateString('en-US', {
                       day: '2-digit',
                       month: 'short',
                       year: 'numeric',
