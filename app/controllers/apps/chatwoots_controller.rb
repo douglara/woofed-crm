@@ -33,7 +33,7 @@ class Apps::ChatwootsController < ActionController::Base
   def embedding_generate_jwt
     event = JSON.parse(params['event'])
     email = event.dig('data', 'currentAgent', 'email')
-    user = @account.users.find_by(email: email)
+    user = User.find_by(email: email)
     return render json: { error: 'user_not_found' }, status: :not_found if user.blank?
 
     jwt = Users::JsonWebToken.encode_embed(user)
