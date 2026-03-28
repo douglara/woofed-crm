@@ -80,19 +80,9 @@ module Plugins
     # so .erb patch files containing DSL are also picked up.
     def load_all_patch_files!
       plugin_dirs.each do |plugin_dir|
-        plugin_app = plugin_dir.join("app")
-        next unless plugin_app.exist?
-
-        Dir.glob(plugin_app.join("**", "*")).each do |plugin_file|
-          next unless File.file?(plugin_file)
-
-          relative = Pathname.new(plugin_file).relative_path_from(plugin_dir).to_s
+        each_patchable_plugin_file(plugin_dir) do |plugin_file, relative|
           original = root.join(relative)
-
-          # Only load as patch if the original exists in app/
           next unless original.exist?
-
-          # Only load files that contain FilePatch DSL (works for .rb, .erb, etc.)
           next unless File.read(plugin_file).include?("Plugins::FilePatch.define")
 
           load plugin_file
@@ -105,13 +95,7 @@ module Plugins
       seen_targets = Set.new
 
       plugin_dirs.each do |plugin_dir|
-        plugin_app = plugin_dir.join("app")
-        next unless plugin_app.exist?
-
-        Dir.glob(plugin_app.join("**", "*")).each do |plugin_file|
-          next unless File.file?(plugin_file)
-
-          relative = Pathname.new(plugin_file).relative_path_from(plugin_dir).to_s
+        each_patchable_plugin_file(plugin_dir) do |plugin_file, relative|
           original = root.join(relative)
 
           if original.exist?
@@ -123,6 +107,32 @@ module Plugins
             process_new_file(relative, plugin_file)
             seen_targets << relative
           end
+        end
+      end
+    end
+
+    # Yields [plugin_file_path, relative_path_from_project_root] for every file
+    # that should be considered for patching or copying:
+    #   - All files under plugin_dir/app/
+    #   - Files under plugin_dir/config/ EXCEPT routes.rb (which is loaded separately)
+    def each_patchable_plugin_file(plugin_dir)
+      # app/ files
+      plugin_app = plugin_dir.join("app")
+      if plugin_app.exist?
+        Dir.glob(plugin_app.join("**", "*")).each do |f|
+          next unless File.file?(f)
+          yield f, Pathname.new(f).relative_path_from(plugin_dir).to_s
+        end
+      end
+
+      # config/ files — skip routes.rb (handled by PluginLoader)
+      plugin_config = plugin_dir.join("config")
+      if plugin_config.exist?
+        Dir.glob(plugin_config.join("**", "*")).each do |f|
+          next unless File.file?(f)
+          relative = Pathname.new(f).relative_path_from(plugin_dir).to_s
+          next if relative == "config/routes.rb"
+          yield f, relative
         end
       end
     end
@@ -186,12 +196,8 @@ module Plugins
       active_relatives = Set.new
 
       plugin_dirs.each do |plugin_dir|
-        plugin_app = plugin_dir.join("app")
-        next unless plugin_app.exist?
-
-        Dir.glob(plugin_app.join("**", "*")).each do |f|
-          next unless File.file?(f)
-          active_relatives << Pathname.new(f).relative_path_from(plugin_dir).to_s
+        each_patchable_plugin_file(plugin_dir) do |_f, relative|
+          active_relatives << relative
         end
       end
 
