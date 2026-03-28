@@ -68,7 +68,7 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">58</span><small> lines of codes</small></div>
+              <div><span class="metric">59</span><small> lines of codes</small></div>
               <div><span class="metric">8</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
@@ -99,6 +99,7 @@
 
     <code class="prettyprint linenums lang-ruby file-code js-file-code">class Apps::ChatwootsController &lt; ActionController::Base<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Apps::ChatwootsController assumes too much for instance variable '@chatwoot'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Apps::ChatwootsController assumes too much for instance variable '@user_email'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Apps::ChatwootsController has no descriptive comment</span>          </div>  </li></ol>
   before_action :load_chatwoot
+  before_action :load_account
   before_action :authenticate_by_token, if: :check_user_authentication
   skip_before_action :verify_authenticity_token, except: :embedding
   layout &#39;embed&#39;
