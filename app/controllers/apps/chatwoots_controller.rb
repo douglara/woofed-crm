@@ -56,7 +56,4 @@ class Apps::ChatwootsController < ActionController::Base
     render plain: 'Unauthorized', status: :bad_request if @chatwoot.blank?
   end
 
-  def load_account
-    @account = @chatwoot.account
-  end
 end
