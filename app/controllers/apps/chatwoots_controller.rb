@@ -1,6 +1,5 @@
 class Apps::ChatwootsController < ActionController::Base
   before_action :load_chatwoot
-  before_action :load_account
   before_action :authenticate_by_token, if: :check_user_authentication
   skip_before_action :verify_authenticity_token, except: :embedding
   layout 'embed'
