@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../overview.html"><img src="../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-03-29 02:53:08 +1000'>2026-03-29 02:53:08 +1000</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>config /</small> routes.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating c big">
+              C
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">219</span><small> lines of codes</small></div>
+              <div><span class="metric">0</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">N/A</span><small> complexity/method</small></div>
+              <div><span class="metric">174</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">167.25</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                0
+                smell
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">require &#39;sidekiq/web&#39;
+
+Rails.application.routes.draw do
+  if Rails.env.development?
+    # Redirect to localhost from 127.0.0.1 to use same IP address with Vite server
+    constraints(host: &#39;127.0.0.1&#39;) do
+      get &#39;(*path)&#39;, to: redirect { |params, req| &quot;#{req.protocol}localhost:#{req.port}/#{params[:path]}&quot; }
+    end
+  end
+  mount Motor::Admin =&gt; &#39;/motor_admin&#39;
+  mount Sidekiq::Web =&gt; &#39;/sidekiq&#39;
+  mount GoodJob::Engine =&gt; &#39;good_job&#39;
+
+  draw(:installation)
+
+  resources :accounts, module: :accounts do
+    resource :store, only: [:show]
+    resources :webpush_subscriptions, only: [:create]
+    resources :settings, only: [:index]
+    resources :welcome, only: [:index]
+    resource :advanced_search, only: [:show] do
+      get :results
+    end
+    resources :custom_attributes_definitions, module: :settings do
+    end
+
+    resource :settings do
+      resource :account, only: %i[edit update], module: :settings
+      resource :deals, only: %i[edit update], module: :settings do
+        resources :deal_lost_reasons, except: [:show], module: :deals
+      end
+      resources :agent_plugin_builders, only: %i[index new create show destroy], module: :settings
+    end
+
+    resources :webhooks, module: :settings do
+    end
+
+    resources :users do
+      get &#39;select_user_search&#39;, on: :collection
+      get &#39;hovercard_preview&#39;, on: :member
+    end
+    resources :products do
+      get &#39;edit_custom_attributes&#39;, on: :member
+      patch &#39;update_custom_attributes&#39;, on: :member
+      get &#39;select_product_search&#39;, on: :collection
+    end
+    resources :contacts do
+      get &#39;search&#39;, to: &#39;contacts#search&#39;, on: :collection
+      get &#39;edit_custom_attributes&#39;
+      get &#39;chatwoot_conversation_link&#39;, on: :member
+      patch &#39;update_custom_attributes&#39;
+      get &#39;select_contact_search&#39;, on: :collection
+      resources :events, module: :contacts do
+      end
+      namespace :events, module: :contacts do
+        namespace :apps, module: :events do
+        end
+      end
+
+      collection do
+        resources :chatwoot_embed, only: %i[show new create], controller: &#39;contacts/chatwoot_embed&#39; do
+          post &#39;search&#39;, on: :collection
+        end
+      end
+      get &#39;hovercard_preview&#39;, on: :member
+    end
+    resources :pipelines do
+      get &#39;import&#39;
+      post &#39;import_file&#39;
+      get &#39;export&#39;
+      member do
+        get &#39;new_bulk_action&#39;
+        get &#39;bulk_action&#39;
+        post &#39;create_bulk_action&#39;
+      end
+    end
+
+    resources :deals do
+      patch &#39;update_deal_product&#39;, on: :member
+      get &#39;edit_deal_product&#39;, on: :member
+      get &#39;deal_products&#39;, on: :member
+      get &#39;deal_assignees&#39;, on: :member
+      get &#39;events_to_do&#39;, on: :member
+      get &#39;events_done&#39;, on: :member
+      get &#39;add_contact&#39;
+      post &#39;commit_add_contact&#39;
+      delete &#39;remove_contact&#39;
+      get &#39;new_select_contact&#39;, on: :collection
+      get &#39;edit_custom_attributes&#39;
+      patch &#39;update_custom_attributes&#39;
+      get &#39;mark_as_lost&#39;, on: :member
+      get &#39;mark_as_won&#39;, on: :member
+      patch &#39;drag_and_drop&#39;, on: :member
+    end
+    resources :deal_products, only: %i[destroy new create]
+    resources :deal_assignees, only: %i[destroy new create]
+
+    namespace :apps do
+      resources :evolution_apis do
+        member do
+          get &#39;pair_qr_code&#39;
+          post &#39;refresh_qr_code&#39;
+        end
+      end
+      resources :chatwoots
+      # resources :events, module: :contacts
+      resource :ai_assistent, only: %i[edit update]
+    end
+    resources :attachments, only: [:destroy]
+    resources :stages, only: [:show]
+    resources :events, only: [] do
+      get &#39;calendar&#39;, on: :collection
+      get &#39;calendar_events&#39;, on: :collection
+    end
+
+    resources :reports, only: [:index] do
+      collection do
+        get :summary
+        get :pipeline_summary
+      end
+    end
+    resource :advanced_filter, only: [:show]
+  end
+  if ENV.fetch(&#39;ENABLE_USER_SIGNUP&#39;, &#39;false&#39;) == &#39;true&#39;
+    devise_for :users, controllers: {
+      registrations: &#39;users/registrations&#39;
+    }
+  else
+    devise_for :users, skip: [:registrations]
+  end
+
+  root to: &#39;accounts/pipelines#index&#39;
+
+  namespace :api do
+    namespace :v1 do
+      resources :accounts, module: :accounts do
+        resources :deals, only: %i[show create update] do
+          post &#39;upsert&#39;, on: :collection
+          resources :events, only: [:create], module: :deals do
+          end
+        end
+        resources :contacts, only: %i[show create destroy] do
+          post &#39;upsert&#39;, on: :collection
+          match &#39;search&#39;, on: :collection, via: %i[get post]
+        end
+        namespace :apps do
+          # resources :events, module: :contacts
+        end
+        resources :deal_products, only: %i[create show update]
+        resources :products, only: %i[create show update] do
+          match &#39;search&#39;, on: :collection, via: %i[get post]
+        end
+        resources :deal_assignees, only: %i[create destroy]
+        resources :users, only: [:create] do
+          match &#39;search&#39;, on: :collection, via: %i[get post]
+        end
+        resources :agent_plugin_builders, only: %i[index show create]
+      end
+
+      resources :contacts, only: [:create] do
+      end
+    end
+  end
+
+  namespace :inertia do
+    resources :accounts, module: :accounts do
+      namespace :components do
+        get &#39;combobox&#39;, to: &#39;combobox#search&#39;
+      end
+    end
+  end
+
+  namespace :embedded do
+    resources :accounts, module: :accounts do
+      namespace :apps do
+        resources :chatwoots, only: [:index] do
+        end
+      end
+    end
+  end
+
+  namespace :apps do
+    resources :chatwoots do
+      collection do
+        post &#39;webhooks&#39;
+        get &#39;embedding&#39;
+        get &#39;embedding_init_authenticate&#39;
+        post &#39;embedding_authenticate&#39;
+      end
+    end
+    resources :evolution_apis do
+      collection do
+        post &#39;webhooks&#39;
+      end
+    end
+  end
+  get &#39;service-worker&#39; =&gt; &#39;pwa#service_worker&#39;
+  get &#39;webmanifest&#39; =&gt; &#39;pwa#manifest&#39;
+
+  # Draw plugin routes — DB-first: only load routes for plugins active in the database.
+  # Falls back to directory scan if the DB is unavailable (e.g. first migration run).
+  plugin_route_files =
+    if defined?(Plugin) &amp;&amp; Plugin.table_exists?
+      Plugin.active.filter_map do |p|
+        f = p.local_path.join(&quot;config&quot;, &quot;routes.rb&quot;)
+        f.exist? ? f.to_s : nil
+      end.sort
+    else
+      Dir[Rails.root.join(&quot;storage/plugins/*/config/routes.rb&quot;)].sort
+    end
+
+  plugin_route_files.each do |route_file|
+    begin
+      instance_eval(File.read(route_file))
+    rescue ArgumentError =&gt; e
+      Rails.logger.error &quot;[routes] Skipping plugin route file #{route_file}: #{e.message}&quot;
+    end
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../assets/javascripts/application.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>

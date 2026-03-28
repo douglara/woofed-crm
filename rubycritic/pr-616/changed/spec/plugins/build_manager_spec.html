@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../overview.html"><img src="../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-03-29 02:53:08 +1000'>2026-03-29 02:53:08 +1000</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>spec/plugins /</small> build_manager_spec.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating f big">
+              F
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">281</span><small> lines of codes</small></div>
+              <div><span class="metric">1</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">382.5</span><small> complexity/method</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">382.48</span><small> complexity</small></div>
+              <div><span class="metric">77</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                9
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># frozen_string_literal: true
+
+require &quot;rails_helper&quot;
+
+RSpec.describe Plugins::BuildManager do
+  let(:tmpdir) { Rails.root.join(&quot;tmp&quot;, &quot;plugin_test_#{SecureRandom.hex(4)}&quot;) }
+  let(:manager) { described_class.new(root: tmpdir) }
+
+  before do
+    Plugins::FilePatch.clear_registry!
+    FileUtils.mkdir_p(tmpdir)
+  end
+
+  after do
+    Plugins::FilePatch.clear_registry!
+    FileUtils.rm_rf(tmpdir)
+  end
+
+  def create_file(relative_path, content)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 3 nodes</span>              <span>Locations:</span>                  <a href="build_manager_spec.html#L19" class="js-smell-location">0</a>                  <a href="integration_spec.html#L19" class="js-smell-location">1</a>                  <a href="plugin_loader_spec.html#L20" class="js-smell-location">2</a>                  </div>  </li></ol>
+    path = tmpdir.join(relative_path)
+    FileUtils.mkdir_p(File.dirname(path))
+    File.write(path, content)
+    path
+  end
+
+  describe &quot;#sync!&quot; do
+    context &quot;with a new file (no original in app/)&quot; do
+      it &quot;copies the file as-is to storage/build/&quot; do
+        create_file(&quot;storage/plugins/example/plugin.rb&quot;, &#39;name &quot;example&quot;&#39;)
+        create_file(&quot;storage/plugins/example/app/models/new_model.rb&quot;, &quot;class NewModel\nend\n&quot;)
+
+        manager.sync!
+
+        built = tmpdir.join(&quot;storage/build/app/models/new_model.rb&quot;)
+        expect(built).to exist
+        expect(built.read).to eq(&quot;class NewModel\nend\n&quot;)
+      end
+    end
+
+    context &quot;with a patch file (original exists in app/)&quot; do
+      it &quot;applies the patch DSL over the original&quot; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#sync!)::context(with a patch file (original exists in app/))::it#applies the patch DSL over the original has a flog score of 34</span>          </div>  </li></ol>
+        create_file(&quot;app/models/contact.rb&quot;, &lt;&lt;~RUBY)
+          class Contact &lt; ApplicationRecord
+            ROLES = %w[admin user]
+          end
+        RUBY
+
+        create_file(&quot;storage/plugins/example/plugin.rb&quot;, &#39;name &quot;example&quot;&#39;)
+        create_file(&quot;storage/plugins/example/app/models/contact.rb&quot;, &lt;&lt;~RUBY)
+          Plugins::FilePatch.define target: &quot;app/models/contact.rb&quot; do
+            after_line containing: &quot;class Contact &lt; ApplicationRecord&quot; do
+              &quot;  include MyExtension&quot;
+            end
+          end
+        RUBY
+
+        manager.sync!
+
+        built = tmpdir.join(&quot;storage/build/app/models/contact.rb&quot;)
+        expect(built).to exist
+        content = built.read
+        expect(content).to include(&quot;include MyExtension&quot;)
+        expect(content).to include(&quot;class Contact &lt; ApplicationRecord&quot;)
+      end
+
+      it &quot;does not modify the original file&quot; do
+        original_content = &quot;class Contact\nend\n&quot;
+        create_file(&quot;app/models/contact.rb&quot;, original_content)
+        create_file(&quot;storage/plugins/example/plugin.rb&quot;, &#39;name &quot;example&quot;&#39;)
+        create_file(&quot;storage/plugins/example/app/models/contact.rb&quot;, &lt;&lt;~RUBY)
+          Plugins::FilePatch.define target: &quot;app/models/contact.rb&quot; do
+            after_line containing: &quot;class Contact&quot; do
+              &quot;  include MyExtension&quot;
+            end
+          end
+        RUBY
+
+        manager.sync!
+
+        original = tmpdir.join(&quot;app/models/contact.rb&quot;)
+        expect(original.read).to eq(original_content)
+      end
+    end
+
+    context &quot;with multiple plugins patching the same file&quot; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="build_manager_spec.html#L85" class="js-smell-location">0</a>                  <a href="integration_spec.html#L249" class="js-smell-location">1</a>                  </div>  </li></ol>
+      it &quot;applies patches in priority order&quot; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#sync!)::context(with multiple plugins patching the same file)::it#applies patches in priority order has a flog score of 45</span>          </div>  </li></ol>
+        create_file(&quot;app/models/contact.rb&quot;, &lt;&lt;~RUBY)
+          class Contact &lt; ApplicationRecord
+          end
+        RUBY
+
+        create_file(&quot;storage/plugins/alpha/plugin.rb&quot;, &#39;name &quot;alpha&quot;&#39;)
+        create_file(&quot;storage/plugins/alpha/app/models/contact.rb&quot;, &lt;&lt;~RUBY)
+          Plugins::FilePatch.define target: &quot;app/models/contact.rb&quot;, priority: 10 do
+            after_line containing: &quot;class Contact &lt; ApplicationRecord&quot; do
+              &quot;  include Alpha&quot;
+            end
+          end
+        RUBY
+
+        create_file(&quot;storage/plugins/beta/plugin.rb&quot;, &#39;name &quot;beta&quot;&#39;)
+        create_file(&quot;storage/plugins/beta/app/models/contact.rb&quot;, &lt;&lt;~RUBY)
+          Plugins::FilePatch.define target: &quot;app/models/contact.rb&quot;, priority: 20 do
+            after_line containing: &quot;include Alpha&quot; do
+              &quot;  include Beta&quot;
+            end
+          end
+        RUBY
+
+        manager.sync!
+
+        built = tmpdir.join(&quot;storage/build/app/models/contact.rb&quot;)
+        content = built.read
+        expect(content).to include(&quot;include Alpha&quot;)
+        expect(content).to include(&quot;include Beta&quot;)
+
+        lines = content.lines.map(&amp;:strip)
+        alpha_idx = lines.index(&quot;include Alpha&quot;)
+        beta_idx = lines.index(&quot;include Beta&quot;)
+        expect(alpha_idx).to be &lt; beta_idx
+      end
+    end
+  end
+
+  describe &quot;#rebuild!&quot; do
+    it &quot;wipes and recreates storage/build/&quot; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#rebuild!)::it#wipes and recreates storage/build/ has a flog score of 39</span>          </div>  </li></ol>
+      create_file(&quot;storage/plugins/example/plugin.rb&quot;, &#39;name &quot;example&quot;&#39;)
+      create_file(&quot;storage/plugins/example/app/models/new_model.rb&quot;, &quot;class NewModel\nend\n&quot;)
+
+      manager.sync!
+      expect(tmpdir.join(&quot;storage/build/app/models/new_model.rb&quot;)).to exist
+
+      # Add a rogue file
+      rogue = tmpdir.join(&quot;storage/build/app/models/rogue.rb&quot;)
+      FileUtils.mkdir_p(rogue.dirname)
+      File.write(rogue, &quot;rogue&quot;)
+
+      manager.rebuild!
+
+      expect(tmpdir.join(&quot;storage/build/app/models/new_model.rb&quot;)).to exist
+      expect(rogue).not_to exist
+    end
+  end
+
+  describe &quot;#remove_orphans!&quot; do
+    it &quot;removes files from storage/build/ when plugin is gone&quot; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#remove_orphans!)::it#removes files from storage/build/ when plugin is gone has a flog score of 32</span>          </div>  </li></ol>
+      create_file(&quot;storage/plugins/example/plugin.rb&quot;, &#39;name &quot;example&quot;&#39;)
+      create_file(&quot;storage/plugins/example/app/models/new_model.rb&quot;, &quot;class NewModel\nend\n&quot;)
+
+      manager.sync!
+      expect(tmpdir.join(&quot;storage/build/app/models/new_model.rb&quot;)).to exist
+
+      # Remove the plugin
+      FileUtils.rm_rf(tmpdir.join(&quot;storage/plugins/example&quot;))
+
+      manager.sync!
+      expect(tmpdir.join(&quot;storage/build/app/models/new_model.rb&quot;)).not_to exist
+    end
+  end
+
+  describe &quot;#preview&quot; do
+    it &quot;returns the composed output for a target&quot; do
+      create_file(&quot;app/models/contact.rb&quot;, &lt;&lt;~RUBY)
+        class Contact &lt; ApplicationRecord
+        end
+      RUBY
+
+      create_file(&quot;storage/plugins/example/plugin.rb&quot;, &#39;name &quot;example&quot;&#39;)
+      create_file(&quot;storage/plugins/example/app/models/contact.rb&quot;, &lt;&lt;~RUBY)
+        Plugins::FilePatch.define target: &quot;app/models/contact.rb&quot; do
+          after_line containing: &quot;class Contact&quot; do
+            &quot;  include MyExtension&quot;
+          end
+        end
+      RUBY
+
+      manager.sync!
+
+      result = manager.preview(&quot;app/models/contact.rb&quot;)
+      expect(result).to include(&quot;include MyExtension&quot;)
+    end
+
+    it &quot;returns nil for nonexistent targets&quot; do
+      expect(manager.preview(&quot;app/models/nonexistent.rb&quot;)).to be_nil
+    end
+  end
+
+  describe &quot;#status&quot; do
+    it &quot;lists all files in storage/build/&quot; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#status)::it#lists all files in storage/build/ has a flog score of 26</span>          </div>  </li></ol>
+      create_file(&quot;storage/plugins/example/plugin.rb&quot;, &#39;name &quot;example&quot;&#39;)
+      create_file(&quot;storage/plugins/example/app/models/new_model.rb&quot;, &quot;class NewModel\nend\n&quot;)
+      create_file(&quot;storage/plugins/example/app/models/another.rb&quot;, &quot;class Another\nend\n&quot;)
+
+      manager.sync!
+
+      files = manager.status
+      expect(files).to include(&quot;app/models/new_model.rb&quot;)
+      expect(files).to include(&quot;app/models/another.rb&quot;)
+    end
+
+    it &quot;returns empty array when storage/build/ does not exist&quot; do
+      expect(manager.status).to eq([])
+    end
+  end
+
+  describe &quot;incremental build&quot; do
+    it &quot;does not rewrite unchanged files&quot; do
+      create_file(&quot;storage/plugins/example/plugin.rb&quot;, &#39;name &quot;example&quot;&#39;)
+      create_file(&quot;storage/plugins/example/app/models/new_model.rb&quot;, &quot;class NewModel\nend\n&quot;)
+
+      manager.sync!
+
+      built = tmpdir.join(&quot;storage/build/app/models/new_model.rb&quot;)
+      first_mtime = built.mtime
+
+      sleep 0.1
+      manager.sync!
+
+      expect(built.mtime).to eq(first_mtime)
+    end
+  end
+
+  describe &quot;ERB patching&quot; do
+    it &quot;patches ERB view files&quot; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(ERB patching)::it#patches ERB view files has a flog score of 25</span>          </div>  </li></ol>
+      create_file(&quot;app/views/users/show.html.erb&quot;, &lt;&lt;~ERB)
+        &lt;div class=&quot;user-card&quot;&gt;
+          &lt;h1&gt;&lt;%= @user.name %&gt;&lt;/h1&gt;
+          &lt;%# plugin:example:start %&gt;
+          &lt;%# plugin:example:end %&gt;
+        &lt;/div&gt;
+      ERB
+
+      create_file(&quot;storage/plugins/example/plugin.rb&quot;, &#39;name &quot;example&quot;&#39;)
+      create_file(&quot;storage/plugins/example/app/views/users/show.html.erb&quot;, &lt;&lt;~RUBY)
+        Plugins::FilePatch.define target: &quot;app/views/users/show.html.erb&quot; do
+          replace_block from: &quot;&lt;%# plugin:example:start %&gt;&quot;,
+                        to: &quot;&lt;%# plugin:example:end %&gt;&quot; do
+            &quot;  &lt;section&gt;plugin content&lt;/section&gt;&quot;
+          end
+        end
+      RUBY
+
+      manager.sync!
+
+      built = tmpdir.join(&quot;storage/build/app/views/users/show.html.erb&quot;)
+      content = built.read
+      expect(content).to include(&quot;&lt;section&gt;plugin content&lt;/section&gt;&quot;)
+      expect(content).not_to include(&quot;plugin:example:start&quot;)
+    end
+  end
+
+  describe &quot;Vite patch manifest&quot; do
+    it &quot;writes a JSON manifest for JS patches&quot; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(Vite patch manifest)::it#writes a JSON manifest for JS patches has a flog score of 44</span>          </div>  </li></ol>
+      create_file(&quot;app/javascript/pages/UserProfile.jsx&quot;, &lt;&lt;~JSX)
+        import React from &quot;react&quot;
+        export default function UserProfile() { return &lt;div /&gt; }
+      JSX
+
+      create_file(&quot;storage/plugins/example/plugin.rb&quot;, &#39;name &quot;example&quot;&#39;)
+      create_file(&quot;storage/plugins/example/app/javascript/pages/UserProfile.jsx&quot;, &lt;&lt;~RUBY)
+        Plugins::FilePatch.define target: &quot;app/javascript/pages/UserProfile.jsx&quot; do
+          after_line containing: &#39;import React from &quot;react&quot;&#39; do
+            &#39;import Badge from &quot;@/components/Badge&quot;&#39;
+          end
+        end
+      RUBY
+
+      manager.sync!
+
+      manifest_path = tmpdir.join(&quot;tmp&quot;, &quot;plugin_patches_test.json&quot;)
+      expect(manifest_path).to exist
+
+      manifest = JSON.parse(manifest_path.read)
+      expect(manifest).to have_key(&quot;app/javascript/pages/UserProfile.jsx&quot;)
+
+      patches = manifest[&quot;app/javascript/pages/UserProfile.jsx&quot;]
+      expect(patches.first[&quot;type&quot;]).to eq(&quot;after_line&quot;)
+      expect(patches.first[&quot;match&quot;]).to include(&quot;import React&quot;)
+    end
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../assets/javascripts/application.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>
