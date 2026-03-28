@@ -40,6 +40,9 @@ module WoofedCrm
       config.autoload_paths.unshift(build_app.join("models").to_s)
       config.eager_load_paths.unshift(build_app.join("models").to_s)
 
+      config.autoload_paths.unshift(build_app.join("controllers").to_s)
+      config.eager_load_paths.unshift(build_app.join("controllers").to_s)
+
       config.paths["app/views"].unshift(build_app.join("views").to_s)
       config.paths["app/controllers"].unshift(build_app.join("controllers").to_s)
       config.paths["app/helpers"].unshift(build_app.join("helpers").to_s)
