@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-24 15:48:16 +1000'>2026-03-24 15:48:16 +1000</time>
+          Updated <time class='js-timeago' datetime='2026-03-28 18:12:35 +1000'>2026-03-28 18:12:35 +1000</time>
         
       </span>
     </div>
@@ -72,11 +72,11 @@
               <div><span class="metric">9</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">6.4</span><small> complexity/method</small></div>
-              <div><span class="metric">22</span><small> churn</small></div>
+              <div><span class="metric">6.3</span><small> complexity/method</small></div>
+              <div><span class="metric">23</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">57.61</span><small> complexity</small></div>
+              <div><span class="metric">56.5</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                6
+                5
                 smells
               </a>
             </li>
@@ -97,7 +97,7 @@
       </div>
     </div>
 
-    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Apps::ChatwootsController &lt; ActionController::Base<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Apps::ChatwootsController assumes too much for instance variable '@account'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Apps::ChatwootsController assumes too much for instance variable '@chatwoot'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Apps::ChatwootsController assumes too much for instance variable '@user_email'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Apps::ChatwootsController has no descriptive comment</span>          </div>  </li></ol>
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Apps::ChatwootsController &lt; ActionController::Base<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Apps::ChatwootsController assumes too much for instance variable '@chatwoot'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Apps::ChatwootsController assumes too much for instance variable '@user_email'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Apps::ChatwootsController has no descriptive comment</span>          </div>  </li></ol>
   before_action :load_chatwoot
   before_action :load_account
   before_action :authenticate_by_token, if: :check_user_authentication
@@ -132,7 +132,7 @@
   def embedding_generate_jwt<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Apps::ChatwootsController#embedding_generate_jwt has approx 6 statements</span>          </div>  </li></ol>
     event = JSON.parse(params[&#39;event&#39;])
     email = event.dig(&#39;data&#39;, &#39;currentAgent&#39;, &#39;email&#39;)
-    user = @account.users.find_by(email: email)
+    user = User.find_by(email: email)
     return render json: { error: &#39;user_not_found&#39; }, status: :not_found if user.blank?
 
     jwt = Users::JsonWebToken.encode_embed(user)
