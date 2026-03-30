@@ -46,11 +46,11 @@ RSpec.describe 'InternalController JWT auth fallback' do
       end
     end
 
-    context 'Authorization header with incorrect scheme' do
-      it 'ignores Token scheme header and redirects to login' do
+    context 'Authorization header with Token scheme' do
+      it 'authenticates with Token scheme (accepted by Rails HTTP Token auth)' do
         jwt = Users::JsonWebToken.encode_embed(user)
         get protected_path, headers: { 'Authorization' => "Token #{jwt}" }
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).not_to redirect_to(new_user_session_path)
       end
     end
 

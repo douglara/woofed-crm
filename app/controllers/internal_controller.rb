@@ -34,7 +34,7 @@ class InternalController < ApplicationController
   end
 
   def bearer_token_from_header
-    header = request.authorization
-    header.split(' ').last if header&.start_with?('Bearer ')
+    token, = ActionController::HttpAuthentication::Token.token_and_options(request)
+    token
   end
 end
