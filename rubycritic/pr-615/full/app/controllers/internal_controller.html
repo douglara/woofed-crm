@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-24 15:20:43 +1000'>2026-03-24 15:20:43 +1000</time>
+          Updated <time class='js-timeago' datetime='2026-03-30 13:53:30 +1000'>2026-03-30 13:53:30 +1000</time>
         
       </span>
     </div>
@@ -72,11 +72,11 @@
               <div><span class="metric">5</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">6.2</span><small> complexity/method</small></div>
-              <div><span class="metric">7</span><small> churn</small></div>
+              <div><span class="metric">5.7</span><small> complexity/method</small></div>
+              <div><span class="metric">8</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">31.13</span><small> complexity</small></div>
+              <div><span class="metric">28.33</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -133,8 +133,8 @@
   end
 
   def bearer_token_from_header
-    header = request.authorization
-    header.split(&#39; &#39;).last if header&amp;.start_with?(&#39;Bearer &#39;)
+    token, = ActionController::HttpAuthentication::Token.token_and_options(request)
+    token
   end
 end
 </code>

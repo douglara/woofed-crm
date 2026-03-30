@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-24 15:20:43 +1000'>2026-03-24 15:20:43 +1000</time>
+          Updated <time class='js-timeago' datetime='2026-03-30 13:53:30 +1000'>2026-03-30 13:53:30 +1000</time>
         
       </span>
     </div>
@@ -73,7 +73,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">223.15</span><small> complexity</small></div>
@@ -145,11 +145,11 @@ RSpec.describe &#39;InternalController JWT auth fallback&#39; do
       end
     end
 
-    context &#39;Authorization header with incorrect scheme&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="internal_jwt_auth_spec.html#L41" class="js-smell-location">0</a>                  <a href="internal_jwt_auth_spec.html#L49" class="js-smell-location">1</a>                  </div>  </li></ol>
-      it &#39;ignores Token scheme header and redirects to login&#39; do
+    context &#39;Authorization header with Token scheme&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="internal_jwt_auth_spec.html#L41" class="js-smell-location">0</a>                  <a href="internal_jwt_auth_spec.html#L49" class="js-smell-location">1</a>                  </div>  </li></ol>
+      it &#39;authenticates with Token scheme (accepted by Rails HTTP Token auth)&#39; do
         jwt = Users::JsonWebToken.encode_embed(user)
         get protected_path, headers: { &#39;Authorization&#39; =&gt; &quot;Token #{jwt}&quot; }
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).not_to redirect_to(new_user_session_path)
       end
     end
 
