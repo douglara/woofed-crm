@@ -47,9 +47,12 @@ RSpec.describe Accounts::PipelinesController, type: :request do
       before do
         sign_in(user)
       end
-      it 'renders new pipeline page' do
+      it 'renders new pipeline page and not include delete pipeline link' do
+        delete_pipeline_link = "#{I18n.t('activerecord.models.delete')} #{Pipeline.model_name.human}"
+
         get "/accounts/#{account.id}/pipelines/new"
         expect(response).to have_http_status(200)
+        expect(response.body).not_to include(delete_pipeline_link)
       end
     end
   end
@@ -104,10 +107,13 @@ RSpec.describe Accounts::PipelinesController, type: :request do
         sign_in(user)
       end
 
-      it 'renders edit pipeline page' do
+      it 'renders edit pipeline page and delete pipeline link' do
+        delete_pipeline_link = "#{I18n.t('activerecord.models.delete')} #{Pipeline.model_name.human}"
+
         get "/accounts/#{account.id}/pipelines/#{pipeline.id}/edit"
         expect(response).to have_http_status(200)
         expect(response.body).to include(pipeline.name)
+        expect(response.body).to include(delete_pipeline_link)
       end
     end
   end
@@ -186,7 +192,7 @@ RSpec.describe Accounts::PipelinesController, type: :request do
     end
   end
 
-  skip 'DELETE /accounts/{account.id}/pipelines/{pipeline.id}' do
+  describe 'DELETE /accounts/{account.id}/pipelines/{pipeline.id}' do
     let!(:pipeline) { create(:pipeline) }
 
     context 'when it is an unauthenticated user' do
@@ -197,15 +203,20 @@ RSpec.describe Accounts::PipelinesController, type: :request do
     end
 
     context 'when it is an authenticated user' do
+      let!(:stage) { create(:stage, pipeline:) }
+      let!(:deal) { create(:deal, stage:, pipeline:) }
+
       before do
         sign_in(user)
       end
 
-      it 'deletes the pipeline' do
+      it 'deletes the pipeline associated stages and associated deals' do
         expect do
           delete "/accounts/#{account.id}/pipelines/#{pipeline.id}"
         end.to change(Pipeline, :count).by(-1)
-        expect(response).to redirect_to(pipelines_url)
+        .and change(Stage, :count).by(-1)
+        .and change(Deal, :count).by(-1)
+        expect(response).to redirect_to(account_pipelines_path(account))
       end
     end
   end

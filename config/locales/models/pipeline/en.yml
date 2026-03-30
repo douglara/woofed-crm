@@ -6,6 +6,7 @@ en:
         other: Pipelines
         new: "New pipeline"
         edit: "Edit pipeline"
+        confirm_destroy: Are you sure you want to delete this pipeline? All stages and deals associated with it will also be deleted.
     attributes:
       pipeline:
         name: Name

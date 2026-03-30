@@ -6,6 +6,7 @@ es:
         other: Embudos
         new: "Nuevo embudo"
         edit: "Editar embudo"
+        confirm_destroy: ¿Estás seguro de que quieres eliminar este embudo? Todos las etapas y negociaciones asociadas a él también serán eliminadas.
     attributes:
       pipeline:
         name: Nombre

@@ -6,6 +6,7 @@ pt-BR:
         other: Funis
         new: "Novo funil"
         edit: "Editar funil"
+        confirm_destroy: Tem certeza que deseja excluir este funil? Todos os estágios e negociações associadas a ele também serão excluídas.
     attributes:
       pipeline:
         name: Nome

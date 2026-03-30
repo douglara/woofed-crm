@@ -193,8 +193,7 @@ class Accounts::PipelinesController < InternalController
   def destroy
     @pipeline.destroy
     respond_to do |format|
-      format.html { redirect_to pipelines_url, notice: t('flash_messages.deleted', model: Pipeline.model_name.human) }
-      format.json { head :no_content }
+      format.html { redirect_to account_pipelines_path(Current.account), notice: t('flash_messages.deleted', model: Pipeline.model_name.human) }
     end
   end
 
