@@ -82,3 +82,18 @@ function initLibraries() {
 }
 
 setBrowserTimezoneCookie();
+
+// JWT auth support for pages embedded in an iframe (e.g. Chatwoot Dashboard App)
+// When 3rd-party cookies are blocked, requests use Authorization: Bearer
+if (window.self !== window.top) {
+  const jwtKey = Object.keys(localStorage).find((k) =>
+    k.startsWith("embed_jwt_"),
+  );
+  const embedJwt = jwtKey ? localStorage.getItem(jwtKey) : null;
+
+  if (embedJwt) {
+    document.addEventListener("turbo:before-fetch-request", (event) => {
+      event.detail.fetchOptions.headers["Authorization"] = `Bearer ${embedJwt}`;
+    });
+  }
+}

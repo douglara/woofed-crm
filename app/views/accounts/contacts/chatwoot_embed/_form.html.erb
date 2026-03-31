@@ -8,6 +8,7 @@
 HTML
 %>
 <%= form_with(model: contact, url: account_chatwoot_embed_index_path(current_user.account), data: {turbo: false}, id: 'formId') do |form| %>
+  <%= hidden_field_tag :embed_jwt, params[:embed_jwt] %>
   <%= form.hidden_field :full_name %>
   <%= form.hidden_field :email %>
   <%= form.hidden_field :phone %>

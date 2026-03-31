@@ -2,22 +2,26 @@ require 'rails_helper'
 
 RSpec.describe Reports::Deals::Timeseries::CountReportBuilder do
   let(:account) { create(:account) }
-  let(:start_date) { Date.today.beginning_of_month }
-  let(:end_date) { Date.today.end_of_month }
+  let(:start_date) { Date.new(2026, 3, 1) }
+  let(:end_date)   { Date.new(2026, 3, 31) }
   let(:range) { start_date..end_date }
   let!(:deal1) do
-    create(:deal, :won, account:, won_at: start_date + 1.day,
-                        created_at: start_date - 2.days)
+    create(:deal, :won, account:, won_at: Time.current + 1.day,
+                        created_at: Time.current - 2.days)
   end
   let!(:deal2) do
-    create(:deal, :won, account:, won_at: start_date + 2.days,
-                        created_at: start_date - 2.days)
+    create(:deal, :won, account:, won_at: Time.current + 2.days,
+                        created_at: Time.current - 2.days)
   end
   let!(:deal3) do
-    create(:deal, :won, account:, won_at: start_date + 10.days,
-                        created_at: start_date - 20.days)
+    create(:deal, :won, account:, won_at: Time.current + 10.days,
+                        created_at: Time.current - 20.days)
   end
   let(:won_deals) { Deal.won }
+
+  around(:each) do |example|
+    travel_to(Time.utc(2026, 3, 1)) { example.run }
+  end
 
   before do
     allow_any_instance_of(described_class).to receive(:range).and_return(range)

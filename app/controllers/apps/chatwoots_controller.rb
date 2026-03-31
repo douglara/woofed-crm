@@ -29,23 +29,30 @@ class Apps::ChatwootsController < ActionController::Base
     redirect_to embedding_apps_chatwoots_path(token: params['token'])
   end
 
+  def embedding_generate_jwt
+    event = JSON.parse(params['event'])
+    email = event.dig('data', 'currentAgent', 'email')
+    user = User.find_by(email: email)
+    return render json: { error: 'user_not_found' }, status: :not_found if user.blank?
+
+    jwt = Users::JsonWebToken.encode_embed(user)
+    render json: { jwt: }
+  end
+
   private
 
   def check_user_authentication
+    return false if action_name.in?(%w[embedding embedding_generate_jwt])
     User.find_by_id(current_user&.id).blank?
   end
 
   def authenticate_by_token
-    if @chatwoot.present? && action_name == 'embedding'
-      if action_name != 'embedding_authenticate'
-        redirect_to embedding_init_authenticate_apps_chatwoots_path(token: params['token'])
-      end
-    elsif @chatwoot.blank?
-      render plain: 'Unauthorized', status: 400
-    end
+    render plain: 'Unauthorized', status: :bad_request if @chatwoot.blank?
   end
 
   def load_chatwoot
     @chatwoot = Apps::Chatwoot.find_by(embedding_token: params['token'])
+    render plain: 'Unauthorized', status: :bad_request if @chatwoot.blank?
   end
+
 end
