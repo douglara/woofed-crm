@@ -30,7 +30,6 @@
   </div>
   <div class="flex gap-2 self-end mt-5">
     <%= link_to_add_association t('activerecord.models.stage.new'), form, :stages, class: "button-default-fill-secondary-sm"%>
-    <%= link_to "#{t('activerecord.models.delete')} #{pipeline.model_name.human}", account_pipeline_path(Current.account, pipeline), method: :delete, data: { confirm: t('activerecord.models.pipeline.confirm_destroy') }, class: 'button-default-fill-danger-sm' if pipeline.persisted? %>
     <%= submit_button(form, class: 'self-end') %>
   </div>
 <% end %>

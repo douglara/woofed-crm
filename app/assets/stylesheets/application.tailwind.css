@@ -416,6 +416,12 @@
   .button-default-fill-danger-sm svg {
     @apply stroke-1.25 w-4 h-4;
   }
+  .button-default-fill-danger-harder-sm {
+    @apply inline-flex gap-2 items-center typography-body-900 rounded color-bg-feedback-danger-hard color-fg-inverse h-8 px-3 shrink-0 cursor-pointer;
+  }
+  .button-default-fill-danger-harder-sm svg {
+    @apply stroke-1.25 w-4 h-4;
+  }
   .advanced-search-filter-button {
     @apply inline-flex gap-1.5 items-center typography-body-900 rounded-full color-fg-soft color-bg-fill-default border border-transparent h-8 px-3 hover:color-bg-fill-hard hover:color-border-harder hover:color-fg-highlight shrink-0 cursor-pointer transition-colors;
   }

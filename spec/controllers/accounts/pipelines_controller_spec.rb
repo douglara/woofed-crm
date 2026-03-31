@@ -47,12 +47,9 @@ RSpec.describe Accounts::PipelinesController, type: :request do
       before do
         sign_in(user)
       end
-      it 'renders new pipeline page and not include delete pipeline link' do
-        delete_pipeline_link = "#{I18n.t('activerecord.models.delete')} #{Pipeline.model_name.human}"
-
+      it 'renders new pipeline page' do
         get "/accounts/#{account.id}/pipelines/new"
         expect(response).to have_http_status(200)
-        expect(response.body).not_to include(delete_pipeline_link)
       end
     end
   end
@@ -107,7 +104,7 @@ RSpec.describe Accounts::PipelinesController, type: :request do
         sign_in(user)
       end
 
-      it 'renders edit pipeline page and delete pipeline link' do
+      it 'renders edit pipeline' do
         delete_pipeline_link = "#{I18n.t('activerecord.models.delete')} #{Pipeline.model_name.human}"
 
         get "/accounts/#{account.id}/pipelines/#{pipeline.id}/edit"

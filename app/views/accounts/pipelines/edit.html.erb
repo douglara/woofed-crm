@@ -1,3 +1,11 @@
 <section class="px-4 py-5 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md m-8">
-  <%= render 'form', pipeline: @pipeline %> 
+  <%= render 'form', pipeline: @pipeline %>
+</section>
+<section class="flex flex-col gap-2.5 px-4 py-5 color-bg-feedback-danger-default border-2 color-border-feedback-danger-default rounded-md mx-8 mt-10 mb-8">
+  <h2 class="typography-sub-title-950 color-fg-feedback-danger"><%= "#{t('activerecord.models.delete')} #{@pipeline.model_name.human}" %></h2>
+  <div class="border w-full rounded-lg color-border-feedback-danger-default"></div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
+    <p class="typography-body-900 color-fg-feedback-danger justify-self-start"><%= t('activerecord.models.pipeline.confirm_destroy') %></p>
+    <%= link_to "#{t('activerecord.models.delete')} #{@pipeline.model_name.human}", account_pipeline_path(Current.account, @pipeline), method: :delete, data: { confirm: t('activerecord.models.pipeline.confirm_destroy') }, class: 'button-default-fill-danger-harder-sm place-self-end' %>
+  </div>
 </section>
