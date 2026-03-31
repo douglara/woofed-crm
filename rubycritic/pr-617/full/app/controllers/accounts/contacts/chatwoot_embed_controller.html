@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-24 15:20:43 +1000'>2026-03-24 15:20:43 +1000</time>
+          Updated <time class='js-timeago' datetime='2026-03-30 14:29:04 +1000'>2026-03-30 14:29:04 +1000</time>
         
       </span>
     </div>
@@ -62,8 +62,8 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating d big">
-              D
+            <div class="rating c big">
+              C
             </div>
           </div>
           <div class="code-statistics col-md-11">
@@ -72,12 +72,12 @@
               <div><span class="metric">8</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">11.3</span><small> complexity/method</small></div>
-              <div><span class="metric">16</span><small> churn</small></div>
+              <div><span class="metric">12.1</span><small> complexity/method</small></div>
+              <div><span class="metric">17</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">90.57</span><small> complexity</small></div>
-              <div><span class="metric">78</span><small> duplications</small></div>
+              <div><span class="metric">96.93</span><small> complexity</small></div>
+              <div><span class="metric">48</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                9
+                8
                 smells
               </a>
             </li>
@@ -101,11 +101,11 @@
   layout &#39;embed&#39;
   before_action :set_contact, only: %i[show]
 
-  def search<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>Accounts::Contacts::ChatwootEmbedController#search has a flog score of 25</span>          </div>  </li></ol>
+  def search<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>Accounts::Contacts::ChatwootEmbedController#search has a flog score of 28</span>          </div>  </li></ol>
     contact = contact_search
 
     if contact.present?
-      redirect_to account_chatwoot_embed_path(current_user.account, contact)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Contacts::ChatwootEmbedController#search calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="chatwoot_embed_controller.html#L9" class="js-smell-location">0</a>                  <a href="chatwoot_embed_controller.html#L12" class="js-smell-location">1</a>                  </div>  </li></ol>
+      redirect_to account_chatwoot_embed_path(current_user.account, contact, embed_jwt: params[:embed_jwt])<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Contacts::ChatwootEmbedController#search calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="chatwoot_embed_controller.html#L9" class="js-smell-location">0</a>                  <a href="chatwoot_embed_controller.html#L12" class="js-smell-location">1</a>                  </div>  </li></ol>
     else
       chatwoot_contact = JSON.parse(params[&#39;chatwoot_contact&#39;])
       @contact = current_user.account.contacts.new({<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="chatwoot_embed_controller.html#L12" class="js-smell-location">0</a>                  <a href="chatwoot_embed_controller.html#L26" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Contacts::ChatwootEmbedController#search calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="chatwoot_embed_controller.html#L9" class="js-smell-location">0</a>                  <a href="chatwoot_embed_controller.html#L12" class="js-smell-location">1</a>                  </div>  </li></ol>
@@ -130,11 +130,11 @@
                                                  })
   end
 
-  def create<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../apps_controller.html#L19" class="js-smell-location">0</a>                  <a href="chatwoot_embed_controller.html#L34" class="js-smell-location">1</a>                  </div>  </li></ol>
+  def create
     @contact = current_user.account.contacts.new(contact_params)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Contacts::ChatwootEmbedController#create calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="chatwoot_embed_controller.html#L35" class="js-smell-location">0</a>                  <a href="chatwoot_embed_controller.html#L38" class="js-smell-location">1</a>                  </div>  </li></ol>
 
     if @contact.save
-      redirect_to account_chatwoot_embed_path(current_user.account, @contact),<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Contacts::ChatwootEmbedController#create calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="chatwoot_embed_controller.html#L35" class="js-smell-location">0</a>                  <a href="chatwoot_embed_controller.html#L38" class="js-smell-location">1</a>                  </div>  </li></ol>
+      redirect_to account_chatwoot_embed_path(current_user.account, @contact, embed_jwt: params[:embed_jwt]),<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::Contacts::ChatwootEmbedController#create calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="chatwoot_embed_controller.html#L35" class="js-smell-location">0</a>                  <a href="chatwoot_embed_controller.html#L38" class="js-smell-location">1</a>                  </div>  </li></ol>
                   notice: t(&#39;flash_messages.created&#39;, model: Contact.model_name.human)
     else
       render :new, status: :unprocessable_entity
