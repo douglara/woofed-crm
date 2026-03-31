@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-29 22:18:14 -0300'>2026-03-29 22:18:14 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-31 18:54:51 -0300'>2026-03-31 18:54:51 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">223</span><small> lines of codes</small></div>
+              <div><span class="metric">220</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">9</span><small> churn</small></div>
+              <div><span class="metric">10</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">646.25</span><small> complexity</small></div>
+              <div><span class="metric">630.01</span><small> complexity</small></div>
               <div><span class="metric">101</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                11
+                10
                 smells
               </a>
             </li>
@@ -146,12 +146,9 @@ RSpec.describe Accounts::PipelinesController, type: :request do
       before do
         sign_in(user)
       end
-      it &#39;renders new pipeline page and not include delete pipeline link&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(GET /accounts/{account.id}/pipelines/new)::context(when it is an authenticated user)::it#renders new pipeline page and not include delete pipeline link has a flog score of 31</span>          </div>  </li></ol>
-        delete_pipeline_link = &quot;#{I18n.t(&#39;activerecord.models.delete&#39;)} #{Pipeline.model_name.human}&quot;
-
+      it &#39;renders new pipeline page&#39; do
         get &quot;/accounts/#{account.id}/pipelines/new&quot;
         expect(response).to have_http_status(200)
-        expect(response.body).not_to include(delete_pipeline_link)
       end
     end
   end
@@ -206,7 +203,7 @@ RSpec.describe Accounts::PipelinesController, type: :request do
         sign_in(user)
       end
 
-      it &#39;renders edit pipeline page and delete pipeline link&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(GET /accounts/{account.id}/pipelines/{pipeline.id}/edit)::context(when it is an authenticated user)::it#renders edit pipeline page and delete pipeline link has a flog score of 50</span>          </div>  </li></ol>
+      it &#39;renders edit pipeline&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(GET /accounts/{account.id}/pipelines/{pipeline.id}/edit)::context(when it is an authenticated user)::it#renders edit pipeline has a flog score of 50</span>          </div>  </li></ol>
         delete_pipeline_link = &quot;#{I18n.t(&#39;activerecord.models.delete&#39;)} #{Pipeline.model_name.human}&quot;
 
         get &quot;/accounts/#{account.id}/pipelines/#{pipeline.id}/edit&quot;
@@ -220,7 +217,7 @@ RSpec.describe Accounts::PipelinesController, type: :request do
   describe &#39;PATCH /accounts/{account.id}/pipelines/{pipeline.id}&#39; do
     let!(:pipeline) { create(:pipeline) }
 
-    context &#39;when it is an unauthenticated user&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="pipelines_controller_spec.html#L124" class="js-smell-location">0</a>                  <a href="pipelines_controller_spec.html#L159" class="js-smell-location">1</a>                  </div>  </li></ol>
+    context &#39;when it is an unauthenticated user&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="pipelines_controller_spec.html#L121" class="js-smell-location">0</a>                  <a href="pipelines_controller_spec.html#L156" class="js-smell-location">1</a>                  </div>  </li></ol>
       it &#39;returns unauthorized&#39; do
         patch &quot;/accounts/#{account.id}/pipelines/#{pipeline.id}&quot;, params: {}
         expect(response).to redirect_to(new_user_session_path)
@@ -255,7 +252,7 @@ RSpec.describe Accounts::PipelinesController, type: :request do
     let!(:stage) { create(:stage, pipeline:) }
     let!(:stage_from_another_pipeline) { create(:stage) }
 
-    context &#39;when it is an unauthenticated user&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="pipelines_controller_spec.html#L124" class="js-smell-location">0</a>                  <a href="pipelines_controller_spec.html#L159" class="js-smell-location">1</a>                  </div>  </li></ol>
+    context &#39;when it is an unauthenticated user&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="pipelines_controller_spec.html#L121" class="js-smell-location">0</a>                  <a href="pipelines_controller_spec.html#L156" class="js-smell-location">1</a>                  </div>  </li></ol>
       it &#39;returns unauthorized&#39; do
         get &quot;/accounts/#{account.id}/pipelines/#{pipeline.id}&quot;, params: {}
         expect(response).to redirect_to(new_user_session_path)
@@ -312,7 +309,7 @@ RSpec.describe Accounts::PipelinesController, type: :request do
       it &#39;deletes the pipeline associated stages and associated deals&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(DELETE /accounts/{account.id}/pipelines/{pipeline.id})::context(when it is an authenticated user)::it#deletes the pipeline associated stages and associated deals has a flog score of 44</span>          </div>  </li></ol>
         expect do
           delete &quot;/accounts/#{account.id}/pipelines/#{pipeline.id}&quot;
-        end.to change(Pipeline, :count).by(-1)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="pipelines_controller_spec.html#L216" class="js-smell-location">0</a>                  <a href="../../models/pipeline_spec.html#L19" class="js-smell-location">1</a>                  </div>  </li></ol>
+        end.to change(Pipeline, :count).by(-1)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="pipelines_controller_spec.html#L213" class="js-smell-location">0</a>                  <a href="../../models/pipeline_spec.html#L19" class="js-smell-location">1</a>                  </div>  </li></ol>
         .and change(Stage, :count).by(-1)
         .and change(Deal, :count).by(-1)
         expect(response).to redirect_to(account_pipelines_path(account))
