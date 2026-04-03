@@ -1,6 +1,10 @@
 module ApplicationHelper
   include Pagy::Frontend
 
+  def dark_mode_class
+    current_user&.dark_mode? ? "dark" : ""
+  end
+
   def embedded_svg(filename, options = {})
     assets = Rails.application.assets
     asset = assets.find_asset(filename)

@@ -36,6 +36,7 @@
     "autoprefixer": "^10.4.23",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "darkreader": "^4.9.120",
     "debounce": "^1.2.1",
     "flatpickr": "^4.6.13",
     "flowbite": "3.1.1",

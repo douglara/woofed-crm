@@ -1024,6 +1024,11 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-s390x-gnu/-/rollup-linux-s390x-gnu-4.59.0.tgz#bb5025cde9a61db478c2ca7215808ad3bce73a09"
   integrity sha512-oF87Ie3uAIvORFBpwnCvUzdeYUqi2wY6jRFWJAy1qus/udHFYIkplYRW+wo+GRUP4sKzYdmE1Y3+rY5Gc4ZO+w==
 
+"@rollup/rollup-linux-x64-gnu@4.56.0":
+  version "4.56.0"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.56.0.tgz#8ef907a53b2042068fc03fcc6a641e2b02276eca"
+  integrity sha512-MVC6UDp16ZSH7x4rtuJPAEoE1RwS8N4oK9DLHy3FTEdFoUTCFVzMfJl/BVJ330C+hx8FfprA5Wqx4FhZXkj2Kw==
+
 "@rollup/rollup-linux-x64-gnu@4.59.0":
   version "4.59.0"
   resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.59.0.tgz#9b66b1f9cd95c6624c788f021c756269ffed1552"
@@ -1058,6 +1063,11 @@
   version "4.59.0"
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-gnu/-/rollup-win32-x64-gnu-4.59.0.tgz#c4af3e9518c9a5cd4b1c163dc81d0ad4d82e7eab"
   integrity sha512-laBkYlSS1n2L8fSo1thDNGrCTQMmxjYY5G0WFWjFFYZkKPjsMBsgJfGf4TLxXrF6RyhI60L8TMOjBMvXiTcxeA==
+
+"@rollup/rollup-win32-x64-msvc@4.56.0":
+  version "4.56.0"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.56.0.tgz#9eec0212732a432c71bde0350bc40b673d15b2db"
+  integrity sha512-H8AE9Ur/t0+1VXujj90w0HrSOuv0Nq9r1vSZF2t5km20NTfosQsGGUXDaKdQZzwuLts7IyL1fYT4hM95TI9c4g==
 
 "@rollup/rollup-win32-x64-msvc@4.59.0":
   version "4.59.0"
@@ -1684,6 +1694,16 @@ csstype@^3.2.2:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.2.3.tgz#ec48c0f3e993e50648c86da559e2610995cf989a"
   integrity sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==
+
+darkreader@^4.9.120:
+  version "4.9.120"
+  resolved "https://registry.yarnpkg.com/darkreader/-/darkreader-4.9.120.tgz#afb9f1ecf9736fa37bf13d2775f4c10a87ca1b31"
+  integrity sha512-BYjP9rsFzwtO2KDXfzqGZHBfo9LAp7azyRR4UIj0/n8uls0C0J08Rhh5g05BZU/CARvDmMf+LQXM9PoPxO1M4A==
+  dependencies:
+    malevic "0.20.2"
+  optionalDependencies:
+    "@rollup/rollup-linux-x64-gnu" "4.56.0"
+    "@rollup/rollup-win32-x64-msvc" "4.56.0"
 
 data-uri-to-buffer@^4.0.0:
   version "4.0.1"
@@ -2625,6 +2645,11 @@ lucide@0.503.0:
   version "0.503.0"
   resolved "https://registry.yarnpkg.com/lucide/-/lucide-0.503.0.tgz#4a103588d9b6b4042d913c880a102da586cfd9ec"
   integrity sha512-ZAVlxBU4dbSUAVidb2eT0fH3bTtKCj7M2aZNAVsFOrcnazvYJFu6I8OxFE+Fmx5XNf22Cw4Ln3NBHfBxNfoFOw==
+
+malevic@0.20.2:
+  version "0.20.2"
+  resolved "https://registry.yarnpkg.com/malevic/-/malevic-0.20.2.tgz#2d8ab54a5d9f4bebc21fc1cc0c6eec1e77d13530"
+  integrity sha512-s44yEUyfDaONt7nPT7NDQ+Z2oAswErG70ok2Q95bJFh1Bdcn4dZQVMrLE02ZIjTtYfQ/LFOVxF+yB3bdGw/GtQ==
 
 math-intrinsics@^1.1.0:
   version "1.1.0"

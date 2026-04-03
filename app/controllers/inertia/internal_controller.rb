@@ -6,7 +6,8 @@ class Inertia::InternalController < InternalController
         email: current_user.email,
         full_name: current_user.full_name,
         language: current_user.language,
-        avatar_url: current_user.avatar_url
+        avatar_url: current_user.avatar_url,
+        dark_mode: current_user.dark_mode
       },
       current_account: {
         id: @account.id,

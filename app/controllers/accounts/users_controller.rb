@@ -62,6 +62,11 @@ class Accounts::UsersController < InternalController
   def hovercard_preview
   end
 
+  def toggle_dark_mode
+    current_user.update(dark_mode: !current_user.dark_mode)
+    head :ok
+  end
+
   private
 
   def set_user

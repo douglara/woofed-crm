@@ -4,6 +4,7 @@
 #
 #  id                     :bigint           not null, primary key
 #  avatar_url             :string           default(""), not null
+#  dark_mode              :boolean          default(FALSE), not null
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  full_name              :string           default(""), not null
