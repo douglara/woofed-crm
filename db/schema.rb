@@ -596,7 +596,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_02_000000) do
     t.jsonb "notifications", default: "{\"webpush_notify_on_event_expired\":false}", null: false
     t.string "avatar_url", default: "", null: false
     t.string "job_description", default: "other", null: false
-    t.boolean "dark_mode", default: false, null: false
+    t.string "theme_preference", default: "system", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

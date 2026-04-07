@@ -4,7 +4,6 @@
 #
 #  id                     :bigint           not null, primary key
 #  avatar_url             :string           default(""), not null
-#  dark_mode              :boolean          default(FALSE), not null
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  full_name              :string           default(""), not null
@@ -15,6 +14,7 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  theme_preference       :string           default("system"), not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #

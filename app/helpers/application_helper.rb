@@ -2,7 +2,7 @@ module ApplicationHelper
   include Pagy::Frontend
 
   def dark_mode_class
-    current_user&.dark_mode? ? "dark" : ""
+    ''
   end
 
   def embedded_svg(filename, options = {})
@@ -10,10 +10,10 @@ module ApplicationHelper
     asset = assets.find_asset(filename)
 
     if asset
-      file = asset.source.force_encoding("UTF-8")
+      file = asset.source.force_encoding('UTF-8')
       doc = Nokogiri::HTML::DocumentFragment.parse file
-      svg = doc.at_css "svg"
-      svg["class"] = options[:class] if options[:class].present?
+      svg = doc.at_css 'svg'
+      svg['class'] = options[:class] if options[:class].present?
     else
       doc = "<!-- SVG #{filename} not found -->"
     end

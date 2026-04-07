@@ -21,10 +21,18 @@ class Accounts::UsersController < InternalController
     params_without_blank_password = user_params.reject { |key, value| value.blank? && key.include?('password') }
 
     if @user.update(params_without_blank_password)
-      flash[:notice] = t('flash_messages.updated', model: User.model_name.human)
-      redirect_to edit_account_user_path(current_user.account, @user)
+      respond_to do |format|
+        format.html do
+          flash[:notice] = t('flash_messages.updated', model: User.model_name.human)
+          redirect_to edit_account_user_path(current_user.account, @user)
+        end
+        format.json { head :ok }
+      end
     else
-      render :edit, status: :unprocessable_entity
+      respond_to do |format|
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -60,11 +68,6 @@ class Accounts::UsersController < InternalController
   end
 
   def hovercard_preview
-  end
-
-  def toggle_dark_mode
-    current_user.update(dark_mode: !current_user.dark_mode)
-    head :ok
   end
 
   private

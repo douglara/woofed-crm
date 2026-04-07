@@ -39,7 +39,6 @@ Rails.application.routes.draw do
     resources :users do
       get 'select_user_search', on: :collection
       get 'hovercard_preview', on: :member
-      patch 'toggle_dark_mode', on: :collection
     end
     resources :products do
       get 'edit_custom_attributes', on: :member

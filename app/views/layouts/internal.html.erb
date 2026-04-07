@@ -22,7 +22,8 @@
       full_name: current_user&.full_name,
       email: current_user&.email,
       account_id: current_user&.account&.id,
-      account_name: current_user&.account&.name
+      account_name: current_user&.account&.name,
+      theme_preference: current_user&.theme_preference
     }.to_json %>
     <meta name="mobile-web-app-capable" content="yes">
     <%= tag.link rel: "manifest", href: webmanifest_path(format: :json) %>
@@ -30,7 +31,7 @@
     <%= yield :stylesheets %>
     <%= yield :head %>
   </head>
-  <body data-user-locale='<%= current_user&.language || '' %>' data-account-currency="<%= Current.account&.currency_code || '' %>" data-controller="analytics--openpanel" >
+  <body data-user-locale='<%= current_user&.language || '' %>' data-account-currency="<%= Current.account&.currency_code || '' %>" data-controller="analytics--openpanel theme-preference" data-theme-preference-current-value="<%= current_user&.theme_preference || 'system' %>" data-theme-preference-url-value="" >
     <div id="app" class="h-screen">
       <%= render partial: 'components/flash_message', locals: { message: flash[:notice] } %>
       <div class="flex h-full">
