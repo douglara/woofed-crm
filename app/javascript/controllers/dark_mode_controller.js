@@ -13,10 +13,15 @@ export default class extends Controller {
 
   initialize() {
     enableDarkMode({
-      brightness: 100,
-      contrast: 100,
+      brightness: 115,
+      contrast: 115,
       sepia: 0,
     });
+    // enableDarkMode({
+    //   brightness: 100,
+    //   contrast: 110,
+    //   sepia: 0,
+    // });
   }
   toggle() {
     const html = document.documentElement;
