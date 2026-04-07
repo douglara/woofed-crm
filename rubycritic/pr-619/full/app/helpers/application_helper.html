@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-04-07 18:37:53 -0300'>2026-04-07 18:37:53 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-04-07 19:04:54 -0300'>2026-04-07 19:04:54 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">23</span><small> lines of codes</small></div>
-              <div><span class="metric">2</span><small> methods</small></div>
+              <div><span class="metric">19</span><small> lines of codes</small></div>
+              <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">8.0</span><small> complexity/method</small></div>
-              <div><span class="metric">6</span><small> churn</small></div>
+              <div><span class="metric">16.1</span><small> complexity/method</small></div>
+              <div><span class="metric">7</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">16.05</span><small> complexity</small></div>
@@ -100,19 +100,15 @@
     <code class="prettyprint linenums lang-ruby file-code js-file-code">module ApplicationHelper<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>ApplicationHelper has no descriptive comment</span>          </div>  </li></ol>
   include Pagy::Frontend
 
-  def dark_mode_class
-    &#39;&#39;
-  end
-
   def embedded_svg(filename, options = {})<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>ApplicationHelper#embedded_svg has approx 8 statements</span>          </div>  </li></ol>
     assets = Rails.application.assets
     asset = assets.find_asset(filename)
 
     if asset
-      file = asset.source.force_encoding(&#39;UTF-8&#39;)
+      file = asset.source.force_encoding(&quot;UTF-8&quot;)
       doc = Nokogiri::HTML::DocumentFragment.parse file
-      svg = doc.at_css &#39;svg&#39;
-      svg[&#39;class&#39;] = options[:class] if options[:class].present?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>ApplicationHelper#embedded_svg calls 'options[:class]' 2 times</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>ApplicationHelper#embedded_svg refers to 'options' more than self (maybe move it to another class?)</span>          </div>  </li></ol>
+      svg = doc.at_css &quot;svg&quot;
+      svg[&quot;class&quot;] = options[:class] if options[:class].present?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>ApplicationHelper#embedded_svg calls 'options[:class]' 2 times</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>ApplicationHelper#embedded_svg refers to 'options' more than self (maybe move it to another class?)</span>          </div>  </li></ol>
     else
       doc = &quot;&lt;!-- SVG #{filename} not found --&gt;&quot;
     end
