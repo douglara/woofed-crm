@@ -1,0 +1,4066 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="overview.html"><img src="assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+    <!--Page Title -->
+    <div class="Page_Title">
+      <h3>Code</h3>
+    </div>
+    <!--End Page Title -->
+    <div class="Content_Wrapper">
+      <table id="codeTable" class="table code sortable-table tablesorter">
+        <thead>
+          <tr>
+            
+              <th width="10%" class="table-header center">Rating<span class="sort-type"></span></th>
+            
+            <th width="50%" class="table-header left">Name<span class="sort-type"></span></th>
+            <th width="10%" class="table-header">Churn<span class="sort-type"></span></th>
+            <th width="10%" class="table-header">Complexity<span class="sort-type"></span></th>
+            <th width="10%" class="table-header">Duplication<span class="sort-type"></span></th>
+            <th width="10%" class="table-header">Smells<span class="sort-type"></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/builders/contact_builder.html">ContactBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>9</td>
+              <td>17.42</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/builders/deal_builder.html">DealBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>13</td>
+              <td>35.31</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/builders/deal_product_builder.html">DealProductBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>18.64</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/builders/event_builder.html">EventBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>9</td>
+              <td>50.94</td>
+              <td>34</td>
+              <td>11</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/builders/evolution_api_builder.html">EvolutionApiBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>9.72</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/builders/product_builder.html">ProductBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>8</td>
+              <td>6.74</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/builders/reports/base_timeseries_builder.html">BaseTimeseriesBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>7</td>
+              <td>24.02</td>
+              <td>16</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/builders/reports/deals/base_report_builder.html">BaseReportBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>11.58</td>
+              <td>16</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/builders/reports/deals/metric_builder.html">MetricBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>26.79</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/builders/reports/deals/report_builder.html">ReportBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>15.75</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/builders/reports/deals/timeseries/base_report_builder.html">BaseReportBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>50.47</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/builders/reports/deals/timeseries/count_report_builder.html">CountReportBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>10.06</td>
+              <td>17</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/builders/reports/deals/timeseries/sum_report_builder.html">SumReportBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>10.06</td>
+              <td>17</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/builders/reports/pipeline/stages_metric_builder.html">StagesMetricBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>33.77</td>
+              <td>16</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/channels/application_cable/channel.html">Channel</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/channels/application_cable/connection.html">Connection</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/advanced_filters_controller.html">AdvancedFiltersController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>16.13</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/advanced_searches_controller.html">AdvancedSearchesController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>10.26</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/apps/ai_assistents_controller.html">AiAssistentsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>20.81</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/apps/chatwoots_controller.html">ChatwootsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>14</td>
+              <td>82.23</td>
+              <td>0</td>
+              <td>7</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/apps/evolution_apis_controller.html">EvolutionApisController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>12</td>
+              <td>74.5</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/apps_controller.html">AppsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>69.23</td>
+              <td>19</td>
+              <td>7</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/attachments_controller.html">AttachmentsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>6.99</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/contacts/chatwoot_embed_controller.html">ChatwootEmbedController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>17</td>
+              <td>96.93</td>
+              <td>48</td>
+              <td>8</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/contacts/events_controller.html">EventsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>42</td>
+              <td>76.9</td>
+              <td>0</td>
+              <td>7</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating f">F</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/contacts_controller.html">ContactsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>51</td>
+              <td>178.14</td>
+              <td>155</td>
+              <td>26</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/deal_assignees_controller.html">DealAssigneesController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>46.4</td>
+              <td>24</td>
+              <td>5</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/deal_products_controller.html">DealProductsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>11</td>
+              <td>62.59</td>
+              <td>24</td>
+              <td>5</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating d">D</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/deals_controller.html">DealsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>105</td>
+              <td>283.56</td>
+              <td>114</td>
+              <td>28</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/events_controller.html">EventsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>40.84</td>
+              <td>0</td>
+              <td>8</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating f">F</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/pipelines_controller.html">PipelinesController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>77</td>
+              <td>330.17</td>
+              <td>61</td>
+              <td>43</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating d">D</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/products_controller.html">ProductsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>27</td>
+              <td>123.51</td>
+              <td>126</td>
+              <td>15</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/reports_controller.html">ReportsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>13</td>
+              <td>132.74</td>
+              <td>42</td>
+              <td>7</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/settings/accounts_controller.html">AccountsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>20.57</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating d">D</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/settings/custom_attributes_definitions_controller.html">CustomAttributesDefinitionsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>7</td>
+              <td>54.91</td>
+              <td>54</td>
+              <td>5</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/settings/deals/deal_lost_reasons_controller.html">DealLostReasonsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>71.66</td>
+              <td>42</td>
+              <td>10</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/settings/deals_controller.html">DealsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating d">D</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/settings/webhooks_controller.html">WebhooksController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>9</td>
+              <td>58.32</td>
+              <td>54</td>
+              <td>6</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/settings_controller.html">SettingsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/stages_controller.html">StagesController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>14</td>
+              <td>15.72</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/stores_controller.html">StoresController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>4.64</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating d">D</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/users_controller.html">UsersController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>29</td>
+              <td>107.41</td>
+              <td>65</td>
+              <td>12</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/webpush_subscriptions_controller.html">WebpushSubscriptionsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>19.25</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/accounts/welcome_controller.html">WelcomeController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/api/concerns/request_exception_handler.html">RequestExceptionHandler</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>28.77</td>
+              <td>0</td>
+              <td>6</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/api/v1/accounts/accounts_controller.html">AccountsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>15.62</td>
+              <td>20</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating f">F</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/api/v1/accounts/contacts_controller.html">ContactsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>18</td>
+              <td>52.93</td>
+              <td>97</td>
+              <td>10</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/api/v1/accounts/deal_assignees_controller.html">DealAssigneesController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>20.34</td>
+              <td>42</td>
+              <td>4</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/api/v1/accounts/deal_products_controller.html">DealProductsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>11</td>
+              <td>32.54</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/api/v1/accounts/deals/events_controller.html">EventsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>11</td>
+              <td>16.79</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating d">D</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/api/v1/accounts/deals_controller.html">DealsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>22</td>
+              <td>62.43</td>
+              <td>124</td>
+              <td>8</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating d">D</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/api/v1/accounts/products_controller.html">ProductsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>10</td>
+              <td>40.61</td>
+              <td>100</td>
+              <td>8</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating d">D</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/api/v1/accounts/users_controller.html">UsersController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>5</td>
+              <td>24.95</td>
+              <td>80</td>
+              <td>7</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/api/v1/contacts_controller.html">ContactsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>10.52</td>
+              <td>25</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/api/v1/internal_controller.html">InternalController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>7</td>
+              <td>12.29</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/api/v1/public_controller.html">PublicController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/application_controller.html">ApplicationController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>27</td>
+              <td>11.22</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/apps/chatwoots_controller.html">ChatwootsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>26</td>
+              <td>55.09</td>
+              <td>0</td>
+              <td>5</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/apps/evolution_apis_controller.html">EvolutionApisController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>4.9</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/concerns/account_concern.html">AccountConcern</a>
+                  </li>
+                </ul>
+              </td>
+              <td>5</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/concerns/deal_concern.html">DealConcern</a>
+                  </li>
+                </ul>
+              </td>
+              <td>5</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/concerns/deal_product_concern.html">DealProductConcern</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/concerns/localized.html">Localized</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>27.22</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/concerns/product_concern.html">ProductConcern</a>
+                  </li>
+                </ul>
+              </td>
+              <td>5</td>
+              <td>3.6</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/concerns/user_concern.html">UserConcern</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/embedded/accounts/apps/chatwoots_controller.html">ChatwootsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>2.2</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/embedded/internal_controller.html">InternalController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>13.83</td>
+              <td>0</td>
+              <td>7</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/health_check_controller.html">HealthCheckController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>1.3</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/inertia/accounts/components/combobox_controller.html">ComboboxController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>55.91</td>
+              <td>0</td>
+              <td>5</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/inertia/internal_controller.html">InternalController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/installation_controller.html">InstallationController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>20</td>
+              <td>58.67</td>
+              <td>0</td>
+              <td>11</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/internal_controller.html">InternalController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>9</td>
+              <td>28.33</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/pwa_controller.html">PwaController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/settings_controller.html">SettingsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/controllers/users/registrations_controller.html">RegistrationsController</a>
+                  </li>
+                </ul>
+              </td>
+              <td>9</td>
+              <td>2.2</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/helpers/advanced_search_helper.html">AdvancedSearchHelper</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>6.2</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/helpers/application_helper.html">ApplicationHelper</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>16.05</td>
+              <td>0</td>
+              <td>4</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/helpers/date_range_helper.html">DateRangeHelper</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>21.22</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/helpers/deals_helper.html">DealsHelper</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/helpers/form_helper.html">FormHelper</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>39.35</td>
+              <td>0</td>
+              <td>6</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/helpers/timezone_helper.html">TimezoneHelper</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>11.29</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/jobs/application_job.html">ApplicationJob</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/jobs/apps/chatwoot/connection/refresh_job.html">RefreshJob</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>4.71</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/jobs/webhook/status/refresh_job.html">RefreshJob</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>5.1</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/listeners/webhook_listener.html">WebhookListener</a>
+                  </li>
+                </ul>
+              </td>
+              <td>14</td>
+              <td>70.16</td>
+              <td>132</td>
+              <td>12</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/listeners/woofbot_listener.html">WoofbotListener</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>4.81</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/mailers/application_mailer.html">ApplicationMailer</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/account.html">Account</a>
+                  </li>
+                </ul>
+              </td>
+              <td>41</td>
+              <td>19.79</td>
+              <td>0</td>
+              <td>17</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/app.html">App</a>
+                  </li>
+                </ul>
+              </td>
+              <td>5</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/application_record.html">ApplicationRecord</a>
+                  </li>
+                </ul>
+              </td>
+              <td>8</td>
+              <td>9.74</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/apps/ai_assistent.html">AiAssistent</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>17.52</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/apps/chatwoot/api_client/user_profile.html">UserProfile</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>6.16</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/apps/chatwoot/api_client.html">ApiClient</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>32.02</td>
+              <td>0</td>
+              <td>7</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/apps/chatwoot/connection/refresh.html">Refresh</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>8.15</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/apps/chatwoot/migrations/remove_trailing_slashes_from_chatwoot_endpoint_url_job.html">RemoveTrailingSlashesFromChatwootEndpointUrlJob</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>9.42</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/apps/chatwoot.html">Chatwoot</a>
+                  </li>
+                </ul>
+              </td>
+              <td>23</td>
+              <td>126.1</td>
+              <td>38</td>
+              <td>10</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/apps/evolution_api.html">EvolutionApi</a>
+                  </li>
+                </ul>
+              </td>
+              <td>28</td>
+              <td>8.93</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/apps.html">Apps</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/attachment.html">Attachment</a>
+                  </li>
+                </ul>
+              </td>
+              <td>18</td>
+              <td>58.13</td>
+              <td>0</td>
+              <td>6</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/account/settings.html">Settings</a>
+                  </li>
+                </ul>
+              </td>
+              <td>5</td>
+              <td>9.3</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/applicable.html">Applicable</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>3.9</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/chatwoot_labels.html">ChatwootLabels</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>6.58</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/contact/presenters.html">Presenters</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>5.79</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/custom_attribute_definition/broadcastable.html">Broadcastable</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/custom_attributes.html">CustomAttributes</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>13.24</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/deal/broadcastable.html">Broadcastable</a>
+                  </li>
+                </ul>
+              </td>
+              <td>10</td>
+              <td>35.98</td>
+              <td>40</td>
+              <td>6</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/deal/event_creator.html">EventCreator</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>54.55</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/deal/handle_in_cents_values.html">HandleInCentsValues</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/deal_product/broadcastable.html">Broadcastable</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>0.0</td>
+              <td>16</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/deal_product/event_creator.html">EventCreator</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>39.92</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/deal_product/handle_in_cents_values.html">HandleInCentsValues</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>2.46</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/evolution_api/broadcastable.html">Broadcastable</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>5.6</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/labelable.html">Labelable</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>6.58</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/product/broadcastable.html">Broadcastable</a>
+                  </li>
+                </ul>
+              </td>
+              <td>10</td>
+              <td>7.2</td>
+              <td>16</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/concerns/stage/decorators.html">Decorators</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>2.2</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/contact/integrations/chatwoot/generate_conversation_link.html">GenerateConversationLink</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>14.3</td>
+              <td>0</td>
+              <td>5</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/contact/merge.html">Merge</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>44.21</td>
+              <td>0</td>
+              <td>4</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/contact/migrations/merge_duplicate_contacts_job.html">MergeDuplicateContactsJob</a>
+                  </li>
+                </ul>
+              </td>
+              <td>5</td>
+              <td>49.39</td>
+              <td>54</td>
+              <td>6</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/contact.html">Contact</a>
+                  </li>
+                </ul>
+              </td>
+              <td>74</td>
+              <td>25.39</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/current.html">Current</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>1.0</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/custom_attribute_definition.html">CustomAttributeDefinition</a>
+                  </li>
+                </ul>
+              </td>
+              <td>13</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/deal/create_or_update.html">CreateOrUpdate</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>28.39</td>
+              <td>0</td>
+              <td>6</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/deal/drag_and_drop.html">DragAndDrop</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>25.79</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/deal/drag_and_drop_position.html">DragAndDropPosition</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>9.53</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/deal/migrations/populate_deal_lost_at_and_won_at_job.html">PopulateDealLostAtAndWonAtJob</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>32.38</td>
+              <td>44</td>
+              <td>6</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/deal/recalculate_and_save_all_monetary_values.html">RecalculateAndSaveAllMonetaryValues</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>6.68</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/deal.html">Deal</a>
+                  </li>
+                </ul>
+              </td>
+              <td>93</td>
+              <td>17.56</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/deal_assignee.html">DealAssignee</a>
+                  </li>
+                </ul>
+              </td>
+              <td>5</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/deal_lost_reason.html">DealLostReason</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/deal_product/create_or_update.html">CreateOrUpdate</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>25.64</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/deal_product/destroy.html">Destroy</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>7.48</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/deal_product.html">DealProduct</a>
+                  </li>
+                </ul>
+              </td>
+              <td>20</td>
+              <td>2.0</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/embedding_documment.html">EmbeddingDocumment</a>
+                  </li>
+                </ul>
+              </td>
+              <td>5</td>
+              <td>0.0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/event.html">Event</a>
+                  </li>
+                </ul>
+              </td>
+              <td>103</td>
+              <td>127.74</td>
+              <td>23</td>
+              <td>9</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/installation/complete.html">Complete</a>
+                  </li>
+                </ul>
+              </td>
+              <td>7</td>
+              <td>36.86</td>
+              <td>0</td>
+              <td>4</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/installation.html">Installation</a>
+                  </li>
+                </ul>
+              </td>
+              <td>18</td>
+              <td>7.32</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating d">D</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/model_schema_builder.html">ModelSchemaBuilder</a>
+                  </li>
+                </ul>
+              </td>
+              <td>10</td>
+              <td>199.3</td>
+              <td>63</td>
+              <td>28</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/pipeline.html">Pipeline</a>
+                  </li>
+                </ul>
+              </td>
+              <td>18</td>
+              <td>2.0</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/product.html">Product</a>
+                  </li>
+                </ul>
+              </td>
+              <td>33</td>
+              <td>4.24</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/query/advanced_search.html">AdvancedSearch</a>
+                  </li>
+                </ul>
+              </td>
+              <td>1</td>
+              <td>76.23</td>
+              <td>100</td>
+              <td>4</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/query/filter.html">Filter</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>8.0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/stage.html">Stage</a>
+                  </li>
+                </ul>
+              </td>
+              <td>37</td>
+              <td>21.23</td>
+              <td>0</td>
+              <td>4</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/user.html">User</a>
+                  </li>
+                </ul>
+              </td>
+              <td>57</td>
+              <td>6.35</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/webhook/api_client.html">ApiClient</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>22.81</td>
+              <td>0</td>
+              <td>5</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/webhook.html">Webhook</a>
+                  </li>
+                </ul>
+              </td>
+              <td>21</td>
+              <td>10.7</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/models/webpush_subscription.html">WebpushSubscription</a>
+                  </li>
+                </ul>
+              </td>
+              <td>8</td>
+              <td>10.05</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/create.html">Create</a>
+                  </li>
+                </ul>
+              </td>
+              <td>7</td>
+              <td>7.34</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/create_conversation.html">CreateConversation</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>9.45</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/delete.html">Delete</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>3.74</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/export_contact.html">ExportContact</a>
+                  </li>
+                </ul>
+              </td>
+              <td>17</td>
+              <td>107.8</td>
+              <td>60</td>
+              <td>14</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/export_contact_worker.html">ExportContactWorker</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>6.01</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/find_or_create_conversation.html">FindOrCreateConversation</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>5.49</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/get_conversation_and_send_message.html">GetConversationAndSendMessage</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>4.51</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/get_conversations.html">GetConversations</a>
+                  </li>
+                </ul>
+              </td>
+              <td>7</td>
+              <td>15.48</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/get_inboxes.html">GetInboxes</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>12.08</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/messages/delivery_job.html">DeliveryJob</a>
+                  </li>
+                </ul>
+              </td>
+              <td>22</td>
+              <td>26.0</td>
+              <td>0</td>
+              <td>6</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/remove_chatwoot_id_from_contacts.html">RemoveChatwootIdFromContacts</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>7.47</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/remove_chatwoot_id_from_contacts_worker.html">RemoveChatwootIdFromContactsWorker</a>
+                  </li>
+                </ul>
+              </td>
+              <td>5</td>
+              <td>2.24</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/search_contact.html">SearchContact</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>12.8</td>
+              <td>16</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/send_message.html">SendMessage</a>
+                  </li>
+                </ul>
+              </td>
+              <td>10</td>
+              <td>45.42</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/sync_chatwoot_worker.html">SyncChatwootWorker</a>
+                  </li>
+                </ul>
+              </td>
+              <td>5</td>
+              <td>5.57</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/sync_export_contacts.html">SyncExportContacts</a>
+                  </li>
+                </ul>
+              </td>
+              <td>7</td>
+              <td>12.36</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/sync_import_contacts.html">SyncImportContacts</a>
+                  </li>
+                </ul>
+              </td>
+              <td>13</td>
+              <td>93.81</td>
+              <td>0</td>
+              <td>7</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/sync_inboxes.html">SyncInboxes</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>9.85</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/webhooks/events/contact.html">Contact</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>2.2</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/webhooks/events/conversation_updated.html">ConversationUpdated</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>3.74</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/webhooks/events/message.html">Message</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>9.41</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/webhooks/import_contact.html">ImportContact</a>
+                  </li>
+                </ul>
+              </td>
+              <td>28</td>
+              <td>91.41</td>
+              <td>42</td>
+              <td>10</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/webhooks/import_message.html">ImportMessage</a>
+                  </li>
+                </ul>
+              </td>
+              <td>24</td>
+              <td>84.8</td>
+              <td>0</td>
+              <td>10</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/webhooks/process_webhook.html">ProcessWebhook</a>
+                  </li>
+                </ul>
+              </td>
+              <td>7</td>
+              <td>15.94</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/chatwoots/webhooks/process_webhook_job.html">ProcessWebhookJob</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>2.24</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/evolution_apis/create.html">Create</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>4.62</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/evolution_apis/instance/create.html">Create</a>
+                  </li>
+                </ul>
+              </td>
+              <td>15</td>
+              <td>24.56</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/evolution_apis/instance/delete_disconnected.html">DeleteDisconnected</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>26.36</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/evolution_apis/instance/delete_disconnected_worker.html">DeleteDisconnectedWorker</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>3.35</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/evolution_apis/instance/sessions_refresh_status_job.html">SessionsRefreshStatusJob</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>4.71</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/evolution_apis/message/delivery_job.html">DeliveryJob</a>
+                  </li>
+                </ul>
+              </td>
+              <td>16</td>
+              <td>17.42</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating c">C</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/evolution_apis/message/import.html">Import</a>
+                  </li>
+                </ul>
+              </td>
+              <td>14</td>
+              <td>112.18</td>
+              <td>0</td>
+              <td>10</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/evolution_apis/message/send.html">Send</a>
+                  </li>
+                </ul>
+              </td>
+              <td>10</td>
+              <td>61.24</td>
+              <td>0</td>
+              <td>4</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/evolution_apis/webhooks/events/connection_created.html">ConnectionCreated</a>
+                  </li>
+                </ul>
+              </td>
+              <td>5</td>
+              <td>4.58</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/evolution_apis/webhooks/events/connection_deleted.html">ConnectionDeleted</a>
+                  </li>
+                </ul>
+              </td>
+              <td>11</td>
+              <td>8.71</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/evolution_apis/webhooks/events/import_message.html">ImportMessage</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>3.92</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/evolution_apis/webhooks/events/qrcode_connect_refresh.html">QrcodeConnectRefresh</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>2.42</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/evolution_apis/webhooks/process_webhook.html">ProcessWebhook</a>
+                  </li>
+                </ul>
+              </td>
+              <td>14</td>
+              <td>76.25</td>
+              <td>0</td>
+              <td>11</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/apps/evolution_apis/webhooks/process_webhook_worker.html">ProcessWebhookWorker</a>
+                  </li>
+                </ul>
+              </td>
+              <td>5</td>
+              <td>2.24</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/contacts/events/enqueue.html">Enqueue</a>
+                  </li>
+                </ul>
+              </td>
+              <td>7</td>
+              <td>13.07</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/contacts/events/enqueue_worker.html">EnqueueWorker</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>2.24</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/contacts/events/generate_ai_response.html">GenerateAiResponse</a>
+                  </li>
+                </ul>
+              </td>
+              <td>9</td>
+              <td>46.71</td>
+              <td>0</td>
+              <td>3</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/contacts/events/send_now.html">SendNow</a>
+                  </li>
+                </ul>
+              </td>
+              <td>10</td>
+              <td>14.93</td>
+              <td>0</td>
+              <td>4</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/contacts/events/woofbot.html">Woofbot</a>
+                  </li>
+                </ul>
+              </td>
+              <td>7</td>
+              <td>36.81</td>
+              <td>0</td>
+              <td>5</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/contacts/events/woofbot_worker.html">WoofbotWorker</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>3.35</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/contacts/get_by_params.html">GetByParams</a>
+                  </li>
+                </ul>
+              </td>
+              <td>12</td>
+              <td>46.12</td>
+              <td>0</td>
+              <td>4</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/create/embed_company_site_job.html">EmbedCompanySiteJob</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>3.35</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating b">B</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/create/embeded_company_site.html">EmbededCompanySite</a>
+                  </li>
+                </ul>
+              </td>
+              <td>6</td>
+              <td>52.83</td>
+              <td>0</td>
+              <td>4</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/accounts/create/page_crawler.html">PageCrawler</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>40.94</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/open_ai/embeddings.html">Embeddings</a>
+                  </li>
+                </ul>
+              </td>
+              <td>4</td>
+              <td>12.09</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/pwa/send_notifications_worker.html">SendNotificationsWorker</a>
+                  </li>
+                </ul>
+              </td>
+              <td>9</td>
+              <td>37.36</td>
+              <td>0</td>
+              <td>7</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/use_cases/users/json_web_token.html">JsonWebToken</a>
+                  </li>
+                </ul>
+              </td>
+              <td>3</td>
+              <td>20.79</td>
+              <td>0</td>
+              <td>4</td>
+            </tr>
+          
+            <tr>
+              
+                <td class="center">
+                  
+                  <div class="rating a">A</div>
+                </td>
+              
+              <td class="left">
+                <ul class="nav nav-pills">
+                  <li role="presentation" >
+                    <a href="app/workers/webhook_worker.html">WebhookWorker</a>
+                  </li>
+                </ul>
+              </td>
+              <td>2</td>
+              <td>1.0</td>
+              <td>0</td>
+              <td>2</td>
+            </tr>
+          
+        </tbody>
+      </table>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="assets/vendor/javascripts/prettify.js"></script>
+    <script src="assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="assets/javascripts/application.js"></script>
+    <script src="assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>
