@@ -10,6 +10,10 @@ const DARK_READER_CONFIG = {
   sepia: 0,
 };
 
+//   brightness: 100,
+//   contrast: 110,
+//   sepia: 0,
+
 export default class extends Controller {
   static values = { current: String, url: String };
   static targets = ["option"];
