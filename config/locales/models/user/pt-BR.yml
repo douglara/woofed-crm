@@ -7,6 +7,9 @@ pt-BR:
         new: "Novo usuário"
         edit: "Editar usuário"
         all: "Todos os usuários"
+        theme_light_description: "Aparência clássica clara"
+        theme_dark_description: "Reduz o cansaço visual em ambientes escuros"
+        theme_system_description: "Segue a configuração do seu sistema operacional"
     attributes:
       user:
         email: E-mail
@@ -23,6 +26,11 @@ pt-BR:
         created_at: Criado em
         updated_at: Atualizado em
         webpush_notify_on_event_expired: "Enviar notificações push quando uma ação de negócio expirar"
+        theme_preference: "Tema"
+        theme_preferences:
+          light: "Claro"
+          dark: "Escuro"
+          system: "Sistema"
         job_descriptions:
           ceo: "Diretor Executivo (CEO)"
           cfo: "Diretor Financeiro (CFO)"

@@ -11,12 +11,3 @@ pt-BR:
           push_notification_btn: 'Ativar notificações push'
           push_notification_activate_message: 'Você ativou push para este navegador.'
           notifications: 'Notificações'
-          theme_preference: 'Tema'
-          theme_light: 'Claro'
-          theme_dark: 'Escuro'
-          theme_system: 'Sistema'
-          theme_light_description: 'Aparência clássica clara'
-          theme_dark_description: 'Reduz o cansaço visual em ambientes escuros'
-          theme_system_description: 'Segue a configuração do seu sistema operacional'
-
-

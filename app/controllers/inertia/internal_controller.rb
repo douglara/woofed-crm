@@ -7,7 +7,7 @@ class Inertia::InternalController < InternalController
         full_name: current_user.full_name,
         language: current_user.language,
         avatar_url: current_user.avatar_url,
-        dark_mode: current_user.dark_mode
+        theme_preference: current_user.theme_preference
       },
       current_account: {
         id: @account.id,

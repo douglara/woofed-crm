@@ -7,6 +7,9 @@ en:
         new: "New user"
         edit: "Edit user"
         all: "All Users"
+        theme_light_description: "Classic light appearance"
+        theme_dark_description: "Reduced eye strain in low light"
+        theme_system_description: "Follows your OS setting"
     attributes:
       user:
         email: Email
@@ -23,6 +26,11 @@ en:
         created_at: Created at
         updated_at: Updated at
         webpush_notify_on_event_expired: "Send push notifications when a deal action expires"
+        theme_preference: "Theme"
+        theme_preferences:
+          light: "Light"
+          dark: "Dark"
+          system: "System"
         job_descriptions:
           ceo: "Chief Executive Officer (CEO)"
           cfo: "Chief Financial Officer (CFO)"

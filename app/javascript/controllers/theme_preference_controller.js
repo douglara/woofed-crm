@@ -3,27 +3,27 @@ import {
   enable as enableDarkMode,
   disable as disableDarkMode,
 } from "darkreader";
+import { currentUser } from "../utils/current_user";
+import { patch } from "@rails/request.js";
 
 const DARK_READER_CONFIG = {
-  brightness: 115,
-  contrast: 115,
+  brightness: 100,
+  contrast: 100,
   sepia: 0,
 };
 
-//   brightness: 100,
-//   contrast: 110,
-//   sepia: 0,
-
 export default class extends Controller {
-  static values = { current: String, url: String };
+  static values = { url: String };
   static targets = ["option"];
 
   connect() {
-    this.applyTheme(this.currentValue);
-    this.updateSelection(this.currentValue);
+    console.log("ThemePreferenceController connected");
+    this.theme = currentUser().theme_preference || "system";
+    this.applyTheme(this.theme);
+    this.updateSelection(this.theme);
     this.systemMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     this.handleSystemChange = this.handleSystemChange.bind(this);
-    if (this.currentValue === "system") {
+    if (this.theme === "system") {
       this.systemMediaQuery.addEventListener("change", this.handleSystemChange);
     }
   }
@@ -37,9 +37,9 @@ export default class extends Controller {
 
   select(event) {
     const theme = event.currentTarget.dataset.theme;
-    if (theme === this.currentValue) return;
+    if (theme === this.theme) return;
 
-    this.currentValue = theme;
+    this.theme = theme;
     this.applyTheme(theme);
     this.updateSelection(theme);
 
@@ -74,9 +74,9 @@ export default class extends Controller {
 
     this.optionTargets.forEach((option) => {
       const isSelected = option.dataset.theme === theme;
-      option.classList.toggle("ring-2", isSelected);
-      option.classList.toggle("ring-blue-500", isSelected);
-      option.classList.toggle("border-blue-500", isSelected);
+      option.classList.toggle("ring", isSelected);
+      option.classList.toggle("ring-light-palette-p3", isSelected);
+      option.classList.toggle("border-transparent", isSelected);
       option.classList.toggle("border-light-palette-p3", !isSelected);
     });
   }
@@ -86,18 +86,9 @@ export default class extends Controller {
   }
 
   persistTheme(theme) {
-    const csrfToken = document.querySelector(
-      'meta[name="csrf-token"]',
-    )?.content;
-
-    fetch(this.urlValue, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": csrfToken,
-        Accept: "application/json",
-      },
+    patch(this.urlValue, {
       body: JSON.stringify({ user: { theme_preference: theme } }),
+      contentType: "application/json",
     });
   }
 }

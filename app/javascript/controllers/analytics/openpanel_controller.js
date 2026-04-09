@@ -1,10 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 import { OpenPanel } from "@openpanel/web";
-import {
-  getMetaJSON,
-  getMetaContent,
-  getRailsEnvironment,
-} from "../../utils/meta";
+import { getMetaContent, getRailsEnvironment } from "../../utils/meta";
+import { currentUser, isLoggedIn } from "../../utils/current_user";
 
 export default class extends Controller {
   connect() {
@@ -16,8 +13,6 @@ export default class extends Controller {
 
     if (!endpoint || !token || railsEnv !== "production") return;
 
-    const userData = getMetaJSON("user-data");
-
     window.op = new OpenPanel({
       apiUrl: endpoint,
       clientId: token,
@@ -27,14 +22,15 @@ export default class extends Controller {
       trackAttributes: true,
     });
 
-    if (userData && userData.id) {
+    if (isLoggedIn()) {
+      const user = currentUser();
       window.op.identify({
-        profileId: userData.id,
-        firstName: userData.full_name,
-        email: userData.email,
+        profileId: user.id,
+        firstName: user.full_name,
+        email: user.email,
         properties: {
-          account_id: userData.account_id,
-          account_name: userData.account_name,
+          account_id: user.account_id,
+          account_name: user.account_name,
         },
       });
     }

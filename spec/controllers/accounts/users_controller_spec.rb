@@ -8,6 +8,7 @@ RSpec.describe Accounts::UsersController, type: :request do
     create(:user, full_name: 'Another User', email: 'another@example.com')
   end
   let(:user_mock) { instance_double(User) }
+  let(:last_user) { User.last }
 
   describe 'GET /accounts/{account.id}/users' do
     context 'when it is an unauthenticated user' do
@@ -213,7 +214,7 @@ RSpec.describe Accounts::UsersController, type: :request do
     context 'when it is an authenticated user' do
       let(:valid_params) do
         { user: { full_name: 'Yukio', email: 'yukio@email.com', password: '123456', password_confirmation: '123456',
-                  phone: '+5522998813788' } }
+                  phone: '+5522998813788', theme_preference: 'light' } }
       end
       before do
         sign_in(user)
@@ -225,6 +226,7 @@ RSpec.describe Accounts::UsersController, type: :request do
         end.to change(User, :count).by(1)
         expect(response).to redirect_to(account_users_path(account))
         expect(flash[:error]).to be_nil
+        expect(last_user.theme_preference).to eq('light')
       end
 
       context 'when email is invalid' do

@@ -31,7 +31,7 @@
     <%= yield :stylesheets %>
     <%= yield :head %>
   </head>
-  <body data-user-locale='<%= current_user&.language || '' %>' data-account-currency="<%= Current.account&.currency_code || '' %>" data-controller="analytics--openpanel theme-preference" data-theme-preference-current-value="<%= current_user&.theme_preference || 'system' %>" data-theme-preference-url-value="" >
+  <body data-user-locale='<%= current_user&.language || '' %>' data-account-currency="<%= Current.account&.currency_code || '' %>" data-controller="analytics--openpanel theme-preference" >
     <div id="app" class="h-screen">
       <%= render partial: 'components/flash_message', locals: { message: flash[:notice] } %>
       <div class="flex h-full">
