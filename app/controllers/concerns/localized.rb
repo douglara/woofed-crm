@@ -2,12 +2,12 @@ module Localized
   extend ActiveSupport::Concern
 
   included do
-    around_action :set_locale
+    before_action :set_locale
     before_action :set_time_zone
   end
 
-  def set_locale(&block)
-    I18n.with_locale(requested_locale || I18n.default_locale, &block)
+  def set_locale
+    I18n.locale = requested_locale || I18n.default_locale
   end
 
   private
