@@ -1,0 +1,100 @@
+<section class="px-4 py-5 color-bg-surface-default border-2 color-border-default rounded-md m-8"
+         data-controller="theme-preference"
+         data-theme-preference-url-value="<%= account_user_path(current_user.account, current_user, format: :json) %>">
+  <div class="flex items-center gap-3 mb-6">
+    <h3 class="typography-sub-title-900 text-dark-gray-palette-p1">
+      <%= User.human_attribute_name(:theme_preference) %>
+    </h3>
+    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300 uppercase tracking-wide">
+      Beta
+    </span>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <%# Light theme option %>
+    <button type="button"
+            data-action="click->theme-preference#select"
+      data-theme-preference-target="option"
+      data-theme="light"
+      class="cursor-pointer rounded-lg border-2 border-light-palette-p3 p-1 transition-all hover:shadow-md focus:outline-none">
+      <div class="rounded-md overflow-hidden mb-3 border border-light-palette-p3">
+        <div class="bg-white p-3 h-24 flex gap-2">
+          <div class="w-8 bg-gray-100 rounded h-full"></div>
+          <div class="flex-1 flex flex-col gap-2">
+            <div class="h-3 bg-gray-200 rounded w-3/4"></div>
+            <div class="h-3 bg-gray-100 rounded w-1/2"></div>
+            <div class="flex-1 bg-gray-50 rounded mt-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="px-2 pb-2">
+        <p class="typography-body-800 color-fg-default text-left">
+          <i data-lucide="sun" class="w-4 h-4 inline-block mr-1 align-text-bottom"></i>
+          <%= User.human_enum_name(:theme_preference, :light) %>
+        </p>
+        <p class="typography-label-800 color-fg-soft text-left text-xs mt-1">
+          <%= t('activerecord.models.user.theme_light_description') %>
+        </p>
+      </div>
+    </button>
+    <%# Dark theme option %>
+    <button type="button"
+            data-action="click->theme-preference#select"
+      data-theme-preference-target="option"
+      data-theme="dark"
+      class="cursor-pointer rounded-lg border-2 border-light-palette-p3 p-1 transition-all hover:shadow-md focus:outline-none">
+      <div class="rounded-md overflow-hidden mb-3 border border-light-palette-p3">
+        <div class="bg-gray-900 p-3 h-24 flex gap-2">
+          <div class="w-8 bg-gray-800 rounded h-full"></div>
+          <div class="flex-1 flex flex-col gap-2">
+            <div class="h-3 bg-gray-700 rounded w-3/4"></div>
+            <div class="h-3 bg-gray-800 rounded w-1/2"></div>
+            <div class="flex-1 bg-gray-800 rounded mt-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="px-2 pb-2">
+        <p class="typography-body-800 color-fg-default text-left">
+          <i data-lucide="moon" class="w-4 h-4 inline-block mr-1 align-text-bottom"></i>
+          <%= User.human_enum_name(:theme_preference, :dark) %>
+        </p>
+        <p class="typography-label-800 color-fg-soft text-left text-xs mt-1">
+          <%= t('activerecord.models.user.theme_dark_description') %>
+        </p>
+      </div>
+    </button>
+    <%# System theme option %>
+    <button type="button"
+            data-action="click->theme-preference#select"
+      data-theme-preference-target="option"
+      data-theme="system"
+      class="cursor-pointer rounded-lg border-2 border-light-palette-p3 p-1 transition-all hover:shadow-md focus:outline-none">
+      <div class="rounded-md overflow-hidden mb-3 border border-light-palette-p3">
+        <div class="h-24 flex">
+          <div class="w-1/2 bg-white p-3 flex gap-1">
+            <div class="w-4 bg-gray-100 rounded h-full"></div>
+            <div class="flex-1 flex flex-col gap-1">
+              <div class="h-2 bg-gray-200 rounded w-3/4"></div>
+              <div class="flex-1 bg-gray-50 rounded mt-1"></div>
+            </div>
+          </div>
+          <div class="w-1/2 bg-gray-900 p-3 flex gap-1">
+            <div class="w-4 bg-gray-800 rounded h-full"></div>
+            <div class="flex-1 flex flex-col gap-1">
+              <div class="h-2 bg-gray-700 rounded w-3/4"></div>
+              <div class="flex-1 bg-gray-800 rounded mt-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="px-2 pb-2">
+        <p class="typography-body-800 color-fg-default text-left">
+          <i data-lucide="monitor" class="w-4 h-4 inline-block mr-1 align-text-bottom"></i>
+          <%= User.human_enum_name(:theme_preference, :system) %>
+        </p>
+        <p class="typography-label-800 color-fg-soft text-left text-xs mt-1">
+          <%= t('activerecord.models.user.theme_system_description') %>
+        </p>
+      </div>
+    </button>
+  </div>
+</section>
