@@ -17,7 +17,6 @@ export default class extends Controller {
   static targets = ["option"];
 
   connect() {
-    console.log("ThemePreferenceController connected");
     this.theme = currentUser().theme_preference || "system";
     this.applyTheme(this.theme);
     this.updateSelection(this.theme);
@@ -74,7 +73,7 @@ export default class extends Controller {
 
     this.optionTargets.forEach((option) => {
       const isSelected = option.dataset.theme === theme;
-      option.classList.toggle("ring", isSelected);
+      option.classList.toggle("ring-2", isSelected);
       option.classList.toggle("ring-light-palette-p3", isSelected);
       option.classList.toggle("border-transparent", isSelected);
       option.classList.toggle("border-light-palette-p3", !isSelected);
