@@ -561,12 +561,3 @@
   box-shadow: 0 0 0 3px var(--ring);
   box-shadow: 0 0 0 3px oklch(0.708 0 0 / 50%);
 }
-
-/* DarkReader override: outside of @layer to take precedence over styles injected by DarkReader */
-.dark .form-input::placeholder,
-.dark .form-input-expandable-search::placeholder {
-  @apply !text-gray-1100;
-}
-.dark .form-input-error::placeholder {
-  @apply !text-red-400;
-}

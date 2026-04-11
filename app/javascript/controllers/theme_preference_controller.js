@@ -12,6 +12,18 @@ const DARK_READER_CONFIG = {
   sepia: 0,
 };
 
+const DARK_READER_FIXES = {
+  css: `
+    .form-input::placeholder,
+    .form-input-expandable-search::placeholder {
+      color: #4D4B5C !important;
+    }
+    .form-input-error::placeholder {
+      color: #E28358 !important;
+    }
+  `,
+};
+
 export default class extends Controller {
   static values = { url: String };
   static targets = ["option"];
@@ -62,7 +74,7 @@ export default class extends Controller {
     }
 
     if (shouldBeDark) {
-      enableDarkMode(DARK_READER_CONFIG);
+      enableDarkMode(DARK_READER_CONFIG, DARK_READER_FIXES);
       document.documentElement.classList.add("dark");
     } else {
       disableDarkMode();
