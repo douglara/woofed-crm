@@ -88,13 +88,13 @@
     @apply hover:stroke-brand-palette-04;
   }
   .form-input {
-    @apply py-2 px-4 bg-light-palette-p4 border-2 border-light-palette-p3 rounded-md color-fg-default dark:color-fg-soft typography-text-m-lh150 focus:outline-none focus:ring focus:ring-light-palette-p3 outline-none	focus:border-transparent placeholder-gray-500 dark:placeholder-gray-1100;
+    @apply py-2 px-4 bg-light-palette-p4 border-2 border-light-palette-p3 rounded-md color-fg-default dark:color-fg-soft typography-text-m-lh150 focus:outline-none focus:ring focus:ring-light-palette-p3 outline-none	focus:border-transparent placeholder-gray-500 dark:!placeholder-gray-1100;
   }
   .form-input-expandable-search {
-    @apply py-2 px-0 rounded-md color-fg-default dark:color-fg-soft typography-text-m-lh150 outline-none placeholder-gray-500 dark:placeholder-gray-1100 w-80 h-8 border-transparent focus:outline  focus:ring-0 focus:border-transparent group-aria-expanded:w-80 group-aria-[expanded=false]:w-0 ease-in duration-200;
+    @apply py-2 px-0 rounded-md color-fg-default dark:color-fg-soft typography-text-m-lh150 outline-none placeholder-gray-500 dark:!placeholder-gray-1100 w-80 h-8 border-transparent focus:outline  focus:ring-0 focus:border-transparent group-aria-expanded:w-80 group-aria-[expanded=false]:w-0 ease-in duration-200;
   }
   .form-input-error {
-    @apply border border-red-500 text-red-900 placeholder-red-700 dark:placeholder-red-400 focus:ring-red-500 focus:border-red-500;
+    @apply border border-red-500 text-red-900 placeholder-red-700 dark:!placeholder-red-400 focus:ring-red-500 focus:border-red-500;
   }
 
   .pagy-nav.pagination {
