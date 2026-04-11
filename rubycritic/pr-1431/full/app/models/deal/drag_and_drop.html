@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../../overview.html"><img src="../../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-03-02 20:57:38 -0300'>2026-03-02 20:57:38 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>app/models/deal /</small> drag_and_drop.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating a big">
+              A
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">103</span><small> lines of codes</small></div>
+              <div><span class="metric">4</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">6.4</span><small> complexity/method</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">25.79</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                1
+                smell
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># Handles the drag-and-drop repositioning of a Deal on the Kanban board.
+#
+# acts_as_list behavior background
+# ---------------------------------
+# acts_as_list scopes positions per stage. When repositioning a deal, the gem
+# behaves differently depending on whether the scope (stage) changes or not:
+#
+#   Same-stage move (ROTATE / shuffle):
+#     Triggered by `after_update :update_positions` → `shuffle_positions_on_intermediate_items`.
+#     Items between the old and new position are rotated. When moving a card
+#     downward (old_pos &lt; new_pos), intermediate items shift DOWN by 1, which
+#     causes the card to land one slot too high — a subtle off-by-one bug.
+#
+#   Cross-stage move (INSERT):
+#     Triggered by `before_update :check_scope` → `avoid_collision` →
+#     `increment_positions_on_lower_items`. A slot is opened at the target
+#     position by pushing all items at &gt;= new_pos up by 1, then the deal is
+#     placed there. This is correct and predictable.
+#
+# Why we use remove_from_list + insert_at
+# ----------------------------------------
+# Calling `remove_from_list` sets position to nil and closes the gap in the
+# current stage. With position = nil, `in_list?` returns false, so a subsequent
+# `insert_at` always uses the INSERT strategy (increment lower items), never
+# ROTATE — making same-stage and cross-stage moves behave identically.
+#
+# Why acts_as_list_no_update is needed for stage changes
+# -------------------------------------------------------
+# If we simply call `update!(stage_id:)`, the gem&#39;s `check_scope` callback fires
+# `avoid_collision`, which increments positions in the new stage immediately.
+# Then `insert_at` would increment again, causing a double-shift. Using
+# `acts_as_list_no_update` persists only the stage_id change with no position
+# side-effects, keeping position = nil so `insert_at` behaves correctly.
+#
+# Why we reload the reference deal after remove_from_list
+# -------------------------------------------------------
+# When the deal is removed from the list, all items with a higher position in
+# the same stage decrement by 1. If the reference deal was below the dragged
+# deal (reference.position &gt; deal.position), its position shifts down after
+# removal. Reloading ensures we calculate the target position against the
+# up-to-date value.
+#
+# Drop scenarios
+# --------------
+#   With reference element (element_reference_id present):
+#     The JS identifies a neighbouring card and its direction (&#39;top&#39; or &#39;bottom&#39;).
+#     The deal is fully repositioned via reposition_with_reference.
+#
+#   Without reference element, stage changed:
+#     The user dropped onto an empty column or column header with no neighbour.
+#     acts_as_list&#39;s check_scope / avoid_collision places the deal at the end
+#     of the new stage automatically via a plain update!(stage_id:).
+#     Using `else` instead of `elsif changing_stage?` would fire an unnecessary
+#     UPDATE when stage did not change, triggering acts_as_list callbacks for no reason.
+#
+#   Without reference element, same stage:
+#     Nothing changed — no action is taken.
+class Deal::DragAndDrop
+  def initialize(deal, stage_id:, element_reference_id: nil, element_reference_drop_direction: nil)
+    @deal         = deal
+    @new_stage_id = stage_id
+    @reference_id = element_reference_id
+    @direction    = element_reference_drop_direction
+  end
+
+  def call
+    Deal.transaction do
+      if @reference_id.present?
+        reposition_with_reference
+      elsif changing_stage?
+        # remove_from_list sets position to nil so check_scope calls
+        # add_to_list_bottom, placing the deal at max_position + 1 in the
+        # new stage (visual top in the DESC-ordered Kanban board).
+        @deal.remove_from_list
+        @deal.update!(stage_id: @new_stage_id)
+      end
+    end
+
+    @deal
+  end
+
+  private
+
+  def reposition_with_reference<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Deal::DragAndDrop#reposition_with_reference has approx 6 statements</span>          </div>  </li></ol>
+    # Sets position to nil and closes the gap in the current stage.
+    # After this call, reference.position already reflects any shifted positions.
+    @deal.remove_from_list
+
+    if changing_stage?
+      # Persist only the stage_id without triggering acts_as_list callbacks.
+      # Keeps position = nil so the subsequent insert_at uses pure INSERT.
+      Deal.acts_as_list_no_update { @deal.update!(stage_id: @new_stage_id) }
+    end
+
+    reference = Deal.find(@reference_id)
+    position  = Deal::DragAndDropPosition.new(reference_deal: reference, direction: @direction).call
+    @deal.insert_at(position)
+  end
+
+  def changing_stage?
+    @deal.stage_id.to_s != @new_stage_id.to_s
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../../assets/javascripts/application.js"></script>
+    <script src="../../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>
