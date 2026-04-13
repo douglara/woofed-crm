@@ -1,4 +1,4 @@
-<% if model.class == Contact %>
+<% if model.class == Contact || model.class == User %>
   <div class="flex items-center gap-3 p-4 2xl:mt-6 2xl:px-6 2xl:pt-2 2xl:pb-4">
     <div class="w-8 h-8 2xl:w-[42px] 2xl:h-[42px] shrink-0">
       <% if model[:avatar_url].present? %>
@@ -26,9 +26,11 @@
           <%= model.phone %>
           <div class="tooltip-arrow" data-popper-arrow></div>
         </div>
-        <div class="w-4 h-4 flex items-center">
-          <%= render '/components/links/chatwoot_conversation_link', contact: model %>
-        </div>
+        <% if model.class == Contact %>
+          <div class="w-4 h-4 flex items-center">
+            <%= render '/components/links/chatwoot_conversation_link', contact: model %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>

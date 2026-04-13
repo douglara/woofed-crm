@@ -42,7 +42,7 @@
               <div class="flex -space-x-2 rtl:space-x-reverse">
                 <% deal.users.order(id: :desc).limit(2).each do |user| %>
                   <div class='w-5 h-5'>
-                    <%= link_to edit_account_user_path(Current.account, user), class: "cursor-pointer peer" , data: { turbo_frame: :_top } do %>
+                    <%= link_to account_user_path(Current.account, user), class: "cursor-pointer peer" , data: { turbo_frame: :drawer } do %>
                       <% if user.avatar_url.present? %>
                         <img class="w-5 h-5 rounded-full object-cover hover:shadow-md" src="<%= user.avatar_url %>" alt="">
                       <% else %>

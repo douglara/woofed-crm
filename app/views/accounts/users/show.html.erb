@@ -1,0 +1,28 @@
+<% content_for :sidebar do %>
+  <%= render 'components/show_model/sidebar', model: @user,
+      links: [
+        { label: t('activerecord.models.show'), icon: "info" },
+        { label: t('activerecord.models.deal.other'), icon: "clipboard-list" }
+      ] %>
+<% end %>
+<% content_for :show_additional_content do %>
+  <div class="mb-5 color-bg-surface-default border color-border-default rounded " aria-expanded="false" data-accordion="open" id="<%= "#{Deal.model_name.human(count: 2).downcase}-#{@user.class.name.downcase}" %>-section">
+    <header class="flex flex-wrap items-center justify-between gap-2 p-4">
+      <div class='flex items-center gap-2'>
+        <i data-lucide="clipboard-list" class='color-fg-default stroke-1.04 w-5 h-5'></i>
+        <h1 class='color-fg-default typography-sub-title-900 '>
+          <%= Deal.model_name.human(count: 2) %>
+        </h1>
+      </div>
+      <div class='flex items-center gap-2'>
+        <button type="button" class="button-default-blank-secondary-icon-only-sm" data-accordion-target="#accordion-collapse-<%= "#{Deal.model_name.human(count: 2)}-#{@user.class.name.downcase}-#{@user.object_id}"%>" aria-expanded="true" aria-controls="accordion-collapse-<%= "#{Deal.model_name.human(count: 2)}-#{@user.class.name.downcase}-#{@user.object_id}"%>">
+          <i data-accordion-icon data-lucide="chevron-down" class="rotate-180 shrink-0" height="16"></i>
+        </button>
+      </div>
+    </header>
+    <ul class="p-4 flex flex-col gap-2 border-t color-border-default" id="accordion-collapse-<%= "#{Deal.model_name.human(count: 2)}-#{@user.class.name.downcase}-#{@user.object_id}"%>" aria-labelledby="accordion-collapse-heading-<%= "#{Deal.model_name.human(count: 2)}-#{@user.class.name.downcase}-#{@user.object_id}"%>">
+      <%= render 'accounts/users/deals_list', deals: @deals, pagy: @pagy_deals, user: @user %>
+    </ul>
+  </div>
+<% end %>
+<%= render 'components/show_model/show_model', model: @user %>

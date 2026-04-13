@@ -20,6 +20,7 @@ es:
         password_confirmation: Confirme su contraseña
         full_name: Nombre completo
         phone: Teléfono (celular)
+        id: Código de usuario
         job_description: "Puesto de trabajo"
         avatar_url: "URL del avatar"
         language: Idioma

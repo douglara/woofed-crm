@@ -20,6 +20,7 @@ pt-BR:
         password_confirmation: Confirme sua Senha
         full_name: Nome Completo
         phone: Telefone (celular)
+        id: "Código do usuário"
         job_description: "Cargo"
         avatar_url: "URL do avatar"
         language: Idioma

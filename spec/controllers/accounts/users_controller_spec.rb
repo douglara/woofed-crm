@@ -135,6 +135,69 @@ RSpec.describe Accounts::UsersController, type: :request do
     end
   end
 
+  describe 'GET /accounts/{account.id}/users/{user.id}' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/users/#{user.id}"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let!(:pipeline) { create(:pipeline) }
+      let!(:stage) { create(:stage, pipeline:) }
+      let!(:deal) { create(:deal, stage:, name: 'Assigned Deal') }
+      let!(:deal_assignee) { create(:deal_assignee, deal:, user:) }
+
+      before do
+        sign_in(user)
+      end
+
+      it 'gets user show page' do
+        get "/accounts/#{account.id}/users/#{user.id}"
+        expect(response).to have_http_status(200)
+        expect(response.body).to include(ERB::Util.html_escape(user.full_name))
+        expect(response.body).to include(ERB::Util.html_escape(user.email))
+        expect(response.body).to include(ERB::Util.html_escape(deal.name))
+        expect(flash[:error]).to be_nil
+      end
+
+      context 'when viewing another user' do
+        it 'gets another user show page' do
+          get "/accounts/#{account.id}/users/#{another_user.id}"
+          expect(response).to have_http_status(200)
+          expect(response.body).to include(ERB::Util.html_escape(another_user.full_name))
+          expect(response.body).to include(ERB::Util.html_escape(another_user.email))
+          expect(flash[:error]).to be_nil
+        end
+      end
+
+      context 'when paginating deals' do
+        let!(:deals) do
+          create_list(:deal, 15, stage:).each do |deal|
+            create(:deal_assignee, deal:, user:)
+          end
+        end
+
+        it 'returns first page of deals by default' do
+          get "/accounts/#{account.id}/users/#{user.id}"
+          expect(response).to have_http_status(200)
+          doc = Nokogiri::HTML(response.body)
+          deals_frame = doc.at_css("turbo-frame#user_#{user.id}_deals")
+          expect(deals_frame).to be_present
+        end
+
+        it 'returns second page of deals' do
+          get "/accounts/#{account.id}/users/#{user.id}", params: { deals_page: 2 }
+          expect(response).to have_http_status(200)
+          doc = Nokogiri::HTML(response.body)
+          deals_frame = doc.at_css("turbo-frame#user_#{user.id}_deals")
+          expect(deals_frame).to be_present
+        end
+      end
+    end
+  end
+
   describe 'GET /accounts/{account.id}/users/new' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

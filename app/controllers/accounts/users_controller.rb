@@ -1,7 +1,11 @@
 class Accounts::UsersController < InternalController
   include UserConcern
 
-  before_action :set_user, only: %i[edit update destroy hovercard_preview]
+  before_action :set_user, only: %i[show edit update destroy hovercard_preview]
+
+  def show
+    @pagy_deals, @deals = pagy(@user.deals.order(created_at: :desc), items: 10, page_param: :deals_page)
+  end
 
   def index
     @users = if params[:query].present?

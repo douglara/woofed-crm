@@ -36,6 +36,14 @@
 <div id="dropdownuserOptions<%= user.id %>" class="z-50 hidden bg-white divide-y divide-gray-200 rounded-lg shadow w-48 absolute">
   <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3" aria-labelledby="dropdownDefaultButton">
     <li>
+      <%= link_to account_user_path(Current.account, user), data: { turbo_frame: :drawer }, class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1" do %>
+        <i data-lucide="info" class="color-fg-soft"></i>
+        <p>
+          <%= t('activerecord.models.show') %>
+        </p>
+      <% end %>
+    </li>
+    <li>
       <%= link_to edit_account_user_path(Current.account, user), data: { turbo_frame: :_top }, class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1" do %>
         <i data-lucide="pencil" class="color-fg-soft"></i>
         <p>
