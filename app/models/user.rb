@@ -24,6 +24,8 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
+  FORM_FIELDS = %i[full_name email phone language password password_confirmation].freeze
+
   SHOW_FIELDS = { details: [:full_name, :email, :phone, :id, { enum_fields: %i[job_description] }, :created_at,
                              :updated_at] }.freeze
 

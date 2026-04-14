@@ -1,4 +1,15 @@
-<section class="px-4 py-5 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md m-8">
-  <%= render 'form', model: @user, url: account_user_path(current_user.account, @user) %>
-</section>
-<%= render 'theme_preference' %>
+<% content_for :sidebar do %>
+  <%= render 'components/show_model/sidebar', model: @user,
+      links: [
+        { label: t('activerecord.models.show'), icon: "info" },
+        { label: User.human_attribute_name(:theme_preference), icon: "sun-moon" }
+      ] %>
+<% end %>
+<%= render 'components/overlays/drawer_show_model', model: @user, title: t('activerecord.models.user.edit') do %>
+  <%= render 'components/show_model/section', model: @user, title: t('activerecord.models.show'), icon: 'info' do %>
+    <%= render 'form', model: @user, url: account_user_path(current_user.account, @user) %>
+  <% end %>
+  <%= render 'components/show_model/section', model: @user, title: User.human_attribute_name(:theme_preference), icon: 'sun-moon' do %>
+    <%= render 'theme_preference' %>
+  <% end %>
+<% end %>

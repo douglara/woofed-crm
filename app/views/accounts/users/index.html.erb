@@ -4,7 +4,7 @@
                search_url: account_users_path(Current.account),
                turbo_frame_search: :users_table,
                placeholder: t('activerecord.models.search', model: @users.model_name.human) %>
-    <%= link_to new_account_user_path(Current.account), class: 'button-default-blank-secondary-icon-only-sm' do %>
+    <%= link_to new_account_user_path(Current.account), class: 'button-default-blank-secondary-icon-only-sm', data: { turbo_frame: :drawer } do %>
       <i data-lucide="plus" class='h-4 w-4'></i>
     <% end %>
   </header>

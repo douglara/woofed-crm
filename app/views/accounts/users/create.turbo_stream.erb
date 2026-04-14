@@ -1,0 +1,9 @@
+<%= turbo_stream.replace :drawer do %>
+  <%= render 'drawer_show_user', user: @user, deals: @deals, pagy: @pagy_deals %>
+<% end %>
+<%= turbo_stream.replace :flash_message do %>
+  <%= render partial: 'components/flash_message', locals: { message: t('flash_messages.created', model: User.model_name.human) } %>
+<% end %>
+<%= turbo_stream.prepend dom_id(User, :users__index) do %>
+  <%= render partial: '/accounts/users/user', locals: { user: @user } %>
+<% end %>

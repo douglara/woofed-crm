@@ -58,7 +58,7 @@ class Contact < ApplicationRecord
     additional_attributes['chatwoot_id'].present?
   end
 
-  FORM_FIELDS = %i[full_name email phone label_list chatwoot_conversations_label_list]
+  FORM_FIELDS = %i[full_name email phone label_list]
 
   SHOW_FIELDS = { details: %i[full_name email phone id label_list custom_attributes created_at
                               updated_at],

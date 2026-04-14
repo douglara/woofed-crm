@@ -1,0 +1,35 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+  <% model.class::FORM_FIELDS.each do |field| %>
+    <% next if field == :custom_attributes %>
+    <div class="flex flex-col gap-1">
+      <%= form.label field, class: 'typography-body-900 color-fg-soft' %>
+      <% if model.class.respond_to?(:defined_enums) && model.class.defined_enums.key?(field.to_s) %>
+        <%= form.select field, model.class.defined_enums[field.to_s].keys.map { |k| [model.class.human_enum_name(field, k), k] }, {}, class: 'form-input' %>
+      <% elsif field == :language %>
+        <%= form.select field, LANGUAGES_CONFIG.map { |_, l| [l[:name], l[:iso_639_1_code]] }, {}, class: 'form-input' %>
+      <% elsif field.to_s.include?('password') %>
+        <%= form.password_field field, class: 'form-input' %>
+      <% elsif field == :phone %>
+        <%= form.text_field field, class: 'form-input', data: { controller: 'input-mask--input-phone' } %>
+      <% elsif field.to_s.include?('amount') %>
+        <%= form.text_field field, class: 'form-input', data: { controller: 'input-mask--input-amount-in-cents' } %>
+      <% elsif field == :label_list %>
+        <%= form.text_field field, value: model.labels.join(', '), class: 'form-input', data: { controller: 'tag-input' } %>
+      <% elsif field == :description %>
+        <%= form.text_area field, rows: 5, class: 'form-input' %>
+      <% elsif model.class.columns_hash[field.to_s]&.type == :integer %>
+        <%= form.number_field field, class: 'form-input', min: 0 %>
+      <% else %>
+        <%= form.text_field field, class: 'form-input' %>
+      <% end %>
+    </div>
+  <% end %>
+  <%= form.fields_for(:custom_attributes) do |sf| %>
+    <% current_user.account.custom_attributes_definitions.where(attribute_model: "#{model.class.name.downcase}_attribute").each do |custom_attribute| %>
+      <div class="flex flex-col gap-1">
+        <%= sf.label custom_attribute.attribute_key.to_sym, custom_attribute.attribute_display_name, class: 'typography-body-900 color-fg-soft' %>
+        <%= sf.text_field custom_attribute.attribute_key.to_sym, value: model.custom_attributes[custom_attribute.attribute_key], class: 'form-input' %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

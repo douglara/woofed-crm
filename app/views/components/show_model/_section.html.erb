@@ -1,0 +1,18 @@
+<div class="mb-5 color-bg-surface-default border color-border-default rounded " aria-expanded="false" data-accordion="open" id="<%= "#{title.downcase}-#{model.class.name.downcase}" %>-section">
+  <header class="flex flex-wrap items-center justify-between gap-2 p-4">
+    <div class='flex items-center gap-2'>
+      <i data-lucide="<%= icon %>" class='color-fg-default stroke-1.04 w-5 h-5'></i>
+      <h1 class='color-fg-default typography-sub-title-900 '>
+        <%= title %>
+      </h1>
+    </div>
+    <div class='flex items-center gap-2'>
+      <button type="button" class="button-default-blank-secondary-icon-only-sm" data-accordion-target="#accordion-collapse-<%= "#{title.downcase}-#{model.class.name.downcase}-#{model.object_id}"%>" aria-expanded="true" aria-controls="accordion-collapse-<%= "#{title.downcase}-#{model.class.name.downcase}-#{model.object_id}"%>">
+        <i data-accordion-icon data-lucide="chevron-down" class="rotate-180 shrink-0" height="16"></i>
+      </button>
+    </div>
+  </header>
+  <div class="p-4 border-t color-border-default" id="accordion-collapse-<%= "#{title.downcase}-#{model.class.name.downcase}-#{model.object_id}"%>" aria-labelledby="accordion-collapse-heading-<%= "#{title.downcase}-#{model.class.name.downcase}-#{model.object_id}"%>">
+    <%= yield %>
+  </div>
+</div>

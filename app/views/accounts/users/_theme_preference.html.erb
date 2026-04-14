@@ -1,14 +1,5 @@
-<section class="px-4 py-5 color-bg-surface-default border-2 color-border-default rounded-md m-8"
-         data-controller="theme-preference"
-         data-theme-preference-url-value="<%= account_user_path(current_user.account, current_user, format: :json) %>">
-  <div class="flex items-center gap-3 mb-6">
-    <h3 class="typography-sub-title-900 text-dark-gray-palette-p1">
-      <%= User.human_attribute_name(:theme_preference) %>
-    </h3>
-    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300 uppercase tracking-wide">
-      Beta
-    </span>
-  </div>
+<div data-controller="theme-preference"
+     data-theme-preference-url-value="<%= account_user_path(current_user.account, current_user, format: :json) %>">
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
     <%# Light theme option %>
     <button type="button"
@@ -97,4 +88,4 @@
       </div>
     </button>
   </div>
-</section>
+</div>

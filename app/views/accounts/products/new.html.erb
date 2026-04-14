@@ -1,3 +1,11 @@
-<%= render 'components/overlays/drawer', title: t('activerecord.models.product.new'), width_class: 'w-2/5' do %>
-  <%= render 'form', product: @product %>
+<% content_for :sidebar do %>
+  <%= render 'components/show_model/sidebar', model: @product,
+      links: [
+        { label: t('activerecord.models.show'), icon: "info" }
+      ] %>
+<% end %>
+<%= render 'components/overlays/drawer_show_model', model: @product, title: t('activerecord.models.product.new') do %>
+  <%= render 'components/show_model/section', model: @product, title: t('activerecord.models.show'), icon: 'info' do %>
+    <%= render 'form', product: @product %>
+  <% end %>
 <% end %>

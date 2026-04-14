@@ -1,3 +1,11 @@
-<section class="px-4 py-5 bg-light-palette-p5 border-2 border-light-palette-p3 rounded-md m-8">
-  <%= render 'form', model: @user, url: account_users_path(current_user.account)  %>
-</section>
+<% content_for :sidebar do %>
+  <%= render 'components/show_model/sidebar', model: @user,
+      links: [
+        { label: t('activerecord.models.show'), icon: "info" }
+      ] %>
+<% end %>
+<%= render 'components/overlays/drawer_show_model', model: @user, title: t('activerecord.models.user.new') do %>
+  <%= render 'components/show_model/section', model: @user, title: t('activerecord.models.show'), icon: 'info' do %>
+    <%= render 'form', model: @user, url: account_users_path(current_user.account) %>
+  <% end %>
+<% end %>

@@ -47,8 +47,14 @@ class Accounts::UsersController < InternalController
   def create
     @user = current_user.account.users.new(user_params)
     if @user.save
-      redirect_to account_users_path(current_user.account),
-                  notice: t('flash_messages.created', model: User.model_name.human)
+      @pagy_deals, @deals = pagy(@user.deals.order(created_at: :desc), items: 10, page_param: :deals_page)
+      respond_to do |format|
+        format.html do
+          redirect_to account_users_path(current_user.account),
+                      notice: t('flash_messages.created', model: User.model_name.human)
+        end
+        format.turbo_stream
+      end
     else
       render :new, status: :unprocessable_entity
     end
