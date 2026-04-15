@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-04-13 23:41:12 -0300'>2026-04-13 23:41:12 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-04-15 00:40:53 -0300'>2026-04-15 00:40:53 -0300</time>
         
       </span>
     </div>
@@ -73,7 +73,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">11.3</span><small> complexity/method</small></div>
-              <div><span class="metric">33</span><small> churn</small></div>
+              <div><span class="metric">34</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">124.19</span><small> complexity</small></div>
@@ -127,7 +127,7 @@
       respond_to do |format|
         format.html do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::UsersController#update calls 'format.html' 2 times</span>              <span>Locations:</span>                  <a href="users_controller.html#L29" class="js-smell-location">0</a>                  <a href="users_controller.html#L37" class="js-smell-location">1</a>                  </div>  </li></ol>
           flash[:notice] = t(&#39;flash_messages.updated&#39;, model: User.model_name.human)
-          redirect_to edit_account_user_path(current_user.account, @user)
+          redirect_to account_user_path(current_user.account, @user)
         end
         format.json { head :ok }<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::UsersController#update calls 'format.json' 2 times</span>              <span>Locations:</span>                  <a href="users_controller.html#L33" class="js-smell-location">0</a>                  <a href="users_controller.html#L38" class="js-smell-location">1</a>                  </div>  </li></ol>
       end

@@ -62,8 +62,8 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating f big">
-              F
+            <div class="rating c big">
+              C
             </div>
           </div>
           <div class="code-statistics col-md-11">
@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">123.51</span><small> complexity</small></div>
-              <div><span class="metric">148</span><small> duplications</small></div>
+              <div><span class="metric">58</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                16
+                13
                 smells
               </a>
             </li>
@@ -124,7 +124,7 @@
 
   def edit; end
 
-  def update<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="products_controller.html#L28" class="js-smell-location">0</a>                  <a href="settings/custom_attributes_definitions_controller.html#L24" class="js-smell-location">1</a>                  <a href="settings/webhooks_controller.html#L25" class="js-smell-location">2</a>                  </div>  </li></ol>
+  def update
     if @product.update(product_params)
       redirect_to account_product_path(current_user.account, @product),
                   notice: t(&#39;flash_messages.updated&#39;, model: Product.model_name.human)
@@ -142,7 +142,7 @@
     render :edit_custom_attributes, status: :unprocessable_entity unless @product.save
   end
 
-  def index<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L9" class="js-smell-location">0</a>                  <a href="products_controller.html#L46" class="js-smell-location">1</a>                  <a href="users_controller.html#L10" class="js-smell-location">2</a>                  </div>  </li></ol>
+  def index<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="products_controller.html#L46" class="js-smell-location">0</a>                  <a href="users_controller.html#L10" class="js-smell-location">1</a>                  </div>  </li></ol>
     @products = if params[:query].present?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ProductsController#index calls 'params[:query]' 2 times</span>              <span>Locations:</span>                  <a href="products_controller.html#L47" class="js-smell-location">0</a>                  <a href="products_controller.html#L49" class="js-smell-location">1</a>                  </div>  </li></ol>
                   Product.where(
                     &#39;name ILIKE :search OR identifier ILIKE :search&#39;, search: &quot;%#{params[:query]}%&quot;<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ProductsController#index calls 'params[:query]' 2 times</span>              <span>Locations:</span>                  <a href="products_controller.html#L47" class="js-smell-location">0</a>                  <a href="products_controller.html#L49" class="js-smell-location">1</a>                  </div>  </li></ol>
@@ -154,7 +154,7 @@
     @pagy, @products = pagy(@products)
   end
 
-  def destroy<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L98" class="js-smell-location">0</a>                  <a href="products_controller.html#L58" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::ProductsController#destroy has approx 6 statements</span>          </div>  </li></ol>
+  def destroy<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::ProductsController#destroy has approx 6 statements</span>          </div>  </li></ol>
     @product.destroy
     respond_to do |format|
       format.html do
@@ -165,7 +165,7 @@
     end
   end
 
-  def select_product_search<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L21" class="js-smell-location">0</a>                  <a href="products_controller.html#L69" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>Accounts::ProductsController#select_product_search has a flog score of 25</span>          </div>  </li></ol>
+  def select_product_search<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>Accounts::ProductsController#select_product_search has a flog score of 25</span>          </div>  </li></ol>
     @products = if params[:query].present?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ProductsController#select_product_search calls 'params[:query]' 2 times</span>              <span>Locations:</span>                  <a href="products_controller.html#L70" class="js-smell-location">0</a>                  <a href="products_controller.html#L72" class="js-smell-location">1</a>                  </div>  </li></ol>
                   current_user.account.products.where(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ProductsController#select_product_search calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="products_controller.html#L71" class="js-smell-location">0</a>                  <a href="products_controller.html#L75" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ProductsController#select_product_search calls 'current_user.account.products' 2 times</span>              <span>Locations:</span>                  <a href="products_controller.html#L71" class="js-smell-location">0</a>                  <a href="products_controller.html#L75" class="js-smell-location">1</a>                  </div>  </li></ol>
                     &#39;name ILIKE :search&#39;, search: &quot;%#{params[:query]}%&quot;<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ProductsController#select_product_search calls 'params[:query]' 2 times</span>              <span>Locations:</span>                  <a href="products_controller.html#L70" class="js-smell-location">0</a>                  <a href="products_controller.html#L72" class="js-smell-location">1</a>                  </div>  </li></ol>
