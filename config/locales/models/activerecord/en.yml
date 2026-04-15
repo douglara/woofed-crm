@@ -8,6 +8,8 @@ en:
       edit: "Edit"
       delete: "Delete"
       cancel: "Cancel"
+      add: "Add"
+      upload_file: "Drag a file or Find a file"
       connecting: "Connecting..."
       processing: "Processing..."
       search: "Search %{model}"

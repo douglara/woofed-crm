@@ -1,71 +1,75 @@
-<div class="flex flex-col gap-5">
+<%= form_for([current_user.account, product], html:{class: "flex flex-col gap-5 relative z-0 ", data: { controller: 'product-form--upload-files', action: "drop->product-form--upload-files#acceptFiles dragenter->product-form--upload-files#showDragAlert dragleave->product-form--upload-files#removeDragAlert", 'product-form--upload-files-accepted-types-value': '["text", "video", "image", "application"]' }}) do | form | %>
+  <%= render '/accounts/products/drag_and_drop' %>
+  <%= render 'accounts/products/attachments_upload_system', form: form %>
   <% if product.image_attachments.present? %>
-    <h2 class="typography-body-s-lh150 text-dark-gray-palette-p1">
-      <%= t('views.accounts.products.form.images_attached') %>
-    </h2>
-    <div class='flex items-end gap-4 flex-wrap'>
+    <div class="flex items-center gap-2">
+      <i data-lucide="image" class="w-5 h-5 stroke-1.25 color-fg-soft"></i>
+      <h2 class="typography-sub-title-800 color-fg-soft">
+        <%= t('views.accounts.products.form.images_attached') %>
+      </h2>
+    </div>
+    <div class="flex items-end gap-4 flex-wrap">
       <% product.image_attachments.each do |attachment| %>
-        <div class='grid border-2 rounded-md w-[250px] relative'>
-          <div class='w-full h-[150px]' data-controller='lightbox'>
-            <%= image_tag attachment.file, class: 'cursor-pointer object-cover w-full h-full rounded-t-md', data: { src: rails_blob_url(attachment.file), sub_html: attachment.file.filename.to_s } %>
-          </div>
-          <div class='bg-brand-palette-08 p-1.5 grid gap-0.5 rounded-b-md'>
-            <p class='typography-sub-text-s-lh150 text-dark-gray-palette-p1 truncate max-w-[180px]'><%= attachment.file.filename.to_s %></p>
-            <div class='flex justify-between items-center'>
-              <p class='typography-micro-m-lh150 text-dark-gray-palette-p4'><%= number_to_human_size(attachment.file.byte_size) %></p>
-              <%= link_to rails_blob_path(attachment.file), class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
-                <i data-lucide="download" height="15"></i>
-              <% end %>
+        <%= turbo_frame_tag attachment do %>
+          <div class="grid rounded h-16 w-16 relative">
+            <div class=" w-full h-full rounded" data-controller="lightbox">
+              <%= image_tag attachment.file, class: 'cursor-pointer object-cover w-full h-full rounded', alt: attachment.file.filename.to_s, data: { src: rails_blob_url(attachment.file), sub_html: attachment.file.filename.to_s } %>
             </div>
+            <%= link_to account_attachment_path(Current.account, attachment), method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center h-4 w-4 p-1 color-fg-default color-bg-fill-soft rounded-full border-[1px] border-brand-palette-07 hover:border-brand-palette-06 hover:border-[1px] hover:bg-brand-palette-08 hover:rounded-full hover:text-brand-palette-03 transtion ease-in-out delay-250 absolute top-0.5 right-0.5' do %>
+              <i data-lucide="trash-2" class="h-4 w-4"></i>
+            <% end %>
           </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
   <% end %>
   <% if product.video_attachments.present? %>
-    <h2 class="typography-body-s-lh150 text-dark-gray-palette-p1">
-      <%= t('views.accounts.products.form.videos_attached') %>
-    </h2>
-    <div class='flex items-end gap-4 flex-wrap'>
+    <div class="flex items-center gap-2">
+      <i data-lucide="video" class="w-5 h-5 stroke-1.25 color-fg-soft"></i>
+      <h2 class="typography-sub-title-800 color-fg-soft">
+        <%= t('views.accounts.products.form.videos_attached') %>
+      </h2>
+    </div>
+    <div class="flex items-end gap-4 flex-wrap">
       <% product.video_attachments.each do |attachment| %>
-        <div class='grid border-2 rounded-md w-[250px] relative'>
-          <div class='w-full max-h-[250px]'>
-            <%= video_tag rails_blob_url(attachment.file), size:'250x250', controls: true, class: 'rounded-t-md object-scale-down w-full max-h-[250px]' %>
-          </div>
-          <div class='bg-brand-palette-08 p-1.5 grid gap-0.5 rounded-b-md'>
-            <p class='typography-sub-text-s-lh150 text-dark-gray-palette-p1 truncate max-w-[180px]'><%= attachment.file.filename.to_s %></p>
-            <div class='flex justify-between items-center'>
-              <p class='typography-micro-m-lh150 text-dark-gray-palette-p4'><%= number_to_human_size(attachment.file.byte_size) %></p>
-              <%= link_to rails_blob_path(attachment.file), class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
-                <i data-lucide="download" height="15"></i>
-              <% end %>
+        <%= turbo_frame_tag attachment do %>
+          <div class="grid rounded w-[250px] relative">
+            <div class="w-full rounded max-h-[250px] ">
+              <%= video_tag rails_blob_url(attachment.file), size:'250x250', controls: true, class: 'object-scale-down w-full rounded max-h-[250px]' %>
             </div>
+            <%= link_to account_attachment_path(Current.account, attachment), method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center h-4 w-4 p-1 color-fg-default color-bg-fill-soft rounded-full border-[1px] border-brand-palette-07 hover:border-brand-palette-06 hover:border-[1px] hover:bg-brand-palette-08 hover:rounded-full hover:text-brand-palette-03 transtion ease-in-out delay-250 absolute top-0.5 right-0.5' do %>
+              <i data-lucide="trash-2" class="h-4 w-4"></i>
+            <% end %>
           </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
   <% end %>
   <% if product.file_attachments.present? %>
-    <h2 class="typography-body-s-lh150 text-dark-gray-palette-p1">
-      <%= t('views.accounts.products.form.files_attached') %>
-    </h2>
-    <div class='flex items-end gap-4 flex-wrap'>
+    <div class="flex items-center gap-2">
+      <i data-lucide="file" class="w-5 h-5 stroke-1.25 color-fg-soft"></i>
+      <h2 class="typography-sub-title-800 color-fg-soft">
+        <%= t('views.accounts.products.form.files_attached') %>
+      </h2>
+    </div>
+    <div class="flex items-end gap-4 flex-wrap">
       <% product.file_attachments.each do |attachment| %>
-        <div class='grid border-2 rounded-md w-[200px]'>
-          <div class='flex items-center h-[100px] relative'>
-            <i data-lucide="file" style="width: 50px; height: 50px" class="stroke-dark-gray-palette-p3 m-auto"></i>
-          </div>
-          <div class='bg-brand-palette-08 p-1.5 grid gap-0.5 rounded-b-md'>
-            <p class='typography-sub-text-s-lh150 text-dark-gray-palette-p1 truncate max-w-[180px]'><%= attachment.file.filename.to_s %></p>
-            <div class='flex justify-between items-center'>
-              <p class='typography-micro-m-lh150 text-dark-gray-palette-p4'><%= number_to_human_size(attachment.file.byte_size) %></p>
-              <%= link_to rails_blob_path(attachment.file), class: 'flex items-center h-7 w-7 p-1 text-dark-gray-palette-p3 border-[1.5px] border-[#e5e7eb00] hover:border-brand-palette-06 hover:border-[1.5px] hover:bg-brand-palette-08 hover:rounded-md hover:text-brand-palette-03 transtion ease-in-out delay-250' do %>
-                <i data-lucide="download" height="15"></i>
-              <% end %>
+        <%= turbo_frame_tag attachment do %>
+          <div class="h-11 w-48 border rounded color-bg-fill-default color-border-default flex items-center justify-center gap-2">
+            <i data-lucide="file" class="w-6 h-6 stroke-1.25 color-fg-soft"></i>
+            <div class="w-[91px] flex flex-col">
+              <span class="truncate typography-label-800 color-fg-default"><%= attachment.file.filename.to_s %></span>
+              <span class="truncate typography-label-800 color-fg-soft"><%= number_to_human_size(attachment.file.byte_size) %></span>
             </div>
+            <%= link_to  rails_blob_path(attachment.file), class: 'flex items-center color-fg-default' do %>
+              <i data-lucide="download" class="stroke-1.25 h-4 w-4"></i>
+            <% end %>
+            <%= link_to account_attachment_path(Current.account, attachment), method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center color-fg-feedback-danger' do %>
+              <i data-lucide="trash-2" class="stroke-1.25 h-4 w-4"></i>
+            <% end %>
           </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
   <% end %>
-</div>
+<% end %>

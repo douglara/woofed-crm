@@ -38,7 +38,9 @@
     </ul>
   <% end %>
   <%= render 'components/show_model/section', model: product, title: t('activerecord.models.attachment.other'), icon: 'paperclip' do %>
-    <%= render 'accounts/products/attachments_section', product: product %>
+    <%= turbo_frame_tag dom_id(@product, :attachment) do %>
+      <%= render 'accounts/products/attachments_section', product: product %>
+    <% end %>
   <% end %>
 <% end %>
 <%= render 'components/show_model/show_model', model: product, edit_path: edit_account_product_path(Current.account, product) %>

@@ -8,6 +8,8 @@ pt-BR:
       edit: "Editar"
       delete: "Excluir"
       cancel: "Cancelar"
+      add: "Adicionar"
+      upload_file: "Arraste um arquivo ou Encontre um arquivo"
       connecting: "Conectando..."
       processing: "Processando..."
       search: "Pesquisar %{model}"
