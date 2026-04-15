@@ -2,7 +2,9 @@
   <%= render 'components/show_model/sidebar', model: user,
       links: [
         { label: t('activerecord.models.show'), icon: "info" },
-        { label: t('activerecord.models.deal.other'), icon: "clipboard-list" }
+        { label: t('activerecord.models.deal.other'), icon: "clipboard-list" },
+        { label: t('views.accounts.users.form.notifications'), icon: "bell" },
+        { label: t('views.accounts.users.form.access_token'), icon: "key-round" }
       ] %>
 <% end %>
 <% content_for :show_additional_content do %>
@@ -10,6 +12,12 @@
     <ul class="flex flex-col gap-2">
       <%= render 'accounts/users/deals_list', deals: deals, pagy: pagy, user: user %>
     </ul>
+  <% end %>
+  <%= render 'components/show_model/section', model: user, title: t('views.accounts.users.form.notifications'), icon: 'bell' do %>
+    <%= render 'accounts/users/notifications_section', user: user %>
+  <% end %>
+  <%= render 'components/show_model/section', model: user, title: t('views.accounts.users.form.access_token'), icon: 'key-round' do %>
+    <%= render 'accounts/users/access_token_section', user: user %>
   <% end %>
 <% end %>
 <%= render 'components/show_model/show_model', model: user, edit_path: edit_account_user_path(current_user.account, user) %>

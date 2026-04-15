@@ -27,9 +27,9 @@
       aria-labelledby="user-menu-button"
     >
     <li>
-      <%= link_to edit_account_user_path(Current.account, current_user),
-          class: "flex items-center gap-2 px-4 py-2 hover:bg-gray-300 hover:text-dark-gray-palette-p1" do %>
-        <i data-lucide="user-cog" class='w-4 h-4'></i>
+      <%= link_to account_user_path(Current.account, current_user),
+          class: "flex items-center gap-2 px-4 py-2 hover:bg-gray-300 hover:text-dark-gray-palette-p1", data:{ turbo_frame: :drawer } do %>
+        <i data-lucide="user-cog" class="w-4 h-4"></i>
         <p><%= t('activerecord.models.profile_settings') %></p>
       <% end %>
     </li>
@@ -38,7 +38,7 @@
     <%= link_to destroy_user_session_path,
         class: "flex items-center gap-2 px-4 py-2 hover:bg-gray-300 hover:text-dark-gray-palette-p1",
         method: :delete do %>
-      <i data-lucide="log-out" class='w-4 h-4'></i>
+      <i data-lucide="log-out" class="w-4 h-4"></i>
       <p><%= t('views.layouts.shared.navbar_pipe.logout') %></p>
     <% end %>
   </div>
