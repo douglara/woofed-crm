@@ -47,6 +47,11 @@
     </div>
   </div>
   <div class="flex gap-2 self-end">
+    <% if model.persisted? %>
+      <%= link_to polymorphic_path([current_user.account, model]), class: "button-default-fill-secondary-sm" do %>
+        <%= t('activerecord.models.cancel') %>
+      <% end %>
+    <% end %>
     <%= submit_button(form) %>
   </div>
 <% end %>

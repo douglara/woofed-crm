@@ -10,9 +10,10 @@
   <% end %>
   <%= render 'components/show_model/form_fields', model: contact, form: form %>
   <div class="flex gap-2 self-end">
-    <%= link_to account_custom_attributes_definitions_path(current_user.account), class:"button-default-fill-secondary-sm", data:{ turbo_frame: :_top } do %>
-      <i data-lucide="plus"></i>
-      <%= t('activerecord.models.custom_attribute_definition.add') %>
+    <% if contact.persisted? %>
+      <%= link_to polymorphic_path([current_user.account, contact]), class: "button-default-fill-secondary-sm" do %>
+        <%= t('activerecord.models.cancel') %>
+      <% end %>
     <% end %>
     <%= submit_button(form) %>
   </div>

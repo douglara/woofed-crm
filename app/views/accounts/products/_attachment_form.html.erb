@@ -1,15 +1,5 @@
 <%= form_for([current_user.account, product], html:{class: "flex flex-col gap-5 relative z-0 ", data: { controller: 'product-form--upload-files', action: "drop->product-form--upload-files#acceptFiles dragenter->product-form--upload-files#showDragAlert dragleave->product-form--upload-files#removeDragAlert", 'product-form--upload-files-accepted-types-value': '["text", "video", "image", "application"]' }}) do | form | %>
   <%= render '/accounts/products/drag_and_drop'%>
-  <% if product.errors.any? %>
-    <div>
-      <ul>
-        <% product.errors.each do |error| %>
-          <li class="typography-body-s-lh150 text-auxiliary-palette-red"><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-  <%= render 'components/show_model/form_fields', model: product, form: form %>
   <%= render 'accounts/products/attachments' %>
   <% if product.image_attachments.present? %>
     <h2 class= "typography-body-s-lh150 text-dark-gray-palette-p1 ">
@@ -95,11 +85,4 @@
       <% end %>
     </div>
   <% end %>
-  <div class="flex gap-2 self-end">
-    <%= link_to account_custom_attributes_definitions_path(current_user.account), class:"button-default-fill-secondary-sm", data: {turbo_frame: :_top} do %>
-      <i data-lucide="plus"></i>
-      <%= t('activerecord.models.custom_attribute_definition.add') %>
-    <% end %>
-    <%= submit_button(form) %>
-  </div>
 <% end %>

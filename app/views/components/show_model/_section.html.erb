@@ -7,6 +7,11 @@
       </h1>
     </div>
     <div class='flex items-center gap-2'>
+      <% if local_assigns[:edit_path] %>
+        <%= link_to edit_path, class: "button-default-blank-secondary-icon-only-sm" do %>
+          <i data-lucide="pencil" class="shrink-0" height="16"></i>
+        <% end %>
+      <% end %>
       <button type="button" class="button-default-blank-secondary-icon-only-sm" data-accordion-target="#accordion-collapse-<%= "#{title.downcase}-#{model.class.name.downcase}-#{model.object_id}"%>" aria-expanded="true" aria-controls="accordion-collapse-<%= "#{title.downcase}-#{model.class.name.downcase}-#{model.object_id}"%>">
         <i data-accordion-icon data-lucide="chevron-down" class="rotate-180 shrink-0" height="16"></i>
       </button>

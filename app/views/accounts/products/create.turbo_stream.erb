@@ -1,5 +1,5 @@
 <%= turbo_stream.replace :drawer do %>
-  <%= turbo_frame_tag :drawer %>
+  <%= render '/accounts/products/drawer_show_product', product: @product %>
 <% end %>
 <%= turbo_stream.replace :flash_message do %>
   <%= render partial: 'components/flash_message', locals: { message: t('flash_messages.created', model: Product.model_name.human) } %>

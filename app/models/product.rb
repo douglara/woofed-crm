@@ -23,7 +23,7 @@ class Product < ApplicationRecord
   has_many :deal_products, dependent: :destroy
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
-  FORM_FIELDS = %i[name amount_in_cents quantity_available identifier]
+  FORM_FIELDS = %i[name amount_in_cents quantity_available identifier description]
 
   SHOW_FIELDS = { details: %i[name amount_in_cents quantity_available identifier description custom_attributes created_at
                               updated_at] }.freeze

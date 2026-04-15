@@ -28,7 +28,7 @@ class Accounts::UsersController < InternalController
       respond_to do |format|
         format.html do
           flash[:notice] = t('flash_messages.updated', model: User.model_name.human)
-          redirect_to edit_account_user_path(current_user.account, @user)
+          redirect_to account_user_path(current_user.account, @user)
         end
         format.json { head :ok }
       end

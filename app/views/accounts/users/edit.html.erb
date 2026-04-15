@@ -2,14 +2,18 @@
   <%= render 'components/show_model/sidebar', model: @user,
       links: [
         { label: t('activerecord.models.show'), icon: "info" },
-        { label: User.human_attribute_name(:theme_preference), icon: "sun-moon" }
-      ] %>
+        (current_user == @user ? { label: User.human_attribute_name(:theme_preference), icon: "sun-moon" } : nil)
+      ].compact %>
 <% end %>
 <%= render 'components/overlays/drawer_show_model', model: @user, title: t('activerecord.models.user.edit') do %>
-  <%= render 'components/show_model/section', model: @user, title: t('activerecord.models.show'), icon: 'info' do %>
-    <%= render 'form', model: @user, url: account_user_path(current_user.account, @user) %>
+  <%= turbo_frame_tag dom_id(@user, :details) do %>
+    <%= render 'components/show_model/section', model: @user, title: t('activerecord.models.show'), icon: 'info' do %>
+      <%= render 'form', model: @user, url: account_user_path(current_user.account, @user) %>
+    <% end %>
   <% end %>
-  <%= render 'components/show_model/section', model: @user, title: User.human_attribute_name(:theme_preference), icon: 'sun-moon' do %>
-    <%= render 'theme_preference' %>
+  <% if current_user == @user %>
+    <%= render 'components/show_model/section', model: @user, title: User.human_attribute_name(:theme_preference), icon: 'sun-moon' do %>
+      <%= render 'theme_preference' %>
+    <% end %>
   <% end %>
 <% end %>

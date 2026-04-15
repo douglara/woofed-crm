@@ -1,11 +1,15 @@
 <% content_for :sidebar do %>
   <%= render 'components/show_model/sidebar', model: @product,
       links: [
-        { label: t('activerecord.models.show'), icon: "info" }
+        { label: t('activerecord.models.show'), icon: "info" },
+        { label: t('activerecord.models.attachment.other'), icon: "paperclip" }
       ] %>
 <% end %>
 <%= render 'components/overlays/drawer_show_model', model: @product, title: t('activerecord.models.product.new') do %>
   <%= render 'components/show_model/section', model: @product, title: t('activerecord.models.show'), icon: 'info' do %>
-    <%= render 'form', product: @product %>
+    <%= render 'details_form', product: @product %>
+  <% end %>
+  <%= render 'components/show_model/section', model: @product, title: t('activerecord.models.attachment.other'), icon: 'paperclip' do %>
+    <%= render 'attachment_form', product: @product %>
   <% end %>
 <% end %>
