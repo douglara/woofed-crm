@@ -1,5 +1,5 @@
 <%= render 'components/overlays/drawer_show_model', model: model do %>
-  <%= turbo_frame_tag dom_id(model, :details) do %>
+  <%= turbo_frame_tag dom_id(model, :details_section) do %>
     <% model.class::SHOW_FIELDS.slice(:details).each do | show_field_category |  %>
       <%= render 'components/show_model/section', model: model, title: t('activerecord.models.show'), icon: 'info', edit_path: local_assigns[:edit_path] do %>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">

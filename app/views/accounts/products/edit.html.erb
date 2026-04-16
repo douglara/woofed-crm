@@ -6,14 +6,14 @@
       ] %>
 <% end %>
 <%= render 'components/overlays/drawer_show_model', model: @product, title: t('activerecord.models.product.edit') do %>
-  <%= turbo_frame_tag dom_id(@product, :details) do %>
+  <%= turbo_frame_tag dom_id(@product, :details_section) do %>
     <%= render 'components/show_model/section', model: @product, title: t('activerecord.models.show'), icon: 'info' do %>
       <%= render 'details_form', product: @product %>
     <% end %>
   <% end %>
   <%= render 'components/show_model/section', model: @product, title: t('activerecord.models.attachment.other'), icon: 'paperclip' do %>
-    <%= turbo_frame_tag dom_id(@product, :attachment) do %>
-      <%= render 'attachment_form', product: @product %>
+    <%= turbo_frame_tag dom_id(@product, :attachments_section) do %>
+      <%= render 'attachments_section', product: @product %>
     <% end %>
   <% end %>
 <% end %>

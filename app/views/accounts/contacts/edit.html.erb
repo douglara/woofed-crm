@@ -11,7 +11,7 @@
       ] %>
 <% end %>
 <%= render 'components/overlays/drawer_show_model', model: @contact, title: t('activerecord.models.contact.edit') do %>
-  <%= turbo_frame_tag dom_id(@contact, :details) do %>
+  <%= turbo_frame_tag dom_id(@contact, :details_section) do %>
     <%= render 'components/show_model/section', model: @contact, title: t('activerecord.models.show'), icon: 'info' do %>
       <%= render 'form', contact: @contact %>
     <% end %>

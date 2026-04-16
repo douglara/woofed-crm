@@ -8,7 +8,7 @@
       ].compact %>
 <% end %>
 <%= render 'components/overlays/drawer_show_model', model: @user, title: t('activerecord.models.user.edit') do %>
-  <%= turbo_frame_tag dom_id(@user, :details) do %>
+  <%= turbo_frame_tag dom_id(@user, :details_section) do %>
     <%= render 'components/show_model/section', model: @user, title: t('activerecord.models.show'), icon: 'info' do %>
       <%= render 'form', model: @user, url: account_user_path(current_user.account, @user) %>
     <% end %>
