@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-04-13 23:41:12 -0300'>2026-04-13 23:41:12 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-04-16 13:36:52 -0300'>2026-04-16 13:36:52 -0300</time>
         
       </span>
     </div>
@@ -73,7 +73,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">1.6</span><small> complexity/method</small></div>
-              <div><span class="metric">62</span><small> churn</small></div>
+              <div><span class="metric">63</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">6.35</span><small> complexity</small></div>
@@ -125,7 +125,7 @@
 class User &lt; ApplicationRecord
   FORM_FIELDS = %i[full_name email phone language password password_confirmation].freeze
 
-  SHOW_FIELDS = { details: [:full_name, :email, :phone, :id, { enum_fields: %i[job_description] }, :created_at,
+  SHOW_FIELDS = { details: [:full_name, :email, :phone, :id, { enum_fields: %i[job_description] }, :language, :created_at,
                              :updated_at] }.freeze
 
   has_one :installation
