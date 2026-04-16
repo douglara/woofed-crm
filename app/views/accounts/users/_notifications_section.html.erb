@@ -1,3 +1,5 @@
+<%= turbo_frame_tag dom_id(user, :notifications_section) do %>
+<%= render 'components/show_model/section', model: user, title: t('views.accounts.users.form.notifications'), icon: 'bell' do %>
 <%= form_with(model: user, url: account_user_path(current_user.account, user, format: :json), html: {
   class: "flex flex-col gap-5",
   data: { turbo: false, controller: "form--json-submit", form__json_submit_url_value: account_user_path(current_user.account, user, format: :json) }
@@ -12,4 +14,6 @@
       <%= form.label :webpush_notify_on_event_expired, class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
     </div>
   </div>
+<% end %>
+<% end %>
 <% end %>

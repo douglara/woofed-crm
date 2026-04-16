@@ -1,0 +1,63 @@
+<%= turbo_frame_tag dom_id(model, :details_section) do %>
+  <% model.class::SHOW_FIELDS.slice(:details).each do | show_field_category |  %>
+    <%= render 'components/show_model/section', model: model, title: t('activerecord.models.show'), icon: 'info', edit_path: local_assigns[:edit_path] do %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+        <% show_field_category[1].each do | show_field |  %>
+          <% if show_field.is_a?(Hash) && show_field.key?(:enum_fields) %>
+            <% show_field[:enum_fields].each do |enum_field| %>
+              <div class='flex flex-col gap-1'>
+                <p class='typography-body-900 color-fg-soft'>
+                  <%= t("activerecord.attributes.#{model.model_name.i18n_key}.#{enum_field}") %>
+                </p>
+                <p class='typography-body-900 color-fg-default break-all'>
+                  <%= model.class.human_enum_name(enum_field, model.send(enum_field)) %>
+                </p>
+              </div>
+            <% end %>
+          <% elsif show_field.is_a?(Hash) && show_field.key?(:relations) %>
+            <% show_field[:relations].each do |relation_name, field| %>
+              <div class='flex flex-col gap-1'>
+                <p class='typography-body-900 color-fg-soft'>
+                  <%= t("activerecord.attributes.#{model.model_name.i18n_key}.#{relation_name}") %>
+                </p>
+                <p class='typography-body-900 color-fg-default break-all'>
+                  <%= model.send(relation_name)&.send(field) %>
+                </p>
+              </div>
+            <% end %>
+          <% else %>
+            <% if model[show_field].is_a?(Hash) %>
+              <% model[show_field].each do | custom_attribute | %>
+                <div class='flex flex-col gap-1'>
+                  <p class="typography-body-900 color-fg-soft">
+                    <%= model.custom_attribute_display_name(custom_attribute[0]) %>
+                  </p>
+                  <p class="typography-body-900 color-fg-default break-all">
+                    <%= custom_attribute[1] %>
+                  </p>
+                </div>
+              <% end %>
+            <% else %>
+              <div class='flex flex-col gap-1'>
+                <p class='typography-body-900 color-fg-soft'>
+                  <%= t("activerecord.attributes.#{model.model_name.i18n_key}.#{show_field}") %>
+                </p>
+                <% if show_field.in?([:label_list]) %>
+                  <%= render 'components/list_labels', labels: model.send(show_field), max_width: '100%', justify_content: 'start' %>
+                <% elsif show_field.in?([:created_at, :updated_at]) %>
+                  <%= render 'components/formatters/datetime', value: model.send(show_field), type: 'short', class_style: 'typography-body-900 color-fg-default break-all' %>
+                <% elsif show_field.to_s.include?('amount') %>
+                  <%= render 'components/formatters/currency', value: model.send(show_field), class_style: 'typography-body-900 color-fg-default break-all' %>
+                <% else%>
+                  <p class='typography-body-900 color-fg-default break-all'>
+                    <%= model.send(show_field) %>
+                  </p>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

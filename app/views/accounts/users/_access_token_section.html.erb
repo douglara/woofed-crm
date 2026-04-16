@@ -1,3 +1,5 @@
+<%= turbo_frame_tag dom_id(user, :access_token_section) do %>
+<%= render 'components/show_model/section', model: user, title: t('views.accounts.users.form.access_token'), icon: 'key-round' do %>
 <div class="flex flex-col gap-5">
   <div class="grid gap-2">
     <div class="w-full max-w-[48rem]" data-controller="clipboard">
@@ -21,3 +23,5 @@
     </p>
   </div>
 </div>
+<% end %>
+<% end %>

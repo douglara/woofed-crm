@@ -43,10 +43,6 @@
       </div>
     <% end %>
   <% end %>
-  <%= render 'components/show_model/section', model: contact, title: t('activerecord.models.deal.other'), icon: 'clipboard-list' do %>
-    <ul class="flex flex-col gap-2">
-      <%= render 'accounts/contacts/deals_list', deals: @deals, pagy: @pagy_deals, contact: contact %>
-    </ul>
-  <% end %>
+  <%= render 'accounts/contacts/deals_list', deals: @deals, pagy: @pagy_deals, contact: contact %>
 <% end %>
 <%= render 'components/show_model/show_model', model: contact, edit_path: edit_account_contact_path(Current.account, contact) %>

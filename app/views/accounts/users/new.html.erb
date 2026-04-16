@@ -6,6 +6,6 @@
 <% end %>
 <%= render 'components/overlays/drawer_show_model', model: @user, title: t('activerecord.models.user.new') do %>
   <%= render 'components/show_model/section', model: @user, title: t('activerecord.models.show'), icon: 'info' do %>
-    <%= render 'form', model: @user, url: account_users_path(current_user.account) %>
+    <%= render 'details_form', model: @user, url: account_users_path(current_user.account) %>
   <% end %>
 <% end %>

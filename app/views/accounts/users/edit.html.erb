@@ -10,18 +10,12 @@
 <%= render 'components/overlays/drawer_show_model', model: @user, title: t('activerecord.models.user.edit') do %>
   <%= turbo_frame_tag dom_id(@user, :details_section) do %>
     <%= render 'components/show_model/section', model: @user, title: t('activerecord.models.show'), icon: 'info' do %>
-      <%= render 'form', model: @user, url: account_user_path(current_user.account, @user) %>
+      <%= render 'details_form', model: @user, url: account_user_path(current_user.account, @user) %>
     <% end %>
   <% end %>
-  <%= render 'components/show_model/section', model: @user, title: t('views.accounts.users.form.access_token'), icon: 'key-round' do %>
-    <%= render 'access_token_section', user: @user %>
-  <% end %>
-  <%= render 'components/show_model/section', model: @user, title: t('views.accounts.users.form.notifications'), icon: 'bell' do %>
-    <%= render 'notifications_section', user: @user %>
-  <% end %>
+  <%= render 'accounts/users/access_token_section', user: @user %>
+  <%= render 'accounts/users/notifications_section', user: @user %>
   <% if current_user == @user %>
-    <%= render 'components/show_model/section', model: @user, title: User.human_attribute_name(:theme_preference), icon: 'sun-moon' do %>
-      <%= render 'theme_preference' %>
-    <% end %>
+    <%= render 'accounts/users/theme_preference_section' %>
   <% end %>
 <% end %>

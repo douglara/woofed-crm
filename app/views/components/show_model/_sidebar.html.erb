@@ -3,7 +3,7 @@
   <ul class="flex flex-col gap-2 px-[10px] py-2 border-y color-border-default 2xl:px-6 ">
     <% links.each do |link| %>
       <li>
-        <%= link_to "##{link[:label].downcase}-#{model.class.name.downcase}-section",
+        <%= link_to "##{link[:label].parameterize}-#{model.class.name.parameterize}-section",
               data: { turbo: false, tooltip_target: "#{link[:label]}-section", tooltip_placement: 'right'  },
               class: "button-menu-default-md-icon-only w-11 2xl:w-full 2xl:button-menu-default-md" do %>
           <% if link[:icon].include?('.svg') %>

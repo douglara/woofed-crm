@@ -2,11 +2,12 @@
   <%= render 'components/show_model/sidebar', model: product,
       links: [
         { label: t('activerecord.models.show'), icon: "info" },
-        { label: t('activerecord.models.deal.other'), icon: "clipboard-list" },
         { label: t('activerecord.models.attachment.other'), icon: "paperclip" },
+        { label: t('activerecord.models.deal.other'), icon: "clipboard-list" },
       ] %>
 <% end %>
 <% content_for :show_additional_content do %>
+  <%= render 'accounts/products/attachments_section', product: product %>
   <%= render 'components/show_model/section', model: product, title: t('activerecord.models.deal.other'), icon: 'clipboard-list' do %>
     <ul class="flex flex-col gap-2">
       <% product.deal_products.each do |deal_product| %>
@@ -36,11 +37,6 @@
         <% end %>
       <% end %>
     </ul>
-  <% end %>
-  <%= render 'components/show_model/section', model: product, title: t('activerecord.models.attachment.other'), icon: 'paperclip' do %>
-    <%= turbo_frame_tag dom_id(@product, :attachments_section) do %>
-      <%= render 'accounts/products/attachments_section', product: product %>
-    <% end %>
   <% end %>
 <% end %>
 <%= render 'components/show_model/show_model', model: product, edit_path: edit_account_product_path(Current.account, product) %>

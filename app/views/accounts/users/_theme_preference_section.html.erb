@@ -1,3 +1,5 @@
+<%= turbo_frame_tag dom_id(current_user, :theme_preference_section) do %>
+<%= render 'components/show_model/section', model: current_user, title: User.human_attribute_name(:theme_preference), icon: 'sun-moon' do %>
 <div data-controller="theme-preference"
      data-theme-preference-url-value="<%= account_user_path(current_user.account, current_user, format: :json) %>">
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -89,3 +91,5 @@
     </button>
   </div>
 </div>
+<% end %>
+<% end %>

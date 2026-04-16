@@ -51,17 +51,6 @@
       <% end %>
     </li>
     <li>
-      <%= link_to edit_account_contact_path(Current.account, contact), class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1", data: { turbo_frame: :drawer } do %>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="pencil">
-          <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
-          <path d="m15 5 4 4"></path>
-        </svg>
-        <p>
-          <%= t('activerecord.models.edit') %>
-        </p>
-      <% end %>
-    </li>
-    <li>
       <%= link_to  account_contact_path(current_user.account, contact), method: :delete, data: { confirm: t('views.accounts.contacts.contact.are_you_sure?') }, class: "flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1" do %>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash">
           <path d="M3 6h18"></path>
