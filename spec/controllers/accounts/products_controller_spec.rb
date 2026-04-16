@@ -354,7 +354,7 @@ RSpec.describe Accounts::ProductsController, type: :request do
 
       it 'updates the product' do
         patch("/accounts/#{account.id}/products/#{product.id}", params:)
-        expect(response).to redirect_to(edit_account_product_path(account, product))
+        expect(response).to redirect_to(account_product_path(account, product))
         expect(product.reload.name).to eq('Product Updated Name')
         expect(product.amount_in_cents).to eq(6_358_036)
       end

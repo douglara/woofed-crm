@@ -213,7 +213,7 @@ RSpec.describe Accounts::UsersController, type: :request do
 
       it 'visits user new page (en)' do
         get "/accounts/#{account.id}/users/new"
-        expect(response.body).to include('User data')
+        expect(response.body).to include('Details')
         expect(response).to have_http_status(:success)
         expect(flash[:error]).to be_nil
       end
@@ -225,7 +225,7 @@ RSpec.describe Accounts::UsersController, type: :request do
 
         it 'visits user new page (es)' do
           get "/accounts/#{account.id}/users/new"
-          expect(response.body).to include('Datos del usuario')
+          expect(response.body).to include('Detalles')
           expect(response).to have_http_status(:success)
           expect(flash[:error]).to be_nil
         end
@@ -326,7 +326,7 @@ RSpec.describe Accounts::UsersController, type: :request do
       it 'updates user successfully' do
         patch "/accounts/#{account.id}/users/#{user.id}", params: valid_params
         expect(User.first.full_name).to eq('Yukio Updated')
-        expect(response).to redirect_to(edit_account_user_path(account, user))
+        expect(response).to redirect_to(account_user_path(account, user))
         expect(flash[:error]).to be_nil
       end
 
@@ -334,7 +334,7 @@ RSpec.describe Accounts::UsersController, type: :request do
         it 'updates another user successfully' do
           patch "/accounts/#{account.id}/users/#{another_user.id}", params: valid_params
           expect(another_user.reload.full_name).to eq('Yukio Updated')
-          expect(response).to redirect_to(edit_account_user_path(account, another_user))
+          expect(response).to redirect_to(account_user_path(account, another_user))
           expect(flash[:error]).to be_nil
         end
         context 'when params is invalid' do
