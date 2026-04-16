@@ -26,5 +26,5 @@
     </div>
     <input type="file" class="hidden" multiple data-product-form--upload-files-target="fileInput" data-action="change->product-form--upload-files#acceptFiles"/>
   </div>
-  <%= submit_button form, t('activerecord.models.add'), size: :sm, color: :secondary, class: 'self-end' %>
+  <%= submit_button form, t('activerecord.models.add'), size: :sm, color: :secondary, class: 'self-end', data: { action: 'product-form--upload-files#submitForm' } %>
 </div>

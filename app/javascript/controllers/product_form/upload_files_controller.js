@@ -57,6 +57,12 @@ export default class extends Controller {
       ).process();
     });
   }
+  submitForm(event) {
+    const uploads = this.element.querySelectorAll('#uploads [id^="upload_"]:not(#fileWrapper)');
+    if (uploads.length === 0) {
+      event.preventDefault();
+    }
+  }
   removeFile(event) {
     const divToDelete = event.target.closest('[id^="upload"]');
     divToDelete.remove();

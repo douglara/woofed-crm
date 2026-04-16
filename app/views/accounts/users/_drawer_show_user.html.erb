@@ -4,14 +4,14 @@
         { label: t('activerecord.models.show'), icon: "info" },
         { label: t('activerecord.models.deal.other'), icon: "clipboard-list" },
         { label: t('views.accounts.users.form.notifications'), icon: "bell" },
-        (current_user == @user ? { label: User.human_attribute_name(:theme_preference), icon: "sun-moon" } : nil),
+        (current_user == user ? { label: User.human_attribute_name(:theme_preference), icon: "sun-moon" } : nil),
         { label: t('views.accounts.users.form.access_token'), icon: "key-round" }
       ].compact %>
 <% end %>
 <% content_for :show_additional_content do %>
   <%= render 'accounts/users/deals_list', deals: deals, pagy: pagy, user: user %>
   <%= render 'accounts/users/notifications_section', user: user %>
-  <% if current_user == @user %>
+  <% if current_user == user %>
     <%= render 'accounts/users/theme_preference_section' %>
   <% end %>
   <%= render 'accounts/users/access_token_section', user: user %>

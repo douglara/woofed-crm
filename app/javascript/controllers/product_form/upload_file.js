@@ -108,13 +108,13 @@ export default class UploadFile {
   }
   showErrorMessage(message, fileWrapper) {
     const uploadInfo = fileWrapper.querySelector(
-      `#upload_${this.directUpload.id}_info`
+      `#upload_${this.directUpload.id}_info`,
     );
     fileWrapper.classList.replace(
       "border-light-palette-p3",
-      "border-auxiliary-palette-red"
+      "border-auxiliary-palette-red",
     );
-    const messageError = `<p class='w-4/5 typography-text-m-lh150 text-auxiliary-palette-red truncate'>${message}</p>`;
+    const messageError = `<p class='w-4/5 typography-body-800 color-fg-feedback-danger truncate'>${message}</p>`;
     uploadInfo.insertAdjacentHTML("beforeend", messageError);
   }
 }
