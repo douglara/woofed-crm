@@ -9,7 +9,7 @@ export default class extends Controller {
       backdrop: true,
       bodyScrolling: false,
       backdropClasses:
-        "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-50 pointer-events-none drawer-backdrop",
+        "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-50 drawer-backdrop",
       onHide: () => {
         setTimeout(() => {
           this.element.remove();
@@ -18,7 +18,7 @@ export default class extends Controller {
     });
     setTimeout(() => {
       this.drawer.show();
-      this.preventBackdropAfterMorphRefresh()
+      this.preventBackdropAfterMorphRefresh();
     }, 100);
   }
   disconnect() {
@@ -39,6 +39,11 @@ export default class extends Controller {
     const backdrop = document.getElementsByClassName("drawer-backdrop")[0];
     if (backdrop) {
       backdrop.dataset.turboPermanent = true;
+      backdrop.addEventListener(
+        "click",
+        (event) => event.stopImmediatePropagation(),
+        true,
+      );
     }
   }
 }
