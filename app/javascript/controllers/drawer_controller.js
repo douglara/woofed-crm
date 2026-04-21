@@ -3,6 +3,7 @@ import { Drawer } from "flowbite";
 
 export default class extends Controller {
   connect() {
+    this.removeStaleBackdrops();
     this.drawer = new Drawer(this.element, {
       placement: "right",
       backdrop: true,
@@ -22,6 +23,10 @@ export default class extends Controller {
   }
   disconnect() {
     this.drawer.hide();
+    this.removeStaleBackdrops();
+  }
+  removeStaleBackdrops() {
+    document.querySelectorAll(".drawer-backdrop").forEach((el) => el.remove());
   }
   drawerHide(event) {
     event.preventDefault();
