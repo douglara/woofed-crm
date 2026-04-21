@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Accounts::StagesController, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user) }
-  let!(:stage_1) { create(:stage, name: 'stage 1') }
+  let!(:stage_1) { create(:stage, name: 'stage 1', color: '#F5GEG4') }
   let!(:stage_2) { create(:stage, name: 'stage 2') }
   let!(:stage_3) { create(:stage, name: 'stage 3') }
   let!(:deal_1_stage_1_open) { create(:deal, stage: stage_1, status: 'open', name: 'deal 1') }
@@ -31,6 +31,7 @@ RSpec.describe Accounts::StagesController, type: :request do
         get("/accounts/#{account.id}/stages/#{stage_1.id}", params:)
         expect(response).to have_http_status(200)
         expect(response.body).to include(stage_1.name)
+        expect(response.body).to include(stage_1.color)
       end
       context 'when visiting a stage belonging to another account' do
         it 'should go to stage show page' do
