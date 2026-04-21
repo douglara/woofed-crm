@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Accounts::PipelinesController, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user) }
+  let(:last_pipeline) { Pipeline.last }
+  let(:last_stage) { Stage.last }
 
   describe 'GET /accounts/{account.id}/pipelines' do
     context 'when it is an unauthenticated user' do
@@ -63,7 +65,7 @@ RSpec.describe Accounts::PipelinesController, type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:params) { { pipeline: { name: 'New Pipeline', account_id: account.id } } }
+      let(:params) { { pipeline: { name: 'New Pipeline', account_id: account.id, stages_attributes: [color: "#F5F5F5", name: "New Stage"] } } }
 
       before do
         sign_in(user)
@@ -73,8 +75,11 @@ RSpec.describe Accounts::PipelinesController, type: :request do
         expect do
           post "/accounts/#{account.id}/pipelines", params: params
         end.to change(Pipeline, :count).by(1)
-        expect(response).to redirect_to(account_pipeline_path(account, Pipeline.last))
-        expect(Pipeline.last.name).to eq('New Pipeline')
+        .and change(Stage, :count).by(1)
+        expect(response).to redirect_to(account_pipeline_path(account, last_pipeline))
+        expect(last_pipeline.name).to eq('New Pipeline')
+        expect(last_stage.name).to eq('New Stage')
+        expect(last_stage.color).to eq('#F5F5F5')
       end
 
       skip 'when pipeline creation fails' do

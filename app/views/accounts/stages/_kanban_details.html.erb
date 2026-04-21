@@ -1,3 +1,12 @@
+<%
+  stage_hex = (stage.color.presence || '#6857D9')
+  _hex = stage_hex.delete('#')
+  _r, _g, _b = _hex[0..1].to_i(16), _hex[2..3].to_i(16), _hex[4..5].to_i(16)
+  _mix_w = ->(amt) { format('#%02x%02x%02x', _r + ((255 - _r) * amt).round, _g + ((255 - _g) * amt).round, _b + ((255 - _b) * amt).round) }
+  _mix_b = ->(amt) { format('#%02x%02x%02x', (_r * (1 - amt)).round, (_g * (1 - amt)).round, (_b * (1 - amt)).round) }
+  stage_text_dark = _mix_b.call(0.15)
+  stage_badge_bg = _mix_w.call(0.88)
+%>
 <div class='flex items-center justify-between gap-1.5' id='stage-<%= stage.id %>-kaban-details'>
   <div class='typography-body-900 color-fg-default cursor-default truncate' data-tooltip-target="tooltip-stage-<%= stage.id %>-deals-total-amount" data-tooltip-placement="bottom">
     <%= render 'components/formatters/currency', value: stage.total_amount_deals(filter) %>
@@ -6,7 +15,7 @@
     <%= render 'components/formatters/currency', value: stage.total_amount_deals(filter) %>
     <div class="tooltip-arrow" data-popper-arrow></div>
   </div>
-  <p class='py-0.5 px-1 typography-button-800 color-bg-fill-hard color-fg-highlight rounded-lg cursor-default' data-tooltip-target="tooltip-stage-<%= stage.id %>-deals-total_quantity" data-tooltip-placement="bottom">
+  <p class='py-0.5 px-1.5 typography-button-800 rounded-full cursor-default font-mono' style="background-color: <%= stage_badge_bg %>; color: <%= stage_text_dark %>;" data-tooltip-target="tooltip-stage-<%= stage.id %>-deals-total_quantity" data-tooltip-placement="bottom">
     <%= stage.total_quantity_deals_resume(filter) %>
   </p>
   <div id="tooltip-stage-<%= stage.id %>-deals-total_quantity" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 typography-label-900 font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip">

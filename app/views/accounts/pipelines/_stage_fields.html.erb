@@ -2,6 +2,9 @@
   <%= f.label :name, class: "typography-text-m-lh150 text-dark-gray-palette-p1" %>
   <div class="flex gap-2 items-center">
     <%= f.text_field :name, class: "form-input flex-1" %>
+    <label class="relative w-9 h-9 rounded border border-light-palette-p3 cursor-pointer overflow-hidden shrink-0" style="background-color: <%= f.object.color.presence || '#6857D9' %>" title="<%= f.object.color.presence || '#6857D9' %>">
+      <%= f.color_field :color, value: (f.object.color.presence || '#6857D9'), class: "absolute inset-0 w-full h-full opacity-0 cursor-pointer", oninput: "this.parentElement.style.backgroundColor = this.value; this.parentElement.title = this.value;" %>
+    </label>
     <div class="cursor-grab active:cursor-grabbing text-dark-gray-palette-p3 hover:text-dark-gray-palette-p1 transition-colors" title="<%= t('views.accounts.pipelines.form.drag_to_reorder') %>">
       <i data-lucide="grip-vertical" class="w-5 h-5"></i>
     </div>

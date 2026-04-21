@@ -3,6 +3,7 @@
 # Table name: stages
 #
 #  id          :bigint           not null, primary key
+#  color       :string           default("#6857D9"), not null
 #  name        :string           default(""), not null
 #  position    :integer
 #  created_at  :datetime         not null

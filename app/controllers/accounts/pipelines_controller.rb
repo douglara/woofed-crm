@@ -206,7 +206,7 @@ class Accounts::PipelinesController < InternalController
 
   # Only allow a list of trusted parameters through.
   def pipeline_params
-    params.require(:pipeline).permit(:name, stages_attributes: %i[id name _destroy account_id position])
+    params.require(:pipeline).permit(:name, stages_attributes: %i[id name color _destroy account_id position])
   end
 
   def set_bulk_action_event
