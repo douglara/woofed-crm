@@ -19,6 +19,7 @@ export default class extends Controller {
     setTimeout(() => {
       this.drawer.show();
       this.preventBackdropAfterMorphRefresh();
+      this.preventBackdropClickFromClosingDrawer();
     }, 100);
   }
   disconnect() {
@@ -36,14 +37,18 @@ export default class extends Controller {
     event.preventDefault();
   }
   preventBackdropAfterMorphRefresh() {
-    const backdrop = document.getElementsByClassName("drawer-backdrop")[0];
-    if (backdrop) {
-      backdrop.dataset.turboPermanent = true;
-      backdrop.addEventListener(
-        "click",
-        (event) => event.stopImmediatePropagation(),
-        true,
-      );
+    if (this.backdrop) {
+      this.backdrop.dataset.turboPermanent = true;
     }
+  }
+  preventBackdropClickFromClosingDrawer() {
+    this.backdrop.addEventListener(
+      "click",
+      (event) => event.stopImmediatePropagation(),
+      true,
+    );
+  }
+  get backdrop() {
+    return document.getElementsByClassName("drawer-backdrop")[0];
   }
 }
