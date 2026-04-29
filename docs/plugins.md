@@ -1,26 +1,148 @@
-# Plugin System — Authoring Guide
+# Plugin System
 
 ## Overview
 
-The plugin system extends Ruby models, ERB views, React/JSX components, and CSS files
-**without ever modifying the original files** in `app/`. Every extension is applied at
-build time into `storage/build/`, which is gitignored, disposable, and fully
-recreatable with a single command:
+The plugin system lets us extend WoofedCRM — adding models, views, controllers, JavaScript components, styles, routes, and migrations — **without ever modifying the core codebase**.
+A plugin is an independent piece of code, distributed by Woofed Store and load in the application boot time.
 
-```bash
-rails plugins:rebuild
-```
 
-### The fundamental rule
+## Why it exists
 
-> No file inside `app/` is ever written to. All modifications live in `storage/build/`.
+WoofedCRM is meant to be a flexible product. Different customers, niches, and integrations require different features, but baking every feature into the core would make the codebase bloated and hard to maintain.
 
-### What problems it solves
+## What problems it solves
 
 - **Isolation** — plugins can be added or removed without touching the core codebase
 - **Composability** — multiple plugins can extend the same file with predictable order
 - **Safety** — `storage/build/` is disposable; rebuilding from scratch is always safe
 - **Unified mechanism** — one DSL, one build folder, all file types
+
+
+## Use cases
+
+Plugins are how WoofedCRM grows beyond the core. A few realistic examples:
+
+- **Channel integrations** — WhatsApp, Instagram, Telegram, Email connectors.
+- **Industry-specific features** — a plugin for real estate (properties, contracts),
+  another for healthcare (appointments, patient records), another for e-commerce
+  (orders, abandoned carts).
+- **Custom dashboards and reports** — pages with charts and KPIs tailored to a
+  customer's workflow.
+- **External integrations** — sync with ERPs, payment gateways, marketing
+  platforms, or BI tools.
+- **Workflow automations** — triggers, custom pipelines, scoring rules.
+
+Anything that would otherwise live as a fork or a hardcoded option in the core
+can become a plugin.
+
+
+## What a plugin can do
+
+A plugin has full access to the application. It can:
+
+- **Add** new models, controllers, views, JavaScript components, and stylesheets.
+- **Patch** existing core files (models, views, components, CSS) through the
+  Patch DSL — without modifying them on disk.
+- **Define routes** under its own namespace.
+- **Add migrations** to create new tables, **alter or drop existing tables**,
+  and modify the core database schema.
+- **Replace core logic** — patches can rewrite entire methods, blocks, or
+  files when needed.
+- **Declare gem dependencies** in its own `Gemfile`.
+
+> ⚠️ **Power and responsibility.** Because plugins can change the database and
+> rewrite core logic, a poorly designed or malicious plugin can corrupt data,
+> break workflows, or compromise the application. **Only install plugins that
+> have been verified and approved through the Woofed Store.** The store is the
+> trust boundary — plugins published there go through review and are trusted to
+> behave correctly. Sideloading unverified plugins is strongly discouraged.
+
+
+## How it works — the flow
+
+```
+   ┌──────────┐                       ┌──────────────┐
+   │   User   │ ── 1. install ──────> │ Woofed Store │
+   └──────────┘                       └──────────────┘
+                                              │
+                                              │ 2. download ZIP
+                                              ▼
+                                     ┌──────────────────┐
+                                     │ storage/plugins/ │
+                                     └──────────────────┘
+                                              │
+                                              │ 3. application restart
+                                              ▼
+                                     ┌──────────────────┐
+                                     │  Plugin Loader   │
+                                     │  + Build Manager │
+                                     └──────────────────┘
+                                              │
+                                              │ 4. build
+                                              ▼
+                                     ┌──────────────────┐
+                                     │  storage/build/  │
+                                     └──────────────────┘
+                                              │
+                                              │ 5. boot
+                                              ▼
+                                     ┌──────────────────┐
+                                     │ Rails + Vite     │
+                                     │ (plugin loaded)  │
+                                     └──────────────────┘
+```
+
+1. The user installs a plugin through the Woofed Store.
+2. The system downloads the plugin ZIP and extracts it into `storage/plugins/{plugin_id}/`.
+3. The application restarts.
+4. The Plugin Loader and Build Manager combine plugin files with the core, producing `storage/build/`.
+5. Rails and Vite boot, loading the plugin transparently — the plugin is now live in the application.
+
+
+## How to create a plugin
+
+Every WoofedCRM installation ships with a starter folder at
+`storage/plugins/my_new_plugin/`. It contains a minimal working example —
+manifest, a sample patch, and a sample new file — that serves as a starting
+point for plugin development.
+
+The development workflow is:
+
+1. **Fork** the WoofedCRM repository.
+2. **Implement** your plugin inside `storage/plugins/my_new_plugin/` — use the
+   existing files as a reference and adapt them to your feature.
+3. **Submit** your plugin to the Woofed Store. The store takes care of
+   building the deliverable: it packages your plugin into the proper
+   ZIP format that customer installations can download and install.
+
+The developer never has to worry about the deliverable format, packaging
+rules, or distribution mechanics — that is entirely handled by the store at
+submission time. The fork is the only environment a plugin author needs.
+
+---
+
+## The `storage/build/` folder
+
+No file inside `app/` is ever written to. All modifications live in `storage/build/`.
+`storage/build/` is the single output folder for the plugin system. It is:
+
+- **Generated on boot** — `PluginLoader` runs `BuildManager.sync!` on startup
+- **Gitignored** — never committed to version control
+- **Disposable** — `rails plugins:rebuild` wipes and recreates it from scratch
+- **Incremental** — only rebuilds files whose fingerprint has changed
+
+### Resolution rule
+
+Every layer (Rails autoloader, view resolver, Vite) checks `storage/build/` first:
+
+```
+storage/build/{target} exists?  →  yes → use storage/build/
+→  no  → use app/ (original)
+```
+
+Rails is configured with `storage/build/app/` prepended to autoload paths, view paths,
+and controller paths. Vite uses a custom resolver plugin that checks
+`storage/build/app/javascript/` before `app/javascript/`.
 
 ---
 
@@ -28,7 +150,7 @@ rails plugins:rebuild
 
 ```
 storage/plugins/
-└── <plugin_name>/
+└── <plugin_installation_id>/
     ├── plugin.rb                    ← plugin manifest (required)
     ├── Gemfile                      ← plugin gem dependencies (optional)
     ├── app/                         ← all plugin files live here
@@ -92,7 +214,7 @@ lines inserted by an earlier plugin as anchors.
 
 ## Plugin Gemfile (optional)
 
-Plugins can declare their own gem dependencies in `storage/plugins/<name>/Gemfile`. The main
+Plugins can declare their own gem dependencies in `storage/plugins/<plugin_installation_id>/Gemfile`. The main
 `Gemfile` automatically evaluates all plugin Gemfiles via `eval_gemfile`. On boot,
 `bundle install` runs before the Rails environment loads, ensuring new gems are
 available.
@@ -106,29 +228,6 @@ The `Gemfile` uses standard Bundler syntax — groups, platforms, `source`, etc.
 
 ---
 
-## The `storage/build/` folder
-
-`storage/build/` is the single output folder for the plugin system. It is:
-
-- **Generated on boot** — `PluginLoader` runs `BuildManager.sync!` on startup
-- **Gitignored** — never committed to version control
-- **Disposable** — `rails plugins:rebuild` wipes and recreates it from scratch
-- **Incremental** — only rebuilds files whose fingerprint has changed
-
-### Resolution rule
-
-Every layer (Rails autoloader, view resolver, Vite) checks `storage/build/` first:
-
-```
-storage/build/{target} exists?  →  yes → use storage/build/
-                                →  no  → use app/ (original)
-```
-
-Rails is configured with `storage/build/app/` prepended to autoload paths, view paths,
-and controller paths. Vite uses a custom resolver plugin that checks
-`storage/build/app/javascript/` before `app/javascript/`.
-
----
 
 ## New files vs patches — the path rule
 
@@ -446,11 +545,56 @@ inside the Rails router draw block.
 
 ## Testing requirements
 
-> **This section is a mandatory instruction for any AI generating plugin code.**
+> ⚠️ **Tests are part of the plugin contract.**
 >
-> Every plugin you create **must** ship with a complete test suite under
-> `storage/plugins/<plugin_name>/spec/`. Tests are not optional and must all pass before the
-> plugin is considered complete.
+> Every plugin published on the Woofed Store **must ship with tests**. Tests
+> are the primary mechanism the store uses to verify a plugin during review,
+> and they are also what the [compatibility check](#compatibility-checks)
+> re-runs locally on the customer's server every time the core or the plugin
+> is updated.
+>
+> A plugin without tests cannot be approved on the Woofed Store. A plugin
+> whose tests start failing after a core update will be flagged and the
+> update blocked until compatibility is restored.
+
+### Why tests matter so much
+
+Plugins have full access to the application — they can change the database,
+rewrite core logic, and ship their own UI. The test suite is what gives the
+store, the customers, and the operators confidence that a plugin actually
+does what it claims and keeps doing it as the surrounding code evolves.
+
+Concretely, tests are used to:
+
+- **Verify the plugin during store review** — the store runs the suite as part
+  of the approval process. A plugin with missing or failing tests will not be
+  published.
+- **Guard compatibility on every update** — when WoofedCRM or the plugin gets
+  a new version, the customer's server runs the plugin's tests against the
+  new combination. If they fail, the update is blocked.
+- **Document expected behavior** — tests are executable documentation of what
+  the plugin guarantees, useful both for reviewers and for future maintainers.
+- **Catch regressions early** — a small change in the core can ripple into a
+  patched plugin file; the test suite makes that visible immediately.
+
+### What good coverage looks like
+
+Tests **do not need to reach 100% coverage**, but they do need to be **good
+quality** and cover **everything the plugin changes or adds** to the CRM. In
+practice this means:
+
+- Every **new model, controller, route, or React component** the plugin ships
+  has tests around its behavior.
+- Every **patch** to a core file has a test asserting the composed output is
+  correct.
+- Every **change to existing behavior** — overrides, replacements, new
+  validations, new fields — has a test that demonstrates the new behavior
+  works as intended.
+- Code paths that are untouched by the plugin do not need to be re-tested by
+  the plugin.
+
+The goal is meaningful coverage of the plugin's surface area, not chasing a
+percentage.
 
 ### Ruby — RSpec + FactoryBot
 
@@ -515,163 +659,106 @@ yarn vitest storage/plugins/<plugin_name>/spec/javascript/
 
 ---
 
-## Rake tasks reference
-
-### `rails plugins:boot`
-
-Full plugin boot sequence. This is what runs on every application start:
-1. `bundle install` (shell level — before rake) — installs gems from plugin `Gemfile`s
-2. `plugins:rebuild` — wipes and rebuilds `storage/build/`
-3. `db:prepare` — creates the database if needed and runs all pending migrations (including plugin migrations)
-4. `yarn install` + `assets:precompile` (production only, if JS/CSS plugin files exist)
-
-```bash
-$ rails plugins:boot
-[plugins:boot] Rebuilding storage/build/...
-[plugins:boot] Build complete. 3 file(s) in storage/build/
-[plugins:boot] Running db:prepare (create + migrate)...
-[plugins:boot] Done.
-```
-
-### `rails plugins:rebuild`
-
-Wipe `storage/build/` and `tmp/plugin_fingerprints/`, then recreate everything from
-scratch.
-
-```bash
-$ rails plugins:rebuild
-Rebuilding storage/build/...
-Done. Files in storage/build/:
-  app/models/contact.rb
-  app/models/contact_extension.rb
-  app/javascript/pages/UserProfile.jsx
-```
-
-### `rails plugins:preview[target]`
-
-Print the composed output for a single file after all patches are applied:
-
-```bash
-$ rails plugins:preview[app/models/contact.rb]
-class Contact < ApplicationRecord
-  include Plugins::Example::ContactExtension
-  include Devise::JWT
-  ...
-end
-```
-
-### `rails plugins:status`
-
-List all files currently in `storage/build/`:
-
-```bash
-$ rails plugins:status
-Files in storage/build/ (3):
-  app/models/contact.rb
-  app/models/contact_extension.rb
-  app/javascript/pages/UserProfile.jsx
-```
-
----
-
 ## Installing and removing plugins
 
-### `rails plugins:install[url]`
+**All installation and removal happens through the Woofed Store** — never by
+editing files manually. The store is the central registry where plugins are
+published, versioned, and distributed as ZIPs.
 
-Install a plugin from a public GitHub repository. The task clones the repo into
-`plugins/`, validates it has a `plugin.rb` manifest, runs `plugins:boot` (rebuild +
-migrate + assets), and restarts the application.
+- **Install** — registers the plugin in the database and downloads the ZIP into
+  `storage/plugins/{plugin_installation_id}/`. The application then rebuilds
+  `storage/build/` and restarts so the plugin becomes live.
+- **Uninstall** — must be done through the Woofed Store. The store is the
+  source of truth for which plugins are installed. If the local files or
+  database records are removed by hand, the next application restart will
+  re-download and re-install the plugin from the store.
 
-```bash
-$ rails plugins:install[https://github.com/user/my-plugin]
-[plugins:install] Cloning https://github.com/user/my-plugin into storage/plugins/my-plugin...
-[plugins:install] Plugin 'my-plugin' cloned successfully.
-[plugins:install] Running boot to activate plugin...
-[plugins:install] Done! Plugin 'my-plugin' is now installed and active.
-```
+### Data on uninstall
 
-### `rails plugins:uninstall[name]`
+Uninstalling a plugin removes its **code** from the application — but it does
+**not** automatically remove the **data** the plugin created. Tables added by
+plugin migrations stay in the database, and any rows in core tables created or
+modified by the plugin remain untouched.
 
-Remove an installed plugin by name. Deletes the plugin folder, rebuilds `storage/build/`,
-and restarts the application. Orphaned files are cleaned up automatically.
-
-```bash
-$ rails plugins:uninstall[my-plugin]
-[plugins:uninstall] Removing plugin 'my-plugin'...
-[plugins:uninstall] Rebuilding without plugin...
-[plugins:uninstall] Done! Plugin 'my-plugin' has been removed.
-```
-
-> **Note:** `uninstall` does **not** rollback plugin migrations. If the plugin created
-> database tables, you may need to drop them manually or write a migration.
+This is intentional: it lets a customer reinstall a plugin later without
+losing history. If the data really should be wiped, it has to be done
+explicitly — either by the plugin itself (offering a "purge data" action) or
+manually by an operator.
 
 ---
 
-## Checklist — creating a new plugin
+## Versioning and updates
 
-```
-[ ] Create storage/plugins/<n>/plugin.rb with manifest (name, version, priority)
-[ ] Add Gemfile if the plugin needs extra gems (storage/plugins/<n>/Gemfile)
-[ ] For each existing app/ file to extend:
-    [ ] Create storage/plugins/<n>/app/<same/relative/path> with FilePatch DSL
-[ ] For each new file the plugin needs:
-    [ ] Create storage/plugins/<n>/app/<new/path> with normal content
-[ ] Create storage/plugins/<n>/spec/ with full test suite
-[ ] Add migration if new tables are needed (storage/plugins/<n>/db/migrate/)
-[ ] Add routes if new endpoints are needed (storage/plugins/<n>/config/routes.rb)
-[ ] Run rails plugins:boot — installs deps, rebuilds storage/build/, runs migrations
-[ ] Run rails plugins:preview[<target>] for each patched file — verify output
-[ ] Run bundle exec rspec storage/plugins/<n>/spec/ — all tests must pass
-[ ] Run yarn vitest storage/plugins/<n>/spec/javascript/ — all tests must pass
-```
+Each plugin version is identified by a `version_id` (the commit ID of the
+release in the Woofed Store). When a new version is published, the customer
+sees an update available in the store and chooses when to apply it.
 
----
+Updates follow the same flow as installs:
 
-## Removing a plugin
+1. The customer triggers the update in the Woofed Store.
+2. The new ZIP is downloaded and replaces the previous one in
+   `storage/plugins/{plugin_installation_id}/`.
+3. The application rebuilds `storage/build/` and restarts.
+4. The new version is live.
 
-Delete the plugin folder:
-
-```bash
-rm -rf storage/plugins/example
-```
-
-On the next boot (or `rails plugins:rebuild`), `BuildManager.remove_orphans!` cleans
-up any files in `storage/build/` that no longer have a source in any plugin. No manual
-cleanup is needed.
+Updates are **explicit by default** — the customer stays in control of when
+changes go live. The exception is **security updates**: when the Woofed Store
+flags a release as a security fix, it can be **applied automatically** without
+waiting for manual confirmation, so vulnerabilities are not left running on
+customer systems.
 
 ---
 
-## Troubleshooting
+## Compatibility checks
 
-### `containing:` string not found
+WoofedCRM itself evolves, and so do the plugins running on top of it. Whenever
+the core is updated **or** a plugin has a new version, compatibility between
+the two needs to be verified before the change is applied.
 
-Check for typos and leading/trailing whitespace. The `containing:` match uses
-`String#include?` — it must be an exact substring of the line.
+The check runs **locally on the customer's WoofedCRM server** — not on the
+Woofed Store — so it reflects the exact state of that installation:
 
-### Patch file accidentally autoloaded
+1. **`git diff` / `git merge`** — the new version is dry-run merged against the
+   current state to detect conflicts in patched files. If patch anchors no
+   longer exist or files have moved, the conflict is surfaced before anything
+   is applied.
+2. **Automated test suite** — each plugin ships with its own tests
+   (`storage/plugins/{plugin_installation_id}/spec/`). The compatibility check
+   runs these tests against the new combination of core + plugin to confirm the
+   plugin still behaves correctly.
 
-The patch file must mirror the original path exactly (e.g.,
-`storage/plugins/example/app/models/contact.rb` for `app/models/contact.rb`). `BuildManager`
-loads it via `load`, not Zeitwerk. If Zeitwerk tries to autoload it, ensure
-`storage/build/` is prepended to autoload paths so the composed file takes precedence.
+If the merge succeeds and the tests pass, the update is considered safe and
+proceeds. If anything fails, the update is blocked and the operator is
+notified, so the application stays on the last known-good combination.
 
-### ActiveRecord macro in a patch file
+---
 
-Move `has_many`, `validates`, `scope`, etc. to an `ActiveSupport::Concern` in a new
-file. The patch should only `include` the Concern.
+## Who publishes plugins
 
-### `storage/build/` out of sync
+The Woofed Store is the **trust boundary** of the plugin ecosystem. Only
+plugins published through the store are considered safe to install.
 
-```bash
-rails plugins:boot
-```
+Publishing a plugin involves:
 
-### Two plugins with the same priority on the same file
+1. Forking WoofedCRM and developing inside `storage/plugins/my_new_plugin/`.
+2. Submitting the plugin to the Woofed Store.
+3. The store reviews the plugin — checking for security issues, malicious
+   behavior, and compliance with platform guidelines — before making it
+   available to customers.
 
-Order is non-deterministic. Assign distinct priority values to all plugins that touch
-the same file.
+This review step is what makes the store a trusted source. Customers who
+install only verified plugins benefit from this guarantee; sideloading bypasses
+it and exposes the application to the full risk surface described in
+[What a plugin can do](#what-a-plugin-can-do).
 
-### Plugin routes not loading
+---
 
-Ensure the routes file is at `storage/plugins/<name>/config/routes.rb` and contains valid
-Rails routing DSL.
+## Safe mode
+
+If a faulty plugin breaks the application, WoofedCRM can be started in **safe
+mode**. In this mode every plugin is automatically disabled — the core boots
+without applying any plugin code, giving the operator a clean state to remove
+or fix the offending plugin through the Woofed Store.
+
+Safe mode is the recovery mechanism that guarantees a bad plugin can never
+permanently brick the system.
