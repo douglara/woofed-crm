@@ -65,20 +65,23 @@ A plugin has full access to the application. It can:
    │   User   │ ── 1. install ──────> │ Woofed Store │
    └──────────┘                       └──────────────┘
                                               │
-                                              │ 2. download ZIP
+                                              │ 2. application restart
                                               ▼
                                      ┌──────────────────┐
-                                     │ storage/plugins/ │
+                                     │  Health checks   │
+                                     │ (DB, store, mode)│
                                      └──────────────────┘
                                               │
-                                              │ 3. application restart
+                                              │ 3. promote MODE = standard
                                               ▼
                                      ┌──────────────────┐
-                                     │  Plugin Loader   │
-                                     │  + Build Manager │
+                                     │  Plugins build   │
+                                     │ download +       │
+                                     │ extract +        │
+                                     │ compose          │
                                      └──────────────────┘
                                               │
-                                              │ 4. build
+                                              │ 4. write composed files
                                               ▼
                                      ┌──────────────────┐
                                      │  storage/build/  │
@@ -87,37 +90,239 @@ A plugin has full access to the application. It can:
                                               │ 5. boot
                                               ▼
                                      ┌──────────────────┐
-                                     │ Rails + Vite     │
-                                     │ (plugin loaded)  │
+                                     │  Plugins load    │
+                                     │ (Rails + Vite    │
+                                     │  read from       │
+                                     │  storage/build/) │
                                      └──────────────────┘
 ```
 
 1. The user installs a plugin through the Woofed Store.
-2. The system downloads the plugin ZIP and extracts it into `storage/plugins/{plugin_id}/`.
-3. The application restarts.
-4. The Plugin Loader and Build Manager combine plugin files with the core, producing `storage/build/`.
-5. Rails and Vite boot, loading the plugin transparently — the plugin is now live in the application.
+2. The application restarts.
+3. **Health checks run** (see [Health checks](#health-checks)) — DB and store
+   are validated and the persisted mode flag is read. If everything is OK,
+   `MODE` is promoted to `standard`; otherwise the app stays in safe mode and
+   the plugin is **not** loaded.
+4. **Plugins build** (see [Plugins build](#plugins-build)) — the new plugin's
+   ZIP is downloaded, extracted into `storage/plugins/{plugin_installation_id}/`,
+   and composed with the core into `storage/build/`.
+5. **Plugins load** (see [Plugins load](#plugins-load)) — Rails and Vite boot
+   reading from `storage/build/` first and falling back to `app/`, so the new
+   plugin is now live in the application.
 
 
-## How to create a plugin
+## Boot sequence
 
-Every WoofedCRM installation ships with a starter folder at
-`storage/plugins/my_new_plugin/`. It contains a minimal working example —
-manifest, a sample patch, and a sample new file — that serves as a starting
-point for plugin development.
+Every time WoofedCRM boots, the plugin system runs through a fixed sequence
+that reconciles the local installation with the Woofed Store before the
+application becomes available.
 
-The development workflow is:
+```
+       boot starts
+            │
+            ▼
+   ┌────────────────────────┐
+   │ MODE = safe (initial)  │
+   └───────────┬────────────┘
+               │
+               ▼
+   ┌──────────────────────────────┐
+   │ Health checks                │
+   │  • database reachable?       │
+   │  • Woofed Store reachable?   │
+   │  • read mode flag from DB    │
+   └───────────┬──────────────────┘
+               │
+        ┌──────┴──────────────────────────┐
+        │                                 │
+   all ok AND DB says standard       failed OR DB says safe
+        │                                 │
+        ▼                                 ▼
+   MODE = standard                   MODE stays safe
+        │                                 │
+        ▼                                 │  (Plugins build
+   ┌────────────────────────────────────┐ │   skipped entirely)
+   │ Plugins build                      │ │
+   │  • fetch plugin list from store    │ │
+   │  • download + extract missing ZIPs │ │
+   │  • compose into storage/build/     │ │
+   └────────────────┬───────────────────┘ │
+                    │                     │
+                    └──────────┬──────────┘
+                               ▼
+   ┌────────────────────────────────────┐
+   │ Plugins load                       │
+   │ (Rails + Vite boot)                │
+   │   • MODE = standard → read from    │
+   │     storage/build/ first, then app/│
+   │   • MODE = safe     → read from    │
+   │     app/ only (storage/build/      │
+   │     ignored)                       │
+   └────────────────────────────────────┘
+```
 
-1. **Fork** the WoofedCRM repository.
-2. **Implement** your plugin inside `storage/plugins/my_new_plugin/` — use the
-   existing files as a reference and adapt them to your feature.
-3. **Submit** your plugin to the Woofed Store. The store takes care of
-   building the deliverable: it packages your plugin into the proper
-   ZIP format that customer installations can download and install.
+The steps:
 
-The developer never has to worry about the deliverable format, packaging
-rules, or distribution mechanics — that is entirely handled by the store at
-submission time. The fork is the only environment a plugin author needs.
+1. **Start in safe mode.** Every boot begins with `MODE = safe`. The
+   application is only promoted to standard mode after the health checks
+   confirm the environment is ready.
+2. **Run health checks.** Validate the database, contact the Woofed Store,
+   and read the persisted mode flag (see [Health checks](#health-checks)).
+   The result decides the value of `MODE` for the rest of the boot.
+3. **Plugins build (standard mode only).** Fetch the plugin list from the
+   store, download and extract any ZIPs missing locally, and compose the
+   files into `storage/build/` (see [Plugins build](#plugins-build)). In
+   safe mode this stage is skipped entirely.
+4. **Plugins load.** Rails and Vite start (see
+   [Plugins load](#plugins-load)). In standard mode they read from
+   `storage/build/` first and plugin code is live from the very first
+   request. In safe mode they read directly from `app/` and the application
+   comes up without any plugin code.
+
+This sequence runs on **every** boot, which is what guarantees the local
+installation always converges to whatever the Woofed Store says is correct.
+Manually deleted files or DB records are restored automatically. New plugins
+or new versions added on the store side are picked up the next time the app
+restarts.
+
+---
+
+## Health checks
+
+The application **always starts in safe mode** and only promotes itself to
+standard mode after a sequence of health checks proves the environment is in
+a state where loading plugins is safe. Health checks are the gate between
+"the app is up" and "the app is up **with plugins**".
+
+### What is checked
+
+The boot runs through these checks, in order:
+
+1. **Database reachable** — can the application open a connection to its
+   database?
+2. **Woofed Store reachable** — can the application contact the store to
+   reconcile installed plugins? Without it, the local state cannot be
+   trusted to match what the customer actually owns.
+3. **Mode flag in the database** — what does the persisted `mode` column
+   say? `standard` means the operator allows plugins; `safe` means the
+   operator has explicitly pinned the application to safe mode.
+
+### Outcomes
+
+The combination of the checks decides the value of `MODE` for the rest of
+the boot:
+
+| DB ok | Store ok | DB mode flag | → Result                            |
+|:-----:|:--------:|:------------:|:------------------------------------|
+| ✓     | ✓        | `standard`   | promote to standard                 |
+| ✓     | ✓        | `safe`       | stay in safe mode (operator pin)    |
+| ✓     | ✗        | any          | stay in safe mode (no store)        |
+| ✗     | n/a      | n/a          | stay in safe mode (no DB)           |
+
+In every case **the app continues to boot** — the health check phase never
+crashes the process. The worst outcome is a plugin-free application, which
+is still useful to the operator and to anyone trying to fix the underlying
+issue.
+
+### When they run
+
+Health checks run **once per boot**, during the early initialization phase,
+before the build runs and before plugin code is loaded. They do **not** run
+continuously at request time — once `MODE` is set, it stays fixed until the
+next restart.
+
+This keeps the runtime simple: there is no mid-flight switch from standard
+to safe (or vice-versa) for an already-booted process. Recovering from a
+problem always means restarting, which is fine because the health checks
+themselves are cheap and the boot is fast.
+
+### Why this layering matters
+
+Splitting the boot into "health checks first, plugin work second" is what
+gives the system its self-healing property:
+
+- A broken database or a network glitch with the store cannot prevent the
+  application from coming up.
+- A bad plugin cannot break the boot, because the operator can pin safe
+  mode in the database and the next restart will skip plugin loading
+  entirely.
+- The path back to standard mode is always the same: fix the underlying
+  cause, restart, let the health checks pass.
+
+---
+
+## Plugins build
+
+The **plugins build** is the stage responsible for taking the plugins listed
+in the Woofed Store and turning them into a set of ready-to-serve files on
+disk. It runs only when `MODE = standard` and only on boot, install, update,
+or manual rebuild.
+
+It has three responsibilities, in order:
+
+1. **Download.** For each plugin the store says should be installed, fetch
+   the ZIP at the right `version_id`. Plugins already present locally with
+   the matching version are not re-downloaded.
+2. **Extract.** Unpack each ZIP into
+   `storage/plugins/{plugin_installation_id}/`. After this step the raw
+   plugin source is on disk, but the application is not yet using it.
+3. **Construct the build files.** The `BuildManager` walks every file under
+   `storage/plugins/`, decides whether it is a patch or a new file, applies
+   patches in priority order, and writes the composed result to
+   `storage/build/`. Fingerprinting makes this incremental — only files that
+   actually changed are rewritten. (See [The build process](#the-build-process)
+   for the full mechanics.)
+
+When the plugins build finishes, `storage/build/` mirrors the exact set of
+files the application is expected to serve next. Nothing in `app/` was
+touched.
+
+In safe mode this entire stage is skipped: no download, no extraction, no
+build composition. The `storage/build/` folder may still exist from a
+previous boot, but the plugins load stage will ignore it.
+
+---
+
+## Plugins load
+
+The **plugins load** is the runtime stage. While the plugins build prepares
+files on disk, the plugins load decides **which files Rails and Vite actually
+read** when serving requests.
+
+The rule is simple and applies to every layer (Rails autoloader, view
+resolver, controller resolver, Vite resolver):
+
+```
+   storage/build/{target} exists?
+            │
+       yes ─┤  → use storage/build/{target}
+            │
+       no  ─┤  → use app/{target}
+```
+
+In other words: **always look in `storage/build/` first, fall back to `app/`
+if nothing is there.** This is what makes a plugin "live" — its composed
+file in `storage/build/` shadows the original in `app/` without anything in
+`app/` ever being touched.
+
+### How each layer participates
+
+- **Rails autoload + eager load** — `storage/build/app/` is prepended to the
+  autoload paths, so any patched or new model, controller, or service is
+  picked up before the original.
+- **View resolver** — `storage/build/app/views/` is prepended to the view
+  paths, so patched ERB templates win over their `app/views/` counterparts.
+- **Vite resolver** — a custom Vite plugin checks
+  `storage/build/app/javascript/` before `app/javascript/`, so JSX/TSX/JS
+  patches are served by both the dev server and the production bundle.
+
+### Behavior in safe mode
+
+In safe mode the load stage is **inverted**: `storage/build/` is bypassed
+entirely and every layer reads directly from `app/`. The build files might
+still exist on disk, but they are simply not consulted. The application
+runs as if no plugin had ever been installed — exactly what is expected
+from a recovery state.
 
 ---
 
@@ -143,6 +348,144 @@ storage/build/{target} exists?  →  yes → use storage/build/
 Rails is configured with `storage/build/app/` prepended to autoload paths, view paths,
 and controller paths. Vite uses a custom resolver plugin that checks
 `storage/build/app/javascript/` before `app/javascript/`.
+
+
+## The build process
+
+The build is what turns the raw plugin files in `storage/plugins/` into the
+composed output in `storage/build/` that Rails and Vite actually serve.
+
+### When the build runs
+
+The `BuildManager` runs every time the set of plugin files might have changed:
+
+- On **application boot** — `PluginLoader` calls `BuildManager.sync!` after
+  downloading any missing plugins.
+- On **install / update / uninstall** — the rake task triggers a rebuild before
+  restarting the app.
+- On **manual rebuild** — `rails plugins:rebuild` wipes `storage/build/` and
+  reruns the whole process from scratch.
+
+### The two paths: patch vs. new file
+
+For every file inside a plugin, the build manager decides what to do based on
+the file's relative path:
+
+```
+storage/plugins/{plugin_installation_id}/app/models/contact.rb
+                                          │
+                                          ▼
+                              does app/models/contact.rb exist?
+                                  │                    │
+                              yes (PATCH)         no (NEW FILE)
+                                  │                    │
+                                  ▼                    ▼
+                       run Patch DSL against   copy file as-is
+                       the original, write     to storage/build/
+                       result to storage/build/
+```
+
+- **Patch** — the plugin file contains `Plugins::FilePatch.define ...` DSL.
+  The build manager reads the original from `app/`, applies every plugin's
+  patches in priority order (lower priority first), and writes the composed
+  result to `storage/build/`.
+- **New file** — there is no original to merge into; the file is simply copied
+  into `storage/build/` at the same relative path so Rails or Vite picks it up.
+
+### Composition order
+
+When **multiple plugins** patch the same file, the build manager applies them
+in **ascending priority order** (priority `10` runs before `20`). This is what
+lets a later plugin use lines inserted by an earlier plugin as anchors. The
+final composed file is written once, after all patches have been applied.
+
+### Incremental builds (fingerprinting)
+
+Rebuilding every file from scratch on every boot would be slow. To avoid that,
+the build manager keeps a **fingerprint** for each output file — a SHA256 of
+the original content plus the content of every patch that contributes to it.
+
+On rebuild, it recomputes the fingerprint and:
+
+- **Same fingerprint** → file is up to date, skip it.
+- **Different fingerprint** → file is rebuilt and the fingerprint is updated.
+
+The result: the first boot after a plugin install rebuilds what changed, and
+subsequent boots are essentially free.
+
+`rails plugins:rebuild` ignores fingerprints and rebuilds everything — useful
+when something looks out of sync.
+
+### Orphan cleanup
+
+When a plugin is uninstalled or one of its files is removed, the corresponding
+output in `storage/build/` no longer has a source. The build manager detects
+these **orphans** on every sync and deletes them, so removing a plugin
+genuinely removes its footprint from the running application.
+
+### Vite patch manifest
+
+JavaScript and CSS patches need extra coordination with Vite. As part of the
+build, the manager writes a small JSON manifest (`tmp/plugin_patches_{env}.json`)
+listing every patched JS/JSX/TS/TSX file. The custom Vite resolver reads this
+manifest and ensures the composed version under `storage/build/app/javascript/`
+is served instead of the original under `app/javascript/`.
+
+### Development vs. production
+
+The build mechanism is the same in both environments — what differs is **how
+assets are served** after the build runs.
+
+**In development**
+
+- The build runs on every application boot and on every plugin
+  install / update / uninstall.
+- Ruby files in `storage/build/` are picked up by Rails on the next request
+  (Zeitwerk + class reloading).
+- Assets (JS, JSX, CSS) are served by the **Vite dev server** with hot module
+  replacement: editing a plugin file refreshes the browser without a full
+  restart.
+- `assets:precompile` is **not** run — the dev server compiles on the fly.
+
+**In production**
+
+- The build runs as part of the deploy / boot sequence
+  (`rails plugins:boot`).
+- After plugin files land in `storage/build/`, `yarn install` and
+  `assets:precompile` are executed so the patched JS and CSS end up in the
+  precompiled asset bundle.
+- The application is then restarted; from that point on, served assets are
+  static and no Vite dev server is involved.
+- A plugin install / update therefore **always implies a rebuild + asset
+  recompilation + restart** in production. This is why updates are explicit
+  by default — the customer chooses when to take the brief restart.
+
+In short: **dev = live and fast (Vite dev server)**, **prod = baked and stable
+(precompiled assets)**. The plugin source code and the Patch DSL are
+identical in both — only the asset pipeline behind them changes.
+
+---
+
+
+## How to create a plugin
+
+Every WoofedCRM installation ships with a starter folder at
+`storage/plugins/my_new_plugin/`. It contains a minimal working example —
+manifest, a sample patch, and a sample new file — that serves as a starting
+point for plugin development.
+
+The development workflow is:
+
+1. **Fork** the WoofedCRM repository.
+2. **Implement** your plugin inside `storage/plugins/my_new_plugin/` — use the
+   existing files as a reference and adapt them to your feature.
+3. **Submit** your plugin to the Woofed Store. The store takes care of
+   building the deliverable: it packages your plugin into the proper
+   ZIP format that customer installations can download and install.
+
+The developer never has to worry about the deliverable format, packaging
+rules, or distribution mechanics — that is entirely handled by the store at
+submission time. The fork is the only environment a plugin author needs.
 
 ---
 
@@ -755,10 +1098,106 @@ it and exposes the application to the full risk surface described in
 
 ## Safe mode
 
-If a faulty plugin breaks the application, WoofedCRM can be started in **safe
-mode**. In this mode every plugin is automatically disabled — the core boots
-without applying any plugin code, giving the operator a clean state to remove
-or fix the offending plugin through the Woofed Store.
-
 Safe mode is the recovery mechanism that guarantees a bad plugin can never
-permanently brick the system.
+permanently brick the system. When active, the application boots **as if no
+plugin were installed** — only the original core code runs.
+
+### How it works
+
+Safe mode hinges on the **plugins load** stage: where does Rails / Vite read
+source files from?
+
+In standard mode, the plugins load reads from `storage/build/` first and
+falls back to `app/`. In safe mode that preference is inverted: the
+application **bypasses `storage/build/` entirely** and reads directly from
+`app/`. Since `app/` is never modified by plugins, the result is a clean,
+plugin-free boot.
+
+The switch is controlled by a single constant — `MODE` — that the rest of the
+system reads to decide how to behave:
+
+- The **plugins build** stage is skipped entirely — no download, no
+  extraction, no composition into `storage/build/`.
+- The **plugins load** stage skips `storage/build/app/` in the Rails autoload,
+  view, and controller paths, and `storage/build/app/javascript/` in the Vite
+  resolver.
+
+```
+   standard mode (MODE = standard)      safe mode (MODE = safe)
+   ──────────────────────────────       ─────────────────────────
+   plugins load:                        plugins load:
+   storage/build/  →  app/              app/  (storage/build/ ignored)
+        ▲                                          ▲
+        │ patched + new plugin files               │ original core only
+```
+
+### Boot flow with safe mode
+
+The application **always starts in safe mode** and only promotes itself to
+standard mode after the health checks pass. The desired execution mode is
+also persisted in the database, so an operator can pin the application to
+safe mode across restarts when needed.
+
+```
+       boot starts
+            │
+            ▼
+   ┌────────────────────────┐
+   │ MODE = safe (initial)  │
+   └───────────┬────────────┘
+               │
+               ▼
+   ┌──────────────────────────────┐
+   │ Health checks                │
+   │  • database reachable?       │
+   │  • Woofed Store reachable?   │
+   │  • read mode flag from DB    │
+   └───────────┬──────────────────┘
+               │
+        ┌──────┴──────┐
+        │             │
+   all checks      something
+   ok AND DB       failed OR
+   says standard   DB says safe
+        │             │
+        ▼             ▼
+   MODE = standard   MODE stays safe
+   (run plugins      (skip plugins
+   build, then       build entirely;
+   plugins load)     plugins load
+        │             reads from app/)
+        │             │
+        └──────┬──────┘
+               ▼
+        continue boot
+        (Rails + Vite start)
+```
+
+The flow is the **same** in both branches — the only difference is the value
+of `MODE` once the health check phase ends. The downstream stages (plugins
+build, plugins load) read `MODE` and adapt: in standard mode the build runs
+and the load reads from `storage/build/`; in safe mode the build is skipped
+and the load reads from `app/`.
+
+### When safe mode is kept
+
+- **Health checks failed** — the database is unavailable, migrations are
+  pending, or the Woofed Store cannot be reached. The app stays in safe mode
+  so it can still come up while the operator investigates.
+- **Pinned by the operator** — the mode flag in the database has been set to
+  `safe`. This is useful when an installed plugin is misbehaving: the
+  operator pins safe mode, restarts, fixes or removes the plugin through the
+  Woofed Store, and only then unpins to return to standard mode.
+
+### Leaving safe mode
+
+Safe mode is purely a runtime decision — nothing on disk is changed while
+it is active. To return to standard mode:
+
+1. Make sure the underlying issue is fixed (DB reachable, store reachable,
+   bad plugin removed or updated).
+2. Set the mode flag in the database back to `standard` (if it was pinned).
+3. Restart the application.
+
+On the next boot the health checks pass, `MODE` is promoted to `standard`,
+the build runs, and the previously installed plugins become live again.
