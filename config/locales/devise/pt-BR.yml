@@ -64,7 +64,7 @@ pt-BR:
       reset_password_instructions:
         action: Redefinir minha senha
         greeting: Olá %{recipient},
-        instruction: Recebemos uma solicitação para redefinir a senha da sua conta WoofedCRM. Clique no botão abaixo para criar uma nova senha.
+        instruction: Recebemos uma solicitação para redefinir a senha da sua conta Woofed CRM. Clique no botão abaixo para criar uma nova senha.
         expiry: Este link é válido por 6 horas.
         instruction_2: Se você não fez este pedido, por favor ignore este e-mail.
         instruction_3: Sua senha não será alterada até que você acesse o link acima e crie uma nova.

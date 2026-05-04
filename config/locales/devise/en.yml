@@ -24,7 +24,7 @@ en:
         banner: "Password reset requested"
         title: "Reset your password"
         greeting: "Hi %{recipient},"
-        instruction: "We received a request to reset your WoofedCRM account password. Click the button below to create a new password."
+        instruction: "We received a request to reset your Woofed CRM account password. Click the button below to create a new password."
         expiry: "This link is valid for 6 hours."
         action: "Reset my password"
         instruction_2: "If you didn't request this, please ignore this email."

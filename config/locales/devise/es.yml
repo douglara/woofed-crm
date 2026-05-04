@@ -64,7 +64,7 @@ es:
       reset_password_instructions:
         action: Restablecer mi contraseña
         greeting: "Hola %{recipient},"
-        instruction: Recibimos una solicitud para restablecer la contraseña de tu cuenta WoofedCRM. Haz clic en el botón de abajo para crear una nueva contraseña.
+        instruction: Recibimos una solicitud para restablecer la contraseña de tu cuenta Woofed CRM. Haz clic en el botón de abajo para crear una nueva contraseña.
         expiry: Este enlace es válido por 6 horas.
         instruction_2: Si no realizaste esta solicitud, ignora este correo electrónico.
         instruction_3: Tu contraseña no cambiará hasta que accedas al enlace y crees una nueva.
