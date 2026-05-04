@@ -193,6 +193,20 @@ RSpec.describe Accounts::ContactsController, type: :request do
           expect(response).to have_http_status(:unprocessable_entity)
           expect(response.body).to include('must be in e164 format')
         end
+
+        it 'adds form-input-error class to invalid fields' do
+          invalid_params = { contact: { full_name: 'Yukio Arie', email: 'invalid-email', phone: '+552299881378888889' } }
+          post "/accounts/#{account.id}/contacts", params: invalid_params
+
+          doc = Nokogiri::HTML(response.body)
+          email_input = doc.at_css('input[name="contact[email]"]')
+          phone_input = doc.at_css('input[name="contact[phone]"]')
+          name_input = doc.at_css('input[name="contact[full_name]"]')
+
+          expect(email_input['class']).to include('form-input-error')
+          expect(phone_input['class']).to include('form-input-error')
+          expect(name_input['class']).not_to include('form-input-error')
+        end
       end
     end
   end
