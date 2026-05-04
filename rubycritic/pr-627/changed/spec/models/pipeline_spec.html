@@ -47,12 +47,12 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-04 14:11:41 +1000'>2026-05-04 14:11:41 +1000</time>
+          Updated <time class='js-timeago' datetime='2026-05-04 14:38:05 +1000'>2026-05-04 14:38:05 +1000</time>
         
       </span>
     </div>
     <div>
-      <h3><small>app/mailers /</small> application_mailer.rb</h3>
+      <h3><small>spec/models /</small> pipeline_spec.rb</h3>
     </div>
   </div>
   <!--End Page Title -->
@@ -62,21 +62,21 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating a big">
-              A
+            <div class="rating b big">
+              B
             </div>
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">4</span><small> lines of codes</small></div>
+              <div><span class="metric">36</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">0.0</span><small> complexity</small></div>
+              <div><span class="metric">72.29</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -97,9 +97,41 @@
       </div>
     </div>
 
-    <code class="prettyprint linenums lang-ruby file-code js-file-code">class ApplicationMailer &lt; ActionMailer::Base<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>ApplicationMailer has no descriptive comment</span>          </div>  </li></ol>
-  default from: &#39;from@example.com&#39;
-  layout &#39;mailer&#39;
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># == Schema Information
+#
+# Table name: pipelines
+#
+#  id         :bigint           not null, primary key
+#  name       :string           default(&quot;&quot;), not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+require &#39;rails_helper&#39;
+
+RSpec.describe Pipeline do
+  let!(:account) { create(:account) }
+
+  describe &#39;destroy&#39; do
+    let!(:pipeline) { create(:pipeline) }
+    let!(:another_pipeline) { create(:pipeline) }
+    let!(:stage) { create(:stage, pipeline:) }
+    let!(:stage_from_another_pipeline) { create(:stage, pipeline: another_pipeline) }
+    let!(:another_stage) { create(:stage, pipeline:) }
+    let!(:deal) { create(:deal, stage:) }
+    let!(:another_deal) { create(:deal, stage: another_stage) }
+    let!(:deal_from_another_pipeline) { create(:deal, stage: stage_from_another_pipeline, pipeline: another_pipeline) }
+
+    it &#39;destroys the pipeline, associated stages and associated deals&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(destroy)::it#destroys the pipeline, associated stages and associated deals has a flog score of 40</span>          </div>  </li></ol>
+      expect do
+         pipeline.destroy
+      end.to change(Pipeline, :count).by(-1)
+      .and change(Stage, :count).by(-2)
+      .and change(Deal, :count).by(-2)
+
+      expect(stage_from_another_pipeline).to be_persisted
+      expect(deal_from_another_pipeline).to be_persisted
+    end
+  end
 end
 </code>
   </div>

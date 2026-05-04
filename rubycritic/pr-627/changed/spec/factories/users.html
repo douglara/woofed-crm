@@ -47,12 +47,12 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-04 14:11:41 +1000'>2026-05-04 14:11:41 +1000</time>
+          Updated <time class='js-timeago' datetime='2026-05-04 14:38:05 +1000'>2026-05-04 14:38:05 +1000</time>
         
       </span>
     </div>
     <div>
-      <h3><small>app/mailers /</small> application_mailer.rb</h3>
+      <h3><small>spec/factories /</small> users.rb</h3>
     </div>
   </div>
   <!--End Page Title -->
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">4</span><small> lines of codes</small></div>
+              <div><span class="metric">50</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">29</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">0.0</span><small> complexity</small></div>
+              <div><span class="metric">17.62</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                1
+                0
                 smell
               </a>
             </li>
@@ -97,9 +97,55 @@
       </div>
     </div>
 
-    <code class="prettyprint linenums lang-ruby file-code js-file-code">class ApplicationMailer &lt; ActionMailer::Base<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>ApplicationMailer has no descriptive comment</span>          </div>  </li></ol>
-  default from: &#39;from@example.com&#39;
-  layout &#39;mailer&#39;
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># == Schema Information
+#
+# Table name: users
+#
+#  id                     :bigint           not null, primary key
+#  avatar_url             :string           default(&quot;&quot;), not null
+#  current_sign_in_at     :datetime
+#  current_sign_in_ip     :string
+#  email                  :string           default(&quot;&quot;), not null
+#  encrypted_password     :string           default(&quot;&quot;), not null
+#  failed_attempts        :integer          default(0)
+#  full_name              :string           default(&quot;&quot;), not null
+#  job_description        :string           default(&quot;other&quot;), not null
+#  language               :string           default(&quot;en&quot;), not null
+#  last_sign_in_at        :datetime
+#  last_sign_in_ip        :string
+#  locked_at              :datetime
+#  notifications          :jsonb            not null
+#  phone                  :string
+#  remember_created_at    :datetime
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string
+#  sign_in_count          :integer          default(0)
+#  theme_preference       :string           default(&quot;system&quot;), not null
+#  unlock_token           :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#
+# Indexes
+#
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_unlock_token          (unlock_token) UNIQUE
+#
+require &#39;faker&#39;
+
+FactoryBot.define do
+  factory :user do
+    full_name { Faker::Name.name }
+    email { Faker::Internet.email }
+    phone { Faker::PhoneNumber.cell_phone_in_e164 }
+    password { &#39;Password1!&#39; }
+    trait :push_notifications_enabled do
+      webpush_notify_on_event_expired { true }
+    end
+    trait :es_language do
+      language { &#39;es&#39; }
+    end
+  end
 end
 </code>
   </div>
