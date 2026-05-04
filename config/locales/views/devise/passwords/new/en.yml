@@ -1,0 +1,9 @@
+en:
+  views:
+    devise:
+      passwords:
+        new:
+          title: "Forgot your password?"
+          subtitle: "Enter your email and we'll send you a link to reset your password."
+          send_instructions: "Send reset instructions"
+          back_to_login: "Back to login"

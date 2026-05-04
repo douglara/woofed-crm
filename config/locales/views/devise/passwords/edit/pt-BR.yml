@@ -1,0 +1,11 @@
+pt-BR:
+  views:
+    devise:
+      passwords:
+        edit:
+          title: "Definir nova senha"
+          subtitle: "Sua nova senha deve ter pelo menos %{min} caracteres."
+          new_password: "Nova senha"
+          confirm_password: "Confirme a nova senha"
+          save_password: "Salvar nova senha"
+          back_to_login: "Voltar para o login"

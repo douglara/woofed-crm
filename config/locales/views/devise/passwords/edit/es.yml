@@ -1,0 +1,11 @@
+es:
+  views:
+    devise:
+      passwords:
+        edit:
+          title: "Establecer nueva contraseña"
+          subtitle: "Tu nueva contraseña debe tener al menos %{min} caracteres."
+          new_password: "Nueva contraseña"
+          confirm_password: "Confirmar nueva contraseña"
+          save_password: "Guardar nueva contraseña"
+          back_to_login: "Volver al inicio de sesión"

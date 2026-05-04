@@ -15,11 +15,9 @@
         <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input h-9" %>
       </div>
       <div class="grid gap-2 mb-4">
-        <div class="flex items-center justify-between">
-          <%= f.label :password, class: "typography-text-m-lh150 leading-none text-dark-gray-palette-p1" %>
-          <%= link_to t('views.devise.sessions.new.forgot_password'), new_password_path(resource_name), class: "typography-text-m-lh150 text-dark-gray-palette-p1 hover:text-brand-palette-02 hidden" %>
-        </div>
+        <%= f.label :password, class: "typography-text-m-lh150 leading-none text-dark-gray-palette-p1" %>
         <%= f.password_field :password, autocomplete: "current-password", class: "form-input w-full h-9" %>
+        <%= link_to t('views.devise.sessions.new.forgot_password'), new_password_path(resource_name), class: "typography-text-m-lh150 text-dark-gray-palette-p1 hover:text-brand-palette-02 justify-self-end" %>
       </div>
       <%= submit_button(f, t('views.devise.sessions.new.log_in'), class: 'grid justify-items-center', size: :md) %>
     </div>

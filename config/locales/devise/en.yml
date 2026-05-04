@@ -21,6 +21,14 @@ en:
         subject: "Confirmation instructions"
       reset_password_instructions:
         subject: "Reset password instructions"
+        banner: "Password reset requested"
+        title: "Reset your password"
+        greeting: "Hi %{recipient},"
+        instruction: "We received a request to reset your WoofedCRM account password. Click the button below to create a new password."
+        expiry: "This link is valid for 6 hours."
+        action: "Reset my password"
+        instruction_2: "If you didn't request this, please ignore this email."
+        instruction_3: "Your password won't change until you access the link above and create a new one."
       unlock_instructions:
         subject: "Unlock instructions"
       email_changed:

@@ -1,0 +1,4 @@
+es:
+  mailer:
+    layout:
+      footer_contact: "¿Preguntas? Contáctenos:"

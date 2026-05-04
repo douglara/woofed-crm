@@ -1,0 +1,11 @@
+en:
+  views:
+    devise:
+      passwords:
+        edit:
+          title: "Set new password"
+          subtitle: "Your new password must be at least %{min} characters."
+          new_password: "New password"
+          confirm_password: "Confirm new password"
+          save_password: "Save new password"
+          back_to_login: "Back to login"

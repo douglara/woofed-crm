@@ -1,0 +1,9 @@
+pt-BR:
+  views:
+    devise:
+      passwords:
+        new:
+          title: "Esqueceu sua senha?"
+          subtitle: "Informe seu e-mail e enviaremos um link para redefinir sua senha."
+          send_instructions: "Enviar instruções"
+          back_to_login: "Voltar para o login"

@@ -1,0 +1,9 @@
+es:
+  views:
+    devise:
+      passwords:
+        new:
+          title: "¿Olvidaste tu contraseña?"
+          subtitle: "Ingresa tu correo y te enviaremos un enlace para restablecer tu contraseña."
+          send_instructions: "Enviar instrucciones"
+          back_to_login: "Volver al inicio de sesión"
