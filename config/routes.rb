@@ -1,8 +1,6 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  get '/up', to: 'health_check#show'
-
   if Rails.env.development?
     # Redirect to localhost from 127.0.0.1 to use same IP address with Vite server
     constraints(host: '127.0.0.1') do
@@ -31,6 +29,7 @@ Rails.application.routes.draw do
       resource :deals, only: %i[edit update], module: :settings do
         resources :deal_lost_reasons, except: [:show], module: :deals
       end
+      resources :agent_plugin_builders, only: %i[index new create show destroy], module: :settings
     end
 
     resources :webhooks, module: :settings do
@@ -137,7 +136,6 @@ Rails.application.routes.draw do
       resources :accounts, module: :accounts do
         resources :deals, only: %i[show create update] do
           post 'upsert', on: :collection
-          match 'search', on: :collection, via: %i[get post]
           resources :events, only: [:create], module: :deals do
           end
         end
@@ -156,6 +154,7 @@ Rails.application.routes.draw do
         resources :users, only: [:create] do
           match 'search', on: :collection, via: %i[get post]
         end
+        resources :agent_plugin_builders, only: %i[index show create]
       end
 
       resources :contacts, only: [:create] do
@@ -198,4 +197,24 @@ Rails.application.routes.draw do
   end
   get 'service-worker' => 'pwa#service_worker'
   get 'webmanifest' => 'pwa#manifest'
+
+  # Draw plugin routes — DB-first: only load routes for plugins active in the database.
+  # Falls back to directory scan if the DB is unavailable (e.g. first migration run).
+  plugin_route_files =
+    if defined?(Plugin) && Plugin.table_exists?
+      Plugin.active.filter_map do |p|
+        f = p.local_path.join("config", "routes.rb")
+        f.exist? ? f.to_s : nil
+      end.sort
+    else
+      Dir[Rails.root.join("storage/plugins/*/config/routes.rb")].sort
+    end
+
+  plugin_route_files.each do |route_file|
+    begin
+      instance_eval(File.read(route_file))
+    rescue ArgumentError => e
+      Rails.logger.error "[routes] Skipping plugin route file #{route_file}: #{e.message}"
+    end
+  end
 end

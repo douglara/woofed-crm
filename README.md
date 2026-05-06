@@ -15,6 +15,13 @@ You can try the development version through the link: [WoofedCRM](https://woofed
 ## API 🔥
 
 [API documentation](https://www.postman.com/dark-shuttle-5185/workspace/woofed-crm-api/collection/905262-e0bb0d71-a634-4fa2-8b03-4ae4c6dde690)
+
+## Documentation 📚
+
+Project documentation lives in the [`docs/`](docs/) folder:
+
+- [Plugin System](docs/plugins.md) — how plugins work, how to create one, install/uninstall, versioning, compatibility checks, and safe mode.
+
 ## Installation Tutorial 🧑‍💻
 
 Requeriments for project:

@@ -132,3 +132,8 @@ gem 'opentelemetry-instrumentation-all', '~> 0.50.1'
 gem 'opentelemetry-sdk', '~> 1.3'
 
 gem "inertia_rails", "~> 3.17"
+
+# Plugin system: load Gemfiles from installed plugins.
+Dir[File.join(__dir__, "storage", "plugins", "*", "Gemfile")].sort.each do |plugin_gemfile|
+  eval_gemfile(plugin_gemfile)
+end

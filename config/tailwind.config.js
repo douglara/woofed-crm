@@ -6,6 +6,8 @@ module.exports = {
     "./app/helpers/**/*.rb",
     "./app/javascript/**/*.{css,js,ts,jsx,tsx}",
     "./app/views/**/*.{erb,haml,html,slim}",
+    "./storage/build/app/views/**/*.{erb,haml,html,slim}",
+    "./storage/build/app/javascript/**/*.{css,js,ts,jsx,tsx}",
     "./node_modules/flowbite/**/*.js",
   ],
   darkMode: "class",

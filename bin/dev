@@ -2,6 +2,9 @@
 
 export PORT="${PORT:-3000}"
 
+# Boot plugins: install deps, rebuild storage/build/, run migrations
+bin/boot
+
 if command -v overmind 1> /dev/null 2>&1
 then
   overmind start -f Procfile.dev "$@"

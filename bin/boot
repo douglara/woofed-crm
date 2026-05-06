@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+set -e
+
+echo "[boot] Installing gem dependencies..."
+bundle install --quiet
+
+echo "[boot] Booting plugins (rebuild, migrate, assets)..."
+bundle exec rails plugins:boot
+
+if [ $# -gt 0 ]; then
+  echo "[boot] Starting: $@"
+  exec "$@"
+fi
