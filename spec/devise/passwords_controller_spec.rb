@@ -15,19 +15,12 @@ RSpec.describe Devise::PasswordsController, type: :request do
 
   describe 'POST /users/password' do
     context 'with a registered email' do
-      it 'sends a reset password email' do
+      it 'sends a reset password email, redirects to sign in and delivers to the correct address' do
         expect do
           post '/users/password', params: { user: { email: user.email } }
         end.to change(ActionMailer::Base.deliveries, :count).by(1)
-      end
 
-      it 'redirects to sign in page' do
-        post '/users/password', params: { user: { email: user.email } }
         expect(response).to redirect_to(new_user_session_path)
-      end
-
-      it 'sends the email to the correct address' do
-        post '/users/password', params: { user: { email: user.email } }
         expect(ActionMailer::Base.deliveries.last.to).to include(user.email)
       end
     end
