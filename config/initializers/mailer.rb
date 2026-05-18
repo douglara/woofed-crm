@@ -5,6 +5,9 @@ Rails.application.configure do
 
   # We need the application frontend url to be used in our emails
   config.action_mailer.default_url_options = { host: ENV['FRONTEND_URL'] } if ENV['FRONTEND_URL'].present?
+  config.action_mailer.default_options = {
+    from: ENV.fetch('MAILER_SENDER_EMAIL', 'WoofedCRM <hi@woofedcrm.com>')
+  }
   # We load certain mailer templates from our database. This ensures changes to it is reflected immediately
   config.action_mailer.perform_caching = false
   config.action_mailer.perform_deliveries = true
