@@ -106,7 +106,7 @@ FastMcp.mount_in_rails(
   path_prefix: &#39;/mcp&#39;,
   messages_route: &#39;messages&#39;,
   sse_route: &#39;sse&#39;,
-  allowed_origins: [&#39;*&#39;]
+  allowed_origins: []
 ) do |server|
   Rails.application.config.after_initialize do
     server.register_tools(*ApplicationTool.descendants)
