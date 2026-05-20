@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../overview.html"><img src="../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-05-20 06:51:02 -0300'>2026-05-20 06:51:02 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>spec/resources /</small> products_resource_spec.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating d big">
+              D
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">51</span><small> lines of codes</small></div>
+              <div><span class="metric">0</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">N/A</span><small> complexity/method</small></div>
+              <div><span class="metric">1</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">107.22</span><small> complexity</small></div>
+              <div><span class="metric">43</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                3
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">require &#39;rails_helper&#39;
+
+RSpec.describe &#39;MCP resource: woofed:///products/{id}&#39;, type: :request do
+  let!(:account) { create(:account) }
+  let!(:user) { create(:user, account: account) }
+  let!(:product) do
+    create(:product, name: &#39;Car&#39;, identifier: &#39;SKU-123&#39;, amount_in_cents: 1_000_035,
+                     quantity_available: 2, description: &#39;Nice car&#39;,
+                     custom_attributes: { &#39;number_of_doors&#39; =&gt; &#39;4&#39; })
+  end
+  let!(:deal) { create(:deal) }
+  let!(:deal_product) { create(:deal_product, deal: deal, product: product) }
+  let(:auth_headers) do
+    { &#39;Authorization&#39; =&gt; &quot;Bearer #{Users::JsonWebToken.encode_user(user)}&quot;,
+      &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
+  end
+
+  context &#39;when it is an unauthenticated user&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="contacts_resource_spec.html#L17" class="js-smell-location">0</a>                  <a href="deals_resource_spec.html#L21" class="js-smell-location">1</a>                  <a href="products_resource_spec.html#L18" class="js-smell-location">2</a>                  </div>  </li></ol>
+    it &#39;returns unauthorized&#39; do
+      post &#39;/mcp/messages&#39;, params: mcp_resource_read_body(&quot;woofed:///products/#{product.id}&quot;),
+                            headers: { &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
+
+  context &#39;when it is an authenticated user&#39; do
+    it &#39;returns the product with all fields and its deal_products&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>context(when it is an authenticated user)::it#returns the product with all fields and its deal_products has a flog score of 53</span>          </div>  </li></ol>
+      post &#39;/mcp/messages&#39;, params: mcp_resource_read_body(&quot;woofed:///products/#{product.id}&quot;),
+                            headers: auth_headers
+      payload = mcp_result
+
+      expect(payload).to include(
+        &#39;id&#39; =&gt; product.id,
+        &#39;name&#39; =&gt; &#39;Car&#39;,
+        &#39;identifier&#39; =&gt; &#39;SKU-123&#39;,
+        &#39;amount_in_cents&#39; =&gt; 1_000_035,
+        &#39;quantity_available&#39; =&gt; 2,
+        &#39;description&#39; =&gt; &#39;Nice car&#39;,
+        &#39;custom_attributes&#39; =&gt; { &#39;number_of_doors&#39; =&gt; &#39;4&#39; }
+      )
+      expect(payload[&#39;deal_products&#39;].pluck(&#39;id&#39;)).to include(deal_product.id)
+      expect(payload[&#39;deal_products&#39;].pluck(&#39;deal_id&#39;)).to include(deal.id)
+    end
+
+    it &#39;returns an error when the product does not exist&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="contacts_resource_spec.html#L45" class="js-smell-location">0</a>                  <a href="deals_resource_spec.html#L55" class="js-smell-location">1</a>                  <a href="products_resource_spec.html#L45" class="js-smell-location">2</a>                  </div>  </li></ol>
+      post &#39;/mcp/messages&#39;, params: mcp_resource_read_body(&#39;woofed:///products/99999&#39;),
+                            headers: auth_headers
+      expect(mcp_response[&#39;error&#39;]).to be_present
+    end
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../assets/javascripts/application.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>

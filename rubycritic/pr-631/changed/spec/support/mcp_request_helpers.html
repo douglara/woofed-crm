@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../overview.html"><img src="../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-05-20 06:51:02 -0300'>2026-05-20 06:51:02 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>spec/support /</small> mcp_request_helpers.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating a big">
+              A
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">40</span><small> lines of codes</small></div>
+              <div><span class="metric">4</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">6.4</span><small> complexity/method</small></div>
+              <div><span class="metric">1</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">25.64</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                5
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">module McpRequestHelpers<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>McpRequestHelpers has no descriptive comment</span>          </div>  </li></ol>
+  def mcp_tool_call_body(tool_name, arguments = {})<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>McpRequestHelpers#mcp_tool_call_body doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    { jsonrpc: &#39;2.0&#39;, method: &#39;tools/call&#39;,
+      params: { name: tool_name, arguments: arguments }, id: 1 }.to_json
+  end
+
+  def mcp_resource_read_body(uri)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>McpRequestHelpers#mcp_resource_read_body doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    { jsonrpc: &#39;2.0&#39;, method: &#39;resources/read&#39;, params: { uri: uri }, id: 1 }.to_json
+  end
+
+  def mcp_response
+    payload = Thread.current[:mcp_captured_response]
+    raise &#39;No MCP response was captured for this request&#39; unless payload
+
+    payload
+  end
+
+  def mcp_result<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>McpRequestHelpers#mcp_result has approx 8 statements</span>          </div>  </li></ol>
+    payload = mcp_response
+    raise payload[&#39;error&#39;].inspect if payload[&#39;error&#39;]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>McpRequestHelpers#mcp_result calls 'payload['error']' 2 times</span>          </div>  </li></ol>
+
+    result = payload[&#39;result&#39;] || {}
+    contents = result[&#39;content&#39;] || result[&#39;contents&#39;]
+    text = contents&amp;.first&amp;.dig(&#39;text&#39;)
+    raise &quot;MCP tool returned error: #{text}&quot; if result[&#39;isError&#39;]
+
+    text.present? ? JSON.parse(text) : result
+  end
+end
+
+RSpec.configure do |config|
+  config.include McpRequestHelpers, type: :request
+
+  config.before(:each, type: :request) do
+    Thread.current[:mcp_captured_response] = nil
+    allow_any_instance_of(FastMcp::Transports::RackTransport).to receive(:send_message) do |_, message|
+      Thread.current[:mcp_captured_response] = JSON.parse(message.is_a?(String) ? message : JSON.generate(message))
+    end
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../assets/javascripts/application.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>

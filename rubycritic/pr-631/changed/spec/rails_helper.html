@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../overview.html"><img src="../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-05-20 06:51:02 -0300'>2026-05-20 06:51:02 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>spec /</small> rails_helper.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating a big">
+              A
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">83</span><small> lines of codes</small></div>
+              <div><span class="metric">0</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">N/A</span><small> complexity/method</small></div>
+              <div><span class="metric">14</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">0.0</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                0
+                smell
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># This file is copied to spec/ when you run &#39;rails generate rspec:install&#39;
+require &#39;spec_helper&#39;
+ENV[&#39;RAILS_ENV&#39;] ||= &#39;test&#39;
+require_relative &#39;../config/environment&#39;
+# Prevent database truncation if the environment is production
+abort(&quot;The Rails environment is running in production mode!&quot;) if Rails.env.production?
+require &#39;rspec/rails&#39;
+require &#39;webmock/rspec&#39;
+require &#39;devise&#39;
+require &#39;sidekiq/testing&#39;
+
+# Add additional requires below this line. Rails is not loaded until this point!
+
+# Requires supporting ruby files with custom matchers and macros, etc, in
+# spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
+# run as spec files by default. This means that files in spec/support that end
+# in _spec.rb will both be required and run as specs, causing the specs to be
+# run twice. It is recommended that you do not name files matching this glob to
+# end with _spec.rb. You can configure this pattern with the --pattern
+# option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
+#
+# The following line is provided for convenience purposes. It has the downside
+# of increasing the boot-up time by auto-requiring all files in the support
+# directory. Alternatively, in the individual `*_spec.rb` files, manually
+# require only the support files necessary.
+#
+Dir[Rails.root.join(&#39;spec&#39;, &#39;support&#39;, &#39;**&#39;, &#39;*.rb&#39;)].sort.each { |f| require f }
+
+# Checks for pending migrations and applies them before tests are run.
+# If you are not using ActiveRecord, you can remove these lines.
+begin
+  ActiveRecord::Migration.maintain_test_schema!
+rescue ActiveRecord::PendingMigrationError =&gt; e
+  abort e.to_s.strip
+end
+
+include ActiveJob::TestHelper
+
+# if ENV[&#39;ALLOW_HTTP&#39;] == &#39;true&#39;
+#   WebMock.disable_net_connect!(allow_localhost: true, allow: /./)
+# else
+#   WebMock.disable_net_connect!(allow_localhost: true, allow: /./)
+# end
+
+RSpec.configure do |config|
+  config.before(:each) do
+    Sidekiq::Worker.clear_all
+  end
+  config.include FactoryBot::Syntax::Methods
+  config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include ActiveSupport::Testing::TimeHelpers
+
+  # Remove this line if you&#39;re not using ActiveRecord or ActiveRecord fixtures
+  config.fixture_path = &quot;#{::Rails.root}/spec/fixtures&quot;
+
+  # If you&#39;re not using ActiveRecord, or you&#39;d prefer not to run each of your
+  # examples within a transaction, remove the following line or assign false
+  # instead of true.
+  config.use_transactional_fixtures = true
+
+  # You can uncomment this line to turn off ActiveRecord support entirely.
+  # config.use_active_record = false
+
+  # RSpec Rails can automatically mix in different behaviours to your tests
+  # based on their file location, for example enabling you to call `get` and
+  # `post` in specs under `spec/controllers`.
+  #
+  # You can disable this behaviour by removing the line below, and instead
+  # explicitly tag your specs with their type, e.g.:
+  #
+  #     RSpec.describe UsersController, type: :controller do
+  #       # ...
+  #     end
+  #
+  # The different available types are documented in the features, such as in
+  # https://relishapp.com/rspec/rspec-rails/docs
+  config.infer_spec_type_from_file_location!
+
+  # Filter lines from Rails gems in backtraces.
+  config.filter_rails_from_backtrace!
+  # arbitrary gems may also be filtered via:
+  # config.filter_gems_from_backtrace(&quot;gem name&quot;)
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../assets/javascripts/application.js"></script>
+    <script src="../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>
