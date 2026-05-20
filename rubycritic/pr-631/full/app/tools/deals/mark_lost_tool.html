@@ -62,8 +62,8 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating a big">
-              A
+            <div class="rating b big">
+              B
             </div>
           </div>
           <div class="code-statistics col-md-11">
@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">12.24</span><small> complexity</small></div>
-              <div><span class="metric">0</span><small> duplications</small></div>
+              <div><span class="metric">21</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,8 +88,8 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                1
-                smell
+                2
+                smells
               </a>
             </li>
           </ul>
@@ -102,7 +102,7 @@
     tool_name &#39;deals_mark_lost&#39;
     description &#39;Mark a deal as lost. Optionally provide the lost reason and timestamp.&#39;
 
-    arguments do
+    arguments do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="mark_lost_tool.html#L6" class="js-smell-location">0</a>                  <a href="../stages/create_tool.html#L6" class="js-smell-location">1</a>                  <a href="../stages/update_tool.html#L6" class="js-smell-location">2</a>                  </div>  </li></ol>
       required(:id).filled(:integer).description(&#39;Deal ID&#39;)
       optional(:lost_reason).filled(:string).description(&#39;Why the deal was lost&#39;)
       optional(:lost_at).filled(:string).description(&#39;ISO8601 UTC datetime the deal was lost. Defaults to now.&#39;)

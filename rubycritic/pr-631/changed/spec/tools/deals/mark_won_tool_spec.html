@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-20 06:51:02 -0300'>2026-05-20 06:51:02 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-20 18:56:37 -0300'>2026-05-20 18:56:37 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">35</span><small> lines of codes</small></div>
+              <div><span class="metric">43</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">80.02</span><small> complexity</small></div>
+              <div><span class="metric">105.52</span><small> complexity</small></div>
               <div><span class="metric">24</span><small> duplications</small></div>
             </div>
           </div>
@@ -129,6 +129,14 @@ RSpec.describe &#39;MCP tool: deals_mark_won&#39;, type: :request do
       post &#39;/mcp/messages&#39;, params: mcp_tool_call_body(&#39;deals_mark_won&#39;, { id: 99_999 }), headers: auth_headers
       expect(mcp_result).to include(&#39;status&#39; =&gt; &#39;not_found&#39;,
                                     &#39;error&#39; =&gt; &#39;Resource could not be found&#39;)
+    end
+
+    context &#39;when required arguments are missing&#39; do
+      it &#39;returns a schema validation error when id is missing&#39; do
+        post &#39;/mcp/messages&#39;, params: mcp_tool_call_body(&#39;deals_mark_won&#39;, {}), headers: auth_headers
+        expect(mcp_response.dig(&#39;result&#39;, &#39;isError&#39;)).to eq(true)
+        expect(mcp_response.dig(&#39;result&#39;, &#39;content&#39;, 0, &#39;text&#39;)).to match(/id/i)
+      end
     end
   end
 end

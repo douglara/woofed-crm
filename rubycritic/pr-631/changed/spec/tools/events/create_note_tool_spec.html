@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-20 06:51:02 -0300'>2026-05-20 06:51:02 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-20 18:56:37 -0300'>2026-05-20 18:56:37 -0300</time>
         
       </span>
     </div>
@@ -68,16 +68,16 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">56</span><small> lines of codes</small></div>
+              <div><span class="metric">68</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">127.57</span><small> complexity</small></div>
-              <div><span class="metric">46</span><small> duplications</small></div>
+              <div><span class="metric">163.52</span><small> complexity</small></div>
+              <div><span class="metric">129</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                4
+                7
                 smells
               </a>
             </li>
@@ -110,10 +110,10 @@ RSpec.describe &#39;MCP tool: events_create_note&#39;, type: :request do
   end
   let(:last_event) { Event.last }
 
-  context &#39;when it is an unauthenticated user&#39; do
+  context &#39;when it is an unauthenticated user&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="create_note_tool_spec.html#L14" class="js-smell-location">0</a>                  <a href="../stages/create_tool_spec.html#L14" class="js-smell-location">1</a>                  </div>  </li></ol>
     it &#39;returns unauthorized&#39; do
       expect do
-        post &#39;/mcp/messages&#39;,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../deals/mark_lost_tool_spec.html#L14" class="js-smell-location">0</a>                  <a href="create_note_tool_spec.html#L17" class="js-smell-location">1</a>                  </div>  </li></ol>
+        post &#39;/mcp/messages&#39;,
              params: mcp_tool_call_body(&#39;events_create_note&#39;, { deal_id: deal.id, content: &#39;Hi&#39; }),
              headers: { &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
       end.not_to change(Event, :count)
@@ -134,7 +134,7 @@ RSpec.describe &#39;MCP tool: events_create_note&#39;, type: :request do
     end
 
     it &#39;creates a note attached to a contact when no deal is given&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>context(when it is an authenticated user)::it#creates a note attached to a contact when no deal is given has a flog score of 30</span>          </div>  </li></ol>
-      expect do
+      expect do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="create_note_tool_spec.html#L38" class="js-smell-location">0</a>                  <a href="../stages/create_tool_spec.html#L27" class="js-smell-location">1</a>                  </div>  </li></ol>
         post &#39;/mcp/messages&#39;,
              params: mcp_tool_call_body(&#39;events_create_note&#39;, { contact_id: contact.id, content: &#39;Reminder&#39; }),
              headers: auth_headers
@@ -150,6 +150,18 @@ RSpec.describe &#39;MCP tool: events_create_note&#39;, type: :request do
       end.not_to change(Event, :count)
       expect(mcp_result).to include(&#39;status&#39; =&gt; &#39;unprocessable_entity&#39;,
                                     &#39;error&#39; =&gt; &#39;Provide deal_id or contact_id&#39;)
+    end
+
+    context &#39;when required arguments are missing&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="create_activity_tool_spec.html#L59" class="js-smell-location">0</a>                  <a href="create_note_tool_spec.html#L56" class="js-smell-location">1</a>                  </div>  </li></ol>
+      it &#39;returns a schema validation error when content is missing&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>context(when it is an authenticated user)::context(when required arguments are missing)::it#returns a schema validation error when content is missing has a flog score of 35</span>          </div>  </li></ol>
+        expect do
+          post &#39;/mcp/messages&#39;,
+               params: mcp_tool_call_body(&#39;events_create_note&#39;, { deal_id: deal.id }),
+               headers: auth_headers
+        end.not_to change(Event, :count)
+        expect(mcp_response.dig(&#39;result&#39;, &#39;isError&#39;)).to eq(true)
+        expect(mcp_response.dig(&#39;result&#39;, &#39;content&#39;, 0, &#39;text&#39;)).to match(/content/i)
+      end
     end
   end
 end

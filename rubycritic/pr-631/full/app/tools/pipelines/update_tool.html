@@ -47,12 +47,12 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-20 06:51:02 -0300'>2026-05-20 06:51:02 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-20 18:56:26 -0300'>2026-05-20 18:56:26 -0300</time>
         
       </span>
     </div>
     <div>
-      <h3><small>app/tools/contacts /</small> update_tool.rb</h3>
+      <h3><small>app/tools/pipelines /</small> update_tool.rb</h3>
     </div>
   </div>
   <!--End Page Title -->
@@ -68,7 +68,7 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">26</span><small> lines of codes</small></div>
+              <div><span class="metric">22</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
@@ -97,27 +97,23 @@
       </div>
     </div>
 
-    <code class="prettyprint linenums lang-ruby file-code js-file-code">module Contacts
-  class UpdateTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Contacts::UpdateTool has no descriptive comment</span>          </div>  </li></ol>
-    tool_name &#39;contacts_update&#39;
-    description &#39;Update an existing contact by ID. Only fields provided will be changed.&#39;
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">module Pipelines
+  class UpdateTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Pipelines::UpdateTool has no descriptive comment</span>          </div>  </li></ol>
+    tool_name &#39;pipelines_update&#39;
+    description &#39;Update an existing pipeline by ID. Only fields provided will be changed.&#39;
 
     arguments do
-      required(:id).filled(:integer).description(&#39;Contact ID&#39;)
-      optional(:full_name).filled(:string).description(&#39;Contact full name&#39;)
-      optional(:email).filled(:string).description(&#39;Contact email&#39;)
-      optional(:phone).filled(:string).description(&#39;Contact phone in E.164 format&#39;)
-      optional(:label_list).array(:string).description(&#39;Replace tags applied to the contact&#39;)
-      optional(:custom_attributes).hash.description(&#39;Free-form custom fields as key/value pairs&#39;)
+      required(:id).filled(:integer).description(&#39;Pipeline ID&#39;)
+      optional(:name).filled(:string).description(&#39;Pipeline name&#39;)
     end
 
-    def call(id:, **attributes)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="update_tool.html#L15" class="js-smell-location">0</a>                  <a href="../pipelines/update_tool.html#L11" class="js-smell-location">1</a>                  <a href="../stages/update_tool.html#L12" class="js-smell-location">2</a>                  </div>  </li></ol>
+    def call(id:, **attributes)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="../contacts/update_tool.html#L15" class="js-smell-location">0</a>                  <a href="update_tool.html#L11" class="js-smell-location">1</a>                  <a href="../stages/update_tool.html#L12" class="js-smell-location">2</a>                  </div>  </li></ol>
       handle_with_exception do
-        contact = Contact.find(id)
-        if contact.update(attributes.compact)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Contacts::UpdateTool#call refers to 'contact' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="update_tool.html#L18" class="js-smell-location">0</a>                  <a href="update_tool.html#L19" class="js-smell-location">1</a>                  <a href="update_tool.html#L21" class="js-smell-location">2</a>                  </div>  </li></ol>
-          contact.to_json<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Contacts::UpdateTool#call refers to 'contact' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="update_tool.html#L18" class="js-smell-location">0</a>                  <a href="update_tool.html#L19" class="js-smell-location">1</a>                  <a href="update_tool.html#L21" class="js-smell-location">2</a>                  </div>  </li></ol>
+        pipeline = Pipeline.find(id)
+        if pipeline.update(attributes.compact)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Pipelines::UpdateTool#call refers to 'pipeline' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="update_tool.html#L14" class="js-smell-location">0</a>                  <a href="update_tool.html#L15" class="js-smell-location">1</a>                  <a href="update_tool.html#L17" class="js-smell-location">2</a>                  </div>  </li></ol>
+          pipeline.to_json<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Pipelines::UpdateTool#call refers to 'pipeline' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="update_tool.html#L14" class="js-smell-location">0</a>                  <a href="update_tool.html#L15" class="js-smell-location">1</a>                  <a href="update_tool.html#L17" class="js-smell-location">2</a>                  </div>  </li></ol>
         else
-          unprocessable_error(contact.errors.full_messages)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Contacts::UpdateTool#call refers to 'contact' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="update_tool.html#L18" class="js-smell-location">0</a>                  <a href="update_tool.html#L19" class="js-smell-location">1</a>                  <a href="update_tool.html#L21" class="js-smell-location">2</a>                  </div>  </li></ol>
+          unprocessable_error(pipeline.errors.full_messages)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Pipelines::UpdateTool#call refers to 'pipeline' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="update_tool.html#L14" class="js-smell-location">0</a>                  <a href="update_tool.html#L15" class="js-smell-location">1</a>                  <a href="update_tool.html#L17" class="js-smell-location">2</a>                  </div>  </li></ol>
         end
       end
     end

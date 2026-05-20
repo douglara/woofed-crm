@@ -47,12 +47,12 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-20 06:51:02 -0300'>2026-05-20 06:51:02 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-20 18:56:26 -0300'>2026-05-20 18:56:26 -0300</time>
         
       </span>
     </div>
     <div>
-      <h3><small>app/tools/deals /</small> mark_lost_tool.rb</h3>
+      <h3><small>app/tools/pipelines /</small> create_tool.rb</h3>
     </div>
   </div>
   <!--End Page Title -->
@@ -62,22 +62,22 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating b big">
-              B
+            <div class="rating a big">
+              A
             </div>
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">24</span><small> lines of codes</small></div>
+              <div><span class="metric">21</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">12.2</span><small> complexity/method</small></div>
+              <div><span class="metric">9.5</span><small> complexity/method</small></div>
               <div><span class="metric">1</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">12.24</span><small> complexity</small></div>
-              <div><span class="metric">21</span><small> duplications</small></div>
+              <div><span class="metric">9.54</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -97,25 +97,22 @@
       </div>
     </div>
 
-    <code class="prettyprint linenums lang-ruby file-code js-file-code">module Deals
-  class MarkLostTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Deals::MarkLostTool has no descriptive comment</span>          </div>  </li></ol>
-    tool_name &#39;deals_mark_lost&#39;
-    description &#39;Mark a deal as lost. Optionally provide the lost reason and timestamp.&#39;
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">module Pipelines
+  class CreateTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Pipelines::CreateTool has no descriptive comment</span>          </div>  </li></ol>
+    tool_name &#39;pipelines_create&#39;
+    description &#39;Create a new pipeline. Stages are added separately via stages_create.&#39;
 
-    arguments do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="mark_lost_tool.html#L6" class="js-smell-location">0</a>                  <a href="../stages/create_tool.html#L6" class="js-smell-location">1</a>                  <a href="../stages/update_tool.html#L6" class="js-smell-location">2</a>                  </div>  </li></ol>
-      required(:id).filled(:integer).description(&#39;Deal ID&#39;)
-      optional(:lost_reason).filled(:string).description(&#39;Why the deal was lost&#39;)
-      optional(:lost_at).filled(:string).description(&#39;ISO8601 UTC datetime the deal was lost. Defaults to now.&#39;)
+    arguments do
+      required(:name).filled(:string).description(&#39;Pipeline name&#39;)
     end
 
-    def call(id:, lost_reason: nil, lost_at: nil)
+    def call(name:)
       handle_with_exception do
-        deal = Deal.find(id)
-        attributes = { status: &#39;lost&#39;, lost_reason: lost_reason, lost_at: lost_at }.compact
-        if Deal::CreateOrUpdate.new(deal, attributes).call
-          deal.to_json
+        pipeline = Pipeline.new(name: name)
+        if pipeline.save<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Pipelines::CreateTool#call refers to 'pipeline' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="create_tool.html#L13" class="js-smell-location">0</a>                  <a href="create_tool.html#L14" class="js-smell-location">1</a>                  <a href="create_tool.html#L16" class="js-smell-location">2</a>                  </div>  </li></ol>
+          pipeline.to_json<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Pipelines::CreateTool#call refers to 'pipeline' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="create_tool.html#L13" class="js-smell-location">0</a>                  <a href="create_tool.html#L14" class="js-smell-location">1</a>                  <a href="create_tool.html#L16" class="js-smell-location">2</a>                  </div>  </li></ol>
         else
-          unprocessable_error(deal.errors.full_messages)
+          unprocessable_error(pipeline.errors.full_messages)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Pipelines::CreateTool#call refers to 'pipeline' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="create_tool.html#L13" class="js-smell-location">0</a>                  <a href="create_tool.html#L14" class="js-smell-location">1</a>                  <a href="create_tool.html#L16" class="js-smell-location">2</a>                  </div>  </li></ol>
         end
       end
     end

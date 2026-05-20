@@ -62,8 +62,8 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating b big">
-              B
+            <div class="rating c big">
+              C
             </div>
           </div>
           <div class="code-statistics col-md-11">
@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">23.52</span><small> complexity</small></div>
-              <div><span class="metric">27</span><small> duplications</small></div>
+              <div><span class="metric">52</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                5
+                6
                 smells
               </a>
             </li>
@@ -118,7 +118,7 @@
         records, pagination = paginate(scope.order(:name), page: page, per_page: per_page)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Pipelines::ListTool#call refers to 'scope' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="list_tool.html#L16" class="js-smell-location">0</a>                  <a href="list_tool.html#L17" class="js-smell-location">1</a>                  <a href="list_tool.html#L19" class="js-smell-location">2</a>                  </div>  </li></ol>
         {
           data: records.map do |pipeline|
-            pipeline.as_json(only: %i[id name created_at updated_at]).merge(
+            pipeline.as_json(only: %i[id name created_at updated_at]).merge(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../../resources/pipelines_resource.html#L10" class="js-smell-location">0</a>                  <a href="list_tool.html#L22" class="js-smell-location">1</a>                  </div>  </li></ol>
               stages: pipeline.stages.order(:position).as_json(only: %i[id name position created_at updated_at])
             )
           end,

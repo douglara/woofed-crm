@@ -47,12 +47,12 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-20 18:56:37 -0300'>2026-05-20 18:56:37 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-20 18:56:26 -0300'>2026-05-20 18:56:26 -0300</time>
         
       </span>
     </div>
     <div>
-      <h3><small>spec/tools/deals /</small> update_tool_spec.rb</h3>
+      <h3><small>spec/tools/stages /</small> update_tool_spec.rb</h3>
     </div>
   </div>
   <!--End Page Title -->
@@ -68,16 +68,16 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">56</span><small> lines of codes</small></div>
+              <div><span class="metric">49</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">1</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">125.78</span><small> complexity</small></div>
-              <div><span class="metric">92</span><small> duplications</small></div>
+              <div><span class="metric">106.5</span><small> complexity</small></div>
+              <div><span class="metric">113</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                3
+                5
                 smells
               </a>
             </li>
@@ -99,54 +99,47 @@
 
     <code class="prettyprint linenums lang-ruby file-code js-file-code">require &#39;rails_helper&#39;
 
-RSpec.describe &#39;MCP tool: deals_update&#39;, type: :request do
+RSpec.describe &#39;MCP tool: stages_update&#39;, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let!(:pipeline) { create(:pipeline) }
-  let!(:stage) { create(:stage, pipeline: pipeline) }
-  let!(:other_stage) { create(:stage, pipeline: pipeline) }
-  let!(:contact) { create(:contact) }
-  let!(:deal) { create(:deal, contact: contact, stage: stage, pipeline: pipeline, name: &#39;Old Name&#39;) }
+  let!(:stage) { create(:stage, pipeline: pipeline, name: &#39;Old Name&#39;, position: 1) }
   let(:auth_headers) do
     { &#39;Authorization&#39; =&gt; &quot;Bearer #{Users::JsonWebToken.encode_user(user)}&quot;,
       &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
   end
-  let(:arguments) do
-    { id: deal.id, name: &#39;Updated Name&#39;, stage_id: other_stage.id, status: &#39;open&#39;,
-      custom_attributes: { &#39;source&#39; =&gt; &#39;Inbound&#39; } }
-  end
 
-  context &#39;when it is an unauthenticated user&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../contacts/update_tool_spec.html#L19" class="js-smell-location">0</a>                  <a href="update_tool_spec.html#L20" class="js-smell-location">1</a>                  </div>  </li></ol>
-    it &#39;returns unauthorized&#39; do
-      post &#39;/mcp/messages&#39;, params: mcp_tool_call_body(&#39;deals_update&#39;, arguments),
-                            headers: { &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
+  context &#39;when it is an unauthenticated user&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="../deals/mark_lost_tool_spec.html#L12" class="js-smell-location">0</a>                  <a href="../pipelines/update_tool_spec.html#L12" class="js-smell-location">1</a>                  <a href="update_tool_spec.html#L13" class="js-smell-location">2</a>                  </div>  </li></ol>
+    it &#39;returns unauthorized&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>context(when it is an unauthenticated user)::it#returns unauthorized has a flog score of 25</span>          </div>  </li></ol>
+      post &#39;/mcp/messages&#39;,
+           params: mcp_tool_call_body(&#39;stages_update&#39;, { id: stage.id, name: &#39;New Name&#39; }),
+           headers: { &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
       expect(response).to have_http_status(:unauthorized)
-      expect(deal.reload.name).to eq(&#39;Old Name&#39;)
+      expect(stage.reload.name).to eq(&#39;Old Name&#39;)
     end
   end
 
   context &#39;when it is an authenticated user&#39; do
-    it &#39;updates all submitted attributes&#39; do
-      post &#39;/mcp/messages&#39;, params: mcp_tool_call_body(&#39;deals_update&#39;, arguments), headers: auth_headers
-      expect(deal.reload).to have_attributes(
-        name: &#39;Updated Name&#39;,
-        stage_id: other_stage.id,
-        status: &#39;open&#39;,
-        custom_attributes: { &#39;source&#39; =&gt; &#39;Inbound&#39; }
-      )
+    it &#39;updates the stage name and position&#39; do
+      post &#39;/mcp/messages&#39;,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="create_tool_spec.html#L36" class="js-smell-location">0</a>                  <a href="update_tool_spec.html#L25" class="js-smell-location">1</a>                  </div>  </li></ol>
+           params: mcp_tool_call_body(&#39;stages_update&#39;, { id: stage.id, name: &#39;New Name&#39;, position: 2 }),
+           headers: auth_headers
+      expect(stage.reload).to have_attributes(name: &#39;New Name&#39;, position: 2)
     end
 
-    it &#39;returns not found when the deal does not exist&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 4 nodes</span>              <span>Locations:</span>                  <a href="../contacts/update_tool_spec.html#L40" class="js-smell-location">0</a>                  <a href="update_tool_spec.html#L40" class="js-smell-location">1</a>                  <a href="../pipelines/update_tool_spec.html#L30" class="js-smell-location">2</a>                  <a href="../stages/update_tool_spec.html#L31" class="js-smell-location">3</a>                  </div>  </li></ol>
-      post &#39;/mcp/messages&#39;, params: mcp_tool_call_body(&#39;deals_update&#39;, { id: 99_999, name: &#39;x&#39; }),
-                            headers: auth_headers
+    it &#39;returns not found when the stage does not exist&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 4 nodes</span>              <span>Locations:</span>                  <a href="../contacts/update_tool_spec.html#L40" class="js-smell-location">0</a>                  <a href="../deals/update_tool_spec.html#L40" class="js-smell-location">1</a>                  <a href="../pipelines/update_tool_spec.html#L30" class="js-smell-location">2</a>                  <a href="update_tool_spec.html#L31" class="js-smell-location">3</a>                  </div>  </li></ol>
+      post &#39;/mcp/messages&#39;,
+           params: mcp_tool_call_body(&#39;stages_update&#39;, { id: 99_999, name: &#39;x&#39; }),
+           headers: auth_headers
       expect(mcp_result).to include(&#39;status&#39; =&gt; &#39;not_found&#39;,
                                     &#39;error&#39; =&gt; &#39;Resource could not be found&#39;)
     end
 
-    context &#39;when required arguments are missing&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 5 nodes</span>              <span>Locations:</span>                  <a href="../contacts/update_tool_spec.html#L56" class="js-smell-location">0</a>                  <a href="mark_lost_tool_spec.html#L38" class="js-smell-location">1</a>                  <a href="update_tool_spec.html#L47" class="js-smell-location">2</a>                  <a href="../pipelines/update_tool_spec.html#L38" class="js-smell-location">3</a>                  <a href="../stages/update_tool_spec.html#L39" class="js-smell-location">4</a>                  </div>  </li></ol>
+    context &#39;when required arguments are missing&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 5 nodes</span>              <span>Locations:</span>                  <a href="../contacts/update_tool_spec.html#L56" class="js-smell-location">0</a>                  <a href="../deals/mark_lost_tool_spec.html#L38" class="js-smell-location">1</a>                  <a href="../deals/update_tool_spec.html#L47" class="js-smell-location">2</a>                  <a href="../pipelines/update_tool_spec.html#L38" class="js-smell-location">3</a>                  <a href="update_tool_spec.html#L39" class="js-smell-location">4</a>                  </div>  </li></ol>
       it &#39;returns a schema validation error when id is missing&#39; do
-        post &#39;/mcp/messages&#39;, params: mcp_tool_call_body(&#39;deals_update&#39;, { name: &#39;x&#39; }),
-                              headers: auth_headers
+        post &#39;/mcp/messages&#39;,
+             params: mcp_tool_call_body(&#39;stages_update&#39;, { name: &#39;x&#39; }),
+             headers: auth_headers
         expect(mcp_response.dig(&#39;result&#39;, &#39;isError&#39;)).to eq(true)
         expect(mcp_response.dig(&#39;result&#39;, &#39;content&#39;, 0, &#39;text&#39;)).to match(/id/i)
       end
