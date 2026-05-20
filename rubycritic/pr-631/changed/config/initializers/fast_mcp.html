@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-20 17:15:54 -0300'>2026-05-20 17:15:54 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-20 19:17:30 -0300'>2026-05-20 19:17:30 -0300</time>
         
       </span>
     </div>
@@ -73,7 +73,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">0.0</span><small> complexity</small></div>
@@ -106,7 +106,7 @@ FastMcp.mount_in_rails(
   path_prefix: &#39;/mcp&#39;,
   messages_route: &#39;messages&#39;,
   sse_route: &#39;sse&#39;,
-  allowed_origins: [&#39;localhost&#39;, &#39;127.0.0.1&#39;, &#39;example.com&#39;, /.*\.example\.com/, ENV[&#39;FRONTEND_URL&#39;]].compact
+  allowed_origins: [&#39;*&#39;]
 ) do |server|
   Rails.application.config.after_initialize do
     server.register_tools(*ApplicationTool.descendants)
