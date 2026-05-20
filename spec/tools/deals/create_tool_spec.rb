@@ -51,5 +51,27 @@ RSpec.describe 'MCP tool: deals_create', type: :request do
       expect(mcp_result).to include('status' => 'unprocessable_entity')
       expect(mcp_result['error']).to include(match(/contact/i))
     end
+
+    context 'when required arguments are missing' do
+      it 'returns a schema validation error when contact_id is missing' do
+        expect do
+          post '/mcp/messages',
+               params: mcp_tool_call_body('deals_create', arguments.except(:contact_id)),
+               headers: auth_headers
+        end.not_to change(Deal, :count)
+        expect(mcp_response.dig('result', 'isError')).to eq(true)
+        expect(mcp_response.dig('result', 'content', 0, 'text')).to match(/contact_id/i)
+      end
+
+      it 'returns a schema validation error when stage_id is missing' do
+        expect do
+          post '/mcp/messages',
+               params: mcp_tool_call_body('deals_create', arguments.except(:stage_id)),
+               headers: auth_headers
+        end.not_to change(Deal, :count)
+        expect(mcp_response.dig('result', 'isError')).to eq(true)
+        expect(mcp_response.dig('result', 'content', 0, 'text')).to match(/stage_id/i)
+      end
+    end
   end
 end

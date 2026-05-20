@@ -52,5 +52,14 @@ RSpec.describe 'MCP tool: contacts_update', type: :request do
       expect(mcp_result).to include('status' => 'unprocessable_entity')
       expect(mcp_result['error']).to include(match(/email/i))
     end
+
+    context 'when required arguments are missing' do
+      it 'returns a schema validation error when id is missing' do
+        post '/mcp/messages', params: mcp_tool_call_body('contacts_update', { full_name: 'x' }),
+                              headers: auth_headers
+        expect(mcp_response.dig('result', 'isError')).to eq(true)
+        expect(mcp_response.dig('result', 'content', 0, 'text')).to match(/id/i)
+      end
+    end
   end
 end

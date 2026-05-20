@@ -63,5 +63,29 @@ RSpec.describe 'MCP tool: events_send_whatsapp_message', type: :request do
       expect(mcp_result).to include('status' => 'unprocessable_entity',
                                     'error' => 'Provide send_now=true or scheduled_at')
     end
+
+    context 'when required arguments are missing' do
+      it 'returns a schema validation error when content is missing' do
+        expect do
+          post '/mcp/messages',
+               params: mcp_tool_call_body('events_send_whatsapp_message',
+                                           base_arguments.except(:content).merge(scheduled_at: scheduled_at)),
+               headers: auth_headers
+        end.not_to change(Event, :count)
+        expect(mcp_response.dig('result', 'isError')).to eq(true)
+        expect(mcp_response.dig('result', 'content', 0, 'text')).to match(/content/i)
+      end
+
+      it 'returns a schema validation error when app_id is missing' do
+        expect do
+          post '/mcp/messages',
+               params: mcp_tool_call_body('events_send_whatsapp_message',
+                                           base_arguments.except(:app_id).merge(scheduled_at: scheduled_at)),
+               headers: auth_headers
+        end.not_to change(Event, :count)
+        expect(mcp_response.dig('result', 'isError')).to eq(true)
+        expect(mcp_response.dig('result', 'content', 0, 'text')).to match(/app_id/i)
+      end
+    end
   end
 end

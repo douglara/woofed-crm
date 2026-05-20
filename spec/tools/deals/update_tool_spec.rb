@@ -43,5 +43,14 @@ RSpec.describe 'MCP tool: deals_update', type: :request do
       expect(mcp_result).to include('status' => 'not_found',
                                     'error' => 'Resource could not be found')
     end
+
+    context 'when required arguments are missing' do
+      it 'returns a schema validation error when id is missing' do
+        post '/mcp/messages', params: mcp_tool_call_body('deals_update', { name: 'x' }),
+                              headers: auth_headers
+        expect(mcp_response.dig('result', 'isError')).to eq(true)
+        expect(mcp_response.dig('result', 'content', 0, 'text')).to match(/id/i)
+      end
+    end
   end
 end

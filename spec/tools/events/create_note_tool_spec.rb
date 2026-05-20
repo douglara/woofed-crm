@@ -52,5 +52,17 @@ RSpec.describe 'MCP tool: events_create_note', type: :request do
       expect(mcp_result).to include('status' => 'unprocessable_entity',
                                     'error' => 'Provide deal_id or contact_id')
     end
+
+    context 'when required arguments are missing' do
+      it 'returns a schema validation error when content is missing' do
+        expect do
+          post '/mcp/messages',
+               params: mcp_tool_call_body('events_create_note', { deal_id: deal.id }),
+               headers: auth_headers
+        end.not_to change(Event, :count)
+        expect(mcp_response.dig('result', 'isError')).to eq(true)
+        expect(mcp_response.dig('result', 'content', 0, 'text')).to match(/content/i)
+      end
+    end
   end
 end
