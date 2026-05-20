@@ -1,4 +1,4 @@
-require Rails.root.join('lib/mcp/jwt_authenticator').to_s
+require Rails.root.join('config/middleware/mcp/jwt_authenticator').to_s
 
 FastMcp.mount_in_rails(
   Rails.application,
@@ -6,7 +6,8 @@ FastMcp.mount_in_rails(
   version: '1.0.0',
   path_prefix: '/mcp',
   messages_route: 'messages',
-  sse_route: 'sse'
+  sse_route: 'sse',
+  allowed_origins: ['localhost', '127.0.0.1', 'example.com', /.*\.example\.com/, ENV['FRONTEND_URL']].compact
 ) do |server|
   Rails.application.config.after_initialize do
     server.register_tools(*ApplicationTool.descendants)
