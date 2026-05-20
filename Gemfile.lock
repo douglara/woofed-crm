@@ -256,6 +256,13 @@ GEM
       net-http-persistent (~> 4.0)
     faraday-retry (2.3.2)
       faraday (~> 2.0)
+    fast-mcp (1.6.0)
+      addressable (~> 2.8)
+      base64
+      dry-schema (~> 1.14)
+      json (~> 2.0)
+      mime-types (~> 3.4)
+      rack (>= 2.0, < 4.0)
     ffi (1.17.0-x86_64-linux-gnu)
     ffi-compiler (1.3.2)
       ffi (>= 1.15.5)
@@ -392,6 +399,10 @@ GEM
     marcel (1.0.4)
     matrix (0.4.2)
     memory_profiler (1.1.0)
+    mime-types (3.7.0)
+      logger
+      mime-types-data (~> 3.2025, >= 3.2025.0507)
+    mime-types-data (3.2026.0414)
     mini_magick (4.13.2)
     mini_mime (1.1.5)
     minitest (5.25.4)
@@ -915,6 +926,7 @@ DEPENDENCIES
   faraday
   faraday-follow_redirects
   faraday-retry (= 2.3.2)
+  fast-mcp (= 1.6.0)
   good_job (= 3.99.1)
   google-cloud-storage
   groupdate (= 6.5.1)

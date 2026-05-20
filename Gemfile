@@ -134,3 +134,5 @@ gem 'opentelemetry-instrumentation-all', '~> 0.50.1'
 gem 'opentelemetry-sdk', '~> 1.3'
 
 gem "inertia_rails", "~> 3.17"
+
+gem 'fast-mcp', '1.6.0', require: 'fast_mcp'
