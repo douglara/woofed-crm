@@ -104,6 +104,11 @@ Tools are functions the LLM can invoke. Each one lives in [app/tools/](../../app
 | `deals_mark_won` | Mark a deal as won | [tools/deals.md](tools/deals.md) |
 | `deals_mark_lost` | Mark a deal as lost | [tools/deals.md](tools/deals.md) |
 | `pipelines_list` | List pipelines with their stages | [tools/pipelines.md](tools/pipelines.md) |
+| `pipelines_create` | Create a pipeline | [tools/pipelines.md](tools/pipelines.md) |
+| `pipelines_update` | Update a pipeline | [tools/pipelines.md](tools/pipelines.md) |
+| `stages_list` | List stages, optionally scoped to a pipeline | [tools/stages.md](tools/stages.md) |
+| `stages_create` | Create a stage inside a pipeline | [tools/stages.md](tools/stages.md) |
+| `stages_update` | Update a stage (rename / reorder) | [tools/stages.md](tools/stages.md) |
 | `products_list` | List catalog products | [tools/products.md](tools/products.md) |
 | `events_create_note` | Add a note to a deal/contact | [tools/events.md](tools/events.md) |
 | `events_create_activity` | Schedule an activity (call/meeting) | [tools/events.md](tools/events.md) |
@@ -122,6 +127,7 @@ Resources are canonical reads by URI. Each one lives in [app/resources/](../../a
 |---|---|---|
 | `woofed:///contacts/{id}` | Contact + deals + events | [resources/contacts.md](resources/contacts.md) |
 | `woofed:///deals/{id}` | Deal + contact + stage + pipeline + assignees + products | [resources/deals.md](resources/deals.md) |
+| `woofed:///pipelines/{id}` | Pipeline + stages | [resources/pipelines.md](resources/pipelines.md) |
 | `woofed:///products/{id}` | Product + deal_products | [resources/products.md](resources/products.md) |
 
 ---
