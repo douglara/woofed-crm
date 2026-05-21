@@ -1,6 +1,15 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  # OAuth 2.1 authorization server for MCP clients (Claude Web, ChatGPT, etc.).
+  # See docs/mcp/authentication.md for the end-to-end flow.
+  use_doorkeeper do
+    skip_controllers :applications, :authorized_applications
+  end
+  post '/oauth/register', to: 'oauth/client_registrations#create', as: :oauth_register
+  get  '/.well-known/oauth-protected-resource',   to: 'oauth/metadata#protected_resource'
+  get  '/.well-known/oauth-authorization-server', to: 'oauth/metadata#authorization_server'
+
   get '/up', to: 'health_check#show'
 
   if Rails.env.development?

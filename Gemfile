@@ -136,3 +136,7 @@ gem 'opentelemetry-sdk', '~> 1.3'
 gem "inertia_rails", "~> 3.17"
 
 gem 'fast-mcp', '1.6.0', require: 'fast_mcp'
+
+# OAuth 2.1 authorization server for MCP clients (Claude Web, ChatGPT, etc.)
+gem 'doorkeeper', '5.9.1'
+gem 'doorkeeper-jwt', '0.4.2'

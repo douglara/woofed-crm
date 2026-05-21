@@ -7,10 +7,13 @@ RSpec.describe 'MCP JWT authentication', type: :request do
   let(:body) { { jsonrpc: '2.0', method: 'tools/list', id: 1 }.to_json }
 
   context 'when unauthorized' do
-    it 'rejects requests to /mcp/* without authorization header' do
+    it 'rejects requests to /mcp/* without authorization header and advertises the OAuth metadata via WWW-Authenticate' do
       post '/mcp/messages', params: body, headers: { 'Content-Type' => 'application/json' }
       expect(response).to have_http_status(:unauthorized)
       expect(JSON.parse(response.body)).to include('error' => include('message' => 'Unauthorized'))
+      expect(response.headers['WWW-Authenticate']).to include('Bearer realm="Woofed CRM MCP"')
+      expect(response.headers['WWW-Authenticate']).to include('resource_metadata="')
+      expect(response.headers['WWW-Authenticate']).to include('/.well-known/oauth-protected-resource')
     end
 
     it 'rejects requests with an invalid JWT' do
