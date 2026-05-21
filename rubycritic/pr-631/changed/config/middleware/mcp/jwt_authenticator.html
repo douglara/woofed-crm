@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-20 17:15:54 -0300'>2026-05-20 17:15:54 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-21 03:54:30 -0300'>2026-05-21 03:54:30 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">31</span><small> lines of codes</small></div>
+              <div><span class="metric">44</span><small> lines of codes</small></div>
               <div><span class="metric">4</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">4.0</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">4.4</span><small> complexity/method</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">16.16</span><small> complexity</small></div>
+              <div><span class="metric">17.51</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                4
+                5
                 smells
               </a>
             </li>
@@ -100,6 +100,7 @@
     <code class="prettyprint linenums lang-ruby file-code js-file-code">module Mcp
   class JwtAuthenticator<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Mcp::JwtAuthenticator has no descriptive comment</span>          </div>  </li></ol>
     UNAUTHORIZED_BODY = { jsonrpc: &#39;2.0&#39;, error: { code: -32_001, message: &#39;Unauthorized&#39; }, id: nil }.to_json.freeze
+    REALM = &#39;Woofed CRM MCP&#39;
 
     def initialize(app, path_prefix: &#39;/mcp&#39;)
       @app = app
@@ -108,12 +109,12 @@
 
     def call(env)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Mcp::JwtAuthenticator#call has approx 6 statements</span>          </div>  </li></ol>
       request = ActionDispatch::Request.new(env)
-      return @app.call(env) unless request.path.start_with?(@path_prefix)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Mcp::JwtAuthenticator#call calls '@app.call(env)' 2 times</span>              <span>Locations:</span>                  <a href="jwt_authenticator.html#L12" class="js-smell-location">0</a>                  <a href="jwt_authenticator.html#L17" class="js-smell-location">1</a>                  </div>  </li></ol>
+      return @app.call(env) unless request.path.start_with?(@path_prefix)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Mcp::JwtAuthenticator#call calls '@app.call(env)' 2 times</span>              <span>Locations:</span>                  <a href="jwt_authenticator.html#L13" class="js-smell-location">0</a>                  <a href="jwt_authenticator.html#L18" class="js-smell-location">1</a>                  </div>  </li></ol>
 
       user = Users::JsonWebToken.decode_user(extract_token(request))[:ok]
-      return unauthorized unless user
+      return unauthorized(request) unless user
 
-      Current.set(user: user) { @app.call(env) }<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Mcp::JwtAuthenticator#call calls '@app.call(env)' 2 times</span>              <span>Locations:</span>                  <a href="jwt_authenticator.html#L12" class="js-smell-location">0</a>                  <a href="jwt_authenticator.html#L17" class="js-smell-location">1</a>                  </div>  </li></ol>
+      Current.set(user: user) { @app.call(env) }<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Mcp::JwtAuthenticator#call calls '@app.call(env)' 2 times</span>              <span>Locations:</span>                  <a href="jwt_authenticator.html#L13" class="js-smell-location">0</a>                  <a href="jwt_authenticator.html#L18" class="js-smell-location">1</a>                  </div>  </li></ol>
     end
 
     private
@@ -123,8 +124,20 @@
       token
     end
 
-    def unauthorized
-      [401, { &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }, [UNAUTHORIZED_BODY]]
+    # RFC 9728 §5.1: a protected resource returning 401 advertises its
+    # authorization server via WWW-Authenticate. MCP clients use this to
+    # bootstrap OAuth — without it, Claude Web has no way to discover
+    # /.well-known/oauth-protected-resource.
+    def unauthorized(request)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Mcp::JwtAuthenticator#unauthorized doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+      metadata_url = &quot;#{request.base_url}/.well-known/oauth-protected-resource&quot;
+      [
+        401,
+        {
+          &#39;Content-Type&#39;     =&gt; &#39;application/json&#39;,
+          &#39;WWW-Authenticate&#39; =&gt; %(Bearer realm=&quot;#{REALM}&quot;, resource_metadata=&quot;#{metadata_url}&quot;)
+        },
+        [UNAUTHORIZED_BODY]
+      ]
     end
   end
 end
