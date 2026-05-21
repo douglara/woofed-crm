@@ -17,12 +17,27 @@ class McpController < ActionController::API
 
   private
 
+  # RFC 9728: clients (ChatGPT especially) discover the OAuth metadata via the
+  # `resource_metadata` parameter in the WWW-Authenticate header of any 401
+  # response. Doorkeeper's default header omits this pointer; this hook runs
+  # after Doorkeeper sets its own value and replaces it.
+  def doorkeeper_render_error
+    super
+    response.set_header('WWW-Authenticate', mcp_www_authenticate_header) if response.unauthorized?
+  end
+
+  def mcp_www_authenticate_header
+    metadata_url = "#{request.base_url}/.well-known/oauth-protected-resource"
+    %(Bearer realm="Woofed CRM MCP", resource_metadata="#{metadata_url}")
+  end
+
   # RFC 8707: a token issued for `<base>/mcp` cannot be reused against other
   # resources, even if the scope is right. Rejects tokens without a resource
   # binding too — generate Claude Desktop tokens with `resource: '<base>/mcp'`.
   def validate_token_audience!
     return if doorkeeper_token.resource == "#{request.base_url}/mcp"
 
+    response.set_header('WWW-Authenticate', mcp_www_authenticate_header)
     render json: {
       error: 'invalid_token',
       error_description: 'Token not valid for this resource'
