@@ -134,3 +134,9 @@ gem 'opentelemetry-instrumentation-all', '~> 0.50.1'
 gem 'opentelemetry-sdk', '~> 1.3'
 
 gem "inertia_rails", "~> 3.17"
+
+# Official Model Context Protocol Ruby SDK — Streamable HTTP transport.
+gem 'mcp', '0.17.0'
+
+# OAuth 2.1 authorization server for MCP clients (Claude Web, ChatGPT, etc.)
+gem 'doorkeeper', '5.9.1'
