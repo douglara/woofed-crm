@@ -16,6 +16,12 @@ module Oauth
     end
 
     # GET /.well-known/oauth-authorization-server
+    # GET /.well-known/openid-configuration
+    #
+    # ChatGPT (and some other clients) probe /.well-known/openid-configuration
+    # during connector setup even when OIDC is not strictly required. Serving
+    # the same OAuth metadata at that path satisfies the probe without
+    # implementing full OIDC (id_token / userinfo_endpoint).
     def authorization_server
       render json: {
         issuer: request.base_url,

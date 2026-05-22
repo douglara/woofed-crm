@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   get  '/.well-known/oauth-protected-resource/mcp',   to: 'oauth/metadata#protected_resource'
   get  '/.well-known/oauth-authorization-server',     to: 'oauth/metadata#authorization_server'
   get  '/.well-known/oauth-authorization-server/mcp', to: 'oauth/metadata#authorization_server'
+  # ChatGPT probes openid-configuration during connector setup. Serving the
+  # same OAuth metadata document satisfies the probe without full OIDC.
+  get  '/.well-known/openid-configuration',           to: 'oauth/metadata#authorization_server'
 
   # MCP entry point — Streamable HTTP transport (single endpoint, POST + GET).
   post '/mcp', to: 'mcp#handle'

@@ -33,4 +33,19 @@ RSpec.describe 'OAuth discovery metadata', type: :request do
       )
     end
   end
+
+  describe 'GET /.well-known/openid-configuration' do
+    it 'aliases the OAuth metadata so ChatGPT-style clients that probe OIDC discovery do not get a 404' do
+      get '/.well-known/openid-configuration'
+
+      expect(response).to have_http_status(:ok)
+      body = JSON.parse(response.body)
+      expect(body).to include(
+        'issuer'                 => be_present,
+        'authorization_endpoint' => end_with('/oauth/authorize'),
+        'token_endpoint'         => end_with('/oauth/token'),
+        'registration_endpoint'  => end_with('/oauth/register')
+      )
+    end
+  end
 end
