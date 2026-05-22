@@ -9,6 +9,8 @@ Tools that operate on `Deal` records.
 | [`deals_update`](#deals_update) | [app/tools/deals/update_tool.rb](../../../app/tools/deals/update_tool.rb) | Yes |
 | [`deals_mark_won`](#deals_mark_won) | [app/tools/deals/mark_won_tool.rb](../../../app/tools/deals/mark_won_tool.rb) | Yes |
 | [`deals_mark_lost`](#deals_mark_lost) | [app/tools/deals/mark_lost_tool.rb](../../../app/tools/deals/mark_lost_tool.rb) | Yes |
+| [`deals_add_assignee`](#deals_add_assignee) | [app/tools/deals/add_assignee_tool.rb](../../../app/tools/deals/add_assignee_tool.rb) | Yes |
+| [`deals_remove_assignee`](#deals_remove_assignee) | [app/tools/deals/remove_assignee_tool.rb](../../../app/tools/deals/remove_assignee_tool.rb) | Yes |
 
 For reading a single deal with full graph (contact, stage, pipeline, assignees, deal_products) use the resource [`woofed:///deals/{id}`](../resources/deals.md).
 
@@ -161,3 +163,41 @@ Convenience tool that wraps `Deal::CreateOrUpdate` with `{ status: 'lost' }`.
 ### Behaviour
 
 Equivalent to calling `deals_update` with `{ id:, status: 'lost', lost_reason:, lost_at: }`. Resets `won_at` to nil.
+
+---
+
+## `deals_add_assignee`
+
+Assign a user as a responsible (assignee) of a deal. Mirrors the REST endpoint `POST /api/v1/accounts/deal_assignees`.
+
+### Arguments
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `deal_id` | integer | **yes** | Deal ID |
+| `user_id` | integer | **yes** | User ID to assign as responsible |
+
+### Behaviour
+
+Creates a `DealAssignee` record linking the user to the deal. The model has a uniqueness validation on `user_id` scoped to `deal_id`, so re-assigning a user that is already responsible returns a validation error (matching the REST API behaviour).
+
+### Return
+
+The created `DealAssignee` (`{ id, deal_id, user_id, created_at, updated_at }`) on success, or a `"Validation failed: ..."` text response when the user is already an assignee.
+
+---
+
+## `deals_remove_assignee`
+
+Remove a user from the assignees of a deal. Mirrors the REST endpoint `DELETE /api/v1/accounts/deal_assignees/:id`, but takes `deal_id` + `user_id` instead of the `DealAssignee` id — so the LLM does not need to look the join record up first.
+
+### Arguments
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `deal_id` | integer | **yes** | Deal ID |
+| `user_id` | integer | **yes** | User ID to remove from the deal assignees |
+
+### Return
+
+The destroyed `DealAssignee` (`{ id, deal_id, user_id, created_at, updated_at }`) on success, or a `"Couldn't find DealAssignee"` text response when the user is not assigned to the deal.

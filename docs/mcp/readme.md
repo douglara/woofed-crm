@@ -90,6 +90,8 @@ Tools are functions the LLM can invoke. Each lives in [app/tools/](../../app/too
 | `deals_update` | Update a deal | [tools/deals.md](tools/deals.md) |
 | `deals_mark_won` | Mark a deal as won | [tools/deals.md](tools/deals.md) |
 | `deals_mark_lost` | Mark a deal as lost | [tools/deals.md](tools/deals.md) |
+| `deals_add_assignee` | Assign a user as responsible of a deal | [tools/deals.md](tools/deals.md) |
+| `deals_remove_assignee` | Remove a user from a deal's assignees | [tools/deals.md](tools/deals.md) |
 | `pipelines_list` | List pipelines with their stages | [tools/pipelines.md](tools/pipelines.md) |
 | `pipelines_create` | Create a pipeline | [tools/pipelines.md](tools/pipelines.md) |
 | `pipelines_update` | Update a pipeline | [tools/pipelines.md](tools/pipelines.md) |
