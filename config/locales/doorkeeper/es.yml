@@ -1,0 +1,4 @@
+es:
+  doorkeeper:
+    scopes:
+      mcp: Acceder a tu CRM mediante MCP
