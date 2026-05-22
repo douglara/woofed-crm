@@ -19,13 +19,7 @@ class McpController < ActionController::API
 
   # RFC 9728: clients (ChatGPT especially) discover the OAuth metadata via the
   # `resource_metadata` parameter in the WWW-Authenticate header of any 401
-  # response. Doorkeeper's default header omits this pointer; this hook runs
-  # after Doorkeeper sets its own value and replaces it.
-  def doorkeeper_render_error
-    super
-    response.set_header('WWW-Authenticate', mcp_www_authenticate_header) if response.unauthorized?
-  end
-
+  # response.
   def mcp_www_authenticate_header
     metadata_url = "#{request.base_url}/.well-known/oauth-protected-resource"
     %(Bearer realm="Woofed CRM MCP", resource_metadata="#{metadata_url}")
