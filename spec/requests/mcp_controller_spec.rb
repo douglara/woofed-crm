@@ -5,7 +5,7 @@ RSpec.describe 'McpController authentication boundary', type: :request do
   let!(:user)    { create(:user, account: account) }
 
   describe 'POST /mcp without an Authorization header' do
-    it 'returns 401 with a WWW-Authenticate header that points to the protected-resource metadata' do
+    it 'returns 401 with WWW-Authenticate pointing to the protected-resource metadata and a JSON body' do
       post '/mcp',
            params:  { jsonrpc: '2.0', id: 0, method: 'initialize' }.to_json,
            headers: { 'Content-Type' => 'application/json' }
@@ -14,6 +14,10 @@ RSpec.describe 'McpController authentication boundary', type: :request do
       expect(response.headers['WWW-Authenticate']).to include('Bearer')
       expect(response.headers['WWW-Authenticate']).to include('resource_metadata="')
       expect(response.headers['WWW-Authenticate']).to include('/.well-known/oauth-protected-resource')
+
+      # RFC 6750 §3: 401 should carry a JSON body the client can parse.
+      expect(response.content_type).to start_with('application/json')
+      expect(JSON.parse(response.body)).to include('error', 'error_description')
     end
   end
 
