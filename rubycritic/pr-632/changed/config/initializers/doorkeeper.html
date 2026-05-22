@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 18:01:42 -0300'>2026-05-21 18:01:42 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-22 00:29:02 -0300'>2026-05-22 00:29:02 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">556</span><small> lines of codes</small></div>
+              <div><span class="metric">577</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">0.0</span><small> complexity</small></div>
@@ -545,11 +545,32 @@ Doorkeeper.configure do
   # RFC 8707 Resource Indicators — binds each access token to a specific resource
   # (e.g. https://app.woofedcrm.com/mcp). McpController rejects tokens whose
   # `resource` does not match the request base URL.
+  #
+  # Clients differ on where they pass `resource`:
+  #  - Claude Web sends it in BOTH /oauth/authorize and /oauth/token.
+  #  - ChatGPT sends it ONLY in /oauth/authorize.
+  # So we persist it on the grant at /authorize time and fall back to the
+  # grant&#39;s value during /token if the client didn&#39;t repeat the param.
   custom_access_token_attributes [:resource]
   after_successful_authorization do |controller, context|
-    if controller.class == Doorkeeper::TokensController &amp;&amp; controller.action_name == &#39;create&#39;
+    case controller.class.to_s
+    when &#39;Doorkeeper::AuthorizationsController&#39;
+      grant = context.auth.respond_to?(:code) ? context.auth.code : nil
+      if grant.respond_to?(:resource) &amp;&amp; grant.resource.blank? &amp;&amp; controller.params[&#39;resource&#39;].present?
+        grant.update(resource: controller.params[&#39;resource&#39;])
+      end
+    when &#39;Doorkeeper::TokensController&#39;
+      next unless controller.action_name == &#39;create&#39;
+
       token = context.auth.token
-      token.update(resource: controller.params[&#39;resource&#39;]) if token.resource.blank?
+      next if token.resource.present?
+
+      resource = controller.params[&#39;resource&#39;]
+      if resource.blank? &amp;&amp; controller.params[&#39;code&#39;].present?
+        grant = Doorkeeper::AccessGrant.by_token(controller.params[&#39;code&#39;])
+        resource = grant&amp;.resource
+      end
+      token.update(resource: resource) if resource.present?
     end
   end
 
