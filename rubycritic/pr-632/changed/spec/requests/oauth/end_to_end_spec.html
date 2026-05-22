@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-22 00:29:02 -0300'>2026-05-22 00:29:02 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-22 01:36:44 -0300'>2026-05-22 01:36:44 -0300</time>
         
       </span>
     </div>
@@ -68,16 +68,16 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">173</span><small> lines of codes</small></div>
+              <div><span class="metric">184</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">3</span><small> churn</small></div>
+              <div><span class="metric">4</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">325.04</span><small> complexity</small></div>
-              <div><span class="metric">106</span><small> duplications</small></div>
+              <div><span class="metric">353.67</span><small> complexity</small></div>
+              <div><span class="metric">84</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -122,7 +122,7 @@ RSpec.describe &#39;OAuth end-to-end flow&#39;, type: :request do
   it &#39;exchanges an authorization code for an opaque token that McpController accepts&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>it#exchanges an authorization code for an opaque token that McpController accepts has a flog score of 124</span>          </div>  </li></ol>
     sign_in user
 
-    get &#39;/oauth/authorize&#39;, params: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L26" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L38" class="js-smell-location">1</a>                  <a href="end_to_end_spec.html#L122" class="js-smell-location">2</a>                  </div>  </li></ol>
+    get &#39;/oauth/authorize&#39;, params: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L26" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L38" class="js-smell-location">1</a>                  </div>  </li></ol>
       client_id:             application.uid,
       redirect_uri:          redirect_uri,
       response_type:         &#39;code&#39;,
@@ -134,7 +134,7 @@ RSpec.describe &#39;OAuth end-to-end flow&#39;, type: :request do
     }
     expect(response).to have_http_status(:ok)
 
-    post &#39;/oauth/authorize&#39;, params: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L26" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L38" class="js-smell-location">1</a>                  <a href="end_to_end_spec.html#L122" class="js-smell-location">2</a>                  </div>  </li></ol>
+    post &#39;/oauth/authorize&#39;, params: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L26" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L38" class="js-smell-location">1</a>                  </div>  </li></ol>
       client_id:             application.uid,
       redirect_uri:          redirect_uri,
       response_type:         &#39;code&#39;,
@@ -165,7 +165,7 @@ RSpec.describe &#39;OAuth end-to-end flow&#39;, type: :request do
     expect(record.resource_owner_id).to eq(user.id)
     expect(record.resource).to eq(resource_url)
 
-    post &#39;/mcp&#39;,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L69" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L149" class="js-smell-location">1</a>                  </div>  </li></ol>
+    post &#39;/mcp&#39;,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L69" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L160" class="js-smell-location">1</a>                  </div>  </li></ol>
          params:  { jsonrpc: &#39;2.0&#39;, method: &#39;tools/list&#39;, id: 1 }.to_json,
          headers: { &#39;Authorization&#39; =&gt; &quot;Bearer #{access_token}&quot;, &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
     expect(response).to have_http_status(:ok)
@@ -211,14 +211,16 @@ RSpec.describe &#39;OAuth end-to-end flow&#39;, type: :request do
     expect(response).to have_http_status(:ok)
   end
 
-  it &#39;carries the resource indicator from /oauth/authorize to the access token when the client omits it on /oauth/token&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>it#carries the resource indicator from /oauth/authorize to the access token when the client omits it on /oauth/token has a flog score of 69</span>          </div>  </li></ol>
-    # Reproduces the ChatGPT-style flow: `resource` is sent only on
-    # /oauth/authorize. Without grant→token propagation, the issued token
-    # ends up with `resource: nil` and McpController#validate_token_audience!
-    # rejects every subsequent /mcp call.
+  it &#39;carries the resource indicator from /oauth/authorize to the access token when the client omits it on /oauth/token&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>it#carries the resource indicator from /oauth/authorize to the access token when the client omits it on /oauth/token has a flog score of 98</span>          </div>  </li></ol>
+    # Reproduces the ChatGPT-style flow:
+    #   1. GET /oauth/authorize?resource=... (consent screen renders)
+    #   2. User clicks &quot;Authorize&quot; → POST /oauth/authorize from the consent form
+    #   3. POST /oauth/token WITHOUT `resource` in params
+    # The hidden field in the consent view must forward `resource` on the POST
+    # so the grant captures it and doorkeeper auto-propagates it to the token.
     sign_in user
 
-    post &#39;/oauth/authorize&#39;, params: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L26" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L38" class="js-smell-location">1</a>                  <a href="end_to_end_spec.html#L122" class="js-smell-location">2</a>                  </div>  </li></ol>
+    common_params = {
       client_id:             application.uid,
       redirect_uri:          redirect_uri,
       response_type:         &#39;code&#39;,
@@ -228,6 +230,15 @@ RSpec.describe &#39;OAuth end-to-end flow&#39;, type: :request do
       state:                 &#39;xyz&#39;,
       resource:              resource_url
     }
+
+    # Step 1: GET — renders the consent screen with resource in the query string
+    get &#39;/oauth/authorize&#39;, params: common_params
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include(%(name=&quot;resource&quot;))
+    expect(response.body).to include(resource_url)
+
+    # Step 2: POST consent — the form should re-send resource via the hidden field
+    post &#39;/oauth/authorize&#39;, params: common_params
     code = Rack::Utils.parse_query(URI.parse(response.location).query).fetch(&#39;code&#39;)
 
     post &#39;/oauth/token&#39;, params: {
@@ -245,7 +256,7 @@ RSpec.describe &#39;OAuth end-to-end flow&#39;, type: :request do
     record = Doorkeeper::AccessToken.by_token(access_token)
     expect(record.resource).to eq(resource_url)
 
-    post &#39;/mcp&#39;,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L69" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L149" class="js-smell-location">1</a>                  </div>  </li></ol>
+    post &#39;/mcp&#39;,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L69" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L160" class="js-smell-location">1</a>                  </div>  </li></ol>
          params:  { jsonrpc: &#39;2.0&#39;, method: &#39;tools/list&#39;, id: 1 }.to_json,
          headers: { &#39;Authorization&#39; =&gt; &quot;Bearer #{access_token}&quot;, &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
     expect(response).to have_http_status(:ok)
