@@ -113,13 +113,15 @@ RSpec.describe 'OAuth end-to-end flow', type: :request do
   end
 
   it 'carries the resource indicator from /oauth/authorize to the access token when the client omits it on /oauth/token' do
-    # Reproduces the ChatGPT-style flow: `resource` is sent only on
-    # /oauth/authorize. Without grant→token propagation, the issued token
-    # ends up with `resource: nil` and McpController#validate_token_audience!
-    # rejects every subsequent /mcp call.
+    # Reproduces the ChatGPT-style flow:
+    #   1. GET /oauth/authorize?resource=... (consent screen renders)
+    #   2. User clicks "Authorize" → POST /oauth/authorize from the consent form
+    #   3. POST /oauth/token WITHOUT `resource` in params
+    # The hidden field in the consent view must forward `resource` on the POST
+    # so the grant captures it and doorkeeper auto-propagates it to the token.
     sign_in user
 
-    post '/oauth/authorize', params: {
+    common_params = {
       client_id:             application.uid,
       redirect_uri:          redirect_uri,
       response_type:         'code',
@@ -129,6 +131,15 @@ RSpec.describe 'OAuth end-to-end flow', type: :request do
       state:                 'xyz',
       resource:              resource_url
     }
+
+    # Step 1: GET — renders the consent screen with resource in the query string
+    get '/oauth/authorize', params: common_params
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include(%(name="resource"))
+    expect(response.body).to include(resource_url)
+
+    # Step 2: POST consent — the form should re-send resource via the hidden field
+    post '/oauth/authorize', params: common_params
     code = Rack::Utils.parse_query(URI.parse(response.location).query).fetch('code')
 
     post '/oauth/token', params: {
