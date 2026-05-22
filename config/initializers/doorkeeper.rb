@@ -447,31 +447,24 @@ Doorkeeper.configure do
   # (e.g. https://app.woofedcrm.com/mcp). McpController rejects tokens whose
   # `resource` does not match the request base URL.
   #
-  # Clients differ on where they pass `resource`:
-  #  - Claude Web sends it in BOTH /oauth/authorize and /oauth/token.
-  #  - ChatGPT sends it ONLY in /oauth/authorize.
-  # So we persist it on the grant at /authorize time and fall back to the
-  # grant's value during /token if the client didn't repeat the param.
+  # The propagation runs automatically in two steps:
+  #   1. POST /oauth/authorize: Doorkeeper persists `resource` on the AccessGrant
+  #      from `pre_auth.custom_access_token_attributes`. The consent view
+  #      (app/views/doorkeeper/authorizations/new.html.erb) forwards `resource`
+  #      as a hidden field — required for clients like ChatGPT that only send
+  #      `resource` on /authorize, not on /token.
+  #   2. POST /oauth/token: Doorkeeper copies the grant's resource onto the new
+  #      AccessToken (see Doorkeeper::OAuth::AuthorizationCodeRequest
+  #      #custom_token_attributes_with_data).
+  #
+  # The callback below is a safety net for clients that explicitly re-send
+  # `resource` on /oauth/token (Claude Web does). If something upstream leaves
+  # the token without a resource binding, we fill it from the explicit param.
   custom_access_token_attributes [:resource]
   after_successful_authorization do |controller, context|
-    case controller.class.to_s
-    when 'Doorkeeper::AuthorizationsController'
-      grant = context.auth.respond_to?(:code) ? context.auth.code : nil
-      if grant.respond_to?(:resource) && grant.resource.blank? && controller.params['resource'].present?
-        grant.update(resource: controller.params['resource'])
-      end
-    when 'Doorkeeper::TokensController'
-      next unless controller.action_name == 'create'
-
+    if controller.class == Doorkeeper::TokensController && controller.action_name == 'create'
       token = context.auth.token
-      next if token.resource.present?
-
-      resource = controller.params['resource']
-      if resource.blank? && controller.params['code'].present?
-        grant = Doorkeeper::AccessGrant.by_token(controller.params['code'])
-        resource = grant&.resource
-      end
-      token.update(resource: resource) if resource.present?
+      token.update(resource: controller.params['resource']) if token.resource.blank?
     end
   end
 
