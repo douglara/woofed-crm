@@ -11,6 +11,9 @@ Tools that operate on `Deal` records.
 | [`deals_mark_lost`](#deals_mark_lost) | [app/tools/deals/mark_lost_tool.rb](../../../app/tools/deals/mark_lost_tool.rb) | Yes |
 | [`deals_add_assignee`](#deals_add_assignee) | [app/tools/deals/add_assignee_tool.rb](../../../app/tools/deals/add_assignee_tool.rb) | Yes |
 | [`deals_remove_assignee`](#deals_remove_assignee) | [app/tools/deals/remove_assignee_tool.rb](../../../app/tools/deals/remove_assignee_tool.rb) | Yes |
+| [`deals_add_product`](#deals_add_product) | [app/tools/deals/add_product_tool.rb](../../../app/tools/deals/add_product_tool.rb) | Yes |
+| [`deals_update_product`](#deals_update_product) | [app/tools/deals/update_product_tool.rb](../../../app/tools/deals/update_product_tool.rb) | Yes |
+| [`deals_remove_product`](#deals_remove_product) | [app/tools/deals/remove_product_tool.rb](../../../app/tools/deals/remove_product_tool.rb) | Yes |
 
 For reading a single deal with full graph (contact, stage, pipeline, assignees, deal_products) use the resource [`woofed:///deals/{id}`](../resources/deals.md).
 
@@ -201,3 +204,71 @@ Remove a user from the assignees of a deal. Mirrors the REST endpoint `DELETE /a
 ### Return
 
 The destroyed `DealAssignee` (`{ id, deal_id, user_id, created_at, updated_at }`) on success, or a `"Couldn't find DealAssignee"` text response when the user is not assigned to the deal.
+
+---
+
+## `deals_add_product`
+
+Attach a product to a deal as a `deal_product` line. Mirrors the REST endpoint `POST /api/v1/accounts/deal_products` — internally uses `DealProductBuilder` + `DealProduct::CreateOrUpdate`.
+
+### Arguments
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `deal_id` | integer | **yes** | Deal ID |
+| `product_id` | integer | **yes** | Product ID to attach |
+| `quantity` | integer | no | Quantity on this deal (default 1, must be >= 1) |
+
+### Behaviour
+
+- `unit_amount_in_cents`, `product_name` and `product_identifier` are snapshotted from the `Product` catalog at attachment time (so the deal_product survives later catalog edits). Use [`deals_update_product`](#deals_update_product) to override `unit_amount_in_cents` on the deal_product after attaching.
+- `total_amount_in_cents` is computed as `quantity * unit_amount_in_cents`.
+- The deal's `total_deal_products_amount_in_cents` is recalculated inside a transaction (`Deal::RecalculateAndSaveAllMonetaryValues`).
+- The model has a uniqueness validation on `product_id` scoped to `deal_id`, so attaching the same product twice returns a validation error.
+
+### Return
+
+The created `DealProduct` on success, or a `"Validation failed: ..."` text response when the product is already attached.
+
+---
+
+## `deals_update_product`
+
+Update the `quantity` and/or `unit_amount_in_cents` of a product already attached to a deal. Mirrors `PUT /api/v1/accounts/deal_products/:id` — but identifies the deal_product by `deal_id` + `product_id` instead of the join id, so the LLM does not need to look the join record up first.
+
+### Arguments
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `deal_id` | integer | **yes** | Deal ID |
+| `product_id` | integer | **yes** | Product ID (must already be attached) |
+| `quantity` | integer | no | New quantity (must be >= 1) |
+| `unit_amount_in_cents` | integer | no | Override unit price in cents for this deal_product |
+
+At least one of `quantity` / `unit_amount_in_cents` must be provided — otherwise the tool returns `"Provide quantity or unit_amount_in_cents to update"`.
+
+### Behaviour
+
+- Both fields go through `DealProduct::CreateOrUpdate`, which recalculates `total_amount_in_cents = quantity * unit_amount_in_cents` and then triggers `Deal::RecalculateAndSaveAllMonetaryValues` inside a transaction.
+- `product_name` / `product_identifier` are intentionally not exposed here — the API permits them but they are snapshot fields, not LLM-editable.
+
+### Return
+
+The updated `DealProduct` on success, or a `"Validation failed: ..."` text response.
+
+---
+
+## `deals_remove_product`
+
+Remove a product (deal_product line) from a deal. Mirrors the existing UI endpoint that the REST API doesn't expose, going through `DealProduct::Destroy` so the deal totals are recalculated.
+
+### Arguments
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `deal_id` | integer | **yes** | Deal ID |
+| `product_id` | integer | **yes** | Product ID to remove |
+
+### Return
+
+The destroyed `DealProduct` on success, or a `"Couldn't find DealProduct"` text response when the product is not attached to the deal.
