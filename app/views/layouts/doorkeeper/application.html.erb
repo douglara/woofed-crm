@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Woofed CRM</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= vite_stylesheet_tag 'application', 'data-turbolinks-track': 'reload', media: 'all' %>
+    <%= vite_javascript_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <body class='max-w-[1800px] mx-auto px-10'>
+    <section class='grid min-h-screen grid-rows-[85px_1fr_85px] gap-10 sm:gap-7'>
+      <header class='self-center justify-self-center'>
+        <div class='w-52'>
+          <%= image_tag 'logo.svg', class: 'w-full logo-dark-invert' %>
+        </div>
+      </header>
+      <main class='grid content-center justify-items-center'>
+        <%= yield %>
+      </main>
+      <footer class='flex flex-wrap gap-5 items-center justify-between self-center'>
+        <span class="order-last sm:order-first mx-auto sm:mx-0 typography-sub-text-r-lh150">© <%= Time.current.year %> WoofedCRM</span>
+      </footer>
+    </section>
+  </body>
+</html>
