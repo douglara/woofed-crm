@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-22 03:09:25 -0300'>2026-05-22 03:09:25 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-22 03:44:51 -0300'>2026-05-22 03:44:51 -0300</time>
         
       </span>
     </div>
@@ -68,7 +68,7 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">71</span><small> lines of codes</small></div>
+              <div><span class="metric">65</span><small> lines of codes</small></div>
               <div><span class="metric">4</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
@@ -118,13 +118,7 @@ class McpController &lt; ActionController::API
 
   # RFC 9728: clients (ChatGPT especially) discover the OAuth metadata via the
   # `resource_metadata` parameter in the WWW-Authenticate header of any 401
-  # response. Doorkeeper&#39;s default header omits this pointer; this hook runs
-  # after Doorkeeper sets its own value and replaces it.
-  # def doorkeeper_render_error
-  #   super
-  #   response.set_header(&#39;WWW-Authenticate&#39;, mcp_www_authenticate_header) if response.unauthorized?
-  # end
-
+  # response.
   def mcp_www_authenticate_header
     metadata_url = &quot;#{request.base_url}/.well-known/oauth-protected-resource&quot;
     %(Bearer realm=&quot;Woofed CRM MCP&quot;, resource_metadata=&quot;#{metadata_url}&quot;)

@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-22 01:36:44 -0300'>2026-05-22 01:36:44 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-22 04:18:51 -0300'>2026-05-22 04:18:51 -0300</time>
         
       </span>
     </div>
@@ -68,16 +68,16 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">184</span><small> lines of codes</small></div>
+              <div><span class="metric">203</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">4</span><small> churn</small></div>
+              <div><span class="metric">5</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">353.67</span><small> complexity</small></div>
-              <div><span class="metric">84</span><small> duplications</small></div>
+              <div><span class="metric">397.5</span><small> complexity</small></div>
+              <div><span class="metric">106</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                6
+                7
                 smells
               </a>
             </li>
@@ -119,166 +119,185 @@ RSpec.describe &#39;OAuth end-to-end flow&#39;, type: :request do
     )
   end
 
-  it &#39;exchanges an authorization code for an opaque token that McpController accepts&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>it#exchanges an authorization code for an opaque token that McpController accepts has a flog score of 124</span>          </div>  </li></ol>
-    sign_in user
+  context &#39;when no user is signed in&#39; do
+    # The resource_owner_authenticator block in config/initializers/doorkeeper.rb
+    # falls back to `warden.authenticate!(scope: :user)` when there&#39;s no session,
+    # which Devise catches and turns into a redirect to /users/sign_in.
+    it &#39;redirects GET /oauth/authorize to the Devise sign-in screen&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>context(when no user is signed in)::it#redirects GET /oauth/authorize to the Devise sign-in screen has a flog score of 26</span>          </div>  </li></ol>
+      get &#39;/oauth/authorize&#39;, params: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L28" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L48" class="js-smell-location">1</a>                  <a href="end_to_end_spec.html#L60" class="js-smell-location">2</a>                  </div>  </li></ol>
+        client_id:             application.uid,
+        redirect_uri:          redirect_uri,
+        response_type:         &#39;code&#39;,
+        scope:                 &#39;mcp&#39;,
+        code_challenge:        code_challenge,
+        code_challenge_method: &#39;S256&#39;,
+        state:                 &#39;xyz&#39;,
+        resource:              resource_url
+      }
 
-    get &#39;/oauth/authorize&#39;, params: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L26" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L38" class="js-smell-location">1</a>                  </div>  </li></ol>
-      client_id:             application.uid,
-      redirect_uri:          redirect_uri,
-      response_type:         &#39;code&#39;,
-      scope:                 &#39;mcp&#39;,
-      code_challenge:        code_challenge,
-      code_challenge_method: &#39;S256&#39;,
-      state:                 &#39;xyz&#39;,
-      resource:              resource_url
-    }
-    expect(response).to have_http_status(:ok)
-
-    post &#39;/oauth/authorize&#39;, params: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L26" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L38" class="js-smell-location">1</a>                  </div>  </li></ol>
-      client_id:             application.uid,
-      redirect_uri:          redirect_uri,
-      response_type:         &#39;code&#39;,
-      scope:                 &#39;mcp&#39;,
-      code_challenge:        code_challenge,
-      code_challenge_method: &#39;S256&#39;,
-      state:                 &#39;xyz&#39;,
-      resource:              resource_url
-    }
-    expect(response).to have_http_status(:found)
-    code = Rack::Utils.parse_query(URI.parse(response.location).query).fetch(&#39;code&#39;)
-
-    post &#39;/oauth/token&#39;, params: {
-      grant_type:    &#39;authorization_code&#39;,
-      code:          code,
-      redirect_uri:  redirect_uri,
-      client_id:     application.uid,
-      client_secret: application.plaintext_secret,
-      code_verifier: code_verifier,
-      resource:      resource_url
-    }
-    expect(response).to have_http_status(:ok)
-    token_body = JSON.parse(response.body)
-    expect(token_body).to include(&#39;access_token&#39;, &#39;refresh_token&#39;, &#39;token_type&#39; =&gt; &#39;Bearer&#39;)
-
-    access_token = token_body[&#39;access_token&#39;]
-    record = Doorkeeper::AccessToken.by_token(access_token)
-    expect(record.resource_owner_id).to eq(user.id)
-    expect(record.resource).to eq(resource_url)
-
-    post &#39;/mcp&#39;,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L69" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L160" class="js-smell-location">1</a>                  </div>  </li></ol>
-         params:  { jsonrpc: &#39;2.0&#39;, method: &#39;tools/list&#39;, id: 1 }.to_json,
-         headers: { &#39;Authorization&#39; =&gt; &quot;Bearer #{access_token}&quot;, &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
-    expect(response).to have_http_status(:ok)
-    payload = JSON.parse(response.body)
-    expect(payload.dig(&#39;result&#39;, &#39;tools&#39;)).to be_an(Array).and(be_present)
+      expect(response).to have_http_status(:found)
+      expect(response.location).to end_with(&#39;/users/sign_in&#39;)
+    end
   end
 
-  it &#39;rotates the refresh token on each use, keeping the previous one valid during the grace window&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>it#rotates the refresh token on each use, keeping the previous one valid during the grace window has a flog score of 75</span>          </div>  </li></ol>
-    sign_in user
+  context &#39;when the user is signed in&#39; do
+    before { sign_in user }
 
-    grant = Doorkeeper::AccessGrant.create!(
-      application: application, resource_owner_id: user.id, scopes: &#39;mcp&#39;,
-      redirect_uri: redirect_uri, expires_in: 600,
-      code_challenge: code_challenge, code_challenge_method: &#39;S256&#39;
-    )
+    it &#39;exchanges an authorization code for an opaque token that McpController accepts&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>context(when the user is signed in)::it#exchanges an authorization code for an opaque token that McpController accepts has a flog score of 129</span>          </div>  </li></ol>
+      get &#39;/oauth/authorize&#39;, params: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L28" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L48" class="js-smell-location">1</a>                  <a href="end_to_end_spec.html#L60" class="js-smell-location">2</a>                  </div>  </li></ol>
+        client_id:             application.uid,
+        redirect_uri:          redirect_uri,
+        response_type:         &#39;code&#39;,
+        scope:                 &#39;mcp&#39;,
+        code_challenge:        code_challenge,
+        code_challenge_method: &#39;S256&#39;,
+        state:                 &#39;xyz&#39;,
+        resource:              resource_url
+      }
+      expect(response).to have_http_status(:ok)
 
-    post &#39;/oauth/token&#39;, params: {
-      grant_type:    &#39;authorization_code&#39;,
-      code:          grant.token,
-      redirect_uri:  redirect_uri,
-      client_id:     application.uid,
-      client_secret: application.plaintext_secret,
-      code_verifier: code_verifier
-    }
-    first_refresh = JSON.parse(response.body).fetch(&#39;refresh_token&#39;)
+      post &#39;/oauth/authorize&#39;, params: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L28" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L48" class="js-smell-location">1</a>                  <a href="end_to_end_spec.html#L60" class="js-smell-location">2</a>                  </div>  </li></ol>
+        client_id:             application.uid,
+        redirect_uri:          redirect_uri,
+        response_type:         &#39;code&#39;,
+        scope:                 &#39;mcp&#39;,
+        code_challenge:        code_challenge,
+        code_challenge_method: &#39;S256&#39;,
+        state:                 &#39;xyz&#39;,
+        resource:              resource_url
+      }
+      expect(response).to have_http_status(:found)
+      code = Rack::Utils.parse_query(URI.parse(response.location).query).fetch(&#39;code&#39;)
 
-    post &#39;/oauth/token&#39;, params: {
-      grant_type:    &#39;refresh_token&#39;,
-      refresh_token: first_refresh,
-      client_id:     application.uid,
-      client_secret: application.plaintext_secret
-    }
-    expect(response).to have_http_status(:ok)
-    second_refresh = JSON.parse(response.body).fetch(&#39;refresh_token&#39;)
-    expect(second_refresh).not_to eq(first_refresh)
+      post &#39;/oauth/token&#39;, params: {
+        grant_type:    &#39;authorization_code&#39;,
+        code:          code,
+        redirect_uri:  redirect_uri,
+        client_id:     application.uid,
+        client_secret: application.plaintext_secret,
+        code_verifier: code_verifier,
+        resource:      resource_url
+      }
+      expect(response).to have_http_status(:ok)
+      token_body = JSON.parse(response.body)
+      expect(token_body).to include(&#39;access_token&#39;, &#39;refresh_token&#39;, &#39;token_type&#39; =&gt; &#39;Bearer&#39;)
 
-    post &#39;/oauth/token&#39;, params: {
-      grant_type:    &#39;refresh_token&#39;,
-      refresh_token: first_refresh,
-      client_id:     application.uid,
-      client_secret: application.plaintext_secret
-    }
-    expect(response).to have_http_status(:ok)
-  end
+      access_token = token_body[&#39;access_token&#39;]
+      record = Doorkeeper::AccessToken.by_token(access_token)
+      expect(record.resource_owner_id).to eq(user.id)
+      expect(record.resource).to eq(resource_url)
 
-  it &#39;carries the resource indicator from /oauth/authorize to the access token when the client omits it on /oauth/token&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>it#carries the resource indicator from /oauth/authorize to the access token when the client omits it on /oauth/token has a flog score of 98</span>          </div>  </li></ol>
-    # Reproduces the ChatGPT-style flow:
-    #   1. GET /oauth/authorize?resource=... (consent screen renders)
-    #   2. User clicks &quot;Authorize&quot; → POST /oauth/authorize from the consent form
-    #   3. POST /oauth/token WITHOUT `resource` in params
-    # The hidden field in the consent view must forward `resource` on the POST
-    # so the grant captures it and doorkeeper auto-propagates it to the token.
-    sign_in user
+      post &#39;/mcp&#39;,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L91" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L178" class="js-smell-location">1</a>                  </div>  </li></ol>
+           params:  { jsonrpc: &#39;2.0&#39;, method: &#39;tools/list&#39;, id: 1 }.to_json,
+           headers: { &#39;Authorization&#39; =&gt; &quot;Bearer #{access_token}&quot;, &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
+      expect(response).to have_http_status(:ok)
+      payload = JSON.parse(response.body)
+      expect(payload.dig(&#39;result&#39;, &#39;tools&#39;)).to be_an(Array).and(be_present)
+    end
 
-    common_params = {
-      client_id:             application.uid,
-      redirect_uri:          redirect_uri,
-      response_type:         &#39;code&#39;,
-      scope:                 &#39;mcp&#39;,
-      code_challenge:        code_challenge,
-      code_challenge_method: &#39;S256&#39;,
-      state:                 &#39;xyz&#39;,
-      resource:              resource_url
-    }
+    it &#39;rotates the refresh token on each use, keeping the previous one valid during the grace window&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>context(when the user is signed in)::it#rotates the refresh token on each use, keeping the previous one valid during the grace window has a flog score of 76</span>          </div>  </li></ol>
+      grant = Doorkeeper::AccessGrant.create!(
+        application: application, resource_owner_id: user.id, scopes: &#39;mcp&#39;,
+        redirect_uri: redirect_uri, expires_in: 600,
+        code_challenge: code_challenge, code_challenge_method: &#39;S256&#39;
+      )
 
-    # Step 1: GET — renders the consent screen with resource in the query string
-    get &#39;/oauth/authorize&#39;, params: common_params
-    expect(response).to have_http_status(:ok)
-    expect(response.body).to include(%(name=&quot;resource&quot;))
-    expect(response.body).to include(resource_url)
+      post &#39;/oauth/token&#39;, params: {
+        grant_type:    &#39;authorization_code&#39;,
+        code:          grant.token,
+        redirect_uri:  redirect_uri,
+        client_id:     application.uid,
+        client_secret: application.plaintext_secret,
+        code_verifier: code_verifier
+      }
+      first_refresh = JSON.parse(response.body).fetch(&#39;refresh_token&#39;)
 
-    # Step 2: POST consent — the form should re-send resource via the hidden field
-    post &#39;/oauth/authorize&#39;, params: common_params
-    code = Rack::Utils.parse_query(URI.parse(response.location).query).fetch(&#39;code&#39;)
+      post &#39;/oauth/token&#39;, params: {
+        grant_type:    &#39;refresh_token&#39;,
+        refresh_token: first_refresh,
+        client_id:     application.uid,
+        client_secret: application.plaintext_secret
+      }
+      expect(response).to have_http_status(:ok)
+      second_refresh = JSON.parse(response.body).fetch(&#39;refresh_token&#39;)
+      expect(second_refresh).not_to eq(first_refresh)
 
-    post &#39;/oauth/token&#39;, params: {
-      grant_type:    &#39;authorization_code&#39;,
-      code:          code,
-      redirect_uri:  redirect_uri,
-      client_id:     application.uid,
-      client_secret: application.plaintext_secret,
-      code_verifier: code_verifier
-      # NOTE: resource intentionally omitted, mirroring ChatGPT&#39;s behaviour.
-    }
-    expect(response).to have_http_status(:ok)
-    access_token = JSON.parse(response.body).fetch(&#39;access_token&#39;)
+      post &#39;/oauth/token&#39;, params: {
+        grant_type:    &#39;refresh_token&#39;,
+        refresh_token: first_refresh,
+        client_id:     application.uid,
+        client_secret: application.plaintext_secret
+      }
+      expect(response).to have_http_status(:ok)
+    end
 
-    record = Doorkeeper::AccessToken.by_token(access_token)
-    expect(record.resource).to eq(resource_url)
+    it &#39;carries the resource indicator from /oauth/authorize to the access token when the client omits it on /oauth/token&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>context(when the user is signed in)::it#carries the resource indicator from /oauth/authorize to the access token when the client omits it on /oauth/token has a flog score of 101</span>          </div>  </li></ol>
+      # Reproduces the ChatGPT-style flow:
+      #   1. GET /oauth/authorize?resource=... (consent screen renders)
+      #   2. User clicks &quot;Authorize&quot; → POST /oauth/authorize from the consent form
+      #   3. POST /oauth/token WITHOUT `resource` in params
+      # The hidden field in the consent view must forward `resource` on the POST
+      # so the grant captures it and doorkeeper auto-propagates it to the token.
+      common_params = {
+        client_id:             application.uid,
+        redirect_uri:          redirect_uri,
+        response_type:         &#39;code&#39;,
+        scope:                 &#39;mcp&#39;,
+        code_challenge:        code_challenge,
+        code_challenge_method: &#39;S256&#39;,
+        state:                 &#39;xyz&#39;,
+        resource:              resource_url
+      }
 
-    post &#39;/mcp&#39;,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L69" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L160" class="js-smell-location">1</a>                  </div>  </li></ol>
-         params:  { jsonrpc: &#39;2.0&#39;, method: &#39;tools/list&#39;, id: 1 }.to_json,
-         headers: { &#39;Authorization&#39; =&gt; &quot;Bearer #{access_token}&quot;, &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
-    expect(response).to have_http_status(:ok)
-  end
+      # Step 1: GET — renders the consent screen with resource in the query string
+      get &#39;/oauth/authorize&#39;, params: common_params
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(%(name=&quot;resource&quot;))
+      expect(response.body).to include(resource_url)
 
-  it &#39;rejects MCP requests carrying a token issued for a different resource&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>it#rejects MCP requests carrying a token issued for a different resource has a flog score of 33</span>          </div>  </li></ol>
-    other_app = Doorkeeper::Application.create!(
-      name: &#39;Other&#39;, redirect_uri: redirect_uri, scopes: &#39;mcp&#39;, confidential: true
-    )
-    foreign_token = Doorkeeper::AccessToken.create!(
-      application:       other_app,
-      resource_owner_id: user.id,
-      scopes:            &#39;mcp&#39;,
-      resource:          &#39;https://other.example.com/api&#39;
-    )
+      # Step 2: POST consent — the form should re-send resource via the hidden field
+      post &#39;/oauth/authorize&#39;, params: common_params
+      code = Rack::Utils.parse_query(URI.parse(response.location).query).fetch(&#39;code&#39;)
 
-    post &#39;/mcp&#39;,
-         params:  { jsonrpc: &#39;2.0&#39;, method: &#39;tools/list&#39;, id: 1 }.to_json,
-         headers: { &#39;Authorization&#39; =&gt; &quot;Bearer #{foreign_token.token}&quot;, &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
+      post &#39;/oauth/token&#39;, params: {
+        grant_type:    &#39;authorization_code&#39;,
+        code:          code,
+        redirect_uri:  redirect_uri,
+        client_id:     application.uid,
+        client_secret: application.plaintext_secret,
+        code_verifier: code_verifier
+        # NOTE: resource intentionally omitted, mirroring ChatGPT&#39;s behaviour.
+      }
+      expect(response).to have_http_status(:ok)
+      access_token = JSON.parse(response.body).fetch(&#39;access_token&#39;)
 
-    expect(response).to have_http_status(:unauthorized)
-    expect(JSON.parse(response.body)).to include(&#39;error&#39; =&gt; &#39;invalid_token&#39;)
+      record = Doorkeeper::AccessToken.by_token(access_token)
+      expect(record.resource).to eq(resource_url)
+
+      post &#39;/mcp&#39;,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="end_to_end_spec.html#L91" class="js-smell-location">0</a>                  <a href="end_to_end_spec.html#L178" class="js-smell-location">1</a>                  </div>  </li></ol>
+           params:  { jsonrpc: &#39;2.0&#39;, method: &#39;tools/list&#39;, id: 1 }.to_json,
+           headers: { &#39;Authorization&#39; =&gt; &quot;Bearer #{access_token}&quot;, &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
+      expect(response).to have_http_status(:ok)
+    end
+
+    it &#39;rejects MCP requests carrying a token issued for a different resource&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>context(when the user is signed in)::it#rejects MCP requests carrying a token issued for a different resource has a flog score of 35</span>          </div>  </li></ol>
+      other_app = Doorkeeper::Application.create!(
+        name: &#39;Other&#39;, redirect_uri: redirect_uri, scopes: &#39;mcp&#39;, confidential: true
+      )
+      foreign_token = Doorkeeper::AccessToken.create!(
+        application:       other_app,
+        resource_owner_id: user.id,
+        scopes:            &#39;mcp&#39;,
+        resource:          &#39;https://other.example.com/api&#39;
+      )
+
+      post &#39;/mcp&#39;,
+           params:  { jsonrpc: &#39;2.0&#39;, method: &#39;tools/list&#39;, id: 1 }.to_json,
+           headers: { &#39;Authorization&#39; =&gt; &quot;Bearer #{foreign_token.token}&quot;, &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(JSON.parse(response.body)).to include(&#39;error&#39; =&gt; &#39;invalid_token&#39;)
+    end
   end
 end
 </code>
