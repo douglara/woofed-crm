@@ -188,6 +188,8 @@ GEM
     domain_name (0.6.20240107)
     doorkeeper (5.9.1)
       railties (>= 5)
+    doorkeeper-i18n (5.2.8)
+      doorkeeper (>= 5.2)
     dotenv (3.1.2)
     dotenv-rails (3.1.2)
       dotenv (= 3.1.2)
@@ -913,6 +915,7 @@ DEPENDENCIES
   debug (= 1.9.1)
   devise
   doorkeeper (= 5.9.1)
+  doorkeeper-i18n (= 5.2.8)
   dotenv-rails
   down (~> 5.0)
   drb

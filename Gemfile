@@ -140,3 +140,4 @@ gem 'mcp', '0.17.0'
 
 # OAuth 2.1 authorization server for MCP clients (Claude Web, ChatGPT, etc.)
 gem 'doorkeeper', '5.9.1'
+gem 'doorkeeper-i18n', '5.2.8'
