@@ -103,6 +103,7 @@ Tools are functions the LLM can invoke. Each lives in [app/tools/](../../app/too
 | `events_send_whatsapp_message` | Send/schedule a WhatsApp message (Evolution API) | [tools/events.md](tools/events.md) |
 | `apps_chatwoots_list` | List available Chatwoot integrations | [tools/apps.md](tools/apps.md) |
 | `apps_evolution_apis_list` | List available WhatsApp (Evolution API) integrations | [tools/apps.md](tools/apps.md) |
+| `users_list` | List users with filters and pagination | [tools/users.md](tools/users.md) |
 
 ---
 
@@ -116,6 +117,7 @@ Resources are canonical reads by URI. Each lives in [app/resources/](../../app/r
 | `woofed:///deals/{id}` | Deal + contact + stage + pipeline + assignees + products | [resources/deals.md](resources/deals.md) |
 | `woofed:///pipelines/{id}` | Pipeline + stages | [resources/pipelines.md](resources/pipelines.md) |
 | `woofed:///products/{id}` | Product + deal_products | [resources/products.md](resources/products.md) |
+| `woofed:///users/{id}` | User + deals they are assigned to | [resources/users.md](resources/users.md) |
 
 ---
 

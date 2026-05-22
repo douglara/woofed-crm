@@ -36,4 +36,16 @@ RSpec.describe 'McpController authentication boundary', type: :request do
       expect(response.headers['WWW-Authenticate']).to include('resource_metadata="')
     end
   end
+
+  describe 'POST /mcp with an expired doorkeeper token' do
+    it 'returns 401 unauthorized' do
+      expired_token = travel_to(9.hours.ago) { mcp_access_token_for(user) }
+
+      post '/mcp',
+           params:  { jsonrpc: '2.0', id: 0, method: 'initialize' }.to_json,
+           headers: { 'Authorization' => "Bearer #{expired_token}", 'Content-Type' => 'application/json' }
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
 end
