@@ -446,11 +446,32 @@ Doorkeeper.configure do
   # RFC 8707 Resource Indicators — binds each access token to a specific resource
   # (e.g. https://app.woofedcrm.com/mcp). McpController rejects tokens whose
   # `resource` does not match the request base URL.
+  #
+  # Clients differ on where they pass `resource`:
+  #  - Claude Web sends it in BOTH /oauth/authorize and /oauth/token.
+  #  - ChatGPT sends it ONLY in /oauth/authorize.
+  # So we persist it on the grant at /authorize time and fall back to the
+  # grant's value during /token if the client didn't repeat the param.
   custom_access_token_attributes [:resource]
   after_successful_authorization do |controller, context|
-    if controller.class == Doorkeeper::TokensController && controller.action_name == 'create'
+    case controller.class.to_s
+    when 'Doorkeeper::AuthorizationsController'
+      grant = context.auth.respond_to?(:code) ? context.auth.code : nil
+      if grant.respond_to?(:resource) && grant.resource.blank? && controller.params['resource'].present?
+        grant.update(resource: controller.params['resource'])
+      end
+    when 'Doorkeeper::TokensController'
+      next unless controller.action_name == 'create'
+
       token = context.auth.token
-      token.update(resource: controller.params['resource']) if token.resource.blank?
+      next if token.resource.present?
+
+      resource = controller.params['resource']
+      if resource.blank? && controller.params['code'].present?
+        grant = Doorkeeper::AccessGrant.by_token(controller.params['code'])
+        resource = grant&.resource
+      end
+      token.update(resource: resource) if resource.present?
     end
   end
 

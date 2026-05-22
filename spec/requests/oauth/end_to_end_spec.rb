@@ -112,6 +112,46 @@ RSpec.describe 'OAuth end-to-end flow', type: :request do
     expect(response).to have_http_status(:ok)
   end
 
+  it 'carries the resource indicator from /oauth/authorize to the access token when the client omits it on /oauth/token' do
+    # Reproduces the ChatGPT-style flow: `resource` is sent only on
+    # /oauth/authorize. Without grant→token propagation, the issued token
+    # ends up with `resource: nil` and McpController#validate_token_audience!
+    # rejects every subsequent /mcp call.
+    sign_in user
+
+    post '/oauth/authorize', params: {
+      client_id:             application.uid,
+      redirect_uri:          redirect_uri,
+      response_type:         'code',
+      scope:                 'mcp',
+      code_challenge:        code_challenge,
+      code_challenge_method: 'S256',
+      state:                 'xyz',
+      resource:              resource_url
+    }
+    code = Rack::Utils.parse_query(URI.parse(response.location).query).fetch('code')
+
+    post '/oauth/token', params: {
+      grant_type:    'authorization_code',
+      code:          code,
+      redirect_uri:  redirect_uri,
+      client_id:     application.uid,
+      client_secret: application.plaintext_secret,
+      code_verifier: code_verifier
+      # NOTE: resource intentionally omitted, mirroring ChatGPT's behaviour.
+    }
+    expect(response).to have_http_status(:ok)
+    access_token = JSON.parse(response.body).fetch('access_token')
+
+    record = Doorkeeper::AccessToken.by_token(access_token)
+    expect(record.resource).to eq(resource_url)
+
+    post '/mcp',
+         params:  { jsonrpc: '2.0', method: 'tools/list', id: 1 }.to_json,
+         headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' }
+    expect(response).to have_http_status(:ok)
+  end
+
   it 'rejects MCP requests carrying a token issued for a different resource' do
     other_app = Doorkeeper::Application.create!(
       name: 'Other', redirect_uri: redirect_uri, scopes: 'mcp', confidential: true
