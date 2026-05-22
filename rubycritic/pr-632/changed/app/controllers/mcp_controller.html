@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 22:27:02 -0300'>2026-05-21 22:27:02 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-22 02:39:32 -0300'>2026-05-22 02:39:32 -0300</time>
         
       </span>
     </div>
@@ -62,21 +62,21 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating b big">
-              B
+            <div class="rating a big">
+              A
             </div>
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">83</span><small> lines of codes</small></div>
-              <div><span class="metric">6</span><small> methods</small></div>
+              <div><span class="metric">81</span><small> lines of codes</small></div>
+              <div><span class="metric">5</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">8.5</span><small> complexity/method</small></div>
-              <div><span class="metric">3</span><small> churn</small></div>
+              <div><span class="metric">9.6</span><small> complexity/method</small></div>
+              <div><span class="metric">4</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">50.91</span><small> complexity</small></div>
+              <div><span class="metric">47.94</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                3
+                2
                 smells
               </a>
             </li>
@@ -107,9 +107,7 @@ class McpController &lt; ActionController::API
   before_action :validate_token_audience!
 
   def handle
-    if params[:method] == &#39;notifications/initialized&#39;
-      head(:accepted) and return
-    end
+    head(:accepted) and return if params[:method] == &#39;notifications/initialized&#39;
 
     render(json: mcp_server.handle_json(request.body.read))
   end
@@ -119,14 +117,14 @@ class McpController &lt; ActionController::API
   # Provides the JSON body for Doorkeeper-rendered 401s. Without this, the gem
   # falls back to `head :unauthorized` and ChatGPT receives an empty body with
   # `Content-Type: text/html`, which it can&#39;t parse.
-  def doorkeeper_unauthorized_render_options(error: nil)
-    {
-      json: {
-        error:             error&amp;.name        || &#39;invalid_token&#39;,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Control-Parameter.md" target="_blank"><b>ControlParameter</b></a>        </span>      </div>      <span>McpController#doorkeeper_unauthorized_render_options is controlled by argument 'error'</span>              <span>Locations:</span>                  <a href="mcp_controller.html#L26" class="js-smell-location">0</a>                  <a href="mcp_controller.html#L27" class="js-smell-location">1</a>                  </div>  </li></ol>
-        error_description: error&amp;.description || &#39;Invalid or missing access token&#39;<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Control-Parameter.md" target="_blank"><b>ControlParameter</b></a>        </span>      </div>      <span>McpController#doorkeeper_unauthorized_render_options is controlled by argument 'error'</span>              <span>Locations:</span>                  <a href="mcp_controller.html#L26" class="js-smell-location">0</a>                  <a href="mcp_controller.html#L27" class="js-smell-location">1</a>                  </div>  </li></ol>
-      }
-    }
-  end
+  # def doorkeeper_unauthorized_render_options(error: nil)
+  #   {
+  #     json: {
+  #       error:             error&amp;.name        || &#39;invalid_token&#39;,
+  #       error_description: error&amp;.description || &#39;Invalid or missing access token&#39;
+  #     }
+  #   }
+  # end
 
   # RFC 9728: clients (ChatGPT especially) discover the OAuth metadata via the
   # `resource_metadata` parameter in the WWW-Authenticate header of any 401
@@ -158,9 +156,9 @@ class McpController &lt; ActionController::API
   def mcp_server<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>McpController#mcp_server has approx 6 statements</span>          </div>  </li></ol>
     user = User.find(doorkeeper_token.resource_owner_id)
     context = {
-      current_user:    user,
+      current_user: user,
       current_account: user.account,
-      token:           doorkeeper_token
+      token: doorkeeper_token
     }
 
     server = MCP::Server.new(
