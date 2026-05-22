@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 18:01:42 -0300'>2026-05-21 18:01:42 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-21 23:16:35 -0300'>2026-05-21 23:16:35 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">216</span><small> lines of codes</small></div>
+              <div><span class="metric">219</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">179</span><small> churn</small></div>
+              <div><span class="metric">180</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">167.43</span><small> complexity</small></div>
@@ -110,6 +110,9 @@ Rails.application.routes.draw do
   get  &#39;/.well-known/oauth-protected-resource/mcp&#39;,   to: &#39;oauth/metadata#protected_resource&#39;
   get  &#39;/.well-known/oauth-authorization-server&#39;,     to: &#39;oauth/metadata#authorization_server&#39;
   get  &#39;/.well-known/oauth-authorization-server/mcp&#39;, to: &#39;oauth/metadata#authorization_server&#39;
+  # ChatGPT probes openid-configuration during connector setup. Serving the
+  # same OAuth metadata document satisfies the probe without full OIDC.
+  get  &#39;/.well-known/openid-configuration&#39;,           to: &#39;oauth/metadata#authorization_server&#39;
 
   # MCP entry point — Streamable HTTP transport (single endpoint, POST + GET).
   post &#39;/mcp&#39;, to: &#39;mcp#handle&#39;

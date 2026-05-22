@@ -14,7 +14,7 @@
       <img src="./assets/0.12.3/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2026-05-22T01:32:42+00:00">2026-05-22T01:32:42+00:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2026-05-22T02:23:07+00:00">2026-05-22T02:23:07+00:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -887,11 +887,11 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#77ca2a1e1d2924f32cd1335d9cd79f74be979d1d" class="src_link" title="app/controllers/oauth/metadata_controller.rb">app/controllers/oauth/metadata_controller.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
-            <td class="cell--number">35</td>
+            <td class="cell--number">41</td>
             <td class="cell--number">6</td>
             <td class="cell--number">6</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">1.00</td>
+            <td class="cell--number">1.17</td>
             
           </tr>
         
@@ -3289,11 +3289,11 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#77ca2a1e1d2924f32cd1335d9cd79f74be979d1d" class="src_link" title="app/controllers/oauth/metadata_controller.rb">app/controllers/oauth/metadata_controller.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
-            <td class="cell--number">35</td>
+            <td class="cell--number">41</td>
             <td class="cell--number">6</td>
             <td class="cell--number">6</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">1.00</td>
+            <td class="cell--number">1.17</td>
             
           </tr>
         
@@ -41603,24 +41603,24 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="19">
-            <span class="hits">1</span>
+          <li class="never" data-hits="" data-linenumber="19">
+            
             
 
             
 
-            <code class="ruby">    def authorization_server</code>
+            <code class="ruby">    # GET /.well-known/openid-configuration</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="20">
-            <span class="hits">1</span>
+          <li class="never" data-hits="" data-linenumber="20">
+            
             
 
             
 
-            <code class="ruby">      render json: {</code>
+            <code class="ruby">    #</code>
           </li>
         </div>
       
@@ -41631,7 +41631,7 @@
 
             
 
-            <code class="ruby">        issuer: request.base_url,</code>
+            <code class="ruby">    # ChatGPT (and some other clients) probe /.well-known/openid-configuration</code>
           </li>
         </div>
       
@@ -41642,7 +41642,7 @@
 
             
 
-            <code class="ruby">        authorization_endpoint: &quot;#{request.base_url}/oauth/authorize&quot;,</code>
+            <code class="ruby">    # during connector setup even when OIDC is not strictly required. Serving</code>
           </li>
         </div>
       
@@ -41653,7 +41653,7 @@
 
             
 
-            <code class="ruby">        token_endpoint:         &quot;#{request.base_url}/oauth/token&quot;,</code>
+            <code class="ruby">    # the same OAuth metadata at that path satisfies the probe without</code>
           </li>
         </div>
       
@@ -41664,29 +41664,29 @@
 
             
 
-            <code class="ruby">        revocation_endpoint:    &quot;#{request.base_url}/oauth/revoke&quot;,</code>
+            <code class="ruby">    # implementing full OIDC (id_token / userinfo_endpoint).</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="25">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="25">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">        introspection_endpoint: &quot;#{request.base_url}/oauth/introspect&quot;,</code>
+            
+
+            <code class="ruby">    def authorization_server</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="26">
-            
-            
-
+          <li class="covered" data-hits="2" data-linenumber="26">
+            <span class="hits">2</span>
             
 
-            <code class="ruby">        registration_endpoint:  &quot;#{request.base_url}/oauth/register&quot;,</code>
+            
+
+            <code class="ruby">      render json: {</code>
           </li>
         </div>
       
@@ -41697,7 +41697,7 @@
 
             
 
-            <code class="ruby">        grant_types_supported:     %w[authorization_code refresh_token],</code>
+            <code class="ruby">        issuer: request.base_url,</code>
           </li>
         </div>
       
@@ -41708,7 +41708,7 @@
 
             
 
-            <code class="ruby">        response_types_supported:  [&#39;code&#39;],</code>
+            <code class="ruby">        authorization_endpoint: &quot;#{request.base_url}/oauth/authorize&quot;,</code>
           </li>
         </div>
       
@@ -41719,7 +41719,7 @@
 
             
 
-            <code class="ruby">        token_endpoint_auth_methods_supported: %w[client_secret_basic client_secret_post],</code>
+            <code class="ruby">        token_endpoint:         &quot;#{request.base_url}/oauth/token&quot;,</code>
           </li>
         </div>
       
@@ -41730,7 +41730,7 @@
 
             
 
-            <code class="ruby">        code_challenge_methods_supported: [&#39;S256&#39;],</code>
+            <code class="ruby">        revocation_endpoint:    &quot;#{request.base_url}/oauth/revoke&quot;,</code>
           </li>
         </div>
       
@@ -41741,7 +41741,7 @@
 
             
 
-            <code class="ruby">        scopes_supported: Doorkeeper.config.scopes.all.map(&amp;:to_s)</code>
+            <code class="ruby">        introspection_endpoint: &quot;#{request.base_url}/oauth/introspect&quot;,</code>
           </li>
         </div>
       
@@ -41752,7 +41752,7 @@
 
             
 
-            <code class="ruby">      }</code>
+            <code class="ruby">        registration_endpoint:  &quot;#{request.base_url}/oauth/register&quot;,</code>
           </li>
         </div>
       
@@ -41763,7 +41763,7 @@
 
             
 
-            <code class="ruby">    end</code>
+            <code class="ruby">        grant_types_supported:     %w[authorization_code refresh_token],</code>
           </li>
         </div>
       
@@ -41774,12 +41774,78 @@
 
             
 
-            <code class="ruby">  end</code>
+            <code class="ruby">        response_types_supported:  [&#39;code&#39;],</code>
           </li>
         </div>
       
         <div>
           <li class="never" data-hits="" data-linenumber="35">
+            
+            
+
+            
+
+            <code class="ruby">        token_endpoint_auth_methods_supported: %w[client_secret_basic client_secret_post],</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="36">
+            
+            
+
+            
+
+            <code class="ruby">        code_challenge_methods_supported: [&#39;S256&#39;],</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="37">
+            
+            
+
+            
+
+            <code class="ruby">        scopes_supported: Doorkeeper.config.scopes.all.map(&amp;:to_s)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="38">
+            
+            
+
+            
+
+            <code class="ruby">      }</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="39">
+            
+            
+
+            
+
+            <code class="ruby">    end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="40">
+            
+            
+
+            
+
+            <code class="ruby">  end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="41">
             
             
 
@@ -106605,8 +106671,8 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="9" data-linenumber="35">
-            <span class="hits">9</span>
+          <li class="covered" data-hits="10" data-linenumber="35">
+            <span class="hits">10</span>
             
 
             
@@ -106627,8 +106693,8 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="13" data-linenumber="37">
-            <span class="hits">13</span>
+          <li class="covered" data-hits="12" data-linenumber="37">
+            <span class="hits">12</span>
             
 
             
