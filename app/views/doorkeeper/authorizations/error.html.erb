@@ -1,0 +1,8 @@
+<div>
+  <h1 class="text-[2rem] text-dark-palette-p4 mb-0.5">
+    <%= t('doorkeeper.authorizations.error.title') %>
+  </h1>
+  <p class="text-dark-palette-p4 typography-body-r-lh150">
+    <%= (local_assigns[:error_response] ? error_response : @pre_auth.error_response).body[:error_description] %>
+  </p>
+</div>

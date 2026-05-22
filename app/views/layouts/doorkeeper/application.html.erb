@@ -17,7 +17,9 @@
         </div>
       </header>
       <main class='grid content-center justify-items-center'>
-        <%= yield %>
+        <div class="max-w-md w-full border color-border-default rounded-2xl p-8">
+          <%= yield %>
+        </div>
       </main>
       <footer class='flex flex-wrap gap-5 items-center justify-between self-center'>
         <span class="order-last sm:order-first mx-auto sm:mx-0 typography-sub-text-r-lh150">© <%= Time.current.year %> WoofedCRM</span>
