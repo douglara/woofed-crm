@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-22 00:29:02 -0300'>2026-05-22 00:29:02 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-22 02:15:22 -0300'>2026-05-22 02:15:22 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">577</span><small> lines of codes</small></div>
+              <div><span class="metric">569</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">3</span><small> churn</small></div>
+              <div><span class="metric">5</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">0.0</span><small> complexity</small></div>
@@ -546,31 +546,24 @@ Doorkeeper.configure do
   # (e.g. https://app.woofedcrm.com/mcp). McpController rejects tokens whose
   # `resource` does not match the request base URL.
   #
-  # Clients differ on where they pass `resource`:
-  #  - Claude Web sends it in BOTH /oauth/authorize and /oauth/token.
-  #  - ChatGPT sends it ONLY in /oauth/authorize.
-  # So we persist it on the grant at /authorize time and fall back to the
-  # grant&#39;s value during /token if the client didn&#39;t repeat the param.
+  # The propagation runs automatically in two steps:
+  #   1. POST /oauth/authorize: Doorkeeper persists `resource` on the AccessGrant
+  #      from `pre_auth.custom_access_token_attributes`. The consent view
+  #      (app/views/doorkeeper/authorizations/new.html.erb) forwards `resource`
+  #      as a hidden field — required for clients like ChatGPT that only send
+  #      `resource` on /authorize, not on /token.
+  #   2. POST /oauth/token: Doorkeeper copies the grant&#39;s resource onto the new
+  #      AccessToken (see Doorkeeper::OAuth::AuthorizationCodeRequest
+  #      #custom_token_attributes_with_data).
+  #
+  # The callback below is a safety net for clients that explicitly re-send
+  # `resource` on /oauth/token (Claude Web does). If something upstream leaves
+  # the token without a resource binding, we fill it from the explicit param.
   custom_access_token_attributes [:resource]
   after_successful_authorization do |controller, context|
-    case controller.class.to_s
-    when &#39;Doorkeeper::AuthorizationsController&#39;
-      grant = context.auth.respond_to?(:code) ? context.auth.code : nil
-      if grant.respond_to?(:resource) &amp;&amp; grant.resource.blank? &amp;&amp; controller.params[&#39;resource&#39;].present?
-        grant.update(resource: controller.params[&#39;resource&#39;])
-      end
-    when &#39;Doorkeeper::TokensController&#39;
-      next unless controller.action_name == &#39;create&#39;
-
+    if controller.class == Doorkeeper::TokensController &amp;&amp; controller.action_name == &#39;create&#39;
       token = context.auth.token
-      next if token.resource.present?
-
-      resource = controller.params[&#39;resource&#39;]
-      if resource.blank? &amp;&amp; controller.params[&#39;code&#39;].present?
-        grant = Doorkeeper::AccessGrant.by_token(controller.params[&#39;code&#39;])
-        resource = grant&amp;.resource
-      end
-      token.update(resource: resource) if resource.present?
+      token.update(resource: controller.params[&#39;resource&#39;]) if token.resource.blank?
     end
   end
 
@@ -611,9 +604,9 @@ Doorkeeper.configure do
   # so that the user skips the authorization step.
   # For example if dealing with a trusted application.
   #
-  # skip_authorization do |resource_owner, client|
-  #   client.superapp? or resource_owner.admin?
-  # end
+  skip_authorization do
+    true
+  end
 
   # Configure custom constraints for the Token Introspection request.
   # By default this configuration option allows to introspect a token by another
@@ -673,7 +666,6 @@ Doorkeeper.configure do
   #
   realm &#39;Woofed CRM MCP&#39;
 end
-
 </code>
   </div>
 </div>
