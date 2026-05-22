@@ -17,18 +17,6 @@ class McpController < ActionController::API
 
   private
 
-  # Provides the JSON body for Doorkeeper-rendered 401s. Without this, the gem
-  # falls back to `head :unauthorized` and ChatGPT receives an empty body with
-  # `Content-Type: text/html`, which it can't parse.
-  def doorkeeper_unauthorized_render_options(error: nil)
-    {
-      json: {
-        error:             error&.name        || 'invalid_token',
-        error_description: error&.description || 'Invalid or missing access token'
-      }
-    }
-  end
-
   # RFC 9728: clients (ChatGPT especially) discover the OAuth metadata via the
   # `resource_metadata` parameter in the WWW-Authenticate header of any 401
   # response. Doorkeeper's default header omits this pointer; this hook runs
