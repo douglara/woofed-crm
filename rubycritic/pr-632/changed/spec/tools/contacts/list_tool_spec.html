@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">335.08</span><small> complexity</small></div>
-              <div><span class="metric">173</span><small> duplications</small></div>
+              <div><span class="metric">211</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                10
+                11
                 smells
               </a>
             </li>
@@ -109,7 +109,7 @@ RSpec.describe &#39;MCP tool: contacts_list&#39;, type: :request do
   end
   let!(:jane) { create(:contact, full_name: &#39;Jane Roe&#39;, email: &#39;jane@other.com&#39;, phone: &#39;+5511999990002&#39;) }
 
-  context &#39;when it is an unauthenticated user&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 7 nodes</span>              <span>Locations:</span>                  <a href="../apps/chatwoots/list_tool_spec.html#L19" class="js-smell-location">0</a>                  <a href="../apps/evolution_apis/list_tool_spec.html#L15" class="js-smell-location">1</a>                  <a href="list_tool_spec.html#L13" class="js-smell-location">2</a>                  <a href="../deals/list_tool_spec.html#L21" class="js-smell-location">3</a>                  <a href="../pipelines/list_tool_spec.html#L12" class="js-smell-location">4</a>                  <a href="../products/list_tool_spec.html#L17" class="js-smell-location">5</a>                  <a href="../stages/list_tool_spec.html#L13" class="js-smell-location">6</a>                  </div>  </li></ol>
+  context &#39;when it is an unauthenticated user&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 8 nodes</span>              <span>Locations:</span>                  <a href="../apps/chatwoots/list_tool_spec.html#L19" class="js-smell-location">0</a>                  <a href="../apps/evolution_apis/list_tool_spec.html#L15" class="js-smell-location">1</a>                  <a href="list_tool_spec.html#L13" class="js-smell-location">2</a>                  <a href="../deals/list_tool_spec.html#L21" class="js-smell-location">3</a>                  <a href="../pipelines/list_tool_spec.html#L12" class="js-smell-location">4</a>                  <a href="../products/list_tool_spec.html#L17" class="js-smell-location">5</a>                  <a href="../stages/list_tool_spec.html#L13" class="js-smell-location">6</a>                  <a href="../users/list_tool_spec.html#L16" class="js-smell-location">7</a>                  </div>  </li></ol>
     it &#39;returns unauthorized&#39; do
       post &#39;/mcp&#39;, params: mcp_tool_call_body(&#39;contacts_list&#39;),
                             headers: { &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
@@ -118,7 +118,7 @@ RSpec.describe &#39;MCP tool: contacts_list&#39;, type: :request do
   end
 
   context &#39;when it is an authenticated user&#39; do
-    it &#39;returns all contacts when no filter is provided&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>context(when it is an authenticated user)::it#returns all contacts when no filter is provided has a flog score of 43</span>          </div>  </li></ol>
+    it &#39;returns all contacts when no filter is provided&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="list_tool_spec.html#L22" class="js-smell-location">0</a>                  <a href="../users/list_tool_spec.html#L25" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>context(when it is an authenticated user)::it#returns all contacts when no filter is provided has a flog score of 43</span>          </div>  </li></ol>
       post &#39;/mcp&#39;, params: mcp_tool_call_body(&#39;contacts_list&#39;), headers: auth_headers
       expect(response).to have_http_status(:ok)
       expect(mcp_result[&#39;data&#39;].pluck(&#39;id&#39;)).to match_array([john.id, jane.id])
@@ -167,7 +167,7 @@ RSpec.describe &#39;MCP tool: contacts_list&#39;, type: :request do
       expect(mcp_result[&#39;data&#39;].pluck(&#39;id&#39;)).to eq([john.id])
     end
 
-    it &#39;paginates results&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="list_tool_spec.html#L71" class="js-smell-location">0</a>                  <a href="../pipelines/list_tool_spec.html#L37" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>context(when it is an authenticated user)::it#paginates results has a flog score of 30</span>          </div>  </li></ol>
+    it &#39;paginates results&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="list_tool_spec.html#L71" class="js-smell-location">0</a>                  <a href="../pipelines/list_tool_spec.html#L37" class="js-smell-location">1</a>                  <a href="../users/list_tool_spec.html#L73" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>context(when it is an authenticated user)::it#paginates results has a flog score of 30</span>          </div>  </li></ol>
       post &#39;/mcp&#39;, params: mcp_tool_call_body(&#39;contacts_list&#39;, { per_page: 1, page: 1 }), headers: auth_headers
       expect(mcp_result[&#39;data&#39;].size).to eq(1)
       expect(mcp_result[&#39;pagination&#39;]).to include(&#39;count&#39; =&gt; 2, &#39;pages&#39; =&gt; 2)

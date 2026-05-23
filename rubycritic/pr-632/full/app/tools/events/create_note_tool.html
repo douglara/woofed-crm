@@ -105,7 +105,7 @@ module Events
     description &#39;Add a free-text note to a deal or contact timeline. Provide either deal_id or contact_id (or both).&#39;
 
     input_schema(
-      properties: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="create_note_tool.html#L9" class="js-smell-location">0</a>                  <a href="../pipelines/list_tool.html#L9" class="js-smell-location">1</a>                  </div>  </li></ol>
+      properties: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="../deals/update_product_tool.html#L9" class="js-smell-location">0</a>                  <a href="create_note_tool.html#L9" class="js-smell-location">1</a>                  <a href="../pipelines/list_tool.html#L9" class="js-smell-location">2</a>                  </div>  </li></ol>
         deal_id:    { type: &#39;integer&#39;, description: &#39;Deal ID this note will be attached to&#39; },
         contact_id: { type: &#39;integer&#39;, description: &#39;Contact ID this note will be attached to&#39; },
         content:    { type: &#39;string&#39;,  description: &#39;Note body&#39; },

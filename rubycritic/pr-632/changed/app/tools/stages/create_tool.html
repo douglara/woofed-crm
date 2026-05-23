@@ -62,8 +62,8 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating a big">
-              A
+            <div class="rating b big">
+              B
             </div>
           </div>
           <div class="code-statistics col-md-11">
@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">15.54</span><small> complexity</small></div>
-              <div><span class="metric">0</span><small> duplications</small></div>
+              <div><span class="metric">26</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                3
+                4
                 smells
               </a>
             </li>
@@ -104,7 +104,7 @@ module Stages
     tool_name &#39;stages_create&#39;
     description &#39;Create a new stage inside a pipeline. Position is auto-assigned (acts_as_list) when omitted.&#39;
 
-    input_schema(
+    input_schema(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../deals/add_product_tool.html#L8" class="js-smell-location">0</a>                  <a href="create_tool.html#L8" class="js-smell-location">1</a>                  </div>  </li></ol>
       properties: {
         pipeline_id: { type: &#39;integer&#39;, description: &#39;Pipeline this stage belongs to&#39; },
         name:        { type: &#39;string&#39;,  description: &#39;Stage name&#39; },

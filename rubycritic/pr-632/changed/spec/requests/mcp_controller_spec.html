@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-22 03:44:51 -0300'>2026-05-22 03:44:51 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-22 20:17:44 -0300'>2026-05-22 20:17:44 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">39</span><small> lines of codes</small></div>
+              <div><span class="metric">51</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">4</span><small> churn</small></div>
+              <div><span class="metric">5</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">62.99</span><small> complexity</small></div>
+              <div><span class="metric">83.59</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -133,6 +133,18 @@ RSpec.describe &#39;McpController authentication boundary&#39;, type: :request d
       expect(response).to have_http_status(:unauthorized)
       expect(JSON.parse(response.body)).to include(&#39;error&#39; =&gt; &#39;invalid_token&#39;)
       expect(response.headers[&#39;WWW-Authenticate&#39;]).to include(&#39;resource_metadata=&quot;&#39;)
+    end
+  end
+
+  describe &#39;POST /mcp with an expired doorkeeper token&#39; do
+    it &#39;returns 401 unauthorized&#39; do
+      expired_token = travel_to(9.hours.ago) { mcp_access_token_for(user) }
+
+      post &#39;/mcp&#39;,
+           params:  { jsonrpc: &#39;2.0&#39;, id: 0, method: &#39;initialize&#39; }.to_json,
+           headers: { &#39;Authorization&#39; =&gt; &quot;Bearer #{expired_token}&quot;, &#39;Content-Type&#39; =&gt; &#39;application/json&#39; }
+
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 end
