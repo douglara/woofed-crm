@@ -3,7 +3,12 @@
 module Deals
   class CreateTool < ApplicationTool
     tool_name 'deals_create'
-    description 'Create a new deal. Requires contact_id and stage_id; pipeline_id is inferred from the stage when omitted.'
+    description <<~DESC
+      Create a new deal (opportunity) for an existing contact. Requires `contact_id` (use contacts_list to discover) and `stage_id` (use stages_list or pipelines_list to discover). `pipeline_id` is inferred from the stage when omitted; if provided it must match the stage's pipeline.
+      Side effects: the current user becomes the deal's creator and is added as an assignee automatically; a `deal_opened` event is appended to the timeline; the deal starts in `position` 1 of the chosen stage.
+      Use `status: 'won'` / `'lost'` here only when logging a deal whose outcome is already known; for the common case of updating later, start with `open` (default) and call deals_mark_won / deals_mark_lost / deals_update afterwards.
+      Products are not attached at creation — use deals_add_product after the deal exists.
+    DESC
 
     input_schema(
       properties: {

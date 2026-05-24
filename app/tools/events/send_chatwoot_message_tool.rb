@@ -3,7 +3,15 @@
 module Events
   class SendChatwootMessageTool < ApplicationTool
     tool_name 'events_send_chatwoot_message'
-    description 'Send or schedule a Chatwoot message on a deal or contact timeline. Either send_now or scheduled_at must be provided.'
+    description <<~DESC
+      Send or schedule a Chatwoot message on a deal or contact timeline. The message is delivered to the contact through a Chatwoot inbox and also persisted as an Event on the CRM timeline.
+
+      Prerequisites (discover before calling this tool):
+      - `app_id` is required — the ID of the Chatwoot integration. Get it from apps_chatwoots_list. The account typically has a single active Chatwoot integration, so calling apps_chatwoots_list with no filters is usually enough.
+      - `chatwoot_inbox_id` is required — pick it from the `inboxes` array on the same record returned by apps_chatwoots_list (it lists the valid inbox IDs for that integration).
+      - Provide either `deal_id` or `contact_id` (or both). When only `deal_id` is given, the contact is resolved from the deal automatically.
+      - Provide either `send_now: true` for immediate delivery, or `scheduled_at` (ISO8601 UTC) for a future send. Scheduled events are marked auto-done when delivered.
+    DESC
 
     input_schema(
       properties: {

@@ -3,7 +3,11 @@
 module Stages
   class ListTool < ApplicationTool
     tool_name 'stages_list'
-    description 'List stages, optionally filtered by pipeline. Stages are returned ordered by position.'
+    description <<~DESC
+      List stages, optionally filtered by pipeline. When called without arguments, returns the first page of all stages across all pipelines, ordered by pipeline and then by position within the pipeline.
+      Use it either to browse stages, or to discover the `stage_id` needed by deals_create / deals_update. Stages are also embedded inside the `woofed:///pipelines/{id}` resource and the pipelines_list response.
+      `position` reflects the visual order of the stage column on the pipeline board (left → right).
+    DESC
 
     input_schema(
       properties: {

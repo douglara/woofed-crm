@@ -3,7 +3,12 @@
 module Events
   class CreateActivityTool < ApplicationTool
     tool_name 'events_create_activity'
-    description 'Schedule a task/activity (call, meeting, follow-up) on a deal or contact timeline. Provide deal_id or contact_id.'
+    description <<~DESC
+      Schedule a task/activity (call, meeting, follow-up, reminder) on a deal or contact timeline. Activities are internal — they do not send anything to the customer; they're how the team plans and tracks work.
+      Provide either `deal_id` or `contact_id` (or both). When only `deal_id` is given, the contact is resolved from the deal automatically, so the activity shows up on both timelines.
+      Use `scheduled_at` (ISO8601 UTC) to set when the task is due. Pass `done: true` only to log an activity that already happened (e.g. "logged a call we just finished"); otherwise leave it `false` so the user is reminded.
+      For a private note with no due date, use events_create_note. To actually send a message to the customer, use events_send_chatwoot_message or events_send_whatsapp_message.
+    DESC
 
     input_schema(
       properties: {

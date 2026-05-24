@@ -3,7 +3,11 @@
 module Deals
   class RemoveProductTool < ApplicationTool
     tool_name 'deals_remove_product'
-    description 'Remove a product (deal_product line) from a deal. The deal totals are recalculated automatically.'
+    description <<~DESC
+      Remove a product (deal_product line item) from a deal. The deal's overall total (`total_deal_products_amount_in_cents`) is recalculated automatically inside a transaction. The catalog `Product` itself is not deleted — only the deal↔product link.
+      Identifies the deal_product by `deal_id` + `product_id` (not by the join id), so you don't need to look it up first. Returns "Couldn't find DealProduct" when the product is not currently attached to that deal.
+      To change a product's quantity or price on a deal, prefer deals_update_product over remove + re-add (which would re-snapshot the catalog values and lose any custom price).
+    DESC
 
     input_schema(
       properties: {

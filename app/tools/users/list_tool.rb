@@ -3,7 +3,11 @@
 module Users
   class ListTool < ApplicationTool
     tool_name 'users_list'
-    description 'List users in the account. Supports partial-match filters and pagination.'
+    description <<~DESC
+      List users (members) of the account. When called without arguments, returns the first page of all users ordered by most-recently created.
+      Use it either to browse users, or to discover the `user_id` needed by deals_add_assignee / deals_remove_assignee. The full user record with the deals they own is also available via the `woofed:///users/{id}` resource.
+      Sensitive fields (encrypted_password, reset tokens, devise tracking columns) are never returned.
+    DESC
 
     input_schema(
       properties: {

@@ -3,7 +3,11 @@
 module Products
   class ListTool < ApplicationTool
     tool_name 'products_list'
-    description 'List products in the catalog. Supports partial-match filters and pagination.'
+    description <<~DESC
+      List products in the catalog. When called without arguments, returns the first page of all products ordered by most-recently created.
+      Use it either to browse the catalog, or to discover the `product_id` needed by deals_add_product. The product with its deal_products is also available via the `woofed:///products/{id}` resource.
+      `amount_in_cents` and the `amount_in_cents_min`/`_max` filters are always in cents (e.g. 1000035 = R$ 10,000.35 in the account's currency). `identifier` (SKU) is matched exactly; `name` and `description` use case-insensitive partial match. `custom_attributes` does an exact JSONB key/value match (AND across keys).
+    DESC
 
     input_schema(
       properties: {

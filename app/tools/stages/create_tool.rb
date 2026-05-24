@@ -3,7 +3,11 @@
 module Stages
   class CreateTool < ApplicationTool
     tool_name 'stages_create'
-    description 'Create a new stage inside a pipeline. Position is auto-assigned (acts_as_list) when omitted.'
+    description <<~DESC
+      Create a new stage (column) inside an existing pipeline. Use pipelines_list to discover the pipeline ID, or pipelines_create first if the pipeline doesn't exist yet.
+      `position` is the order of the column from left to right on the board. When omitted, the new stage is appended at the rightmost end (acts_as_list). Passing a position in the middle pushes existing stages to the right automatically.
+      Stages don't carry semantics beyond their name and position — there's no built-in "won" or "lost" stage; outcomes are driven by `deal.status`, not by which stage the deal sits in.
+    DESC
 
     input_schema(
       properties: {

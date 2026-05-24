@@ -3,7 +3,11 @@
 module Deals
   class RemoveAssigneeTool < ApplicationTool
     tool_name 'deals_remove_assignee'
-    description 'Remove a user from the assignees (responsibles) of a deal.'
+    description <<~DESC
+      Remove a user from the assignees (responsibles) of a deal — used to unassign someone from an opportunity. The deal itself is not deleted; only the deal↔user link is removed.
+      Identifies the assignee by `deal_id` + `user_id` (not by the join id), so you don't need to look up the DealAssignee record first. Returns "Couldn't find DealAssignee" when the user is not currently an assignee of that deal.
+      To reassign the deal to a different user, call this followed by deals_add_assignee with the new user.
+    DESC
 
     input_schema(
       properties: {

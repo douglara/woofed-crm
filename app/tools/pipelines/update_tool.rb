@@ -3,7 +3,10 @@
 module Pipelines
   class UpdateTool < ApplicationTool
     tool_name 'pipelines_update'
-    description 'Update an existing pipeline by ID. Only fields provided will be changed.'
+    description <<~DESC
+      Update an existing pipeline by ID — currently this means renaming it. Use pipelines_list to discover the pipeline ID.
+      Renaming a pipeline does not affect its stages or the deals inside them; existing deal IDs remain stable. To reorder/rename stages, use stages_update; to add new stages, use stages_create.
+    DESC
 
     input_schema(
       properties: {

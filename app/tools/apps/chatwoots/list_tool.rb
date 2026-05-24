@@ -5,9 +5,9 @@ module Apps
     class ListTool < ApplicationTool
       tool_name 'apps_chatwoots_list'
       description <<~DESC
-        List Chatwoot app integrations available in the account. Use the returned id as the app_id
-        argument when calling events_send_chatwoot_message. The inboxes field lists the valid
-        chatwoot_inbox_id values for that integration.
+        List Chatwoot app integrations configured in the account. When called without arguments, returns the first page of all integrations ordered by most-recently created. In practice, this account typically has a single active Chatwoot integration — calling with no filters is usually enough to find it.
+        This is the discovery step for events_send_chatwoot_message: take the returned `id` and pass it as `app_id`. Each integration also exposes an `inboxes` array — pick the inbox the customer is on and pass its id as `chatwoot_inbox_id`.
+        `status` reflects the integration health: `active` (ready to send), `inactive`, `sync` (initial setup running) or `pair` (waiting on pairing). Avoid sending through an integration that is not `active`.
       DESC
 
       input_schema(

@@ -3,7 +3,11 @@
 module Deals
   class AddAssigneeTool < ApplicationTool
     tool_name 'deals_add_assignee'
-    description 'Assign a user as a responsible (assignee) of a deal. Returns a validation error if the user is already assigned to the deal.'
+    description <<~DESC
+      Assign a user as a responsible (assignee) of a deal — the team member who will work on this opportunity. A deal can have multiple assignees.
+      Prerequisites: discover `deal_id` via deals_list and `user_id` via users_list.
+      A deal already has an initial assignee (the user who created it) — use this tool to add more, not to set the first one. Returns a validation error if the user is already an assignee of this deal. To replace an assignee, call deals_remove_assignee first then deals_add_assignee with the new user.
+    DESC
 
     input_schema(
       properties: {

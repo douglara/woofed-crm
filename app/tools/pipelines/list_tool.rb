@@ -3,7 +3,10 @@
 module Pipelines
   class ListTool < ApplicationTool
     tool_name 'pipelines_list'
-    description 'List pipelines in the account along with their stages.'
+    description <<~DESC
+      List pipelines in the account, each with its stages (ordered by position) inlined. When called without arguments, returns the first page of all pipelines ordered alphabetically by name.
+      Use it either to browse pipelines/stages, or to discover the `pipeline_id` and `stage_id` needed by deals_create / deals_update / stages_create. The full pipeline + stages graph is also available via the `woofed:///pipelines/{id}` resource.
+    DESC
 
     input_schema(
       properties: {

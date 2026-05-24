@@ -3,7 +3,11 @@
 module Events
   class CreateNoteTool < ApplicationTool
     tool_name 'events_create_note'
-    description 'Add a free-text note to a deal or contact timeline. Provide either deal_id or contact_id (or both).'
+    description <<~DESC
+      Add a free-text note (internal memo) to a deal or contact timeline. Notes are not sent to the customer — they are private annotations the team uses to record context, meeting outcomes, decisions, etc.
+      Provide either `deal_id` or `contact_id` (or both). When only `deal_id` is given, the contact is resolved from the deal automatically, so the note shows up on both timelines.
+      For an action that will trigger external delivery to the customer, use events_send_chatwoot_message or events_send_whatsapp_message instead. For a scheduled task (call, meeting, follow-up), use events_create_activity.
+    DESC
 
     input_schema(
       properties: {

@@ -3,7 +3,11 @@
 module Contacts
   class UpdateTool < ApplicationTool
     tool_name 'contacts_update'
-    description 'Update an existing contact by ID. Only fields provided will be changed.'
+    description <<~DESC
+      Update an existing contact by ID. Only fields provided are changed; omitted fields are left untouched. Use contacts_list first to discover the contact ID.
+      `phone` must be in E.164 format (e.g. `+5511999999999`).
+      `label_list` REPLACES the contact's tags wholesale — pass the full desired set, not just the additions. `custom_attributes` is set via Rails `update`, so it replaces the whole JSONB hash; to add a single key, read the current value first via the `woofed:///contacts/{id}` resource.
+    DESC
 
     input_schema(
       properties: {

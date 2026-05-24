@@ -3,7 +3,12 @@
 module Deals
   class ListTool < ApplicationTool
     tool_name 'deals_list'
-    description 'List deals in the account. Supports filters by name, status, stage, pipeline, contact, lost reason and date ranges.'
+    description <<~DESC
+      List deals in the account. When called without arguments, returns the first page of all deals ordered by most-recently created.
+      Use it either to browse/query deal data, or to discover a deal's ID — that ID can then be passed to other tools (deals_update, deals_mark_won/lost, deals_add_assignee, deals_add_product, events_*) or used to read the full graph via the `woofed:///deals/{id}` resource (which also includes the contact, stage, pipeline, assignees and deal_products).
+      Date range filters: `created_*`, `updated_*`, `won_*`, `lost_*` (ISO8601 UTC, inclusive). `custom_attributes` does an exact JSONB key/value match (AND across keys).
+      `total_deal_products_amount_in_cents` is the deal's total revenue in cents, computed as the sum of all attached deal_products — it is not editable directly; change it by adding/updating/removing deal_products with deals_add_product / deals_update_product / deals_remove_product.
+    DESC
 
     input_schema(
       properties: {

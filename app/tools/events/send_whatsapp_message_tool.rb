@@ -3,7 +3,15 @@
 module Events
   class SendWhatsappMessageTool < ApplicationTool
     tool_name 'events_send_whatsapp_message'
-    description 'Send or schedule a WhatsApp message (Evolution API) on a deal or contact timeline. Either send_now or scheduled_at must be provided.'
+    description <<~DESC
+      Send or schedule a WhatsApp message (via Evolution API) on a deal or contact timeline. The message is delivered to the contact's WhatsApp and also persisted as an Event on the CRM timeline.
+
+      Prerequisites (discover before calling this tool):
+      - `app_id` is required — the ID of the Evolution API (WhatsApp) instance to send from. Get it from apps_evolution_apis_list. Each instance is bound to a specific phone number; if the user mentions which number to send from, use the `phone` filter on apps_evolution_apis_list to find that instance.
+      - Only instances with `connection_status: 'connected'` will actually deliver — pick a connected one.
+      - Provide either `deal_id` or `contact_id` (or both). When only `deal_id` is given, the contact is resolved from the deal automatically. The contact must have a valid `phone` (E.164) — otherwise the WhatsApp delivery will fail.
+      - Provide either `send_now: true` for immediate delivery, or `scheduled_at` (ISO8601 UTC) for a future send. Scheduled events are marked auto-done when delivered.
+    DESC
 
     input_schema(
       properties: {

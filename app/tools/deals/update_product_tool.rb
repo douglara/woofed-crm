@@ -3,7 +3,11 @@
 module Deals
   class UpdateProductTool < ApplicationTool
     tool_name 'deals_update_product'
-    description 'Update the quantity and/or unit price of a product already attached to a deal. total_amount_in_cents and the deal totals are recalculated automatically.'
+    description <<~DESC
+      Update the `quantity` and/or `unit_amount_in_cents` of a product already attached to a deal. `total_amount_in_cents` for this deal_product (= quantity × unit_amount_in_cents) and the deal's overall total (`total_deal_products_amount_in_cents`) are recalculated automatically inside a transaction.
+      Identifies the deal_product by `deal_id` + `product_id` (not by the join id), so you don't need to look it up first. The product must already be attached — use deals_add_product first if it isn't.
+      Provide at least one of `quantity` / `unit_amount_in_cents`; calling with neither returns "Provide quantity or unit_amount_in_cents to update". `unit_amount_in_cents` is in cents (e.g. 1000035 = R$ 10,000.35). The snapshot fields `product_name` / `product_identifier` are intentionally not editable here.
+    DESC
 
     input_schema(
       properties: {

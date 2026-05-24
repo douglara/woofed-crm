@@ -5,8 +5,9 @@ module Apps
     class ListTool < ApplicationTool
       tool_name 'apps_evolution_apis_list'
       description <<~DESC
-        List Evolution API (WhatsApp) integrations available in the account. Use the returned id as
-        the app_id argument when calling events_send_whatsapp_message.
+        List Evolution API (WhatsApp) integrations configured in the account. When called without arguments, returns the first page of all integrations ordered by most-recently created. An account can have multiple WhatsApp instances — each instance is bound to a different phone number, and outgoing messages are sent from that number.
+        This is the discovery step for events_send_whatsapp_message: take the returned `id` and pass it as `app_id`. When the user mentions a specific sender number (e.g. "send from +5511…"), pass it as the `phone` filter (E.164, partial match) to find the right instance before sending.
+        Messages are only delivered through an instance whose `connection_status` is `connected` — the others (`disconnected`, `connecting`, `sync`) cannot send. Prefer filtering by `connection_status: 'connected'` when picking an instance to send from.
       DESC
 
       input_schema(

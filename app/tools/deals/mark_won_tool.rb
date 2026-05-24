@@ -3,7 +3,11 @@
 module Deals
   class MarkWonTool < ApplicationTool
     tool_name 'deals_mark_won'
-    description 'Mark a deal as won. Optionally provide the timestamp the deal was won.'
+    description <<~DESC
+      Mark a deal as won (sale closed). Convenience tool over deals_update: sets `status: 'won'`, stamps `won_at` (defaults to now) and clears `lost_at` / `lost_reason`.
+      Use this when the user says "mark deal X as won", "we closed deal Y", etc. The deal stays in its current stage — moving it to a "Won" stage is up to the pipeline configuration, not this tool.
+      `won_at` only overrides the default when the account has `deal_allow_edit_lost_at_won_at` enabled; otherwise the system uses `Time.current`.
+    DESC
 
     input_schema(
       properties: {

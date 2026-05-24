@@ -3,7 +3,11 @@
 module Contacts
   class ListTool < ApplicationTool
     tool_name 'contacts_list'
-    description 'List contacts in the account. Supports partial-match filters and pagination.'
+    description <<~DESC
+      List contacts in the account. When called without arguments, returns the first page of all contacts ordered by most-recently created.
+      Use it either to browse/query contact data, or to discover a contact's ID — that ID can then be passed to other tools (deals_create, events_create_note, events_send_chatwoot_message, ...) or used to read the full graph via the `woofed:///contacts/{id}` resource (which also includes the contact's deals and events).
+      String filters (full_name, email, phone) use case-insensitive partial match. Date filters use ISO8601 UTC with `_from`/`_to` suffixes (inclusive range).
+    DESC
 
     input_schema(
       properties: {

@@ -3,7 +3,11 @@
 module Pipelines
   class CreateTool < ApplicationTool
     tool_name 'pipelines_create'
-    description 'Create a new pipeline. Stages are added separately via stages_create.'
+    description <<~DESC
+      Create a new pipeline — a Kanban board representing a sales/operational process. A pipeline is empty on creation; add stage columns to it afterwards with stages_create.
+      Pipeline names must be unique within the account.
+      Typical setup flow: pipelines_create → stages_create (multiple times, one per column) → deals_create with the resulting stage_id.
+    DESC
 
     input_schema(
       properties: {

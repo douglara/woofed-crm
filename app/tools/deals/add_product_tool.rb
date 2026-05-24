@@ -3,7 +3,12 @@
 module Deals
   class AddProductTool < ApplicationTool
     tool_name 'deals_add_product'
-    description 'Attach a product to a deal as a deal_product line. The unit_amount_in_cents and the product name/identifier snapshot are pulled from the Product catalog; use deals_update_product afterwards to override them on this deal. Returns a validation error if the product is already attached to the deal.'
+    description <<~DESC
+      Attach a product to a deal as a deal_product line item — this is how the deal's revenue (`total_deal_products_amount_in_cents`) is composed. The deal totals are recalculated automatically.
+      Prerequisites: discover `deal_id` via deals_list and `product_id` via products_list.
+      At attachment time, the product's catalog values (`unit_amount_in_cents`, `name`, `identifier`) are snapshotted onto the deal_product so later edits to the catalog don't retroactively change closed deals. To override the price for this specific deal, call deals_update_product right after.
+      `quantity` defaults to 1 and must be >= 1. Returns a validation error if the same product is already attached to this deal — each product can appear only once per deal; to change quantity/price use deals_update_product instead.
+    DESC
 
     input_schema(
       properties: {

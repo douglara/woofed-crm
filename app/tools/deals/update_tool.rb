@@ -3,7 +3,12 @@
 module Deals
   class UpdateTool < ApplicationTool
     tool_name 'deals_update'
-    description 'Update an existing deal by ID. Only fields provided will be changed.'
+    description <<~DESC
+      Update an existing deal by ID. Only fields provided are changed; omitted fields are left untouched. Use deals_list first to discover the deal ID.
+      Changing `stage_id` moves the deal across the board (the new stage's `pipeline_id` is inferred). Setting `status: 'won'` or `'lost'` also stamps `won_at` / `lost_at` to now and clears the opposite timestamp — for that common case prefer the dedicated deals_mark_won / deals_mark_lost tools.
+      `won_at` / `lost_at` arguments are only honored when the account has manual editing enabled (`deal_allow_edit_lost_at_won_at`); otherwise the system overrides them with `Time.current`.
+      Products attached to the deal are not editable here — use deals_add_product / deals_update_product / deals_remove_product. `custom_attributes` replaces the whole JSONB hash.
+    DESC
 
     input_schema(
       properties: {
