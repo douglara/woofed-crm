@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 18:01:42 -0300'>2026-05-21 18:01:42 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 18:19:32 -0300'>2026-05-24 18:19:32 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">57</span><small> lines of codes</small></div>
+              <div><span class="metric">61</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">48.2</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">48.23</span><small> complexity</small></div>
@@ -102,7 +102,11 @@
 module Products
   class ListTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Products::ListTool has no descriptive comment</span>          </div>  </li></ol>
     tool_name &#39;products_list&#39;
-    description &#39;List products in the catalog. Supports partial-match filters and pagination.&#39;
+    description &lt;&lt;~DESC
+      List products in the catalog. When called without arguments, returns the first page of all products ordered by most-recently created.
+      Use it either to browse the catalog, or to discover the `product_id` needed by deals_add_product. The product with its deal_products is also available via the `woofed:///products/{id}` resource.
+      `amount_in_cents` and the `amount_in_cents_min`/`_max` filters are always in cents (e.g. 1000035 = R$ 10,000.35 in the account&#39;s currency). `identifier` (SKU) is matched exactly; `name` and `description` use case-insensitive partial match. `custom_attributes` does an exact JSONB key/value match (AND across keys).
+    DESC
 
     input_schema(
       properties: {
@@ -144,7 +148,7 @@ module Products
           scope = scope.where(&#39;custom_attributes-&gt;&gt;? = ?&#39;, key.to_s, value.to_s)
         end
 
-        records, pagination = paginate(scope.order(created_at: :desc), page: page, per_page: per_page)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 6 nodes</span>              <span>Locations:</span>                  <a href="../apps/chatwoots/list_tool.html#L44" class="js-smell-location">0</a>                  <a href="../apps/evolution_apis/list_tool.html#L41" class="js-smell-location">1</a>                  <a href="../contacts/list_tool.html#L41" class="js-smell-location">2</a>                  <a href="../deals/list_tool.html#L57" class="js-smell-location">3</a>                  <a href="list_tool.html#L48" class="js-smell-location">4</a>                  <a href="../users/list_tool.html#L42" class="js-smell-location">5</a>                  </div>  </li></ol>
+        records, pagination = paginate(scope.order(created_at: :desc), page: page, per_page: per_page)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 6 nodes</span>              <span>Locations:</span>                  <a href="../apps/chatwoots/list_tool.html#L44" class="js-smell-location">0</a>                  <a href="../apps/evolution_apis/list_tool.html#L42" class="js-smell-location">1</a>                  <a href="../contacts/list_tool.html#L45" class="js-smell-location">2</a>                  <a href="../deals/list_tool.html#L62" class="js-smell-location">3</a>                  <a href="list_tool.html#L52" class="js-smell-location">4</a>                  <a href="../users/list_tool.html#L46" class="js-smell-location">5</a>                  </div>  </li></ol>
         json_response(
           data: records.as_json(only: %i[id name identifier description amount_in_cents quantity_available
                                          custom_attributes additional_attributes created_at updated_at]),

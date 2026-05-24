@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 18:01:42 -0300'>2026-05-21 18:01:42 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 18:19:32 -0300'>2026-05-24 18:19:32 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">29</span><small> lines of codes</small></div>
+              <div><span class="metric">33</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">15.5</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">15.54</span><small> complexity</small></div>
@@ -102,9 +102,13 @@
 module Deals
   class MarkLostTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Deals::MarkLostTool has no descriptive comment</span>          </div>  </li></ol>
     tool_name &#39;deals_mark_lost&#39;
-    description &#39;Mark a deal as lost. Optionally provide the lost reason and timestamp.&#39;
+    description &lt;&lt;~DESC
+      Mark a deal as lost (opportunity dropped). Convenience tool over deals_update: sets `status: &#39;lost&#39;`, stamps `lost_at` (defaults to now) and clears `won_at`. `lost_reason` is recommended so the team understands why the deal was lost — it&#39;s commonly aggregated in reporting.
+      Use this when the user says &quot;mark deal X as lost&quot;, &quot;we lost deal Y because the prospect went with a competitor&quot;, etc.
+      `lost_at` only overrides the default when the account has `deal_allow_edit_lost_at_won_at` enabled; otherwise the system uses `Time.current`.
+    DESC
 
-    input_schema(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="mark_lost_tool.html#L8" class="js-smell-location">0</a>                  <a href="../stages/update_tool.html#L8" class="js-smell-location">1</a>                  </div>  </li></ol>
+    input_schema(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="mark_lost_tool.html#L12" class="js-smell-location">0</a>                  <a href="../stages/update_tool.html#L12" class="js-smell-location">1</a>                  </div>  </li></ol>
       properties: {
         id:          { type: &#39;integer&#39;, description: &#39;Deal ID&#39; },
         lost_reason: { type: &#39;string&#39;,  description: &#39;Why the deal was lost&#39; },
@@ -117,7 +121,7 @@ module Deals
       handle_errors do
         deal = Deal.find(id)
         attributes = { status: &#39;lost&#39;, lost_reason: lost_reason, lost_at: lost_at }.compact
-        if Deal::CreateOrUpdate.new(deal, attributes).call<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 5 nodes</span>              <span>Locations:</span>                  <a href="create_tool.html#L30" class="js-smell-location">0</a>                  <a href="mark_lost_tool.html#L21" class="js-smell-location">1</a>                  <a href="mark_won_tool.html#L20" class="js-smell-location">2</a>                  <a href="update_product_tool.html#L26" class="js-smell-location">3</a>                  <a href="update_tool.html#L31" class="js-smell-location">4</a>                  </div>  </li></ol>
+        if Deal::CreateOrUpdate.new(deal, attributes).call<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 5 nodes</span>              <span>Locations:</span>                  <a href="create_tool.html#L35" class="js-smell-location">0</a>                  <a href="mark_lost_tool.html#L25" class="js-smell-location">1</a>                  <a href="mark_won_tool.html#L24" class="js-smell-location">2</a>                  <a href="update_product_tool.html#L30" class="js-smell-location">3</a>                  <a href="update_tool.html#L36" class="js-smell-location">4</a>                  </div>  </li></ol>
           json_response(deal.as_json)
         else
           text_response(&quot;Validation failed: #{deal.errors.full_messages.join(&#39;, &#39;)}&quot;)

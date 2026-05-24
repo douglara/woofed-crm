@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 18:01:42 -0300'>2026-05-21 18:01:42 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 18:19:32 -0300'>2026-05-24 18:19:32 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">35</span><small> lines of codes</small></div>
+              <div><span class="metric">38</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">23.5</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">23.52</span><small> complexity</small></div>
@@ -102,10 +102,13 @@
 module Pipelines
   class ListTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Pipelines::ListTool has no descriptive comment</span>          </div>  </li></ol>
     tool_name &#39;pipelines_list&#39;
-    description &#39;List pipelines in the account along with their stages.&#39;
+    description &lt;&lt;~DESC
+      List pipelines in the account, each with its stages (ordered by position) inlined. When called without arguments, returns the first page of all pipelines ordered alphabetically by name.
+      Use it either to browse pipelines/stages, or to discover the `pipeline_id` and `stage_id` needed by deals_create / deals_update / stages_create. The full pipeline + stages graph is also available via the `woofed:///pipelines/{id}` resource.
+    DESC
 
     input_schema(
-      properties: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="../deals/update_product_tool.html#L9" class="js-smell-location">0</a>                  <a href="../events/create_note_tool.html#L9" class="js-smell-location">1</a>                  <a href="list_tool.html#L9" class="js-smell-location">2</a>                  </div>  </li></ol>
+      properties: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="../deals/update_product_tool.html#L13" class="js-smell-location">0</a>                  <a href="../events/create_note_tool.html#L13" class="js-smell-location">1</a>                  <a href="list_tool.html#L12" class="js-smell-location">2</a>                  </div>  </li></ol>
         id:       { type: &#39;integer&#39;, description: &#39;Filter by pipeline ID&#39; },
         name:     { type: &#39;string&#39;,  description: &#39;Filter pipelines by name (case-insensitive partial match)&#39; },
         page:     { type: &#39;integer&#39;, description: &#39;Page number (default 1)&#39; },
@@ -122,7 +125,7 @@ module Pipelines
         records, pagination = paginate(scope.order(:name), page: page, per_page: per_page)
         json_response(
           data: records.map do |pipeline|
-            pipeline.as_json(only: %i[id name created_at updated_at]).merge(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../../resources/pipelines_resource.html#L12" class="js-smell-location">0</a>                  <a href="list_tool.html#L26" class="js-smell-location">1</a>                  </div>  </li></ol>
+            pipeline.as_json(only: %i[id name created_at updated_at]).merge(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../../resources/pipelines_resource.html#L12" class="js-smell-location">0</a>                  <a href="list_tool.html#L29" class="js-smell-location">1</a>                  </div>  </li></ol>
               stages: pipeline.stages.order(:position).as_json(only: %i[id name position created_at updated_at])
             )
           end,

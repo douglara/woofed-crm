@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 18:01:42 -0300'>2026-05-21 18:01:42 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 18:19:32 -0300'>2026-05-24 18:19:32 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">45</span><small> lines of codes</small></div>
+              <div><span class="metric">53</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">29.7</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">29.66</span><small> complexity</small></div>
@@ -102,10 +102,18 @@
 module Events
   class SendChatwootMessageTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Events::SendChatwootMessageTool has no descriptive comment</span>          </div>  </li></ol>
     tool_name &#39;events_send_chatwoot_message&#39;
-    description &#39;Send or schedule a Chatwoot message on a deal or contact timeline. Either send_now or scheduled_at must be provided.&#39;
+    description &lt;&lt;~DESC
+      Send or schedule a Chatwoot message on a deal or contact timeline. The message is delivered to the contact through a Chatwoot inbox and also persisted as an Event on the CRM timeline.
+
+      Prerequisites (discover before calling this tool):
+      - `app_id` is required — the ID of the Chatwoot integration. Get it from apps_chatwoots_list. The account typically has a single active Chatwoot integration, so calling apps_chatwoots_list with no filters is usually enough.
+      - `chatwoot_inbox_id` is required — pick it from the `inboxes` array on the same record returned by apps_chatwoots_list (it lists the valid inbox IDs for that integration).
+      - Provide either `deal_id` or `contact_id` (or both). When only `deal_id` is given, the contact is resolved from the deal automatically.
+      - Provide either `send_now: true` for immediate delivery, or `scheduled_at` (ISO8601 UTC) for a future send. Scheduled events are marked auto-done when delivered.
+    DESC
 
     input_schema(
-      properties: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../deals/create_tool.html#L9" class="js-smell-location">0</a>                  <a href="send_chatwoot_message_tool.html#L9" class="js-smell-location">1</a>                  </div>  </li></ol>
+      properties: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../deals/create_tool.html#L14" class="js-smell-location">0</a>                  <a href="send_chatwoot_message_tool.html#L17" class="js-smell-location">1</a>                  </div>  </li></ol>
         deal_id:           { type: &#39;integer&#39;, description: &#39;Deal ID this message will be attached to&#39; },
         contact_id:        { type: &#39;integer&#39;, description: &#39;Contact ID this message will be attached to&#39; },
         content:           { type: &#39;string&#39;,  description: &#39;Message body&#39; },
@@ -121,14 +129,14 @@ module Events
                   deal_id: nil, contact_id: nil, send_now: false, scheduled_at: nil)
       handle_errors do
         return text_response(&#39;Provide deal_id or contact_id&#39;) if deal_id.blank? &amp;&amp; contact_id.blank?
-        return text_response(&#39;Provide send_now=true or scheduled_at&#39;) if !send_now &amp;&amp; scheduled_at.blank?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Events::SendChatwootMessageTool#self.call calls '!send_now' 2 times</span>              <span>Locations:</span>                  <a href="send_chatwoot_message_tool.html#L25" class="js-smell-location">0</a>                  <a href="send_chatwoot_message_tool.html#L32" class="js-smell-location">1</a>                  </div>  </li></ol>
+        return text_response(&#39;Provide send_now=true or scheduled_at&#39;) if !send_now &amp;&amp; scheduled_at.blank?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Events::SendChatwootMessageTool#self.call calls '!send_now' 2 times</span>              <span>Locations:</span>                  <a href="send_chatwoot_message_tool.html#L33" class="js-smell-location">0</a>                  <a href="send_chatwoot_message_tool.html#L40" class="js-smell-location">1</a>                  </div>  </li></ol>
 
         contact_id ||= Deal.find(deal_id).contact_id
         params = {
           kind: &#39;chatwoot_message&#39;, content: content, title: &#39;Chatwoot Message&#39;,
           app_type: &#39;Apps::Chatwoot&#39;, app_id: app_id,
           additional_attributes: { chatwoot_inbox_id: chatwoot_inbox_id },
-          send_now: send_now, scheduled_at: scheduled_at, auto_done: !send_now,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Events::SendChatwootMessageTool#self.call calls '!send_now' 2 times</span>              <span>Locations:</span>                  <a href="send_chatwoot_message_tool.html#L25" class="js-smell-location">0</a>                  <a href="send_chatwoot_message_tool.html#L32" class="js-smell-location">1</a>                  </div>  </li></ol>
+          send_now: send_now, scheduled_at: scheduled_at, auto_done: !send_now,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Events::SendChatwootMessageTool#self.call calls '!send_now' 2 times</span>              <span>Locations:</span>                  <a href="send_chatwoot_message_tool.html#L33" class="js-smell-location">0</a>                  <a href="send_chatwoot_message_tool.html#L40" class="js-smell-location">1</a>                  </div>  </li></ol>
           deal_id: deal_id, contact_id: contact_id, from_me: true
         }.compact
 

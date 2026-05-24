@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 18:01:42 -0300'>2026-05-21 18:01:42 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 18:19:32 -0300'>2026-05-24 18:19:32 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">31</span><small> lines of codes</small></div>
+              <div><span class="metric">36</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">14.2</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">14.18</span><small> complexity</small></div>
@@ -102,7 +102,12 @@
 module Contacts
   class CreateTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Contacts::CreateTool has no descriptive comment</span>          </div>  </li></ol>
     tool_name &#39;contacts_create&#39;
-    description &#39;Create a new contact. Provide at least one of email or phone so it can be matched later.&#39;
+    description &lt;&lt;~DESC
+      Create a new contact (lead / person) in the CRM. Returns the persisted contact on success or a validation-error message on failure.
+      Provide at least one of `email` or `phone` so the same person can be matched/deduplicated later by integrations (Chatwoot, WhatsApp) — a contact with neither is hard to reach out to.
+      `phone` must be in E.164 format (e.g. `+5511999999999`), since the WhatsApp integration uses it as-is. `custom_attributes` is a free-form JSONB hash; only put scalar values inside.
+      Before creating, check contacts_list with `email`/`phone` filters to avoid duplicates.
+    DESC
 
     input_schema(
       properties: {

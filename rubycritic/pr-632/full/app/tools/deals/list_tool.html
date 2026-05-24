@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 18:01:42 -0300'>2026-05-21 18:01:42 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 18:19:32 -0300'>2026-05-24 18:19:32 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">67</span><small> lines of codes</small></div>
+              <div><span class="metric">72</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">60.5</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">60.45</span><small> complexity</small></div>
@@ -102,7 +102,12 @@
 module Deals
   class ListTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Deals::ListTool has no descriptive comment</span>          </div>  </li></ol>
     tool_name &#39;deals_list&#39;
-    description &#39;List deals in the account. Supports filters by name, status, stage, pipeline, contact, lost reason and date ranges.&#39;
+    description &lt;&lt;~DESC
+      List deals in the account. When called without arguments, returns the first page of all deals ordered by most-recently created.
+      Use it either to browse/query deal data, or to discover a deal&#39;s ID — that ID can then be passed to other tools (deals_update, deals_mark_won/lost, deals_add_assignee, deals_add_product, events_*) or used to read the full graph via the `woofed:///deals/{id}` resource (which also includes the contact, stage, pipeline, assignees and deal_products).
+      Date range filters: `created_*`, `updated_*`, `won_*`, `lost_*` (ISO8601 UTC, inclusive). `custom_attributes` does an exact JSONB key/value match (AND across keys).
+      `total_deal_products_amount_in_cents` is the deal&#39;s total revenue in cents, computed as the sum of all attached deal_products — it is not editable directly; change it by adding/updating/removing deal_products with deals_add_product / deals_update_product / deals_remove_product.
+    DESC
 
     input_schema(
       properties: {
@@ -153,7 +158,7 @@ module Deals
           scope = scope.where(&#39;custom_attributes-&gt;&gt;? = ?&#39;, key.to_s, value.to_s)
         end
 
-        records, pagination = paginate(scope.order(created_at: :desc), page: page, per_page: per_page)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 6 nodes</span>              <span>Locations:</span>                  <a href="../apps/chatwoots/list_tool.html#L44" class="js-smell-location">0</a>                  <a href="../apps/evolution_apis/list_tool.html#L41" class="js-smell-location">1</a>                  <a href="../contacts/list_tool.html#L41" class="js-smell-location">2</a>                  <a href="list_tool.html#L57" class="js-smell-location">3</a>                  <a href="../products/list_tool.html#L48" class="js-smell-location">4</a>                  <a href="../users/list_tool.html#L42" class="js-smell-location">5</a>                  </div>  </li></ol>
+        records, pagination = paginate(scope.order(created_at: :desc), page: page, per_page: per_page)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 6 nodes</span>              <span>Locations:</span>                  <a href="../apps/chatwoots/list_tool.html#L44" class="js-smell-location">0</a>                  <a href="../apps/evolution_apis/list_tool.html#L42" class="js-smell-location">1</a>                  <a href="../contacts/list_tool.html#L45" class="js-smell-location">2</a>                  <a href="list_tool.html#L62" class="js-smell-location">3</a>                  <a href="../products/list_tool.html#L52" class="js-smell-location">4</a>                  <a href="../users/list_tool.html#L46" class="js-smell-location">5</a>                  </div>  </li></ol>
         json_response(
           data: records.as_json(only: %i[id name status stage_id pipeline_id contact_id position
                                          total_deal_products_amount_in_cents lost_at won_at lost_reason

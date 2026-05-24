@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 18:01:42 -0300'>2026-05-21 18:01:42 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 18:19:32 -0300'>2026-05-24 18:19:32 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">35</span><small> lines of codes</small></div>
+              <div><span class="metric">39</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">24.0</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">24.02</span><small> complexity</small></div>
@@ -102,10 +102,14 @@
 module Events
   class CreateNoteTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Events::CreateNoteTool has no descriptive comment</span>          </div>  </li></ol>
     tool_name &#39;events_create_note&#39;
-    description &#39;Add a free-text note to a deal or contact timeline. Provide either deal_id or contact_id (or both).&#39;
+    description &lt;&lt;~DESC
+      Add a free-text note (internal memo) to a deal or contact timeline. Notes are not sent to the customer — they are private annotations the team uses to record context, meeting outcomes, decisions, etc.
+      Provide either `deal_id` or `contact_id` (or both). When only `deal_id` is given, the contact is resolved from the deal automatically, so the note shows up on both timelines.
+      For an action that will trigger external delivery to the customer, use events_send_chatwoot_message or events_send_whatsapp_message instead. For a scheduled task (call, meeting, follow-up), use events_create_activity.
+    DESC
 
     input_schema(
-      properties: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="../deals/update_product_tool.html#L9" class="js-smell-location">0</a>                  <a href="create_note_tool.html#L9" class="js-smell-location">1</a>                  <a href="../pipelines/list_tool.html#L9" class="js-smell-location">2</a>                  </div>  </li></ol>
+      properties: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="../deals/update_product_tool.html#L13" class="js-smell-location">0</a>                  <a href="create_note_tool.html#L13" class="js-smell-location">1</a>                  <a href="../pipelines/list_tool.html#L12" class="js-smell-location">2</a>                  </div>  </li></ol>
         deal_id:    { type: &#39;integer&#39;, description: &#39;Deal ID this note will be attached to&#39; },
         contact_id: { type: &#39;integer&#39;, description: &#39;Contact ID this note will be attached to&#39; },
         content:    { type: &#39;string&#39;,  description: &#39;Note body&#39; },

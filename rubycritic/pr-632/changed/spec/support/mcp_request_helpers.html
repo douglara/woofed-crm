@@ -62,8 +62,8 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating a big">
-              A
+            <div class="rating c big">
+              C
             </div>
           </div>
           <div class="code-statistics col-md-11">
@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">42.1</span><small> complexity</small></div>
-              <div><span class="metric">0</span><small> duplications</small></div>
+              <div><span class="metric">19</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                6
+                7
                 smells
               </a>
             </li>
@@ -142,7 +142,7 @@ module McpRequestHelpers
   # passes McpController#validate_token_audience!. Same shape Claude Web gets
   # via OAuth, just minted directly to keep specs focused.
   def mcp_access_token_for(user, resource: MCP_RESOURCE_URL)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>McpRequestHelpers#mcp_access_token_for doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
-    application = Doorkeeper::Application.find_or_create_by!(name: &#39;Spec Client&#39;) do |app|
+    application = Doorkeeper::Application.find_or_create_by!(name: &#39;Spec Client&#39;) do |app|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../requests/mcp_controller_spec.html#L43" class="js-smell-location">0</a>                  <a href="mcp_request_helpers.html#L46" class="js-smell-location">1</a>                  </div>  </li></ol>
       app.redirect_uri = &#39;urn:ietf:wg:oauth:2.0:oob&#39;
       app.scopes = &#39;mcp&#39;
       app.confidential = true

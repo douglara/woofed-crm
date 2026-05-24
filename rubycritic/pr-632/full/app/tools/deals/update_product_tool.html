@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-22 20:55:05 -0300'>2026-05-22 20:55:05 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 18:19:32 -0300'>2026-05-24 18:19:32 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">34</span><small> lines of codes</small></div>
+              <div><span class="metric">38</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">20.9</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">20.9</span><small> complexity</small></div>
@@ -102,10 +102,14 @@
 module Deals
   class UpdateProductTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Deals::UpdateProductTool has no descriptive comment</span>          </div>  </li></ol>
     tool_name &#39;deals_update_product&#39;
-    description &#39;Update the quantity and/or unit price of a product already attached to a deal. total_amount_in_cents and the deal totals are recalculated automatically.&#39;
+    description &lt;&lt;~DESC
+      Update the `quantity` and/or `unit_amount_in_cents` of a product already attached to a deal. `total_amount_in_cents` for this deal_product (= quantity × unit_amount_in_cents) and the deal&#39;s overall total (`total_deal_products_amount_in_cents`) are recalculated automatically inside a transaction.
+      Identifies the deal_product by `deal_id` + `product_id` (not by the join id), so you don&#39;t need to look it up first. The product must already be attached — use deals_add_product first if it isn&#39;t.
+      Provide at least one of `quantity` / `unit_amount_in_cents`; calling with neither returns &quot;Provide quantity or unit_amount_in_cents to update&quot;. `unit_amount_in_cents` is in cents (e.g. 1000035 = R$ 10,000.35). The snapshot fields `product_name` / `product_identifier` are intentionally not editable here.
+    DESC
 
     input_schema(
-      properties: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="update_product_tool.html#L9" class="js-smell-location">0</a>                  <a href="../events/create_note_tool.html#L9" class="js-smell-location">1</a>                  <a href="../pipelines/list_tool.html#L9" class="js-smell-location">2</a>                  </div>  </li></ol>
+      properties: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="update_product_tool.html#L13" class="js-smell-location">0</a>                  <a href="../events/create_note_tool.html#L13" class="js-smell-location">1</a>                  <a href="../pipelines/list_tool.html#L12" class="js-smell-location">2</a>                  </div>  </li></ol>
         deal_id:              { type: &#39;integer&#39;, description: &#39;Deal ID&#39; },
         product_id:           { type: &#39;integer&#39;, description: &#39;Product ID (the product must already be attached to the deal)&#39; },
         quantity:             { type: &#39;integer&#39;, description: &#39;New quantity (must be &gt;= 1)&#39; },
@@ -122,7 +126,7 @@ module Deals
         return text_response(&#39;Provide quantity or unit_amount_in_cents to update&#39;) if attributes.empty?
 
         params = ActionController::Parameters.new(attributes).permit!
-        if DealProduct::CreateOrUpdate.new(deal_product, params).call<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 5 nodes</span>              <span>Locations:</span>                  <a href="create_tool.html#L30" class="js-smell-location">0</a>                  <a href="mark_lost_tool.html#L21" class="js-smell-location">1</a>                  <a href="mark_won_tool.html#L20" class="js-smell-location">2</a>                  <a href="update_product_tool.html#L26" class="js-smell-location">3</a>                  <a href="update_tool.html#L31" class="js-smell-location">4</a>                  </div>  </li></ol>
+        if DealProduct::CreateOrUpdate.new(deal_product, params).call<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 5 nodes</span>              <span>Locations:</span>                  <a href="create_tool.html#L35" class="js-smell-location">0</a>                  <a href="mark_lost_tool.html#L25" class="js-smell-location">1</a>                  <a href="mark_won_tool.html#L24" class="js-smell-location">2</a>                  <a href="update_product_tool.html#L30" class="js-smell-location">3</a>                  <a href="update_tool.html#L36" class="js-smell-location">4</a>                  </div>  </li></ol>
           json_response(deal_product.as_json)
         else
           text_response(&quot;Validation failed: #{deal_product.errors.full_messages.join(&#39;, &#39;)}&quot;)

@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 18:01:42 -0300'>2026-05-21 18:01:42 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 19:23:19 -0300'>2026-05-24 19:23:19 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">65</span><small> lines of codes</small></div>
+              <div><span class="metric">67</span><small> lines of codes</small></div>
               <div><span class="metric">6</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">8.3</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">8.0</span><small> complexity/method</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">49.55</span><small> complexity</small></div>
+              <div><span class="metric">47.82</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                3
+                2
                 smells
               </a>
             </li>
@@ -154,11 +154,13 @@ class ApplicationTool &lt; MCP::Tool
     def handle_errors<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>ApplicationTool#handle_errors has approx 7 statements</span>          </div>  </li></ol>
       yield
     rescue ActiveRecord::RecordNotFound =&gt; e<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md" target="_blank"><b>UncommunicativeVariableName</b></a>        </span>      </div>      <span>ApplicationTool#handle_errors has the variable name 'e'</span>              <span>Locations:</span>                  <a href="application_tool.html#L57" class="js-smell-location">0</a>                  <a href="application_tool.html#L59" class="js-smell-location">1</a>                  <a href="application_tool.html#L61" class="js-smell-location">2</a>                  </div>  </li></ol>
-      text_response(e.message)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>ApplicationTool#handle_errors calls 'e.message' 2 times</span>              <span>Locations:</span>                  <a href="application_tool.html#L58" class="js-smell-location">0</a>                  <a href="application_tool.html#L62" class="js-smell-location">1</a>                  </div>  </li></ol>
+      text_response(e.message)
     rescue ActiveRecord::RecordInvalid =&gt; e<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md" target="_blank"><b>UncommunicativeVariableName</b></a>        </span>      </div>      <span>ApplicationTool#handle_errors has the variable name 'e'</span>              <span>Locations:</span>                  <a href="application_tool.html#L57" class="js-smell-location">0</a>                  <a href="application_tool.html#L59" class="js-smell-location">1</a>                  <a href="application_tool.html#L61" class="js-smell-location">2</a>                  </div>  </li></ol>
       text_response(&quot;Validation failed: #{e.record.errors.full_messages.join(&#39;, &#39;)}&quot;)
     rescue StandardError =&gt; e<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md" target="_blank"><b>UncommunicativeVariableName</b></a>        </span>      </div>      <span>ApplicationTool#handle_errors has the variable name 'e'</span>              <span>Locations:</span>                  <a href="application_tool.html#L57" class="js-smell-location">0</a>                  <a href="application_tool.html#L59" class="js-smell-location">1</a>                  <a href="application_tool.html#L61" class="js-smell-location">2</a>                  </div>  </li></ol>
-      text_response(&quot;An error occurred: #{e.message}&quot;)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>ApplicationTool#handle_errors calls 'e.message' 2 times</span>              <span>Locations:</span>                  <a href="application_tool.html#L58" class="js-smell-location">0</a>                  <a href="application_tool.html#L62" class="js-smell-location">1</a>                  </div>  </li></ol>
+      # Avoid leaking internal details (SQL fragments, stack-adjacent info) to
+      # the LLM client. The full exception goes to the Rails logger / Sentry.
+      text_response(&#39;An internal error occurred while running this tool.&#39;)
     end
   end
 end

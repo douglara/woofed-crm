@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 18:01:42 -0300'>2026-05-21 18:01:42 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 18:19:32 -0300'>2026-05-24 18:19:32 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">38</span><small> lines of codes</small></div>
+              <div><span class="metric">43</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">21.2</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">21.22</span><small> complexity</small></div>
@@ -102,10 +102,15 @@
 module Deals
   class CreateTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Deals::CreateTool has no descriptive comment</span>          </div>  </li></ol>
     tool_name &#39;deals_create&#39;
-    description &#39;Create a new deal. Requires contact_id and stage_id; pipeline_id is inferred from the stage when omitted.&#39;
+    description &lt;&lt;~DESC
+      Create a new deal (opportunity) for an existing contact. Requires `contact_id` (use contacts_list to discover) and `stage_id` (use stages_list or pipelines_list to discover). `pipeline_id` is inferred from the stage when omitted; if provided it must match the stage&#39;s pipeline.
+      Side effects: the current user becomes the deal&#39;s creator and is added as an assignee automatically; a `deal_opened` event is appended to the timeline; the deal starts in `position` 1 of the chosen stage.
+      Use `status: &#39;won&#39;` / `&#39;lost&#39;` here only when logging a deal whose outcome is already known; for the common case of updating later, start with `open` (default) and call deals_mark_won / deals_mark_lost / deals_update afterwards.
+      Products are not attached at creation — use deals_add_product after the deal exists.
+    DESC
 
     input_schema(
-      properties: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="create_tool.html#L9" class="js-smell-location">0</a>                  <a href="../events/send_chatwoot_message_tool.html#L9" class="js-smell-location">1</a>                  </div>  </li></ol>
+      properties: {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="create_tool.html#L14" class="js-smell-location">0</a>                  <a href="../events/send_chatwoot_message_tool.html#L17" class="js-smell-location">1</a>                  </div>  </li></ol>
         contact_id:        { type: &#39;integer&#39;, description: &#39;Contact ID this deal belongs to&#39; },
         stage_id:          { type: &#39;integer&#39;, description: &#39;Stage ID where the deal will be placed&#39; },
         pipeline_id:       { type: &#39;integer&#39;, description: &#39;Pipeline ID. Must match the pipeline of the stage&#39; },
@@ -126,7 +131,7 @@ module Deals
         params = ActionController::Parameters.new(attributes).permit!
         deal = DealBuilder.new(current_user(server_context), params).perform
 
-        if Deal::CreateOrUpdate.new(deal, params).call<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 5 nodes</span>              <span>Locations:</span>                  <a href="create_tool.html#L30" class="js-smell-location">0</a>                  <a href="mark_lost_tool.html#L21" class="js-smell-location">1</a>                  <a href="mark_won_tool.html#L20" class="js-smell-location">2</a>                  <a href="update_product_tool.html#L26" class="js-smell-location">3</a>                  <a href="update_tool.html#L31" class="js-smell-location">4</a>                  </div>  </li></ol>
+        if Deal::CreateOrUpdate.new(deal, params).call<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 5 nodes</span>              <span>Locations:</span>                  <a href="create_tool.html#L35" class="js-smell-location">0</a>                  <a href="mark_lost_tool.html#L25" class="js-smell-location">1</a>                  <a href="mark_won_tool.html#L24" class="js-smell-location">2</a>                  <a href="update_product_tool.html#L30" class="js-smell-location">3</a>                  <a href="update_tool.html#L36" class="js-smell-location">4</a>                  </div>  </li></ol>
           json_response(deal.as_json)
         else
           text_response(&quot;Validation failed: #{deal.errors.full_messages.join(&#39;, &#39;)}&quot;)

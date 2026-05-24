@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 18:01:42 -0300'>2026-05-21 18:01:42 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 18:19:32 -0300'>2026-05-24 18:19:32 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">51</span><small> lines of codes</small></div>
+              <div><span class="metric">52</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">33.5</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">33.49</span><small> complexity</small></div>
@@ -104,8 +104,9 @@ module Apps
     class ListTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Apps::EvolutionApis::ListTool has no descriptive comment</span>          </div>  </li></ol>
       tool_name &#39;apps_evolution_apis_list&#39;
       description &lt;&lt;~DESC
-        List Evolution API (WhatsApp) integrations available in the account. Use the returned id as
-        the app_id argument when calling events_send_whatsapp_message.
+        List Evolution API (WhatsApp) integrations configured in the account. When called without arguments, returns the first page of all integrations ordered by most-recently created. An account can have multiple WhatsApp instances — each instance is bound to a different phone number, and outgoing messages are sent from that number.
+        This is the discovery step for events_send_whatsapp_message: take the returned `id` and pass it as `app_id`. When the user mentions a specific sender number (e.g. &quot;send from +5511…&quot;), pass it as the `phone` filter (E.164, partial match) to find the right instance before sending.
+        Messages are only delivered through an instance whose `connection_status` is `connected` — the others (`disconnected`, `connecting`, `sync`) cannot send. Prefer filtering by `connection_status: &#39;connected&#39;` when picking an instance to send from.
       DESC
 
       input_schema(
@@ -137,8 +138,8 @@ module Apps
           scope = scope.where(&#39;updated_at &gt;= ?&#39;, updated_from) if updated_from.present?
           scope = scope.where(&#39;updated_at &lt;= ?&#39;, updated_to)   if updated_to.present?
 
-          records, pagination = paginate(scope.order(created_at: :desc), page: page, per_page: per_page)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 6 nodes</span>              <span>Locations:</span>                  <a href="../chatwoots/list_tool.html#L44" class="js-smell-location">0</a>                  <a href="list_tool.html#L41" class="js-smell-location">1</a>                  <a href="../../contacts/list_tool.html#L41" class="js-smell-location">2</a>                  <a href="../../deals/list_tool.html#L57" class="js-smell-location">3</a>                  <a href="../../products/list_tool.html#L48" class="js-smell-location">4</a>                  <a href="../../users/list_tool.html#L42" class="js-smell-location">5</a>                  </div>  </li></ol>
-          json_response(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="list_tool.html#L42" class="js-smell-location">0</a>                  <a href="../../users/list_tool.html#L43" class="js-smell-location">1</a>                  </div>  </li></ol>
+          records, pagination = paginate(scope.order(created_at: :desc), page: page, per_page: per_page)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 6 nodes</span>              <span>Locations:</span>                  <a href="../chatwoots/list_tool.html#L44" class="js-smell-location">0</a>                  <a href="list_tool.html#L42" class="js-smell-location">1</a>                  <a href="../../contacts/list_tool.html#L45" class="js-smell-location">2</a>                  <a href="../../deals/list_tool.html#L62" class="js-smell-location">3</a>                  <a href="../../products/list_tool.html#L52" class="js-smell-location">4</a>                  <a href="../../users/list_tool.html#L46" class="js-smell-location">5</a>                  </div>  </li></ol>
+          json_response(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="list_tool.html#L43" class="js-smell-location">0</a>                  <a href="../../users/list_tool.html#L47" class="js-smell-location">1</a>                  </div>  </li></ol>
             data: records.as_json(only: %i[id name endpoint_url instance phone active connection_status
                                            created_at updated_at]),
             pagination: pagination

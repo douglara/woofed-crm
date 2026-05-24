@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 18:01:42 -0300'>2026-05-21 18:01:42 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 18:19:32 -0300'>2026-05-24 18:19:32 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">28</span><small> lines of codes</small></div>
+              <div><span class="metric">32</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">14.2</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">14.22</span><small> complexity</small></div>
@@ -102,9 +102,13 @@
 module Stages
   class UpdateTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Stages::UpdateTool has no descriptive comment</span>          </div>  </li></ol>
     tool_name &#39;stages_update&#39;
-    description &#39;Update an existing stage by ID. Only fields provided will be changed.&#39;
+    description &lt;&lt;~DESC
+      Update an existing stage by ID — rename it and/or move it to a different position within its pipeline. Use stages_list (or pipelines_list, which embeds stages) to discover the ID.
+      Changing `position` reorders the siblings automatically (acts_as_list) — pass the target index counting from 1. To move a deal to a different stage, do not change the stage&#39;s position; update the deal instead via deals_update with the new `stage_id`.
+      A stage cannot be moved across pipelines through this tool.
+    DESC
 
-    input_schema(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../deals/mark_lost_tool.html#L8" class="js-smell-location">0</a>                  <a href="update_tool.html#L8" class="js-smell-location">1</a>                  </div>  </li></ol>
+    input_schema(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../deals/mark_lost_tool.html#L12" class="js-smell-location">0</a>                  <a href="update_tool.html#L12" class="js-smell-location">1</a>                  </div>  </li></ol>
       properties: {
         id:       { type: &#39;integer&#39;, description: &#39;Stage ID&#39; },
         name:     { type: &#39;string&#39;,  description: &#39;Stage name&#39; },

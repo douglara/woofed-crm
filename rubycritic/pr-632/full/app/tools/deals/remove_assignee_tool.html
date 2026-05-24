@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-22 20:36:20 -0300'>2026-05-22 20:36:20 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 18:19:32 -0300'>2026-05-24 18:19:32 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">27</span><small> lines of codes</small></div>
+              <div><span class="metric">31</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">12.9</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">12.85</span><small> complexity</small></div>
@@ -102,9 +102,13 @@
 module Deals
   class RemoveAssigneeTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Deals::RemoveAssigneeTool has no descriptive comment</span>          </div>  </li></ol>
     tool_name &#39;deals_remove_assignee&#39;
-    description &#39;Remove a user from the assignees (responsibles) of a deal.&#39;
+    description &lt;&lt;~DESC
+      Remove a user from the assignees (responsibles) of a deal — used to unassign someone from an opportunity. The deal itself is not deleted; only the deal↔user link is removed.
+      Identifies the assignee by `deal_id` + `user_id` (not by the join id), so you don&#39;t need to look up the DealAssignee record first. Returns &quot;Couldn&#39;t find DealAssignee&quot; when the user is not currently an assignee of that deal.
+      To reassign the deal to a different user, call this followed by deals_add_assignee with the new user.
+    DESC
 
-    input_schema(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="add_assignee_tool.html#L8" class="js-smell-location">0</a>                  <a href="remove_assignee_tool.html#L8" class="js-smell-location">1</a>                  <a href="remove_product_tool.html#L8" class="js-smell-location">2</a>                  </div>  </li></ol>
+    input_schema(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="add_assignee_tool.html#L12" class="js-smell-location">0</a>                  <a href="remove_assignee_tool.html#L12" class="js-smell-location">1</a>                  <a href="remove_product_tool.html#L12" class="js-smell-location">2</a>                  </div>  </li></ol>
       properties: {
         deal_id: { type: &#39;integer&#39;, description: &#39;Deal ID&#39; },
         user_id: { type: &#39;integer&#39;, description: &#39;User ID to remove from the deal assignees&#39; }

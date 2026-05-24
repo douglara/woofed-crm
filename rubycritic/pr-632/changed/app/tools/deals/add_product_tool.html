@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-22 20:55:05 -0300'>2026-05-22 20:55:05 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 18:19:32 -0300'>2026-05-24 18:19:32 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">31</span><small> lines of codes</small></div>
+              <div><span class="metric">36</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">19.7</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">19.66</span><small> complexity</small></div>
@@ -102,9 +102,14 @@
 module Deals
   class AddProductTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Deals::AddProductTool has no descriptive comment</span>          </div>  </li></ol>
     tool_name &#39;deals_add_product&#39;
-    description &#39;Attach a product to a deal as a deal_product line. The unit_amount_in_cents and the product name/identifier snapshot are pulled from the Product catalog; use deals_update_product afterwards to override them on this deal. Returns a validation error if the product is already attached to the deal.&#39;
+    description &lt;&lt;~DESC
+      Attach a product to a deal as a deal_product line item — this is how the deal&#39;s revenue (`total_deal_products_amount_in_cents`) is composed. The deal totals are recalculated automatically.
+      Prerequisites: discover `deal_id` via deals_list and `product_id` via products_list.
+      At attachment time, the product&#39;s catalog values (`unit_amount_in_cents`, `name`, `identifier`) are snapshotted onto the deal_product so later edits to the catalog don&#39;t retroactively change closed deals. To override the price for this specific deal, call deals_update_product right after.
+      `quantity` defaults to 1 and must be &gt;= 1. Returns a validation error if the same product is already attached to this deal — each product can appear only once per deal; to change quantity/price use deals_update_product instead.
+    DESC
 
-    input_schema(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="add_product_tool.html#L8" class="js-smell-location">0</a>                  <a href="../stages/create_tool.html#L8" class="js-smell-location">1</a>                  </div>  </li></ol>
+    input_schema(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="add_product_tool.html#L13" class="js-smell-location">0</a>                  <a href="../stages/create_tool.html#L12" class="js-smell-location">1</a>                  </div>  </li></ol>
       properties: {
         deal_id:    { type: &#39;integer&#39;, description: &#39;Deal ID&#39; },
         product_id: { type: &#39;integer&#39;, description: &#39;Product ID to attach&#39; },

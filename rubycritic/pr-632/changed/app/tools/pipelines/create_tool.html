@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-05-21 18:01:42 -0300'>2026-05-21 18:01:42 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-05-24 18:19:32 -0300'>2026-05-24 18:19:32 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">26</span><small> lines of codes</small></div>
+              <div><span class="metric">30</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">12.9</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">12.85</span><small> complexity</small></div>
@@ -102,7 +102,11 @@
 module Pipelines
   class CreateTool &lt; ApplicationTool<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Pipelines::CreateTool has no descriptive comment</span>          </div>  </li></ol>
     tool_name &#39;pipelines_create&#39;
-    description &#39;Create a new pipeline. Stages are added separately via stages_create.&#39;
+    description &lt;&lt;~DESC
+      Create a new pipeline — a Kanban board representing a sales/operational process. A pipeline is empty on creation; add stage columns to it afterwards with stages_create.
+      Pipeline names must be unique within the account.
+      Typical setup flow: pipelines_create → stages_create (multiple times, one per column) → deals_create with the resulting stage_id.
+    DESC
 
     input_schema(
       properties: {
