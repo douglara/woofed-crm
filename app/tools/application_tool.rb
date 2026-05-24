@@ -59,7 +59,9 @@ class ApplicationTool < MCP::Tool
     rescue ActiveRecord::RecordInvalid => e
       text_response("Validation failed: #{e.record.errors.full_messages.join(', ')}")
     rescue StandardError => e
-      text_response("An error occurred: #{e.message}")
+      # Avoid leaking internal details (SQL fragments, stack-adjacent info) to
+      # the LLM client. The full exception goes to the Rails logger / Sentry.
+      text_response('An internal error occurred while running this tool.')
     end
   end
 end
