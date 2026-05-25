@@ -28,7 +28,10 @@
     <tbody><tr>
       <td style="padding:48px 20px 32px;text-align:center;">
         <a href="<%= ENV.fetch('FRONTEND_URL', 'https://woofedcrm.com') %>" target="_blank">
-          <img alt="WoofedCRM" src="<%= asset_url('logo.png') %>" width="140" height="auto" style="border:0;display:block;outline:none;text-decoration:none;margin:0 auto;">
+          <%= image_tag attachments['logo.png'].url,
+                        alt: 'WoofedCRM',
+                        width: 140,
+                        style: 'border:0;display:block;outline:none;text-decoration:none;margin:0 auto;' %>
         </a>
       </td>
     </tr></tbody>

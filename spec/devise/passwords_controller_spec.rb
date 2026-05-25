@@ -15,13 +15,21 @@ RSpec.describe Devise::PasswordsController, type: :request do
 
   describe 'POST /users/password' do
     context 'with a registered email' do
-      it 'sends a reset password email, redirects to sign in and delivers to the correct address' do
+      it 'sends a reset password email with the inline logo to the correct address' do
         expect do
           post '/users/password', params: { user: { email: user.email } }
         end.to change(ActionMailer::Base.deliveries, :count).by(1)
 
         expect(response).to redirect_to(new_user_session_path)
-        expect(ActionMailer::Base.deliveries.last.to).to include(user.email)
+
+        delivery = ActionMailer::Base.deliveries.last
+        expect(delivery.to).to include(user.email)
+
+        logo_part = delivery.all_parts.find { |part| part.filename == 'logo.png' }
+        expect(logo_part).to be_present
+        expect(logo_part.content_disposition).to include('inline')
+
+        expect(delivery.html_part.body.to_s).to include("cid:#{logo_part.cid}")
       end
     end
 
