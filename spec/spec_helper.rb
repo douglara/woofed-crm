@@ -21,6 +21,8 @@ require 'simplecov_json_formatter'
 # load "#{Rails.root}/db/seeds.rb"
 
 SimpleCov.start 'rails' do
+  enable_coverage :branch
+  primary_coverage :line
   formatter SimpleCov::Formatter::MultiFormatter.new([
                                                        SimpleCov::Formatter::JSONFormatter,
                                                        SimpleCov::Formatter::HTMLFormatter

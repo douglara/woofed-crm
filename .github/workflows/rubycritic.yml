@@ -51,6 +51,33 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Find latest development CI run
+        id: base-run
+        if: ${{ steps.pr.outputs.is_pr == 'true' }}
+        run: |
+          RUN_ID=$(gh run list \
+            --workflow "CI RSpec Tests" \
+            --branch development \
+            --status success \
+            --limit 1 \
+            --json databaseId \
+            --jq '.[0].databaseId')
+          if [ "$RUN_ID" = "null" ]; then RUN_ID=""; fi
+          echo "id=$RUN_ID" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download base coverage artifact
+        id: download-base-coverage
+        if: ${{ steps.base-run.outputs.id != '' }}
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage
+          path: tmp/base-coverage
+          run-id: ${{ steps.base-run.outputs.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run RubyCritic on changed files
         run: |
           mkdir -p tmp/rubycritic/pr-${{ steps.pr.outputs.number }}
@@ -105,20 +132,146 @@ jobs:
         uses: actions/github-script@v7
         env:
           COVERAGE_AVAILABLE: ${{ steps.download-coverage.outcome == 'success' }}
+          BASE_COVERAGE_AVAILABLE: ${{ steps.download-base-coverage.outcome == 'success' }}
+          CURRENT_COVERAGE_PATH: tmp/coverage/.last_run.json
+          BASE_COVERAGE_PATH: tmp/base-coverage/.last_run.json
+          COVERAGE_DETAIL_PATH: tmp/coverage/coverage.json
         with:
           script: |
+            const fs = require('fs');
+            const { execSync } = require('child_process');
             const prNumber = ${{ steps.pr.outputs.number }};
             const repoOwner = context.repo.owner;
             const repoName = context.repo.repo;
             const baseUrl = `https://${repoOwner}.github.io/${repoName}/rubycritic/pr-${prNumber}`;
             const coverageAvailable = process.env.COVERAGE_AVAILABLE === 'true';
+            const baseCoverageAvailable = process.env.BASE_COVERAGE_AVAILABLE === 'true';
+
+            const marker = '<!-- rubycritic-report -->';
+
+            const readCoverage = (path) => {
+              try {
+                const raw = JSON.parse(fs.readFileSync(path, 'utf8'));
+                return raw.result || {};
+              } catch (_) {
+                return null;
+              }
+            };
+
+            const fmtPct = (v) => (typeof v === 'number') ? `${v.toFixed(2)}%` : 'N/A';
+            const fmtDelta = (current, base) => {
+              if (typeof current !== 'number' || typeof base !== 'number') return '—';
+              const diff = current - base;
+              const sign = diff > 0 ? '+' : (diff < 0 ? '' : '±');
+              const icon = diff > 0.005 ? '🟢' : (diff < -0.005 ? '🔴' : '⚪️');
+              return `${icon} ${sign}${diff.toFixed(2)}%`;
+            };
+
+            let coverageSection = '';
+            if (coverageAvailable) {
+              const current = readCoverage(process.env.CURRENT_COVERAGE_PATH);
+              const base = baseCoverageAvailable
+                ? readCoverage(process.env.BASE_COVERAGE_PATH)
+                : null;
+
+              if (current) {
+                const rows = ['line', 'branch']
+                  .filter((metric) => typeof current[metric] === 'number')
+                  .map((metric) => {
+                    const label = metric === 'line' ? 'Lines' : 'Branch';
+                    const baseValue = base ? base[metric] : undefined;
+                    return `| ${label} | ${fmtPct(baseValue)} | ${fmtPct(current[metric])} | ${fmtDelta(current[metric], baseValue)} |`;
+                  })
+                  .join('\n');
+
+                if (rows.length > 0) {
+                  coverageSection = `### Code Coverage
+
+            | Metric | Base (development) | This PR | Delta |
+            |--------|-------------------|---------|-------|
+            ${rows}
+
+            `;
+                }
+              }
+            }
+
+            let changedFilesSection = '';
+            if (coverageAvailable) {
+              let changedRubyFiles = [];
+              try {
+                const out = execSync(
+                  `git diff --name-only origin/development...HEAD -- '*.rb'`,
+                  { encoding: 'utf8' }
+                );
+                changedRubyFiles = out.split('\n').map((s) => s.trim()).filter(Boolean);
+              } catch (_) {}
+
+              if (changedRubyFiles.length > 0) {
+                let detail = null;
+                try {
+                  detail = JSON.parse(fs.readFileSync(process.env.COVERAGE_DETAIL_PATH, 'utf8'));
+                } catch (_) {}
+
+                const workspace = process.env.GITHUB_WORKSPACE || '';
+                const fileMap = {};
+                if (detail && detail.coverage) {
+                  for (const [absPath, entry] of Object.entries(detail.coverage)) {
+                    const rel = workspace && absPath.startsWith(workspace + '/')
+                      ? absPath.slice(workspace.length + 1)
+                      : absPath;
+                    fileMap[rel] = entry;
+                  }
+                }
+
+                const stats = changedRubyFiles.map((file) => {
+                  const entry = fileMap[file];
+                  const lines = entry && Array.isArray(entry.lines) ? entry.lines : null;
+                  if (!lines) return { file, pct: null, covered: 0, total: 0 };
+                  const relevant = lines.filter((l) => typeof l === 'number');
+                  const covered = relevant.filter((l) => l > 0).length;
+                  const total = relevant.length;
+                  const pct = total > 0 ? (covered / total) * 100 : 100;
+                  return { file, pct, covered, total };
+                });
+
+                const uncovered = stats.filter((s) => s.pct === null || s.pct < 100);
+
+                if (uncovered.length === 0) {
+                  changedFilesSection = `### Changed Files Coverage
+
+            All changed Ruby files are at 100% coverage. 🎉
+
+            `;
+                } else {
+                  const rows = uncovered
+                    .sort((a, b) => (a.pct ?? -1) - (b.pct ?? -1))
+                    .map((s) => {
+                      const pctText = s.pct === null
+                        ? 'N/A (not loaded by specs)'
+                        : `${s.pct.toFixed(2)}% (${s.covered}/${s.total})`;
+                      return `| \`${s.file}\` | ${pctText} |`;
+                    })
+                    .join('\n');
+
+                  changedFilesSection = `### Changed Files Below 100% Coverage
+
+            | File | Coverage |
+            |------|----------|
+            ${rows}
+
+            `;
+                }
+              }
+            }
 
             let coverageRow = '';
             if (coverageAvailable) {
               coverageRow = `| Code Coverage | [View Report](${baseUrl}/coverage/index.html) |\n`;
             }
 
-            const body = `## Code Quality Reports
+            const body = `${marker}
+            ${coverageSection}${changedFilesSection}## Code Quality Reports
 
             | Report | Link |
             |--------|------|
@@ -126,9 +279,29 @@ jobs:
             | RubyCritic - Full Codebase | [View Report](${baseUrl}/full/overview.html) |
             `;
 
-            github.rest.issues.createComment({
-              owner: repoOwner,
-              repo: repoName,
-              issue_number: prNumber,
-              body: body
-            });
+            // Look for an existing report comment, paginating through all comments.
+            const existingComment = await github.paginate(
+              github.rest.issues.listComments,
+              {
+                owner: repoOwner,
+                repo: repoName,
+                issue_number: prNumber,
+                per_page: 100
+              }
+            ).then(comments => comments.find(comment => comment.body.includes(marker)));
+
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner: repoOwner,
+                repo: repoName,
+                comment_id: existingComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: repoOwner,
+                repo: repoName,
+                issue_number: prNumber,
+                body: body
+              });
+            }
