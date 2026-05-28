@@ -95,6 +95,15 @@ A plugin has full access to the application. It can:
                                      │  read from       │
                                      │  storage/build/) │
                                      └──────────────────┘
+                                              │
+                                              │ 6. report to store
+                                              ▼
+                                     ┌──────────────────┐
+                                     │ Post-boot health │
+                                     │ check            │
+                                     │ (POST boot status│
+                                     │  + plugin list)  │
+                                     └──────────────────┘
 ```
 
 1. The user installs a plugin through the Woofed Store.
@@ -109,6 +118,9 @@ A plugin has full access to the application. It can:
 5. **Plugins load** (see [Plugins load](#plugins-load)) — Rails and Vite boot
    reading from `storage/build/` first and falling back to `app/`, so the new
    plugin is now live in the application.
+6. **Post-boot health check** (see [Post-boot health check](#post-boot-health-check))
+   — the app reports the boot outcome to the Woofed Store, including which
+   plugins are active and the current mode.
 
 
 ## Boot sequence
@@ -159,6 +171,14 @@ application becomes available.
    │     app/ only (storage/build/      │
    │     ignored)                       │
    └────────────────────────────────────┘
+                               │
+                               │ (always, regardless of mode)
+                               ▼
+   ┌────────────────────────────────────┐
+   │ Post-boot health check             │
+   │  POST boot status + plugin list    │
+   │  to Woofed Store                   │
+   └────────────────────────────────────┘
 ```
 
 The steps:
@@ -178,6 +198,11 @@ The steps:
    `storage/build/` first and plugin code is live from the very first
    request. In safe mode they read directly from `app/` and the application
    comes up without any plugin code.
+5. **Post-boot health check.** After the application is up, the boot
+   outcome is reported to the Woofed Store (see
+   [Post-boot health check](#post-boot-health-check)). This step runs
+   regardless of mode — in standard mode it reports the loaded plugins, in
+   safe mode it reports that the app is running in recovery state.
 
 This sequence runs on **every** boot, which is what guarantees the local
 installation always converges to whatever the Woofed Store says is correct.
@@ -323,6 +348,185 @@ entirely and every layer reads directly from `app/`. The build files might
 still exist on disk, but they are simply not consulted. The application
 runs as if no plugin had ever been installed — exactly what is expected
 from a recovery state.
+
+---
+
+## Post-boot health check
+
+The post-boot health check is the final stage of every boot. It runs
+**after Rails and Vite are fully up** — regardless of whether the boot
+completed in standard or safe mode — and has two responsibilities:
+**validate that the application is actually working**, then **report the
+outcome to the Woofed Store**.
+
+### Self-validation
+
+Before reporting anything to the store, the post-boot health check verifies
+that the running application is functional:
+
+1. **Login page request** — issues an internal HTTP request to the login
+   page (`/login`). A successful response (HTTP 200) confirms that Rails is
+   routing, rendering views, and serving the application correctly with the
+   current set of plugins loaded.
+2. **Asset compilation check** — verifies that the expected compiled assets
+   (JS bundles, CSS) are present and reachable. This catches cases where the
+   Vite build or `assets:precompile` may have failed silently, leaving the
+   application up but with broken frontend assets.
+
+If either check fails, the post-boot health check reports a degraded status
+to the store so the operator can investigate.
+
+### Reporting to the Woofed Store
+
+Once the self-validation is complete, the check sends a single POST to the
+store with the full boot outcome:
+
+```
+POST {STORE_URL}/installations/boot_report
+```
+
+The payload contains the validation results, the current mode, and the list
+of plugins the application loaded on this boot. Each plugin entry carries its
+current `status` (`active`, `inactive`, or `failed` — see
+[Faulty plugin installation flow](#faulty-plugin-installation-flow)), so the
+store sees the state of every plugin without having to infer it:
+
+```json
+{
+  "status": "ok",
+  "mode": "standard",
+  "checks": {
+    "login_page": "ok",
+    "assets": "ok"
+  },
+  "plugins": [
+    { "id": "abc123", "version_id": "42", "name": "my_plugin", "status": "active" },
+    { "id": "def456", "version_id": "7", "name": "another_plugin", "status": "active" }
+  ]
+}
+```
+
+If self-validation failed, `status` becomes `"degraded"` and the failing
+check is flagged. The app also marks the plugin it identified as the culprit
+`failed`, so its per-plugin `status` reflects that in the same report — here
+`another_plugin` broke the assets check:
+
+```json
+{
+  "status": "degraded",
+  "mode": "standard",
+  "checks": {
+    "login_page": "ok",
+    "assets": "failed"
+  },
+  "plugins": [
+    { "id": "abc123", "version_id": "42", "name": "my_plugin", "status": "active" },
+    { "id": "def456", "version_id": "7", "name": "another_plugin", "status": "failed" }
+  ]
+}
+```
+
+In safe mode the `plugins` list is empty (no plugin is loaded) and `mode`
+reflects the recovery state, but the self-validation still runs so the store
+knows whether the core is healthy:
+
+```json
+{
+  "status": "ok",
+  "mode": "safe",
+  "checks": {
+    "login_page": "ok",
+    "assets": "ok"
+  },
+  "plugins": []
+}
+```
+
+### Faulty plugin installation flow
+
+When a plugin is installed and breaks the application, recovery is **granular
+and decided locally by the app** — not by the store. Rather than dropping the
+whole application into safe mode, the app **disables only the offending plugin
+and reboots normally without it**. All other plugins stay live.
+
+This relies on the per-plugin `status` field. Every plugin record is in one
+of three states:
+
+- **`active`** — loaded and live. Only `active` plugins are downloaded, built,
+  and loaded on boot.
+- **`inactive`** — disabled by the operator. On disk and in the database, but
+  intentionally not loaded.
+- **`failed`** — auto-disabled by the app because it broke the application.
+  Excluded from loading until it is updated or re-enabled.
+
+The trigger is the post-boot health check finding a `degraded` state on a boot
+where a plugin was just installed. The app knows which plugin it downloaded and
+built this boot, so it correlates the failure with that freshly installed
+plugin and reacts on its own:
+
+```
+   plugin installed this boot
+            │
+            ▼
+   Post-boot health check runs
+            │
+       ┌────┴────┐
+       │         │
+   status: ok   status: degraded
+       │         │
+       ▼         ▼
+   nothing     app reacts locally:
+   to do        • set the installed plugin's
+                  status → `failed`
+                • POST degraded boot_report
+                  (plugins list, with that
+                  plugin now `failed`)
+                         │
+                         ▼
+                next boot stays in STANDARD mode,
+                but the `failed` plugin is no longer
+                `active` → it is skipped on build and
+                load. The app comes back up with every
+                other plugin still live, minus the
+                broken one.
+```
+
+Concretely, the app:
+
+1. **Identifies the culprit** — the plugin it just installed on the degraded
+   boot is the one suspected of breaking the app.
+2. **Marks it `failed`** — the plugin record's `status` is set to `failed`.
+   Because only `active` plugins are loaded, this is all it takes to drop the
+   plugin from the next boot's build and load — the rest of the plugins are
+   untouched.
+3. **Reports to the store** — sends the `degraded` `boot_report`; the culprit
+   already shows `status: "failed"` in the `plugins` list, so the store can
+   surface the failure to the operator and offer the next version or a removal.
+
+The store's role is **informational only**: it records the degraded report,
+flags the failed plugin, and notifies the operator. The operator can later
+update the plugin (which re-activates it) or leave it `failed`/`inactive`.
+
+Full safe mode remains the **last-resort** recovery — used when the app cannot
+isolate a single culprit or when the core itself is unhealthy — but a single
+faulty plugin no longer forces the whole application offline.
+
+### Why it always runs
+
+The post-boot health check fires in both standard and safe mode. The Woofed
+Store always has a current picture of each installation:
+
+- `status: ok, mode: standard` — healthy, plugins live.
+- `status: degraded, mode: standard` — app is up but something broke during
+  boot (likely a plugin issue); the store can alert the operator.
+- `status: ok, mode: safe` — running in recovery state; the store knows to
+  surface a warning.
+
+### Failure handling
+
+If the POST to the store fails (network error, store unavailable), the error
+is logged but the application keeps running. The post-boot health check is
+**fire-and-forget** — it never blocks or restarts the application.
 
 ---
 
@@ -1171,13 +1375,22 @@ safe mode across restarts when needed.
                ▼
         continue boot
         (Rails + Vite start)
+               │
+               │ (always, regardless of mode)
+               ▼
+   ┌──────────────────────────────┐
+   │ Post-boot health check       │
+   │  POST boot status +          │
+   │  plugin list to store        │
+   └──────────────────────────────┘
 ```
 
 The flow is the **same** in both branches — the only difference is the value
 of `MODE` once the health check phase ends. The downstream stages (plugins
 build, plugins load) read `MODE` and adapt: in standard mode the build runs
 and the load reads from `storage/build/`; in safe mode the build is skipped
-and the load reads from `app/`.
+and the load reads from `app/`. Either way, the post-boot health check
+always fires to report the outcome to the Woofed Store.
 
 ### When safe mode is kept
 
@@ -1201,3 +1414,36 @@ it is active. To return to standard mode:
 
 On the next boot the health checks pass, `MODE` is promoted to `standard`,
 the build runs, and the previously installed plugins become live again.
+
+---
+
+## TODO — version 0.2
+
+Things that still need to be designed and documented for version 0.2:
+
+- **Compatibility checks and automated tests** — the compatibility check
+  section describes the concept (git diff / git merge + run plugin tests
+  locally before applying an update), but the implementation details are not
+  yet resolved: Who triggers the check? How does the result get communicated
+  back to the store? What happens if tests pass locally but fail in
+  production? How are test environments provisioned on customer servers?
+  These mechanics need to be designed end-to-end.
+
+- **Sandbox area** — a place to install and exercise a plugin in isolation
+  before it touches the live application: how the sandbox is provisioned, how
+  it mirrors (or diverges from) production data, how a plugin is promoted from
+  sandbox to live once it is validated, and how the sandbox is torn down. The
+  boundary between the sandbox and the real `storage/build/` load path needs
+  to be defined.
+
+- **Backups** — taking a recoverable snapshot before a plugin install or
+  update so a faulty change can be rolled back cleanly: what is captured
+  (database, `storage/`, plugin records), when snapshots are taken and pruned,
+  who triggers a restore, and how a restore interacts with the per-plugin
+  `status` and safe mode recovery flows.
+
+- **Automations** — store- or app-driven automated actions around the plugin
+  lifecycle: auto-updating plugins on a schedule, auto-disabling a `failed`
+  plugin's dependents, scheduled health re-checks, and notifications/webhooks
+  on boot outcomes. The triggers, guardrails, and operator opt-in/opt-out for
+  each automation need to be designed.
