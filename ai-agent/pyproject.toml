@@ -8,6 +8,7 @@ dependencies = [
     "agno>=2.6.4",
     "fastapi>=0.136.1",
     "groq>=1.2.0",
+    "mcp>=1.27.2",
     "openai>=2.34.0",
     "python-dotenv>=1.2.2",
     "tavily-python>=0.7.24",
