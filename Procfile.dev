@@ -3,5 +3,7 @@ css: bin/rails tailwindcss:watch
 sidekiq: bundle exec sidekiq -C config/sidekiq.yml
 goodjob: bundle exec good_job
 vite: bin/vite dev
+agent-ai: cd ai-agent && uv run main.py
+agent-ai-ui: cd ai-agent/agent-ui && npm run dev
 ## If running with https
 # vite: bin/vite build --watch

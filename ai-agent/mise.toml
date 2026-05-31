@@ -1,0 +1,3 @@
+[tools]
+python = "3.12"
+nodejs = "22.13.0"
