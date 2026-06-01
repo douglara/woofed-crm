@@ -1,0 +1,7 @@
+.venv
+agent-ui
+__pycache__
+*.pyc
+.env
+.python-version
+README.md

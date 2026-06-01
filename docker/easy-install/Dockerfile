@@ -58,9 +58,16 @@ USER postgres
 RUN /usr/lib/postgresql/16/bin/initdb -E UTF8 -D /app/storage/postgresql/data
 USER root
 
+## AI agent (Python 3.12 via uv — see ai-agent/ and Dockerfile.ai_agent)
+COPY --from=ghcr.io/astral-sh/uv:0.5 /uv /uvx /usr/local/bin/
+# uv manages a standalone Python 3.12 (Debian bookworm only ships 3.11).
+RUN uv python install 3.12 \
+  && cd /app/ai-agent \
+  && uv sync --frozen --no-install-project
+
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-EXPOSE 80 5432 6379
+EXPOSE 80 5432 6379 7777
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=5 \
   CMD ["curl", "-f", "http://localhost/up"]
