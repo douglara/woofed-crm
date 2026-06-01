@@ -3,20 +3,28 @@
 Run: `uv run main.py` (or via `bin/dev` → `agent-ai` process).
 
 Required env vars:
-- WOOFED_MCP_URL    URL of the MCP endpoint (e.g. http://localhost:3000/mcp)
-- WOOFED_MCP_TOKEN  Doorkeeper opaque access token with scope `mcp` and
-                    `resource: <base_url>/mcp`. See docs/mcp/authentication.md.
+- FRONTEND_URL      Base URL of the Rails app. The MCP endpoint is built as
+                    `<FRONTEND_URL>/mcp`. Also used by Rails to bind the
+                    user's MCP token via RFC 8707, so this must match the
+                    public URL where /mcp is served.
 - DATABASE_URL      Reused from the Rails app. The agent stores sessions in
                     the same Postgres (under `agno_*` tables) and also reads
-                    the `apps_ai_assistents` table to pick the model/api_key.
+                    `apps_ai_assistents` (model/api_key) and
+                    `oauth_access_tokens` (per-user MCP token).
 - RAILS_ENV         Optional; defaults to `development`. Mirrors how Rails
                     derives the database name from DATABASE_URL.
 
-The chat model and API key are NOT read from env — they come from the Rails
-`Apps::AiAssistent` row. If no usable row exists the agent starts in degraded
-mode (process up, no agent registered). When the row is created/updated/
-deleted, a Postgres NOTIFY (sent by an after_commit callback in the Rails
-model) makes the listener restart the process so the new config is picked up.
+The MCP bearer token is NOT read from env. Each user has their own Doorkeeper
+access token (minted by User::WoofedAiTokenMinter on create + backfilled by
+db/migrate/...backfill_woofed_ai_tokens_for_users.rb). API callers send it as
+`X-Woofed-AI-Token: <token>`. The bundled agent-ui doesn't send one, so the
+agent falls back to the first user's token.
+
+The chat model and API key come from the Rails `Apps::AiAssistent` row. If no
+usable row exists the agent starts in degraded mode (process up, no agent
+registered). When the row is created/updated/deleted, a Postgres NOTIFY (sent
+by an after_commit callback in the Rails model) makes the listener restart
+the process so the new config is picked up.
 """
 
 from __future__ import annotations
@@ -24,16 +32,18 @@ from __future__ import annotations
 import logging
 import os
 from contextlib import asynccontextmanager
+from contextvars import ContextVar
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 from agno.agent import Agent
 from agno.db.postgres import PostgresDb
 from agno.os import AgentOS
 from agno.tools.mcp import MCPTools, StreamableHTTPClientParams
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 
 from agent_config import AssistantConfig, try_load_assistant_config
 from db_listener import start_listener_task
@@ -71,10 +81,51 @@ def _build_agent_db_url() -> str:
 
 
 AGENT_DB_URL = _build_agent_db_url()
-WOOFED_MCP_URL = os.environ["WOOFED_MCP_URL"]
-WOOFED_MCP_TOKEN = os.environ["WOOFED_MCP_TOKEN"]
+WOOFED_MCP_URL = os.environ["FRONTEND_URL"].rstrip("/") + "/mcp"
 
 agent_db = PostgresDb(db_url=AGENT_DB_URL)
+
+# Per-request token, set by `extract_woofed_ai_token` middleware and read by
+# `mcp_header_provider`. asyncio tasks created inside the request handler
+# (including the agent run) inherit this context.
+_request_token_var: ContextVar[Optional[str]] = ContextVar("woofed_ai_token", default=None)
+
+
+def _first_user_token() -> Optional[str]:
+    """Fallback for agent-ui (no auth header): the first user's MCP token."""
+    sql = text(
+        """
+        SELECT t.token
+        FROM oauth_access_tokens t
+        JOIN oauth_applications a ON a.id = t.application_id
+        WHERE a.name = 'Woofed AI'
+          AND t.scopes LIKE '%mcp%'
+          AND t.revoked_at IS NULL
+        ORDER BY t.resource_owner_id ASC
+        LIMIT 1
+        """
+    )
+    with agent_db.db_engine.connect() as conn:
+        row = conn.execute(sql).fetchone()
+    return row[0] if row else None
+
+
+def mcp_header_provider(**_kwargs: Any) -> dict[str, str]:
+    """Build the Authorization header for each MCP session.
+
+    Per-run: agno calls this when it creates a fresh MCP session for the
+    current agent run. We resolve the token in this order:
+      1. `X-Woofed-AI-Token` header on the inbound request (third-party API).
+      2. First user's MCP token (agent-ui fallback).
+    """
+    token = _request_token_var.get() or _first_user_token()
+    if not token:
+        raise RuntimeError(
+            "No Woofed AI token available. Either send X-Woofed-AI-Token, or "
+            "ensure at least one User exists (User::WoofedAiTokenMinter mints "
+            "one on create)."
+        )
+    return {"Authorization": f"Bearer {token}"}
 
 
 def _build_model(cfg: AssistantConfig):
@@ -143,10 +194,8 @@ INSTRUCTIONS = [
 def _build_agent(cfg: AssistantConfig) -> Agent:
     woofed_mcp = MCPTools(
         transport="streamable-http",
-        server_params=StreamableHTTPClientParams(
-            url=WOOFED_MCP_URL,
-            headers={"Authorization": f"Bearer {WOOFED_MCP_TOKEN}"},
-        ),
+        server_params=StreamableHTTPClientParams(url=WOOFED_MCP_URL),
+        header_provider=mcp_header_provider,
         timeout_seconds=60,
     )
     return Agent(
@@ -212,6 +261,20 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def extract_woofed_ai_token(request: Request, call_next):
+    """Capture the caller's Woofed AI token for `mcp_header_provider` to read.
+
+    Third-party API clients send `X-Woofed-AI-Token: <token>`. The bundled
+    agent-ui doesn't send anything, in which case the header_provider falls
+    back to the first user's token.
+    """
+    token = request.headers.get("X-Woofed-AI-Token")
+    if token:
+        _request_token_var.set(token)
+    return await call_next(request)
 
 if __name__ == "__main__":
     agent_os.serve(app="main:app", reload=True)

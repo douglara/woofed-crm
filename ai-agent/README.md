@@ -2,7 +2,9 @@
 
 An [agno](https://github.com/agno-agi/agno) agent that operates the Woofed CRM through the [Woofed MCP server](../docs/mcp/readme.md). The agent uses every tool and resource exposed by `/mcp` (contacts, deals, pipelines, stages, products, events, app integrations, users).
 
-Stack: Python 3.12, agno ≥ 2.6, [`MCPTools`](https://docs.agno.com/) over the MCP Streamable HTTP transport, OpenAI (`gpt-4.1-mini`) for the chat model, AgentOS (FastAPI) for the HTTP surface, and the bundled [Agent UI](./agent-ui) (Next.js) for chat.
+Stack: Python 3.12, agno ≥ 2.6, [`MCPTools`](https://docs.agno.com/) over the MCP Streamable HTTP transport, dynamic chat model picked from `Apps::AiAssistent` (OpenAI / Anthropic / Gemini), AgentOS (FastAPI) for the HTTP surface, and the bundled [Agent UI](./agent-ui) (Next.js) for chat.
+
+> 🏗️ **Architecture & lifecycle:** see [docs/ai-agent/architecture.md](../docs/ai-agent/architecture.md) — boot sequence, degraded mode, LISTEN/NOTIFY restart trigger, per-environment supervisor requirements.
 
 ## How it connects
 
@@ -27,41 +29,24 @@ Woofed CRM /mcp (Rails, :3000)
     uv sync
     ```
 
-2. Mint a Doorkeeper access token from the Rails app (`rails console`):
+2. Run pending Rails migrations to backfill Woofed AI tokens for existing users:
 
-    ```ruby
-    user = User.find_by(email: 'you@example.com')
-
-    app = Doorkeeper::Application.find_or_create_by!(name: 'agno') do |a|
-      a.redirect_uri = 'urn:ietf:wg:oauth:2.0:oob'
-      a.scopes = 'mcp'
-      a.confidential = true
-    end
-
-    token = Doorkeeper::AccessToken.create!(
-      application:       app,
-      resource_owner_id: user.id,
-      scopes:            'mcp',
-      resource:          'http://localhost:3000/mcp',  # MUST match WOOFED_MCP_URL
-      expires_in:        nil                            # never expires; drop for 8h tokens
-    )
-
-    puts token.token
+    ```bash
+    bin/rails db:migrate
     ```
 
-    `resource:` must match `WOOFED_MCP_URL` exactly — `McpController#validate_token_audience!` rejects mismatches (RFC 8707). For staging/prod swap both to the public URL.
+    The migration mints one Doorkeeper access token (scope `mcp`, `resource: <FRONTEND_URL>/mcp`) per existing user. Going forward, `User::WoofedAiTokenMinter` (an `after_create` concern) mints a token automatically when a new user signs up.
 
-3. Fill in `.env`:
+3. Make sure `FRONTEND_URL` and `DATABASE_URL` are set in the repo-root `.env` (they already are in this project):
 
     ```
-    WOOFED_MCP_URL=http://localhost:3000/mcp
-    WOOFED_MCP_TOKEN=<the token printed above>
-    OPENAI_API_KEY=<your openai key>
+    FRONTEND_URL=http://localhost:3000
+    DATABASE_URL=postgres://postgres:password@localhost/
     ```
 
-    Why OpenAI: the 27 MCP tool schemas pushed Groq's free-tier 12k TPM limit on
-    the very first request. `gpt-4.1-mini` handles the schemas comfortably and
-    is strong at tool calling.
+    `FRONTEND_URL` is the public URL of the Rails app — the agent builds `<FRONTEND_URL>/mcp` for the MCP endpoint, and Rails binds each user's token to that exact URL via RFC 8707.
+
+4. The model and api_key come from the **`Apps::AiAssistent`** row in Rails (Settings → AI Assistant). Enable it, paste an OpenAI / Anthropic / Gemini key, save. The agent restarts automatically (LISTEN/NOTIFY) and picks up the new config.
 
 ## Run
 
@@ -100,15 +85,15 @@ The agent resolves names → IDs through the `*_list` tools before mutating, and
 
 | Symptom | Likely cause |
 |---|---|
-| `401 invalid_token` on every call | Token's `resource` ≠ `WOOFED_MCP_URL`. Re-mint with the right URL. |
-| `401 Unauthorized` on every call | Token missing the `mcp` scope, expired, or revoked. |
-| Agent answers without calling tools | `WOOFED_MCP_TOKEN` empty → `MCPTools.connect()` failed silently. Restart `agent-ai`. |
-| `connect` hangs at startup | Rails is not running, or `WOOFED_MCP_URL` points at the wrong host/port. |
+| `401 invalid_token` on every call | The user's token `resource` ≠ `<FRONTEND_URL>/mcp`. Re-mint by destroying the old token and re-creating the user, or update the `resource` column directly. |
+| `401 Unauthorized` on every call | The user has no active Woofed AI token (migration didn't run, or token was revoked). Run `bin/rails db:migrate`. |
+| `RuntimeError: No Woofed AI token available` | No user exists in the DB, so the fallback finds nothing. Create at least one user. |
+| `connect` hangs at startup | Rails is not running, or `FRONTEND_URL` points at the wrong host/port. |
 
-To list active tokens for cleanup:
+To list a user's active Woofed AI tokens:
 
 ```ruby
-user.access_tokens.where(revoked_at: nil, resource: 'http://localhost:3000/mcp')
+user.access_tokens.where(revoked_at: nil).joins(:application).where(oauth_applications: { name: 'Woofed AI' })
 ```
 
 To revoke one: `Doorkeeper::AccessToken.by_token('...').revoke!`.

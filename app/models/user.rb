@@ -23,6 +23,7 @@
 #  sign_in_count          :integer          default(0)
 #  theme_preference       :string           default("system"), not null
 #  unlock_token           :string
+#  woofed_ai_token        :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -31,6 +32,7 @@
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_unlock_token          (unlock_token) UNIQUE
+#  index_users_on_woofed_ai_token       (woofed_ai_token) UNIQUE
 #
 class User < ApplicationRecord
   FORM_FIELDS = %i[full_name email phone language password password_confirmation].freeze
@@ -52,6 +54,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :trackable, :timeoutable
+
+  include User::WoofedAiTokenMinter
 
   accepts_nested_attributes_for :account
 
