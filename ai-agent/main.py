@@ -7,19 +7,21 @@ Required env vars (loaded from .env):
 - WOOFED_MCP_TOKEN  Doorkeeper opaque access token with scope `mcp` and
                     `resource: <base_url>/mcp`. See docs/mcp/authentication.md
                     for how to mint one via the Rails console.
-- GROQ_API_KEY      Used by the Groq chat model.
+- OPENAI_API_KEY    Used by the OpenAI chat model.
 """
 
 import os
 
 from agno.agent import Agent
-from agno.models.groq import Groq
+from agno.models.openai import OpenAIChat
 from agno.os import AgentOS
 from agno.tools.mcp import MCPTools, StreamableHTTPClientParams
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 
-load_dotenv()
+# override=True: the repo-root .env (loaded by overmind/foreman) ships an
+# empty OPENAI_API_KEY='', which would otherwise shadow the real key below.
+load_dotenv(override=True)
 
 WOOFED_MCP_URL = os.environ["WOOFED_MCP_URL"]
 WOOFED_MCP_TOKEN = os.environ["WOOFED_MCP_TOKEN"]
@@ -63,7 +65,7 @@ INSTRUCTIONS = [
 woofed_agent = Agent(
     name="Woofed CRM Agent",
     description="AI agent that operates Woofed CRM through the MCP server.",
-    model=Groq(id="llama-3.3-70b-versatile"),
+    model=OpenAIChat(id="gpt-4.1-mini"),
     tools=[woofed_mcp],
     instructions=INSTRUCTIONS,
     markdown=True,

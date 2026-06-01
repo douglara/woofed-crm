@@ -2,7 +2,7 @@
 
 An [agno](https://github.com/agno-agi/agno) agent that operates the Woofed CRM through the [Woofed MCP server](../docs/mcp/readme.md). The agent uses every tool and resource exposed by `/mcp` (contacts, deals, pipelines, stages, products, events, app integrations, users).
 
-Stack: Python 3.12, agno ≥ 2.6, [`MCPTools`](https://docs.agno.com/) over the MCP Streamable HTTP transport, Groq for the chat model, AgentOS (FastAPI) for the HTTP surface, and the bundled [Agent UI](./agent-ui) (Next.js) for chat.
+Stack: Python 3.12, agno ≥ 2.6, [`MCPTools`](https://docs.agno.com/) over the MCP Streamable HTTP transport, OpenAI (`gpt-4.1-mini`) for the chat model, AgentOS (FastAPI) for the HTTP surface, and the bundled [Agent UI](./agent-ui) (Next.js) for chat.
 
 ## How it connects
 
@@ -56,8 +56,12 @@ Woofed CRM /mcp (Rails, :3000)
     ```
     WOOFED_MCP_URL=http://localhost:3000/mcp
     WOOFED_MCP_TOKEN=<the token printed above>
-    GROQ_API_KEY=<your groq key>
+    OPENAI_API_KEY=<your openai key>
     ```
+
+    Why OpenAI: the 27 MCP tool schemas pushed Groq's free-tier 12k TPM limit on
+    the very first request. `gpt-4.1-mini` handles the schemas comfortably and
+    is strong at tool calling.
 
 ## Run
 
