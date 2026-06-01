@@ -49,6 +49,18 @@ class User < ApplicationRecord
            foreign_key: 'created_by_id',
            dependent: :nullify,
            inverse_of: :creator
+  # Doorkeeper records own the user via `resource_owner_id`. Without
+  # `dependent: :destroy`, destroying a user that owns any access token
+  # (e.g. the Woofed AI token minted by `User::WoofedAiTokenMinter`) fails
+  # with a foreign-key violation on `oauth_access_tokens`.
+  has_many :access_tokens,
+           class_name: 'Doorkeeper::AccessToken',
+           foreign_key: :resource_owner_id,
+           dependent: :destroy
+  has_many :access_grants,
+           class_name: 'Doorkeeper::AccessGrant',
+           foreign_key: :resource_owner_id,
+           dependent: :destroy
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
