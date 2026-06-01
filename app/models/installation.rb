@@ -5,6 +5,7 @@
 #  id         :string           not null, primary key
 #  key1       :string           default(""), not null
 #  key2       :string           default(""), not null
+#  mode       :string           default("standard"), not null
 #  status     :integer          default("in_progress"), not null
 #  token      :string           default(""), not null
 #  created_at :datetime         not null
@@ -27,6 +28,10 @@ class Installation < ApplicationRecord
   enum status: {
     in_progress: 0,
     completed: 1
+  }
+  enum mode: {
+    safe: "safe",
+    standard: "standard"
   }
   def self.installation_url
     "#{ENV.fetch('STORE_URL', 'https://store.woofedcrm.com')}/installations/new?installation_params=#{{ url: ENV.fetch('FRONTEND_URL', 'http://localhost:3001'),

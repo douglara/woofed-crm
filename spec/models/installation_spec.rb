@@ -7,6 +7,7 @@
 #  id         :string           not null, primary key
 #  key1       :string           default(""), not null
 #  key2       :string           default(""), not null
+#  mode       :string           default("standard"), not null
 #  status     :integer          default("in_progress"), not null
 #  token      :string           default(""), not null
 #  created_at :datetime         not null
@@ -70,6 +71,19 @@ RSpec.describe Installation do
       it do
         expect(Installation.installation_flow?).to eq(false)
       end
+    end
+  end
+
+  describe '#mode' do
+    it 'defaults to standard and can be pinned to safe' do
+      installation = create(:installation)
+
+      expect(installation.mode).to eq('standard')
+      expect(installation).to be_standard
+
+      installation.safe!
+      expect(installation.reload.mode).to eq('safe')
+      expect(installation).to be_safe
     end
   end
 end
