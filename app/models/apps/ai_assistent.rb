@@ -18,6 +18,15 @@ class Apps::AiAssistent < ApplicationRecord
   validates :api_key, presence: true, if: :enabled?
 
   after_update :embed_company_site, if: -> { saved_change_to_enabled? || saved_change_to_api_key? }
+  # The Python agent (ai-agent/) listens for this NOTIFY on the
+  # `ai_assistent_changed` channel and restarts itself so it picks up the new
+  # model/api_key without a manual reload. Fires on create, update and destroy.
+  # See ai-agent/db_listener.py.
+  after_commit :notify_agent_restart
+
+  def notify_agent_restart
+    self.class.connection.execute('NOTIFY ai_assistent_changed')
+  end
 
   def embed_company_site
     Accounts::Create::EmbedCompanySiteJob.perform_later(id) if Current.account.site_url.present? && enabled?

@@ -6,7 +6,9 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "agno>=2.6.4",
+    "anthropic>=0.105.2",
     "fastapi>=0.136.1",
+    "google-genai>=1.52.0",
     "groq>=1.2.0",
     "mcp>=1.27.2",
     "openai>=2.34.0",
