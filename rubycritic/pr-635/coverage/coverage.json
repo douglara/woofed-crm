@@ -4417,13 +4417,13 @@
           "type": "then",
           "start_line": 11,
           "end_line": 11,
-          "coverage": 0
+          "coverage": 1
         },
         {
           "type": "else",
           "start_line": 11,
           "end_line": 11,
-          "coverage": 1
+          "coverage": 0
         },
         {
           "type": "then",
@@ -8058,7 +8058,7 @@
       "lines": [
         1,
         1,
-        6553,
+        6551,
         null,
         null
       ],
@@ -16248,9 +16248,9 @@
         22,
         null,
         22,
-        10,
+        9,
         null,
-        12,
+        13,
         null,
         null,
         null,
@@ -16258,9 +16258,9 @@
         1,
         22,
         22,
-        9,
+        10,
         null,
-        13,
+        12,
         null,
         null,
         null,
@@ -16327,25 +16327,25 @@
           "type": "then",
           "start_line": 35,
           "end_line": 35,
-          "coverage": 10
+          "coverage": 9
         },
         {
           "type": "else",
           "start_line": 37,
           "end_line": 37,
-          "coverage": 12
+          "coverage": 13
         },
         {
           "type": "then",
           "start_line": 45,
           "end_line": 45,
-          "coverage": 9
+          "coverage": 10
         },
         {
           "type": "else",
           "start_line": 47,
           "end_line": 47,
-          "coverage": 13
+          "coverage": 12
         },
         {
           "type": "else",

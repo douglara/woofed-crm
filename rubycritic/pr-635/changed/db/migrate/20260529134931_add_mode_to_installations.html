@@ -99,7 +99,7 @@
 
     <code class="prettyprint linenums lang-ruby file-code js-file-code">class AddModeToInstallations &lt; ActiveRecord::Migration[7.1]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>AddModeToInstallations has no descriptive comment</span>          </div>  </li></ol>
   def change
-    add_column :installations, :mode, :string, null: false, default: &quot;safe&quot;
+    add_column :installations, :mode, :string, null: false, default: &quot;standard&quot;
   end
 end
 </code>

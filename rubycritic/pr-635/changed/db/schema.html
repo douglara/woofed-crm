@@ -427,7 +427,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_29_134931) do
     t.bigint &quot;user_id&quot;
     t.datetime &quot;created_at&quot;, null: false
     t.datetime &quot;updated_at&quot;, null: false
-    t.string &quot;mode&quot;, default: &quot;safe&quot;, null: false
+    t.string &quot;mode&quot;, default: &quot;standard&quot;, null: false
     t.index [&quot;user_id&quot;], name: &quot;index_installations_on_user_id&quot;
   end
 

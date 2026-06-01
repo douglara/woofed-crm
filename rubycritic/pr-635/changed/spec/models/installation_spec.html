@@ -106,7 +106,7 @@
 #  id         :string           not null, primary key
 #  key1       :string           default(&quot;&quot;), not null
 #  key2       :string           default(&quot;&quot;), not null
-#  mode       :string           default(&quot;safe&quot;), not null
+#  mode       :string           default(&quot;standard&quot;), not null
 #  status     :integer          default(&quot;in_progress&quot;), not null
 #  token      :string           default(&quot;&quot;), not null
 #  created_at :datetime         not null
@@ -174,15 +174,15 @@ RSpec.describe Installation do
   end
 
   describe &#39;#mode&#39; do
-    it &#39;defaults to safe and can be promoted to standard&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#mode)::it#defaults to safe and can be promoted to standard has a flog score of 28</span>          </div>  </li></ol>
+    it &#39;defaults to standard and can be pinned to safe&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#mode)::it#defaults to standard and can be pinned to safe has a flog score of 28</span>          </div>  </li></ol>
       installation = create(:installation)
 
-      expect(installation.mode).to eq(&#39;safe&#39;)
-      expect(installation).to be_safe
-
-      installation.standard!
-      expect(installation.reload.mode).to eq(&#39;standard&#39;)
+      expect(installation.mode).to eq(&#39;standard&#39;)
       expect(installation).to be_standard
+
+      installation.safe!
+      expect(installation.reload.mode).to eq(&#39;safe&#39;)
+      expect(installation).to be_safe
     end
   end
 end
