@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-06-01 19:09:18 -0300'>2026-06-01 19:09:18 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-06-01 19:39:44 -0300'>2026-06-01 19:39:44 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">123</span><small> lines of codes</small></div>
+              <div><span class="metric">135</span><small> lines of codes</small></div>
               <div><span class="metric">4</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">1.6</span><small> complexity/method</small></div>
-              <div><span class="metric">68</span><small> churn</small></div>
+              <div><span class="metric">69</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">6.35</span><small> complexity</small></div>
@@ -148,6 +148,18 @@ class User &lt; ApplicationRecord
            foreign_key: &#39;created_by_id&#39;,
            dependent: :nullify,
            inverse_of: :creator
+  # Doorkeeper records own the user via `resource_owner_id`. Without
+  # `dependent: :destroy`, destroying a user that owns any access token
+  # (e.g. the Woofed AI token minted by `User::WoofedAiTokenMinter`) fails
+  # with a foreign-key violation on `oauth_access_tokens`.
+  has_many :access_tokens,
+           class_name: &#39;Doorkeeper::AccessToken&#39;,
+           foreign_key: :resource_owner_id,
+           dependent: :destroy
+  has_many :access_grants,
+           class_name: &#39;Doorkeeper::AccessGrant&#39;,
+           foreign_key: :resource_owner_id,
+           dependent: :destroy
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

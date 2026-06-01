@@ -3478,7 +3478,7 @@
         null,
         1,
         2,
-        0,
+        2,
         null,
         null,
         null,
@@ -3548,7 +3548,7 @@
           "type": "then",
           "start_line": 65,
           "end_line": 66,
-          "coverage": 0
+          "coverage": 2
         },
         {
           "type": "else",
@@ -7075,7 +7075,7 @@
         1,
         null,
         1,
-        3614,
+        3616,
         null,
         null,
         1,
@@ -8130,7 +8130,7 @@
       "lines": [
         1,
         1,
-        6549,
+        6551,
         null,
         null
       ],
@@ -10818,6 +10818,18 @@
         1,
         1,
         null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
         null,
         null,
         null,
@@ -16278,9 +16290,9 @@
         22,
         null,
         22,
-        6,
+        10,
         null,
-        16,
+        12,
         null,
         null,
         null,
@@ -16288,9 +16300,9 @@
         1,
         22,
         22,
-        11,
+        9,
         null,
-        11,
+        13,
         null,
         null,
         null,
@@ -16357,25 +16369,25 @@
           "type": "then",
           "start_line": 35,
           "end_line": 35,
-          "coverage": 6
+          "coverage": 10
         },
         {
           "type": "else",
           "start_line": 37,
           "end_line": 37,
-          "coverage": 16
+          "coverage": 12
         },
         {
           "type": "then",
           "start_line": 45,
           "end_line": 45,
-          "coverage": 11
+          "coverage": 9
         },
         {
           "type": "else",
           "start_line": 47,
           "end_line": 47,
-          "coverage": 11
+          "coverage": 13
         },
         {
           "type": "else",
@@ -16788,7 +16800,7 @@
   "groups": {
     "Controllers": {
       "lines": {
-        "covered_percent": 86.37431480031323
+        "covered_percent": 86.45262333594361
       }
     },
     "Channels": {
@@ -16798,7 +16810,7 @@
     },
     "Models": {
       "lines": {
-        "covered_percent": 92.44791666666667
+        "covered_percent": 92.46100519930675
       }
     },
     "Mailers": {
