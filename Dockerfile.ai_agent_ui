@@ -1,0 +1,55 @@
+# Standalone container for the Woofed CRM AI agent UI (Next.js chat).
+#
+# Build (from the repo root):
+#   docker build -f Dockerfile.ai_agent_ui -t woofed-agent-ui .
+#
+# Run:
+#   docker run -p 3001:3001 \
+#     -e NEXT_PUBLIC_OS_SECURITY_KEY='' \
+#     woofed-agent-ui
+#
+# The UI talks to the agent server (Dockerfile.ai_agent) over HTTP. Point it at
+# http://localhost:7777 in the UI's connection screen at runtime.
+
+# ─── Build stage ────────────────────────────────────────────────────────────────
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+# Layer 1: deps (cached unless package*.json changes).
+COPY ai-agent/agent-ui/package.json ai-agent/agent-ui/package-lock.json* ./
+RUN npm ci --no-audit --no-fund
+
+# Layer 2: source + build.
+COPY ai-agent/agent-ui/ ./
+RUN npm run build
+
+# ─── Runtime stage ──────────────────────────────────────────────────────────────
+FROM node:22-alpine AS runtime
+
+WORKDIR /app
+
+# Copy package manifest + only production deps; drops dev tooling (~hundreds MB).
+COPY --from=builder /app/package.json /app/package-lock.json* ./
+RUN npm ci --omit=dev --no-audit --no-fund \
+    && npm cache clean --force
+
+# Built Next.js output + config. (agent-ui ships no /public directory.)
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/next.config.ts ./
+
+# `next start` reads PORT (defaults to 3000). Force 3001 to match dev.
+ENV NODE_ENV=production \
+    PORT=3001 \
+    HOSTNAME=0.0.0.0
+
+# Reuse the `node` user (uid/gid 1000) that ships with the node:alpine image.
+RUN chown -R node:node /app
+USER node
+
+EXPOSE 3001
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=5 \
+    CMD wget -qO- http://localhost:3001/ >/dev/null || exit 1
+
+CMD ["npm", "start"]
