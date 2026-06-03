@@ -16290,9 +16290,9 @@
         22,
         null,
         22,
-        10,
+        9,
         null,
-        12,
+        13,
         null,
         null,
         null,
@@ -16369,13 +16369,13 @@
           "type": "then",
           "start_line": 35,
           "end_line": 35,
-          "coverage": 10
+          "coverage": 9
         },
         {
           "type": "else",
           "start_line": 37,
           "end_line": 37,
-          "coverage": 12
+          "coverage": 13
         },
         {
           "type": "then",
