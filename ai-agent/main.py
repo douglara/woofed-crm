@@ -277,4 +277,4 @@ async def extract_woofed_ai_token(request: Request, call_next):
     return await call_next(request)
 
 if __name__ == "__main__":
-    agent_os.serve(app="main:app", reload=True)
+    agent_os.serve(app="main:app", port=7777, reload=True)
