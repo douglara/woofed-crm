@@ -110,15 +110,23 @@ def _first_user_token() -> Optional[str]:
     return row[0] if row else None
 
 
-def mcp_header_provider(**_kwargs: Any) -> dict[str, str]:
+def mcp_header_provider(run_context: Any = None, **_kwargs: Any) -> dict[str, str]:
     """Build the Authorization header for each MCP session.
 
-    Per-run: agno calls this when it creates a fresh MCP session for the
-    current agent run. We resolve the token in this order:
-      1. `X-Woofed-AI-Token` header on the inbound request (third-party API).
-      2. First user's MCP token (agent-ui fallback).
+    agno calls this in two situations:
+      1. Startup tool discovery (`run_context is None`): the connection agno
+         opens once at boot to enumerate the MCP tool list. The tool set is
+         user-agnostic and no operation runs through it, so any valid token
+         works — we fall back to the first user's token. Without this the
+         whole toolkit fails to initialize and the agent registers with zero
+         tools.
+      2. A real agent run (`run_context` is set): we require the inbound
+         `X-Woofed-AI-Token`, so every operation runs strictly as the calling
+         user and never silently falls back to another user's token.
     """
-    token = _request_token_var.get() or _first_user_token()
+    token = _request_token_var.get()
+    if token is None and run_context is None:
+        token = _first_user_token()
     if not token:
         raise RuntimeError(
             "No Woofed AI token available. Either send X-Woofed-AI-Token, or "
