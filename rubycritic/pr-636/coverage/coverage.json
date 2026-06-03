@@ -5500,19 +5500,19 @@
         1,
         null,
         1,
-        93,
-        93,
+        87,
+        87,
         null,
-        93,
-        93,
-        93,
-        93,
-        93,
+        87,
+        87,
+        87,
+        87,
+        87,
         null,
         0,
         null,
         null,
-        93,
+        87,
         null,
         null
       ],
@@ -5521,7 +5521,7 @@
           "type": "then",
           "start_line": 9,
           "end_line": 12,
-          "coverage": 93
+          "coverage": 87
         },
         {
           "type": "else",
@@ -5533,7 +5533,7 @@
           "type": "then",
           "start_line": 12,
           "end_line": 12,
-          "coverage": 91
+          "coverage": 85
         },
         {
           "type": "else",
@@ -6215,7 +6215,7 @@
         1,
         null,
         1,
-        1459,
+        1445,
         null,
         null,
         null,
@@ -7075,7 +7075,7 @@
         1,
         null,
         1,
-        3616,
+        3586,
         null,
         null,
         1,
@@ -8130,7 +8130,7 @@
       "lines": [
         1,
         1,
-        6551,
+        6415,
         null,
         null
       ],
@@ -8248,7 +8248,7 @@
         null,
         null,
         1,
-        83,
+        77,
         null,
         null,
         1,
@@ -16290,9 +16290,9 @@
         22,
         null,
         22,
-        7,
+        10,
         null,
-        15,
+        12,
         null,
         null,
         null,
@@ -16300,9 +16300,9 @@
         1,
         22,
         22,
-        11,
+        9,
         null,
-        11,
+        13,
         null,
         null,
         null,
@@ -16369,25 +16369,25 @@
           "type": "then",
           "start_line": 35,
           "end_line": 35,
-          "coverage": 7
+          "coverage": 10
         },
         {
           "type": "else",
           "start_line": 37,
           "end_line": 37,
-          "coverage": 15
+          "coverage": 12
         },
         {
           "type": "then",
           "start_line": 45,
           "end_line": 45,
-          "coverage": 11
+          "coverage": 9
         },
         {
           "type": "else",
           "start_line": 47,
           "end_line": 47,
-          "coverage": 11
+          "coverage": 13
         },
         {
           "type": "else",
