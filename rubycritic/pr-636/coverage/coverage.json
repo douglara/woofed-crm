@@ -5500,19 +5500,19 @@
         1,
         null,
         1,
-        87,
-        87,
+        93,
+        93,
         null,
-        87,
-        87,
-        87,
-        87,
-        87,
+        93,
+        93,
+        93,
+        93,
+        93,
         null,
         0,
         null,
         null,
-        87,
+        93,
         null,
         null
       ],
@@ -5521,7 +5521,7 @@
           "type": "then",
           "start_line": 9,
           "end_line": 12,
-          "coverage": 87
+          "coverage": 93
         },
         {
           "type": "else",
@@ -5533,7 +5533,7 @@
           "type": "then",
           "start_line": 12,
           "end_line": 12,
-          "coverage": 85
+          "coverage": 91
         },
         {
           "type": "else",
@@ -6160,13 +6160,13 @@
         null,
         null,
         1,
-        1210,
+        1212,
         null,
         null,
         1,
-        1210,
+        1212,
         null,
-        1210,
+        1212,
         null,
         null
       ],
@@ -6175,7 +6175,7 @@
           "type": "else",
           "start_line": 125,
           "end_line": 125,
-          "coverage": 1207
+          "coverage": 1209
         },
         {
           "type": "then",
@@ -6215,7 +6215,7 @@
         1,
         null,
         1,
-        1445,
+        1459,
         null,
         null,
         null,
@@ -6280,7 +6280,7 @@
         1,
         null,
         1,
-        29,
+        31,
         null,
         null,
         1,
@@ -7075,7 +7075,7 @@
         1,
         null,
         1,
-        3586,
+        3616,
         null,
         null,
         1,
@@ -8130,7 +8130,7 @@
       "lines": [
         1,
         1,
-        6415,
+        6551,
         null,
         null
       ],
@@ -8248,7 +8248,7 @@
         null,
         null,
         1,
-        77,
+        83,
         null,
         null,
         1,
@@ -16290,9 +16290,9 @@
         22,
         null,
         22,
-        7,
+        10,
         null,
-        15,
+        12,
         null,
         null,
         null,
@@ -16300,9 +16300,9 @@
         1,
         22,
         22,
-        10,
+        9,
         null,
-        12,
+        13,
         null,
         null,
         null,
@@ -16369,25 +16369,25 @@
           "type": "then",
           "start_line": 35,
           "end_line": 35,
-          "coverage": 7
+          "coverage": 10
         },
         {
           "type": "else",
           "start_line": 37,
           "end_line": 37,
-          "coverage": 15
+          "coverage": 12
         },
         {
           "type": "then",
           "start_line": 45,
           "end_line": 45,
-          "coverage": 10
+          "coverage": 9
         },
         {
           "type": "else",
           "start_line": 47,
           "end_line": 47,
-          "coverage": 12
+          "coverage": 13
         },
         {
           "type": "else",
