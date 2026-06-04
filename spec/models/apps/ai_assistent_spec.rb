@@ -57,6 +57,27 @@ RSpec.describe Apps::AiAssistent, type: :model do
     end
   end
 
+  describe '#notify_agent_restart' do
+    it 'notifies the agent after the transaction is committed' do
+      assistent = build(:apps_ai_assistent)
+      allow(assistent).to receive(:notify_agent_restart).and_call_original
+
+      assistent.save!
+
+      expect(assistent).to have_received(:notify_agent_restart)
+    end
+
+    it 'sends a PostgreSQL NOTIFY on the ai_assistent_changed channel' do
+      assistent = build(:apps_ai_assistent)
+      allow(described_class.connection).to receive(:execute).and_call_original
+
+      assistent.notify_agent_restart
+
+      expect(described_class.connection).to have_received(:execute)
+        .with('NOTIFY ai_assistent_changed')
+    end
+  end
+
   describe '#exceeded_usage_limit?' do
     context 'when usage limit is blank' do
       it 'returns false' do
