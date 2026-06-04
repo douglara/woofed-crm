@@ -151,11 +151,7 @@ const Heading6 = ({ className, ...props }: HeadingProps) => (
 const Img = ({ src, alt }: ImgProps) => {
   const [error, setError] = useState(false)
 
-  // Markdown image `src` is typed `string | Blob` (DOM-side breadth), but both
-  // next/link `href` and next/image `src` only accept string URLs. Narrow once
-  // up-front and bail on the (impossible-in-practice) Blob case.
-  const srcUrl = typeof src === 'string' ? src : null
-  if (!srcUrl) return null
+  if (!src) return null
 
   return (
     <div className="w-full max-w-xl">
@@ -163,16 +159,16 @@ const Img = ({ src, alt }: ImgProps) => {
         <div className="flex h-40 flex-col items-center justify-center gap-2 rounded-md bg-secondary/50 text-muted">
           <Paragraph className="text-primary">Image unavailable</Paragraph>
           <Link
-            href={srcUrl}
+            href={src}
             target="_blank"
             className="max-w-md truncate underline"
           >
-            {srcUrl}
+            {src}
           </Link>
         </div>
       ) : (
         <Image
-          src={srcUrl}
+          src={src}
           width={96}
           height={56}
           alt={alt ?? 'Rendered image'}

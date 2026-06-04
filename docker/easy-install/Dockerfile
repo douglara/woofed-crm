@@ -65,14 +65,9 @@ RUN uv python install 3.12 \
   && cd /app/ai-agent \
   && uv sync --frozen --no-install-project
 
-## AI agent UI (Next.js — see ai-agent/agent-ui/ and Dockerfile.ai_agent_ui)
-RUN cd /app/ai-agent/agent-ui \
-  && npm ci --no-audit --no-fund \
-  && npm run build
-
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-EXPOSE 80 5432 6379 7777 3001
+EXPOSE 80 5432 6379 7777
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=5 \
   CMD ["curl", "-f", "http://localhost/up"]
