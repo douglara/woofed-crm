@@ -33,6 +33,8 @@
 #  index_users_on_unlock_token          (unlock_token) UNIQUE
 #
 class User < ApplicationRecord
+  include User::WoofedAiTokenMinter
+
   FORM_FIELDS = %i[full_name email phone language password password_confirmation].freeze
 
   SHOW_FIELDS = { details: [:full_name, :email, :phone, :id, { enum_fields: %i[job_description] }, :language, :created_at,
@@ -64,8 +66,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :trackable, :timeoutable
-
-  include User::WoofedAiTokenMinter
 
   accepts_nested_attributes_for :account
 
