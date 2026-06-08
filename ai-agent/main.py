@@ -1,153 +1,13 @@
-"""Woofed CRM AI agent — agno + Woofed MCP (Streamable HTTP).
-
-Run: `uv run main.py` (or via `bin/dev` → `agent-ai` process).
-
-Required env vars:
-- FRONTEND_URL      Base URL of the Rails app. The MCP endpoint is built as
-                    `<FRONTEND_URL>/mcp`. Also used by Rails to bind the
-                    user's MCP token via RFC 8707, so this must match the
-                    public URL where /mcp is served.
-- DATABASE_URL      Reused from the Rails app. The agent stores sessions in
-                    the same Postgres (under `agno_*` tables) and also reads
-                    `apps_ai_assistents` (model/api_key) and
-                    `oauth_access_tokens` (per-user MCP token).
-- RAILS_ENV         Optional; defaults to `development`. Mirrors how Rails
-                    derives the database name from DATABASE_URL.
-
-The MCP bearer token is NOT read from env. Each user has their own Doorkeeper
-access token (minted by User::WoofedAiTokenMinter on create + backfilled by
-db/migrate/...backfill_woofed_ai_tokens_for_users.rb). API callers send it as
-`X-Woofed-AI-Token: <token>`. The bundled agent-ui doesn't send one, so the
-agent falls back to the first user's token.
-
-The chat model and API key come from the Rails `Apps::AiAssistent` row. If no
-usable row exists the agent starts in degraded mode (process up, no agent
-registered). When the row is created/updated/deleted, a Postgres NOTIFY (sent
-by an after_commit callback in the Rails model) makes the listener restart
-the process so the new config is picked up.
-"""
-
-from __future__ import annotations
-
 import logging
 import os
-from contextlib import asynccontextmanager
-from contextvars import ContextVar
-from pathlib import Path
-from typing import Any, Optional
-
-from agno.agent import Agent
+from pydantic import BaseModel, Field
+from agno.agent import Agent, AgentFactory
 from agno.db.postgres import PostgresDb
-from agno.os import AgentOS
+from agno.factory import FactoryPermissionError, RequestContext
 from agno.tools.mcp import MCPTools, StreamableHTTPClientParams
-from dotenv import load_dotenv
-from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import text
+from agno.os import AgentOS
 
-from agent_config import AssistantConfig, try_load_assistant_config
-from db_listener import start_listener_task
-
-# Load ai-agent/.env (override=True so empty values from the repo-root .env
-# exported by overmind/foreman don't shadow the real ones).
-load_dotenv(override=True)
-# Also load the repo-root .env so DATABASE_URL is available when running
-# `uv run main.py` standalone (overmind already exports it).
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
-
-log = logging.getLogger("woofed-agent")
-logging.basicConfig(level=logging.INFO, format="[%(name)s] %(levelname)s %(message)s")
-
-
-def _build_agent_db_url() -> str:
-    """Mirror Rails' config/database.yml resolution for DATABASE_URL.
-
-    - production: DATABASE_URL already carries the database name → use as-is.
-    - dev/test:   DATABASE_URL is just `postgres://user:pw@host/`; Rails
-                  appends `woofed_crm_<env>`. We do the same here.
-
-    SQLAlchemy dropped the `postgres://` alias, so we rewrite the scheme to
-    `postgresql+psycopg://` (psycopg3 driver).
-    """
-    raw = os.environ["DATABASE_URL"]
-    rails_env = os.environ.get("RAILS_ENV", "development")
-    if rails_env != "production":
-        raw = f"{raw.rstrip('/')}/woofed_crm_{rails_env}"
-    if raw.startswith("postgres://"):
-        raw = "postgresql+psycopg://" + raw[len("postgres://") :]
-    elif raw.startswith("postgresql://"):
-        raw = "postgresql+psycopg://" + raw[len("postgresql://") :]
-    return raw
-
-
-AGENT_DB_URL = _build_agent_db_url()
-WOOFED_MCP_URL = os.environ["FRONTEND_URL"].rstrip("/") + "/mcp"
-
-agent_db = PostgresDb(db_url=AGENT_DB_URL)
-
-# Per-request token, set by `extract_woofed_ai_token` middleware and read by
-# `mcp_header_provider`. asyncio tasks created inside the request handler
-# (including the agent run) inherit this context.
-_request_token_var: ContextVar[Optional[str]] = ContextVar("woofed_ai_token", default=None)
-
-
-def _first_user_token() -> Optional[str]:
-    """Fallback for agent-ui (no auth header): the first user's MCP token."""
-    sql = text(
-        """
-        SELECT t.token
-        FROM oauth_access_tokens t
-        JOIN oauth_applications a ON a.id = t.application_id
-        WHERE a.name = 'Woofed AI'
-          AND t.scopes LIKE '%mcp%'
-          AND t.revoked_at IS NULL
-        ORDER BY t.resource_owner_id ASC
-        LIMIT 1
-        """
-    )
-    with agent_db.db_engine.connect() as conn:
-        row = conn.execute(sql).fetchone()
-    return row[0] if row else None
-
-
-def mcp_header_provider(run_context: Any = None, **_kwargs: Any) -> dict[str, str]:
-    """Build the Authorization header for each MCP session.
-
-    agno calls this in two situations:
-      1. Startup tool discovery (`run_context is None`): the connection agno
-         opens once at boot to enumerate the MCP tool list. The tool set is
-         user-agnostic and no operation runs through it, so any valid token
-         works — we fall back to the first user's token. Without this the
-         whole toolkit fails to initialize and the agent registers with zero
-         tools.
-      2. A real agent run (`run_context` is set): we require the inbound
-         `X-Woofed-AI-Token`, so every operation runs strictly as the calling
-         user and never silently falls back to another user's token.
-    """
-    token = _request_token_var.get()
-    if token is None and run_context is None:
-        token = _first_user_token()
-    if not token:
-        raise RuntimeError(
-            "No Woofed AI token available. Either send X-Woofed-AI-Token, or "
-            "ensure at least one User exists (User::WoofedAiTokenMinter mints "
-            "one on create)."
-        )
-    return {"Authorization": f"Bearer {token}"}
-
-
-def _build_model(cfg: AssistantConfig):
-    """Construct the right agno model class for the configured provider."""
-    if cfg.provider == "openai":
-        from agno.models.openai import OpenAIChat
-        return OpenAIChat(id=cfg.model, api_key=cfg.api_key)
-    if cfg.provider == "anthropic":
-        from agno.models.anthropic import Claude
-        return Claude(id=cfg.model, api_key=cfg.api_key)
-    if cfg.provider == "google":
-        from agno.models.google import Gemini
-        return Gemini(id=cfg.model, api_key=cfg.api_key)
-    raise RuntimeError(f"Unsupported provider: {cfg.provider!r}")
+log = logging.getLogger("woofed-agent.listener")
 
 
 INSTRUCTIONS = [
@@ -200,91 +60,140 @@ INSTRUCTIONS = [
     "- Reply in the same language the user wrote in.",
 ]
 
+def _build_agent_model(model: str = "", api_key: str = ""):
+    """Construct the right agno model class for the configured provider."""
+    provider = _detect_provider(model)
 
-def _build_agent(cfg: AssistantConfig) -> Agent:
+    if provider == "openai":
+        from agno.models.openai import OpenAIChat
+        return OpenAIChat(id=model, api_key=api_key)
+
+    if provider == "anthropic":
+        from agno.models.anthropic import Claude
+        return Claude(id=model, api_key=api_key)
+
+    if provider == "google":
+        from agno.models.google import Gemini
+        return Gemini(id=model, api_key=api_key)
+
+    return None
+
+def _mcp_header_provider(mcp_token: str = ''):
+    """Build the Authorization header for each MCP session.
+    """
+    return {"Authorization": f"Bearer {mcp_token}"}
+
+def _detect_provider(model: str = ""):
+    """Map an `model` string to an agno provider name.
+
+    The Rails form accepts free-text, so users enter things like `gpt-4o`,
+    `gpt-3.5-turbo`, `claude-sonnet-4-5`, `gemini-2.5-flash`. We classify by
+    a substring unique to each family.
+    """
+    m = model.lower()
+    if any(tag in m for tag in ("claude", "sonnet", "opus", "haiku")):
+        return "anthropic"
+    if "gemini" in m:
+        return "google"
+    # OpenAI catches gpt-*, o1-*, o3-*, etc. — the default family.
+    return "openai"
+
+# ---------------------------------------------------------------------------
+# Database
+# ---------------------------------------------------------------------------
+
+def _build_agent_db_url() -> str:
+    """Mirror Rails' config/database.yml resolution for DATABASE_URL.
+
+    - production: DATABASE_URL already carries the database name → use as-is.
+    - dev/test:   DATABASE_URL is just `postgres://user:pw@host/`; Rails
+                  appends `woofed_crm_<env>`. We do the same here.
+
+    SQLAlchemy dropped the `postgres://` alias, so we rewrite the scheme to
+    `postgresql+psycopg://` (psycopg3 driver).
+    """
+    raw = os.environ["DATABASE_URL"]
+    rails_env = os.environ.get("RAILS_ENV", "development")
+    if rails_env != "production":
+        raw = f"{raw.rstrip('/')}/woofed_crm_{rails_env}"
+    if raw.startswith("postgres://"):
+        raw = "postgresql+psycopg://" + raw[len("postgres://") :]
+    elif raw.startswith("postgresql://"):
+        raw = "postgresql+psycopg://" + raw[len("postgresql://") :]
+    return raw
+
+AGENT_DB_URL = _build_agent_db_url()
+WOOFED_MCP_URL = os.environ["FRONTEND_URL"].rstrip("/") + "/mcp"
+
+db = PostgresDb(db_url=AGENT_DB_URL)
+
+# ---------------------------------------------------------------------------
+# Input schema
+# ---------------------------------------------------------------------------
+
+class AgentFactoryInput(BaseModel):
+    """Schema for factory_input -- validated by AgentOS before the factory runs."""
+    mcp_token: str = Field(..., description="MCP token for authentication")
+    llm_token: str = Field(..., description="LLM token for authentication")
+    llm_model: str = Field(..., description="LLM model to use")
+
+# ---------------------------------------------------------------------------
+# Factory: build a per-tenant agent
+# ---------------------------------------------------------------------------
+
+
+def build_tenant_agent(ctx: RequestContext) -> Agent:
+    """Called on every request. Returns a fresh Agent for the calling tenant."""
+    cfg: AgentFactoryInput = ctx.input
+    
+    agent_model = _build_agent_model(cfg.llm_model, cfg.llm_token)
+
+    if not agent_model:
+        raise FactoryPermissionError("model is invalid")
+
+
     woofed_mcp = MCPTools(
-        transport="streamable-http",
-        server_params=StreamableHTTPClientParams(url=WOOFED_MCP_URL),
-        header_provider=mcp_header_provider,
-        timeout_seconds=60,
+      transport="streamable-http",
+      server_params=StreamableHTTPClientParams(url=WOOFED_MCP_URL),
+      header_provider=lambda: {
+        "Authorization": f"Bearer {cfg.mcp_token}"
+    },
+      timeout_seconds=60,
     )
+
     return Agent(
-        name="Woofed CRM Agent",
-        description="AI agent that operates Woofed CRM through the MCP server.",
-        model=_build_model(cfg),
-        db=agent_db,
-        tools=[woofed_mcp],
-        instructions=INSTRUCTIONS,
-        add_history_to_context=True,
-        num_history_runs=20,
-        markdown=True,
+      name="Woofed CRM Agent",
+      description="AI agent that operates Woofed CRM through the MCP server.",
+      model=agent_model,
+      db=db,
+      tools=[woofed_mcp],
+      instructions=INSTRUCTIONS,
+      add_history_to_context=True,
+      num_history_runs=20,
+      markdown=True,
     )
 
 
-# --- Boot: load config, decide degraded vs normal mode --------------------------
+tenant_factory = AgentFactory(
+    db=db,
+    id="woofed-ai-agent",
+    name="Woofed CRM Agent",
+    description="AI agent that operates Woofed CRM through the MCP server.",
+    factory=build_tenant_agent,
+    input_schema=AgentFactoryInput
+)
 
-assistant: Optional[AssistantConfig] = try_load_assistant_config(agent_db.db_engine)
-
-if assistant is None:
-    log.warning(
-        "No usable Apps::AiAssistent found — starting in DEGRADED MODE. "
-        "The agent is not registered; chat will be unavailable until you "
-        "create/enable an Apps::AiAssistent in Rails (Settings → AI Assistant)."
-    )
-    agents = []
-else:
-    log.info(
-        "Loaded Apps::AiAssistent — provider=%s model=%s",
-        assistant.provider, assistant.model,
-    )
-    agents = [_build_agent(assistant)]
-
-
-@asynccontextmanager
-async def listener_lifespan(_app: FastAPI):
-    """Start the Postgres LISTEN task while the app is up."""
-    task = start_listener_task(AGENT_DB_URL)
-    try:
-        yield
-    finally:
-        task.cancel()
-        try:
-            await task
-        except BaseException:  # noqa: BLE001 — shutdown path, swallow
-            pass
-
+# ---------------------------------------------------------------------------
+# AgentOS -- factories and prototypes coexist
+# ---------------------------------------------------------------------------
 
 agent_os = AgentOS(
     id="woofed-crm-os",
     description="Woofed CRM AgentOS — exposes the Woofed MCP through agno.",
-    db=agent_db,
-    agents=agents,
-    lifespan=listener_lifespan,
+    db=db,
+    agents=[tenant_factory]
 )
 
 app = agent_os.get_app()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-@app.middleware("http")
-async def extract_woofed_ai_token(request: Request, call_next):
-    """Capture the caller's Woofed AI token for `mcp_header_provider` to read.
-
-    Third-party API clients send `X-Woofed-AI-Token: <token>`. The bundled
-    agent-ui doesn't send anything, in which case the header_provider falls
-    back to the first user's token.
-    """
-    token = request.headers.get("X-Woofed-AI-Token")
-    if token:
-        _request_token_var.set(token)
-    return await call_next(request)
-
 if __name__ == "__main__":
     agent_os.serve(app="main:app", port=7777, reload=True)
