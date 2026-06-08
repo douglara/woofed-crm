@@ -14,10 +14,11 @@ This document explains how a run is served, where the model / tokens come from, 
 4. [`factory_input` schema](#factory_input-schema)
 5. [Run sequence](#run-sequence)
 6. [Provider detection](#provider-detection)
-7. [MCP authentication](#mcp-authentication)
-8. [Configuration](#configuration)
-9. [File layout](#file-layout)
-10. [Related documents](#related-documents)
+7. [API authorization](#api-authorization)
+8. [MCP authentication](#mcp-authentication)
+9. [Configuration](#configuration)
+10. [File layout](#file-layout)
+11. [Related documents](#related-documents)
 
 ---
 
@@ -75,18 +76,22 @@ A run is a standard AgentOS `POST .../runs` call. The configuration travels as a
 
 ```bash
 curl -X POST http://localhost:7777/agents/woofed-ai-agent/runs \
+  -H "Authorization: Bearer $OS_SECURITY_KEY" \
   -F "message=Create a contact named Yukio" \
   -F "user_id=USER_ID" \
   -F "session_id=SESSION_ID" \
   -F 'factory_input={"mcp_token":"MCP_TOKEN","llm_token":"LLM_TOKEN","llm_model":"LLM_MODEL"}'
 ```
 
-| Field | Meaning |
+| Part | Meaning |
 |---|---|
+| `Authorization: Bearer $OS_SECURITY_KEY` | The static API token (the `OS_SECURITY_KEY` secret, verbatim). Gates **every** call — see [API authorization](#api-authorization). Without it the request is rejected with `401`. |
 | `message` | The user's prompt. |
 | `user_id` | Identifies the tenant/user for agno session ownership. |
 | `session_id` | Conversation id. Reusing it keeps the history (see [Run sequence](#run-sequence) — `add_history_to_context` replays up to 20 prior runs). |
 | `factory_input` | JSON object validated against `AgentFactoryInput`. Drives which model the agent uses and which Bearer token it presents to `/mcp`. |
+
+Note the two distinct tokens: the **`Authorization` Bearer token** (`OS_SECURITY_KEY`) authenticates the caller *to the agent API*, while **`factory_input.mcp_token`** is what the agent later presents *to the Rails `/mcp` server*. They are unrelated and serve different hops.
 
 Because every field that used to be global is now per-request, two callers can hit the same process with different models and different MCP tokens at the same time, fully isolated.
 
@@ -161,6 +166,39 @@ To add a provider: extend both `_detect_provider()` and `_build_agent_model()` i
 
 ---
 
+## API authorization
+
+The agno API uses agno's **basic authentication** (a single static bearer token), enabled simply by setting the `OS_SECURITY_KEY` environment variable — no constructor arguments, no JWT. AgentOS reads it automatically:
+
+```python
+# main.py — no authorization config; agno picks up OS_SECURITY_KEY from the env
+agent_os = AgentOS(
+    id="woofed-crm-os",
+    description="…",
+    db=db,
+    agents=[tenant_factory],
+)
+```
+
+```bash
+# repo-root .env
+OS_SECURITY_KEY=a-long-random-secret
+```
+
+When `OS_SECURITY_KEY` is set, every route requires `Authorization: Bearer <OS_SECURITY_KEY>` and returns `401 Unauthorized` otherwise. The token is the key **verbatim** — it is not a JWT, carries no claims, scopes, or `sub`, and never expires. The caller simply echoes back the shared secret.
+
+| Condition | Result |
+|---|---|
+| Header matches `OS_SECURITY_KEY` | request proceeds |
+| Header missing | `401` "Authorization header required" |
+| Header present but wrong | `401` "Invalid authentication token" |
+
+The unauthenticated routes are the agno defaults: `/`, `/health`, `/info`, `/docs`, `/redoc`, `/openapi.json`.
+
+> **Note:** agno documents basic auth as "simple key validation for development". If this service is ever exposed publicly, switch to agno's JWT/RBAC mode (`authorization=True` + `AuthorizationConfig`) for per-caller scopes. See the [agno security docs](https://docs.agno.com/agent-os/security/overview).
+
+---
+
 ## MCP authentication
 
 The agent presents the Woofed MCP server a **per-request** Bearer token — the `mcp_token` from `factory_input`. The caller is responsible for sending the token of the user it is acting on behalf of.
@@ -206,12 +244,13 @@ It returns the active token for the `'Woofed AI'` Doorkeeper application (skippi
 
 ## Configuration
 
-The agent reads only two environment variables (from the repo-root `.env`):
+The agent reads these environment variables (from the repo-root `.env`):
 
 | Variable | Used for | Example |
 |---|---|---|
 | `WOOFED_AI_DATABASE_URL` | The agent's **own** Postgres (agno sessions, memories). Not the Rails DB. | `postgresql+psycopg://postgres:password@localhost/` |
 | `FRONTEND_URL` | Public URL of the Rails app. The MCP endpoint is built as `<FRONTEND_URL>/mcp`. | `http://localhost:3000` |
+| `OS_SECURITY_KEY` | Static bearer token the API caller must send (agno basic auth — see [API authorization](#api-authorization)). When unset, the API is **open**. | a long random string |
 
 `WOOFED_AI_URL` (e.g. `http://localhost:7777`) is the address **callers** use to reach the agent; the agent itself doesn't read it. Everything else that drives a run (model, LLM key, MCP token) arrives per request in `factory_input` — the Rails caller assembles it from the `Apps::AiAssistent` row (`model` / `api_key`) and the user's `woofed_ai_token`.
 

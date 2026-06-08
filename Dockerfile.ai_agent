@@ -7,11 +7,13 @@
 #   docker run -p 7777:7777 \
 #     -e FRONTEND_URL=http://host.docker.internal:3000 \
 #     -e WOOFED_AI_DATABASE_URL=postgres://postgres:password@host.docker.internal/ \
+#     -e OS_SECURITY_KEY=a-long-random-secret \
 #     woofed-agent
 #
 # Required env at runtime:
 #   FRONTEND_URL   Public URL of the Rails app (the agent calls <FRONTEND_URL>/mcp)
 #   WOOFED_AI_DATABASE_URL   Agno Postgres URL
+#   OS_SECURITY_KEY   Static bearer token every API caller must send (agno basic auth)
 
 FROM python:3.12-slim AS base
 
