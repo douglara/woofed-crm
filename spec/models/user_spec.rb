@@ -89,4 +89,40 @@ RSpec.describe User do
       end
     end
   end
+
+  describe '#woofed_ai_token' do
+    before do
+      allow(ENV).to receive(:[]).and_call_original
+      allow(ENV).to receive(:[]).with('FRONTEND_URL').and_return('http://test.woofedcrm.local')
+    end
+
+    it 'returns the Woofed AI token, not a token from another application' do
+      user = create(:user)
+      woofed_ai_token = Doorkeeper::AccessToken
+                        .joins(:application)
+                        .where(oauth_applications: { name: 'Woofed AI' })
+                        .find_by(resource_owner_id: user.id)
+
+      other_app = Doorkeeper::Application.create!(
+        name: 'Some Other App',
+        redirect_uri: 'urn:ietf:wg:oauth:2.0:oob',
+        scopes: 'read',
+        confidential: true
+      )
+      Doorkeeper::AccessToken.create!(
+        application: other_app,
+        resource_owner_id: user.id,
+        scopes: 'read'
+      )
+
+      expect(user.woofed_ai_token).to eq(woofed_ai_token.token)
+    end
+
+    it 'ignores revoked tokens and returns nil when none are active' do
+      user = create(:user)
+      user.access_tokens.update_all(revoked_at: Time.current)
+
+      expect(user.woofed_ai_token).to be_nil
+    end
+  end
 end

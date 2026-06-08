@@ -35,7 +35,7 @@ Woofed CRM /mcp (Rails, :3000)
     bin/rails db:migrate
     ```
 
-    The migration mints one Doorkeeper access token (scope `mcp`, `resource: <FRONTEND_URL>/mcp`) per existing user. Going forward, `User::WoofedAiTokenMinter` (an `after_create` concern) mints a token automatically when a new user signs up.
+    The migration mints one Doorkeeper access token (scope `mcp`, `resource: <FRONTEND_URL>/mcp`) per existing user. Going forward, `User::WoofedAiToken` (an `after_create` concern) mints a token automatically when a new user signs up.
 
 3. Make sure `FRONTEND_URL` and `DATABASE_URL` are set in the repo-root `.env` (they already are in this project):
 
