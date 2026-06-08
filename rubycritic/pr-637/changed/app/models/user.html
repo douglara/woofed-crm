@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-06-04 21:13:16 -0300'>2026-06-04 21:13:16 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-06-08 16:16:40 -0300'>2026-06-08 16:16:40 -0300</time>
         
       </span>
     </div>
@@ -73,7 +73,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">1.6</span><small> complexity/method</small></div>
-              <div><span class="metric">71</span><small> churn</small></div>
+              <div><span class="metric">72</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">6.35</span><small> complexity</small></div>
@@ -132,7 +132,7 @@
 #  index_users_on_unlock_token          (unlock_token) UNIQUE
 #
 class User &lt; ApplicationRecord
-  include User::WoofedAiTokenMinter
+  include User::WoofedAiToken
 
   FORM_FIELDS = %i[full_name email phone language password password_confirmation].freeze
 
@@ -150,7 +150,7 @@ class User &lt; ApplicationRecord
            inverse_of: :creator
   # Doorkeeper records own the user via `resource_owner_id`. Without
   # `dependent: :destroy`, destroying a user that owns any access token
-  # (e.g. the Woofed AI token minted by `User::WoofedAiTokenMinter`) fails
+  # (e.g. the Woofed AI token minted by `User::WoofedAiToken`) fails
   # with a foreign-key violation on `oauth_access_tokens`.
   has_many :access_tokens,
            class_name: &#39;Doorkeeper::AccessToken&#39;,

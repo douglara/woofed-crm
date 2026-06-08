@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-06-04 21:13:16 -0300'>2026-06-04 21:13:16 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-06-08 16:16:40 -0300'>2026-06-08 16:16:40 -0300</time>
         
       </span>
     </div>
@@ -62,22 +62,22 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating c big">
-              C
+            <div class="rating d big">
+              D
             </div>
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">92</span><small> lines of codes</small></div>
+              <div><span class="metric">128</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">3</span><small> churn</small></div>
+              <div><span class="metric">4</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">105.75</span><small> complexity</small></div>
-              <div><span class="metric">0</span><small> duplications</small></div>
+              <div><span class="metric">169.57</span><small> complexity</small></div>
+              <div><span class="metric">68</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                2
+                4
                 smells
               </a>
             </li>
@@ -138,19 +138,19 @@ require &#39;rails_helper&#39;
 RSpec.describe User do
   describe &#39;callbacks&#39; do
     describe &#39;after_create&#39; do
-      before do
+      before do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="user_spec.html#L42" class="js-smell-location">0</a>                  <a href="user_spec.html#L94" class="js-smell-location">1</a>                  </div>  </li></ol>
         allow(ENV).to receive(:[]).and_call_original
         allow(ENV).to receive(:[]).with(&#39;FRONTEND_URL&#39;).and_return(&#39;http://test.woofedcrm.local&#39;)
       end
 
       context &#39;when FRONTEND_URL is configured&#39; do
-        it &#39;mints a Woofed AI Doorkeeper access token bound to the user&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(callbacks)::describe(after_create)::context(when FRONTEND_URL is configured)::it#mints a Woofed AI Doorkeeper access token bound to the user has a flog score of 26</span>          </div>  </li></ol>
+        it &#39;mints a Woofed AI Doorkeeper access token bound to the user&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(callbacks)::describe(after_create)::context(when FRONTEND_URL is configured)::it#mints a Woofed AI Doorkeeper access token bound to the user has a flog score of 27</span>          </div>  </li></ol>
           expect do
             create(:user)
           end.to change(Doorkeeper::AccessToken, :count).by(1)
 
           user = User.last
-          token = Doorkeeper::AccessToken
+          token = Doorkeeper::AccessToken<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="user_spec.html#L54" class="js-smell-location">0</a>                  <a href="user_spec.html#L101" class="js-smell-location">1</a>                  </div>  </li></ol>
                   .joins(:application)
                   .where(oauth_applications: { name: &#39;Woofed AI&#39; })
                   .find_by(resource_owner_id: user.id)
@@ -163,7 +163,7 @@ RSpec.describe User do
           )
         end
 
-        it &#39;reuses the existing Woofed AI Doorkeeper application across users&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(callbacks)::describe(after_create)::context(when FRONTEND_URL is configured)::it#reuses the existing Woofed AI Doorkeeper application across users has a flog score of 34</span>          </div>  </li></ol>
+        it &#39;reuses the existing Woofed AI Doorkeeper application across users&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(callbacks)::describe(after_create)::context(when FRONTEND_URL is configured)::it#reuses the existing Woofed AI Doorkeeper application across users has a flog score of 35</span>          </div>  </li></ol>
           expect do
             create(:user)
             create(:user)
@@ -186,6 +186,42 @@ RSpec.describe User do
           end.not_to change(User, :count)
         end
       end
+    end
+  end
+
+  describe &#39;#woofed_ai_token&#39; do
+    before do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="user_spec.html#L42" class="js-smell-location">0</a>                  <a href="user_spec.html#L94" class="js-smell-location">1</a>                  </div>  </li></ol>
+      allow(ENV).to receive(:[]).and_call_original
+      allow(ENV).to receive(:[]).with(&#39;FRONTEND_URL&#39;).and_return(&#39;http://test.woofedcrm.local&#39;)
+    end
+
+    it &#39;returns the Woofed AI token, not a token from another application&#39; do
+      user = create(:user)
+      woofed_ai_token = Doorkeeper::AccessToken<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="user_spec.html#L54" class="js-smell-location">0</a>                  <a href="user_spec.html#L101" class="js-smell-location">1</a>                  </div>  </li></ol>
+                        .joins(:application)
+                        .where(oauth_applications: { name: &#39;Woofed AI&#39; })
+                        .find_by(resource_owner_id: user.id)
+
+      other_app = Doorkeeper::Application.create!(
+        name: &#39;Some Other App&#39;,
+        redirect_uri: &#39;urn:ietf:wg:oauth:2.0:oob&#39;,
+        scopes: &#39;read&#39;,
+        confidential: true
+      )
+      Doorkeeper::AccessToken.create!(
+        application: other_app,
+        resource_owner_id: user.id,
+        scopes: &#39;read&#39;
+      )
+
+      expect(user.woofed_ai_token).to eq(woofed_ai_token.token)
+    end
+
+    it &#39;ignores revoked tokens and returns nil when none are active&#39; do
+      user = create(:user)
+      user.access_tokens.update_all(revoked_at: Time.current)
+
+      expect(user.woofed_ai_token).to be_nil
     end
   end
 end

@@ -6160,13 +6160,13 @@
         null,
         null,
         1,
-        1212,
+        1210,
         null,
         null,
         1,
-        1212,
+        1210,
         null,
-        1212,
+        1210,
         null,
         null
       ],
@@ -6175,7 +6175,7 @@
           "type": "else",
           "start_line": 125,
           "end_line": 125,
-          "coverage": 1209
+          "coverage": 1207
         },
         {
           "type": "then",
@@ -6274,15 +6274,6 @@
         null,
         10,
         null,
-        null,
-        null,
-        null,
-        1,
-        null,
-        1,
-        31,
-        null,
-        null,
         1,
         4,
         null,
@@ -6297,26 +6288,26 @@
       "branches": [
         {
           "type": "then",
-          "start_line": 32,
-          "end_line": 32,
+          "start_line": 23,
+          "end_line": 23,
           "coverage": 3
         },
         {
           "type": "else",
-          "start_line": 32,
-          "end_line": 32,
+          "start_line": 23,
+          "end_line": 23,
           "coverage": 1
         },
         {
           "type": "then",
-          "start_line": 36,
-          "end_line": 36,
+          "start_line": 27,
+          "end_line": 27,
           "coverage": 5
         },
         {
           "type": "else",
-          "start_line": 36,
-          "end_line": 36,
+          "start_line": 27,
+          "end_line": 27,
           "coverage": 4
         }
       ]
@@ -7648,7 +7639,7 @@
 
       ]
     },
-    "/__w/woofed-crm/woofed-crm/app/models/concerns/user/woofed_ai_token_minter.rb": {
+    "/__w/woofed-crm/woofed-crm/app/models/concerns/user/woofed_ai_token.rb": {
       "lines": [
         1,
         1,
@@ -7662,19 +7653,31 @@
         1,
         null,
         null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        2,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
         1,
         null,
         1,
-        915,
-        915,
+        917,
+        917,
         null,
-        914,
-        765,
-        765,
-        765,
+        916,
+        767,
+        767,
+        767,
         null,
         null,
-        914,
+        916,
         null,
         null,
         null,
@@ -7687,27 +7690,39 @@
       "branches": [
         {
           "type": "then",
-          "start_line": 16,
-          "end_line": 16,
-          "coverage": 914
+          "start_line": 18,
+          "end_line": 22,
+          "coverage": 1
         },
         {
           "type": "else",
-          "start_line": 16,
-          "end_line": 16,
+          "start_line": 18,
+          "end_line": 22,
           "coverage": 1
         },
         {
           "type": "then",
-          "start_line": 17,
-          "end_line": 17,
+          "start_line": 28,
+          "end_line": 28,
+          "coverage": 916
+        },
+        {
+          "type": "else",
+          "start_line": 28,
+          "end_line": 28,
+          "coverage": 1
+        },
+        {
+          "type": "then",
+          "start_line": 29,
+          "end_line": 29,
           "coverage": 1
         },
         {
           "type": "else",
-          "start_line": 17,
-          "end_line": 17,
-          "coverage": 914
+          "start_line": 29,
+          "end_line": 29,
+          "coverage": 916
         }
       ]
     },
@@ -16288,9 +16303,9 @@
         22,
         null,
         22,
-        10,
+        9,
         null,
-        12,
+        13,
         null,
         null,
         null,
@@ -16298,9 +16313,9 @@
         1,
         22,
         22,
-        9,
+        10,
         null,
-        13,
+        12,
         null,
         null,
         null,
@@ -16367,25 +16382,25 @@
           "type": "then",
           "start_line": 35,
           "end_line": 35,
-          "coverage": 10
+          "coverage": 9
         },
         {
           "type": "else",
           "start_line": 37,
           "end_line": 37,
-          "coverage": 12
+          "coverage": 13
         },
         {
           "type": "then",
           "start_line": 45,
           "end_line": 45,
-          "coverage": 9
+          "coverage": 10
         },
         {
           "type": "else",
           "start_line": 47,
           "end_line": 47,
-          "coverage": 13
+          "coverage": 12
         },
         {
           "type": "else",
@@ -16808,7 +16823,7 @@
     },
     "Models": {
       "lines": {
-        "covered_percent": 92.46100519930675
+        "covered_percent": 92.45446660884649
       }
     },
     "Mailers": {

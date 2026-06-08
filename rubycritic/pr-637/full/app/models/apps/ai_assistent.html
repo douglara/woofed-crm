@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-06-01 17:28:27 -0300'>2026-06-01 17:28:27 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-06-08 14:42:05 -0300'>2026-06-08 14:42:05 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">40</span><small> lines of codes</small></div>
-              <div><span class="metric">3</span><small> methods</small></div>
+              <div><span class="metric">31</span><small> lines of codes</small></div>
+              <div><span class="metric">2</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">7.0</span><small> complexity/method</small></div>
-              <div><span class="metric">3</span><small> churn</small></div>
+              <div><span class="metric">8.8</span><small> complexity/method</small></div>
+              <div><span class="metric">4</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">21.12</span><small> complexity</small></div>
+              <div><span class="metric">17.52</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -117,24 +117,15 @@ class Apps::AiAssistent &lt; ApplicationRecord
   validates :api_key, presence: true, if: :enabled?
 
   after_update :embed_company_site, if: -&gt; { saved_change_to_enabled? || saved_change_to_api_key? }
-  # The Python agent (ai-agent/) listens for this NOTIFY on the
-  # `ai_assistent_changed` channel and restarts itself so it picks up the new
-  # model/api_key without a manual reload. Fires on create, update and destroy.
-  # See ai-agent/db_listener.py.
-  after_commit :notify_agent_restart
-
-  def notify_agent_restart
-    self.class.connection.execute(&#39;NOTIFY ai_assistent_changed&#39;)
-  end
 
   def embed_company_site
     Accounts::Create::EmbedCompanySiteJob.perform_later(id) if Current.account.site_url.present? &amp;&amp; enabled?
   end
 
   def exceeded_usage_limit?
-    return false if usage[&#39;limit&#39;].blank?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Apps::AiAssistent#exceeded_usage_limit? calls 'usage['limit']' 2 times</span>              <span>Locations:</span>                  <a href="ai_assistent.html#L36" class="js-smell-location">0</a>                  <a href="ai_assistent.html#L38" class="js-smell-location">1</a>                  </div>  </li></ol>
+    return false if usage[&#39;limit&#39;].blank?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Apps::AiAssistent#exceeded_usage_limit? calls 'usage['limit']' 2 times</span>              <span>Locations:</span>                  <a href="ai_assistent.html#L27" class="js-smell-location">0</a>                  <a href="ai_assistent.html#L29" class="js-smell-location">1</a>                  </div>  </li></ol>
 
-    usage[&#39;tokens&#39;] &gt;= usage[&#39;limit&#39;]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Apps::AiAssistent#exceeded_usage_limit? calls 'usage['limit']' 2 times</span>              <span>Locations:</span>                  <a href="ai_assistent.html#L36" class="js-smell-location">0</a>                  <a href="ai_assistent.html#L38" class="js-smell-location">1</a>                  </div>  </li></ol>
+    usage[&#39;tokens&#39;] &gt;= usage[&#39;limit&#39;]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Apps::AiAssistent#exceeded_usage_limit? calls 'usage['limit']' 2 times</span>              <span>Locations:</span>                  <a href="ai_assistent.html#L27" class="js-smell-location">0</a>                  <a href="ai_assistent.html#L29" class="js-smell-location">1</a>                  </div>  </li></ol>
   end
 end
 </code>

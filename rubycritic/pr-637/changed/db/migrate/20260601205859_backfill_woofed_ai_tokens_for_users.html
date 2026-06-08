@@ -62,8 +62,8 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating a big">
-              A
+            <div class="rating b big">
+              B
             </div>
           </div>
           <div class="code-statistics col-md-11">
@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">15.26</span><small> complexity</small></div>
-              <div><span class="metric">0</span><small> duplications</small></div>
+              <div><span class="metric">19</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                5
+                6
                 smells
               </a>
             </li>
@@ -108,7 +108,7 @@
     base_url = ENV[&#39;FRONTEND_URL&#39;]&amp;.chomp(&#39;/&#39;)
     raise &#39;FRONTEND_URL is required to mint MCP tokens during migration&#39; if base_url.blank?
 
-    app = Doorkeeper::Application.find_or_create_by!(name: WOOFED_AI_APP_NAME) do |a|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md" target="_blank"><b>UncommunicativeVariableName</b></a>        </span>      </div>      <span>BackfillWoofedAiTokensForUsers#up has the variable name 'a'</span>          </div>  </li></ol>
+    app = Doorkeeper::Application.find_or_create_by!(name: WOOFED_AI_APP_NAME) do |a|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../../app/models/concerns/user/woofed_ai_token.html#L31" class="js-smell-location">0</a>                  <a href="20260601205859_backfill_woofed_ai_tokens_for_users.html#L12" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md" target="_blank"><b>UncommunicativeVariableName</b></a>        </span>      </div>      <span>BackfillWoofedAiTokensForUsers#up has the variable name 'a'</span>          </div>  </li></ol>
       a.redirect_uri = &#39;urn:ietf:wg:oauth:2.0:oob&#39;<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>BackfillWoofedAiTokensForUsers#up refers to 'a' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="20260601205859_backfill_woofed_ai_tokens_for_users.html#L13" class="js-smell-location">0</a>                  <a href="20260601205859_backfill_woofed_ai_tokens_for_users.html#L14" class="js-smell-location">1</a>                  <a href="20260601205859_backfill_woofed_ai_tokens_for_users.html#L15" class="js-smell-location">2</a>                  </div>  </li></ol>
       a.scopes = &#39;mcp&#39;<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>BackfillWoofedAiTokensForUsers#up refers to 'a' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="20260601205859_backfill_woofed_ai_tokens_for_users.html#L13" class="js-smell-location">0</a>                  <a href="20260601205859_backfill_woofed_ai_tokens_for_users.html#L14" class="js-smell-location">1</a>                  <a href="20260601205859_backfill_woofed_ai_tokens_for_users.html#L15" class="js-smell-location">2</a>                  </div>  </li></ol>
       a.confidential = true<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>BackfillWoofedAiTokensForUsers#up refers to 'a' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="20260601205859_backfill_woofed_ai_tokens_for_users.html#L13" class="js-smell-location">0</a>                  <a href="20260601205859_backfill_woofed_ai_tokens_for_users.html#L14" class="js-smell-location">1</a>                  <a href="20260601205859_backfill_woofed_ai_tokens_for_users.html#L15" class="js-smell-location">2</a>                  </div>  </li></ol>
