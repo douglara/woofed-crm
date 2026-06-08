@@ -4,6 +4,8 @@ ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=password
 ENV POSTGRES_DB=woofed_crm_production
 ENV DATABASE_URL=postgres://postgres:password@localhost/woofed_crm_production
+ENV WOOFED_AI_DATABASE_URL=postgresql+psycopg://postgres:password@localhost/woofed_ai
+ENV WOOFED_AI_URL=http://0.0.0.0:7777
 ENV RAILS_ENV production
 ENV RAILS_SERVE_STATIC_FILES true
 ENV RAILS_LOG_TO_STDOUT true
