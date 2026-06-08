@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-06-01 19:39:44 -0300'>2026-06-01 19:39:44 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-06-04 21:13:16 -0300'>2026-06-04 21:13:16 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">135</span><small> lines of codes</small></div>
+              <div><span class="metric">133</span><small> lines of codes</small></div>
               <div><span class="metric">4</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">1.6</span><small> complexity/method</small></div>
-              <div><span class="metric">69</span><small> churn</small></div>
+              <div><span class="metric">71</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">6.35</span><small> complexity</small></div>
@@ -122,7 +122,6 @@
 #  sign_in_count          :integer          default(0)
 #  theme_preference       :string           default(&quot;system&quot;), not null
 #  unlock_token           :string
-#  woofed_ai_token        :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -131,9 +130,10 @@
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_unlock_token          (unlock_token) UNIQUE
-#  index_users_on_woofed_ai_token       (woofed_ai_token) UNIQUE
 #
 class User &lt; ApplicationRecord
+  include User::WoofedAiTokenMinter
+
   FORM_FIELDS = %i[full_name email phone language password password_confirmation].freeze
 
   SHOW_FIELDS = { details: [:full_name, :email, :phone, :id, { enum_fields: %i[job_description] }, :language, :created_at,
@@ -165,8 +165,6 @@ class User &lt; ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :trackable, :timeoutable
-
-  include User::WoofedAiTokenMinter
 
   accepts_nested_attributes_for :account
 

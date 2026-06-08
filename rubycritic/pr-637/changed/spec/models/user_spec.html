@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-06-01 19:09:18 -0300'>2026-06-01 19:09:18 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-06-04 21:13:16 -0300'>2026-06-04 21:13:16 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">56</span><small> lines of codes</small></div>
+              <div><span class="metric">92</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">104.55</span><small> complexity</small></div>
+              <div><span class="metric">105.75</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -99,56 +99,92 @@
 
     <code class="prettyprint linenums lang-ruby file-code js-file-code"># frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :bigint           not null, primary key
+#  avatar_url             :string           default(&quot;&quot;), not null
+#  current_sign_in_at     :datetime
+#  current_sign_in_ip     :string
+#  email                  :string           default(&quot;&quot;), not null
+#  encrypted_password     :string           default(&quot;&quot;), not null
+#  failed_attempts        :integer          default(0)
+#  full_name              :string           default(&quot;&quot;), not null
+#  job_description        :string           default(&quot;other&quot;), not null
+#  language               :string           default(&quot;en&quot;), not null
+#  last_sign_in_at        :datetime
+#  last_sign_in_ip        :string
+#  locked_at              :datetime
+#  notifications          :jsonb            not null
+#  phone                  :string
+#  remember_created_at    :datetime
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string
+#  sign_in_count          :integer          default(0)
+#  theme_preference       :string           default(&quot;system&quot;), not null
+#  unlock_token           :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#
+# Indexes
+#
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_unlock_token          (unlock_token) UNIQUE
+#
 require &#39;rails_helper&#39;
 
 RSpec.describe User do
-  describe &#39;creating a user&#39; do
-    before do
-      allow(ENV).to receive(:[]).and_call_original
-      allow(ENV).to receive(:[]).with(&#39;FRONTEND_URL&#39;).and_return(&#39;http://test.woofedcrm.local&#39;)
-    end
-
-    context &#39;when FRONTEND_URL is configured&#39; do
-      it &#39;mints a Woofed AI Doorkeeper access token bound to the user&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(creating a user)::context(when FRONTEND_URL is configured)::it#mints a Woofed AI Doorkeeper access token bound to the user has a flog score of 26</span>          </div>  </li></ol>
-        expect do
-          create(:user)
-        end.to change(Doorkeeper::AccessToken, :count).by(1)
-
-        user = User.last
-        token = Doorkeeper::AccessToken
-                .joins(:application)
-                .where(oauth_applications: { name: &#39;Woofed AI&#39; })
-                .find_by(resource_owner_id: user.id)
-
-        expect(token).to have_attributes(
-          scopes: a_string_including(&#39;mcp&#39;),
-          resource: &#39;http://test.woofedcrm.local/mcp&#39;,
-          revoked_at: nil,
-          expires_in: nil
-        )
-      end
-
-      it &#39;reuses the existing Woofed AI Doorkeeper application across users&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(creating a user)::context(when FRONTEND_URL is configured)::it#reuses the existing Woofed AI Doorkeeper application across users has a flog score of 34</span>          </div>  </li></ol>
-        expect do
-          create(:user)
-          create(:user)
-        end.to change(Doorkeeper::Application, :count).by(1)
-
-        expect(Doorkeeper::Application.where(name: &#39;Woofed AI&#39;).count).to eq(1)
-        expect(Doorkeeper::AccessToken.joins(:application)
-                .where(oauth_applications: { name: &#39;Woofed AI&#39; }).count).to eq(2)
-      end
-    end
-
-    context &#39;when FRONTEND_URL is blank&#39; do
+  describe &#39;callbacks&#39; do
+    describe &#39;after_create&#39; do
       before do
-        allow(ENV).to receive(:[]).with(&#39;FRONTEND_URL&#39;).and_return(nil)
+        allow(ENV).to receive(:[]).and_call_original
+        allow(ENV).to receive(:[]).with(&#39;FRONTEND_URL&#39;).and_return(&#39;http://test.woofedcrm.local&#39;)
       end
 
-      it &#39;rolls back the user creation and surfaces the configuration error&#39; do
-        expect do
-          expect { create(:user) }.to raise_error(/FRONTEND_URL is required/)
-        end.not_to change(User, :count)
+      context &#39;when FRONTEND_URL is configured&#39; do
+        it &#39;mints a Woofed AI Doorkeeper access token bound to the user&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(callbacks)::describe(after_create)::context(when FRONTEND_URL is configured)::it#mints a Woofed AI Doorkeeper access token bound to the user has a flog score of 26</span>          </div>  </li></ol>
+          expect do
+            create(:user)
+          end.to change(Doorkeeper::AccessToken, :count).by(1)
+
+          user = User.last
+          token = Doorkeeper::AccessToken
+                  .joins(:application)
+                  .where(oauth_applications: { name: &#39;Woofed AI&#39; })
+                  .find_by(resource_owner_id: user.id)
+
+          expect(token).to have_attributes(
+            scopes: a_string_including(&#39;mcp&#39;),
+            resource: &#39;http://test.woofedcrm.local/mcp&#39;,
+            revoked_at: nil,
+            expires_in: nil
+          )
+        end
+
+        it &#39;reuses the existing Woofed AI Doorkeeper application across users&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(callbacks)::describe(after_create)::context(when FRONTEND_URL is configured)::it#reuses the existing Woofed AI Doorkeeper application across users has a flog score of 34</span>          </div>  </li></ol>
+          expect do
+            create(:user)
+            create(:user)
+          end.to change(Doorkeeper::Application, :count).by(1)
+
+          expect(Doorkeeper::Application.where(name: &#39;Woofed AI&#39;).count).to eq(1)
+          expect(Doorkeeper::AccessToken.joins(:application)
+                  .where(oauth_applications: { name: &#39;Woofed AI&#39; }).count).to eq(2)
+        end
+      end
+
+      context &#39;when FRONTEND_URL is blank&#39; do
+        before do
+          allow(ENV).to receive(:[]).with(&#39;FRONTEND_URL&#39;).and_return(nil)
+        end
+
+        it &#39;rolls back the user creation and surfaces the configuration error&#39; do
+          expect do
+            expect { create(:user) }.to raise_error(/FRONTEND_URL is required/)
+          end.not_to change(User, :count)
+        end
       end
     end
   end
