@@ -76,6 +76,10 @@ def _build_agent_model(model: str = "", api_key: str = ""):
         from agno.models.google import Gemini
         return Gemini(id=model, api_key=api_key)
 
+    if provider == "xai":
+        from agno.models.xai import xAI
+        return xAI(id=model, api_key=api_key)
+
     return None
 
 def _mcp_header_provider(mcp_token: str = ''):
@@ -87,16 +91,20 @@ def _detect_provider(model: str = ""):
     """Map an `model` string to an agno provider name.
 
     The Rails form accepts free-text, so users enter things like `gpt-4o`,
-    `gpt-3.5-turbo`, `claude-sonnet-4-5`, `gemini-2.5-flash`. We classify by
-    a substring unique to each family.
+    `gpt-3.5-turbo`, `claude-sonnet-4-5`, `gemini-2.5-flash`, `grok-4`. We
+    classify by a substring unique to each family. Unknown models return
+    `None` so the caller can reject them instead of guessing a provider.
     """
     m = model.lower()
     if any(tag in m for tag in ("claude", "sonnet", "opus", "haiku")):
         return "anthropic"
     if "gemini" in m:
         return "google"
-    # OpenAI catches gpt-*, o1-*, o3-*, etc. — the default family.
-    return "openai"
+    if "grok" in m:
+        return "xai"
+    if any(tag in m for tag in ("gpt", "o1", "o3", "o4", "chatgpt")):
+        return "openai"
+    return None
 
 # ---------------------------------------------------------------------------
 # Database
