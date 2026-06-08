@@ -6,14 +6,12 @@
 # Run:
 #   docker run -p 7777:7777 \
 #     -e FRONTEND_URL=http://host.docker.internal:3000 \
-#     -e DATABASE_URL=postgres://postgres:password@host.docker.internal/ \
-#     -e RAILS_ENV=development \
+#     -e WOOFED_AI_DATABASE_URL=postgres://postgres:password@host.docker.internal/ \
 #     woofed-agent
 #
 # Required env at runtime:
 #   FRONTEND_URL   Public URL of the Rails app (the agent calls <FRONTEND_URL>/mcp)
-#   DATABASE_URL   Rails Postgres URL (agent reads apps_ai_assistents + mints sessions)
-#   RAILS_ENV      Optional; defaults to development. Controls the db name suffix.
+#   WOOFED_AI_DATABASE_URL   Agno Postgres URL
 
 FROM python:3.12-slim AS base
 

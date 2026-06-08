@@ -102,27 +102,7 @@ def _detect_provider(model: str = ""):
 # Database
 # ---------------------------------------------------------------------------
 
-def _build_agent_db_url() -> str:
-    """Mirror Rails' config/database.yml resolution for DATABASE_URL.
-
-    - production: DATABASE_URL already carries the database name → use as-is.
-    - dev/test:   DATABASE_URL is just `postgres://user:pw@host/`; Rails
-                  appends `woofed_crm_<env>`. We do the same here.
-
-    SQLAlchemy dropped the `postgres://` alias, so we rewrite the scheme to
-    `postgresql+psycopg://` (psycopg3 driver).
-    """
-    raw = os.environ["DATABASE_URL"]
-    rails_env = os.environ.get("RAILS_ENV", "development")
-    if rails_env != "production":
-        raw = f"{raw.rstrip('/')}/woofed_crm_{rails_env}"
-    if raw.startswith("postgres://"):
-        raw = "postgresql+psycopg://" + raw[len("postgres://") :]
-    elif raw.startswith("postgresql://"):
-        raw = "postgresql+psycopg://" + raw[len("postgresql://") :]
-    return raw
-
-AGENT_DB_URL = _build_agent_db_url()
+AGENT_DB_URL = os.environ["WOOFED_AI_DATABASE_URL"]
 WOOFED_MCP_URL = os.environ["FRONTEND_URL"].rstrip("/") + "/mcp"
 
 db = PostgresDb(db_url=AGENT_DB_URL)
@@ -145,7 +125,7 @@ class AgentFactoryInput(BaseModel):
 def build_tenant_agent(ctx: RequestContext) -> Agent:
     """Called on every request. Returns a fresh Agent for the calling tenant."""
     cfg: AgentFactoryInput = ctx.input
-    
+
     agent_model = _build_agent_model(cfg.llm_model, cfg.llm_token)
 
     if not agent_model:
