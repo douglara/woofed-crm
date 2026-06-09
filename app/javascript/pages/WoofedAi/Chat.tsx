@@ -46,7 +46,14 @@ const ChatPage = ({
 
       {agent_available ? (
         <div className="min-h-0 flex-1">
-          <ChatProvider sessionId={session_id} initialMessages={initialMessages}>
+          {/* Key on the session so switching sessions (e.g. "New session")
+              remounts the provider and resets the chat instead of keeping the
+              previous session's messages. */}
+          <ChatProvider
+            key={session_id ?? 'none'}
+            sessionId={session_id}
+            initialMessages={initialMessages}
+          >
             <ChatArea apiUrl={messagesUrl} />
           </ChatProvider>
         </div>
