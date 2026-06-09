@@ -1,5 +1,12 @@
 <% menu_items = [
   {
+    path: inertia_account_woofed_ai_path(Current.account),
+    icon: 'sparkles',
+    label: 'Woofed AI',
+    active_if: -> { request.path.include?('woofed_ai') },
+    link_data: { turbo: false }
+  },
+  {
     path: account_pipelines_path(Current.account),
     icon: 'clipboard-list',
     label: t('activerecord.models.deal.other'),

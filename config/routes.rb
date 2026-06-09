@@ -186,6 +186,9 @@ Rails.application.routes.draw do
       namespace :components do
         get 'combobox', to: 'combobox#search'
       end
+      get 'woofed_ai', to: 'woofed_ai#show'
+      post 'woofed_ai/messages', to: 'woofed_ai#create_message'
+      post 'woofed_ai/sessions', to: 'woofed_ai#create_session'
     end
   end
 

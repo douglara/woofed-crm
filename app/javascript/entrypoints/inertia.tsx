@@ -28,6 +28,11 @@ if (window.self !== window.top) {
 }
 
 void createInertiaApp({
+  // Mount on a dedicated id (matching `config.root_dom_id` in
+  // config/initializers/inertia_rails.rb) so the React app never collides with
+  // the `internal` layout's outer `<div id="app">` shell.
+  id: 'inertia-app',
+
   // Set default page title
   // see https://inertia-rails.dev/guide/title-and-meta
   //
@@ -77,9 +82,9 @@ void createInertiaApp({
   },
 }).catch((error) => {
   // This ensures this entrypoint is only loaded on Inertia pages
-  // by checking for the presence of the root element (#app by default).
+  // by checking for the presence of the root element (#inertia-app).
   // Feel free to remove this `catch` if you don't need it.
-  if (document.getElementById("app")) {
+  if (document.getElementById("inertia-app")) {
     throw error
   } else {
     console.error(

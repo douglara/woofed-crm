@@ -6,6 +6,11 @@
 @import "apexcharts/src/assets/apexcharts.css";
 @import "apexcharts/dist/apexcharts.css";
 
+/* Let an Inertia page fill its parent (e.g. the internal layout's <main>). */
+#inertia-app {
+  height: 100%;
+}
+
 input[type="file"]::file-selector-button {
   background-color: #faf9fd;
   color: #888599;
