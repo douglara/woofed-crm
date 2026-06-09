@@ -1,6 +1,6 @@
 @charset "UTF-8";
 @import "../../assets/stylesheets/index.scss";
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Philosopher:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Philosopher:wght@700&display=swap");
 @import "@yaireo/tagify/dist/tagify.css";
 @import "lightgallery/css/lightgallery.css";
 @import "apexcharts/src/assets/apexcharts.css";
@@ -10,6 +10,22 @@
 #inertia-app {
   height: 100%;
 }
+
+/* Woofed AI chat animations (ported from the design prototype). */
+@keyframes wfBlink {
+  0%, 80%, 100% { opacity: 0.3; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-2px); }
+}
+@keyframes wfCaret {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+@keyframes wfCardIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.wf-card-in { animation: wfCardIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@media (prefers-reduced-motion: reduce) { .wf-card-in { animation: none; } }
 
 input[type="file"]::file-selector-button {
   background-color: #faf9fd;

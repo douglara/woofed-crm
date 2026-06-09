@@ -1,24 +1,20 @@
 import type { ChatMessage } from '@/types/woofed_ai'
 import { AgentMessage, UserMessage } from './MessageItem'
-import ChatBlankState from './ChatBlankState'
 
-const Messages = ({ messages }: { messages: ChatMessage[] }) => {
-  if (messages.length === 0) {
-    return <ChatBlankState />
-  }
-
-  return (
-    <div className="flex flex-col gap-8">
-      {messages.map((message, index) => {
-        const key = `${message.role}-${message.created_at}-${index}`
-        return message.role === 'agent' ? (
-          <AgentMessage key={key} message={message} />
-        ) : (
-          <UserMessage key={key} message={message} />
-        )
-      })}
-    </div>
-  )
-}
+const Messages = ({ messages }: { messages: ChatMessage[] }) => (
+  <>
+    {messages.map((message, index) => {
+      const key = `${message.role}-${message.created_at}-${index}`
+      // The last message is the one currently streaming, so AgentMessage shows
+      // its blinking caret only there.
+      const isLast = index === messages.length - 1
+      return message.role === 'agent' ? (
+        <AgentMessage key={key} message={message} isLast={isLast} />
+      ) : (
+        <UserMessage key={key} message={message} />
+      )
+    })}
+  </>
+)
 
 export default Messages

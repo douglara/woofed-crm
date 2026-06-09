@@ -1,57 +1,69 @@
 import { memo } from 'react'
-import { Sparkles, User } from 'lucide-react'
 
 import type { ChatMessage } from '@/types/woofed_ai'
 import { useChat } from './ChatContext'
+import WoofedIcon from './WoofedIcon'
 import MarkdownRenderer from './MarkdownRenderer'
 import AgentThinkingLoader from './AgentThinkingLoader'
 import ToolCalls from './ToolCalls'
 
-const Avatar = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground">
-    {children}
-  </div>
-)
-
-const AgentMessage = ({ message }: { message: ChatMessage }) => {
-  const { streamingErrorMessage } = useChat()
-
-  let content
-  if (message.streamingError) {
-    content = (
-      <p className="text-destructive">
-        Oops! Something went wrong while streaming.{' '}
-        {streamingErrorMessage ||
-          'Please try refreshing the page or try again later.'}
-      </p>
-    )
-  } else if (message.content) {
-    content = <MarkdownRenderer>{message.content}</MarkdownRenderer>
-  } else {
-    content = <AgentThinkingLoader />
-  }
+const AgentMessage = ({
+  message,
+  isLast
+}: {
+  message: ChatMessage
+  isLast: boolean
+}) => {
+  const { streamingErrorMessage, isStreaming } = useChat()
+  const showCaret = isLast && isStreaming && message.content.length > 0
+  const isThinking = !message.content && !message.streamingError
 
   return (
-    <div className="flex flex-col gap-3">
-      {message.tool_calls && message.tool_calls.length > 0 && (
-        <ToolCalls toolCalls={message.tool_calls} />
-      )}
-      <div className="flex items-start gap-3">
-        <Avatar>
-          <Sparkles className="size-4" />
-        </Avatar>
-        <div className="flex w-full flex-col gap-4 pt-0.5">{content}</div>
+    <div className="mb-[22px] flex items-start gap-3">
+      <WoofedIcon />
+      <div className="min-w-0 flex-1 pt-0.5">
+        <div className="mb-1.5 flex items-center gap-2">
+          <span className="typography-micro-b text-gray-1100">Woofed AI</span>
+          {isThinking && (
+            <span className="typography-micro-s text-gray-700">
+              is thinking…
+            </span>
+          )}
+        </div>
+
+        {message.tool_calls && message.tool_calls.length > 0 && (
+          <div className="mb-2.5">
+            <ToolCalls toolCalls={message.tool_calls} />
+          </div>
+        )}
+
+        {message.streamingError ? (
+          <p className="text-subtext color-fg-feedback-danger">
+            Oops! Something went wrong while streaming.{' '}
+            {streamingErrorMessage ||
+              'Please try refreshing the page or try again later.'}
+          </p>
+        ) : isThinking ? (
+          <AgentThinkingLoader />
+        ) : (
+          <div className="text-subtext font-medium leading-relaxed color-fg-default">
+            <MarkdownRenderer>{message.content}</MarkdownRenderer>
+            {showCaret && (
+              <span
+                className="ml-0.5 inline-block h-[15px] w-[7px] rounded-[1px] align-text-bottom color-bg-fill-highlight"
+                style={{ animation: 'wfCaret 0.9s infinite step-end' }}
+              />
+            )}
+          </div>
+        )}
       </div>
     </div>
   )
 }
 
 const UserMessage = memo(({ message }: { message: ChatMessage }) => (
-  <div className="flex items-start gap-3">
-    <Avatar>
-      <User className="size-4" />
-    </Avatar>
-    <div className="whitespace-pre-wrap pt-1 text-sm text-foreground">
+  <div className="mb-[22px] flex justify-end">
+    <div className="max-w-[74%] whitespace-pre-wrap rounded-[14px_14px_4px_14px] color-bg-fill-highlight px-[15px] py-2.5 text-subtext font-semibold leading-normal color-fg-inverse shadow-sm">
       {message.content}
     </div>
   </div>

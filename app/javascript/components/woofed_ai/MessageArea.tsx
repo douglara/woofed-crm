@@ -3,20 +3,20 @@ import { useEffect, useRef } from 'react'
 import { useChat } from './ChatContext'
 import Messages from './Messages'
 
-// Scrollable message list that keeps pinned to the bottom as content streams in.
+// Scrollable conversation, pinned to the bottom as new content streams in.
 const MessageArea = () => {
   const { messages } = useChat()
-  const bottomRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    const el = scrollRef.current
+    if (el) requestAnimationFrame(() => { el.scrollTop = el.scrollHeight })
   }, [messages])
 
   return (
-    <div className="flex-1 overflow-y-auto">
-      <div className="mx-auto w-full max-w-3xl px-4 py-6">
+    <div ref={scrollRef} className="flex-1 overflow-y-auto px-8 pb-2 pt-[26px]">
+      <div className="mx-auto w-full max-w-[740px]">
         <Messages messages={messages} />
-        <div ref={bottomRef} />
       </div>
     </div>
   )

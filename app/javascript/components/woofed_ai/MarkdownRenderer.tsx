@@ -19,7 +19,7 @@ const components: Components = {
       {...props}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-primary underline"
+      className="color-fg-highlight underline"
     >
       {children}
     </a>
@@ -35,7 +35,7 @@ const MarkdownRenderer: FC<MarkdownRendererProps> = ({
 }) => (
   <ReactMarkdown
     className={cn(
-      'prose prose-sm max-w-none break-words text-foreground prose-pre:bg-muted prose-pre:text-foreground',
+      'prose prose-sm max-w-none break-words color-fg-default prose-headings:text-gray-1100 prose-strong:text-gray-1100 prose-strong:font-extrabold prose-a:color-fg-highlight prose-pre:color-bg-fill-default prose-pre:color-fg-default prose-code:color-fg-default',
       className
     )}
     remarkPlugins={[remarkGfm]}

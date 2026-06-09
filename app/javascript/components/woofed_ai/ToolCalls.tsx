@@ -2,12 +2,12 @@ import { Wrench } from 'lucide-react'
 
 import type { ToolCall } from '@/types/woofed_ai'
 
-// Renders the agent's tool calls as compact chips above the message.
+// The agent's tool calls, shown as compact pills above its message.
 const ToolCalls = ({ toolCalls }: { toolCalls: ToolCall[] }) => (
   <div className="flex items-start gap-2">
-    <div className="flex size-6 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground">
+    <span className="flex size-6 shrink-0 items-center justify-center rounded-md color-bg-fill-default color-fg-soft">
       <Wrench className="size-3.5" />
-    </div>
+    </span>
     <div className="flex flex-wrap gap-2">
       {toolCalls.map((toolCall, index) => (
         <span
@@ -15,7 +15,7 @@ const ToolCalls = ({ toolCalls }: { toolCalls: ToolCall[] }) => (
             toolCall.tool_call_id ||
             `${toolCall.tool_name}-${toolCall.created_at}-${index}`
           }
-          className="rounded-full bg-muted px-2 py-1 text-xs font-medium uppercase text-muted-foreground"
+          className="rounded-full color-bg-fill-default px-2 py-1 typography-micro-s uppercase color-fg-soft"
         >
           {toolCall.tool_name}
         </span>

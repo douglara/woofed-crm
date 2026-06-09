@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
-import { Head } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 import { ChatProvider } from '@/components/woofed_ai/ChatContext'
 import ChatArea from '@/components/woofed_ai/ChatArea'
-import NewSessionButton from '@/components/woofed_ai/NewSessionButton'
+import ChatHeader from '@/components/woofed_ai/ChatHeader'
 import { mapRunsToMessages } from '@/lib/woofed_ai'
 import type { SessionRun } from '@/types/woofed_ai'
 
@@ -32,37 +32,30 @@ const ChatPage = ({
   const sessionsUrl = `${basePath}/sessions`
 
   return (
-    <div className="flex h-full flex-col bg-background">
+    <div className="flex h-full flex-col bg-light-palette-p4">
       <Head title="Woofed AI" />
-      <header className="flex items-center justify-between border-b color-border-default px-4 py-3">
-        <div className="flex flex-col">
-          <h1 className="text-base font-semibold text-foreground">Woofed AI</h1>
-          {model && (
-            <span className="text-xs text-muted-foreground">{model}</span>
-          )}
-        </div>
-        <NewSessionButton sessionsUrl={sessionsUrl} />
-      </header>
+      <ChatHeader
+        model={agent_available ? model : null}
+        onNewConversation={() => router.post(sessionsUrl)}
+      />
 
       {agent_available ? (
-        <div className="min-h-0 flex-1">
-          {/* Key on the session so switching sessions (e.g. "New session")
-              remounts the provider and resets the chat instead of keeping the
-              previous session's messages. */}
-          <ChatProvider
-            key={session_id ?? 'none'}
-            sessionId={session_id}
-            initialMessages={initialMessages}
-          >
-            <ChatArea apiUrl={messagesUrl} />
-          </ChatProvider>
-        </div>
+        // Key on the session so switching sessions (e.g. "New session")
+        // remounts the provider and resets the chat instead of keeping the
+        // previous session's messages.
+        <ChatProvider
+          key={session_id ?? 'none'}
+          sessionId={session_id}
+          initialMessages={initialMessages}
+        >
+          <ChatArea apiUrl={messagesUrl} />
+        </ChatProvider>
       ) : (
-        <div className="flex flex-1 flex-col items-center justify-center gap-2 px-4 text-center">
-          <p className="text-base font-semibold text-foreground">
+        <div className="flex flex-1 flex-col items-center justify-center gap-2 px-8 text-center">
+          <p className="text-body font-bold text-gray-1100">
             Woofed AI is not available yet
           </p>
-          <p className="max-w-md text-sm text-muted-foreground">
+          <p className="max-w-md text-subtext font-medium color-fg-soft">
             Enable the AI assistant and set a model and API key in the company
             settings, then make sure the Woofed AI service is running.
           </p>

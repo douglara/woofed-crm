@@ -416,6 +416,12 @@
   .button-default-fill-secondary-sm svg {
     @apply stroke-1.25 w-4 h-4;
   }
+  .button-default-fill-secondary-md {
+    @apply inline-flex gap-2 items-center typography-body-1000 rounded color-fg-soft color-bg-fill-default border-[1.5px] border-transparent h-10 px-3 hover:color-bg-fill-hard hover:color-border-harder hover:color-fg-highlight shrink-0 cursor-pointer;
+  }
+  .button-default-fill-secondary-md svg {
+    @apply stroke-1.25 w-5 h-5;
+  }
   .button-default-fill-danger-sm {
     @apply inline-flex gap-2 items-center typography-body-900 rounded color-fg-feedback-danger color-bg-feedback-danger-default h-8 px-3 hover:color-bg-feedback-danger-hard hover:color-fg-inverse shrink-0 cursor-pointer;
   }
