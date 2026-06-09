@@ -42,7 +42,7 @@ const ChatInput = ({ apiUrl }: { apiUrl: string }) => {
                 submit()
               }
             }}
-            className="max-h-[140px] flex-1 resize-none border-none bg-transparent py-1.5 text-subtext font-medium leading-normal color-fg-default outline-none placeholder:text-gray-700"
+            className="max-h-[140px] flex-1 resize-none border-none bg-transparent py-1.5 text-subtext font-medium leading-normal color-fg-default outline-none placeholder:text-gray-700 focus:border-transparent focus:outline-none focus:ring-0"
           />
           <button
             type="button"
