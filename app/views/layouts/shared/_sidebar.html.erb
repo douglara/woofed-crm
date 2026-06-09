@@ -1,6 +1,6 @@
 <% menu_items = [
   {
-    path: inertia_account_woofed_ai_path(Current.account),
+    path: account_woofed_ai_path(Current.account),
     icon: 'sparkles',
     label: 'Woofed AI',
     active_if: -> { request.path.include?('woofed_ai') },

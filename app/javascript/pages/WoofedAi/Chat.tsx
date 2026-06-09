@@ -27,7 +27,7 @@ const ChatPage = ({
     [initial_runs]
   )
 
-  const basePath = `/inertia/accounts/${current_account.id}/woofed_ai`
+  const basePath = `/accounts/${current_account.id}/woofed_ai`
   const messagesUrl = `${basePath}/messages`
   const sessionsUrl = `${basePath}/sessions`
 

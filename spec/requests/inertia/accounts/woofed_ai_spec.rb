@@ -5,7 +5,7 @@ RSpec.describe Inertia::Accounts::WoofedAiController, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user) }
   let(:agent_url) { 'http://woofed-ai.test' }
-  let(:base_url) { "/inertia/accounts/#{account.id}/woofed_ai" }
+  let(:base_url) { "/accounts/#{account.id}/woofed_ai" }
 
   around do |example|
     previous = ENV.values_at('WOOFED_AI_URL', 'OS_SECURITY_KEY')
@@ -25,7 +25,7 @@ RSpec.describe Inertia::Accounts::WoofedAiController, type: :request do
       .to_return(status: 200, body: [{ id: 'woofed-ai-agent', db_id: 'db-1' }].to_json)
   end
 
-  describe 'GET /inertia/accounts/{account.id}/woofed_ai' do
+  describe 'GET /accounts/{account.id}/woofed_ai' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get base_url
@@ -75,7 +75,7 @@ RSpec.describe Inertia::Accounts::WoofedAiController, type: :request do
     end
   end
 
-  describe 'POST /inertia/accounts/{account.id}/woofed_ai/sessions' do
+  describe 'POST /accounts/{account.id}/woofed_ai/sessions' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         post "#{base_url}/sessions"
@@ -96,7 +96,7 @@ RSpec.describe Inertia::Accounts::WoofedAiController, type: :request do
     end
   end
 
-  describe 'POST /inertia/accounts/{account.id}/woofed_ai/messages' do
+  describe 'POST /accounts/{account.id}/woofed_ai/messages' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         post "#{base_url}/messages", params: { message: 'Hello' }

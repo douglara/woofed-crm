@@ -21,7 +21,7 @@ class Inertia::Accounts::WoofedAiController < Inertia::InternalController
   # it. The previous session is left untouched in the agent but no longer
   # surfaced — the user only ever works on the latest session.
   def create_session
-    redirect_to inertia_account_woofed_ai_path(Current.account, session_id: SecureRandom.uuid)
+    redirect_to account_woofed_ai_path(Current.account, session_id: SecureRandom.uuid)
   end
 
   # Proxies a streaming run to the agent, relaying every chunk straight to the
