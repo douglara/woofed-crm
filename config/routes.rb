@@ -196,9 +196,10 @@ Rails.application.routes.draw do
   # adding a path or route-helper prefix.
   scope module: :inertia do
     resources :accounts, module: :accounts, only: [] do
-      get 'woofed_ai', to: 'woofed_ai#show'
-      post 'woofed_ai/messages', to: 'woofed_ai#create_message'
-      post 'woofed_ai/sessions', to: 'woofed_ai#create_session'
+      resource :woofed_ai, only: [:show] do
+        post 'create_message'
+        post 'create_session'
+      end
     end
   end
 

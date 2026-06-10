@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Inertia::Accounts::WoofedAiController < Inertia::InternalController
+class Inertia::Accounts::WoofedAisController < Inertia::InternalController
   include ActionController::Live
 
   def show

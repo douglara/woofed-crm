@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'inertia_rails/rspec'
 
-RSpec.describe Inertia::Accounts::WoofedAiController, type: :request do
+RSpec.describe Inertia::Accounts::WoofedAisController, type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user) }
   let(:agent_url) { 'http://woofed-ai.test' }
@@ -75,10 +75,10 @@ RSpec.describe Inertia::Accounts::WoofedAiController, type: :request do
     end
   end
 
-  describe 'POST /accounts/{account.id}/woofed_ai/sessions' do
+  describe 'POST /accounts/{account.id}/woofed_ai/create_session' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        post "#{base_url}/sessions"
+        post "#{base_url}/create_session"
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -87,7 +87,7 @@ RSpec.describe Inertia::Accounts::WoofedAiController, type: :request do
       before { sign_in(user) }
 
       it 'redirects to the chat on a freshly generated session id' do
-        post "#{base_url}/sessions"
+        post "#{base_url}/create_session"
 
         location = response.headers['Location']
         expect(location).to include(base_url)
@@ -96,10 +96,10 @@ RSpec.describe Inertia::Accounts::WoofedAiController, type: :request do
     end
   end
 
-  describe 'POST /accounts/{account.id}/woofed_ai/messages' do
+  describe 'POST /accounts/{account.id}/woofed_ai/create_message' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        post "#{base_url}/messages", params: { message: 'Hello' }
+        post "#{base_url}/create_message", params: { message: 'Hello' }
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -115,7 +115,7 @@ RSpec.describe Inertia::Accounts::WoofedAiController, type: :request do
         stub_request(:post, "#{agent_url}/agents/woofed-ai-agent/runs")
           .to_return(status: 200, body: '{"event":"RunCompleted","content":"Hi"}')
 
-        post "#{base_url}/messages", params: { message: 'Hello', session_id: 'sess-1' }
+        post "#{base_url}/create_message", params: { message: 'Hello', session_id: 'sess-1' }
 
         expect(response.headers['Content-Type']).to include('application/x-ndjson')
         expect(response.body).to include('RunCompleted').and include('Hi')
@@ -128,7 +128,7 @@ RSpec.describe Inertia::Accounts::WoofedAiController, type: :request do
       it 'emits a RunError chunk when the agent call fails' do
         stub_request(:post, "#{agent_url}/agents/woofed-ai-agent/runs").to_timeout
 
-        post "#{base_url}/messages", params: { message: 'Hello', session_id: 'sess-1' }
+        post "#{base_url}/create_message", params: { message: 'Hello', session_id: 'sess-1' }
 
         expect(response.body).to include('RunError')
       end

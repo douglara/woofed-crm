@@ -27,8 +27,8 @@ const ChatPage = ({
   )
 
   const basePath = `/accounts/${current_account.id}/woofed_ai`
-  const messagesUrl = `${basePath}/messages`
-  const newSessionUrl = `${basePath}/sessions`
+  const messagesUrl = `${basePath}/create_message`
+  const newSessionUrl = `${basePath}/create_session`
   const aiAssistantSettingsUrl = `/accounts/${current_account.id}/apps/ai_assistent/edit`
 
   return (
