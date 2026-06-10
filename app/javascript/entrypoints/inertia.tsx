@@ -27,7 +27,27 @@ if (window.self !== window.top) {
   }
 }
 
-void createInertiaApp({
+// Only boot Inertia on actual Inertia pages. The `internal` layout loads this
+// entrypoint on every page — including the legacy Turbo/Hotwire pages — but
+// initializing Inertia there would attach its global history/popstate listeners
+// alongside Turbo Drive. The two then fight over navigation: after leaving an
+// Inertia page through Turbo, a later back/forward makes Inertia re-request the
+// current (non-Inertia) URL, get HTML back, and pop up the error modal. Guarding
+// on the mount element keeps Inertia confined to its own pages.
+if (document.getElementById('inertia-app')) {
+  // Once Inertia has booted on its page, Inertia and Turbo Drive both hold
+  // history/popstate listeners. Force any top-level Turbo Drive visit (e.g. a
+  // sidebar link to a legacy page) to do a full browser navigation: that tears
+  // Inertia down cleanly so its popstate listener can't later fire against a
+  // Turbo-rendered page and pop up the error modal. Frame navigations
+  // (`data-turbo-frame` modal/drawer links) don't emit `turbo:before-visit`, so
+  // they keep loading into their frames as before.
+  document.addEventListener('turbo:before-visit', ((event: CustomEvent<{ url: string }>) => {
+    event.preventDefault()
+    window.location.href = event.detail.url
+  }) as EventListener)
+
+  void createInertiaApp({
   // Mount on a dedicated id (matching `config.root_dom_id` in
   // config/initializers/inertia_rails.rb) so the React app never collides with
   // the `internal` layout's outer `<div id="app">` shell.
@@ -80,17 +100,7 @@ void createInertiaApp({
       preserveEqualProps: true,
     },
   },
-}).catch((error) => {
-  // This ensures this entrypoint is only loaded on Inertia pages
-  // by checking for the presence of the root element (#inertia-app).
-  // Feel free to remove this `catch` if you don't need it.
-  if (document.getElementById("inertia-app")) {
-    throw error
-  } else {
-    console.error(
-      "Missing root element.\n\n" +
-      "If you see this error, it probably means you loaded Inertia.js on non-Inertia pages.\n" +
-      'Consider moving <%= vite_typescript_tag "inertia.tsx" %> to the Inertia-specific layout instead.',
-    )
-  }
-})
+  }).catch((error) => {
+    console.error('Inertia failed to start', error)
+  })
+}
