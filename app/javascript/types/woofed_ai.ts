@@ -10,6 +10,9 @@ export interface ToolCall {
   tool_call_error: boolean
   metrics: { time: number }
   created_at: number
+  // UI-only: tracks whether the tool is still executing or has finished, so the
+  // tool-call trace can show a spinner vs a check.
+  status?: 'running' | 'done'
 }
 
 export interface ReasoningSteps {

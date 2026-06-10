@@ -29,14 +29,14 @@ const ChatPage = ({
 
   const basePath = `/accounts/${current_account.id}/woofed_ai`
   const messagesUrl = `${basePath}/messages`
-  const sessionsUrl = `${basePath}/sessions`
+  const newSessionUrl = `${basePath}/sessions`
 
   return (
     <div className="flex h-full flex-col bg-light-palette-p4">
       <Head title="Woofed AI" />
       <ChatHeader
         model={agent_available ? model : null}
-        onNewConversation={() => router.post(sessionsUrl)}
+        onNewConversation={() => router.post(newSessionUrl)}
       />
 
       {agent_available ? (
@@ -48,7 +48,7 @@ const ChatPage = ({
           sessionId={session_id}
           initialMessages={initialMessages}
         >
-          <ChatArea apiUrl={messagesUrl} />
+          <ChatArea apiUrl={messagesUrl} newSessionUrl={newSessionUrl} />
         </ChatProvider>
       ) : (
         <div className="flex flex-1 flex-col items-center justify-center gap-2 px-8 text-center">

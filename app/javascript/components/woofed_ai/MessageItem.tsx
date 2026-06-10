@@ -5,7 +5,7 @@ import { useChat } from './ChatContext'
 import WoofedIcon from './WoofedIcon'
 import MarkdownRenderer from './MarkdownRenderer'
 import AgentThinkingLoader from './AgentThinkingLoader'
-import ToolCalls from './ToolCalls'
+import ToolCallTrace from './ToolCallTrace'
 
 const AgentMessage = ({
   message,
@@ -32,9 +32,10 @@ const AgentMessage = ({
         </div>
 
         {message.tool_calls && message.tool_calls.length > 0 && (
-          <div className="mb-2.5">
-            <ToolCalls toolCalls={message.tool_calls} />
-          </div>
+          <ToolCallTrace
+            toolCalls={message.tool_calls}
+            running={isLast && isStreaming}
+          />
         )}
 
         {message.streamingError ? (

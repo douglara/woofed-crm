@@ -1,5 +1,32 @@
 import type { ChatMessage, SessionRun, ToolCall } from '@/types/woofed_ai'
 
+// The agent only replays its last `HISTORY_RUNS` runs (num_history_runs in
+// ai-agent/main.py); a "run" is one user turn + its reply. Past that, the
+// earliest turns drop out of context — so we warn the user as the conversation
+// approaches the limit and flag it as critical once it's reached.
+export const HISTORY_RUNS = 20
+const WARN_RATIO = 0.8
+
+export type ContextLevel = 'off' | 'warn' | 'crit'
+
+export interface ContextStatus {
+  level: ContextLevel
+  pct: number
+  runs: number
+}
+
+// A run is materialized by each user turn, so counting user messages gives the
+// number of runs the agent must keep in context.
+export const computeContext = (messages: ChatMessage[]): ContextStatus => {
+  const runs = messages.filter((m) => m.role === 'user').length
+  const pct = Math.min(100, Math.round((runs / HISTORY_RUNS) * 100))
+  if (runs >= HISTORY_RUNS) return { level: 'crit', pct, runs }
+  if (runs >= Math.round(HISTORY_RUNS * WARN_RATIO)) {
+    return { level: 'warn', pct, runs }
+  }
+  return { level: 'off', pct, runs }
+}
+
 // Wraps a non-string agent payload in a fenced JSON markdown block so the
 // MarkdownRenderer can display it. Ported from agent-ui's getJsonMarkdown.
 export const getJsonMarkdown = (content: object = {}): string => {
@@ -29,7 +56,8 @@ export const mapRunsToMessages = (runs: SessionRun[]): ChatMessage[] =>
     })
 
     const toolCalls: ToolCall[] = [
-      ...(run.tools ?? []),
+      // Tools from history have already finished running.
+      ...(run.tools ?? []).map((tool) => ({ ...tool, status: 'done' as const })),
       ...(run.extra_data?.reasoning_messages ?? []).reduce<ToolCall[]>(
         (acc, msg) => {
           if (msg.role === 'tool') {
@@ -41,7 +69,8 @@ export const mapRunsToMessages = (runs: SessionRun[]): ChatMessage[] =>
               tool_args: msg.tool_args ?? {},
               tool_call_error: msg.tool_call_error ?? false,
               metrics: msg.metrics ?? { time: 0 },
-              created_at: msg.created_at ?? Math.floor(Date.now() / 1000)
+              created_at: msg.created_at ?? Math.floor(Date.now() / 1000),
+              status: 'done' as const
             })
           }
           return acc

@@ -37,36 +37,41 @@ const useAIChatStreamHandler = (apiUrl: string) => {
   }, [setMessages])
 
   const processToolCall = useCallback(
-    (toolCall: ToolCall, prevToolCalls: ToolCall[] = []) => {
+    (
+      toolCall: ToolCall,
+      prevToolCalls: ToolCall[] = [],
+      status?: ToolCall['status']
+    ) => {
+      const incoming = status ? { ...toolCall, status } : toolCall
       const toolCallId =
-        toolCall.tool_call_id || `${toolCall.tool_name}-${toolCall.created_at}`
+        incoming.tool_call_id || `${incoming.tool_name}-${incoming.created_at}`
       const existingIndex = prevToolCalls.findIndex(
         (tc) =>
-          (tc.tool_call_id && tc.tool_call_id === toolCall.tool_call_id) ||
+          (tc.tool_call_id && tc.tool_call_id === incoming.tool_call_id) ||
           (!tc.tool_call_id &&
-            toolCall.tool_name &&
-            toolCall.created_at &&
+            incoming.tool_name &&
+            incoming.created_at &&
             `${tc.tool_name}-${tc.created_at}` === toolCallId)
       )
       if (existingIndex >= 0) {
         const updated = [...prevToolCalls]
-        updated[existingIndex] = { ...updated[existingIndex], ...toolCall }
+        updated[existingIndex] = { ...updated[existingIndex], ...incoming }
         return updated
       }
-      return [...prevToolCalls, toolCall]
+      return [...prevToolCalls, incoming]
     },
     []
   )
 
   const processChunkToolCalls = useCallback(
-    (chunk: RunResponse, existing: ToolCall[] = []) => {
+    (chunk: RunResponse, existing: ToolCall[] = [], status?: ToolCall['status']) => {
       let updated = [...existing]
       if (chunk.tool) {
-        updated = processToolCall(chunk.tool, updated)
+        updated = processToolCall(chunk.tool, updated, status)
       }
       if (chunk.tools && chunk.tools.length > 0) {
         for (const toolCall of chunk.tools) {
-          updated = processToolCall(toolCall, updated)
+          updated = processToolCall(toolCall, updated, status)
         }
       }
       return updated
@@ -123,7 +128,15 @@ const useAIChatStreamHandler = (apiUrl: string) => {
                 const newMessages = [...prev]
                 const last = newMessages[newMessages.length - 1]
                 if (last && last.role === 'agent') {
-                  last.tool_calls = processChunkToolCalls(chunk, last.tool_calls)
+                  const status =
+                    chunk.event === RunEvent.ToolCallCompleted
+                      ? 'done'
+                      : 'running'
+                  last.tool_calls = processChunkToolCalls(
+                    chunk,
+                    last.tool_calls,
+                    status
+                  )
                 }
                 return newMessages
               })
@@ -194,7 +207,13 @@ const useAIChatStreamHandler = (apiUrl: string) => {
                       content: updatedContent,
                       tool_calls: processChunkToolCalls(
                         chunk,
-                        message.tool_calls
+                        // Any tool still mid-flight is finished once the run
+                        // completes.
+                        message.tool_calls?.map((tc) => ({
+                          ...tc,
+                          status: 'done' as const
+                        })),
+                        'done'
                       ),
                       created_at: chunk.created_at ?? message.created_at,
                       extra_data: {
