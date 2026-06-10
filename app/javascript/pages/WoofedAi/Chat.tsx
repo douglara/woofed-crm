@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Head, router } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 
 import { ChatProvider } from '@/components/woofed_ai/ChatContext'
 import ChatArea from '@/components/woofed_ai/ChatArea'
@@ -12,16 +12,15 @@ interface ChatPageProps {
   initial_runs: SessionRun[]
   agent_available: boolean
   model: string | null
-  current_account: { id: number; name: string }
 }
 
 const ChatPage = ({
   session_id,
   initial_runs,
   agent_available,
-  model,
-  current_account
+  model
 }: ChatPageProps) => {
+  const { current_account } = usePage().props
   const initialMessages = useMemo(
     () => mapRunsToMessages(initial_runs ?? []),
     [initial_runs]
