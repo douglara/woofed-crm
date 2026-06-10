@@ -29,6 +29,7 @@ const ChatPage = ({
   const basePath = `/accounts/${current_account.id}/woofed_ai`
   const messagesUrl = `${basePath}/messages`
   const newSessionUrl = `${basePath}/sessions`
+  const aiAssistantSettingsUrl = `/accounts/${current_account.id}/apps/ai_assistent/edit`
 
   return (
     <div className="flex h-full flex-col bg-light-palette-p4">
@@ -51,12 +52,18 @@ const ChatPage = ({
         </ChatProvider>
       ) : (
         <div className="flex flex-1 flex-col items-center justify-center gap-2 px-8 text-center">
-          <p className="text-body font-bold text-gray-1100">
+          <p className="typography-sub-title-950 color-fg-default">
             Woofed AI is not available yet
           </p>
-          <p className="max-w-md text-subtext font-medium color-fg-soft">
-            Enable the AI assistant and set a model and API key in the company
-            settings, then make sure the Woofed AI service is running.
+          <p className="max-w-md typography-body-1000 color-fg-soft">
+            Enable the AI assistant and set a model and API key in the{' '}
+            <a
+              href={aiAssistantSettingsUrl}
+              className="typography-button-1000 underline-offset-4 hover:underline"
+            >
+              company settings
+            </a>
+            .
           </p>
         </div>
       )}
