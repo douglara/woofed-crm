@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../overview.html"><img src="../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-03-15 01:22:24 +1000'>2026-03-15 01:22:24 +1000</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>app/models /</small> account.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating a big">
+              A
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">129</span><small> lines of codes</small></div>
+              <div><span class="metric">18</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">1.1</span><small> complexity/method</small></div>
+              <div><span class="metric">41</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">19.79</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                17
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># == Schema Information
+#
+# Table name: accounts
+#
+#  id                  :bigint           not null, primary key
+#  ai_usage            :jsonb            not null
+#  currency_code       :string           default(&quot;BRL&quot;), not null
+#  name                :string           default(&quot;&quot;), not null
+#  number_of_employees :string           default(&quot;1-10&quot;), not null
+#  segment             :string           default(&quot;other&quot;), not null
+#  settings            :jsonb            not null
+#  site_url            :string           default(&quot;&quot;), not null
+#  woofbot_auto_reply  :boolean          default(FALSE), not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#
+class Account &lt; ApplicationRecord<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Methods.md" target="_blank"><b>TooManyMethods</b></a>        </span>      </div>      <span>Account has at least 18 methods</span>          </div>  </li></ol>
+  include Account::Settings
+
+  validates :name, presence: true
+  validates :name, length: { maximum: 255 }
+  validates :currency_code, presence: true, inclusion: { in: Money::Currency.table.keys.map(&amp;:to_s).map(&amp;:upcase) }
+
+  enum segment: {
+    technology: &#39;technology&#39;,
+    health: &#39;health&#39;,
+    finance: &#39;finance&#39;,
+    education: &#39;education&#39;,
+    retail: &#39;retail&#39;,
+    services: &#39;services&#39;,
+    manufacturing: &#39;manufacturing&#39;,
+    telecommunications: &#39;telecommunications&#39;,
+    transportation_logistics: &#39;transportation_logistics&#39;,
+    real_estate: &#39;real_estate&#39;,
+    energy: &#39;energy&#39;,
+    agriculture: &#39;agriculture&#39;,
+    tourism_hospitality: &#39;tourism_hospitality&#39;,
+    entertainment_media: &#39;entertainment_media&#39;,
+    construction: &#39;construction&#39;,
+    public_sector: &#39;public_sector&#39;,
+    consulting: &#39;consulting&#39;,
+    startup: &#39;startup&#39;,
+    ecommerce: &#39;ecommerce&#39;,
+    security: &#39;security&#39;,
+    automotive: &#39;automotive&#39;,
+    other: &#39;other&#39;
+  }
+  enum number_of_employees: {
+    &#39;1-10&#39; =&gt; &#39;1-10&#39;,
+    &#39;11-50&#39; =&gt; &#39;11-50&#39;,
+    &#39;51-200&#39; =&gt; &#39;51-200&#39;,
+    &#39;201-500&#39; =&gt; &#39;201-500&#39;,
+    &#39;501+&#39; =&gt; &#39;501+&#39;
+  }
+
+  def events<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#events doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    Event.all
+  end
+
+  def apps<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#apps doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    App.all
+  end
+
+  def users<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#users doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    User.all
+  end
+
+  def contacts<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#contacts doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    Contact.all
+  end
+
+  def deals<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#deals doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    Deal.all
+  end
+
+  def custom_attribute_definitions<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#custom_attribute_definitions doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    CustomAttributeDefinition.all
+  end
+
+  def custom_attributes_definitions
+    custom_attribute_definitions
+  end
+
+  def apps_wpp_connects<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#apps_wpp_connects doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    Apps::WppConnect.all
+  end
+
+  def apps_chatwoots<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#apps_chatwoots doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    Apps::Chatwoot.all
+  end
+
+  def apps_evolution_apis<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#apps_evolution_apis doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    Apps::EvolutionApi.all
+  end
+
+  def webhooks<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#webhooks doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    Webhook.all
+  end
+
+  def stages<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#stages doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    Stage.all
+  end
+
+  def products<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#products doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    Product.all
+  end
+
+  def embedding_documments<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#embedding_documments doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    EmbeddingDocumment.all
+  end
+
+  def deal_products<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#deal_products doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    DealProduct.all
+  end
+
+  def apps_ai_assistents<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#apps_ai_assistents doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    Apps::AiAssistent.all
+  end
+
+  def site_url=(url)
+    super(normalize_url(url))
+  end
+
+  def normalize_url(url)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#normalize_url doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    url = &quot;https://#{url}&quot; unless url.match?(%r{\Ahttp(s)?://})
+
+    url
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../assets/javascripts/application.js"></script>
+    <script src="../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>
