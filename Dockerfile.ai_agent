@@ -34,7 +34,7 @@ COPY ai-agent/pyproject.toml ai-agent/uv.lock ./
 RUN uv sync --frozen --no-install-project
 
 # Layer 2: agent source.
-COPY ai-agent/agent_config.py ai-agent/db_listener.py ai-agent/main.py ./
+COPY ai-agent/main.py ./
 
 ENV PYTHONUNBUFFERED=1 \
     UV_NO_SYNC=1

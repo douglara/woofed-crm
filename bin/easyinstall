@@ -6,15 +6,4 @@ if ! gem list foreman -i --silent; then
 fi
 
 bin/rails db:create db:migrate
-
-# The AI agent (agno) connects to the dedicated database named in
-# WOOFED_AI_DATABASE_URL. agno auto-creates its own schema/tables, but it cannot
-# create the database itself — Postgres refuses the connection when the database
-# does not exist — and Rails' db:create only handles its own database. Provision
-# it here, idempotently, before the agent boots.
-WOOFED_AI_DB="$(basename "$WOOFED_AI_DATABASE_URL")"
-PGPASSWORD="$POSTGRES_PASSWORD" psql -h localhost -U "$POSTGRES_USER" -tc \
-  "SELECT 1 FROM pg_database WHERE datname='$WOOFED_AI_DB'" | grep -q 1 \
-  || PGPASSWORD="$POSTGRES_PASSWORD" createdb -h localhost -U "$POSTGRES_USER" "$WOOFED_AI_DB"
-
 exec foreman start -f Procfile.easyinstall "$@"

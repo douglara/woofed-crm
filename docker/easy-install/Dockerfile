@@ -4,7 +4,11 @@ ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=password
 ENV POSTGRES_DB=woofed_crm_production
 ENV DATABASE_URL=postgres://postgres:password@localhost/woofed_crm_production
-ENV WOOFED_AI_DATABASE_URL=postgresql+psycopg://postgres:password@localhost/woofed_ai
+# Same Postgres server as the primary DB; Rails only creates this database on
+# deploy (db:create) so the woofed-ai-agent can connect to it. agno owns and
+# creates its own tables there.
+ENV AI_AGENT_DATABASE_URL=postgres://postgres:password@localhost/woofed_ai_production
+ENV WOOFED_AI_DATABASE_URL=postgresql+psycopg://postgres:password@localhost/woofed_ai_production
 ENV WOOFED_AI_URL=http://0.0.0.0:7777
 ENV OS_SECURITY_KEY=IyT96NY5VGwX9WlkLT-4trh5Horti2J0ed1eIh4Zg1R4UKLt3jzBGAtksNhNIRrp
 ENV RAILS_ENV production

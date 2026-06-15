@@ -17,17 +17,48 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  url: <%= "#{ENV['DATABASE_URL']}woofed_crm_#{Rails.env}" %>
+
+primary: &primary
+  <<: *default
+  database: <%= "woofed_crm_#{Rails.env}" %>
+
+goodjob: &goodjob
+  <<: *default
+  database: <%= "woofed_crm_goodjob_#{Rails.env}" %>
+  migrations_paths: db/good_job_migrate
+
+# Session store for the woofed-ai-agent (agno). Rails only provisions the empty
+# database (db:create); agno creates and owns its own tables at runtime, so the
+# migrations path points at an empty directory to keep db:migrate a no-op here.
+ai_agent: &ai_agent
+  <<: *default
+  database: <%= "woofed_ai_#{Rails.env}" %>
+  migrations_paths: db/ai_agent_migrate
 
 development:
-  <<: *default
+  primary:
+    <<: *primary
+  goodjob:
+    <<: *goodjob
+  ai_agent:
+    <<: *ai_agent
 
 test:
-  <<: *default
+  primary:
+    <<: *primary
+  goodjob:
+    <<: *goodjob
+  ai_agent:
+    <<: *ai_agent
 
 production:
-  <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  primary:
+    <<: *primary
+    url: <%= ENV['DATABASE_URL'] %>
+  goodjob:
+    <<: *goodjob
+    url: <%= ENV['GOODJOB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
+  ai_agent:
+    <<: *ai_agent
+    url: <%= ENV['AI_AGENT_DATABASE_URL'] %>
