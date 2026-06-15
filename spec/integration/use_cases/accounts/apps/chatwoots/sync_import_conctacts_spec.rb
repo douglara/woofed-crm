@@ -74,6 +74,27 @@ RSpec.describe Accounts::Apps::Chatwoots::SyncImportContacts, type: :request do
           expect(no_chatwoot_id_contacts.first.id).to eq(contact.id)
         end
       end
+      context 'when a chatwoot contact has no name' do
+        let(:contact_without_name) do
+          { meta: { count: 1, current_page: '1' },
+            payload: [{ id: 999, name: nil, email: nil, phone_number: '+551432015784',
+                        identifier: nil, additional_attributes: {}, custom_attributes: {} }] }.to_json
+        end
+        let(:empty_page) { { meta: { count: 0, current_page: '2' }, payload: [] }.to_json }
+        before do
+          stub_request(:get, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/")
+            .with(query: { page: 1 }, headers: chatwoot.request_headers)
+            .to_return(status: 200, body: contact_without_name, headers: { 'Content-Type' => 'application/json' })
+          stub_request(:get, "#{chatwoot.chatwoot_endpoint_url}/api/v1/accounts/#{chatwoot.chatwoot_account_id}/contacts/")
+            .with(query: { page: 2 }, headers: chatwoot.request_headers)
+            .to_return(status: 200, body: empty_page, headers: { 'Content-Type' => 'application/json' })
+        end
+        it 'imports the contact using the phone number as a fallback name instead of raising' do
+          expect { Accounts::Apps::Chatwoots::SyncImportContacts.new(chatwoot).call }
+            .to change { account.contacts.count }.by(1)
+          expect(account.contacts.last.full_name).to eq('+551432015784')
+        end
+      end
       context 'check contact tags and conversations tags' do
         it do
           Accounts::Apps::Chatwoots::SyncImportContacts.new(chatwoot).call
