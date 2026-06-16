@@ -251,7 +251,8 @@
   }
 
   var SCREENS = {
-    pipeline: { label: 'Pipeline', path: pipelinePath }
+    pipeline: { label: 'Pipeline', path: pipelinePath },
+    activities: { label: 'Atividades', path: function () { return '/accounts/' + WOOFED_ACCOUNT + '/events/calendar'; } }
   };
 
   function ensureStage() {
@@ -322,7 +323,8 @@
     Array.prototype.forEach.call(el.children || [], clearActiveClasses);
   }
   var NAV_ITEMS = [
-    { key: 'pipeline', label: 'Pipeline', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="9" y="3" width="6" height="11" rx="1"/><rect x="15" y="3" width="6" height="15" rx="1"/></svg>' }
+    { key: 'pipeline', label: 'Pipeline', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="9" y="3" width="6" height="11" rx="1"/><rect x="15" y="3" width="6" height="15" rx="1"/></svg>' },
+    { key: 'activities', label: 'Atividades', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg>' }
   ];
 
   // Climb to the tall, left-anchored, narrow ancestor — the Chatwoot nav rail.
