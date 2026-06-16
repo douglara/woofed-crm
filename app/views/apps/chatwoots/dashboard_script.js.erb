@@ -251,9 +251,7 @@
   }
 
   var SCREENS = {
-    pipeline: { label: 'Pipeline', path: pipelinePath },
-    contacts: { label: 'Contatos', path: function () { return '/accounts/' + WOOFED_ACCOUNT + '/contacts'; } },
-    reports: { label: 'Relatórios', path: function () { return '/accounts/' + WOOFED_ACCOUNT + '/reports'; } }
+    pipeline: { label: 'Pipeline', path: pipelinePath }
   };
 
   function ensureStage() {
@@ -324,9 +322,7 @@
     Array.prototype.forEach.call(el.children || [], clearActiveClasses);
   }
   var NAV_ITEMS = [
-    { key: 'pipeline', label: 'Pipeline', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="9" y="3" width="6" height="11" rx="1"/><rect x="15" y="3" width="6" height="15" rx="1"/></svg>' },
-    { key: 'contacts', label: 'Contatos', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
-    { key: 'reports', label: 'Relatórios', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx="1"/><rect x="12" y="8" width="3" height="10" rx="1"/><rect x="17" y="5" width="3" height="13" rx="1"/></svg>' }
+    { key: 'pipeline', label: 'Pipeline', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="9" y="3" width="6" height="11" rx="1"/><rect x="15" y="3" width="6" height="15" rx="1"/></svg>' }
   ];
 
   // Climb to the tall, left-anchored, narrow ancestor — the Chatwoot nav rail.
