@@ -20,5 +20,15 @@
     <%= form.label :chatwoot_user_token, class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
     <%= form.text_field :chatwoot_user_token, placeholder: 'LsdhksdjfhAJSJFfdfsdfdfASdsadASFDfghfgjghjghkhjlyui',  class: 'form-input' %>
   </div>
+  <div class="grid gap-2 border-t border-light-palette-p3 pt-4">
+    <p class="typography-text-s-lh150 text-gray-pallete-p3">
+      Opcional: credenciais de super-admin do Chatwoot para instalar o widget automaticamente.
+      Usadas apenas uma vez na configuração e não são armazenadas.
+    </p>
+    <%= form.label :super_admin_email, class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
+    <%= form.text_field :super_admin_email, autocomplete: 'off', placeholder: 'admin@chatwoot...', class: 'form-input' %>
+    <%= form.label :super_admin_password, class: 'typography-text-m-lh150 text-dark-gray-palette-p1' %>
+    <%= form.password_field :super_admin_password, autocomplete: 'new-password', class: 'form-input' %>
+  </div>
   <%= submit_button(form, class: 'self-end') %>
 <% end %>

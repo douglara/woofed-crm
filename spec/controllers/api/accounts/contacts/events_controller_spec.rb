@@ -31,7 +31,11 @@ RSpec.describe 'Contact Events API', type: :request do
     end
 
     it 'creates a scheduled chatwoot_message carrying the template attributes' do
-      params = { kind: 'chatwoot_message', app_type: 'Apps::Chatwoot', scheduled_at: 1.hour.from_now,
+      chatwoot = create(:apps_chatwoots, :skip_validate, account:,
+                                                         inboxes: [{ 'id' => 46, 'channel_type' => 'Channel::Whatsapp',
+                                                                     'message_templates' => [{ 'name' => 'lembrete_aula', 'language' => 'pt_BR', 'category' => 'UTILITY',
+                                                                                               'components' => [{ 'type' => 'BODY', 'text' => 'Oi {{1}} {{2}}' }] }] }])
+      params = { kind: 'chatwoot_message', app_type: 'Apps::Chatwoot', app_id: chatwoot.id, scheduled_at: 1.hour.from_now,
                  additional_attributes: { chatwoot_inbox_id: '46', chatwoot_template_name: 'lembrete_aula',
                                           template_body_params: { '1' => 'Paula', '2' => '14:00' } } }.to_json
 

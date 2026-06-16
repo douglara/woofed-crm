@@ -42,6 +42,7 @@ class Accounts::Apps::ChatwootsController < InternalController
   end
 
   def chatwoot_params
-    params.require(:apps_chatwoot).permit(:chatwoot_endpoint_url, :chatwoot_account_id, :chatwoot_user_token, :active)
+    params.require(:apps_chatwoot).permit(:chatwoot_endpoint_url, :chatwoot_account_id, :chatwoot_user_token, :active,
+                                          :super_admin_email, :super_admin_password)
   end
 end

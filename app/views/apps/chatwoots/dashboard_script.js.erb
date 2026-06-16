@@ -1,0 +1,326 @@
+/* =====================================================================
+ * WoofedCRM widget for Chatwoot (DASHBOARD_SCRIPTS injection)
+ * Replaces the HubSpot widget. Talks directly to the WoofedCRM API
+ * (CORS-enabled, Bearer JWT) — no proxy.
+ *
+ * Pattern mirrors the previous HubSpot script: idempotent DOM injection
+ * via MutationObserver + timers, lazy context read on click.
+ * ===================================================================== */
+(function () {
+  'use strict';
+
+  // --- Config --------------------------------------------------------
+  var WOOFED = '<%= @frontend_url %>';
+  var WOOFED_ACCOUNT = <%= @chatwoot.account_id %>;
+  var CW_ACCOUNT = <%= @chatwoot.chatwoot_account_id %>;
+  var EMBED_TOKEN = '<%= @chatwoot.embedding_token %>';
+  var SERVICE_EMAIL = '<%= @service_email %>';
+  var CHATWOOT_APP_ID = <%= @chatwoot.id %>;
+
+  // --- Small helpers -------------------------------------------------
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function digits(s) { return (s || '').replace(/[^\d+]/g, ''); }
+  function esc(s) { return (s == null ? '' : String(s)).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+
+  function getEmail() { var e = $('a[href^="mailto:"]'); return e ? e.textContent.trim().replace(/[\n\r]/g, '') : null; }
+  function getPhone() { var e = $('a[href^="tel:"]'); return e ? digits(e.textContent.trim()) : null; }
+
+  function initVars() {
+    var dark = document.body.classList.contains('dark');
+    return {
+      bg: dark ? '#1f2933' : '#fff', tx: dark ? '#e4e7eb' : '#1f2933',
+      tm: dark ? '#9aa5b1' : '#7b8794', b: dark ? '#3e4c59' : '#e4e7eb',
+      acc: '#FF7A59'
+    };
+  }
+
+  // --- Auth: mint + cache a woofed JWT -------------------------------
+  var _jwt = null;
+  async function woofedJwt() {
+    if (_jwt) return _jwt;
+    var cached = localStorage.getItem('woofed_jwt');
+    if (cached) { _jwt = cached; return _jwt; }
+    try {
+      var r = await fetch(WOOFED + '/apps/chatwoots/embedding_generate_jwt', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: EMBED_TOKEN, event: JSON.stringify({ data: { currentAgent: { email: SERVICE_EMAIL } } }) })
+      });
+      if (!r.ok) return null;
+      var d = await r.json();
+      _jwt = d.jwt; localStorage.setItem('woofed_jwt', _jwt);
+      return _jwt;
+    } catch (e) { return null; }
+  }
+
+  async function api(method, path, body) {
+    var jwt = await woofedJwt();
+    if (!jwt) throw new Error('no-jwt');
+    var opts = { method: method, headers: { 'Authorization': 'Bearer ' + jwt, 'Content-Type': 'application/json' } };
+    if (body) opts.body = JSON.stringify(body);
+    var r = await fetch(WOOFED + '/api/v1/accounts/' + WOOFED_ACCOUNT + path, opts);
+    if (r.status === 401) { localStorage.removeItem('woofed_jwt'); _jwt = null; } // token expired -> refresh next call
+    var text = await r.text();
+    var json = text ? JSON.parse(text) : {};
+    return { ok: r.ok, status: r.status, data: json };
+  }
+
+  // --- WoofedCRM data ------------------------------------------------
+  async function findContact(email, phone) {
+    // Prefer phone (WhatsApp identifier), then email. search returns {data:[...]}.
+    var key = phone ? 'phone_eq' : (email ? 'email_eq' : null);
+    var val = phone || email;
+    if (!key) return null;
+    var qs = 'query%5B' + key + '%5D=' + encodeURIComponent(val);
+    var res = await api('GET', '/contacts/search?' + qs);
+    var list = (res.data && res.data.data) || [];
+    if (!list.length) return null;
+    // fetch full contact (with deals + events)
+    var full = await api('GET', '/contacts/' + list[0].id);
+    return full.ok ? full.data : list[0];
+  }
+
+  async function loadInboxes() {
+    var res = await api('GET', '/apps/chatwoots/inboxes');
+    return (res.data && res.data.inboxes) || [];
+  }
+
+  // --- Panel UI ------------------------------------------------------
+  window.woofedOpen = async function () {
+    var v = initVars();
+    var old = document.getElementById('woofed-p'); if (old) old.remove();
+    var p = document.createElement('div');
+    p.id = 'woofed-p';
+    p.style.cssText = 'position:fixed;top:0;right:0;width:400px;height:100vh;z-index:99998;background:' + v.bg + ';color:' + v.tx + ';border-left:1px solid ' + v.b + ';box-shadow:-4px 0 24px rgba(0,0,0,.15);transform:translateX(100%);transition:transform .25s ease;overflow-y:auto;font-family:Inter,system-ui,sans-serif;font-size:13px';
+    p.innerHTML = header(v, 'WoofedCRM') + '<div id="woofed-body" style="padding:16px">' + loading() + '</div>';
+    document.body.appendChild(p);
+    requestAnimationFrame(function () { p.style.transform = 'translateX(0)'; });
+    $('#woofed-close', p).onclick = function () { p.style.transform = 'translateX(100%)'; setTimeout(function () { p.remove(); }, 250); };
+
+    var email = getEmail(), phone = getPhone();
+    var body = $('#woofed-body', p);
+    if (!email && !phone) { body.innerHTML = empty('Nenhum email/telefone na conversa.'); return; }
+
+    try {
+      var contact = await findContact(email, phone);
+      if (!contact) { body.innerHTML = notFound(v, email, phone); bindCreate(p, v, email, phone); return; }
+      window._woofedContact = contact;
+      body.innerHTML = renderContact(v, contact);
+      bindContact(p, v, contact);
+    } catch (e) {
+      body.innerHTML = empty('Erro ao carregar (' + esc(e.message) + ').');
+    }
+  };
+
+  function header(v, title) {
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid ' + v.b + ';position:sticky;top:0;background:' + v.bg + ';z-index:1">'
+      + '<strong style="color:' + v.acc + '">' + title + '</strong>'
+      + '<button id="woofed-close" style="border:0;background:none;color:' + v.tm + ';cursor:pointer;font-size:20px;line-height:1">&times;</button></div>';
+  }
+  function loading() { return '<div style="text-align:center;padding:40px;opacity:.6">Carregando…</div>'; }
+  function empty(msg) { return '<div style="text-align:center;padding:40px;opacity:.7">' + esc(msg) + '</div>'; }
+  function field(v, label, id, val) {
+    return '<label style="display:block;margin:10px 0 4px;color:' + v.tm + ';font-size:11px;text-transform:uppercase">' + esc(label) + '</label>'
+      + '<input id="' + id + '" value="' + esc(val) + '" style="width:100%;box-sizing:border-box;padding:8px;border:1px solid ' + v.b + ';border-radius:6px;background:transparent;color:inherit">';
+  }
+  function section(v, title) { return '<div style="margin:18px 0 8px;font-weight:600;color:' + v.acc + ';font-size:12px;text-transform:uppercase">' + esc(title) + '</div>'; }
+
+  function renderContact(v, c) {
+    var aa = c.additional_attributes || {};
+    var deals = c.deals || [], events = c.events || [];
+    var h = '';
+    h += section(v, 'Contato');
+    h += field(v, 'Nome', 'wf-name', c.full_name);
+    h += field(v, 'Email', 'wf-email', c.email);
+    h += field(v, 'Telefone', 'wf-phone', c.phone);
+    h += '<button id="wf-save" style="margin-top:10px;width:100%;padding:9px;border:0;border-radius:6px;background:' + v.acc + ';color:#fff;cursor:pointer;font-weight:600">Salvar contato</button>';
+    h += '<a href="' + WOOFED + '/accounts/' + WOOFED_ACCOUNT + '/contacts/' + c.id + '" target="_blank" style="display:block;margin-top:8px;text-align:center;color:' + v.acc + ';font-size:12px">Abrir no WoofedCRM ↗</a>';
+
+    h += section(v, 'Deals (' + deals.length + ')');
+    if (!deals.length) h += '<div style="opacity:.6;font-size:12px">Nenhum deal.</div>';
+    deals.forEach(function (d) {
+      h += '<div style="border:1px solid ' + v.b + ';border-radius:6px;padding:8px;margin-bottom:6px">'
+        + '<div style="font-weight:600">' + esc(d.name) + '</div>'
+        + '<div style="font-size:11px;color:' + v.tm + '">status: ' + esc(d.status) + '</div></div>';
+    });
+
+    h += section(v, 'Enviar template');
+    h += '<div id="wf-tmpl">' + '<button id="wf-tmpl-load" style="width:100%;padding:8px;border:1px solid ' + v.b + ';border-radius:6px;background:transparent;color:inherit;cursor:pointer">Carregar templates…</button></div>';
+
+    h += section(v, 'Adicionar nota');
+    h += '<textarea id="wf-note" rows="2" placeholder="Nota interna…" style="width:100%;box-sizing:border-box;padding:8px;border:1px solid ' + v.b + ';border-radius:6px;background:transparent;color:inherit"></textarea>';
+    h += '<button id="wf-note-add" style="margin-top:6px;width:100%;padding:8px;border:1px solid ' + v.b + ';border-radius:6px;background:transparent;color:inherit;cursor:pointer">Adicionar nota</button>';
+
+    h += section(v, 'Timeline (' + events.length + ')');
+    events.slice(0, 8).forEach(function (e) {
+      var txt = (e.content && e.content.body) ? e.content.body : (e.title || e.kind);
+      h += '<div style="border-left:2px solid ' + v.b + ';padding:4px 0 4px 8px;margin-bottom:6px;font-size:12px">'
+        + '<span style="color:' + v.tm + '">' + esc(e.kind) + '</span><br>' + esc(String(txt).slice(0, 140)) + '</div>';
+    });
+    return h;
+  }
+
+  function notFound(v, email, phone) {
+    return section(v, 'Contato não encontrado')
+      + '<div style="font-size:12px;opacity:.8;margin-bottom:8px">Email: ' + esc(email || '—') + '<br>Telefone: ' + esc(phone || '—') + '</div>'
+      + '<button id="wf-create" style="width:100%;padding:9px;border:0;border-radius:6px;background:' + v.acc + ';color:#fff;cursor:pointer;font-weight:600">Criar no WoofedCRM</button>';
+  }
+
+  // --- Bindings ------------------------------------------------------
+  function bindContact(p, v, c) {
+    $('#wf-save', p).onclick = async function () {
+      this.textContent = 'Salvando…';
+      var r = await api('POST', '/contacts/upsert', { full_name: $('#wf-name', p).value, email: $('#wf-email', p).value, phone: $('#wf-phone', p).value });
+      this.textContent = r.ok ? 'Salvo ✓' : 'Erro';
+    };
+    var noteBtn = $('#wf-note-add', p);
+    if (noteBtn) noteBtn.onclick = async function () {
+      var content = $('#wf-note', p).value.trim(); if (!content) return;
+      this.textContent = 'Enviando…';
+      var r = await api('POST', '/contacts/' + c.id + '/events', { kind: 'note', content: content });
+      this.textContent = r.ok ? 'Adicionada ✓' : 'Erro'; if (r.ok) $('#wf-note', p).value = '';
+    };
+    var tmplBtn = $('#wf-tmpl-load', p);
+    if (tmplBtn) tmplBtn.onclick = function () { loadTemplateUi(p, v, c); };
+  }
+
+  function bindCreate(p, v, email, phone) {
+    var btn = $('#wf-create', p);
+    if (btn) btn.onclick = async function () {
+      this.textContent = 'Criando…';
+      var r = await api('POST', '/contacts/upsert', { full_name: (getEmail() || phone || 'Novo contato'), email: email || '', phone: phone || '' });
+      if (r.ok) window.woofedOpen(); else this.textContent = 'Erro';
+    };
+  }
+
+  async function loadTemplateUi(p, v, c) {
+    var box = $('#wf-tmpl', p);
+    box.innerHTML = '<div style="opacity:.6">Carregando templates…</div>';
+    var inboxes = (await loadInboxes()).filter(function (i) { return i.channel_type === 'Channel::Whatsapp'; });
+    if (!inboxes.length) { box.innerHTML = '<div style="opacity:.6;font-size:12px">Nenhuma inbox WhatsApp.</div>'; return; }
+    var ih = '<select id="wf-inbox" style="width:100%;padding:8px;margin-bottom:6px;border:1px solid ' + v.b + ';border-radius:6px;background:transparent;color:inherit">'
+      + inboxes.map(function (i) { return '<option value="' + i.id + '">' + esc(i.name) + '</option>'; }).join('') + '</select>';
+    ih += '<select id="wf-template" style="width:100%;padding:8px;margin-bottom:6px;border:1px solid ' + v.b + ';border-radius:6px;background:transparent;color:inherit"></select>';
+    ih += '<div id="wf-vars"></div>';
+    ih += '<button id="wf-send" style="width:100%;padding:9px;border:0;border-radius:6px;background:' + v.acc + ';color:#fff;cursor:pointer;font-weight:600">Enviar template</button>';
+    box.innerHTML = ih;
+
+    function inbox() { return inboxes.find(function (i) { return String(i.id) === $('#wf-inbox', p).value; }); }
+    function fillTemplates() {
+      var t = (inbox().message_templates || []);
+      $('#wf-template', p).innerHTML = '<option value="">—</option>' + t.map(function (x) { return '<option value="' + esc(x.name) + '">' + esc(x.name) + '</option>'; }).join('');
+      $('#wf-vars', p).innerHTML = '';
+    }
+    function tmpl() { return (inbox().message_templates || []).find(function (x) { return x.name === $('#wf-template', p).value; }); }
+    function fillVars() {
+      var t = tmpl(); var vars = $('#wf-vars', p); vars.innerHTML = '';
+      if (!t) return;
+      var body = (t.components || []).find(function (x) { return x.type === 'BODY'; });
+      var idxs = [...new Set(((body && body.text) || '').match(/\{\{(\d+)\}\}/g) || [])].map(function (m) { return m.replace(/\D/g, ''); });
+      idxs.forEach(function (n) {
+        vars.innerHTML += '<input data-var="' + n + '" placeholder="Variável {{' + n + '}}" style="width:100%;box-sizing:border-box;padding:7px;margin-bottom:5px;border:1px solid ' + v.b + ';border-radius:6px;background:transparent;color:inherit">';
+      });
+    }
+    $('#wf-inbox', p).onchange = fillTemplates;
+    $('#wf-template', p).onchange = fillVars;
+    fillTemplates();
+    $('#wf-send', p).onclick = async function () {
+      var t = tmpl(); if (!t) { this.textContent = 'Escolha um template'; return; }
+      var bodyParams = {};
+      $('#wf-vars', p).querySelectorAll('input[data-var]').forEach(function (inp) { bodyParams[inp.getAttribute('data-var')] = inp.value; });
+      this.textContent = 'Enviando…';
+      var r = await api('POST', '/contacts/' + c.id + '/events', {
+        kind: 'chatwoot_message', app_type: 'Apps::Chatwoot', app_id: CHATWOOT_APP_ID, send_now: true,
+        additional_attributes: { chatwoot_inbox_id: inbox().id, chatwoot_template_name: t.name, template_body_params: bodyParams }
+      });
+      this.textContent = r.ok ? 'Enviado ✓' : 'Erro';
+    };
+  }
+
+  // --- Pipeline (embeds the REAL WoofedCRM kanban page in an iframe) --
+  window.woofedKanbanOpen = async function () {
+    var v = initVars();
+    var old = document.getElementById('woofed-kb'); if (old) old.remove();
+    var o = document.createElement('div');
+    o.id = 'woofed-kb';
+    o.style.cssText = 'position:fixed;inset:0;z-index:99999;background:' + v.bg + ';display:flex;flex-direction:column';
+    o.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid ' + v.b + ';background:' + v.bg + ';color:' + v.tx + ';font-family:Inter,system-ui,sans-serif"><strong style="color:' + v.acc + '">WoofedCRM — Pipeline</strong><div style="display:flex;align-items:center;gap:14px"><a id="woofed-kb-tab" href="#" target="_blank" style="color:' + v.tm + ';font-size:12px;text-decoration:none">abrir em nova aba ↗</a><button id="woofed-kb-close" style="border:0;background:none;color:' + v.tm + ';cursor:pointer;font-size:22px;line-height:1">&times;</button></div></div><div id="woofed-kb-frame" style="flex:1;position:relative">' + loading() + '</div>';
+    document.body.appendChild(o);
+    document.getElementById('woofed-kb-close').onclick = function () { o.remove(); };
+    // Resolve the first pipeline id so the iframe lands on the kanban board.
+    var target = '/accounts/' + WOOFED_ACCOUNT + '/pipelines';
+    try {
+      var pres = await api('GET', '/pipelines');
+      var first = (pres.data || [])[0];
+      if (first) target = '/accounts/' + WOOFED_ACCOUNT + '/pipelines/' + first.id;
+    } catch (e) { }
+    // Auto-login the agent into woofed so the real pipeline loads authenticated.
+    var jwt = await woofedJwt();
+    var url = WOOFED + '/apps/chatwoots/embed_login?token=' + EMBED_TOKEN + '&jwt=' + encodeURIComponent(jwt || '') + '&path=' + encodeURIComponent(target);
+    document.getElementById('woofed-kb-tab').href = url;
+    document.getElementById('woofed-kb-frame').innerHTML = '<iframe src="' + url + '" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>';
+  };
+
+  // --- Sidebar nav helpers (mirrors the proven HubSpot injection) ----
+  function navText(el) { return (el && el.textContent || '').replace(/\s+/g, ' ').trim(); }
+  function findNavItem(label) {
+    var nodes = document.querySelectorAll('a,button,[role="link"],[role="button"]');
+    for (var i = 0; i < nodes.length; i++) { if (navText(nodes[i]) === label) return nodes[i]; }
+    for (var j = 0; j < nodes.length; j++) { if (navText(nodes[j]).indexOf(label) > -1) return nodes[j]; }
+    return null;
+  }
+  function clearActiveClasses(el) {
+    if (!el || !el.classList) return;
+    ['active', 'router-link-active', 'router-link-exact-active', 'bg-n-alpha-2', 'bg-n-brand', 'text-n-brand', 'text-white'].forEach(function (c) { el.classList.remove(c); });
+    Array.prototype.forEach.call(el.children || [], clearActiveClasses);
+  }
+  function addKanbanMenu() {
+    if (document.getElementById('woofed-kanban-nav')) return;
+    var my = findNavItem('My inbox'), conv = findNavItem('Conversations');
+    if (!my && !conv) return;
+    var base = conv || my;
+    var item = base.cloneNode(true);
+    item.id = 'woofed-kanban-nav';
+    item.setAttribute('href', '#woofed-kanban');
+    item.setAttribute('title', 'WoofedCRM');
+    item.removeAttribute('aria-current');
+    clearActiveClasses(item);
+    var txtDone = false;
+    Array.prototype.forEach.call(item.querySelectorAll('*'), function (n) {
+      if (!txtDone && n.childNodes.length) {
+        for (var i = 0; i < n.childNodes.length; i++) { if (n.childNodes[i].nodeType === 3 && n.childNodes[i].nodeValue.trim()) { n.childNodes[i].nodeValue = 'WoofedCRM'; txtDone = true; break; } }
+      }
+    });
+    if (!txtDone) item.textContent = 'WoofedCRM';
+    var icon = item.querySelector('[class*="i-"]');
+    if (icon) {
+      icon.className = '';
+      icon.style.cssText = 'display:inline-block;width:16px;height:16px;';
+      icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="9" y="3" width="6" height="11" rx="1"/><rect x="15" y="3" width="6" height="15" rx="1"/></svg>';
+    }
+    item.onclick = function (e) { e.preventDefault(); e.stopPropagation(); window.woofedKanbanOpen(); return false; };
+    if (conv && conv.parentElement) conv.parentElement.insertBefore(item, conv);
+    else if (my && my.parentElement) my.parentElement.insertBefore(item, my.nextSibling);
+  }
+
+  // --- Contact button on the conversation header ---------------------
+  function addBtn() {
+    if (document.getElementById('woofed-btn')) return;
+    var t = document.querySelector('.i-ph-trash'); if (!t) return;
+    var b = t.closest('button'); if (!b || !b.parentElement) return;
+    var h = document.createElement('button');
+    h.id = 'woofed-btn';
+    h.className = b.className;
+    h.title = 'Abrir contato no WoofedCRM';
+    h.style.cssText = 'color:#FF7A59';
+    // contact-card icon (clearly "open the CRM contact record")
+    h.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M7 20.5a5 5 0 0 1 10 0"/></svg>';
+    h.onclick = function (e) { e.preventDefault(); e.stopPropagation(); window.woofedOpen(); };
+    b.parentElement.insertBefore(h, b);
+  }
+
+  // --- Injection (idempotent, SPA-aware) -----------------------------
+  function inject() { addBtn(); addKanbanMenu(); }
+  new MutationObserver(inject).observe(document.body, { childList: true, subtree: true });
+  [800, 2000, 5000].forEach(function (t) { setTimeout(inject, t); });
+  console.log('[Woofed] widget loaded');
+})();

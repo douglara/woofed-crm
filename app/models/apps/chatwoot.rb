@@ -26,6 +26,10 @@ class Apps::Chatwoot < ApplicationRecord
     'pair': 'pair'
   }
 
+  # Transient super-admin credentials used only to auto-inject the dashboard
+  # widget into Chatwoot during setup. Never persisted.
+  attr_accessor :super_admin_email, :super_admin_password
+
   validate :validate_chatwoot, on: :create
   before_destroy :chatwoot_delete_flow
 
@@ -107,6 +111,7 @@ class Apps::Chatwoot < ApplicationRecord
       webhook_body = JSON.parse(webhook_response.body)
       self.chatwoot_dashboard_app_id = dashboard_apps_body['id']
       self.chatwoot_webhook_id = webhook_body['payload']['webhook']['id']
+      inject_dashboard_script
       true
     else
       false
@@ -151,6 +156,18 @@ class Apps::Chatwoot < ApplicationRecord
 
   def woofedcrm_embedding_url
     "#{ENV['FRONTEND_URL']}/apps/chatwoots/embedding?token=#{embedding_token}"
+  end
+
+  def dashboard_script_loader
+    %(<script src="#{ENV['FRONTEND_URL']}/apps/chatwoots/dashboard_script?token=#{embedding_token}" defer></script>)
+  end
+
+  def inject_dashboard_script
+    return if super_admin_email.blank? || super_admin_password.blank?
+
+    Accounts::Apps::Chatwoots::InjectDashboardScript.call(
+      chatwoot: self, super_admin_email:, super_admin_password:, script: dashboard_script_loader
+    )
   end
 
   def generate_token

@@ -225,6 +225,8 @@ Rails.application.routes.draw do
         get 'embedding_init_authenticate'
         post 'embedding_authenticate'
         post 'embedding_generate_jwt'
+        get 'embed_login'
+        get 'dashboard_script'
       end
     end
     resources :evolution_apis do
