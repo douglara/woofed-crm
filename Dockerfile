@@ -29,6 +29,20 @@ ENV app /app
 RUN mkdir $app
 WORKDIR $app
 
+# --- AI agent (agno) Python runtime -------------------------------------------
+# The woofed-ai-agent role (config/deploy.yml) starts the AgentOS from THIS same
+# image instead of Rails. uv (Astral) manages an isolated venv at ai-agent/.venv
+# and auto-downloads the Python 3.12 pinned by ai-agent/pyproject.toml
+# (requires-python >=3.12). Dependencies install in their own layer so they cache
+# independently of the Rails app code below.
+COPY --from=ghcr.io/astral-sh/uv:0.5 /uv /uvx /usr/local/bin/
+COPY ai-agent/pyproject.toml ai-agent/uv.lock ai-agent/
+RUN uv python install 3.12 \
+    && uv sync --frozen --no-install-project --directory ai-agent
+ENV UV_NO_SYNC=1 \
+    PYTHONUNBUFFERED=1
+# ------------------------------------------------------------------------------
+
 # Copy the main application.
 COPY . ./
 
@@ -48,7 +62,7 @@ RUN sleep 10
 RUN chmod +x /app/bin/easyinstall
 
 EXPOSE 80
-HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-  CMD ["curl", "-f", "http://localhost/up"]
+# HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+#   CMD ["curl", "-f", "http://localhost/up"]
 
 CMD bundle exec rails db:create; bundle exec rails db:migrate; bundle exec puma -C config/puma.rb
