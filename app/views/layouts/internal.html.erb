@@ -5,6 +5,20 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>Woofed CRM</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%# Hide the app chrome (sidebar/navbar) when rendered inside an iframe (the
+        Chatwoot embedded widget). Decided per browsing-context, client-side, so it
+        never bleeds between an embedded iframe and a direct browser tab sharing the
+        same session. Runs before paint, so there is no chrome flash. %>
+    <style>
+      .woofed-chrome { display: contents; }
+      html.woofed-embedded .woofed-chrome { display: none !important; }
+    </style>
+    <script>
+      (function () {
+        try { if (window.self !== window.top) document.documentElement.classList.add('woofed-embedded'); }
+        catch (e) { document.documentElement.classList.add('woofed-embedded'); }
+      })();
+    </script>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= action_cable_meta_tag %>
@@ -35,17 +49,15 @@
     <div id="app" class="h-screen">
       <%= render partial: 'components/flash_message', locals: { message: flash[:notice] } %>
       <div class="flex h-full">
-        <% unless embedded? %>
-          <div>
-            <% unless controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
-              <%= render "layouts/shared/sidebar" %>
-            <% end %>
-          </div>
-        <% end %>
-        <div class="flex flex-col h-full w-full overflow-auto">
-          <% unless embedded? %>
-            <%= render "layouts/shared/navbar" %>
+        <div class="woofed-chrome">
+          <% unless controller_path == 'accounts/deals' && ['show'].include?(action_name) %>
+            <%= render "layouts/shared/sidebar" %>
           <% end %>
+        </div>
+        <div class="flex flex-col h-full w-full overflow-auto">
+          <div class="woofed-chrome">
+            <%= render "layouts/shared/navbar" %>
+          </div>
           <main class="h-full overflow-auto bg-brand-palette-08">
             <%= content_for?(:content) ? yield(:content) : yield %>
             <%= turbo_frame_tag "modal" %>

@@ -1,8 +1,12 @@
 require 'rails_helper'
 
-# Level 1 of the Chatwoot widget: when a page renders inside the embedded iframe
-# it must drop the WoofedCRM chrome (sidebar + navbar) so it feels native to
-# Chatwoot. "Woofed AI" is a sidebar menu label, used here as a chrome marker.
+# The Chatwoot widget embeds WoofedCRM pages in an iframe and must drop the app
+# chrome (sidebar + navbar) so it feels native to Chatwoot. That decision is made
+# CLIENT-SIDE per browsing context (window.self !== window.top) — see
+# layouts/internal.html.erb — so the chrome is always rendered server-side and
+# hidden by CSS only when framed. This avoids the embedded state leaking between
+# an iframe and a direct browser tab that share the same session.
+# "Woofed AI" is a sidebar menu label, used here as a chrome marker.
 RSpec.describe 'Embedded chrome-less rendering', type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account:) }
@@ -10,32 +14,22 @@ RSpec.describe 'Embedded chrome-less rendering', type: :request do
 
   before { sign_in user }
 
-  it 'renders the sidebar and navbar by default' do
+  it 'always renders the chrome server-side (regardless of how it is loaded)' do
+    get path
+    expect(response).to be_successful
+    expect(response.body).to include('Woofed AI')
+
+    # Same for an iframe-style request: the server no longer hides chrome — the
+    # client does, so the markup is identical.
+    get path, headers: { 'Sec-Fetch-Dest' => 'iframe' }
+    expect(response.body).to include('Woofed AI')
+  end
+
+  it 'ships the client-side iframe-detection that hides the chrome when framed' do
     get path
 
-    expect(response).to be_successful
-    expect(response.body).to include('Woofed AI')
-  end
-
-  it 'hides the sidebar and navbar when the request is embedded' do
-    get path, params: { embed: '1' }
-
-    expect(response).to be_successful
-    expect(response.body).not_to include('Woofed AI')
-  end
-
-  it 'hides the chrome when loaded inside an iframe (Sec-Fetch-Dest: iframe)' do
-    get path, headers: { 'Sec-Fetch-Dest' => 'iframe' }
-
-    expect(response).to be_successful
-    expect(response.body).not_to include('Woofed AI')
-  end
-
-  it 'restores the chrome on a top-level visit even if the session was embedded' do
-    get path, headers: { 'Sec-Fetch-Dest' => 'iframe' } # become embedded
-    get path, headers: { 'Sec-Fetch-Dest' => 'document' } # direct visit clears it
-
-    expect(response).to be_successful
-    expect(response.body).to include('Woofed AI')
+    expect(response.body).to include('woofed-embedded') # the hide hook
+    expect(response.body).to include('window.self !== window.top') # iframe detection
+    expect(response.body).to include('woofed-chrome') # the wrapped, hideable chrome
   end
 end
