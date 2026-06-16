@@ -19,24 +19,20 @@ default: &default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   # Host/credentials come from DATABASE_URL; each config overrides only the
-  # `database:` name. Without this, secondary databases (goodjob, ai_agent) lose
-  # the host in dev/test — DATABASE_URL is auto-applied only to the primary —
-  # and fall back to a local unix socket that does not exist in CI. In
-  # production every config sets its own `url:`, which overrides this default.
+  # `database:` name. DATABASE_URL is auto-applied only to the primary, so the
+  # ai_agent database would otherwise lose the host and fall back to a local
+  # unix socket that does not exist in CI.
   url: <%= ENV["DATABASE_URL"] %>
 
 primary: &primary
   <<: *default
   database: <%= "woofed_crm_#{Rails.env}" %>
 
-goodjob: &goodjob
-  <<: *default
-  database: <%= "woofed_crm_goodjob_#{Rails.env}" %>
-  migrations_paths: db/good_job_migrate
-
-# Session store for the woofed-ai-agent (agno). Rails only provisions the empty
-# database (db:create); agno creates and owns its own tables at runtime, so the
-# migrations path points at an empty directory to keep db:migrate a no-op here.
+# Session store for the woofed-ai-agent (agno). agno creates and owns its own
+# tables at runtime, so Rails never manages a schema here. In production
+# `db:create` provisions the empty database; in dev/test the agent does not run,
+# so `database_tasks: false` keeps Rails from trying to create or load a schema
+# for it (there is no `db/ai_agent_schema.rb`).
 ai_agent: &ai_agent
   <<: *default
   database: <%= "woofed_ai_#{Rails.env}" %>
@@ -45,26 +41,21 @@ ai_agent: &ai_agent
 development:
   primary:
     <<: *primary
-  goodjob:
-    <<: *goodjob
   ai_agent:
     <<: *ai_agent
+    database_tasks: false
 
 test:
   primary:
     <<: *primary
-  goodjob:
-    <<: *goodjob
   ai_agent:
     <<: *ai_agent
+    database_tasks: false
 
 production:
   primary:
     <<: *primary
     url: <%= ENV['DATABASE_URL'] %>
-  goodjob:
-    <<: *goodjob
-    url: <%= ENV['GOODJOB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
   ai_agent:
     <<: *ai_agent
     url: <%= ENV['AI_AGENT_DATABASE_URL'] %>
