@@ -236,28 +236,78 @@
     };
   }
 
-  // --- Pipeline (embeds the REAL WoofedCRM kanban page in an iframe) --
-  window.woofedKanbanOpen = async function () {
+  // --- Embedded "stage": one persistent iframe that renders the REAL
+  // WoofedCRM pages (chrome-less, via session[:embedded]) in Chatwoot's content
+  // area. The injected Chatwoot sidebar items switch screens; the active screen
+  // reloads in-place, so it feels like native Chatwoot navigation.
+  var _stageFrame = null, _navRail = null, _firstPipelineId = null;
+
+  async function pipelinePath() {
+    if (_firstPipelineId === null) {
+      try { var pres = await api('GET', '/pipelines'); var first = (pres.data || [])[0]; _firstPipelineId = first ? first.id : 0; }
+      catch (e) { _firstPipelineId = 0; }
+    }
+    return '/accounts/' + WOOFED_ACCOUNT + '/pipelines' + (_firstPipelineId ? '/' + _firstPipelineId : '');
+  }
+
+  var SCREENS = {
+    pipeline: { label: 'Pipeline', path: pipelinePath },
+    contacts: { label: 'Contatos', path: function () { return '/accounts/' + WOOFED_ACCOUNT + '/contacts'; } },
+    reports: { label: 'Relatórios', path: function () { return '/accounts/' + WOOFED_ACCOUNT + '/reports'; } }
+  };
+
+  function ensureStage() {
+    var stage = document.getElementById('woofed-stage');
+    if (stage) return stage;
     var v = initVars();
-    var old = document.getElementById('woofed-kb'); if (old) old.remove();
-    var o = document.createElement('div');
-    o.id = 'woofed-kb';
-    o.style.cssText = 'position:fixed;inset:0;z-index:99999;background:' + v.bg + ';display:flex;flex-direction:column';
-    o.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid ' + v.b + ';background:' + v.bg + ';color:' + v.tx + ';font-family:Inter,system-ui,sans-serif"><strong style="color:' + v.acc + '">WoofedCRM — Pipeline</strong><div style="display:flex;align-items:center;gap:14px"><a id="woofed-kb-tab" href="#" target="_blank" style="color:' + v.tm + ';font-size:12px;text-decoration:none">abrir em nova aba ↗</a><button id="woofed-kb-close" style="border:0;background:none;color:' + v.tm + ';cursor:pointer;font-size:22px;line-height:1">&times;</button></div></div><div id="woofed-kb-frame" style="flex:1;position:relative">' + loading() + '</div>';
-    document.body.appendChild(o);
-    document.getElementById('woofed-kb-close').onclick = function () { o.remove(); };
-    // Resolve the first pipeline id so the iframe lands on the kanban board.
-    var target = '/accounts/' + WOOFED_ACCOUNT + '/pipelines';
-    try {
-      var pres = await api('GET', '/pipelines');
-      var first = (pres.data || [])[0];
-      if (first) target = '/accounts/' + WOOFED_ACCOUNT + '/pipelines/' + first.id;
-    } catch (e) { }
-    // Auto-login the agent into woofed so the real pipeline loads authenticated.
+    stage = document.createElement('div');
+    stage.id = 'woofed-stage';
+    stage.style.cssText = 'position:fixed;top:0;right:0;bottom:0;left:0;z-index:9990;background:' + v.bg + ';display:none';
+    stage.innerHTML = '<button id="woofed-stage-close" title="Voltar ao Chatwoot" style="position:absolute;top:8px;right:8px;z-index:2;width:26px;height:26px;border-radius:50%;border:1px solid ' + v.b + ';background:' + v.bg + ';color:' + v.tm + ';cursor:pointer;font-size:16px;line-height:1">&times;</button>'
+      + '<div id="woofed-stage-body" style="position:absolute;inset:0">' + loading() + '</div>';
+    document.body.appendChild(stage);
+    document.getElementById('woofed-stage-close').onclick = hideStage;
+    window.addEventListener('resize', function () { if (stage.style.display !== 'none') positionStage(stage); });
+    return stage;
+  }
+
+  // Leave the Chatwoot sidebar uncovered so its items stay clickable.
+  function positionStage(stage) {
+    var left = 0;
+    if (_navRail) { try { left = Math.max(0, Math.round(_navRail.getBoundingClientRect().right)); } catch (e) { } }
+    stage.style.left = left + 'px';
+  }
+
+  function markActive(key) {
+    var v = initVars();
+    Object.keys(SCREENS).forEach(function (k) {
+      var el = document.getElementById('woofed-nav-' + k);
+      if (el) el.style.boxShadow = (k === key ? 'inset 3px 0 0 ' + v.acc : '');
+    });
+  }
+
+  function hideStage() {
+    var stage = document.getElementById('woofed-stage');
+    if (stage) stage.style.display = 'none';
+    markActive(null);
+  }
+
+  window.woofedShowScreen = async function (key) {
+    var stage = ensureStage();
+    positionStage(stage);
+    stage.style.display = 'block';
+    markActive(key);
+    var body = document.getElementById('woofed-stage-body');
+    if (!_stageFrame) {
+      _stageFrame = document.createElement('iframe');
+      _stageFrame.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0';
+      body.innerHTML = ''; body.appendChild(_stageFrame);
+    }
+    if (_stageFrame.getAttribute('data-screen') === key) return; // already loaded
+    var path = await SCREENS[key].path();
     var jwt = await woofedJwt();
-    var url = WOOFED + '/apps/chatwoots/embed_login?token=' + EMBED_TOKEN + '&jwt=' + encodeURIComponent(jwt || '') + '&path=' + encodeURIComponent(target);
-    document.getElementById('woofed-kb-tab').href = url;
-    document.getElementById('woofed-kb-frame').innerHTML = '<iframe src="' + url + '" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>';
+    _stageFrame.src = WOOFED + '/apps/chatwoots/embed_login?token=' + EMBED_TOKEN + '&jwt=' + encodeURIComponent(jwt || '') + '&path=' + encodeURIComponent(path);
+    _stageFrame.setAttribute('data-screen', key);
   };
 
   // --- Sidebar nav helpers (mirrors the proven HubSpot injection) ----
@@ -273,33 +323,59 @@
     ['active', 'router-link-active', 'router-link-exact-active', 'bg-n-alpha-2', 'bg-n-brand', 'text-n-brand', 'text-white'].forEach(function (c) { el.classList.remove(c); });
     Array.prototype.forEach.call(el.children || [], clearActiveClasses);
   }
-  function addKanbanMenu() {
-    if (document.getElementById('woofed-kanban-nav')) return;
-    var my = findNavItem('My inbox'), conv = findNavItem('Conversations');
-    if (!my && !conv) return;
-    var base = conv || my;
+  var NAV_ITEMS = [
+    { key: 'pipeline', label: 'Pipeline', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="9" y="3" width="6" height="11" rx="1"/><rect x="15" y="3" width="6" height="15" rx="1"/></svg>' },
+    { key: 'contacts', label: 'Contatos', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
+    { key: 'reports', label: 'Relatórios', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx="1"/><rect x="12" y="8" width="3" height="10" rx="1"/><rect x="17" y="5" width="3" height="13" rx="1"/></svg>' }
+  ];
+
+  // Climb to the tall, left-anchored, narrow ancestor — the Chatwoot nav rail.
+  function woofedNavRailFrom(el) {
+    var node = el, best = el.parentElement;
+    while (node && node.parentElement) {
+      var p = node.parentElement, r = p.getBoundingClientRect();
+      if (r.left <= 4 && r.height >= window.innerHeight * 0.5 && r.width <= window.innerWidth * 0.45) best = p;
+      node = p;
+    }
+    return best;
+  }
+
+  function buildNavItem(base, cfg) {
     var item = base.cloneNode(true);
-    item.id = 'woofed-kanban-nav';
-    item.setAttribute('href', '#woofed-kanban');
-    item.setAttribute('title', 'WoofedCRM');
+    item.id = 'woofed-nav-' + cfg.key;
+    item.setAttribute('data-woofed-nav', cfg.key);
+    item.setAttribute('href', '#woofed-' + cfg.key);
+    item.setAttribute('title', 'WoofedCRM — ' + cfg.label);
     item.removeAttribute('aria-current');
     clearActiveClasses(item);
     var txtDone = false;
     Array.prototype.forEach.call(item.querySelectorAll('*'), function (n) {
       if (!txtDone && n.childNodes.length) {
-        for (var i = 0; i < n.childNodes.length; i++) { if (n.childNodes[i].nodeType === 3 && n.childNodes[i].nodeValue.trim()) { n.childNodes[i].nodeValue = 'WoofedCRM'; txtDone = true; break; } }
+        for (var i = 0; i < n.childNodes.length; i++) { if (n.childNodes[i].nodeType === 3 && n.childNodes[i].nodeValue.trim()) { n.childNodes[i].nodeValue = cfg.label; txtDone = true; break; } }
       }
     });
-    if (!txtDone) item.textContent = 'WoofedCRM';
-    var icon = item.querySelector('[class*="i-"]');
+    if (!txtDone) item.textContent = cfg.label;
+    var icon = item.querySelector('[class*="i-"]') || item.querySelector('svg');
     if (icon) {
-      icon.className = '';
-      icon.style.cssText = 'display:inline-block;width:16px;height:16px;';
-      icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="9" y="3" width="6" height="11" rx="1"/><rect x="15" y="3" width="6" height="15" rx="1"/></svg>';
+      if (icon.tagName.toLowerCase() === 'svg') { icon.outerHTML = cfg.icon; }
+      else { icon.className = ''; icon.style.cssText = 'display:inline-block;width:16px;height:16px;'; icon.innerHTML = cfg.icon; }
     }
-    item.onclick = function (e) { e.preventDefault(); e.stopPropagation(); window.woofedKanbanOpen(); return false; };
-    if (conv && conv.parentElement) conv.parentElement.insertBefore(item, conv);
-    else if (my && my.parentElement) my.parentElement.insertBefore(item, my.nextSibling);
+    item.onclick = function (e) { e.preventDefault(); e.stopPropagation(); window.woofedShowScreen(cfg.key); return false; };
+    return item;
+  }
+
+  function addNavMenu() {
+    if (document.getElementById('woofed-nav-pipeline')) return;
+    var my = findNavItem('My inbox'), conv = findNavItem('Conversations');
+    if (!my && !conv) return;
+    var base = conv || my;
+    _navRail = woofedNavRailFrom(base);
+    var anchor = my; // preserves order in the my-inbox fallback path
+    NAV_ITEMS.forEach(function (cfg) {
+      var item = buildNavItem(base, cfg);
+      if (conv && conv.parentElement) { conv.parentElement.insertBefore(item, conv); }
+      else { my.parentElement.insertBefore(item, anchor.nextSibling); anchor = item; }
+    });
   }
 
   // --- Contact button on the conversation header ---------------------
@@ -318,8 +394,16 @@
     b.parentElement.insertBefore(h, b);
   }
 
+  // Clicking any native Chatwoot nav item returns to Chatwoot (hide the stage).
+  document.addEventListener('click', function (e) {
+    var stage = document.getElementById('woofed-stage');
+    if (!stage || stage.style.display === 'none') return;
+    if (e.target.closest && e.target.closest('[data-woofed-nav]')) return;
+    if (_navRail && _navRail.contains(e.target)) hideStage();
+  }, true);
+
   // --- Injection (idempotent, SPA-aware) -----------------------------
-  function inject() { addBtn(); addKanbanMenu(); }
+  function inject() { addBtn(); addNavMenu(); }
   new MutationObserver(inject).observe(document.body, { childList: true, subtree: true });
   [800, 2000, 5000].forEach(function (t) { setTimeout(inject, t); });
   console.log('[Woofed] widget loaded');

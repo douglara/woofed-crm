@@ -56,6 +56,9 @@ class Apps::ChatwootsController < ActionController::Base
 
     sign_out_all_scopes
     sign_in(user)
+    # Mark the session as embedded so internal pages render chrome-less inside
+    # the Chatwoot iframe, across subsequent in-iframe navigation.
+    session[:embedded] = true
     path = params[:path].to_s
     path = '/' unless path.start_with?('/')
     redirect_to path

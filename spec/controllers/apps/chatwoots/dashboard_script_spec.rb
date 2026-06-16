@@ -12,7 +12,8 @@ RSpec.describe 'Chatwoot dashboard_script', type: :request do
     expect(response.media_type).to include('javascript')
     expect(response.body).to include("EMBED_TOKEN = 'tok123'")
     expect(response.body).to include("WOOFED_ACCOUNT = #{account.id}")
-    expect(response.body).to include('woofedKanbanOpen')
+    expect(response.body).to include('woofedShowScreen')
+    expect(response.body).to include('addNavMenu')
   end
 
   it 'returns unauthorized for an unknown token' do

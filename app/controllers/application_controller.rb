@@ -9,6 +9,15 @@ class ApplicationController < ActionController::Base
   end
   before_action :set_account
   before_action :setup_installation if Installation.installation_flow?
+  helper_method :embedded?
+
+  # True when the page is being rendered inside the Chatwoot embedded widget.
+  # The flag is set once by Apps::ChatwootsController#embed_login and persists
+  # for the iframe session, so chrome (sidebar/navbar) is hidden across
+  # in-iframe navigation. `params[:embed]` is honoured as a stateless fallback.
+  def embedded?
+    session[:embedded].present? || params[:embed].present?
+  end
 
   private
 
