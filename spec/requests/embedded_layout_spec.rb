@@ -23,4 +23,19 @@ RSpec.describe 'Embedded chrome-less rendering', type: :request do
     expect(response).to be_successful
     expect(response.body).not_to include('Woofed AI')
   end
+
+  it 'hides the chrome when loaded inside an iframe (Sec-Fetch-Dest: iframe)' do
+    get path, headers: { 'Sec-Fetch-Dest' => 'iframe' }
+
+    expect(response).to be_successful
+    expect(response.body).not_to include('Woofed AI')
+  end
+
+  it 'restores the chrome on a top-level visit even if the session was embedded' do
+    get path, headers: { 'Sec-Fetch-Dest' => 'iframe' } # become embedded
+    get path, headers: { 'Sec-Fetch-Dest' => 'document' } # direct visit clears it
+
+    expect(response).to be_successful
+    expect(response.body).to include('Woofed AI')
+  end
 end
