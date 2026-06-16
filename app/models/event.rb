@@ -139,7 +139,7 @@ class Event < ApplicationRecord
     return content if template.nil?
 
     body = Array(template['components']).find { |c| c['type'] == 'BODY' }
-    params = additional_attributes['template_body_params'] || {}
+    params = resolved_template_body_params
     body.to_h['text'].to_s.gsub(/\{\{(\d+)\}\}/) { params[Regexp.last_match(1)].to_s }
   end
 
@@ -160,13 +160,13 @@ class Event < ApplicationRecord
     components = Array(template['components'])
     processed = {}
 
-    body_params = additional_attributes['template_body_params'] || {}
+    body_params = resolved_template_body_params
     processed['body'] = body_params if body_params.present?
 
     header = components.find { |c| c['type'] == 'HEADER' }
     if chatwoot_media_header?(header) && additional_attributes['template_header_media_url'].present?
       processed['header'] = {
-        'media_url' => additional_attributes['template_header_media_url'],
+        'media_url' => resolve_merge_tags(additional_attributes['template_header_media_url']),
         'media_type' => header['format'].to_s.downcase
       }
     end
@@ -187,8 +187,59 @@ class Event < ApplicationRecord
   def chatwoot_processed_buttons(template)
     button_params = additional_attributes['template_button_params'] || {}
     chatwoot_dynamic_buttons(template).each_with_index.filter_map do |_button, index|
-      value = button_params[index.to_s]
+      value = resolve_merge_tags(button_params[index.to_s])
       { 'type' => 'url', 'parameter' => value } if value.present?
+    end
+  end
+
+  CONTACT_MERGE_FIELDS = %w[full_name email phone].freeze
+
+  # Body params with {{contact.<field>}} merge tags resolved against this event's
+  # contact, so a bulk send personalises every lead. Plain values pass through.
+  def resolved_template_body_params
+    (additional_attributes['template_body_params'] || {}).transform_values { |v| resolve_merge_tags(v) }
+  end
+
+  # True when a required body variable resolves to blank for this contact (e.g. a
+  # {{contact.full_name}} mapping but the contact has no name). Bulk sends skip
+  # these leads instead of dispatching a template the WhatsApp API would reject.
+  def chatwoot_template_missing_data?
+    return false unless chatwoot_template?
+
+    template = chatwoot_template_definition
+    return false if template.nil?
+
+    body = Array(template['components']).find { |c| c['type'] == 'BODY' }
+    required = body.to_h['text'].to_s.scan(/\{\{(\d+)\}\}/).flatten
+    raw = additional_attributes['template_body_params'] || {}
+    # Only a merge tag that resolves to blank is a per-lead data gap; a blank
+    # fixed-text value is a configuration mistake caught by validation instead.
+    required.any? { |n| merge_tag?(raw[n]) && resolve_merge_tags(raw[n]).blank? }
+  end
+
+  def merge_tag?(value)
+    value.is_a?(String) && value.include?('{{contact.')
+  end
+
+  # Replaces {{contact.<field>}} tokens with the contact's value. Supports the
+  # standard fields and custom attributes via {{contact.custom.<key>}}.
+  def resolve_merge_tags(value)
+    return value unless merge_tag?(value)
+
+    value.gsub(/\{\{\s*contact\.([a-z_]+(?:\.[A-Za-z0-9_ -]+)?)\s*\}\}/) do
+      resolve_contact_field(Regexp.last_match(1))
+    end
+  end
+
+  def resolve_contact_field(key)
+    return '' if contact.blank?
+
+    if key.start_with?('custom.')
+      contact.custom_attributes.to_h[key.delete_prefix('custom.')].to_s
+    elsif CONTACT_MERGE_FIELDS.include?(key)
+      contact.public_send(key).to_s
+    else
+      ''
     end
   end
 

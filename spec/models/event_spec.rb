@@ -221,6 +221,42 @@ RSpec.describe Event do
           .to include(I18n.t('activerecord.errors.models.event.attributes.base.chatwoot_template_not_found'))
       end
     end
+
+    context 'merge tags (per-lead variables)' do
+      let(:contact) { create(:contact, account:, full_name: 'Lorena') }
+
+      it 'resolves a {{contact.field}} body variable to this lead value' do
+        event = template_event('chatwoot_inbox_id' => 101, 'chatwoot_template_name' => 'lembrete_aula',
+                               'template_body_params' => { '1' => '{{contact.full_name}}', '2' => '14:00' })
+
+        expect(event.resolved_template_content).to eq('Oi Lorena! Sua aula experimental e hoje as 14:00!')
+        expect(event.chatwoot_template_params['processed_params']['body']).to eq('1' => 'Lorena', '2' => '14:00')
+        expect(event.chatwoot_template_missing_data?).to be false
+      end
+
+      it 'resolves a custom-attribute merge tag' do
+        contact.update!(custom_attributes: { 'codigo' => 'ABC123' })
+        event = template_event('chatwoot_inbox_id' => 101, 'chatwoot_template_name' => 'lembrete_aula',
+                               'template_body_params' => { '1' => '{{contact.full_name}}', '2' => '{{contact.custom.codigo}}' })
+
+        expect(event.chatwoot_template_params['processed_params']['body']).to eq('1' => 'Lorena', '2' => 'ABC123')
+      end
+
+      it 'reports missing data when a mapped field has no value for the lead' do
+        event = template_event('chatwoot_inbox_id' => 101, 'chatwoot_template_name' => 'lembrete_aula',
+                               'template_body_params' => { '1' => '{{contact.custom.codigo}}', '2' => '14:00' })
+
+        expect(event.chatwoot_template_missing_data?).to be true
+      end
+
+      it 'treats a blank fixed-text value as a config error, not a per-lead skip' do
+        event = template_event('chatwoot_inbox_id' => 101, 'chatwoot_template_name' => 'lembrete_aula',
+                               'template_body_params' => { '1' => '', '2' => '14:00' })
+
+        expect(event.chatwoot_template_missing_data?).to be false
+        expect(event).to be_invalid
+      end
+    end
   end
 
   context 'editable?' do

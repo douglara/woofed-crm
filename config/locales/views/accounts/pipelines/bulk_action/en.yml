@@ -5,3 +5,6 @@ en:
         bulk_action:
           form_modal:
             warning: "To prevent potential bans of the number that will send the message, a small delay will be introduced in sending the messages. However, it is important to note that the number is still subject to ban."
+          result:
+            created: "%{count} messages created"
+            skipped: "%{count} skipped (missing data)"

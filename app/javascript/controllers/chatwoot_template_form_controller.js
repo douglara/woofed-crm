@@ -19,7 +19,7 @@ export default class extends Controller {
     "preview",
     "contentSection",
   ];
-  static values = { inboxes: Array, saved: Object };
+  static values = { inboxes: Array, saved: Object, mergeFields: Array };
 
   connect() {
     // On edit, the inbox select is not pre-selected by Rails (jsonb hash), so
@@ -95,15 +95,69 @@ export default class extends Controller {
     const saved = this.savedValue.body_params || {};
     this.bodyVarIndexes(body.text).forEach((index, position) => {
       this.bodyParamsTarget.appendChild(
-        this.field(
-          `event[additional_attributes][template_body_params][${index}]`,
-          `Variável {{${index}}}`,
-          examples[position] || "",
-          saved[index] || "",
-          "body-param",
-        ),
+        this.bodyParamField(index, examples[position] || "", saved[index] || ""),
       );
     });
+  }
+
+  // A body variable input with a "source" selector: a fixed text, or a contact
+  // field that is resolved per lead at send time (a {{contact.<field>}} token).
+  // This is what makes a bulk send personalised (e.g. {{1}} = each lead's name).
+  bodyParamField(index, example, saved) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "space-y-1 mt-2";
+    const labelEl = document.createElement("label");
+    labelEl.className = "typography-text-s-lh150 text-dark-gray-palette-p1";
+    labelEl.textContent = `Variável {{${index}}}`;
+
+    const row = document.createElement("div");
+    row.className = "flex gap-2";
+
+    const select = document.createElement("select");
+    select.className = "form-input";
+    select.innerHTML =
+      `<option value="">${this.fixedTextLabel()}</option>` +
+      this.mergeFields()
+        .map((f) => `<option value="${f.key}">${f.label}</option>`)
+        .join("");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.name = `event[additional_attributes][template_body_params][${index}]`;
+    input.placeholder = example || "";
+    input.className = "form-input w-full";
+    input.setAttribute("data-action", "input->chatwoot-template-form#updatePreview");
+
+    const applyContactField = (field) => {
+      input.value = `{{contact.${field}}}`;
+      input.readOnly = true;
+      input.classList.add("bg-light-palette-p4");
+    };
+    const applyFixedText = (value) => {
+      input.value = value || "";
+      input.readOnly = false;
+      input.classList.remove("bg-light-palette-p4");
+    };
+
+    const token = this.parseMergeToken(saved);
+    if (token) {
+      select.value = token;
+      applyContactField(token);
+    } else {
+      applyFixedText(saved);
+    }
+
+    select.addEventListener("change", () => {
+      if (select.value) applyContactField(select.value);
+      else applyFixedText("");
+      this.updatePreview();
+    });
+
+    row.appendChild(select);
+    row.appendChild(input);
+    wrapper.appendChild(labelEl);
+    wrapper.appendChild(row);
+    return wrapper;
   }
 
   renderHeaderMedia(components) {
@@ -140,9 +194,40 @@ export default class extends Controller {
     let text = (body && body.text) || "";
     this.bodyParamsTarget.querySelectorAll("input").forEach((input) => {
       const index = input.name.match(/\[template_body_params\]\[(\d+)\]/)[1];
-      text = text.replace(`{{${index}}}`, input.value || `{{${index}}}`);
+      const token = this.parseMergeToken(input.value);
+      const shown = token ? `«${this.mergeFieldLabel(token)}»` : input.value || `{{${index}}}`;
+      text = text.replace(`{{${index}}}`, shown);
     });
     this.previewTarget.textContent = text;
+  }
+
+  // --- merge tags ----------------------------------------------------------
+
+  // Contact fields offered as merge tags. Can be overridden from the view via
+  // data-…-merge-fields-value (e.g. to add custom attributes); falls back to the
+  // standard fields, which the Event model resolves server-side.
+  mergeFields() {
+    return this.hasMergeFieldsValue && this.mergeFieldsValue.length
+      ? this.mergeFieldsValue
+      : [
+          { key: "full_name", label: "Nome do contato" },
+          { key: "phone", label: "Telefone" },
+          { key: "email", label: "Email" },
+        ];
+  }
+
+  fixedTextLabel() {
+    return "Texto fixo";
+  }
+
+  parseMergeToken(value) {
+    const m = (value || "").match(/^\{\{\s*contact\.([a-z_]+(?:\.[A-Za-z0-9_ -]+)?)\s*\}\}$/);
+    return m ? m[1] : null;
+  }
+
+  mergeFieldLabel(key) {
+    const field = this.mergeFields().find((f) => f.key === key);
+    return field ? field.label : key;
   }
 
   // --- helpers -------------------------------------------------------------

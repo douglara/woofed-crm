@@ -132,7 +132,9 @@ class Accounts::PipelinesController < InternalController
     elsif !params['event']['scheduled_at'].nil?
       time_start = params['event']['scheduled_at'].in_time_zone
     end
-    @result = @deals.each_with_index do |deal, index|
+    @created = 0
+    @skipped = []
+    @deals.each_with_index do |deal, index|
       if params['event']['kind'] == 'chatwoot_message' || params['event']['kind'] == 'evolution_api_message'
         if params['event']['send_now'] == 'true'
           time_start += rand(10..15).seconds
@@ -145,11 +147,20 @@ class Accounts::PipelinesController < InternalController
                                 event_params.merge({ contact: deal.contact, scheduled_at: time_start })).build
       @event.deal = deal
 
-      if !@event.valid? && index == 0
+      # A template variable mapped to a contact field this lead is missing (e.g.
+      # no name) would be rejected by WhatsApp — skip the lead and report it.
+      if @event.chatwoot_template_missing_data?
+        @skipped << deal
+        next
+      end
+
+      # Stop only on a genuine configuration error on the first deal (bad template
+      # selection, missing media header…), not on a per-lead data gap.
+      if !@event.valid? && index.zero?
         render :new_bulk_action, status: :unprocessable_entity
         return
       end
-      @event.save
+      @created += 1 if @event.save
     end
     respond_to do |format|
       format.turbo_stream
