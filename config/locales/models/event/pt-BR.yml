@@ -19,3 +19,11 @@ pt-BR:
         title: Tipo
         auto_done: 'Enviar mensagem automaticamente'
         done: 'Marcar atividade como feita'
+    errors:
+      models:
+        event:
+          attributes:
+            base:
+              chatwoot_template_not_found: 'O template de WhatsApp selecionado não foi encontrado'
+              chatwoot_template_body_params_missing: 'Preencha todas as variáveis do template'
+              chatwoot_template_header_missing: 'Informe a URL da mídia do cabeçalho do template'

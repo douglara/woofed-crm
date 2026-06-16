@@ -7,3 +7,5 @@ pt-BR:
             inbox: "Caixa de entrada"
             content: "Conteúdo da mensagem"
             confirm: Confirmar
+            free_text: "Texto livre"
+            template: "Template"

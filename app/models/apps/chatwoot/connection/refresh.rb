@@ -11,7 +11,7 @@ class Apps::Chatwoot::Connection::Refresh
     inboxes = Accounts::Apps::Chatwoots::GetInboxes.call(@chatwoot)
 
     if inboxes.key?(:ok)
-      @chatwoot.inboxes = inboxes[:ok]
+      @chatwoot.inboxes = Accounts::Apps::Chatwoots::SyncInboxTemplates.call(@chatwoot, inboxes[:ok])
       @chatwoot.save!
     end
     true

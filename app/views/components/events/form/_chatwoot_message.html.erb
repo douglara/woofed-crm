@@ -1,4 +1,6 @@
-<%= form_with(model: event, url: url, namespace: 'chatwoot_connect', data: {controller: 'event-send-message-form event-form--upload-files' ,   'event-form--upload-files-pause-record-svg-url-value': asset_path('pause-record.svg'),  'event-form--upload-files-pause-wave-svg-url-value': asset_path('pause-white.svg'),  'event-form--upload-files-play-wave-svg-url-value': asset_path('play-solid-white.svg') , 'event-form--upload-files-mic-svg-url-value': asset_path('mic.svg'), 'event-form--upload-files-accepted-types-value': '["text", "video", "image", "application", "audio"]', action: action_name == 'edit' ? '' :  "drop->event-form--upload-files#acceptFiles dragenter->event-form--upload-files#showDragAlert dragleave->event-form--upload-files#removeDragAlert" }, class:"relative z-0 ") do |form|  %>
+<% chatwoot_aa = event.additional_attributes || {} %>
+<% chatwoot_is_template = chatwoot_aa['chatwoot_template_name'].present? %>
+<%= form_with(model: event, url: url, namespace: 'chatwoot_connect', data: {controller: 'event-send-message-form event-form--upload-files chatwoot-template-form' , 'chatwoot-template-form-inboxes-value': current_user.account.apps_chatwoots.last.inboxes.to_json, 'chatwoot-template-form-saved-value': { inbox_id: chatwoot_aa['chatwoot_inbox_id'], template_name: chatwoot_aa['chatwoot_template_name'], body_params: chatwoot_aa['template_body_params'], header_media_url: chatwoot_aa['template_header_media_url'], button_params: chatwoot_aa['template_button_params'] }.to_json,   'event-form--upload-files-pause-record-svg-url-value': asset_path('pause-record.svg'),  'event-form--upload-files-pause-wave-svg-url-value': asset_path('pause-white.svg'),  'event-form--upload-files-play-wave-svg-url-value': asset_path('play-solid-white.svg') , 'event-form--upload-files-mic-svg-url-value': asset_path('mic.svg'), 'event-form--upload-files-accepted-types-value': '["text", "video", "image", "application", "audio"]', action: action_name == 'edit' ? '' :  "drop->event-form--upload-files#acceptFiles dragenter->event-form--upload-files#showDragAlert dragleave->event-form--upload-files#removeDragAlert" }, class:"relative z-0 ") do |form|  %>
   <%= render '/components/events/drag_and_drop'%>
   <%= render '/components/events/form/message_errors', model: event %>
   <%= form.hidden_field :app_type, value: 'Apps::Chatwoot' %>
@@ -11,14 +13,34 @@
   <%= form.hidden_field :stage_id, value: params[:stage_id] %>
   <%= form.hidden_field :filter, value: params[:filter] %>
   <div class="p-3 mt-4 flex">
-    <div class="w-full space-y-2">
+    <div class="w-full min-w-0 overflow-x-hidden space-y-2">
       <%= form.fields_for :additional_attributes do | att | %>
         <%= att.label :chatwoot_inbox_id, t('views.components.events.form.chatwoot_message.inbox'), class:' typography-text-m-lh150 text-dark-gray-palette-p1' %>
-        <%= att.select(:chatwoot_inbox_id, current_user.account.apps_chatwoots.last.inboxes.map { | inbox | [ inbox['name'], inbox['id']]  } , {}, {class: 'form-input w-full'} ) %>
+        <%= att.select(:chatwoot_inbox_id, current_user.account.apps_chatwoots.last.inboxes.map { | inbox | [ inbox['name'], inbox['id']]  } , {}, {class: 'form-input w-full', data: { 'chatwoot-template-form-target': 'inboxSelect', action: 'change->chatwoot-template-form#inboxChanged' }} ) %>
+
+        <div data-chatwoot-template-form-target="modeToggle" hidden class="mt-3 flex gap-4">
+          <label class="flex items-center gap-1 typography-text-s-lh150">
+            <input type="radio" name="template_mode" value="free_text" <%= 'checked' unless chatwoot_is_template %> data-chatwoot-template-form-target="templateMode" data-action="change->chatwoot-template-form#modeChanged">
+            <%= t('views.components.events.form.chatwoot_message.free_text') %>
+          </label>
+          <label class="flex items-center gap-1 typography-text-s-lh150">
+            <input type="radio" name="template_mode" value="template" <%= 'checked' if chatwoot_is_template %> data-chatwoot-template-form-target="templateMode" data-action="change->chatwoot-template-form#modeChanged">
+            <%= t('views.components.events.form.chatwoot_message.template') %>
+          </label>
+        </div>
+
+        <div data-chatwoot-template-form-target="templateSection" hidden class="mt-3 space-y-2">
+          <%= att.label :chatwoot_template_name, t('views.components.events.form.chatwoot_message.template'), class:'typography-text-m-lh150 text-dark-gray-palette-p1' %>
+          <%= att.select(:chatwoot_template_name, [], { include_blank: '—' }, {class: 'form-input w-full', data: { 'chatwoot-template-form-target': 'templateSelect', action: 'change->chatwoot-template-form#templateChanged' }} ) %>
+          <div data-chatwoot-template-form-target="bodyParams"></div>
+          <div data-chatwoot-template-form-target="headerMedia"></div>
+          <div data-chatwoot-template-form-target="buttonParams"></div>
+          <p data-chatwoot-template-form-target="preview" class="typography-text-s-lh150 text-gray-pallete-p3 whitespace-pre-line break-words"></p>
+        </div>
       <% end %>
     </div>
   </div>
-  <div class="border-t border-light-palette-p3 p-3 mt-4 space-y-2">
+  <div data-chatwoot-template-form-target="contentSection" class="border-t border-light-palette-p3 p-3 mt-4 space-y-2">
     <%= form.label :content, t('views.components.events.form.chatwoot_message.content'), class:'typography-text-m-lh150 text-dark-gray-palette-p1' %>
     <%= form.text_area :content, class: 'form-input w-full h-44' %>
   </div>

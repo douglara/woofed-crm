@@ -7,3 +7,5 @@ es:
             inbox: "Bandeja de entrada"
             content: "Contenido del mensaje"
             confirm: Confirmar
+            free_text: "Texto libre"
+            template: "Plantilla"

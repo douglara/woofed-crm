@@ -100,7 +100,9 @@ class Apps::Chatwoot < ApplicationRecord
       { 'api_access_token': chatwoot_user_token.to_s, 'Content-Type': 'application/json' }
     )
 
-    self.inboxes = Accounts::Apps::Chatwoots::GetInboxes.call(self)[:ok]
+    self.inboxes = Accounts::Apps::Chatwoots::SyncInboxTemplates.call(
+      self, Accounts::Apps::Chatwoots::GetInboxes.call(self)[:ok]
+    )
 
     if dashboard_apps_response.status == 200 && webhook_response.status == 200
       dashboard_apps_body = JSON.parse(dashboard_apps_response.body)

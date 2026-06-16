@@ -35,7 +35,14 @@ class Accounts::Apps::Chatwoots::SendMessage
   end
 
   def self.build_body(event)
-    event.generate_content_hash('content', event.content)
+    if event.chatwoot_template?
+      # `.compact` degrades to a plain content message if the template was removed
+      # or unapproved between scheduling and delivery (template_params would be nil).
+      { 'content' => event.resolved_template_content,
+        'template_params' => event.chatwoot_template_params }.compact
+    else
+      event.generate_content_hash('content', event.content)
+    end
   end
 
   def self.request_headers(event, chatwoot)
