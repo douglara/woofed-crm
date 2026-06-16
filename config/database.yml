@@ -18,6 +18,12 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  # Host/credentials come from DATABASE_URL; each config overrides only the
+  # `database:` name. Without this, secondary databases (goodjob, ai_agent) lose
+  # the host in dev/test — DATABASE_URL is auto-applied only to the primary —
+  # and fall back to a local unix socket that does not exist in CI. In
+  # production every config sets its own `url:`, which overrides this default.
+  url: <%= ENV["DATABASE_URL"] %>
 
 primary: &primary
   <<: *default
