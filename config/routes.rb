@@ -121,7 +121,11 @@ Rails.application.routes.draw do
           post 'refresh_qr_code'
         end
       end
-      resources :chatwoots
+      resources :chatwoots do
+        member do
+          post 'install_widget'
+        end
+      end
       # resources :events, module: :contacts
       resource :ai_assistent, only: %i[edit update]
     end

@@ -1,5 +1,5 @@
 class Accounts::Apps::ChatwootsController < InternalController
-  before_action :set_chatwoot, only: %i[edit update destroy]
+  before_action :set_chatwoot, only: %i[edit update destroy install_widget]
 
   def new
     if current_user.account.apps_chatwoots.blank?
@@ -35,7 +35,27 @@ class Accounts::Apps::ChatwootsController < InternalController
     redirect_to edit_account_apps_chatwoot_path(current_user.account, current_user.account.apps_chatwoots.first)
   end
 
+  def install_widget
+    result = Accounts::Apps::Chatwoots::InjectDashboardScript.call(
+      chatwoot: @chatwoot,
+      super_admin_email: params[:super_admin_email],
+      super_admin_password: params[:super_admin_password],
+      script: dashboard_script_loader
+    )
+    if result[:ok]
+      redirect_to edit_account_apps_chatwoot_path(current_user.account, @chatwoot),
+                  notice: 'Widget instalado no Chatwoot com sucesso.'
+    else
+      redirect_to edit_account_apps_chatwoot_path(current_user.account, @chatwoot),
+                  alert: "Falha ao instalar o widget: #{result[:error]}"
+    end
+  end
+
   private
+
+  def dashboard_script_loader
+    %(<script src="#{ENV['FRONTEND_URL']}/apps/chatwoots/dashboard_script?token=#{@chatwoot.embedding_token}" defer></script>)
+  end
 
   def set_chatwoot
     @chatwoot = current_user.account.apps_chatwoots.first
