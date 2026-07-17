@@ -131,6 +131,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_16_120001) do
     t.jsonb "additional_attributes", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index "NULLIF((phone)::text, ''::text)", name: "index_companies_on_phone", unique: true
+    t.index "lower(NULLIF((email)::text, ''::text))", name: "index_companies_on_lower_email", unique: true
   end
 
   create_table "company_contacts", force: :cascade do |t|

@@ -11,20 +11,28 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
+# Indexes
+#
+#  index_companies_on_lower_email  (lower(NULLIF((email)::text, ''::text))) UNIQUE
+#  index_companies_on_phone        (NULLIF((phone)::text, ''::text)) UNIQUE
+#
 class Company < ApplicationRecord
   include CustomAttributes
   include Labelable
   include Attachable
+  include Company::ValidateDuplicateCompanies
 
   has_many :company_contacts, dependent: :destroy
   has_many :contacts, through: :company_contacts
 
   validates :name, presence: true
-  validates :email, allow_blank: true, uniqueness: { case_sensitive: false },
+  # Uniqueness of email/phone is enforced by the unique indexes and translated into
+  # errors by ValidateDuplicateCompanies, so a concurrent insert cannot slip through.
+  validates :email, allow_blank: true,
                     format: { with: Devise.email_regexp,
                               message: I18n.t('activerecord.errors.company.email.invalid',
                                               locale: I18n.locale) }
-  validates :phone, allow_blank: true, uniqueness: true,
+  validates :phone, allow_blank: true,
                     format: { with: /\+[1-9]\d{1,14}\z/,
                               message: I18n.t('activerecord.errors.company.phone.invalid',
                                               locale: I18n.locale) }

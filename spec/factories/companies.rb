@@ -11,6 +11,11 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
+# Indexes
+#
+#  index_companies_on_lower_email  (lower(NULLIF((email)::text, ''::text))) UNIQUE
+#  index_companies_on_phone        (NULLIF((phone)::text, ''::text)) UNIQUE
+#
 require 'faker'
 
 FactoryBot.define do

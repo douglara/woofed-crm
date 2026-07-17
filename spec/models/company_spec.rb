@@ -11,6 +11,11 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
+# Indexes
+#
+#  index_companies_on_lower_email  (lower(NULLIF((email)::text, ''::text))) UNIQUE
+#  index_companies_on_phone        (NULLIF((phone)::text, ''::text)) UNIQUE
+#
 require 'rails_helper'
 
 RSpec.describe Company do
@@ -94,6 +99,9 @@ RSpec.describe Company do
 
           expect(new_company.save).to be_falsey
           expect(new_company.errors[:email]).to include('has already been taken')
+
+          expect { new_company.save!(validate: false) }
+            .to raise_error(ActiveRecord::RecordNotUnique)
         end
 
         it 'when email is nil' do
@@ -155,6 +163,9 @@ RSpec.describe Company do
 
           expect(new_company.save).to be_falsey
           expect(new_company.errors[:phone]).to include('has already been taken')
+
+          expect { new_company.save!(validate: false) }
+            .to raise_error(ActiveRecord::RecordNotUnique)
         end
 
         it 'when phone is more than 15 characters' do
