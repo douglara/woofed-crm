@@ -1,0 +1,4289 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="overview.html"><img src="assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <!-- Page Content -->
+<div id="page-content-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <!--Page Title -->
+      <div class="Page_Title">
+        <h3>Smells</h3>
+      </div>
+      <!--End Page Title -->
+      <div class="Content_Wrapper">
+        <table id="smellsTable" class="table smells-index-table index-table sortable-table">
+          <thead>
+            <tr>
+              <th width="30%" class="table-header">Smell<span class="sort-type"></span></th>
+              <th width="65%" class="table-header">Locations<span class="sort-type"></span></th>
+              <th width="5%" class="table-header">Status<span class="sort-type"></span></th>
+            </tr>
+          </thead>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/companies_controller.html#L8">CompaniesController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L12">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/companies_controller.html#L30">CompaniesController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L75">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/companies_controller.html#L53">CompaniesController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L106">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateMethodCall</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/companies_controller.html#L9">CompaniesController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/companies_controller.html#L11">CompaniesController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateMethodCall</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/companies_controller.html#L78">CompaniesController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/companies_controller.html#L79">CompaniesController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateMethodCall</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/companies_controller.html#L69">CompaniesController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>InstanceVariableAssumption</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/companies_controller.html#L1">CompaniesController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>InstanceVariableAssumption</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/companies_controller.html#L1">CompaniesController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>IrresponsibleModule</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/companies_controller.html#L1">CompaniesController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>TooManyInstanceVariables</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/companies_controller.html#L1">CompaniesController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>TooManyStatements</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/companies_controller.html#L27">CompaniesController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>TooManyStatements</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/companies_controller.html#L53">CompaniesController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/company_contacts_controller.html#L11">CompanyContactsController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/company_contacts_controller.html#L30">CompanyContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/company_contacts_controller.html#L4">CompanyContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>InstanceVariableAssumption</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/company_contacts_controller.html#L1">CompanyContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>InstanceVariableAssumption</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/company_contacts_controller.html#L1">CompanyContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>IrresponsibleModule</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/company_contacts_controller.html#L1">CompanyContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>TooManyStatements</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/company_contacts_controller.html#L4">CompanyContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L7">ContactsController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L73">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L89">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L70">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L24">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateMethodCall</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L71">ContactsController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L77">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateMethodCall</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L65">ContactsController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L66">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateMethodCall</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L13">ContactsController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L15">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateMethodCall</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L26">ContactsController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L30">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateMethodCall</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L26">ContactsController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L30">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateMethodCall</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L25">ContactsController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L27">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateMethodCall</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L90">ContactsController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L91">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateMethodCall</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L90">ContactsController</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L91">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>InstanceVariableAssumption</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L1">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>InstanceVariableAssumption</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L1">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>InstanceVariableAssumption</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L1">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>IrresponsibleModule</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L1">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>TooManyInstanceVariables</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L1">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>TooManyStatements</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L70">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>TooManyStatements</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L106">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>TooManyStatements</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L34">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>TooManyStatements</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L89">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UncommunicativeVariableName</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/accounts/contacts_controller.html#L39">ContactsController</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>IrresponsibleModule</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/controllers/concerns/company_concern.html#L3">CompanyConcern</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>TooManyMethods</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L17">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L60">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L124">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L88">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L92">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L84">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L108">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L112">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L68">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L76">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L120">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L72">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L116">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L56">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L132">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L104">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L100">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L64">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/account.html#L96">Account</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/company.html#L44">Company</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/models/contact.html#L72">Contact</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>FeatureEnvy</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/company.html#L45">Company</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>IrresponsibleModule</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/concerns/attachable.html#L1">Attachable</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>Attribute</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/contact.html#L31">Contact</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateMethodCall</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/contact.html#L86">Contact</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="app/models/contact.html#L87">Contact</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>FeatureEnvy</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/contact.html#L73">Contact</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UnusedParameters</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="app/models/product.html#L30">Product</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>FeatureEnvy</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/migrate/20260716120000_create_companies.html#L4">20260716120000CreateCompanies</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="db/migrate/20260716120000_create_companies.html#L5">20260716120000CreateCompanies</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="db/migrate/20260716120000_create_companies.html#L6">20260716120000CreateCompanies</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="db/migrate/20260716120000_create_companies.html#L7">20260716120000CreateCompanies</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="db/migrate/20260716120000_create_companies.html#L8">20260716120000CreateCompanies</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="db/migrate/20260716120000_create_companies.html#L10">20260716120000CreateCompanies</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>IrresponsibleModule</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/migrate/20260716120000_create_companies.html#L1">20260716120000CreateCompanies</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>TooManyStatements</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/migrate/20260716120000_create_companies.html#L2">20260716120000CreateCompanies</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UncommunicativeVariableName</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/migrate/20260716120000_create_companies.html#L3">20260716120000CreateCompanies</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>FeatureEnvy</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/migrate/20260716120001_create_company_contacts.html#L4">20260716120001CreateCompanyContacts</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="db/migrate/20260716120001_create_company_contacts.html#L5">20260716120001CreateCompanyContacts</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="db/migrate/20260716120001_create_company_contacts.html#L7">20260716120001CreateCompanyContacts</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>IrresponsibleModule</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/migrate/20260716120001_create_company_contacts.html#L1">20260716120001CreateCompanyContacts</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UncommunicativeVariableName</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/migrate/20260716120001_create_company_contacts.html#L3">20260716120001CreateCompanyContacts</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/schema.html#L136">Schema</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="db/schema.html#L171">Schema</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/schema.html#L181">Schema</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="db/schema.html#L594">Schema</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/schema.html#L414">Schema</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="db/schema.html#L523">Schema</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/schema.html#L459">Schema</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="db/schema.html#L540">Schema</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/schema.html#L303">Schema</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/schema.html#L652">Schema</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/schema.html#L621">Schema</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/schema.html#L392">Schema</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/schema.html#L234">Schema</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="db/schema.html#L201">Schema</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L14">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L84">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L360">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L8">ContactsControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L141">ContactsControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L469">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L38">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L46">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L54">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L70">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L387">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L105">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L172">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L122">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L47">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L67">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L86">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L144">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L158">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L99">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L108">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L189">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L207">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L289">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L335">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L419">ContactsControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L448">ContactsControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L590">ContactsControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L690">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L261">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L392">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L398">CompaniesControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L509">ContactsControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L549">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L121">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L138">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L184">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L28">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L347">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L301">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L388">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L71">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L242">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L47">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L55">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L39">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L380">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L63">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L195">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L219">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L372">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L156">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L276">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L323">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L251">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L96">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L399">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/companies_controller_spec.html#L9">CompaniesControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L46">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L66">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L135">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L85">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L106">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L97">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L27">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L122">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L12">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>UtilityFunction</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/company_contacts_controller_spec.html#L21">CompanyContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L30">ContactsControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L44">ContactsControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L58">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L612">ContactsControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L622">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L656">ContactsControllerSpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L669">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L331">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L246">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L288">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L74">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L88">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L59">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L45">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L31">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L102">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L125">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L702">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L431">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L371">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L568">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L633">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L613">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L623">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L188">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L308">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L498">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L208">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L488">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L540">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L529">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L269">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L261">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L21">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L676">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L650">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L663">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L460">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L199">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L407">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L382">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L520">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L510">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L550">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/controllers/accounts/contacts_controller_spec.html#L560">ContactsControllerSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_contact_spec.html#L54">CompanyContactSpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L69">CompanySpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L83">CompanySpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L160">CompanySpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L167">CompanySpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L181">CompanySpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>DuplicateCode</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L215">CompanySpec</a>
+                    </li>
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L222">CompanySpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>VeryHighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L231">CompanySpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L91">CompanySpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L152">CompanySpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L196">CompanySpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L167">CompanySpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L106">CompanySpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L160">CompanySpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>HighComplexity</td>
+              <td>
+                <ul class="nav nav-pills">
+                  
+                    <li role="presentation">
+                      <a href="spec/models/company_spec.html#L181">CompanySpec</a>
+                    </li>
+                  
+                </ul>
+              </td>
+              <td>
+                
+                  <ul class="nav nav-pills">
+                    <li role="presentation">
+                      <span class="status-new circled-text circle">new</span>
+                    </li>
+                  </ul>
+                
+              </td>
+            </tr>
+          
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /#page-content-wrapper -->
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="assets/vendor/javascripts/prettify.js"></script>
+    <script src="assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="assets/javascripts/application.js"></script>
+    <script src="assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>
