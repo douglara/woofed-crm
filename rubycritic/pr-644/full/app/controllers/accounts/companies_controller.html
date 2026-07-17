@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-07-17 01:17:16 -0300'>2026-07-17 01:17:16 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-07-17 02:18:10 -0300'>2026-07-17 02:18:10 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">90</span><small> lines of codes</small></div>
+              <div><span class="metric">93</span><small> lines of codes</small></div>
               <div><span class="metric">12</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">8.5</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">9.0</span><small> complexity/method</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">101.77</span><small> complexity</small></div>
+              <div><span class="metric">107.85</span><small> complexity</small></div>
               <div><span class="metric">153</span><small> duplications</small></div>
             </div>
           </div>
@@ -97,7 +97,7 @@
       </div>
     </div>
 
-    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Accounts::CompaniesController &lt; InternalController<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Accounts::CompaniesController assumes too much for instance variable '@companies'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Accounts::CompaniesController assumes too much for instance variable '@company'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Accounts::CompaniesController has no descriptive comment</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Instance-Variables.md" target="_blank"><b>TooManyInstanceVariables</b></a>        </span>      </div>      <span>Accounts::CompaniesController has at least 5 instance variables</span>          </div>  </li></ol>
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Accounts::CompaniesController &lt; InternalController<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Accounts::CompaniesController assumes too much for instance variable '@companies'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Accounts::CompaniesController assumes too much for instance variable '@company'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Accounts::CompaniesController has no descriptive comment</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Instance-Variables.md" target="_blank"><b>TooManyInstanceVariables</b></a>        </span>      </div>      <span>Accounts::CompaniesController has at least 6 instance variables</span>          </div>  </li></ol>
   include CompanyConcern
 
   before_action :set_company,
@@ -116,17 +116,20 @@
     @pagy, @companies = pagy(@companies)
   end
 
-  def show; end
+  def show
+    @company_contacts = @company.company_contacts.includes(:contact)
+  end
 
   def new
     @company = Company.new
     @company.attachments.build
   end
 
-  def create<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::CompaniesController#create has approx 6 statements</span>          </div>  </li></ol>
+  def create<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::CompaniesController#create has approx 7 statements</span>          </div>  </li></ol>
     @company = Company.new(company_params)
     if @company.save
-      respond_to do |format|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="companies_controller.html#L30" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L75" class="js-smell-location">1</a>                  </div>  </li></ol>
+      @company_contacts = @company.company_contacts.includes(:contact)
+      respond_to do |format|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="companies_controller.html#L33" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L75" class="js-smell-location">1</a>                  </div>  </li></ol>
         format.html do
           redirect_to account_company_path(current_user.account, @company),
                       notice: t(&#39;flash_messages.created&#39;, model: Company.model_name.human)
@@ -140,7 +143,7 @@
 
   def edit; end
 
-  def update<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 4 nodes</span>              <span>Locations:</span>                  <a href="companies_controller.html#L44" class="js-smell-location">0</a>                  <a href="products_controller.html#L28" class="js-smell-location">1</a>                  <a href="settings/custom_attributes_definitions_controller.html#L24" class="js-smell-location">2</a>                  <a href="settings/webhooks_controller.html#L25" class="js-smell-location">3</a>                  </div>  </li></ol>
+  def update<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 4 nodes</span>              <span>Locations:</span>                  <a href="companies_controller.html#L47" class="js-smell-location">0</a>                  <a href="products_controller.html#L28" class="js-smell-location">1</a>                  <a href="settings/custom_attributes_definitions_controller.html#L24" class="js-smell-location">2</a>                  <a href="settings/webhooks_controller.html#L25" class="js-smell-location">3</a>                  </div>  </li></ol>
     if @company.update(company_params)
       redirect_to account_company_path(current_user.account, @company),
                   notice: t(&#39;flash_messages.updated&#39;, model: Company.model_name.human)
@@ -149,7 +152,7 @@
     end
   end
 
-  def destroy<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="companies_controller.html#L53" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L106" class="js-smell-location">1</a>                  <a href="products_controller.html#L58" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::CompaniesController#destroy has approx 6 statements</span>          </div>  </li></ol>
+  def destroy<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="companies_controller.html#L56" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L106" class="js-smell-location">1</a>                  <a href="products_controller.html#L58" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::CompaniesController#destroy has approx 6 statements</span>          </div>  </li></ol>
     @company.destroy
     respond_to do |format|
       format.html do
@@ -164,7 +167,7 @@
     @custom_attribute_definitions = CustomAttributeDefinition.company_attribute
   end
 
-  def update_custom_attributes<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="companies_controller.html#L68" class="js-smell-location">0</a>                  <a href="products_controller.html#L41" class="js-smell-location">1</a>                  </div>  </li></ol>
+  def update_custom_attributes<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="companies_controller.html#L71" class="js-smell-location">0</a>                  <a href="products_controller.html#L41" class="js-smell-location">1</a>                  </div>  </li></ol>
     @company.custom_attributes[params[:company][:att_key]] = params[:company][:att_value]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::CompaniesController#update_custom_attributes calls 'params[:company]' 2 times</span>          </div>  </li></ol>
     render :edit_custom_attributes, status: :unprocessable_entity unless @company.save
   end
@@ -174,8 +177,8 @@
   end
 
   def select_company_search
-    @companies = if params[:query].present?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::CompaniesController#select_company_search calls 'params[:query]' 2 times</span>              <span>Locations:</span>                  <a href="companies_controller.html#L78" class="js-smell-location">0</a>                  <a href="companies_controller.html#L79" class="js-smell-location">1</a>                  </div>  </li></ol>
-                   Company.where(&#39;name ILIKE :search&#39;, search: &quot;%#{params[:query]}%&quot;).order(updated_at: :desc).limit(5)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="companies_controller.html#L79" class="js-smell-location">0</a>                  <a href="users_controller.html#L72" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::CompaniesController#select_company_search calls 'params[:query]' 2 times</span>              <span>Locations:</span>                  <a href="companies_controller.html#L78" class="js-smell-location">0</a>                  <a href="companies_controller.html#L79" class="js-smell-location">1</a>                  </div>  </li></ol>
+    @companies = if params[:query].present?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::CompaniesController#select_company_search calls 'params[:query]' 2 times</span>              <span>Locations:</span>                  <a href="companies_controller.html#L81" class="js-smell-location">0</a>                  <a href="companies_controller.html#L82" class="js-smell-location">1</a>                  </div>  </li></ol>
+                   Company.where(&#39;name ILIKE :search&#39;, search: &quot;%#{params[:query]}%&quot;).order(updated_at: :desc).limit(5)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="companies_controller.html#L82" class="js-smell-location">0</a>                  <a href="users_controller.html#L72" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::CompaniesController#select_company_search calls 'params[:query]' 2 times</span>              <span>Locations:</span>                  <a href="companies_controller.html#L81" class="js-smell-location">0</a>                  <a href="companies_controller.html#L82" class="js-smell-location">1</a>                  </div>  </li></ol>
                  else
                    Company.all.order(updated_at: :desc).limit(5)
                  end

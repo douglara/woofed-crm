@@ -47,12 +47,12 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-07-17 02:08:32 -0300'>2026-07-17 02:08:32 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-07-17 02:31:00 -0300'>2026-07-17 02:31:00 -0300</time>
         
       </span>
     </div>
     <div>
-      <h3><small>spec/factories /</small> companies.rb</h3>
+      <h3><small>spec/factories /</small> deal_companies.rb</h3>
     </div>
   </div>
   <!--End Page Title -->
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">39</span><small> lines of codes</small></div>
+              <div><span class="metric">27</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">2</span><small> churn</small></div>
+              <div><span class="metric">1</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">23.4</span><small> complexity</small></div>
+              <div><span class="metric">3.5</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -99,41 +99,29 @@
 
     <code class="prettyprint linenums lang-ruby file-code js-file-code"># == Schema Information
 #
-# Table name: companies
+# Table name: deal_companies
 #
-#  id                    :bigint           not null, primary key
-#  additional_attributes :jsonb
-#  custom_attributes     :jsonb
-#  email                 :string           default(&quot;&quot;), not null
-#  name                  :string           default(&quot;&quot;), not null
-#  phone                 :string           default(&quot;&quot;), not null
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  id         :bigint           not null, primary key
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  company_id :bigint           not null
+#  deal_id    :bigint           not null
 #
 # Indexes
 #
-#  index_companies_on_lower_email  (lower(NULLIF((email)::text, &#39;&#39;::text))) UNIQUE
-#  index_companies_on_phone        (NULLIF((phone)::text, &#39;&#39;::text)) UNIQUE
+#  index_deal_companies_on_company_id              (company_id)
+#  index_deal_companies_on_deal_id                 (deal_id)
+#  index_deal_companies_on_deal_id_and_company_id  (deal_id,company_id) UNIQUE
 #
-require &#39;faker&#39;
-
+# Foreign Keys
+#
+#  fk_rails_...  (company_id =&gt; companies.id)
+#  fk_rails_...  (deal_id =&gt; deals.id)
+#
 FactoryBot.define do
-  factory :company do
-    name { Faker::Company.name }
-    email { Faker::Internet.email }
-    phone { Faker::PhoneNumber.cell_phone_in_e164 }
-    custom_attributes { {} }
-    additional_attributes { {} }
-
-    trait :with_contacts do
-      transient do
-        contacts_count { 2 }
-      end
-
-      after(:create) do |company, evaluator|
-        create_list(:company_contact, evaluator.contacts_count, company:)
-      end
-    end
+  factory :deal_company do
+    deal
+    company
   end
 end
 </code>

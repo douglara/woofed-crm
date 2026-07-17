@@ -1334,6 +1334,8 @@
         null,
         null,
         1,
+        2,
+        null,
         null,
         1,
         1,
@@ -1343,6 +1345,7 @@
         1,
         3,
         3,
+        2,
         2,
         2,
         1,
@@ -1420,50 +1423,50 @@
         },
         {
           "type": "then",
-          "start_line": 30,
-          "end_line": 36,
+          "start_line": 32,
+          "end_line": 39,
           "coverage": 2
         },
         {
           "type": "else",
-          "start_line": 38,
-          "end_line": 38,
+          "start_line": 41,
+          "end_line": 41,
           "coverage": 1
         },
         {
           "type": "then",
-          "start_line": 46,
-          "end_line": 47,
-          "coverage": 1
-        },
-        {
-          "type": "else",
           "start_line": 49,
-          "end_line": 49,
+          "end_line": 50,
           "coverage": 1
         },
         {
           "type": "else",
-          "start_line": 70,
-          "end_line": 70,
+          "start_line": 52,
+          "end_line": 52,
+          "coverage": 1
+        },
+        {
+          "type": "else",
+          "start_line": 73,
+          "end_line": 73,
           "coverage": 1
         },
         {
           "type": "then",
-          "start_line": 70,
-          "end_line": 70,
+          "start_line": 73,
+          "end_line": 73,
           "coverage": 0
         },
         {
           "type": "then",
-          "start_line": 79,
-          "end_line": 79,
+          "start_line": 82,
+          "end_line": 82,
           "coverage": 2
         },
         {
           "type": "else",
-          "start_line": 81,
-          "end_line": 81,
+          "start_line": 84,
+          "end_line": 84,
           "coverage": 2
         }
       ]
@@ -6179,7 +6182,7 @@
         null,
         null,
         1,
-        1078,
+        1090,
         1,
         1,
         null,
@@ -6197,7 +6200,7 @@
         null,
         null,
         1,
-        700,
+        712,
         1,
         1,
         null,
@@ -6221,7 +6224,7 @@
         null,
         null,
         1,
-        1007,
+        1019,
         2,
         2,
         null,
@@ -6268,7 +6271,7 @@
           "type": "else",
           "start_line": 16,
           "end_line": 20,
-          "coverage": 1077
+          "coverage": 1089
         },
         {
           "type": "then",
@@ -6292,7 +6295,7 @@
           "type": "else",
           "start_line": 34,
           "end_line": 38,
-          "coverage": 699
+          "coverage": 711
         },
         {
           "type": "then",
@@ -6304,7 +6307,7 @@
           "type": "else",
           "start_line": 58,
           "end_line": 62,
-          "coverage": 1005
+          "coverage": 1017
         },
         {
           "type": "then",
@@ -6326,7 +6329,7 @@
         null,
         1,
         1,
-        1007,
+        1019,
         null,
         null
       ],
@@ -6341,7 +6344,7 @@
           "type": "else",
           "start_line": 5,
           "end_line": 5,
-          "coverage": 997
+          "coverage": 1009
         },
         {
           "type": "then",
@@ -6353,7 +6356,7 @@
           "type": "else",
           "start_line": 5,
           "end_line": 5,
-          "coverage": 997
+          "coverage": 1009
         }
       ]
     },
@@ -6480,7 +6483,7 @@
         null,
         null,
         1,
-        1181,
+        1193,
         null,
         null,
         1,
@@ -6520,13 +6523,13 @@
         null,
         null,
         1,
-        1321,
+        1331,
         null,
         null,
         1,
-        1321,
+        1331,
         null,
-        1321,
+        1331,
         null,
         null
       ],
@@ -6535,7 +6538,7 @@
           "type": "else",
           "start_line": 133,
           "end_line": 133,
-          "coverage": 1318
+          "coverage": 1328
         },
         {
           "type": "then",
@@ -6575,7 +6578,7 @@
         1,
         null,
         1,
-        1491,
+        1629,
         null,
         null,
         null,
@@ -7294,11 +7297,11 @@
         null,
         null,
         1,
-        2,
+        17,
         null,
         null,
         1,
-        2,
+        17,
         null,
         null
       ],
@@ -7392,54 +7395,64 @@
         null,
         null,
         null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
         1,
         1,
         1,
         1,
         null,
         1,
-        1,
-        null,
-        1,
-        1,
-        null,
         null,
         null,
         1,
         null,
         null,
         null,
+        1,
+        null,
+        null,
+        null,
         null,
         1,
         null,
         1,
         null,
         1,
-        16,
+        33,
         null,
         null,
         1,
-        16,
+        33,
         null,
         null,
         1,
-        85,
-        85,
+        97,
+        97,
         null,
         null
       ],
       "branches": [
         {
           "type": "then",
-          "start_line": 45,
-          "end_line": 45,
+          "start_line": 55,
+          "end_line": 55,
           "coverage": 2
         },
         {
           "type": "else",
-          "start_line": 45,
-          "end_line": 45,
-          "coverage": 83
+          "start_line": 55,
+          "end_line": 55,
+          "coverage": 95
         }
       ]
     },
@@ -7526,7 +7539,7 @@
         1,
         null,
         1,
-        3718,
+        3742,
         null,
         null,
         1,
@@ -7594,6 +7607,63 @@
       ],
       "branches": [
 
+      ]
+    },
+    "/__w/woofed-crm/woofed-crm/app/models/concerns/company/validate_duplicate_companies.rb": {
+      "lines": [
+        1,
+        1,
+        null,
+        1,
+        1,
+        13,
+        null,
+        2,
+        2,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        1,
+        null,
+        1,
+        2,
+        1,
+        1,
+        1,
+        null,
+        0,
+        null,
+        null,
+        null
+      ],
+      "branches": [
+        {
+          "type": "then",
+          "start_line": 20,
+          "end_line": 20,
+          "coverage": 1
+        },
+        {
+          "type": "else",
+          "start_line": 21,
+          "end_line": 24,
+          "coverage": 1
+        },
+        {
+          "type": "then",
+          "start_line": 22,
+          "end_line": 22,
+          "coverage": 1
+        },
+        {
+          "type": "else",
+          "start_line": 24,
+          "end_line": 24,
+          "coverage": 0
+        }
       ]
     },
     "/__w/woofed-crm/woofed-crm/app/models/concerns/contact/presenters.rb": {
@@ -7669,12 +7739,12 @@
         1,
         1,
         1,
-        1011,
+        1023,
         148,
         null,
         null,
         null,
-        863,
+        875,
         null,
         null,
         null,
@@ -7699,7 +7769,7 @@
         null,
         null,
         1,
-        5,
+        6,
         null,
         null,
         null
@@ -7715,7 +7785,7 @@
           "type": "else",
           "start_line": 10,
           "end_line": 12,
-          "coverage": 863
+          "coverage": 875
         },
         {
           "type": "then",
@@ -7740,9 +7810,9 @@
         1,
         null,
         1,
-        700,
-        700,
-        700,
+        712,
+        712,
+        712,
         null,
         null,
         null,
@@ -7790,7 +7860,7 @@
         null,
         null,
         1,
-        717,
+        729,
         null,
         null,
         null,
@@ -8260,11 +8330,11 @@
         null,
         null,
         1,
-        69,
+        84,
         null,
         null,
         1,
-        34,
+        49,
         null,
         null,
         1,
@@ -8281,8 +8351,8 @@
         1,
         null,
         1,
-        1139,
-        1139,
+        1151,
+        1151,
         null,
         null,
         null,
@@ -8294,13 +8364,13 @@
         1,
         null,
         1,
-        1107,
+        1119,
         null,
         null,
         null,
         null,
         1,
-        1078,
+        1090,
         null,
         null,
         1,
@@ -8331,7 +8401,7 @@
           "type": "else",
           "start_line": 73,
           "end_line": 73,
-          "coverage": 1136
+          "coverage": 1148
         }
       ]
     },
@@ -8628,7 +8698,7 @@
       "lines": [
         1,
         1,
-        7425,
+        7449,
         null,
         null
       ],
@@ -8720,7 +8790,7 @@
         1,
         1,
         1,
-        null,
+        1,
         1,
         null,
         1,
@@ -8730,19 +8800,21 @@
         1,
         null,
         1,
-        829,
         null,
-        829,
+        1,
+        841,
         null,
-        829,
+        841,
+        null,
+        841,
         null,
         null,
         1,
-        747,
+        748,
         null,
         null,
         1,
-        61,
+        62,
         null,
         null,
         1,
@@ -8777,7 +8849,7 @@
         1,
         null,
         1,
-        700,
+        712,
         null,
         null,
         1,
@@ -8788,27 +8860,15 @@
       "branches": [
         {
           "type": "then",
-          "start_line": 60,
-          "end_line": 60,
+          "start_line": 62,
+          "end_line": 62,
           "coverage": 0
         },
         {
           "type": "else",
-          "start_line": 60,
-          "end_line": 60,
-          "coverage": 829
-        },
-        {
-          "type": "then",
           "start_line": 62,
           "end_line": 62,
-          "coverage": 1
-        },
-        {
-          "type": "else",
-          "start_line": 62,
-          "end_line": 62,
-          "coverage": 828
+          "coverage": 841
         },
         {
           "type": "then",
@@ -8820,7 +8880,19 @@
           "type": "else",
           "start_line": 64,
           "end_line": 64,
-          "coverage": 828
+          "coverage": 840
+        },
+        {
+          "type": "then",
+          "start_line": 66,
+          "end_line": 66,
+          "coverage": 1
+        },
+        {
+          "type": "else",
+          "start_line": 66,
+          "end_line": 66,
+          "coverage": 840
         }
       ]
     },
@@ -9359,6 +9431,40 @@
 
       ]
     },
+    "/__w/woofed-crm/woofed-crm/app/models/deal_company.rb": {
+      "lines": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        1,
+        null
+      ],
+      "branches": [
+
+      ]
+    },
     "/__w/woofed-crm/woofed-crm/app/models/deal_lost_reason.rb": {
       "lines": [
         null,
@@ -9610,12 +9716,12 @@
         null,
         1,
         null,
-        1047,
+        1060,
         10,
-        1037,
+        1050,
         11,
         null,
-        1047,
+        1060,
         null,
         null,
         1,
@@ -9625,7 +9731,7 @@
         1,
         null,
         1,
-        1063,
+        1075,
         null,
         null,
         1,
@@ -9643,7 +9749,7 @@
         null,
         null,
         1,
-        1047,
+        1060,
         null,
         102,
         null,
@@ -9681,15 +9787,15 @@
         null,
         null,
         1,
-        1037,
+        1050,
         null,
         null,
         1,
-        1037,
+        1050,
         null,
         null,
         1,
-        2154,
+        2178,
         null,
         null,
         1,
@@ -9697,10 +9803,10 @@
         null,
         null,
         1,
-        875,
-        875,
+        887,
+        887,
         null,
-        869,
+        881,
         null,
         null,
         1,
@@ -9752,7 +9858,7 @@
         1,
         null,
         1,
-        1063,
+        1075,
         null,
         null,
         1,
@@ -9823,7 +9929,7 @@
         1,
         null,
         1,
-        1007,
+        1019,
         null,
         null,
         1,
@@ -9842,7 +9948,7 @@
           "type": "else",
           "start_line": 50,
           "end_line": 51,
-          "coverage": 1037
+          "coverage": 1050
         },
         {
           "type": "then",
@@ -9854,7 +9960,7 @@
           "type": "else",
           "start_line": 50,
           "end_line": 51,
-          "coverage": 1026
+          "coverage": 1039
         },
         {
           "type": "then",
@@ -9866,7 +9972,7 @@
           "type": "else",
           "start_line": 63,
           "end_line": 63,
-          "coverage": 1062
+          "coverage": 1074
         },
         {
           "type": "then",
@@ -9902,7 +10008,7 @@
           "type": "then",
           "start_line": 81,
           "end_line": 81,
-          "coverage": 945
+          "coverage": 958
         },
         {
           "type": "then",
@@ -9938,13 +10044,13 @@
           "type": "else",
           "start_line": 136,
           "end_line": 136,
-          "coverage": 869
+          "coverage": 881
         },
         {
           "type": "then",
           "start_line": 138,
           "end_line": 138,
-          "coverage": 869
+          "coverage": 881
         },
         {
           "type": "else",
@@ -9962,7 +10068,7 @@
           "type": "else",
           "start_line": 190,
           "end_line": 190,
-          "coverage": 1063
+          "coverage": 1075
         },
         {
           "type": "then",
@@ -10287,32 +10393,32 @@
         1,
         null,
         1,
-        884,
-        884,
-        884,
+        1161,
+        1161,
+        1161,
         null,
         null,
-        884,
-        null,
-        null,
-        null,
-        null,
-        null,
-        884,
-        52,
-        960,
+        1161,
         null,
         null,
         null,
         null,
-        884,
+        null,
+        1161,
+        68,
+        1098,
+        null,
+        null,
+        null,
+        null,
+        1161,
         0,
         0,
         null,
         0,
         null,
         null,
-        884,
+        1161,
         null,
         null,
         1,
@@ -10329,31 +10435,31 @@
         null,
         null,
         1,
-        163,
-        163,
-        163,
+        211,
+        211,
+        211,
         null,
         null,
         1,
         null,
-        884,
+        1161,
         null,
         null,
         null,
         null,
-        832,
-        832,
+        1093,
+        1093,
         null,
         null,
         1,
-        884,
-        884,
+        1161,
+        1161,
         null,
         0,
         null,
         null,
-        884,
-        725,
+        1161,
+        1002,
         null,
         159,
         null,
@@ -10364,69 +10470,54 @@
         null,
         1,
         null,
-        183,
-        null,
-        99,
-        null,
-        99,
         246,
         null,
-        244,
-        244,
-        244,
+        114,
+        null,
+        114,
+        324,
+        null,
+        322,
+        322,
+        322,
         null,
         null,
-        244,
+        322,
         null,
         0,
         null,
         null,
         null,
-        244,
+        322,
         null,
-        165,
+        228,
         null,
-        165,
+        228,
         null,
-        165,
+        228,
         null,
-        165,
-        84,
+        228,
+        132,
         null,
-        81,
-        null,
-        null,
-        null,
-        165,
-        null,
-        null,
-        165,
-        165,
-        null,
-        165,
-        888,
-        null,
-        888,
-        null,
-        888,
-        163,
-        null,
-        725,
+        96,
         null,
         null,
         null,
+        228,
         null,
         null,
+        228,
+        228,
         null,
+        228,
+        1213,
         null,
-        888,
+        1213,
         null,
+        1213,
+        211,
         null,
-        null,
-        165,
-        null,
-        165,
-        165,
+        1002,
         null,
         null,
         null,
@@ -10434,25 +10525,14 @@
         null,
         null,
         null,
-        165,
-        null,
-        null,
-        99,
-        null,
-        null,
-        1,
-        163,
-        163,
-        163,
-        null,
-        null,
-        163,
+        1213,
         null,
         null,
         null,
+        228,
         null,
-        null,
-        163,
+        228,
+        228,
         null,
         null,
         null,
@@ -10460,21 +10540,47 @@
         null,
         null,
         null,
-        163,
+        228,
         null,
-        163,
+        null,
+        114,
         null,
         null,
         1,
+        211,
+        211,
+        211,
         null,
-        163,
-        163,
         null,
-        441,
+        211,
+        null,
+        null,
+        null,
+        null,
+        null,
+        211,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        211,
+        null,
+        211,
         null,
         null,
         1,
-        165,
+        null,
+        211,
+        211,
+        null,
+        570,
+        null,
+        null,
+        1,
+        228,
         null,
         null,
         null
@@ -10532,7 +10638,7 @@
           "type": "then",
           "start_line": 76,
           "end_line": 76,
-          "coverage": 725
+          "coverage": 1002
         },
         {
           "type": "else",
@@ -10544,13 +10650,13 @@
           "type": "then",
           "start_line": 87,
           "end_line": 89,
-          "coverage": 52
+          "coverage": 68
         },
         {
           "type": "else",
           "start_line": 86,
           "end_line": 90,
-          "coverage": 832
+          "coverage": 1093
         },
         {
           "type": "then",
@@ -10562,7 +10668,7 @@
           "type": "else",
           "start_line": 93,
           "end_line": 98,
-          "coverage": 884
+          "coverage": 1161
         },
         {
           "type": "then",
@@ -10580,31 +10686,31 @@
           "type": "then",
           "start_line": 118,
           "end_line": 118,
-          "coverage": 64
+          "coverage": 96
         },
         {
           "type": "else",
           "start_line": 118,
           "end_line": 118,
-          "coverage": 99
+          "coverage": 115
         },
         {
           "type": "then",
           "start_line": 124,
           "end_line": 124,
-          "coverage": 52
+          "coverage": 68
         },
         {
           "type": "else",
           "start_line": 124,
           "end_line": 124,
-          "coverage": 832
+          "coverage": 1093
         },
         {
           "type": "then",
           "start_line": 129,
           "end_line": 129,
-          "coverage": 832
+          "coverage": 1093
         },
         {
           "type": "else",
@@ -10616,7 +10722,7 @@
           "type": "then",
           "start_line": 135,
           "end_line": 135,
-          "coverage": 884
+          "coverage": 1161
         },
         {
           "type": "else",
@@ -10628,7 +10734,7 @@
           "type": "then",
           "start_line": 141,
           "end_line": 141,
-          "coverage": 725
+          "coverage": 1002
         },
         {
           "type": "else",
@@ -10640,13 +10746,13 @@
           "type": "then",
           "start_line": 152,
           "end_line": 152,
-          "coverage": 84
+          "coverage": 132
         },
         {
           "type": "else",
           "start_line": 152,
           "end_line": 152,
-          "coverage": 99
+          "coverage": 114
         },
         {
           "type": "then",
@@ -10658,13 +10764,13 @@
           "type": "else",
           "start_line": 157,
           "end_line": 157,
-          "coverage": 244
+          "coverage": 322
         },
         {
           "type": "else",
           "start_line": 160,
           "end_line": 160,
-          "coverage": 244
+          "coverage": 322
         },
         {
           "type": "then",
@@ -10682,25 +10788,25 @@
           "type": "else",
           "start_line": 161,
           "end_line": 161,
-          "coverage": 244
+          "coverage": 322
         },
         {
           "type": "then",
           "start_line": 170,
           "end_line": 170,
-          "coverage": 79
+          "coverage": 94
         },
         {
           "type": "else",
           "start_line": 170,
           "end_line": 170,
-          "coverage": 165
+          "coverage": 228
         },
         {
           "type": "else",
           "start_line": 172,
           "end_line": 172,
-          "coverage": 165
+          "coverage": 228
         },
         {
           "type": "then",
@@ -10712,25 +10818,25 @@
           "type": "then",
           "start_line": 179,
           "end_line": 179,
-          "coverage": 84
+          "coverage": 132
         },
         {
           "type": "else",
           "start_line": 181,
           "end_line": 181,
-          "coverage": 81
+          "coverage": 96
         },
         {
           "type": "then",
           "start_line": 185,
           "end_line": 185,
-          "coverage": 84
+          "coverage": 132
         },
         {
           "type": "else",
           "start_line": 185,
           "end_line": 185,
-          "coverage": 81
+          "coverage": 96
         },
         {
           "type": "then",
@@ -10742,25 +10848,25 @@
           "type": "else",
           "start_line": 192,
           "end_line": 192,
-          "coverage": 888
+          "coverage": 1213
         },
         {
           "type": "then",
           "start_line": 197,
           "end_line": 197,
-          "coverage": 163
+          "coverage": 211
         },
         {
           "type": "else",
           "start_line": 199,
           "end_line": 205,
-          "coverage": 725
+          "coverage": 1002
         },
         {
           "type": "then",
           "start_line": 207,
           "end_line": 207,
-          "coverage": 888
+          "coverage": 1213
         },
         {
           "type": "else",
@@ -10772,7 +10878,7 @@
           "type": "else",
           "start_line": 211,
           "end_line": 211,
-          "coverage": 165
+          "coverage": 228
         },
         {
           "type": "then",
@@ -10784,19 +10890,19 @@
           "type": "then",
           "start_line": 248,
           "end_line": 248,
-          "coverage": 33
+          "coverage": 48
         },
         {
           "type": "else",
           "start_line": 248,
           "end_line": 248,
-          "coverage": 130
+          "coverage": 163
         },
         {
           "type": "then",
           "start_line": 256,
           "end_line": 256,
-          "coverage": 163
+          "coverage": 211
         },
         {
           "type": "else",
@@ -17032,9 +17138,9 @@
         22,
         null,
         22,
-        9,
+        10,
         null,
-        13,
+        12,
         null,
         null,
         null,
@@ -17042,9 +17148,9 @@
         1,
         22,
         22,
-        10,
+        9,
         null,
-        12,
+        13,
         null,
         null,
         null,
@@ -17111,25 +17217,25 @@
           "type": "then",
           "start_line": 35,
           "end_line": 35,
-          "coverage": 9
+          "coverage": 10
         },
         {
           "type": "else",
           "start_line": 37,
           "end_line": 37,
-          "coverage": 13
+          "coverage": 12
         },
         {
           "type": "then",
           "start_line": 45,
           "end_line": 45,
-          "coverage": 10
+          "coverage": 9
         },
         {
           "type": "else",
           "start_line": 47,
           "end_line": 47,
-          "coverage": 12
+          "coverage": 13
         },
         {
           "type": "else",
@@ -17542,7 +17648,7 @@
   "groups": {
     "Controllers": {
       "lines": {
-        "covered_percent": 87.32702112163146
+        "covered_percent": 87.34545454545454
       }
     },
     "Channels": {
@@ -17552,7 +17658,7 @@
     },
     "Models": {
       "lines": {
-        "covered_percent": 92.90322580645162
+        "covered_percent": 92.80632411067194
       }
     },
     "Mailers": {

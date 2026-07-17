@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-07-17 01:17:16 -0300'>2026-07-17 01:17:16 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-07-17 02:31:00 -0300'>2026-07-17 02:31:00 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">720</span><small> lines of codes</small></div>
+              <div><span class="metric">734</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">166</span><small> churn</small></div>
+              <div><span class="metric">168</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">741.69</span><small> complexity</small></div>
+              <div><span class="metric">754.59</span><small> complexity</small></div>
               <div><span class="metric">334</span><small> duplications</small></div>
             </div>
           </div>
@@ -109,7 +109,7 @@
 #
 # It&#39;s strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_16_120001) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_17_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension &quot;pgcrypto&quot;
   enable_extension &quot;plpgsql&quot;
@@ -230,9 +230,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_16_120001) do
     t.jsonb &quot;additional_attributes&quot;, default: {}
     t.datetime &quot;created_at&quot;, null: false
     t.datetime &quot;updated_at&quot;, null: false
+    t.index &quot;NULLIF((phone)::text, &#39;&#39;::text)&quot;, name: &quot;index_companies_on_phone&quot;, unique: true
+    t.index &quot;lower(NULLIF((email)::text, &#39;&#39;::text))&quot;, name: &quot;index_companies_on_lower_email&quot;, unique: true
   end
 
-  create_table &quot;company_contacts&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L136" class="js-smell-location">0</a>                  <a href="schema.html#L171" class="js-smell-location">1</a>                  </div>  </li></ol>
+  create_table &quot;company_contacts&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L138" class="js-smell-location">0</a>                  <a href="schema.html#L173" class="js-smell-location">1</a>                  </div>  </li></ol>
     t.bigint &quot;company_id&quot;, null: false
     t.bigint &quot;contact_id&quot;, null: false
     t.datetime &quot;created_at&quot;, null: false
@@ -267,7 +269,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_16_120001) do
     t.datetime &quot;updated_at&quot;, null: false
   end
 
-  create_table &quot;deal_assignees&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L136" class="js-smell-location">0</a>                  <a href="schema.html#L171" class="js-smell-location">1</a>                  </div>  </li></ol>
+  create_table &quot;deal_assignees&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L138" class="js-smell-location">0</a>                  <a href="schema.html#L173" class="js-smell-location">1</a>                  </div>  </li></ol>
     t.bigint &quot;deal_id&quot;, null: false
     t.bigint &quot;user_id&quot;, null: false
     t.datetime &quot;created_at&quot;, null: false
@@ -277,7 +279,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_16_120001) do
     t.index [&quot;user_id&quot;], name: &quot;index_deal_assignees_on_user_id&quot;
   end
 
-  create_table &quot;deal_lost_reasons&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L181" class="js-smell-location">0</a>                  <a href="schema.html#L594" class="js-smell-location">1</a>                  </div>  </li></ol>
+  create_table &quot;deal_companies&quot;, force: :cascade do |t|
+    t.bigint &quot;deal_id&quot;, null: false
+    t.bigint &quot;company_id&quot;, null: false
+    t.datetime &quot;created_at&quot;, null: false
+    t.datetime &quot;updated_at&quot;, null: false
+    t.index [&quot;company_id&quot;], name: &quot;index_deal_companies_on_company_id&quot;
+    t.index [&quot;deal_id&quot;, &quot;company_id&quot;], name: &quot;index_deal_companies_on_deal_id_and_company_id&quot;, unique: true
+    t.index [&quot;deal_id&quot;], name: &quot;index_deal_companies_on_deal_id&quot;
+  end
+
+  create_table &quot;deal_lost_reasons&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L193" class="js-smell-location">0</a>                  <a href="schema.html#L606" class="js-smell-location">1</a>                  </div>  </li></ol>
     t.string &quot;name&quot;, default: &quot;&quot;, null: false
     t.datetime &quot;created_at&quot;, null: false
     t.datetime &quot;updated_at&quot;, null: false
@@ -510,7 +522,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_16_120001) do
     t.index [&quot;user_id&quot;, &quot;user_type&quot;], name: &quot;motor_auditable_user_index&quot;
   end
 
-  create_table &quot;motor_configs&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L414" class="js-smell-location">0</a>                  <a href="schema.html#L523" class="js-smell-location">1</a>                  </div>  </li></ol>
+  create_table &quot;motor_configs&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L426" class="js-smell-location">0</a>                  <a href="schema.html#L535" class="js-smell-location">1</a>                  </div>  </li></ol>
     t.string &quot;key&quot;, null: false
     t.text &quot;value&quot;, null: false
     t.datetime &quot;created_at&quot;, null: false
@@ -555,7 +567,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_16_120001) do
     t.index [&quot;tag_id&quot;], name: &quot;index_motor_note_tag_tags_on_tag_id&quot;
   end
 
-  create_table &quot;motor_note_tags&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L459" class="js-smell-location">0</a>                  <a href="schema.html#L540" class="js-smell-location">1</a>                  </div>  </li></ol>
+  create_table &quot;motor_note_tags&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L471" class="js-smell-location">0</a>                  <a href="schema.html#L552" class="js-smell-location">1</a>                  </div>  </li></ol>
     t.string &quot;name&quot;, null: false
     t.datetime &quot;created_at&quot;, null: false
     t.datetime &quot;updated_at&quot;, null: false
@@ -619,7 +631,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_16_120001) do
     t.index [&quot;scheduled_at&quot;], name: &quot;index_motor_reminders_on_scheduled_at&quot;
   end
 
-  create_table &quot;motor_resources&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L414" class="js-smell-location">0</a>                  <a href="schema.html#L523" class="js-smell-location">1</a>                  </div>  </li></ol>
+  create_table &quot;motor_resources&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L426" class="js-smell-location">0</a>                  <a href="schema.html#L535" class="js-smell-location">1</a>                  </div>  </li></ol>
     t.string &quot;name&quot;, null: false
     t.text &quot;preferences&quot;, null: false
     t.datetime &quot;created_at&quot;, null: false
@@ -636,7 +648,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_16_120001) do
     t.index [&quot;taggable_id&quot;, &quot;taggable_type&quot;, &quot;tag_id&quot;], name: &quot;motor_polymorphic_association_tag_index&quot;, unique: true
   end
 
-  create_table &quot;motor_tags&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L459" class="js-smell-location">0</a>                  <a href="schema.html#L540" class="js-smell-location">1</a>                  </div>  </li></ol>
+  create_table &quot;motor_tags&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L471" class="js-smell-location">0</a>                  <a href="schema.html#L552" class="js-smell-location">1</a>                  </div>  </li></ol>
     t.string &quot;name&quot;, null: false
     t.datetime &quot;created_at&quot;, null: false
     t.datetime &quot;updated_at&quot;, null: false
@@ -690,7 +702,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_16_120001) do
     t.index [&quot;uid&quot;], name: &quot;index_oauth_applications_on_uid&quot;, unique: true
   end
 
-  create_table &quot;pipelines&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L181" class="js-smell-location">0</a>                  <a href="schema.html#L594" class="js-smell-location">1</a>                  </div>  </li></ol>
+  create_table &quot;pipelines&quot;, force: :cascade do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="schema.html#L193" class="js-smell-location">0</a>                  <a href="schema.html#L606" class="js-smell-location">1</a>                  </div>  </li></ol>
     t.string &quot;name&quot;, default: &quot;&quot;, null: false
     t.datetime &quot;created_at&quot;, null: false
     t.datetime &quot;updated_at&quot;, null: false
@@ -799,6 +811,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_16_120001) do
   add_foreign_key &quot;company_contacts&quot;, &quot;contacts&quot;
   add_foreign_key &quot;deal_assignees&quot;, &quot;deals&quot;
   add_foreign_key &quot;deal_assignees&quot;, &quot;users&quot;
+  add_foreign_key &quot;deal_companies&quot;, &quot;companies&quot;
+  add_foreign_key &quot;deal_companies&quot;, &quot;deals&quot;
   add_foreign_key &quot;deal_products&quot;, &quot;deals&quot;
   add_foreign_key &quot;deal_products&quot;, &quot;products&quot;
   add_foreign_key &quot;deals&quot;, &quot;contacts&quot;

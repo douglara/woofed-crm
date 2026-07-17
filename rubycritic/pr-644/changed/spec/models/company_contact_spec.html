@@ -62,8 +62,8 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating c big">
-              C
+            <div class="rating f big">
+              F
             </div>
           </div>
           <div class="code-statistics col-md-11">
@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">120.64</span><small> complexity</small></div>
-              <div><span class="metric">0</span><small> duplications</small></div>
+              <div><span class="metric">159</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,8 +88,8 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                1
-                smell
+                2
+                smells
               </a>
             </li>
           </ul>
@@ -125,7 +125,7 @@ RSpec.describe CompanyContact do
   let!(:company) { create(:company) }
   let!(:contact) { create(:contact) }
 
-  describe &#39;validations&#39; do
+  describe &#39;validations&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_contact_spec.html#L29" class="js-smell-location">0</a>                  <a href="deal_company_spec.html#L29" class="js-smell-location">1</a>                  </div>  </li></ol>
     context &#39;validates contact_id&#39; do
       context &#39;valid&#39; do
         it &#39;when the contact is not linked to the company yet&#39; do

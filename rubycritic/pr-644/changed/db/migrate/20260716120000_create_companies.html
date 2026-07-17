@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-07-17 01:17:16 -0300'>2026-07-17 01:17:16 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-07-17 02:08:32 -0300'>2026-07-17 02:08:32 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">13</span><small> lines of codes</small></div>
+              <div><span class="metric">18</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">8.3</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">10.3</span><small> complexity/method</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">8.26</span><small> complexity</small></div>
+              <div><span class="metric">10.25</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -98,7 +98,7 @@
     </div>
 
     <code class="prettyprint linenums lang-ruby file-code js-file-code">class CreateCompanies &lt; ActiveRecord::Migration[7.1]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>CreateCompanies has no descriptive comment</span>          </div>  </li></ol>
-  def change<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>CreateCompanies#change has approx 7 statements</span>          </div>  </li></ol>
+  def change<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>CreateCompanies#change has approx 9 statements</span>          </div>  </li></ol>
     create_table :companies do |t|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md" target="_blank"><b>UncommunicativeVariableName</b></a>        </span>      </div>      <span>CreateCompanies#change has the variable name 't'</span>          </div>  </li></ol>
       t.string :name, default: &#39;&#39;, null: false<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>CreateCompanies#change refers to 't' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="20260716120000_create_companies.html#L4" class="js-smell-location">0</a>                  <a href="20260716120000_create_companies.html#L5" class="js-smell-location">1</a>                  <a href="20260716120000_create_companies.html#L6" class="js-smell-location">2</a>                  <a href="20260716120000_create_companies.html#L7" class="js-smell-location">3</a>                  <a href="20260716120000_create_companies.html#L8" class="js-smell-location">4</a>                  <a href="20260716120000_create_companies.html#L10" class="js-smell-location">5</a>                  </div>  </li></ol>
       t.string :phone, default: &#39;&#39;, null: false<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>CreateCompanies#change refers to 't' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="20260716120000_create_companies.html#L4" class="js-smell-location">0</a>                  <a href="20260716120000_create_companies.html#L5" class="js-smell-location">1</a>                  <a href="20260716120000_create_companies.html#L6" class="js-smell-location">2</a>                  <a href="20260716120000_create_companies.html#L7" class="js-smell-location">3</a>                  <a href="20260716120000_create_companies.html#L8" class="js-smell-location">4</a>                  <a href="20260716120000_create_companies.html#L10" class="js-smell-location">5</a>                  </div>  </li></ol>
@@ -108,6 +108,11 @@
 
       t.timestamps<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>CreateCompanies#change refers to 't' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="20260716120000_create_companies.html#L4" class="js-smell-location">0</a>                  <a href="20260716120000_create_companies.html#L5" class="js-smell-location">1</a>                  <a href="20260716120000_create_companies.html#L6" class="js-smell-location">2</a>                  <a href="20260716120000_create_companies.html#L7" class="js-smell-location">3</a>                  <a href="20260716120000_create_companies.html#L8" class="js-smell-location">4</a>                  <a href="20260716120000_create_companies.html#L10" class="js-smell-location">5</a>                  </div>  </li></ol>
     end
+
+    # NULLIF lets any number of companies keep the &#39;&#39; default, while a filled in
+    # email/phone stays unique. Mirrors the contacts indexes.
+    add_index :companies, &quot;LOWER(NULLIF(email, &#39;&#39;))&quot;, unique: true, name: &#39;index_companies_on_lower_email&#39;
+    add_index :companies, &quot;NULLIF(phone, &#39;&#39;)&quot;, unique: true, name: &#39;index_companies_on_phone&#39;
   end
 end
 </code>

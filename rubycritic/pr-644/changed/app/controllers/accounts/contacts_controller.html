@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-07-17 01:17:16 -0300'>2026-07-17 01:17:16 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-07-17 02:18:10 -0300'>2026-07-17 02:18:10 -0300</time>
         
       </span>
     </div>
@@ -72,11 +72,11 @@
               <div><span class="metric">15</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">12.2</span><small> complexity/method</small></div>
-              <div><span class="metric">52</span><small> churn</small></div>
+              <div><span class="metric">12.4</span><small> complexity/method</small></div>
+              <div><span class="metric">53</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">183.33</span><small> complexity</small></div>
+              <div><span class="metric">185.67</span><small> complexity</small></div>
               <div><span class="metric">122</span><small> duplications</small></div>
             </div>
           </div>
@@ -104,7 +104,7 @@
 
   def show
     @pagy_deals, @deals = pagy(@contact.deals.order(created_at: :desc), items: 10, page_param: :deals_page)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L7" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L73" class="js-smell-location">1</a>                  </div>  </li></ol>
-    @company_contacts = @contact.company_contacts
+    @company_contacts = @contact.company_contacts.includes(:company)
   end
 
   # GET /contacts or /contacts.json
@@ -166,12 +166,12 @@
   end
 
   # POST /contacts or /contacts.json
-  def create<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>Accounts::ContactsController#create has a flog score of 32</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::ContactsController#create has approx 8 statements</span>          </div>  </li></ol>
+  def create<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>Accounts::ContactsController#create has a flog score of 33</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::ContactsController#create has approx 8 statements</span>          </div>  </li></ol>
     @contact = current_user.account.contacts.new(contact_params)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#create calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L71" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L77" class="js-smell-location">1</a>                  </div>  </li></ol>
     if @contact.save
       @pagy_deals, @deals = pagy(@contact.deals.order(created_at: :desc), items: 10, page_param: :deals_page)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L7" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L73" class="js-smell-location">1</a>                  </div>  </li></ol>
-      @company_contacts = @contact.company_contacts
-      respond_to do |format|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="companies_controller.html#L30" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L75" class="js-smell-location">1</a>                  </div>  </li></ol>
+      @company_contacts = @contact.company_contacts.includes(:company)
+      respond_to do |format|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="companies_controller.html#L33" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L75" class="js-smell-location">1</a>                  </div>  </li></ol>
         format.html do
           redirect_to account_contact_path(current_user.account, @contact),<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Accounts::ContactsController#create calls 'current_user.account' 2 times</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L71" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L77" class="js-smell-location">1</a>                  </div>  </li></ol>
                       notice: t(&#39;flash_messages.created&#39;, model: Contact.model_name.human)
@@ -202,7 +202,7 @@
   end
 
   # DELETE /contacts/1 or /contacts/1.json
-  def destroy<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="companies_controller.html#L53" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L106" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::ContactsController#destroy has approx 6 statements</span>          </div>  </li></ol>
+  def destroy<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="companies_controller.html#L56" class="js-smell-location">0</a>                  <a href="contacts_controller.html#L106" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::ContactsController#destroy has approx 6 statements</span>          </div>  </li></ol>
     @contact.destroy
     respond_to do |format|
       format.html do

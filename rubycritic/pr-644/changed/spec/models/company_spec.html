@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-07-17 01:17:16 -0300'>2026-07-17 01:17:16 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-07-17 02:08:32 -0300'>2026-07-17 02:08:32 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">252</span><small> lines of codes</small></div>
+              <div><span class="metric">263</span><small> lines of codes</small></div>
               <div><span class="metric">1</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">626.7</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">641.7</span><small> complexity/method</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">626.66</span><small> complexity</small></div>
+              <div><span class="metric">641.73</span><small> complexity</small></div>
               <div><span class="metric">240</span><small> duplications</small></div>
             </div>
           </div>
@@ -109,6 +109,11 @@
 #  phone                 :string           default(&quot;&quot;), not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#
+# Indexes
+#
+#  index_companies_on_lower_email  (lower(NULLIF((email)::text, &#39;&#39;::text))) UNIQUE
+#  index_companies_on_phone        (NULLIF((phone)::text, &#39;&#39;::text)) UNIQUE
 #
 require &#39;rails_helper&#39;
 
@@ -158,14 +163,14 @@ RSpec.describe Company do
 
     context &#39;validates email&#39; do
       context &#39;valid&#39; do
-        it &#39;when email is unique (case-insensitive)&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L62" class="js-smell-location">0</a>                  <a href="company_spec.html#L117" class="js-smell-location">1</a>                  </div>  </li></ol>
+        it &#39;when email is unique (case-insensitive)&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L67" class="js-smell-location">0</a>                  <a href="company_spec.html#L125" class="js-smell-location">1</a>                  </div>  </li></ol>
           create(:company, email: valid_email, phone: valid_phone)
           new_company = build(:company, email: other_email, phone: other_phone)
 
           expect(new_company.save).to be_truthy
         end
 
-        it &#39;when email is blank (empty string)&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L69" class="js-smell-location">0</a>                  <a href="company_spec.html#L83" class="js-smell-location">1</a>                  </div>  </li></ol>
+        it &#39;when email is blank (empty string)&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L74" class="js-smell-location">0</a>                  <a href="company_spec.html#L88" class="js-smell-location">1</a>                  </div>  </li></ol>
           new_company = build(:company, email: &#39;&#39;, phone: valid_phone)
 
           expect(new_company).to be_valid
@@ -179,7 +184,7 @@ RSpec.describe Company do
           expect(new_company.save).to be_truthy
         end
 
-        it &#39;when email has valid format&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L69" class="js-smell-location">0</a>                  <a href="company_spec.html#L83" class="js-smell-location">1</a>                  </div>  </li></ol>
+        it &#39;when email has valid format&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L74" class="js-smell-location">0</a>                  <a href="company_spec.html#L88" class="js-smell-location">1</a>                  </div>  </li></ol>
           new_company = build(:company, email: &#39;valid@example.com&#39;, phone: valid_phone)
 
           expect(new_company).to be_valid
@@ -187,12 +192,15 @@ RSpec.describe Company do
       end
 
       context &#39;invalid&#39; do
-        it &#39;when email is already taken (case-insensitive)&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(validations)::context(validates email)::context(invalid)::it(when email is already taken (case-insensitive))#when email is already taken (case-insensitive) has a flog score of 34</span>          </div>  </li></ol>
+        it &#39;when email is already taken (case-insensitive)&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(validations)::context(validates email)::context(invalid)::it(when email is already taken (case-insensitive))#when email is already taken (case-insensitive) has a flog score of 42</span>          </div>  </li></ol>
           create(:company, email: valid_email, phone: valid_phone)
           new_company = build(:company, email: valid_email.upcase, phone: other_phone)
 
           expect(new_company.save).to be_falsey
           expect(new_company.errors[:email]).to include(&#39;has already been taken&#39;)
+
+          expect { new_company.save!(validate: false) }
+            .to raise_error(ActiveRecord::RecordNotUnique)
         end
 
         it &#39;when email is nil&#39; do
@@ -213,14 +221,14 @@ RSpec.describe Company do
 
     context &#39;validates phone&#39; do
       context &#39;valid&#39; do
-        it &#39;when phone is unique&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L62" class="js-smell-location">0</a>                  <a href="company_spec.html#L117" class="js-smell-location">1</a>                  </div>  </li></ol>
+        it &#39;when phone is unique&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L67" class="js-smell-location">0</a>                  <a href="company_spec.html#L125" class="js-smell-location">1</a>                  </div>  </li></ol>
           create(:company, email: valid_email, phone: valid_phone)
           new_company = build(:company, email: other_email, phone: other_phone)
 
           expect(new_company.save).to be_truthy
         end
 
-        it &#39;when phone is blank (empty string)&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L124" class="js-smell-location">0</a>                  <a href="company_spec.html#L138" class="js-smell-location">1</a>                  </div>  </li></ol>
+        it &#39;when phone is blank (empty string)&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L132" class="js-smell-location">0</a>                  <a href="company_spec.html#L146" class="js-smell-location">1</a>                  </div>  </li></ol>
           new_company = build(:company, email: valid_email, phone: &#39;&#39;)
 
           expect(new_company).to be_valid
@@ -234,7 +242,7 @@ RSpec.describe Company do
           expect(new_company.save).to be_truthy
         end
 
-        it &#39;when phone has valid format&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L124" class="js-smell-location">0</a>                  <a href="company_spec.html#L138" class="js-smell-location">1</a>                  </div>  </li></ol>
+        it &#39;when phone has valid format&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L132" class="js-smell-location">0</a>                  <a href="company_spec.html#L146" class="js-smell-location">1</a>                  </div>  </li></ol>
           new_company = build(:company, email: valid_email, phone: &#39;+123456788&#39;)
 
           expect(new_company).to be_valid
@@ -248,22 +256,25 @@ RSpec.describe Company do
       end
 
       context &#39;invalid&#39; do
-        it &#39;when phone is already taken&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(validations)::context(validates phone)::context(invalid)::it#when phone is already taken has a flog score of 32</span>          </div>  </li></ol>
+        it &#39;when phone is already taken&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(validations)::context(validates phone)::context(invalid)::it#when phone is already taken has a flog score of 40</span>          </div>  </li></ol>
           create(:company, email: valid_email, phone: valid_phone)
           new_company = build(:company, email: other_email, phone: valid_phone)
 
           expect(new_company.save).to be_falsey
           expect(new_company.errors[:phone]).to include(&#39;has already been taken&#39;)
+
+          expect { new_company.save!(validate: false) }
+            .to raise_error(ActiveRecord::RecordNotUnique)
         end
 
-        it &#39;when phone is more than 15 characters&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L160" class="js-smell-location">0</a>                  <a href="company_spec.html#L167" class="js-smell-location">1</a>                  <a href="company_spec.html#L181" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(validations)::context(validates phone)::context(invalid)::it#when phone is more than 15 characters has a flog score of 25</span>          </div>  </li></ol>
+        it &#39;when phone is more than 15 characters&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L171" class="js-smell-location">0</a>                  <a href="company_spec.html#L178" class="js-smell-location">1</a>                  <a href="company_spec.html#L192" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(validations)::context(validates phone)::context(invalid)::it#when phone is more than 15 characters has a flog score of 25</span>          </div>  </li></ol>
           new_company = build(:company, email: valid_email, phone: &#39;+552299881378888889&#39;)
 
           expect(new_company).to be_invalid
           expect(new_company.errors[:phone]).to include(I18n.t(&#39;activerecord.errors.company.phone.invalid&#39;))
         end
 
-        it &#39;when phone starts with +0&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L160" class="js-smell-location">0</a>                  <a href="company_spec.html#L167" class="js-smell-location">1</a>                  <a href="company_spec.html#L181" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(validations)::context(validates phone)::context(invalid)::it#when phone starts with +0 has a flog score of 25</span>          </div>  </li></ol>
+        it &#39;when phone starts with +0&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L171" class="js-smell-location">0</a>                  <a href="company_spec.html#L178" class="js-smell-location">1</a>                  <a href="company_spec.html#L192" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(validations)::context(validates phone)::context(invalid)::it#when phone starts with +0 has a flog score of 25</span>          </div>  </li></ol>
           new_company = build(:company, email: valid_email, phone: &#39;+052299881378888889&#39;)
 
           expect(new_company).to be_invalid
@@ -277,7 +288,7 @@ RSpec.describe Company do
             .to raise_error(ActiveRecord::NotNullViolation)
         end
 
-        it &#39;when phone has invalid characters&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L160" class="js-smell-location">0</a>                  <a href="company_spec.html#L167" class="js-smell-location">1</a>                  <a href="company_spec.html#L181" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(validations)::context(validates phone)::context(invalid)::it#when phone has invalid characters has a flog score of 25</span>          </div>  </li></ol>
+        it &#39;when phone has invalid characters&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L171" class="js-smell-location">0</a>                  <a href="company_spec.html#L178" class="js-smell-location">1</a>                  <a href="company_spec.html#L192" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(validations)::context(validates phone)::context(invalid)::it#when phone has invalid characters has a flog score of 25</span>          </div>  </li></ol>
           new_company = build(:company, email: valid_email, phone: &#39;invalid_phone&#39;)
 
           expect(new_company).to be_invalid
@@ -311,14 +322,14 @@ RSpec.describe Company do
         expect(company.contacts).to be_empty
       end
 
-      it &#39;when the company is destroyed it removes the link but keeps the contact&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L215" class="js-smell-location">0</a>                  <a href="company_spec.html#L222" class="js-smell-location">1</a>                  </div>  </li></ol>
+      it &#39;when the company is destroyed it removes the link but keeps the contact&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L226" class="js-smell-location">0</a>                  <a href="company_spec.html#L233" class="js-smell-location">1</a>                  </div>  </li></ol>
         create(:company_contact, company:, contact:)
 
         expect { company.destroy }.to change(CompanyContact, :count).by(-1)
                                                                    .and change(Contact, :count).by(0)
       end
 
-      it &#39;when the contact is destroyed it removes the link but keeps the company&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L215" class="js-smell-location">0</a>                  <a href="company_spec.html#L222" class="js-smell-location">1</a>                  </div>  </li></ol>
+      it &#39;when the contact is destroyed it removes the link but keeps the company&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_spec.html#L226" class="js-smell-location">0</a>                  <a href="company_spec.html#L233" class="js-smell-location">1</a>                  </div>  </li></ol>
         create(:company_contact, company:, contact:)
 
         expect { contact.destroy }.to change(CompanyContact, :count).by(-1)

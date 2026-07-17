@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-07-17 01:17:16 -0300'>2026-07-17 01:17:16 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-07-17 02:31:00 -0300'>2026-07-17 02:31:00 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">48</span><small> lines of codes</small></div>
+              <div><span class="metric">58</span><small> lines of codes</small></div>
               <div><span class="metric">3</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">2.4</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">7.05</span><small> complexity</small></div>
@@ -110,20 +110,30 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
+# Indexes
+#
+#  index_companies_on_lower_email  (lower(NULLIF((email)::text, &#39;&#39;::text))) UNIQUE
+#  index_companies_on_phone        (NULLIF((phone)::text, &#39;&#39;::text)) UNIQUE
+#
 class Company &lt; ApplicationRecord
   include CustomAttributes
   include Labelable
   include Attachable
+  include Company::ValidateDuplicateCompanies
 
   has_many :company_contacts, dependent: :destroy
   has_many :contacts, through: :company_contacts
+  has_many :deal_companies, dependent: :destroy
+  has_many :deals, through: :deal_companies
 
   validates :name, presence: true
-  validates :email, allow_blank: true, uniqueness: { case_sensitive: false },
+  # Uniqueness of email/phone is enforced by the unique indexes and translated into
+  # errors by ValidateDuplicateCompanies, so a concurrent insert cannot slip through.
+  validates :email, allow_blank: true,
                     format: { with: Devise.email_regexp,
                               message: I18n.t(&#39;activerecord.errors.company.email.invalid&#39;,
                                               locale: I18n.locale) }
-  validates :phone, allow_blank: true, uniqueness: true,
+  validates :phone, allow_blank: true,
                     format: { with: /\+[1-9]\d{1,14}\z/,
                               message: I18n.t(&#39;activerecord.errors.company.phone.invalid&#39;,
                                               locale: I18n.locale) }
@@ -137,10 +147,10 @@ class Company &lt; ApplicationRecord
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    %w[labels contacts attachments]
+    %w[labels contacts attachments deals]
   end
 
-  def phone=(value)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company.html#L44" class="js-smell-location">0</a>                  <a href="contact.html#L72" class="js-smell-location">1</a>                  </div>  </li></ol>
+  def phone=(value)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company.html#L54" class="js-smell-location">0</a>                  <a href="contact.html#L72" class="js-smell-location">1</a>                  </div>  </li></ol>
     value = &quot;+#{value}&quot; if value.present? &amp;&amp; !value.start_with?(&#39;+&#39;)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Company#phone= refers to 'value' more than self (maybe move it to another class?)</span>          </div>  </li></ol>
     super(value)
   end
