@@ -17,7 +17,9 @@ class Accounts::CompaniesController < InternalController
     @pagy, @companies = pagy(@companies)
   end
 
-  def show; end
+  def show
+    @company_contacts = @company.company_contacts.includes(:contact)
+  end
 
   def new
     @company = Company.new
@@ -27,6 +29,7 @@ class Accounts::CompaniesController < InternalController
   def create
     @company = Company.new(company_params)
     if @company.save
+      @company_contacts = @company.company_contacts.includes(:contact)
       respond_to do |format|
         format.html do
           redirect_to account_company_path(current_user.account, @company),

@@ -5,7 +5,7 @@ class Accounts::ContactsController < InternalController
 
   def show
     @pagy_deals, @deals = pagy(@contact.deals.order(created_at: :desc), items: 10, page_param: :deals_page)
-    @company_contacts = @contact.company_contacts
+    @company_contacts = @contact.company_contacts.includes(:company)
   end
 
   # GET /contacts or /contacts.json
@@ -71,7 +71,7 @@ class Accounts::ContactsController < InternalController
     @contact = current_user.account.contacts.new(contact_params)
     if @contact.save
       @pagy_deals, @deals = pagy(@contact.deals.order(created_at: :desc), items: 10, page_param: :deals_page)
-      @company_contacts = @contact.company_contacts
+      @company_contacts = @contact.company_contacts.includes(:company)
       respond_to do |format|
         format.html do
           redirect_to account_contact_path(current_user.account, @contact),

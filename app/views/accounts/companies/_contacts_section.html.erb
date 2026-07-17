@@ -1,6 +1,6 @@
 <%= render 'components/show_model/section', model: company, title: t('activerecord.models.contact.other'), icon: 'contact',
            add_path: new_company_contact_account_company_path(Current.account, company) do %>
   <ul class="flex flex-col gap-2" id="<%= dom_id(company, :company_contacts) %>">
-    <%= render partial: 'accounts/companies/company_contact', collection: company.company_contacts, as: :company_contact %>
+    <%= render partial: 'accounts/companies/company_contact', collection: company_contacts, as: :company_contact %>
   </ul>
 <% end %>
