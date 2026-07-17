@@ -24,6 +24,8 @@ class Company < ApplicationRecord
 
   has_many :company_contacts, dependent: :destroy
   has_many :contacts, through: :company_contacts
+  has_many :deal_companies, dependent: :destroy
+  has_many :deals, through: :deal_companies
 
   validates :name, presence: true
   # Uniqueness of email/phone is enforced by the unique indexes and translated into
@@ -46,7 +48,7 @@ class Company < ApplicationRecord
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    %w[labels contacts attachments]
+    %w[labels contacts attachments deals]
   end
 
   def phone=(value)

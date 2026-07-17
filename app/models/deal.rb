@@ -47,6 +47,8 @@ class Deal < ApplicationRecord
   has_many :deal_products, dependent: :destroy
   has_many :deal_assignees, dependent: :destroy
   has_many :users, through: :deal_assignees
+  has_many :deal_companies, dependent: :destroy
+  has_many :companies, through: :deal_companies
 
   accepts_nested_attributes_for :contact
 
@@ -69,7 +71,7 @@ class Deal < ApplicationRecord
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    %w[users contact stage pipeline creator]
+    %w[users contact stage pipeline creator companies]
   end
 
   def total_amount_in_cents
