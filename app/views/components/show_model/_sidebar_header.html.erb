@@ -34,6 +34,17 @@
       </div>
     </div>
   </div>
+<% elsif model.class == Company %>
+  <div class="flex items-center gap-3 p-4 2xl:mt-6 2xl:px-6 2xl:pt-2 2xl:pb-4">
+    <div class="w-8 h-8 shrink-0 2xl:w-[42px] 2xl:h-[42px]">
+      <div class="border color-border-default bg-brand-palette-08 rounded-md h-full w-full flex items-center color-fg-soft">
+        <i data-lucide="building-2" class="m-auto w-4 h-4 2xl:w-5 2xl:h-5"></i>
+      </div>
+    </div>
+    <h2 class="hidden 2xl:block color-fg-default typography-sub-title-900">
+      <%= model.name %>
+    </h2>
+  </div>
 <% elsif model.class == Product %>
   <div class="flex items-center gap-3 p-4 2xl:mt-6 2xl:px-6 2xl:pt-2 2xl:pb-4">
     <div class="w-8 h-8 shrink-0 2xl:w-[42px] 2xl:h-[42px]">

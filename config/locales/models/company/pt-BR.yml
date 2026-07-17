@@ -1,0 +1,29 @@
+pt-BR:
+  activerecord:
+    models:
+      company:
+        one: Empresa
+        other: Empresas
+        new: Nova empresa
+        edit: Editar empresa
+        add: Adicionar empresa
+    attributes:
+      company:
+        id: "Código da empresa"
+        name: Nome
+        phone: Telefone
+        email: Email
+        label_list: Etiquetas
+        labels: Etiquetas
+        contacts: Contatos
+        attachments: Anexos
+        custom_attributes: Atributos Personalizados
+        additional_attributes: Atributos adicionais
+        created_at: Criado em
+        updated_at: Atualizado em
+    errors:
+      company:
+        email:
+          invalid: é inválido
+        phone:
+          invalid: deve estar no formato e164

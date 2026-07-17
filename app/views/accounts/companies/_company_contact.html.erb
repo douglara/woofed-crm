@@ -1,0 +1,49 @@
+<%= content_tag :li, id: dom_id(company_contact), class: "grid gap-5 border-b-2 border-light-palette-p3 last:border-none py-5 first:pt-0 last:pb-0", data: {controller: 'load-lucid-icons load-flowbite'} do %>
+  <div class="flex items-center gap-4">
+    <div class="h-10 w-10 flex items-center justify-center rounded-lg border-2 border-light-palette-p3 typography-text-m-lh150 text-dark-gray-palette-p3">
+      <i data-lucide="user" class='w-5 h-5'></i>
+    </div>
+    <div class="mr-auto">
+      <div class="flex flex-col">
+        <h2 class="typography-text-s-lh150 text-dark-gray-palette-p1">
+          <%= company_contact.contact.full_name_at_format %>
+        </h2>
+        <div class="flex items-center gap-1.5 typography-sub-text-r-lh150 text-dark-gray-palette-p4">
+          <span><%= company_contact.contact.email %></span>
+          <span>|</span>
+          <span><%= company_contact.contact.phone %></span>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-end gap-2">
+      <button id="dropdownCompanyContactBtn_<%= company_contact.id %>" data-dropdown-toggle="dropdownCompanyContactOptions<%= company_contact.id %>" data-dropdown-placement="left" class="button-default-blank-secondary-icon-only-sm" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="more-vertical" class="stroke-dark-gray-palette-p3">
+          <circle cx="12" cy="12" r="1"></circle>
+          <circle cx="12" cy="5" r="1"></circle>
+          <circle cx="12" cy="19" r="1"></circle>
+        </svg>
+      </button>
+    </div>
+    <%# Kept inside the li so the destroy stream removes the menu together with its row. %>
+    <div id="dropdownCompanyContactOptions<%= company_contact.id %>" class="z-50 hidden bg-white divide-y divide-gray-200 rounded-lg shadow w-48">
+      <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3" aria-labelledby="dropdownCompanyContactBtn_<%= company_contact.id %>">
+        <li>
+          <%= link_to account_contact_path(Current.account, company_contact.contact), data: {turbo_frame: :drawer}, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1' do %>
+            <i data-lucide="info"></i>
+            <p>
+              <%= t('activerecord.models.show') %>
+            </p>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to account_company_contact_path(Current.account, company_contact), method: :delete, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1', data: { confirm: t('activerecord.models.are_you_sure?') } do %>
+            <i data-lucide="trash"></i>
+            <p>
+              <%= t('activerecord.models.delete') %>
+            </p>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+<% end %>

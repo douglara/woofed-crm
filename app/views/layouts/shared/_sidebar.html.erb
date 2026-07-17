@@ -25,6 +25,12 @@
     active_if: -> { request.path.include?('contact') }
   },
   {
+    path: account_companies_path(Current.account),
+    icon: 'building-2',
+    label: t('activerecord.models.company.other'),
+    active_if: -> { request.path.include?('companies') }
+  },
+  {
     path: account_products_path(Current.account),
     icon: 'box',
     label: t('activerecord.models.product.other'),

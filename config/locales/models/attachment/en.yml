@@ -9,6 +9,9 @@ en:
         add: 'Add attachment'
         drop_file: 'Drop file here'
         max_size: 'MAX. 40MB'
+        images_attached: 'Images attached'
+        videos_attached: 'Videos attached'
+        files_attached: 'Files attached'
     attributes:
       attachment:
         file: 'File'

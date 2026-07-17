@@ -1,0 +1,11 @@
+<% content_for :sidebar do %>
+  <%= render 'components/show_model/sidebar', model: @company,
+      links: [
+        { label: t('activerecord.models.show'), icon: "info" }
+      ] %>
+<% end %>
+<%= render 'components/overlays/drawer_show_model', model: @company, title: t('activerecord.models.company.new') do %>
+  <%= render 'components/show_model/section', model: @company, title: t('activerecord.models.show'), icon: 'info' do %>
+    <%= render 'details_form', company: @company %>
+  <% end %>
+<% end %>

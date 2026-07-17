@@ -1,6 +1,6 @@
 <div class="mt-4 flex flex-col gap-2.5 border color-border-default p-4" >
   <div class='flex gap-2.5 items-center'>
-    <div class='w-full h-9 flex items-center justify-center color-bg-fill-default color-border-default hover:color-bg-fill-hard hover:color-border-harder cursor-pointer' data-action="click->product-form--upload-files#trigger">
+    <div class='w-full h-9 flex items-center justify-center color-bg-fill-default color-border-default hover:color-bg-fill-hard hover:color-border-harder cursor-pointer' data-action="click->show-model--upload-files#trigger">
       <div class='flex items-center gap-2 items-center'>
         <i data-lucide="upload-cloud" class="h-5 w-5 color-fg-soft"></i>
         <span class="typography-body-900 color-fg-soft"><%= t('activerecord.models.upload_file') %></span>
@@ -20,11 +20,11 @@
       </div>
       <div class='flex-1 w-full' id='uploadInfo'>
       </div>
-      <div class="cursor-pointer p-1" data-action="click->product-form--upload-files#removeFile"  style="z-index: 10">
+      <div class="cursor-pointer p-1" data-action="click->show-model--upload-files#removeFile"  style="z-index: 10">
         <i data-lucide="x" class="w-4 h-4 color-fg-default stroke-1.25"></i>
       </div>
     </div>
-    <input type="file" class="hidden" multiple data-product-form--upload-files-target="fileInput" data-action="change->product-form--upload-files#acceptFiles"/>
+    <input type="file" class="hidden" multiple data-show-model--upload-files-target="fileInput" data-action="change->show-model--upload-files#acceptFiles"/>
   </div>
-  <%= submit_button form, t('activerecord.models.add'), size: :sm, color: :secondary, class: 'self-end', data: { action: 'product-form--upload-files#submitForm' } %>
+  <%= submit_button form, t('activerecord.models.add'), size: :sm, color: :secondary, class: 'self-end', data: { action: 'show-model--upload-files#submitForm' } %>
 </div>

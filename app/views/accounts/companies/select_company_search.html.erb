@@ -1,0 +1,9 @@
+<%= turbo_frame_tag :select_company_search do %>
+  <%= render 'components/select_search/select_search',
+  hidden_field_name: params[:form_name].presence,
+  hidden_field_value: params[:form_id].presence,
+  selected_model_name: params[:content_value].presence,
+  items: @companies,
+  select_search_url: select_company_search_account_companies_path(Current.account),
+  create_model_url: new_account_company_path(Current.account) %>
+<% end %>

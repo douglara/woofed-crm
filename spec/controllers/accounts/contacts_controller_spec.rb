@@ -275,6 +275,46 @@ RSpec.describe Accounts::ContactsController, type: :request do
         end
       end
 
+      context 'when the contact belongs to companies' do
+        let!(:company) { create(:company, name: 'Acme Cloud') }
+        let!(:other_company) { create(:company, name: 'Globex') }
+        let!(:company_contact) { create(:company_contact, contact:, company:) }
+        let!(:other_company_contact) { create(:company_contact, contact:, company: other_company) }
+        let!(:company_of_another_contact) { create(:company, name: 'Initech') }
+        let!(:link_of_another_contact) do
+          create(:company_contact, contact: create(:contact), company: company_of_another_contact)
+        end
+
+        it 'lists a card for each of its companies, with links to the company and to unlink it' do
+          get "/accounts/#{account.id}/contacts/#{contact.id}"
+          expect(response).to have_http_status(200)
+          companies_section = Nokogiri::HTML(response.body)
+                              .at_css("##{ActionView::RecordIdentifier.dom_id(contact, :company_contacts)}")
+          expect(companies_section.text).to include(company.name, company.email, company.phone)
+          expect(companies_section.text).to include(other_company.name)
+          expect(companies_section.text).not_to include(company_of_another_contact.name)
+          expect(companies_section.css('a').map { |a| a['href'] })
+            .to include(account_company_path(account, company),
+                        account_company_contact_path(account, company_contact))
+        end
+      end
+
+      context 'when the contact belongs to no company' do
+        let!(:company_of_another_contact) { create(:company, name: 'Initech') }
+        let!(:link_of_another_contact) do
+          create(:company_contact, contact: create(:contact), company: company_of_another_contact)
+        end
+
+        it 'lists an empty companies section' do
+          get "/accounts/#{account.id}/contacts/#{contact.id}"
+          expect(response).to have_http_status(200)
+          companies_section = Nokogiri::HTML(response.body)
+                              .at_css("##{ActionView::RecordIdentifier.dom_id(contact, :company_contacts)}")
+          expect(companies_section.element_children).to be_empty
+          expect(companies_section.text).not_to include(company_of_another_contact.name)
+        end
+      end
+
       context 'when there is chatwoot integration' do
         let!(:chatwoot) do
           create(:apps_chatwoots, :skip_validate, chatwoot_account_id: '456',
@@ -369,6 +409,34 @@ RSpec.describe Accounts::ContactsController, type: :request do
           delete "/accounts/#{account.id}/contacts/#{contact.id}"
         end.to change(Contact, :count).by(-1)
         expect(response).to redirect_to(account_contacts_path(account))
+      end
+    end
+  end
+
+  describe 'GET /accounts/{account.id}/contacts/{contact.id}/new_company_contact' do
+    let!(:contact) { create(:contact) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/accounts/#{account.id}/contacts/#{contact.id}/new_company_contact"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        sign_in(user)
+      end
+
+      it 'renders the modal to link a company to the contact' do
+        get "/accounts/#{account.id}/contacts/#{contact.id}/new_company_contact"
+        expect(response).to have_http_status(200)
+        doc = Nokogiri::HTML(response.body)
+        expect(doc.at_css('turbo-frame#modal')).to be_present
+        expect(doc.at_css('turbo-frame#select_company_search')).to be_present
+        expect(doc.at_css("input[name='origin']")['value']).to eq('contact')
+        expect(doc.at_css("input[name='company_contact[contact_id]']")['value']).to eq(contact.id.to_s)
+        expect(doc.at_css('form')['action']).to eq(account_company_contacts_path(account))
       end
     end
   end

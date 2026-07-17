@@ -1,0 +1,11 @@
+<%= render 'components/show_model/section', model: contact, title: t('activerecord.models.company.other'), icon: 'building-2',
+           add_path: new_company_contact_account_contact_path(Current.account, contact) do %>
+  <div class="grid grid-cols-[repeat(auto-fill,minmax(430px,auto))] gap-4" id="<%= dom_id(contact, :company_contacts) %>">
+    <% company_contacts.each do |company_contact| %>
+      <%= render '/components/companies/card_preview', company: company_contact.company,
+                 card_id: dom_id(company_contact),
+                 details_url: account_company_path(Current.account, company_contact.company),
+                 remove_url: account_company_contact_path(Current.account, company_contact) %>
+    <% end %>
+  </div>
+<% end %>

@@ -16,7 +16,9 @@
       [item.title, (capture { render 'components/formatters/datetime', value: item.scheduled_at, type: 'datetime' } if item.scheduled_at.present?), account_deal_path(Current.account, item.deal)]
   end
 %>
-<%= link_to path, class: 'flex items-center gap-3 p-2 rounded-lg hover:color-bg-fill-hard transition-colors', data: { turbo_frame: turbo_target } do %>
+<%# Picking a result dismisses the search: it would otherwise sit behind the drawer still holding
+    turbo-frame#modal, leaving no frame for a modal opened from within the drawer. %>
+<%= link_to path, class: 'flex items-center gap-3 p-2 rounded-lg hover:color-bg-fill-hard transition-colors', data: { turbo_frame: turbo_target, action: 'click->modal#hide' } do %>
   <div class="w-8 h-8 rounded-full color-bg-fill-hard flex items-center justify-center flex-shrink-0">
     <i data-lucide="<%= icons[type] %>" class="w-4 h-4 color-fg-soft"></i>
   </div>

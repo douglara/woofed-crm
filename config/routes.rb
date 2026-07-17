@@ -63,7 +63,15 @@ Rails.application.routes.draw do
       patch 'update_custom_attributes', on: :member
       get 'select_product_search', on: :collection
     end
+    resources :companies do
+      get 'edit_custom_attributes', on: :member
+      patch 'update_custom_attributes', on: :member
+      get 'new_company_contact', on: :member
+      get 'select_company_search', on: :collection
+    end
+    resources :company_contacts, only: %i[create destroy]
     resources :contacts do
+      get 'new_company_contact', on: :member
       get 'search', to: 'contacts#search', on: :collection
       get 'edit_custom_attributes'
       get 'chatwoot_conversation_link', on: :member

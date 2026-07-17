@@ -41,6 +41,8 @@ class Contact < ApplicationRecord
                                               locale: I18n.locale) }, unless: :skip_validation
 
   has_many :deals, dependent: :destroy
+  has_many :company_contacts, dependent: :destroy
+  has_many :companies, through: :company_contacts
   belongs_to :app, polymorphic: true, optional: true
   scope :by_chatwoot_id, lambda { |chatwoot_id|
     chatwoot_id.present? ? where("additional_attributes->>'chatwoot_id' = ?", chatwoot_id.to_s) : none
@@ -51,7 +53,7 @@ class Contact < ApplicationRecord
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    %w[labels chatwoot_conversations_labels deals]
+    %w[labels chatwoot_conversations_labels deals companies]
   end
 
   def connected_with_chatwoot?

@@ -5,6 +5,9 @@ export default class extends Controller {
   static targets = ["fileInput", "dragAlert"];
   static values = {
     acceptedTypes: Array,
+    // Param key of the model being edited ("product", "company", ...). The attachments section is
+    // shared, so the uploaded blob inputs cannot be named after a single model.
+    paramKey: String,
   };
 
   connect() {
@@ -53,7 +56,8 @@ export default class extends Controller {
       new UploadFile(
         file,
         this.fileInputTarget,
-        this.acceptedTypesValue
+        this.acceptedTypesValue,
+        this.paramKeyValue
       ).process();
     });
   }

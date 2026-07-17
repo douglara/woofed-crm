@@ -1,0 +1,13 @@
+<% content_for :sidebar do %>
+  <%= render 'components/show_model/sidebar', model: company,
+      links: [
+        { label: t('activerecord.models.show'), icon: "info" },
+        { label: t('activerecord.models.attachment.other'), icon: "paperclip" },
+        { label: t('activerecord.models.contact.other'), icon: "contact" },
+      ] %>
+<% end %>
+<% content_for :show_additional_content do %>
+  <%= render 'components/show_model/attachments_section', model: company %>
+  <%= render 'accounts/companies/contacts_section', company: company %>
+<% end %>
+<%= render 'components/show_model/show_model', model: company, edit_path: edit_account_company_path(Current.account, company) %>

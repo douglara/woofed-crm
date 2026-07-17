@@ -374,6 +374,12 @@
   .button-default-outline-secondary-md-icon-only-md svg {
     @apply stroke-1.25 w-5 h-5;
   }
+  .button-default-outline-secondary-icon-only-sm {
+    @apply flex items-center justify-center border color-border-default rounded color-fg-soft w-8 h-8 hover:color-bg-fill-default shrink-0 cursor-pointer;
+  }
+  .button-default-outline-secondary-icon-only-sm svg {
+    @apply stroke-1.25 w-4 h-4;
+  }
   .button-default-outline-secondary-sm {
     @apply inline-flex gap-2 items-center border color-border-default typography-body-900 rounded color-fg-soft h-8 px-3 hover:color-bg-fill-default shrink-0 cursor-pointer;
   }

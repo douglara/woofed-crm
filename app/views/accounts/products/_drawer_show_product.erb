@@ -7,7 +7,7 @@
       ] %>
 <% end %>
 <% content_for :show_additional_content do %>
-  <%= render 'accounts/products/attachments_section', product: product %>
+  <%= render 'components/show_model/attachments_section', model: product %>
   <%= render 'components/show_model/section', model: product, title: t('activerecord.models.deal.other'), icon: 'clipboard-list' do %>
     <ul class="flex flex-col gap-2">
       <% product.deal_products.each do |deal_product| %>

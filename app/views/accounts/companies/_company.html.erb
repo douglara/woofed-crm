@@ -1,0 +1,66 @@
+<tr id="company_<%= company.id %>" is='turbo-frame' class="border-b-2 border-light-palette-p3 last:border-none" data-controller='load-lucid-icons load-flowbite'>
+  <td class="py-2.5 pl-4 pr-4 flex-shrink-0">
+    <div class="w-[52px] h-[52px] flex">
+      <div class="border-2 color-border-default bg-brand-palette-08 rounded-md h-full w-full flex items-center">
+        <i data-lucide="building-2" class="stroke-dark-gray-palette-p4 m-auto"></i>
+      </div>
+    </div>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[250px] truncate">
+    <%= company.name %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[150px] truncate">
+    <%= company.phone %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[250px] truncate">
+    <%= company.email %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[150px] truncate">
+    <%= company.id %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[130px] truncate">
+    <%= render "components/formatters/datetime", value: company.created_at, type: "compact" %>
+  </td>
+  <td class="pr-4 py-2.5 typography-body-r-lh150 text-dark-gray-palette-p2 max-w-[130px] truncate">
+    <%= render "components/formatters/datetime", value: company.updated_at, type: "compact" %>
+  </td>
+  <td class="py-2.5 pl-4 pr-4 sticky right-0 bg-light-palette-p5 z-10">
+    <div class="flex justify-end gap-2">
+      <button id="dropdownuserBtn_<%= company.id %>" data-dropdown-toggle="dropdownuserOptions<%= company.id %>" data-dropdown-placement="left" class="button-default-blank-secondary-icon-only-sm" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="more-vertical" class="stroke-dark-gray-palette-p3">
+          <circle cx="12" cy="12" r="1"></circle>
+          <circle cx="12" cy="5" r="1"></circle>
+          <circle cx="12" cy="19" r="1"></circle>
+        </svg>
+      </button>
+    </div>
+  </td>
+</tr>
+<div id="dropdownuserOptions<%= company.id %>" class="z-50 hidden bg-white divide-y divide-gray-200 rounded-lg shadow w-48 absolute">
+  <ul class="py-2 typography-text-m-lh150 text-dark-gray-palette-p3" aria-labelledby="dropdownDefaultButton">
+    <li>
+      <%= link_to account_company_path(Current.account, company), data: {turbo_frame: :drawer}, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1' do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="info">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 16v-4"></path>
+          <path d="M12 8h.01"></path>
+        </svg>
+        <p>
+          <%= t('activerecord.models.show') %>
+        </p>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to account_company_path(Current.account, company), method: :delete, class: 'flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 hover:text-dark-gray-palette-p1', data: { confirm: t('activerecord.models.are_you_sure?') } do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash">
+          <path d="M3 6h18"></path>
+          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+        </svg>
+        <p>
+          <%= t('activerecord.models.delete') %>
+        </p>
+      <% end %>
+    </li>
+  </ul>
+</div>

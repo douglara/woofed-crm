@@ -9,6 +9,7 @@ es:
       delete: "Eliminar"
       cancel: "Cancelar"
       add: "Agregar"
+      are_you_sure?: "¿Está seguro?"
       upload_file: "Arrastra un archivo o Encuentra un archivo"
       connecting: "Conectando..."
       processing: "Procesando..."

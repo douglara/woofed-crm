@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 import { Drawer } from "flowbite";
+import { raiseOverlay } from "../utils/overlay_stack";
 
 export default class extends Controller {
   connect() {
@@ -18,6 +19,7 @@ export default class extends Controller {
     });
     setTimeout(() => {
       this.drawer.show();
+      raiseOverlay(this.element, this.backdrop);
       this.preventBackdropAfterMorphRefresh();
       this.preventBackdropClickFromClosingDrawer();
     }, 100);

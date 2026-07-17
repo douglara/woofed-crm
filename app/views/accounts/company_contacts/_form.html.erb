@@ -1,0 +1,35 @@
+<%# Renders the "link a contact to a company" form for both sides of the relation.
+    `origin` is :company on the company page (pick a contact) and :contact on the
+    contact page (pick a company). It also travels with the request so a failed
+    create re-renders the form for the side it was submitted from.
+    The form has its own frame so a failed create swaps just the form back in with its
+    errors: the surrounding modal is `data-turbo-permanent` and would keep its old content.
+    The surrounding modal also supplies the title and the close button. %>
+<% from_company = origin.to_sym == :company %>
+<%= turbo_frame_tag dom_id(company_contact) do %>
+  <%= form_with(model: company_contact, url: account_company_contacts_path(Current.account), class: 'flex flex-wrap gap-2') do |form| %>
+    <%= hidden_field_tag :origin, origin %>
+    <%= form.hidden_field(from_company ? :company_id : :contact_id) %>
+    <% if company_contact.errors.any? %>
+      <div class='w-full'>
+        <ul>
+          <% company_contact.errors.each do |error| %>
+            <li class="typography-body-1000 color-fg-feedback-danger"><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <% if from_company %>
+      <%= turbo_frame_tag :select_contact_search,
+            src: select_contact_search_account_contacts_path(Current.account, form_name: form.field_name(:contact_id)), class: "flex-1 relative h-10" do %>
+        <%= render 'components/loading' %>
+      <% end %>
+    <% else %>
+      <%= turbo_frame_tag :select_company_search,
+            src: select_company_search_account_companies_path(Current.account, form_name: form.field_name(:company_id)), class: "flex-1 relative h-10" do %>
+        <%= render 'components/loading' %>
+      <% end %>
+    <% end %>
+    <%= submit_button(form, t('activerecord.models.add'), size: :md) %>
+  <% end %>
+<% end %>

@@ -6,6 +6,7 @@ es:
         other: Contactos
         new: Nuevo contacto
         edit: Editar contacto
+        add: Añadir contacto
         unknown: Contacto desconocido
     attributes:
       contact:

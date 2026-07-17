@@ -1,0 +1,29 @@
+en:
+  activerecord:
+    models:
+      company:
+        one: Company
+        other: Companies
+        new: New company
+        edit: Edit company
+        add: Add company
+    attributes:
+      company:
+        id: "Company Code"
+        name: Name
+        phone: Phone
+        email: Email
+        label_list: Labels
+        labels: Labels
+        contacts: Contacts
+        attachments: Attachments
+        custom_attributes: Custom Attributes
+        additional_attributes: Additional attributes
+        created_at: Created at
+        updated_at: Updated at
+    errors:
+      company:
+        email:
+          invalid: is invalid
+        phone:
+          invalid: must be in e164 format

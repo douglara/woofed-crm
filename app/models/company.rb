@@ -1,0 +1,48 @@
+# == Schema Information
+#
+# Table name: companies
+#
+#  id                    :bigint           not null, primary key
+#  additional_attributes :jsonb
+#  custom_attributes     :jsonb
+#  email                 :string           default(""), not null
+#  name                  :string           default(""), not null
+#  phone                 :string           default(""), not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#
+class Company < ApplicationRecord
+  include CustomAttributes
+  include Labelable
+  include Attachable
+
+  has_many :company_contacts, dependent: :destroy
+  has_many :contacts, through: :company_contacts
+
+  validates :name, presence: true
+  validates :email, allow_blank: true, uniqueness: { case_sensitive: false },
+                    format: { with: Devise.email_regexp,
+                              message: I18n.t('activerecord.errors.company.email.invalid',
+                                              locale: I18n.locale) }
+  validates :phone, allow_blank: true, uniqueness: true,
+                    format: { with: /\+[1-9]\d{1,14}\z/,
+                              message: I18n.t('activerecord.errors.company.phone.invalid',
+                                              locale: I18n.locale) }
+
+  FORM_FIELDS = %i[name phone email label_list].freeze
+
+  SHOW_FIELDS = { details: %i[name phone email id label_list custom_attributes created_at updated_at] }.freeze
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[id name phone email created_at updated_at custom_attributes additional_attributes]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[labels contacts attachments]
+  end
+
+  def phone=(value)
+    value = "+#{value}" if value.present? && !value.start_with?('+')
+    super(value)
+  end
+end

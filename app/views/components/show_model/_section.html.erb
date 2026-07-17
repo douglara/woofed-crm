@@ -8,6 +8,11 @@
       </h1>
     </div>
     <div class="flex items-center gap-2">
+      <% if local_assigns[:add_path] %>
+        <%= link_to add_path, class: "button-default-blank-secondary-icon-only-sm", data: { turbo_frame: :modal } do %>
+          <i data-lucide="plus" class="shrink-0" height="16"></i>
+        <% end %>
+      <% end %>
       <% if local_assigns[:edit_path] %>
         <%= link_to edit_path, class: "button-default-blank-secondary-icon-only-sm" do %>
           <i data-lucide="pencil" class="shrink-0" height="16"></i>

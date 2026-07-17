@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_06_01_205859) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_16_120001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -121,6 +121,26 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_01_205859) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable"
+  end
+
+  create_table "companies", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "phone", default: "", null: false
+    t.string "email", default: "", null: false
+    t.jsonb "custom_attributes", default: {}
+    t.jsonb "additional_attributes", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "company_contacts", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.bigint "contact_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id", "contact_id"], name: "index_company_contacts_on_company_id_and_contact_id", unique: true
+    t.index ["company_id"], name: "index_company_contacts_on_company_id"
+    t.index ["contact_id"], name: "index_company_contacts_on_contact_id"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -676,6 +696,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_01_205859) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "company_contacts", "companies"
+  add_foreign_key "company_contacts", "contacts"
   add_foreign_key "deal_assignees", "deals"
   add_foreign_key "deal_assignees", "users"
   add_foreign_key "deal_products", "deals"

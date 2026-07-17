@@ -12,5 +12,8 @@ FactoryBot.define do
     trait :deal_attribute do
       attribute_model { 'deal_attribute' }
     end
+    trait :company_attribute do
+      attribute_model { 'company_attribute' }
+    end
   end
 end

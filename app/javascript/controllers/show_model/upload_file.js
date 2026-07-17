@@ -1,7 +1,9 @@
 import { DirectUpload } from "@rails/activestorage";
 
 export default class UploadFile {
-  constructor(file, fileInput, acceptedTypes) {
+  // `paramKey` is the param key of the model being edited ("product", "company", ...): the
+  // attachments section is shared, so the blob inputs cannot assume a single model.
+  constructor(file, fileInput, acceptedTypes, paramKey) {
     this.directUpload = new DirectUpload(
       file,
       "/rails/active_storage/direct_uploads",
@@ -9,6 +11,7 @@ export default class UploadFile {
     );
     this.fileInput = fileInput;
     this.acceptedTypes = acceptedTypes;
+    this.paramKey = paramKey;
   }
 
   process() {
@@ -52,7 +55,7 @@ export default class UploadFile {
     const input = document.createElement("input");
     const inputWrapper = document.getElementById(`upload_${uploadId}`);
     input.type = "hidden";
-    input.name = `product[attachments_attributes][${this.directUpload.id}][file]`;
+    input.name = `${this.paramKey}[attachments_attributes][${this.directUpload.id}][file]`;
     input.value = blob.signed_id;
     inputWrapper.appendChild(input);
   }

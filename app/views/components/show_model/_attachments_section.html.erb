@@ -1,23 +1,23 @@
-<%= turbo_frame_tag dom_id(product, :attachments_section) do %>
-  <%= render 'components/show_model/section', model: product, title: t('activerecord.models.attachment.other'), icon: 'paperclip' do %>
-    <%= form_for([current_user.account, product], html:{class: "flex flex-col gap-5 relative z-0 ", data: { controller: 'product-form--upload-files', action: "drop->product-form--upload-files#acceptFiles dragenter->product-form--upload-files#showDragAlert dragleave->product-form--upload-files#removeDragAlert", 'product-form--upload-files-accepted-types-value': '["text", "video", "image", "application"]' }}) do | form | %>
-      <%= render '/accounts/products/drag_and_drop' %>
-      <%= render 'accounts/products/attachments_upload_system', form: form %>
-      <% if product.image_attachments.present? %>
+<%= turbo_frame_tag dom_id(model, :attachments_section) do %>
+  <%= render 'components/show_model/section', model: model, title: t('activerecord.models.attachment.other'), icon: 'paperclip' do %>
+    <%= form_for([current_user.account, model], html:{class: "flex flex-col gap-5 relative z-0 ", data: { controller: 'show-model--upload-files', action: "drop->show-model--upload-files#acceptFiles dragenter->show-model--upload-files#showDragAlert dragleave->show-model--upload-files#removeDragAlert", 'show-model--upload-files-accepted-types-value': '["text", "video", "image", "application"]', 'show-model--upload-files-param-key-value': model.model_name.param_key }}) do | form | %>
+      <%= render 'components/show_model/drag_and_drop' %>
+      <%= render 'components/show_model/attachments_upload_system', form: form %>
+      <% if model.image_attachments.present? %>
         <div class="flex items-center gap-2">
           <i data-lucide="image" class="w-5 h-5 stroke-1.25 color-fg-soft"></i>
           <h2 class="typography-sub-title-800 color-fg-soft">
-            <%= t('views.accounts.products.form.images_attached') %>
+            <%= t('activerecord.models.attachment.images_attached') %>
           </h2>
         </div>
         <div class="flex items-end gap-4 flex-wrap">
-          <% product.image_attachments.each do |attachment| %>
+          <% model.image_attachments.each do |attachment| %>
             <%= turbo_frame_tag attachment do %>
               <div class="grid rounded h-16 w-16 relative">
                 <div class="h-16 w-16 rounded" data-controller="lightbox">
                   <%= image_tag attachment.file, class: 'cursor-pointer object-cover w-full h-full rounded', alt: attachment.file.filename.to_s, data: { src: rails_blob_url(attachment.file), sub_html: attachment.file.filename.to_s } %>
                 </div>
-                <%= link_to account_attachment_path(Current.account, attachment), method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center h-4 w-4 p-1 color-fg-default color-bg-fill-soft rounded-full border-[1px] border-brand-palette-07 hover:border-brand-palette-06 hover:border-[1px] hover:bg-brand-palette-08 hover:rounded-full hover:text-brand-palette-03 transtion ease-in-out delay-250 absolute top-0.5 right-0.5' do %>
+                <%= link_to account_attachment_path(Current.account, attachment), method: :delete, data: { confirm: t('activerecord.models.are_you_sure?') }, class: 'flex items-center h-4 w-4 p-1 color-fg-default color-bg-fill-soft rounded-full border-[1px] border-brand-palette-07 hover:border-brand-palette-06 hover:border-[1px] hover:bg-brand-palette-08 hover:rounded-full hover:text-brand-palette-03 transtion ease-in-out delay-250 absolute top-0.5 right-0.5' do %>
                   <i data-lucide="trash-2" class="h-4 w-4"></i>
                 <% end %>
               </div>
@@ -25,21 +25,21 @@
           <% end %>
         </div>
       <% end %>
-      <% if product.video_attachments.present? %>
+      <% if model.video_attachments.present? %>
         <div class="flex items-center gap-2">
           <i data-lucide="video" class="w-5 h-5 stroke-1.25 color-fg-soft"></i>
           <h2 class="typography-sub-title-800 color-fg-soft">
-            <%= t('views.accounts.products.form.videos_attached') %>
+            <%= t('activerecord.models.attachment.videos_attached') %>
           </h2>
         </div>
         <div class="flex items-end gap-4 flex-wrap">
-          <% product.video_attachments.each do |attachment| %>
+          <% model.video_attachments.each do |attachment| %>
             <%= turbo_frame_tag attachment do %>
               <div class="grid rounded w-[250px] relative">
                 <div class="w-full rounded max-h-[250px] ">
                   <%= video_tag rails_blob_url(attachment.file), size:'250x250', controls: true, class: 'object-scale-down w-full rounded max-h-[250px]' %>
                 </div>
-                <%= link_to account_attachment_path(Current.account, attachment), method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center h-4 w-4 p-1 color-fg-default color-bg-fill-soft rounded-full border-[1px] border-brand-palette-07 hover:border-brand-palette-06 hover:border-[1px] hover:bg-brand-palette-08 hover:rounded-full hover:text-brand-palette-03 transtion ease-in-out delay-250 absolute top-0.5 right-0.5' do %>
+                <%= link_to account_attachment_path(Current.account, attachment), method: :delete, data: { confirm: t('activerecord.models.are_you_sure?') }, class: 'flex items-center h-4 w-4 p-1 color-fg-default color-bg-fill-soft rounded-full border-[1px] border-brand-palette-07 hover:border-brand-palette-06 hover:border-[1px] hover:bg-brand-palette-08 hover:rounded-full hover:text-brand-palette-03 transtion ease-in-out delay-250 absolute top-0.5 right-0.5' do %>
                   <i data-lucide="trash-2" class="h-4 w-4"></i>
                 <% end %>
               </div>
@@ -47,15 +47,15 @@
           <% end %>
         </div>
       <% end %>
-      <% if product.file_attachments.present? %>
+      <% if model.file_attachments.present? %>
         <div class="flex items-center gap-2">
           <i data-lucide="file" class="w-5 h-5 stroke-1.25 color-fg-soft"></i>
           <h2 class="typography-sub-title-800 color-fg-soft">
-            <%= t('views.accounts.products.form.files_attached') %>
+            <%= t('activerecord.models.attachment.files_attached') %>
           </h2>
         </div>
         <div class="flex items-end gap-4 flex-wrap">
-          <% product.file_attachments.each do |attachment| %>
+          <% model.file_attachments.each do |attachment| %>
             <%= turbo_frame_tag attachment do %>
               <div class="h-11 w-48 border rounded color-bg-fill-default color-border-default flex items-center justify-center gap-2">
                 <i data-lucide="file" class="w-6 h-6 stroke-1.25 color-fg-soft"></i>
@@ -66,7 +66,7 @@
                 <%= link_to  rails_blob_path(attachment.file), class: 'flex items-center color-fg-default' do %>
                   <i data-lucide="download" class="stroke-1.25 h-4 w-4"></i>
                 <% end %>
-                <%= link_to account_attachment_path(Current.account, attachment), method: :delete, data: { confirm: 'Are you sure?' }, class: 'flex items-center color-fg-feedback-danger' do %>
+                <%= link_to account_attachment_path(Current.account, attachment), method: :delete, data: { confirm: t('activerecord.models.are_you_sure?') }, class: 'flex items-center color-fg-feedback-danger' do %>
                   <i data-lucide="trash-2" class="stroke-1.25 h-4 w-4"></i>
                 <% end %>
               </div>

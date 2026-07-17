@@ -9,6 +9,9 @@ es:
         add: 'Añadir adjunto'
         drop_file: 'Suelta el archivo aquí'
         max_size: 'MÁX. 40MB'
+        images_attached: 'Imágenes adjuntas'
+        videos_attached: 'Videos adjuntos'
+        files_attached: 'Archivos adjuntos'
     attributes:
       attachment:
         file: 'Archivo'

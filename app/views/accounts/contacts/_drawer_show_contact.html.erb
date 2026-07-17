@@ -3,6 +3,7 @@
       links: [
         { label: t('activerecord.models.show'), icon: "info" },
         (Apps::Chatwoot.first.present? ? { label: Apps::Chatwoot.model_name.human, icon: "message-circle" } : nil),
+        { label: t('activerecord.models.company.other'), icon: "building-2" },
         { label: t('activerecord.models.deal.other'), icon: "clipboard-list" }
       ].compact %>
 <% end %>
@@ -43,6 +44,7 @@
       </div>
     <% end %>
   <% end %>
+  <%= render 'accounts/contacts/companies_section', contact: contact, company_contacts: @company_contacts %>
   <%= render 'accounts/contacts/deals_list', deals: @deals, pagy: @pagy_deals, contact: contact %>
 <% end %>
 <%= render 'components/show_model/show_model', model: contact, edit_path: edit_account_contact_path(Current.account, contact) %>

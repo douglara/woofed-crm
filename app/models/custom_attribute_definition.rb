@@ -22,5 +22,5 @@ class CustomAttributeDefinition < ApplicationRecord
             uniqueness: { scope: %i[attribute_model] }
   validates :attribute_model, presence: true
 
-  enum attribute_model: { contact_attribute: 0, deal_attribute: 1, product_attribute: 2 }
+  enum attribute_model: { contact_attribute: 0, deal_attribute: 1, product_attribute: 2, company_attribute: 3 }
 end

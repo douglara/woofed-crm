@@ -9,6 +9,7 @@ en:
       delete: "Delete"
       cancel: "Cancel"
       add: "Add"
+      are_you_sure?: "Are you sure?"
       upload_file: "Drag a file or Find a file"
       connecting: "Connecting..."
       processing: "Processing..."

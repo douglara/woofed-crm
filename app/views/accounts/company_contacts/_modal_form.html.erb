@@ -1,0 +1,7 @@
+<% from_company = origin.to_sym == :company %>
+<%= render 'components/overlays/modal', title: from_company ? t('activerecord.models.contact.add') : t('activerecord.models.company.add'), width_class: 'max-w-2xl' do %>
+  <!-- Modal body -->
+  <div class='border-t color-border-default p-4 md:p-5'>
+    <%= render 'accounts/company_contacts/form', company_contact: company_contact, origin: origin %>
+  </div>
+<% end %>

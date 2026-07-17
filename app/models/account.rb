@@ -105,6 +105,14 @@ class Account < ApplicationRecord
     Product.all
   end
 
+  def companies
+    Company.all
+  end
+
+  def company_contacts
+    CompanyContact.all
+  end
+
   def embedding_documments
     EmbeddingDocumment.all
   end

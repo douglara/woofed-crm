@@ -9,6 +9,9 @@ pt-BR:
         add: 'Adicionar anexo'
         drop_file: 'Solte o arquivo aqui'
         max_size: 'MÁX. 40MB'
+        images_attached: 'Imagens em anexo'
+        videos_attached: 'Videos em anexo'
+        files_attached: 'Arquivos em anexo'
     attributes:
       attachment:
         file: 'Arquivo'

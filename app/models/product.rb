@@ -16,23 +16,16 @@
 class Product < ApplicationRecord
   include Product::Broadcastable
   include CustomAttributes
+  include Attachable
 
-  has_many :attachments, as: :attachable
   validates :quantity_available, :amount_in_cents,
             numericality: { greater_than_or_equal_to: 0, message: 'Can not be negative' }
   has_many :deal_products, dependent: :destroy
-  accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
   FORM_FIELDS = %i[name amount_in_cents quantity_available identifier description]
 
   SHOW_FIELDS = { details: %i[name amount_in_cents quantity_available identifier description custom_attributes created_at
                               updated_at] }.freeze
-
-  %i[image file video].each do |file_type|
-    define_method "#{file_type}_attachments" do
-      attachments.by_file_type(file_type)
-    end
-  end
 
   def self.ransackable_associations(auth_object = nil)
     %w[account attachments deal_products]

@@ -1,8 +1,11 @@
 class Accounts::ContactsController < InternalController
-  before_action :set_contact, only: %i[show edit update destroy chatwoot_conversation_link hovercard_preview]
+  before_action :set_contact,
+                only: %i[show edit update destroy chatwoot_conversation_link hovercard_preview
+                         new_company_contact]
 
   def show
     @pagy_deals, @deals = pagy(@contact.deals.order(created_at: :desc), items: 10, page_param: :deals_page)
+    @company_contacts = @contact.company_contacts
   end
 
   # GET /contacts or /contacts.json
@@ -54,6 +57,10 @@ class Accounts::ContactsController < InternalController
   # GET /contacts/1/edit
   def edit; end
 
+  def new_company_contact
+    @company_contact = @contact.company_contacts.new
+  end
+
   def edit_custom_attributes
     @contact = current_user.account.contacts.find(params[:contact_id])
     @custom_attribute_definitions = current_user.account.custom_attribute_definitions.contact_attribute
@@ -64,6 +71,7 @@ class Accounts::ContactsController < InternalController
     @contact = current_user.account.contacts.new(contact_params)
     if @contact.save
       @pagy_deals, @deals = pagy(@contact.deals.order(created_at: :desc), items: 10, page_param: :deals_page)
+      @company_contacts = @contact.company_contacts
       respond_to do |format|
         format.html do
           redirect_to account_contact_path(current_user.account, @contact),

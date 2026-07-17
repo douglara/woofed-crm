@@ -1,0 +1,7 @@
+<%= turbo_stream.replace :drawer do %>
+  <%= render '/accounts/companies/drawer_show_company', company: @company %>
+<% end %>
+<%= turbo_stream.replace :flash_message do %>
+  <%= render partial: 'components/flash_message', locals: { message: t('flash_messages.created', model: Company.model_name.human) } %>
+<% end %>
+<%= turbo_stream.append :companies, @company %>
