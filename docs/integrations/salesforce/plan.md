@@ -23,7 +23,7 @@ in both directions.
 11. [Testing strategy](#11-testing-strategy)
 12. [Designing for phase 2 (write-back)](#12-designing-for-phase-2-write-back)
 13. [Delivery plan and status](#13-delivery-plan-and-status)
-14. [Open decisions](#14-open-decisions)
+14. [Decisions](#14-decisions)
 
 ---
 
@@ -101,12 +101,13 @@ Two properties this shape buys us:
 
 | Flow | User interaction | Refresh token | Setup burden | Fit |
 |---|---|---|---|---|
-| **Web Server (authorization code + PKCE)** | One consent click | Yes | Customer creates an External Client App in their org, pastes `client_id` / `client_secret` | **Recommended** |
+| **Web Server (authorization code + PKCE)** | One consent click | Yes | Customer creates an External Client App in their org, pastes `client_id` / `client_secret` | **Decided — this is the flow we ship** |
 | JWT Bearer | None (headless) | No — a fresh access token is minted per request from a signed JWT | Customer must generate a certificate, upload it, and pre-authorize the app | Good for a hosted/managed offering, heavy for self-hosted |
 | Client Credentials | None | No | Requires nominating a "run-as" user; all records attributed to it | Simple, but loses per-user attribution and needs admin setup |
 | Username-Password | None | No | Deprecated/disabled by default in new orgs | Do not use |
 
-**Recommendation: Web Server flow with PKCE, refresh token stored encrypted.**
+**Decided: Web Server flow with PKCE, refresh token stored encrypted, on a customer-created
+External Client App.**
 
 Rationale: Woofed is self-hosted, so instances live on arbitrary domains. A single
 Woofed-owned Connected App cannot register every customer's redirect URI. So the customer
@@ -118,6 +119,36 @@ form, which already asks for an endpoint URL plus a token.
 Required OAuth scopes: `api` (REST/Bulk access), `refresh_token offline_access` (long-lived
 refresh), and `chatter_api` is *not* needed. If phase 2 uses Pub/Sub API, no extra scope is
 required — `api` covers it.
+
+#### Consequence: the user configures the External Client App by hand
+
+There is no automated provisioning step on the Salesforce side and none is planned. Woofed never
+creates, edits or inspects the External Client App — it only consumes the credentials the user
+pastes in. Concretely, before connecting, the user does the following **in their own Salesforce
+org**:
+
+1. Setup → App Manager → **New External Client App**.
+2. Enable OAuth, set the callback URL to `https://<their-woofed>/apps/salesforces/oauth/callback`
+   (the Connect screen shows this value pre-filled, ready to copy).
+3. Select the scopes `api` and `refresh_token offline_access`, and enable
+   "Issue a refresh token" / PKCE.
+4. Save, wait the few minutes Salesforce takes to propagate the app, then copy the
+   **Consumer Key** (`client_id`) and **Consumer Secret** (`client_secret`).
+5. Paste both into Woofed's Connect screen, pick production or sandbox, and click
+   "Connect to Salesforce".
+
+This has two implications for the build:
+
+- **The Connect screen is also documentation.** It must display the exact callback URL for this
+  install and the exact scope list, with copy buttons and a link to the Salesforce docs. A
+  mistyped callback URL is the single most likely failure in onboarding, and Salesforce's error
+  for it (`redirect_uri_mismatch`) is opaque — the callback controller must translate it into a
+  readable message that names the expected URL.
+- **Errors caused by app misconfiguration must be distinguishable from errors caused by bad
+  credentials**, since the fix differs (edit the app in Salesforce vs. re-paste the secret).
+
+This also settles the phase-2 posture: a Woofed-owned app with a fixed redirect is only viable
+for a managed/cloud offering, and we are not building one, so it stays out of scope.
 
 ### 3.2 Fields on `apps_salesforces`
 
@@ -136,6 +167,42 @@ required — `api` covers it.
 | `api_version` | string | e.g. `v64.0`, pinned per install and discoverable via `/services/data` |
 | `settings` | jsonb | Sync toggles, poll interval, replay checkpoints |
 | `webhook_token` | string | Only needed if the Outbound Message option in §5 is chosen |
+
+### 3.2.1 Exactly one Salesforce connection per install
+
+**Decided: a Woofed install has at most one Salesforce integration.**
+
+The table keeps the same shape as `apps_chatwoots` — plain rows, no singleton column, no partial
+unique index — so the storage layer physically allows several, exactly like the Chatwoot
+integration does today. The single-connection rule lives one level up, as a model validation on
+create:
+
+```ruby
+validate :only_one_connection, on: :create
+
+def only_one_connection
+  return if self.class.where.not(id: id).none?
+
+  errors.add(:base, I18n.t('activerecord.errors.messages.salesforce_connection_already_exists'))
+end
+```
+
+Keeping the rule in the model rather than in the schema means lifting it later is a one-line
+change plus UI work, with no migration and no backfill — which is the whole point of deciding it
+now: the migrations can land without being blocked on a multi-connection design.
+
+What follows from "exactly one" throughout the rest of this document:
+
+- **`app_id` stays on every child table** (`object_mappings`, `record_mappings`, `sync_records`,
+  `sync_runs`) and stays in every unique index, as §6.1 already specifies. It costs nothing today
+  and is what makes a future second connection a UI problem instead of a data-migration problem.
+- **The GoodJob cron entries are global**, not per connection: one `Delta::PollJob` and one
+  `Connection::RefreshJob` that load the single connection and no-op when it is absent or
+  inactive. No fan-out over connections is needed.
+- **The concurrency key on sync jobs is still the `Apps::Salesforce` id** (§8.1), not a constant.
+  It reads the same, and it keeps working unchanged if the rule is ever relaxed.
+- **The UI never lists connections** (§10): the Salesforce app page is either the Connect form or
+  the connected state, and reconnecting edits the existing record instead of creating a second one.
 
 ### 3.3 Token handling
 
@@ -255,7 +322,7 @@ even while polling delivers full records.
 ### 6.1 New tables
 
 ```
-apps_salesforces                 — the connection (§3.2)
+apps_salesforces                 — the connection (§3.2); at most one row (§3.2.1)
 apps_salesforce_object_mappings  — "Salesforce Object X ⇄ Woofed model Y", + field mapping jsonb
 apps_salesforce_record_mappings  — "Salesforce record id ⇄ Woofed record" (the identity map)
 apps_salesforce_sync_records     — raw staging payloads
@@ -274,7 +341,9 @@ apps_salesforce_sync_runs        — one row per backfill/delta execution: count
 | `deleted_at` | Set when the Salesforce record is deleted; the Woofed record survives |
 
 Unique index on `(app_id, salesforce_object, salesforce_id)`, plus one on
-`(recordable_type, recordable_id)`.
+`(recordable_type, recordable_id)`. The `app_id` in that index is redundant while only one
+connection exists (§3.2.1) and is kept on purpose: it is what lets a second connection be added
+later without a migration, exactly as the Chatwoot tables are structured today.
 
 ### 6.2 Why a table and not `additional_attributes['salesforce_id']`
 
@@ -437,7 +506,12 @@ prefix), and pages in `app/javascript/pages/Apps/Salesforce/`.
 Screens:
 
 1. **Connect** — environment (production/sandbox), `client_id`/`client_secret`, "Connect to
-   Salesforce" → OAuth redirect → callback stores tokens and org id.
+   Salesforce" → OAuth redirect → callback stores tokens and org id. Because the user builds the
+   External Client App by hand (§3.1), this screen carries the setup instructions inline: the
+   exact callback URL for this install and the required scope list, both with copy buttons, plus a
+   link to the Salesforce documentation. Since only one connection is allowed (§3.2.1), the page
+   is single-state — the Connect form when disconnected, the connection detail when connected —
+   with no "add connection" affordance and no connection list.
 2. **Mapping** — per Salesforce object: enable toggle, target Woofed model, field-by-field mapping
    built from the cached `describe`, and for Opportunity the pipeline + stage map. Nothing syncs
    until the user saves a mapping, so an accidental connect never floods the CRM.
@@ -463,7 +537,8 @@ Following `AGENTS.md`:
 - Behaviour-focused examples covering the branches that will actually bite: duplicate email →
   conflict row, unparseable phone → blank phone + raw kept, Opportunity with no contact → skipped
   with reason, unchanged `SystemModstamp` → no write, deleted record → mapping tombstoned and
-  Woofed record retained, expired refresh token → `status: error`.
+  Woofed record retained, expired refresh token → `status: error`, and a second connection →
+  invalid with the "already exists" message while updating the existing one stays valid (§3.2.1).
 - 100% patch coverage on changed files, per the Codecov gate.
 
 ---
@@ -490,14 +565,14 @@ suppression (a Woofed write that originated from Salesforce must not be pushed b
 
 | # | Stage | Deliverable | Depends on | Status |
 |---|---|---|---|---|
-| 0 | Discovery / decisions | §14 answered, target org identified, sandbox available | — | ⬜ Not started |
+| 0 | Discovery / decisions | §14.2 answered, target org identified, sandbox available | — | ⬜ Not started |
 | 1 | Token encryption | `ActiveRecord::Encryption` configured; keys via ENV | 0 | ⬜ Not started |
 | 2 | Import guard | `Current.sync_source` gate on `Contact`/`Deal`/`Event` side effects | — | ⬜ Not started |
-| 3 | `Apps::Salesforce` model + migration | Table, validations, `status` enum, revoke on destroy | 1 | ⬜ Not started |
+| 3 | `Apps::Salesforce` model + migration | Table, validations (incl. the single-connection guard, §3.2.1), `status` enum, revoke on destroy | 1 | ⬜ Not started |
 | 4 | OAuth (web server flow) | Authorize + callback controllers, token refresh, connection health job | 3 | ⬜ Not started |
 | 5 | API client | Faraday client: describe, SOQL query + paging, `queryAll`, Bulk 2.0 jobs, retry/401 handling | 4 | ⬜ Not started |
 | 6 | Mapping models | `object_mappings` + `record_mappings` + `sync_records` + `sync_runs` migrations and models | 3 | ⬜ Not started |
-| 7 | Mapping UI (Inertia) | Connect screen + object/field mapping screen fed by cached describe | 5, 6 | ⬜ Not started |
+| 7 | Mapping UI (Inertia) | Connect screen (with the External Client App setup instructions, callback URL and scopes) + object/field mapping screen fed by cached describe | 5, 6 | ⬜ Not started |
 | 8 | Transform layer | Named transforms, per-object mappers, conflict detection | 6 | ⬜ Not started |
 | 9 | Backfill | Bulk/REST strategy selection, staging writes, resumable, high-water mark | 5, 8 | ⬜ Not started |
 | 10 | Load — Account/Contact/Lead | Idempotent upsert into `Company`/`Contact`, dedup rules | 2, 8, 9 | ⬜ Not started |
@@ -518,18 +593,27 @@ and 2 are unglamorous but genuinely blocking — doing them after the loader mea
 
 ---
 
-## 14. Open decisions
+## 14. Decisions
 
-1. **Who owns the External Client App?** Customer-created (recommended, works for self-hosted) or a
-   Woofed-owned app with a fixed redirect (only viable for the managed/cloud offering)?
-2. **One Salesforce connection per Woofed install, or several?** The schema assumes one active
-   connection; supporting several is mostly a UI concern but should be decided before the
-   migrations land.
-3. **Latency requirement.** If 5-minute polling is acceptable, stage 18 (CDC) can be deferred
+### 14.1 Settled
+
+1. **The customer owns the External Client App, and configures it manually in Salesforce.**
+   Woofed never provisions it; the user creates the app, sets the callback URL, selects the
+   scopes, and pastes `client_id`/`client_secret` into the Connect screen. A Woofed-owned app with
+   a fixed redirect is rejected — it only works for a managed/cloud offering, which we are not
+   building. Details and the exact user-facing steps in §3.1; UI consequences in §10.
+2. **Exactly one Salesforce connection per Woofed install.** Enforced by a model validation on
+   create, not by the schema: the tables mirror `apps_chatwoots` and physically allow several
+   rows, and every child table keeps `app_id`. Allowing more than one later is therefore a UI
+   change plus removing the validation — no migration. Details in §3.2.1.
+
+### 14.2 Still open
+
+1. **Latency requirement.** If 5-minute polling is acceptable, stage 18 (CDC) can be deferred
    indefinitely — and it is by far the most expensive stage on the list.
-4. **Do Salesforce Tasks/Events belong in Woofed at all?** They are the highest-volume objects and
+2. **Do Salesforce Tasks/Events belong in Woofed at all?** They are the highest-volume objects and
    the lowest-value ones. Consider shipping stages 10–11 only and treating stage 12 as optional.
-5. **Conflict policy on the first sync**: skip conflicting records and report, or merge into the
+3. **Conflict policy on the first sync**: skip conflicting records and report, or merge into the
    existing Woofed record? Skipping is safer and is the assumption above.
-6. **Owner mapping when no Woofed user matches** the Salesforce `OwnerId` — leave unassigned
+4. **Owner mapping when no Woofed user matches** the Salesforce `OwnerId` — leave unassigned
    (assumed) or assign to a default user?
