@@ -1,0 +1,17 @@
+en:
+  apps:
+    salesforce:
+      connected: 'Salesforce was successfully connected.'
+      disconnected: 'Salesforce was successfully disconnected.'
+      missing_connection: 'Start the Salesforce connection again.'
+      invalid_state: 'The Salesforce authorization could not be verified. Connect again.'
+      oauth_errors:
+        redirect_uri_mismatch: 'The callback URL registered in the External Client App does not match %{redirect_uri}.'
+        invalid_client: 'The consumer key or the consumer secret is invalid.'
+        invalid_client_id: 'The consumer key is invalid.'
+        invalid_grant: 'Salesforce rejected the authorization. Connect again.'
+        access_denied: 'The authorization was denied on the Salesforce side.'
+        inactive_user: 'The Salesforce user is inactive.'
+        missing_refresh_token: 'This connection has no refresh token. Connect again.'
+        connection_failed: 'Salesforce could not be reached.'
+        unknown: 'Salesforce refused the connection.'

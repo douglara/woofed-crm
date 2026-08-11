@@ -572,7 +572,7 @@ suppression (a Woofed write that originated from Salesforce must not be pushed b
 | 1 | Token encryption | `ActiveRecord::Encryption` configured; keys derived from `secret_key_base` — [notes](stage-01-token-encryption.md) | — | ✅ Done |
 | 2 | Import guard | `Current.sync_source` gate on `Contact`/`Deal`/`Event` side effects | — | ⬜ Not started |
 | 3 | `Apps::Salesforce` model + migration | Table, validations (incl. the single-connection guard, §3.2.1), `status` enum, revoke on destroy — shipped with stage 1, [notes](stage-01-token-encryption.md) | 1 | ✅ Done |
-| 4 | OAuth (web server flow) | Authorize + callback controllers, token refresh, connection health job | 3 | ⬜ Not started |
+| 4 | OAuth (web server flow) | Authorize + callback controllers, token refresh, connection health job — [notes](stage-04-oauth.md) | 3 | ✅ Done |
 | 5 | API client | Faraday client: describe, SOQL query + paging, `queryAll`, Bulk 2.0 jobs, retry/401 handling | 4 | ⬜ Not started |
 | 6 | Mapping models | `object_mappings` + `record_mappings` + `sync_records` + `sync_runs` migrations and models | 3 | ⬜ Not started |
 | 7 | Mapping UI (Inertia) | Connect screen (with the External Client App setup instructions, callback URL and scopes) + object/field mapping screen fed by cached describe | 5, 6 | ⬜ Not started |

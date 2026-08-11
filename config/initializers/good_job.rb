@@ -20,6 +20,10 @@ Rails.application.configure do
     webhook_status_refresh: {
       cron: '0 12 * * *',
       class: 'Webhook::Status::RefreshJob'
+    },
+    apps_salesforce_connection_refresh: {
+      cron: '0 12 * * *',
+      class: 'Apps::Salesforce::Connection::RefreshJob'
     }
   }
 end

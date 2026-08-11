@@ -1,0 +1,17 @@
+es:
+  apps:
+    salesforce:
+      connected: 'Salesforce se conectó correctamente.'
+      disconnected: 'Salesforce se desconectó correctamente.'
+      missing_connection: 'Inicie la conexión con Salesforce nuevamente.'
+      invalid_state: 'No se pudo verificar la autorización de Salesforce. Conecte nuevamente.'
+      oauth_errors:
+        redirect_uri_mismatch: 'La URL de callback registrada en la External Client App no coincide con %{redirect_uri}.'
+        invalid_client: 'La consumer key o la consumer secret no es válida.'
+        invalid_client_id: 'La consumer key no es válida.'
+        invalid_grant: 'Salesforce rechazó la autorización. Conecte nuevamente.'
+        access_denied: 'La autorización fue denegada en Salesforce.'
+        inactive_user: 'El usuario de Salesforce está inactivo.'
+        missing_refresh_token: 'Esta conexión no tiene refresh token. Conecte nuevamente.'
+        connection_failed: 'No se pudo contactar con Salesforce.'
+        unknown: 'Salesforce rechazó la conexión.'
