@@ -208,8 +208,11 @@ What follows from "exactly one" throughout the rest of this document:
 
 - **Encryption at rest.** The repo currently has no `encrypts` usage — `Apps::Chatwoot` stores
   `chatwoot_user_token` in plaintext. A Salesforce refresh token is a much larger blast radius
-  (full org read). Introduce Rails 7 `ActiveRecord::Encryption` for these columns and set
-  `active_record.encryption` keys from ENV. This is a prerequisite task, not an optional polish.
+  (full org read) and Salesforce never rotates it, so an old database dump still holds a working
+  credential. Introduce Rails 7 `ActiveRecord::Encryption` for these columns and set
+  `active_record.encryption` keys from ENV, since this app has no `master.key`. This is a
+  prerequisite task, not an optional polish — detailed in
+  [stage-01-token-encryption.md](stage-01-token-encryption.md).
 - **Refresh on demand.** A single `Apps::Salesforce::Connection` object owns the Faraday client,
   refreshes the access token when `token_expires_at` is within ~5 minutes, retries once on a
   `401 INVALID_SESSION_ID`, and flips `status` to `error` when the refresh token is revoked so
@@ -566,9 +569,9 @@ suppression (a Woofed write that originated from Salesforce must not be pushed b
 | # | Stage | Deliverable | Depends on | Status |
 |---|---|---|---|---|
 | 0 | Discovery / decisions | §14.2 answered, target org identified, sandbox available | — | ⬜ Not started |
-| 1 | Token encryption | `ActiveRecord::Encryption` configured; keys via ENV | 0 | ⬜ Not started |
+| 1 | Token encryption | `ActiveRecord::Encryption` configured; keys derived from `secret_key_base` — [notes](stage-01-token-encryption.md) | — | ✅ Done |
 | 2 | Import guard | `Current.sync_source` gate on `Contact`/`Deal`/`Event` side effects | — | ⬜ Not started |
-| 3 | `Apps::Salesforce` model + migration | Table, validations (incl. the single-connection guard, §3.2.1), `status` enum, revoke on destroy | 1 | ⬜ Not started |
+| 3 | `Apps::Salesforce` model + migration | Table, validations (incl. the single-connection guard, §3.2.1), `status` enum, revoke on destroy — shipped with stage 1, [notes](stage-01-token-encryption.md) | 1 | ✅ Done |
 | 4 | OAuth (web server flow) | Authorize + callback controllers, token refresh, connection health job | 3 | ⬜ Not started |
 | 5 | API client | Faraday client: describe, SOQL query + paging, `queryAll`, Bulk 2.0 jobs, retry/401 handling | 4 | ⬜ Not started |
 | 6 | Mapping models | `object_mappings` + `record_mappings` + `sync_records` + `sync_runs` migrations and models | 3 | ⬜ Not started |

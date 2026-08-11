@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_17_120000) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_10_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -112,6 +112,23 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_17_120000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "qrcode", default: "", null: false
+  end
+
+  create_table "apps_salesforces", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "status", default: "inactive", null: false
+    t.string "environment", default: "production", null: false
+    t.string "client_id", default: "", null: false
+    t.string "instance_url", default: "", null: false
+    t.string "organization_id", default: "", null: false
+    t.string "api_version", default: "v64.0", null: false
+    t.datetime "token_expires_at"
+    t.jsonb "settings", default: {}, null: false
+    t.text "client_secret"
+    t.text "access_token"
+    t.text "refresh_token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "attachments", force: :cascade do |t|
