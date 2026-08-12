@@ -583,7 +583,7 @@ suppression (a Woofed write that originated from Salesforce must not be pushed b
 | 12 | Load — Task/Event | Woofed `Event` records — [notes](stage-12-load-activities.md) | 10 | ✅ Done |
 | 13 | Delta poll | `SystemModstamp` cursor job + GoodJob cron entry | 9, 10 | ⬜ Not started |
 | 14 | Deletes | `queryAll` / `IsDeleted` sweep, mapping tombstones | 13 | ⬜ Not started |
-| 15 | Sync + conflicts UI | Progress, counters, per-record errors, conflict resolution | 7, 13 | ⬜ Not started |
+| 15 | Sync + conflicts UI | Progress, counters, per-record errors, conflict resolution — [notes](stage-15-sync-ui.md) | 7 | ✅ Done |
 | 16 | Hardening | Rate-limit backoff, API-usage telemetry, PII-safe logging, docs | 13–15 | ⬜ Not started |
 | 17 | Pilot on a real org | Sandbox → one production org, measured | 16 | ⬜ Not started |
 | 18 | *(Phase 2)* CDC via Pub/Sub API | gRPC subscriber, `replay_id` checkpointing, 72h gap fallback | 17 | ⬜ Not started |

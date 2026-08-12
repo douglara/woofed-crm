@@ -4,9 +4,11 @@ import { Head, usePage } from '@inertiajs/react'
 import ConnectForm from '@/components/salesforce/ConnectForm'
 import ConnectionSummary from '@/components/salesforce/ConnectionSummary'
 import ObjectMappingCard from '@/components/salesforce/ObjectMappingCard'
+import ProblemRecords from '@/components/salesforce/ProblemRecords'
 import SyncPanel from '@/components/salesforce/SyncPanel'
 import type {
   ObjectMapping,
+  ProblemRecord,
   SalesforceConnection,
   SyncableObject,
   SyncRun,
@@ -22,6 +24,7 @@ interface SalesforceShowProps {
   woofed_fields: Record<string, WoofedField[]>
   object_mappings: ObjectMapping[]
   sync_runs: SyncRun[]
+  problem_records: ProblemRecord[]
 }
 
 const SalesforceShow = ({
@@ -32,7 +35,8 @@ const SalesforceShow = ({
   woofed_models,
   woofed_fields,
   object_mappings,
-  sync_runs
+  sync_runs,
+  problem_records
 }: SalesforceShowProps) => {
   const { current_account } = usePage().props
   const [addedObject, setAddedObject] = useState('')
@@ -145,6 +149,11 @@ const SalesforceShow = ({
               syncRuns={sync_runs}
               hasEnabledMapping={object_mappings.some((mapping) => mapping.enabled)}
               syncUrl={`${basePath}/sync`}
+            />
+
+            <ProblemRecords
+              records={problem_records}
+              retryUrl={(id) => `${basePath}/sync_records/${id}/retry`}
             />
           </div>
         )}

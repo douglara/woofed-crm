@@ -15,6 +15,12 @@ es:
         contact_not_found: 'Esta oportunidad no tiene contacto en Woofed al que vincularse.'
         unknown_field: 'El mapeo apunta a campos que este modelo no tiene: %{fields}.'
         event_contact_not_found: 'Esta actividad no tiene contacto en Woofed al que pertenecer.'
+      sync_records:
+        not_found: 'Esa fila ya no existe.'
+        processed: 'La fila fue importada.'
+        failed: 'La fila falló de nuevo. El motivo está en ella.'
+        conflict: 'La fila sigue en conflicto con un registro existente.'
+        pending: 'La fila volvió a la cola.'
       transforms:
         invalid_currency: '“%{value}” no es un importe.'
         invalid_datetime: '“%{value}” no es una fecha.'

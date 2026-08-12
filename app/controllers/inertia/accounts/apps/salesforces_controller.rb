@@ -3,6 +3,8 @@ class Inertia::Accounts::Apps::SalesforcesController < Inertia::InternalControll
   # integration plan). Only a suggestion: any object, custom ones included, can
   # be pointed at any of the four models the sync writes to -- a Company may come
   # from Account in one org and from School__c in another.
+  PROBLEM_RECORDS_LIMIT = 50
+
   SUGGESTED_MODELS = {
     'Account' => 'Company',
     'Contact' => 'Contact',
@@ -23,7 +25,8 @@ class Inertia::Accounts::Apps::SalesforcesController < Inertia::InternalControll
       woofed_models: Apps::Salesforce::ObjectMapping::WOOFED_MODELS,
       woofed_fields: woofed_fields,
       object_mappings: object_mappings_props,
-      sync_runs: sync_runs_props
+      sync_runs: sync_runs_props,
+      problem_records: problem_records_props
     }
   end
 
@@ -123,6 +126,16 @@ class Inertia::Accounts::Apps::SalesforcesController < Inertia::InternalControll
     salesforce.sync_runs.order(created_at: :desc).group_by(&:salesforce_object).map do |_object, runs|
       runs.first.slice(:id, :salesforce_object, :kind, :status, :records_downloaded, :error, :finished_at)
     end
+  end
+
+  # The rows that did not make it, which is the only way a user learns that some
+  # records are missing and why. Capped: a bad mapping can produce thousands.
+  def problem_records_props
+    return [] if salesforce.blank?
+
+    salesforce.sync_records.where(status: %w[failed conflict])
+              .order(processed_at: :desc).limit(PROBLEM_RECORDS_LIMIT)
+              .map { |record| record.slice(:id, :salesforce_object, :salesforce_id, :status, :error) }
   end
 
   def woofed_fields

@@ -15,6 +15,12 @@ en:
         contact_not_found: 'This opportunity has no contact in Woofed to hang on.'
         unknown_field: 'The mapping points at fields this model does not have: %{fields}.'
         event_contact_not_found: 'This activity has no contact in Woofed to belong to.'
+      sync_records:
+        not_found: 'That row no longer exists.'
+        processed: 'The row was imported.'
+        failed: 'The row failed again. The reason is on it.'
+        conflict: 'The row still conflicts with an existing record.'
+        pending: 'The row is queued again.'
       transforms:
         invalid_currency: '“%{value}” is not a currency amount.'
         invalid_datetime: '“%{value}” is not a date.'

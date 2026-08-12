@@ -96,6 +96,19 @@ RSpec.describe Inertia::Accounts::Apps::SalesforcesController, type: :request do
           )
         end
 
+        it 'lists the rows that did not make it, with the reason' do
+          create(:apps_salesforce_sync_records, :conflict, app: salesforce)
+          create(:apps_salesforce_sync_records, app: salesforce)
+
+          get base_url
+
+          expect(inertia.props[:problem_records]).to eq(
+            [{ 'id' => Apps::Salesforce::SyncRecord.first.id, 'salesforce_object' => 'Account',
+               'salesforce_id' => '001Hn00001AbCdEIAV', 'status' => 'conflict',
+               'error' => 'Email already belongs to another contact' }]
+          )
+        end
+
         it 'shows the latest run of each object, which is the sync progress' do
           create(:apps_salesforce_sync_runs, app: salesforce, salesforce_object: 'Account',
                                              status: 'completed', records_downloaded: 1_200)

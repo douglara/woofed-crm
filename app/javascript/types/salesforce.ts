@@ -46,6 +46,14 @@ export interface SyncRun {
   finished_at: string | null
 }
 
+export interface ProblemRecord {
+  id: number
+  salesforce_object: string
+  salesforce_id: string
+  status: 'failed' | 'conflict'
+  error: string | null
+}
+
 export interface WoofedField {
   name: string
   label: string
