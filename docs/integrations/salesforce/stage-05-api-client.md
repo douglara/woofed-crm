@@ -10,15 +10,21 @@ Everything that reads from a Salesforce org: describe, SOQL with paging, `queryA
 
 ## 1. What was built
 
+One generic client, reached through `salesforce.api_client`, and **one class per endpoint** with a
+`self.call`, each with a `.http` file next to it documenting the raw request.
+
 | File | Role |
 |---|---|
-| [api_client.rb](../../../app/models/apps/salesforce/api_client.rb) | Bearer token, 401 refresh-and-retry, undecryptable-credential guard, error normalisation |
-| [api_client/describe.rb](../../../app/models/apps/salesforce/api_client/describe.rb) | Object metadata, cached |
-| [api_client/query.rb](../../../app/models/apps/salesforce/api_client/query.rb) | SOQL, paged to the end, `queryAll` variant |
-| [bulk_query.rb](../../../app/models/apps/salesforce/bulk_query.rb) | Bulk 2.0 job: create, state, download |
+| [api/client.rb](../../../app/models/apps/salesforce/api/client.rb) | Bearer token, 401 refresh-and-retry, undecryptable-credential guard, error normalisation |
+| [api/sobject/describe.rb](../../../app/models/apps/salesforce/api/sobject/describe.rb) | Object metadata, cached |
+| [api/query/page.rb](../../../app/models/apps/salesforce/api/query/page.rb) | First page of a SOQL result, `query` or `queryAll` |
+| [api/query/next_page.rb](../../../app/models/apps/salesforce/api/query/next_page.rb) | Follows the `nextRecordsUrl` cursor |
+| [api/query/all_pages.rb](../../../app/models/apps/salesforce/api/query/all_pages.rb) | Walks the pages to the end, optionally streaming each one |
+| [api/bulk/query/create.rb](../../../app/models/apps/salesforce/api/bulk/query/create.rb) · [state.rb](../../../app/models/apps/salesforce/api/bulk/query/state.rb) · [results.rb](../../../app/models/apps/salesforce/api/bulk/query/results.rb) | Bulk 2.0 job: submit, poll, download |
 
-The endpoint modules are included into the client, mirroring
-`Apps::Chatwoot::ApiClient::UserProfile`, so each one gets the token handling for free.
+`Page` and `NextPage` are separate because they are separate endpoints: one takes SOQL, the other
+takes an opaque cursor that already encodes the query, the offset and whether it was `query` or
+`queryAll`.
 
 ---
 
@@ -68,7 +74,7 @@ resume instead of restarting.
 ### 2.6 CSV is handed over as strings
 
 Bulk results are CSV only — there is no JSON option for query jobs. Every value arrives as a string
-and a null is indistinguishable from an empty string. `BulkQuery` parses rows and stops there;
+and a null is indistinguishable from an empty string. `Results` parses rows and stops there;
 coercion belongs to the transform layer (stage 8), and nothing is written to Woofed records here.
 
 ---

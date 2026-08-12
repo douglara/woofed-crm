@@ -1,4 +1,4 @@
-module Apps::Salesforce::OauthUrls
+module Apps::Salesforce::Urls
   extend ActiveSupport::Concern
 
   # Static, global Salesforce hosts. A sandbox org only authenticates against
@@ -25,6 +25,10 @@ module Apps::Salesforce::OauthUrls
 
   def api_url
     "#{instance_url}/services/data/#{api_version}"
+  end
+
+  def bulk_query_url
+    "#{api_url}/jobs/query"
   end
 
   # Fixed for the whole install: it is registered by hand in the customer's

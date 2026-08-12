@@ -1,9 +1,8 @@
-# spec/models/apps/salesforce/api_client/query_spec.rb
+# spec/models/apps/salesforce/api/query/all_pages_spec.rb
 require 'rails_helper'
 
-RSpec.describe Apps::Salesforce::ApiClient::Query do
+RSpec.describe Apps::Salesforce::Api::Query::AllPages do
   let!(:salesforce) { create(:apps_salesforces, :connected) }
-  let(:client) { Apps::Salesforce::ApiClient.new(salesforce) }
   let(:instance_url) { 'https://woofed-dev-ed.my.salesforce.com' }
   let(:query_url) { "#{instance_url}/services/data/v64.0/query" }
   let(:soql) { 'SELECT Id, Name FROM Account' }
@@ -12,14 +11,14 @@ RSpec.describe Apps::Salesforce::ApiClient::Query do
     { status: 200, body: body.to_json, headers: { 'Content-Type' => 'application/json' } }
   end
 
-  describe '#query' do
+  describe '.call' do
     context 'when the whole result fits in one page' do
       it 'returns the records salesforce sent' do
         stub_request(:get, query_url).with(query: { q: soql })
                                      .to_return(json('done' => true,
                                                      'records' => [{ 'Id' => '001', 'Name' => 'Acme' }]))
 
-        result = client.query(soql)
+        result = described_class.call(salesforce, soql)
 
         expect(result[:ok]).to eq([{ 'Id' => '001', 'Name' => 'Acme' }])
       end
@@ -39,7 +38,7 @@ RSpec.describe Apps::Salesforce::ApiClient::Query do
         stub_request(:get, "#{instance_url}#{next_records_url}")
           .to_return(json('done' => true, 'records' => [{ 'Id' => '002' }]))
 
-        result = client.query(soql)
+        result = described_class.call(salesforce, soql)
 
         expect(result[:ok]).to eq([{ 'Id' => '001' }, { 'Id' => '002' }])
       end
@@ -49,7 +48,7 @@ RSpec.describe Apps::Salesforce::ApiClient::Query do
           .to_return(json('done' => true, 'records' => [{ 'Id' => '002' }]))
         pages = []
 
-        result = client.query(soql) { |records| pages << records }
+        result = described_class.call(salesforce, soql) { |records| pages << records }
 
         expect(pages).to eq([[{ 'Id' => '001' }], [{ 'Id' => '002' }]])
         expect(result[:ok]).to be_empty
@@ -59,34 +58,29 @@ RSpec.describe Apps::Salesforce::ApiClient::Query do
         stub_request(:get, "#{instance_url}#{next_records_url}")
           .to_return(status: 500, body: [{ message: 'Server error' }].to_json)
 
-        result = client.query(soql)
-
-        expect(result[:error]).to eq('Server error')
+        expect(described_class.call(salesforce, soql)[:error]).to eq('Server error')
       end
     end
 
     context 'when deleted records are wanted' do
-      it 'asks queryAll, the only endpoint that still returns them' do
+      it 'walks the queryAll pages' do
         query_all_url = "#{instance_url}/services/data/v64.0/queryAll"
         stub_request(:get, query_all_url).with(query: { q: soql })
                                          .to_return(json('done' => true,
                                                          'records' => [{ 'Id' => '001', 'IsDeleted' => true }]))
 
-        result = client.query(soql, include_deleted: true)
+        result = described_class.call(salesforce, soql, include_deleted: true)
 
         expect(result[:ok]).to eq([{ 'Id' => '001', 'IsDeleted' => true }])
       end
     end
 
-    context 'when salesforce refuses the query' do
+    context 'when the first page fails' do
       it 'reports the reason instead of paging' do
         stub_request(:get, query_url).with(query: { q: soql })
-                                     .to_return(status: 400,
-                                                body: [{ message: "No such column 'Foo'" }].to_json)
+                                     .to_return(status: 400, body: [{ message: "No such column 'Foo'" }].to_json)
 
-        result = client.query(soql)
-
-        expect(result[:error]).to eq("No such column 'Foo'")
+        expect(described_class.call(salesforce, soql)[:error]).to eq("No such column 'Foo'")
       end
     end
   end

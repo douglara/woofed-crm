@@ -1,14 +1,14 @@
-# spec/models/apps/salesforce/api_client_spec.rb
+# spec/models/apps/salesforce/api/client_spec.rb
 require 'rails_helper'
 
-RSpec.describe Apps::Salesforce::ApiClient do
+RSpec.describe Apps::Salesforce::Api::Client do
   let!(:salesforce) { create(:apps_salesforces, :connected) }
   let(:client) { described_class.new(salesforce) }
   let(:instance_url) { 'https://woofed-dev-ed.my.salesforce.com' }
   let(:path) { "#{instance_url}/services/data/v64.0/limits" }
   let(:token_url) { "#{instance_url}/services/oauth2/token" }
 
-  describe '#get_request' do
+  describe '#get' do
     context 'when salesforce answers' do
       it 'sends the stored access token and returns the parsed body' do
         stub_request(:get, path).to_return(
@@ -16,7 +16,7 @@ RSpec.describe Apps::Salesforce::ApiClient do
           headers: { 'Content-Type' => 'application/json' }
         )
 
-        result = client.get_request(path)
+        result = client.get(path)
 
         expect(a_request(:get, path).with(headers: { 'Authorization' => 'Bearer access-token' })).to have_been_made
         expect(result[:ok]).to eq('DailyApiRequests' => { 'Remaining' => 4200 })
@@ -35,7 +35,7 @@ RSpec.describe Apps::Salesforce::ApiClient do
           headers: { 'Content-Type' => 'application/json' }
         )
 
-        result = client.get_request(path)
+        result = client.get(path)
 
         expect(result).to have_key(:ok)
         expect(a_request(:get, path).with(headers: { 'Authorization' => 'Bearer second-access-token' }))
@@ -47,7 +47,7 @@ RSpec.describe Apps::Salesforce::ApiClient do
         stub_request(:get, path).to_return(status: 401, body: [{ message: 'Session expired' }].to_json)
         stub_request(:post, token_url).to_return(status: 400, body: { error: 'invalid_grant' }.to_json)
 
-        result = client.get_request(path)
+        result = client.get(path)
 
         expect(result[:error]).to eq(I18n.t('apps.salesforce.oauth_errors.invalid_grant'))
         expect(a_request(:get, path)).to have_been_made.once
@@ -62,17 +62,13 @@ RSpec.describe Apps::Salesforce::ApiClient do
           body: [{ message: "No such column 'Foo' on entity 'Account'", errorCode: 'INVALID_FIELD' }].to_json
         )
 
-        result = client.get_request(path)
-
-        expect(result[:error]).to eq("No such column 'Foo' on entity 'Account'")
+        expect(client.get(path)[:error]).to eq("No such column 'Foo' on entity 'Account'")
       end
 
       it 'falls back to the status when the body carries no message' do
         stub_request(:get, path).to_return(status: 503, body: '<html>Service Unavailable</html>')
 
-        result = client.get_request(path)
-
-        expect(result[:error]).to eq('HTTP 503')
+        expect(client.get(path)[:error]).to eq('HTTP 503')
       end
     end
 
@@ -80,9 +76,7 @@ RSpec.describe Apps::Salesforce::ApiClient do
       it 'reports it instead of raising' do
         stub_request(:get, path).to_timeout
 
-        result = client.get_request(path)
-
-        expect(result[:error]).to eq(I18n.t('apps.salesforce.oauth_errors.connection_failed'))
+        expect(client.get(path)[:error]).to eq(I18n.t('apps.salesforce.oauth_errors.connection_failed'))
       end
     end
 
@@ -90,7 +84,7 @@ RSpec.describe Apps::Salesforce::ApiClient do
       it 'asks for a reconnection instead of calling salesforce' do
         allow(salesforce).to receive(:access_token).and_raise(ActiveRecord::Encryption::Errors::Decryption)
 
-        result = client.get_request(path)
+        result = client.get(path)
 
         expect(a_request(:get, path)).not_to have_been_made
         expect(result[:error]).to eq(I18n.t('apps.salesforce.oauth_errors.unreadable_credentials'))
@@ -99,23 +93,23 @@ RSpec.describe Apps::Salesforce::ApiClient do
     end
   end
 
-  describe '#post_request' do
+  describe '#post' do
     it 'sends the body as json' do
       stub_request(:post, path).to_return(status: 200, body: { 'id' => '750Hn00000AbCdEIAV' }.to_json)
 
-      result = client.post_request(path, operation: 'query')
+      result = client.post(path, operation: 'query')
 
       expect(a_request(:post, path).with(body: { operation: 'query' }.to_json)).to have_been_made
       expect(result[:ok]).to eq('id' => '750Hn00000AbCdEIAV')
     end
   end
 
-  describe '#get_raw_request' do
+  describe '#get_raw' do
     it 'hands the body over untouched, since bulk results are csv' do
       csv = "Id,Name\n001Hn00001AbCdEIAV,Acme\n"
       stub_request(:get, path).to_return(status: 200, body: csv, headers: { 'Sforce-Locator' => 'MTAwMDA' })
 
-      result = client.get_raw_request(path)
+      result = client.get_raw(path)
 
       expect(result[:ok]).to eq(csv)
       expect(result[:request].headers['Sforce-Locator']).to eq('MTAwMDA')

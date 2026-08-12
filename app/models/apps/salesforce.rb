@@ -19,7 +19,7 @@
 #  organization_id  :string           default(""), not null
 #
 class Apps::Salesforce < ApplicationRecord
-  include Apps::Salesforce::OauthUrls, Apps::Salesforce::TokenManagement
+  include Apps::Salesforce::Urls, Apps::Salesforce::TokenManagement
 
   enum status: {
     'inactive': 'inactive',
@@ -39,6 +39,10 @@ class Apps::Salesforce < ApplicationRecord
 
   def connected?
     instance_url.present? && refresh_token.present?
+  end
+
+  def api_client
+    Apps::Salesforce::Api::Client.new(self)
   end
 
   private

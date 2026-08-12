@@ -1,0 +1,9 @@
+GET https://{{instance}}.my.salesforce.com/services/data/v64.0/jobs/query/750Hn00000AbCdEIAV/results?maxRecords=10000 HTTP/1.1
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+### Resuming from the locator returned in the Sforce-Locator header
+
+GET https://{{instance}}.my.salesforce.com/services/data/v64.0/jobs/query/750Hn00000AbCdEIAV/results?maxRecords=10000&locator=MTAwMDA HTTP/1.1
+Authorization: Bearer {{access_token}}
+Content-Type: application/json

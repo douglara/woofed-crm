@@ -1,15 +1,10 @@
 # frozen_string_literal: true
 
-# Every call to a Salesforce org goes through here.
-#
-# It owns the three things each endpoint would otherwise repeat: the bearer token
-# (refreshed and retried once on a 401, the authoritative expiry signal), the
-# guard for credentials that can no longer be decrypted, and turning a Salesforce
-# error body into a readable message.
-class Apps::Salesforce::ApiClient
-  include Apps::Salesforce::ApiClient::Describe
-  include Apps::Salesforce::ApiClient::Query
-
+# Every call to a Salesforce org goes through here. Endpoints live in one class
+# each under Apps::Salesforce::Api and delegate to this one, so none of them
+# repeats the bearer token, the refresh-and-retry on a 401, the guard for
+# credentials that can no longer be decrypted, or the error normalisation.
+class Apps::Salesforce::Api::Client
   RETRY_OPTIONS = {
     max: 3,
     interval: 0.05,
@@ -22,24 +17,24 @@ class Apps::Salesforce::ApiClient
     @salesforce = salesforce
   end
 
-  def get_request(path, params = {})
-    request { |connection| connection.get(path, params) }
+  def get(path, params = {})
+    call { |connection| connection.get(path, params) }
   end
 
   # Bulk results come back as CSV, so the body is handed over untouched.
-  def get_raw_request(path, params = {})
-    request(parse: false) { |connection| connection.get(path, params) }
+  def get_raw(path, params = {})
+    call(parse: false) { |connection| connection.get(path, params) }
   end
 
-  def post_request(path, body)
-    request { |connection| connection.post(path, body.to_json) }
+  def post(path, body)
+    call { |connection| connection.post(path, body.to_json) }
   end
 
   private
 
   attr_reader :salesforce
 
-  def request(parse: true, retried: false, &block)
+  def call(parse: true, retried: false, &block)
     return unreadable_credentials unless credentials_readable?
 
     response = block.call(connection)
@@ -50,7 +45,7 @@ class Apps::Salesforce::ApiClient
     logger_error(response)
     { error: error_message(response), request: response }
   rescue Faraday::Error => e
-    Rails.logger.error("Salesforce api client failed: #{e.class} - Salesforce #{salesforce.id}")
+    Rails.logger.error("Apps::Salesforce::Api::Client failed: #{e.class} - Salesforce #{salesforce.id}")
     { error: I18n.t('apps.salesforce.oauth_errors.connection_failed') }
   end
 
@@ -61,7 +56,7 @@ class Apps::Salesforce::ApiClient
     return { error: refresh[:error] } if refresh.key?(:error)
 
     @connection = nil
-    request(parse: parse, retried: true, &block)
+    call(parse: parse, retried: true, &block)
   end
 
   # A rotated SECRET_KEY_BASE leaves the stored credentials undecryptable. It is
@@ -110,6 +105,6 @@ class Apps::Salesforce::ApiClient
 
   # Record ids and counts only: Salesforce payloads are PII.
   def logger_error(response)
-    Rails.logger.error("Salesforce api client error #{response.status} - Salesforce #{salesforce.id}")
+    Rails.logger.error("Apps::Salesforce::Api::Client error #{response.status} - Salesforce #{salesforce.id}")
   end
 end
