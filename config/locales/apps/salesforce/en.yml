@@ -13,5 +13,6 @@ en:
         access_denied: 'The authorization was denied on the Salesforce side.'
         inactive_user: 'The Salesforce user is inactive.'
         missing_refresh_token: 'This connection has no refresh token. Connect again.'
+        unreadable_credentials: 'The stored Salesforce credentials can no longer be read. Connect again.'
         connection_failed: 'Salesforce could not be reached.'
         unknown: 'Salesforce refused the connection.'

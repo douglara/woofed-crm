@@ -13,5 +13,6 @@ pt-BR:
         access_denied: 'A autorização foi negada no Salesforce.'
         inactive_user: 'O usuário do Salesforce está inativo.'
         missing_refresh_token: 'Esta conexão não possui refresh token. Conecte novamente.'
+        unreadable_credentials: 'As credenciais do Salesforce armazenadas não podem mais ser lidas. Conecte novamente.'
         connection_failed: 'Não foi possível se comunicar com o Salesforce.'
         unknown: 'O Salesforce recusou a conexão.'
