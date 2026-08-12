@@ -5,6 +5,13 @@ pt-BR:
       disconnected: 'Salesforce desconectado com sucesso.'
       missing_connection: 'Inicie a conexão com o Salesforce novamente.'
       invalid_state: 'Não foi possível verificar a autorização do Salesforce. Conecte novamente.'
+      transforms:
+        invalid_currency: '“%{value}” não é um valor monetário.'
+        invalid_datetime: '“%{value}” não é uma data.'
+        invalid_phone: '“%{value}” não pôde ser convertido para um telefone internacional.'
+        unknown: 'Transformação “%{name}” desconhecida.'
+      conflicts:
+        already_taken: 'O %{field} “%{value}” já pertence a %{model} #%{id}.'
       oauth_errors:
         redirect_uri_mismatch: 'A URL de callback registrada no External Client App não corresponde a %{redirect_uri}.'
         invalid_client: 'A consumer key ou a consumer secret é inválida.'
