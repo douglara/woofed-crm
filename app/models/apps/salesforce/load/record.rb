@@ -10,6 +10,9 @@
 # sync does nothing at all -- which matters because a catch-up brings back its
 # whole window, most of it untouched.
 class Apps::Salesforce::Load::Record
+  # Models that need more than the mapped fields before they can be saved.
+  PREPARERS = { 'Deal' => Apps::Salesforce::Load::Deals::Prepare }.freeze
+
   def initialize(sync_record)
     @sync_record = sync_record
   end
@@ -54,7 +57,9 @@ class Apps::Salesforce::Load::Record
     mapping = resolved[:mapping]
     return sync_record.mark_processed! if mapping.present? && !mapping.outdated?(system_modstamp)
 
-    write(resolved[:ok], transformed[:ok])
+    result = write(resolved[:ok], transformed[:ok])
+    return sync_record.mark_failed!(result[:skip]) if result.key?(:skip)
+
     upsert_mapping(resolved[:ok], mapping)
     sync_record.mark_processed!
   end
@@ -62,10 +67,36 @@ class Apps::Salesforce::Load::Record
   # `compact` keeps a field Salesforce did not send from clearing the Woofed one;
   # the transform already turned a field it sent empty into an explicit nil.
   def write(recordable, values)
-    recordable.assign_attributes(values[:attributes].compact)
+    attributes = values[:attributes].compact
+    unknown = unknown_fields(recordable, attributes)
+    return { skip: I18n.t('apps.salesforce.load.unknown_field', fields: unknown.join(', ')) } if unknown.any?
+
+    recordable.assign_attributes(attributes)
     merge_jsonb(recordable, :custom_attributes, values[:custom_attributes])
     merge_jsonb(recordable, :additional_attributes, values[:additional_attributes])
+
+    prepared = prepare(recordable)
+    return prepared if prepared.key?(:skip)
+
     recordable.save!
+    { ok: recordable }
+  end
+
+  # A mapping can outlive the column it points at, and some models answer to a
+  # setter they have no column for -- Deal#total_amount_in_cents= is defined by a
+  # concern and raises. Reporting the row names the mapping the user has to fix,
+  # instead of taking the whole batch down with it.
+  def unknown_fields(recordable, attributes)
+    attributes.keys.reject { |field| recordable.class.column_names.include?(field.to_s) }
+  end
+
+  # A Deal needs a stage, a pipeline and a contact that no Salesforce field
+  # carries. Models without such requirements go straight to save.
+  def prepare(recordable)
+    preparer = PREPARERS[object_mapping.woofed_model]
+    return { ok: recordable } if preparer.blank?
+
+    preparer.call(recordable, sync_record, object_mapping)
   end
 
   # Merged rather than replaced: these columns also hold what the user and other

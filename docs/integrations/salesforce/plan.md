@@ -579,7 +579,7 @@ suppression (a Woofed write that originated from Salesforce must not be pushed b
 | 8 | Transform layer | Named transforms, per-object mappers, conflict detection — [notes](stage-08-transform.md) | 6 | ✅ Done |
 | 9 | Backfill | Bulk/REST strategy selection, staging writes, resumable, high-water mark — [notes](stage-09-backfill.md) | 5, 8 | ✅ Done |
 | 10 | Load — Account/Contact/Lead | Idempotent upsert into `Company`/`Contact`, dedup rules — [notes](stage-10-load.md) | 8, 9 | ✅ Done |
-| 11 | Load — Opportunity | `Deal` + pipeline/stage mapping + contact resolution | 10 | ⬜ Not started |
+| 11 | Load — Opportunity | `Deal` + pipeline/stage mapping + contact resolution — [notes](stage-11-load-opportunity.md) | 10 | ✅ Done |
 | 12 | Load — Task/Event | Woofed `Event` records | 10 | ⬜ Not started |
 | 13 | Delta poll | `SystemModstamp` cursor job + GoodJob cron entry | 9, 10 | ⬜ Not started |
 | 14 | Deletes | `queryAll` / `IsDeleted` sweep, mapping tombstones | 13 | ⬜ Not started |

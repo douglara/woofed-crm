@@ -10,6 +10,10 @@ en:
         bulk_job_failed: 'Salesforce reported the bulk job as %{state}.'
         bulk_job_stuck: 'The bulk job did not finish in time.'
         started: 'Sync started.'
+      load:
+        stage_not_mapped: 'The Salesforce stage “%{stage}” is not mapped to a Woofed stage.'
+        contact_not_found: 'This opportunity has no contact in Woofed to hang on.'
+        unknown_field: 'The mapping points at fields this model does not have: %{fields}.'
       transforms:
         invalid_currency: '“%{value}” is not a currency amount.'
         invalid_datetime: '“%{value}” is not a date.'

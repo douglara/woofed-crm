@@ -18,9 +18,13 @@ FactoryBot.define do
     trait :opportunity do
       salesforce_object { 'Opportunity' }
       woofed_model { 'Deal' }
+      # A Woofed deal has no free-form amount column -- what it shows comes from
+      # its products -- so an Opportunity's Amount lands in a custom attribute.
       field_mappings do
-        [{ 'salesforce_field' => 'Amount', 'woofed_field' => 'total_amount_in_cents',
-           'kind' => 'attribute', 'transform' => 'currency_to_cents' }]
+        [
+          { 'salesforce_field' => 'Name', 'woofed_field' => 'name', 'kind' => 'attribute' },
+          { 'salesforce_field' => 'Amount', 'woofed_field' => 'valor', 'kind' => 'custom_attribute' }
+        ]
       end
     end
   end

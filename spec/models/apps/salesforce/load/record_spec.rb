@@ -26,6 +26,12 @@ RSpec.describe Apps::Salesforce::Load::Record do
     create(:apps_salesforce_sync_records, { app: salesforce, payload: payload }.merge(attributes))
   end
 
+  def stage_opportunity(opportunity_payload)
+    create(:apps_salesforce_sync_records, app: salesforce, salesforce_object: 'Opportunity',
+                                          salesforce_id: opportunity_payload['Id'],
+                                          payload: opportunity_payload)
+  end
+
   describe '#call' do
     context 'when the record is new to woofed' do
       it 'creates it from the mapping and records which salesforce record it is' do
@@ -127,6 +133,61 @@ RSpec.describe Apps::Salesforce::Load::Record do
 
         expect(sync_record.reload).to be_failed
         expect(sync_record.error).to eq(I18n.t('apps.salesforce.backfill.mapping_missing'))
+      end
+    end
+
+    context 'when the row is an opportunity' do
+      let!(:pipeline) { create(:pipeline, account: account) }
+      let!(:stage) { create(:stage, pipeline: pipeline) }
+      let!(:company) { create(:company, name: 'Acme Ltda') }
+      let!(:contact) { create(:contact, full_name: 'Ana') }
+      let!(:opportunity_mapping) do
+        create(:apps_salesforce_object_mappings, :opportunity, app: salesforce,
+                                                 options: { 'stage_map' => { 'Prospecting' => stage.id } })
+      end
+      let(:opportunity_payload) do
+        {
+          'Id' => '006Hn00003RsTuVIAX',
+          'Name' => 'Contrato anual Acme',
+          'AccountId' => '001Hn00001AbCdEIAV',
+          'Amount' => '1500.50',
+          'StageName' => 'Prospecting',
+          'IsClosed' => 'false',
+          'IsWon' => 'false',
+          'SystemModstamp' => '2026-08-01T14:22:31.000Z'
+        }
+      end
+
+      before do
+        company.contacts << contact
+        create(:apps_salesforce_record_mappings, app: salesforce, recordable: company,
+                                                 salesforce_object: 'Account',
+                                                 salesforce_id: '001Hn00001AbCdEIAV')
+      end
+
+      it 'creates the deal on the mapped stage, with the contact and the company' do
+        sync_record = stage_opportunity(opportunity_payload)
+
+        described_class.new(sync_record).call
+
+        deal = Deal.last
+        expect(deal).to have_attributes(name: 'Contrato anual Acme', stage: stage, pipeline: pipeline,
+                                        contact: contact, status: 'open')
+        expect(deal.custom_attributes).to include('valor' => '1500.50')
+        expect(deal.companies).to eq([company])
+        expect(sync_record.reload).to be_processed
+      end
+
+      it 'reports the row when its salesforce stage is not mapped' do
+        sync_record = stage_opportunity(opportunity_payload.merge('StageName' => 'Negociação'))
+
+        described_class.new(sync_record).call
+
+        expect(Deal.count).to eq(0)
+        expect(sync_record.reload).to be_failed
+        expect(sync_record.error).to eq(
+          I18n.t('apps.salesforce.load.stage_not_mapped', stage: 'Negociação')
+        )
       end
     end
 

@@ -10,6 +10,10 @@ pt-BR:
         bulk_job_failed: 'O Salesforce reportou o job em massa como %{state}.'
         bulk_job_stuck: 'O job em massa não terminou a tempo.'
         started: 'Sincronização iniciada.'
+      load:
+        stage_not_mapped: 'O estágio “%{stage}” do Salesforce não está mapeado para um estágio do Woofed.'
+        contact_not_found: 'Esta oportunidade não tem contato no Woofed para ser vinculada.'
+        unknown_field: 'O mapeamento aponta para campos que este modelo não possui: %{fields}.'
       transforms:
         invalid_currency: '“%{value}” não é um valor monetário.'
         invalid_datetime: '“%{value}” não é uma data.'
