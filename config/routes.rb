@@ -132,9 +132,6 @@ Rails.application.routes.draw do
       resources :chatwoots
       # resources :events, module: :contacts
       resource :ai_assistent, only: %i[edit update]
-      # A Woofed install talks to a single Salesforce org, so the resource is
-      # singular. `create` starts the OAuth flow, `destroy` disconnects.
-      resource :salesforce, only: %i[create destroy]
     end
     resources :attachments, only: [:destroy]
     resources :stages, only: [:show]
@@ -210,6 +207,14 @@ Rails.application.routes.draw do
       resource :woofed_ai, only: [:show] do
         post 'create_message'
         post 'create_session'
+      end
+      namespace :apps do
+        # A Woofed install talks to a single Salesforce org, so the resource is
+        # singular. `create` starts the OAuth flow, `destroy` disconnects.
+        resource :salesforce, only: %i[show create destroy] do
+          get 'describe/:salesforce_object', to: 'salesforces#describe', as: :describe
+          resources :object_mappings, only: [:create], controller: 'salesforces/object_mappings'
+        end
       end
     end
   end

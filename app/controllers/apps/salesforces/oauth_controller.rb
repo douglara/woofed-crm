@@ -12,7 +12,7 @@ class Apps::Salesforces::OauthController < InternalController
 
     return redirect_with_alert(result[:error]) if result.key?(:error)
 
-    redirect_to account_settings_path(current_user.account), notice: t('apps.salesforce.connected')
+    redirect_to account_apps_salesforce_path(current_user.account), notice: t('apps.salesforce.connected')
   end
 
   private
@@ -45,6 +45,6 @@ class Apps::Salesforces::OauthController < InternalController
   end
 
   def redirect_with_alert(message)
-    redirect_to account_settings_path(current_user.account), alert: message
+    redirect_to account_apps_salesforce_path(current_user.account), alert: message
   end
 end

@@ -54,7 +54,7 @@ RSpec.describe 'Apps::Salesforces::OauthController' do
           organization_id: '00D5g000000XXXXEA0',
           token_expires_at: issued_at + Apps::Salesforce::TokenManagement::ASSUMED_SESSION_DURATION
         )
-        expect(response).to redirect_to(account_settings_path(account))
+        expect(response).to redirect_to(account_apps_salesforce_path(account))
         expect(flash[:notice]).to eq(I18n.t('apps.salesforce.connected'))
       end
 

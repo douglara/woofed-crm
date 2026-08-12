@@ -575,7 +575,7 @@ suppression (a Woofed write that originated from Salesforce must not be pushed b
 | 4 | OAuth (web server flow) | Authorize + callback controllers, token refresh, connection health job — [notes](stage-04-oauth.md) | 3 | ✅ Done |
 | 5 | API client | Faraday client: describe, SOQL query + paging, `queryAll`, Bulk 2.0 jobs, retry/401 handling — [notes](stage-05-api-client.md) | 4 | ✅ Done |
 | 6 | Mapping models | `object_mappings` + `record_mappings` + `sync_records` + `sync_runs` migrations and models — [notes](stage-06-mapping-models.md) | 3 | ✅ Done |
-| 7 | Mapping UI (Inertia) | Connect screen (with the External Client App setup instructions, callback URL and scopes) + object/field mapping screen fed by cached describe | 5, 6 | ⬜ Not started |
+| 7 | Mapping UI (Inertia) | Connect screen (with the External Client App setup instructions, callback URL and scopes) + object/field mapping screen fed by cached describe — [notes](stage-07-mapping-ui.md) | 5, 6 | ✅ Done |
 | 8 | Transform layer | Named transforms, per-object mappers, conflict detection | 6 | ⬜ Not started |
 | 9 | Backfill | Bulk/REST strategy selection, staging writes, resumable, high-water mark | 5, 8 | ⬜ Not started |
 | 10 | Load — Account/Contact/Lead | Idempotent upsert into `Company`/`Contact`, dedup rules | 2, 8, 9 | ⬜ Not started |
