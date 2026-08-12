@@ -1,5 +1,33 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: apps_salesforce_record_mappings
+#
+#  id                         :bigint           not null, primary key
+#  deleted_at                 :datetime
+#  last_synced_at             :datetime
+#  recordable_type            :string           not null
+#  salesforce_object          :string           not null
+#  salesforce_system_modstamp :datetime
+#  sync_error                 :text
+#  sync_status                :string           default("pending"), not null
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  app_id                     :bigint           not null
+#  recordable_id              :bigint           not null
+#  salesforce_id              :string           not null
+#
+# Indexes
+#
+#  index_apps_salesforce_record_mappings_on_app_id        (app_id)
+#  index_apps_salesforce_record_mappings_on_recordable    (recordable_type,recordable_id)
+#  index_salesforce_record_mappings_on_app_object_and_id  (app_id,salesforce_object,salesforce_id) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (app_id => apps_salesforces.id)
+#
 # The identity map: which Salesforce record is which Woofed record.
 #
 # It is what makes re-running a sync idempotent -- the loader finds the mapping

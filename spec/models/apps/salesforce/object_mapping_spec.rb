@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: apps_salesforce_object_mappings
+#
+#  id                :bigint           not null, primary key
+#  enabled           :boolean          default(FALSE), not null
+#  field_mappings    :jsonb            not null
+#  options           :jsonb            not null
+#  salesforce_object :string           not null
+#  woofed_model      :string           not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  app_id            :bigint           not null
+#
+# Indexes
+#
+#  index_apps_salesforce_object_mappings_on_app_id     (app_id)
+#  index_salesforce_object_mappings_on_app_and_object  (app_id,salesforce_object) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (app_id => apps_salesforces.id)
+#
 # spec/models/apps/salesforce/object_mapping_spec.rb
 require 'rails_helper'
 

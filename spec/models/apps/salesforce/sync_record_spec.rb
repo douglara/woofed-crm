@@ -1,3 +1,31 @@
+# == Schema Information
+#
+# Table name: apps_salesforce_sync_records
+#
+#  id                :bigint           not null, primary key
+#  error             :text
+#  payload           :jsonb            not null
+#  processed_at      :datetime
+#  salesforce_object :string           not null
+#  status            :string           default("pending"), not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  app_id            :bigint           not null
+#  salesforce_id     :string           not null
+#  sync_run_id       :bigint
+#
+# Indexes
+#
+#  index_apps_salesforce_sync_records_on_app_id        (app_id)
+#  index_apps_salesforce_sync_records_on_sync_run_id   (sync_run_id)
+#  index_salesforce_sync_records_on_app_and_status     (app_id,status)
+#  index_salesforce_sync_records_on_app_object_and_id  (app_id,salesforce_object,salesforce_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (app_id => apps_salesforces.id)
+#  fk_rails_...  (sync_run_id => apps_salesforce_sync_runs.id)
+#
 # spec/models/apps/salesforce/sync_record_spec.rb
 require 'rails_helper'
 

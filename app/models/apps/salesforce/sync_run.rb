@@ -1,5 +1,34 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: apps_salesforce_sync_runs
+#
+#  id                 :bigint           not null, primary key
+#  cursor             :datetime
+#  error              :text
+#  finished_at        :datetime
+#  kind               :string           default("backfill"), not null
+#  locator            :string
+#  records_downloaded :bigint           default(0), not null
+#  records_failed     :bigint           default(0), not null
+#  salesforce_object  :string           not null
+#  started_at         :datetime
+#  status             :string           default("pending"), not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  app_id             :bigint           not null
+#  bulk_job_id        :string
+#
+# Indexes
+#
+#  index_apps_salesforce_sync_runs_on_app_id            (app_id)
+#  index_salesforce_sync_runs_on_app_object_and_status  (app_id,salesforce_object,status)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (app_id => apps_salesforces.id)
+#
 # One execution of a backfill or a delta sweep for a single Salesforce object.
 #
 # It also carries the resumption state: the bulk job id and the download locator
