@@ -14,6 +14,7 @@ en:
         stage_not_mapped: 'The Salesforce stage “%{stage}” is not mapped to a Woofed stage.'
         contact_not_found: 'This opportunity has no contact in Woofed to hang on.'
         unknown_field: 'The mapping points at fields this model does not have: %{fields}.'
+        event_contact_not_found: 'This activity has no contact in Woofed to belong to.'
       transforms:
         invalid_currency: '“%{value}” is not a currency amount.'
         invalid_datetime: '“%{value}” is not a date.'

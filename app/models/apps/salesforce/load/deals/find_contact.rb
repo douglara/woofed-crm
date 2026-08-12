@@ -27,7 +27,9 @@
 # the junction object, which is its own piece of work.
 class Apps::Salesforce::Load::Deals::FindContact
   def self.call(sync_record, object_mapping)
-    company = Apps::Salesforce::Load::FindCompany.call(sync_record)
+    company = Apps::Salesforce::Load::FindMapped.call(
+      sync_record, salesforce_field: 'AccountId', recordable_type: 'Company'
+    )
     contact = company&.contacts&.first
 
     return contact if contact.present?

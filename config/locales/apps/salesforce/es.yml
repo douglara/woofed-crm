@@ -14,6 +14,7 @@ es:
         stage_not_mapped: 'La etapa “%{stage}” de Salesforce no está mapeada a una etapa de Woofed.'
         contact_not_found: 'Esta oportunidad no tiene contacto en Woofed al que vincularse.'
         unknown_field: 'El mapeo apunta a campos que este modelo no tiene: %{fields}.'
+        event_contact_not_found: 'Esta actividad no tiene contacto en Woofed al que pertenecer.'
       transforms:
         invalid_currency: '“%{value}” no es un importe.'
         invalid_datetime: '“%{value}” no es una fecha.'

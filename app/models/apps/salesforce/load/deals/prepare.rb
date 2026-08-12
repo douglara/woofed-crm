@@ -58,7 +58,9 @@ class Apps::Salesforce::Load::Deals::Prepare
   # The opportunity's Account, already imported, is the company the deal belongs
   # to. Assigned rather than appended so re-running does not pile up duplicates.
   def link_company
-    company = Apps::Salesforce::Load::FindCompany.call(sync_record)
+    company = Apps::Salesforce::Load::FindMapped.call(
+      sync_record, salesforce_field: 'AccountId', recordable_type: 'Company'
+    )
     return if company.blank? || deal.companies.include?(company)
 
     deal.companies = deal.companies.to_a + [company]

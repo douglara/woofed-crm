@@ -11,7 +11,10 @@
 # whole window, most of it untouched.
 class Apps::Salesforce::Load::Record
   # Models that need more than the mapped fields before they can be saved.
-  PREPARERS = { 'Deal' => Apps::Salesforce::Load::Deals::Prepare }.freeze
+  PREPARERS = {
+    'Deal' => Apps::Salesforce::Load::Deals::Prepare,
+    'Event' => Apps::Salesforce::Load::Events::Prepare
+  }.freeze
 
   def initialize(sync_record)
     @sync_record = sync_record
