@@ -28,6 +28,9 @@ class Apps::Salesforce::Backfill::DownloadJob < ApplicationJob
   def store(page)
     Apps::Salesforce::Backfill::StoreRecords.new(sync_run, page[:records]).call
     sync_run.update!(locator: page[:locator])
+    # Loading trails the download instead of waiting for it: on a large object
+    # the first records are usable long before the last page arrives.
+    Apps::Salesforce::Load::BatchWorker.perform_async(sync_run.id)
 
     page[:done] ? sync_run.complete! : self.class.perform_later(sync_run.id)
   end

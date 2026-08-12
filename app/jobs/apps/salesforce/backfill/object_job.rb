@@ -52,6 +52,9 @@ class Apps::Salesforce::Backfill::ObjectJob < ApplicationJob
   def download_over_rest
     result = Apps::Salesforce::Api::Query::AllPages.call(salesforce, soql.call) do |records|
       Apps::Salesforce::Backfill::StoreRecords.new(sync_run, records).call
+      # Loading trails the download instead of waiting for it: on a large object
+      # the first records are usable long before the last page arrives.
+      Apps::Salesforce::Load::BatchWorker.perform_async(sync_run.id)
     end
 
     result.key?(:error) ? sync_run.fail!(result[:error]) : sync_run.complete!
