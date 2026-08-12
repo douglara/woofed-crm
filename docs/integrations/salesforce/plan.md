@@ -574,7 +574,7 @@ suppression (a Woofed write that originated from Salesforce must not be pushed b
 | 3 | `Apps::Salesforce` model + migration | Table, validations (incl. the single-connection guard, §3.2.1), `status` enum, revoke on destroy — shipped with stage 1, [notes](stage-01-token-encryption.md) | 1 | ✅ Done |
 | 4 | OAuth (web server flow) | Authorize + callback controllers, token refresh, connection health job — [notes](stage-04-oauth.md) | 3 | ✅ Done |
 | 5 | API client | Faraday client: describe, SOQL query + paging, `queryAll`, Bulk 2.0 jobs, retry/401 handling — [notes](stage-05-api-client.md) | 4 | ✅ Done |
-| 6 | Mapping models | `object_mappings` + `record_mappings` + `sync_records` + `sync_runs` migrations and models | 3 | ⬜ Not started |
+| 6 | Mapping models | `object_mappings` + `record_mappings` + `sync_records` + `sync_runs` migrations and models — [notes](stage-06-mapping-models.md) | 3 | ✅ Done |
 | 7 | Mapping UI (Inertia) | Connect screen (with the External Client App setup instructions, callback URL and scopes) + object/field mapping screen fed by cached describe | 5, 6 | ⬜ Not started |
 | 8 | Transform layer | Named transforms, per-object mappers, conflict detection | 6 | ⬜ Not started |
 | 9 | Backfill | Bulk/REST strategy selection, staging writes, resumable, high-water mark | 5, 8 | ⬜ Not started |

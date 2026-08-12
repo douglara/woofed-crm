@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: apps_salesforces
+#
+#  id               :bigint           not null, primary key
+#  access_token     :text
+#  api_version      :string           default("v64.0"), not null
+#  client_secret    :text
+#  environment      :string           default("production"), not null
+#  instance_url     :string           default(""), not null
+#  name             :string           default(""), not null
+#  refresh_token    :text
+#  settings         :jsonb            not null
+#  status           :string           default("inactive"), not null
+#  token_expires_at :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  client_id        :string           default(""), not null
+#  organization_id  :string           default(""), not null
+#
 # spec/models/apps/salesforce_spec.rb
 require 'rails_helper'
 

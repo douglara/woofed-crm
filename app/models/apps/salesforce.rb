@@ -33,6 +33,17 @@ class Apps::Salesforce < ApplicationRecord
     'sandbox': 'sandbox'
   }
 
+  # sync_records come first: they reference sync_runs, and dependent destruction
+  # follows declaration order.
+  has_many :object_mappings, class_name: 'Apps::Salesforce::ObjectMapping', foreign_key: :app_id,
+                             inverse_of: :app, dependent: :destroy
+  has_many :record_mappings, class_name: 'Apps::Salesforce::RecordMapping', foreign_key: :app_id,
+                             inverse_of: :app, dependent: :destroy
+  has_many :sync_records, class_name: 'Apps::Salesforce::SyncRecord', foreign_key: :app_id,
+                          inverse_of: :app, dependent: :destroy
+  has_many :sync_runs, class_name: 'Apps::Salesforce::SyncRun', foreign_key: :app_id,
+                       inverse_of: :app, dependent: :destroy
+
   validates :client_id, presence: true
   validates :client_secret, presence: true
   validate :only_one_connection, on: :create
