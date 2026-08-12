@@ -57,14 +57,26 @@ class Apps::Salesforce::SyncRun < ApplicationRecord
 
   scope :unfinished, -> { where(status: %w[pending running]) }
 
-  def start!
-    update!(status: 'running', started_at: Time.current)
+  # Where the next run of this object should start from: the cursor of the last
+  # one that actually finished.
+  def self.last_cursor(app_id, salesforce_object)
+    completed.where(app_id: app_id, salesforce_object: salesforce_object).maximum(:cursor)
   end
 
-  # The cursor is the high-water mark the next delta starts from, so it is only
-  # advanced when the run actually finished.
-  def complete!(cursor: nil)
-    update!(status: 'completed', finished_at: Time.current, cursor: cursor || self.cursor)
+  # The cursor is stamped at submission, not at the end and not from the newest
+  # record downloaded. A download can run for an hour, and a record edited while
+  # it runs was already fetched with its old values -- its new modification stamp
+  # can still be older than the newest row of the run, so a cursor taken from the
+  # data would skip it forever. Starting the next run slightly in the past only
+  # costs re-reading a few records, which the load ignores as unchanged.
+  def start!
+    update!(status: 'running', started_at: Time.current, cursor: Time.current)
+  end
+
+  # Only a finished run advances the cursor: completing a partial one would
+  # silently skip everything it did not get to.
+  def complete!
+    update!(status: 'completed', finished_at: Time.current)
   end
 
   def fail!(message)

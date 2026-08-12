@@ -30,7 +30,20 @@ export interface ObjectMapping {
 
 export interface SyncableObject {
   salesforce_object: string
-  woofed_model: string
+  label: string
+  custom: boolean
+  // Only the standard objects carry a suggestion; anything else is the user's call.
+  woofed_model: string | null
+}
+
+export interface SyncRun {
+  id: number
+  salesforce_object: string
+  kind: 'backfill' | 'delta'
+  status: 'pending' | 'running' | 'completed' | 'failed'
+  records_downloaded: number
+  error: string | null
+  finished_at: string | null
 }
 
 export interface WoofedField {

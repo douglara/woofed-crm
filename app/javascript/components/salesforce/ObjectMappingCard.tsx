@@ -41,7 +41,7 @@ const ObjectMappingCard = ({
   const [open, setOpen] = useState(false)
   const [enabled, setEnabled] = useState(mapping?.enabled ?? false)
   const [woofedModel, setWoofedModel] = useState(
-    mapping?.woofed_model ?? syncableObject.woofed_model
+    mapping?.woofed_model ?? syncableObject.woofed_model ?? woofedModels[0]
   )
   const [fieldMappings, setFieldMappings] = useState<FieldMapping[]>(
     mapping?.field_mappings ?? []
@@ -124,8 +124,13 @@ const ObjectMappingCard = ({
             aria-label={`Sync ${syncableObject.salesforce_object}`}
           />
           <span className="typography-sub-title-900 color-fg-hard">
-            {syncableObject.salesforce_object}
+            {syncableObject.label}
           </span>
+          {syncableObject.custom && (
+            <span className="rounded-full color-bg-fill-hard px-2 py-0.5 typography-button-800 color-fg-highlight">
+              custom
+            </span>
+          )}
           <span className="typography-body-900 color-fg-extra-soft">→</span>
           <select
             className={INPUT_CLASSES}

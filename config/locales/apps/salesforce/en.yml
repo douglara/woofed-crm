@@ -5,6 +5,11 @@ en:
       disconnected: 'Salesforce was successfully disconnected.'
       missing_connection: 'Start the Salesforce connection again.'
       invalid_state: 'The Salesforce authorization could not be verified. Connect again.'
+      backfill:
+        mapping_missing: 'The mapping for this object no longer exists.'
+        bulk_job_failed: 'Salesforce reported the bulk job as %{state}.'
+        bulk_job_stuck: 'The bulk job did not finish in time.'
+        started: 'Sync started.'
       transforms:
         invalid_currency: '“%{value}” is not a currency amount.'
         invalid_datetime: '“%{value}” is not a date.'

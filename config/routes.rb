@@ -213,6 +213,7 @@ Rails.application.routes.draw do
         # singular. `create` starts the OAuth flow, `destroy` disconnects.
         resource :salesforce, only: %i[show create destroy] do
           get 'describe/:salesforce_object', to: 'salesforces#describe', as: :describe
+          post 'sync', to: 'salesforces#sync'
           resources :object_mappings, only: [:create], controller: 'salesforces/object_mappings'
         end
       end

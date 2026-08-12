@@ -57,6 +57,32 @@ RSpec.describe Inertia::Accounts::Apps::SalesforcesController, type: :request do
       context 'when an org is connected' do
         let!(:salesforce) { create(:apps_salesforces, :connected) }
 
+        # The object picker is fed by the org, so custom objects can be mapped too.
+        before do
+          stub_request(:get, 'https://woofed-dev-ed.my.salesforce.com/services/data/v64.0/sobjects')
+            .to_return(
+              status: 200,
+              body: { 'sobjects' => [
+                { 'name' => 'Account', 'label' => 'Account', 'queryable' => true, 'custom' => false },
+                { 'name' => 'Escola__c', 'label' => 'Escola', 'queryable' => true, 'custom' => true },
+                { 'name' => 'AcceptedEventRelation', 'label' => 'Hidden', 'queryable' => false,
+                  'custom' => false }
+              ] }.to_json,
+              headers: { 'Content-Type' => 'application/json' }
+            )
+        end
+
+        it 'offers the custom objects of the org alongside the standard ones' do
+          get base_url
+
+          expect(inertia.props[:syncable_objects]).to eq(
+            [{ 'salesforce_object' => 'Account', 'label' => 'Account', 'custom' => false,
+               'woofed_model' => 'Company' },
+             { 'salesforce_object' => 'Escola__c', 'label' => 'Escola', 'custom' => true,
+               'woofed_model' => nil }]
+          )
+        end
+
         it 'renders the connection and the mappings already saved' do
           create(:apps_salesforce_object_mappings, app: salesforce)
 
@@ -67,6 +93,17 @@ RSpec.describe Inertia::Accounts::Apps::SalesforcesController, type: :request do
           )
           expect(inertia.props[:object_mappings].first).to include(
             'salesforce_object' => 'Account', 'woofed_model' => 'Company', 'enabled' => true
+          )
+        end
+
+        it 'shows the latest run of each object, which is the sync progress' do
+          create(:apps_salesforce_sync_runs, app: salesforce, salesforce_object: 'Account',
+                                             status: 'completed', records_downloaded: 1_200)
+
+          get base_url
+
+          expect(inertia.props[:sync_runs].first).to include(
+            'salesforce_object' => 'Account', 'status' => 'completed', 'records_downloaded' => 1_200
           )
         end
       end
@@ -146,6 +183,35 @@ RSpec.describe Inertia::Accounts::Apps::SalesforcesController, type: :request do
         delete base_url
 
         expect(response).to redirect_to(base_url)
+      end
+    end
+  end
+
+  describe 'POST /accounts/{account.id}/apps/salesforce/sync' do
+    before { sign_in(user) }
+
+    context 'when an object is enabled' do
+      it 'queues the initial load and says so' do
+        salesforce = create(:apps_salesforces, :connected)
+        create(:apps_salesforce_object_mappings, app: salesforce)
+        stub_request(:get, %r{/services/data/v64.0/(sobjects|query)})
+          .to_return(status: 200, body: { 'sobjects' => [], 'totalSize' => 0, 'done' => true,
+                                          'records' => [] }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        post "#{base_url}/sync"
+
+        expect(salesforce.sync_runs.pluck(:salesforce_object)).to eq(['Account'])
+        expect(flash[:notice]).to eq(I18n.t('apps.salesforce.backfill.started'))
+      end
+    end
+
+    context 'when no org is connected' do
+      it 'reports it instead of queueing work that cannot run' do
+        post "#{base_url}/sync"
+
+        expect(Apps::Salesforce::SyncRun.count).to eq(0)
+        expect(flash[:alert]).to eq(I18n.t('apps.salesforce.missing_connection'))
       end
     end
   end

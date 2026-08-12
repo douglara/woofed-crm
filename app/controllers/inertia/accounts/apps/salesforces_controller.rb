@@ -1,14 +1,16 @@
 class Inertia::Accounts::Apps::SalesforcesController < Inertia::InternalController
-  # The Salesforce objects offered on the mapping screen, with the Woofed model
-  # each one maps onto by default (§6.3 of the integration plan).
-  SYNCABLE_OBJECTS = [
-    { salesforce_object: 'Account', woofed_model: 'Company' },
-    { salesforce_object: 'Contact', woofed_model: 'Contact' },
-    { salesforce_object: 'Lead', woofed_model: 'Contact' },
-    { salesforce_object: 'Opportunity', woofed_model: 'Deal' },
-    { salesforce_object: 'Task', woofed_model: 'Event' },
-    { salesforce_object: 'Event', woofed_model: 'Event' }
-  ].freeze
+  # The Woofed model each standard object maps onto by default (§6.3 of the
+  # integration plan). Only a suggestion: any object, custom ones included, can
+  # be pointed at any of the four models the sync writes to -- a Company may come
+  # from Account in one org and from School__c in another.
+  SUGGESTED_MODELS = {
+    'Account' => 'Company',
+    'Contact' => 'Contact',
+    'Lead' => 'Contact',
+    'Opportunity' => 'Deal',
+    'Task' => 'Event',
+    'Event' => 'Event'
+  }.freeze
 
   def show
     render inertia: 'Apps/Salesforce/Show', props: {
@@ -17,10 +19,11 @@ class Inertia::Accounts::Apps::SalesforcesController < Inertia::InternalControll
       # this exact callback and these exact scopes by hand in Salesforce.
       callback_url: apps_salesforces_oauth_callback_url,
       scopes: Apps::Salesforce::Oauth::AuthorizeRequest::SCOPES,
-      syncable_objects: SYNCABLE_OBJECTS,
+      syncable_objects: syncable_objects,
       woofed_models: Apps::Salesforce::ObjectMapping::WOOFED_MODELS,
       woofed_fields: woofed_fields,
-      object_mappings: object_mappings_props
+      object_mappings: object_mappings_props,
+      sync_runs: sync_runs_props
     }
   end
 
@@ -47,6 +50,16 @@ class Inertia::Accounts::Apps::SalesforcesController < Inertia::InternalControll
     redirect_to account_apps_salesforce_path(current_user.account), notice: t('apps.salesforce.disconnected')
   end
 
+  # The initial load, one run per enabled mapping. Nothing is downloaded before
+  # the user asks for it: connecting an org imports nothing on its own.
+  def sync
+    result = Apps::Salesforce::Backfill::Start.new(salesforce).call
+
+    return redirect_with_alert(result[:error]) if result.key?(:error)
+
+    redirect_to account_apps_salesforce_path(current_user.account), notice: t('apps.salesforce.backfill.started')
+  end
+
   # Feeds the field pickers. The describe payload is cached, so opening the same
   # object twice costs one call to the org.
   def describe
@@ -71,11 +84,44 @@ class Inertia::Accounts::Apps::SalesforcesController < Inertia::InternalControll
               .merge(connected: salesforce.connected?)
   end
 
+  # Read from the org so custom objects can be mapped too. Before a connection
+  # exists there is nothing to ask, and the standard objects stand in.
+  def syncable_objects
+    return suggested_objects if salesforce.blank?
+
+    result = Apps::Salesforce::Api::Sobject::List.call(salesforce)
+    return suggested_objects if result.key?(:error)
+
+    result[:ok].map do |sobject|
+      {
+        salesforce_object: sobject['name'],
+        label: sobject['label'],
+        custom: sobject['custom'],
+        woofed_model: SUGGESTED_MODELS[sobject['name']]
+      }
+    end
+  end
+
+  def suggested_objects
+    SUGGESTED_MODELS.map do |salesforce_object, woofed_model|
+      { salesforce_object: salesforce_object, label: salesforce_object, custom: false, woofed_model: woofed_model }
+    end
+  end
+
   def object_mappings_props
     return [] if salesforce.blank?
 
     salesforce.object_mappings.map do |mapping|
       mapping.slice(:id, :salesforce_object, :woofed_model, :enabled, :field_mappings, :options)
+    end
+  end
+
+  # The latest run per object: what the sync section shows as progress.
+  def sync_runs_props
+    return [] if salesforce.blank?
+
+    salesforce.sync_runs.order(created_at: :desc).group_by(&:salesforce_object).map do |_object, runs|
+      runs.first.slice(:id, :salesforce_object, :kind, :status, :records_downloaded, :error, :finished_at)
     end
   end
 

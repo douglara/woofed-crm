@@ -577,7 +577,7 @@ suppression (a Woofed write that originated from Salesforce must not be pushed b
 | 6 | Mapping models | `object_mappings` + `record_mappings` + `sync_records` + `sync_runs` migrations and models — [notes](stage-06-mapping-models.md) | 3 | ✅ Done |
 | 7 | Mapping UI (Inertia) | Connect screen (with the External Client App setup instructions, callback URL and scopes) + object/field mapping screen fed by cached describe — [notes](stage-07-mapping-ui.md) | 5, 6 | ✅ Done |
 | 8 | Transform layer | Named transforms, per-object mappers, conflict detection — [notes](stage-08-transform.md) | 6 | ✅ Done |
-| 9 | Backfill | Bulk/REST strategy selection, staging writes, resumable, high-water mark | 5, 8 | ⬜ Not started |
+| 9 | Backfill | Bulk/REST strategy selection, staging writes, resumable, high-water mark — [notes](stage-09-backfill.md) | 5, 8 | ✅ Done |
 | 10 | Load — Account/Contact/Lead | Idempotent upsert into `Company`/`Contact`, dedup rules | 2, 8, 9 | ⬜ Not started |
 | 11 | Load — Opportunity | `Deal` + pipeline/stage mapping + contact resolution | 10 | ⬜ Not started |
 | 12 | Load — Task/Event | Woofed `Event` records | 10 | ⬜ Not started |

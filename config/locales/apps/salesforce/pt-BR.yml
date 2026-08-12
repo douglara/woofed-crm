@@ -5,6 +5,11 @@ pt-BR:
       disconnected: 'Salesforce desconectado com sucesso.'
       missing_connection: 'Inicie a conexão com o Salesforce novamente.'
       invalid_state: 'Não foi possível verificar a autorização do Salesforce. Conecte novamente.'
+      backfill:
+        mapping_missing: 'O mapeamento deste objeto não existe mais.'
+        bulk_job_failed: 'O Salesforce reportou o job em massa como %{state}.'
+        bulk_job_stuck: 'O job em massa não terminou a tempo.'
+        started: 'Sincronização iniciada.'
       transforms:
         invalid_currency: '“%{value}” não é um valor monetário.'
         invalid_datetime: '“%{value}” não é uma data.'

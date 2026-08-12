@@ -65,34 +65,42 @@ RSpec.describe Apps::Salesforce::SyncRun do
   end
 
   describe '#start!' do
-    it 'marks the run as running and stamps when it began' do
+    it 'stamps the cursor at submission, not from the data it is about to read' do
       run = create(:apps_salesforce_sync_runs, app: salesforce)
 
-      run.start!
+      freeze_time do
+        run.start!
 
-      expect(run.reload).to be_running
-      expect(run.started_at).to be_present
+        expect(run.reload).to be_running
+        expect(run).to have_attributes(started_at: Time.current, cursor: Time.current)
+      end
     end
   end
 
   describe '#complete!' do
-    it 'advances the cursor the next delta starts from' do
+    it 'finishes the run without touching the cursor it was given at the start' do
       run = create(:apps_salesforce_sync_runs, :running, app: salesforce)
-      high_water_mark = Time.zone.parse('2026-08-01 14:22:31 UTC')
-
-      run.complete!(cursor: high_water_mark)
-
-      expect(run.reload).to be_completed
-      expect(run).to have_attributes(cursor: high_water_mark, finished_at: be_present)
-    end
-
-    it 'keeps the previous cursor when the run had nothing newer to report' do
-      run = create(:apps_salesforce_sync_runs, :delta, :running, app: salesforce)
-      previous_cursor = run.cursor
+      submitted_at = run.cursor
 
       run.complete!
 
-      expect(run.reload.cursor).to be_within(1.second).of(previous_cursor)
+      expect(run.reload).to be_completed
+      expect(run).to have_attributes(cursor: be_within(1.second).of(submitted_at), finished_at: be_present)
+    end
+  end
+
+  describe '.last_cursor' do
+    it 'is where the next run of that object starts from' do
+      create(:apps_salesforce_sync_runs, app: salesforce, salesforce_object: 'Account',
+                                         status: 'completed', cursor: Time.utc(2026, 8, 1, 12))
+
+      expect(described_class.last_cursor(salesforce.id, 'Account')).to eq(Time.utc(2026, 8, 1, 12))
+    end
+
+    it 'ignores a run that did not finish, since it may have skipped records' do
+      create(:apps_salesforce_sync_runs, :running, app: salesforce, salesforce_object: 'Account')
+
+      expect(described_class.last_cursor(salesforce.id, 'Account')).to be_nil
     end
   end
 

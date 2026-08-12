@@ -8,6 +8,8 @@ FactoryBot.define do
     trait :running do
       status { 'running' }
       started_at { 1.minute.ago }
+      # Stamped when the query was submitted, which is what #start! does.
+      cursor { 1.minute.ago }
       bulk_job_id { '750Hn00000AbCdEIAV' }
     end
 
