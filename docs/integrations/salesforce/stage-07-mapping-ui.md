@@ -28,6 +28,18 @@ Routes: `GET/POST/DELETE /accounts/:account_id/apps/salesforce`,
 
 ## 2. Decisions worth keeping
 
+### 2.0 Reachable from settings, and self-documenting
+
+The integration is listed on the settings page alongside WhatsApp, Chatwoot and the others, and its
+own screen opens with the setup guide: the API-access requirement, then eight numbered steps from
+"open Setup" to "copy the Consumer Key". The guide is expanded while there is no connection and
+collapses once connected — the callback URL is still needed whenever the app has to be rebuilt in
+Salesforce.
+
+The API requirement is stated first and in the danger colours because it is the one thing the user
+cannot fix on their side: Professional and Essentials editions only have API access with a paid
+add-on, and without it no integration can read their data.
+
 ### 2.1 The connect screen is the documentation
 
 Woofed never provisions anything in Salesforce: the customer registers the External Client App by

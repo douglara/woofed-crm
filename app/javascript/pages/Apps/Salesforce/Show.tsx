@@ -5,6 +5,7 @@ import ConnectForm from '@/components/salesforce/ConnectForm'
 import ConnectionSummary from '@/components/salesforce/ConnectionSummary'
 import ObjectMappingCard from '@/components/salesforce/ObjectMappingCard'
 import ProblemRecords from '@/components/salesforce/ProblemRecords'
+import SetupGuide from '@/components/salesforce/SetupGuide'
 import SyncPanel from '@/components/salesforce/SyncPanel'
 import type {
   ObjectMapping,
@@ -86,14 +87,17 @@ const SalesforceShow = ({
           <ConnectionSummary connection={connection} disconnectUrl={basePath} />
         )}
 
-        {/* Reconnecting edits the existing connection: an install talks to a
-            single org, so there is no "add connection" affordance. */}
-        <ConnectForm
-          connection={connection}
+        {/* The customer builds the app in their own org, so the setup steps are
+            part of the screen rather than a link to a manual. */}
+        <SetupGuide
           callbackUrl={callback_url}
           scopes={scopes}
-          submitUrl={basePath}
+          defaultOpen={!connection?.connected}
         />
+
+        {/* Reconnecting edits the existing connection: an install talks to a
+            single org, so there is no "add connection" affordance. */}
+        <ConnectForm connection={connection} submitUrl={basePath} />
 
         {connection?.connected && (
           <div className="flex flex-col gap-4">
