@@ -1,0 +1,8 @@
+en:
+  plugins:
+    test22:
+      world_clocks: "World Clock"
+      title: "World Times"
+      brazil: "Brazil (São Paulo)"
+      brisbane: "Brisbane"
+      new_york: "New York"

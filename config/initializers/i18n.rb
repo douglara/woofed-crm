@@ -2,13 +2,17 @@
 I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
 # Permitted locales available for the application
-I18n.available_locales = %i[en pt-BR es]
+I18n.available_locales = %i[en pt-BR es en_US]
+
+# en_US uses the same translation files as en.
+I18n.fallbacks = I18n::Locale::Fallbacks.new(en_US: :en)
 
 # Set default locale to something other than :en
 I18n.default_locale = ENV.fetch('LANGUAGE', 'en')
 
 LANGUAGES_CONFIG = {
   0 => { name: 'English (en)', iso_639_3_code: 'eng', iso_639_1_code: 'en', enabled: true },
+  40 => { name: 'English US (en_US)', iso_639_3_code: 'eng', iso_639_1_code: 'en_US', enabled: true },
   1 => { name: 'العربية (ar)', iso_639_3_code: 'ara', iso_639_1_code: 'ar', enabled: false },
   2 => { name: 'Nederlands (nl) ', iso_639_3_code: 'nld', iso_639_1_code: 'nl', enabled: false },
   3 => { name: 'Français (fr)', iso_639_3_code: 'fra', iso_639_1_code: 'fr', enabled: false },

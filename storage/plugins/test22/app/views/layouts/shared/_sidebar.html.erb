@@ -1,0 +1,10 @@
+Plugins::FilePatch.define target: "app/views/layouts/shared/_sidebar.html.erb" do
+replace_line containing: "path: account_products_path(Current.account)",
+with: "    path: account_world_clocks_path(Current.account),\n" \
+"    icon: 'globe',\n" \
+"    label: t('plugins.test22.world_clocks'),\n" \
+"    active_if: -> { request.path.include?('world_clocks') }\n" \
+"  },\n" \
+"  {\n" \
+"    path: account_products_path(Current.account),"
+end
