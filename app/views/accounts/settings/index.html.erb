@@ -108,7 +108,8 @@
             <%= t('views.accounts.settings.index.salesforce_configuration') %>
           </p>
         </div>
-        <%= link_to account_apps_salesforce_path(current_user.account), class:"inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50" do %>
+        <%# Inertia page: a Turbo visit would swap the body without re-running the entrypoint that mounts React. %>
+        <%= link_to account_apps_salesforce_path(current_user.account), data: { turbo: false }, class:"inline-flex  items-center p-2 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50" do %>
           <i data-lucide="arrow-up-right" class=" stroke-dark-gray-palette-p3"></i>
         <% end %>
       </li>
