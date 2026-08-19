@@ -54,13 +54,31 @@ const ObjectMappingCard = ({
   // Salesforce field carries. The other models go straight to save.
   const savedOptions = (mapping?.options ?? {}) as {
     stage_field?: string
+    company_field?: string
+    contact_field?: string
     create_placeholder_contact?: boolean
   }
   const [stageField, setStageField] = useState(savedOptions.stage_field ?? '')
+  const [companyField, setCompanyField] = useState(savedOptions.company_field ?? '')
+  const [contactField, setContactField] = useState(savedOptions.contact_field ?? '')
   const [placeholderContact, setPlaceholderContact] = useState(
     savedOptions.create_placeholder_contact === true
   )
   const isDeal = woofedModel === 'Deal'
+
+  // The company can only come from a lookup, since a company is resolved through
+  // the identity map and nothing else. The contact accepts any field: an id, an
+  // email or a phone all identify a person, and the loader tries the three.
+  const lookupFields = salesforceFields.filter((field) => field.type === 'reference')
+
+  // A deal is saved with whatever the settings above resolve, so an empty field
+  // list still imports it -- nameless, which no column forbids and no screen
+  // makes readable. Worth saying out loud rather than letting it happen quietly.
+  const mapsName = fieldMappings.some(
+    (fieldMapping) =>
+      fieldMapping.woofed_field === 'name' && fieldMapping.kind === 'attribute'
+  )
+  const missingDealName = isDeal && !mapsName && !loadingFields
 
   const loadSalesforceFields = async () => {
     setLoadingFields(true)
@@ -125,6 +143,8 @@ const ObjectMappingCard = ({
           ? {
               options: {
                 stage_field: stageField,
+                company_field: companyField,
+                contact_field: contactField,
                 create_placeholder_contact: placeholderContact
               }
             }
@@ -224,6 +244,58 @@ const ObjectMappingCard = ({
                 </select>
               </div>
 
+              <div className="grid gap-2">
+                <label
+                  htmlFor={`company-field-${syncableObject.salesforce_object}`}
+                  className="typography-label-900 color-fg-soft"
+                >
+                  Lookup that points at the company
+                </label>
+                <select
+                  id={`company-field-${syncableObject.salesforce_object}`}
+                  className={INPUT_CLASSES}
+                  value={companyField}
+                  onChange={(event) => setCompanyField(event.target.value)}
+                >
+                  <option value="">AccountId (standard opportunities)</option>
+                  {lookupFields.map((field) => (
+                    <option key={field.name} value={field.name}>
+                      {field.label} ({field.name})
+                    </option>
+                  ))}
+                </select>
+                <p className="typography-body-900 color-fg-extra-soft">
+                  The object it points at has to be mapped and synced first —
+                  the deal finds its company among the records already imported.
+                </p>
+              </div>
+
+              <div className="grid gap-2">
+                <label
+                  htmlFor={`contact-field-${syncableObject.salesforce_object}`}
+                  className="typography-label-900 color-fg-soft"
+                >
+                  Field that identifies the contact
+                </label>
+                <select
+                  id={`contact-field-${syncableObject.salesforce_object}`}
+                  className={INPUT_CLASSES}
+                  value={contactField}
+                  onChange={(event) => setContactField(event.target.value)}
+                >
+                  <option value="">None — use a contact of the company</option>
+                  {salesforceFields.map((field) => (
+                    <option key={field.name} value={field.name}>
+                      {field.label} ({field.name})
+                    </option>
+                  ))}
+                </select>
+                <p className="typography-body-900 color-fg-extra-soft">
+                  A lookup, an email or a phone all work — whichever the object
+                  uses to say who the person is.
+                </p>
+              </div>
+
               <label className="flex items-start gap-3">
                 <input
                   type="checkbox"
@@ -245,9 +317,18 @@ const ObjectMappingCard = ({
             </div>
           )}
 
-          {fieldMappings.length === 0 && !loadingFields && (
+          {fieldMappings.length === 0 && !loadingFields && !isDeal && (
             <p className="typography-body-900 color-fg-extra-soft">
               No field is mapped yet. Nothing of this object will be imported.
+            </p>
+          )}
+
+          {missingDealName && (
+            <p className="rounded-md border color-border-feedback-danger-default color-bg-feedback-danger-default px-4 py-2 typography-body-900 color-fg-feedback-danger">
+              Nothing is mapped onto the deal name. The deals of this object will
+              still be imported, with the stage, company and contact resolved
+              above — but they will have no name. Map a Salesforce field onto{' '}
+              <strong>Name</strong> below.
             </p>
           )}
 

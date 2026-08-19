@@ -62,25 +62,50 @@ fresh sync rather than a retry.
 A row that reaches the end of the three without a stage is still reported rather than dropped onto
 an arbitrary stage: a deal on the wrong stage is worse than a deal the user is told about.
 
-### 2.2 `AccountId` is the company, not a login
+### 2.2 The company is a lookup the user names, not `AccountId`
 
 Salesforce's **Account** is the customer organisation, the equivalent of Woofed's `Company` — not a
-user account. `Opportunity.AccountId` therefore says which company the deal is with, and the deal is
-linked to it. The lookup is by `recordable_type: 'Company'` rather than by object name, so it works
-whether that company was mapped from `Account` or from `Empresa__c`.
+user account. `Opportunity.AccountId` says which company the deal is with, and remains the default.
 
-### 2.3 The placeholder contact is a documented fiction
+> Revised, for the same reason as §2.1. `AccountId` was hardcoded in both `Deals::Prepare#link_company`
+> and `Deals::FindContact`, and a custom object has no such field — so a `Customer_Success__c` whose
+> company sits behind `School__c` found no company, and therefore no contact, and failed every row
+> with `contact_not_found`.
+
+`options['company_field']` names the lookup; `Deals::FindCompany` is the one place that reads it, so
+the deal's company link and its contact cannot disagree about which field means "company". No change
+to the SELECT was needed — `RelationshipFields` already selects every `reference` field of the
+object, so the lookup was in the payload all along and only the reader was missing.
+
+Resolution goes through the identity map (`recordable_type: 'Company'`) rather than by object name,
+so it works whether the company was mapped from `Account`, `Empresa__c` or `School__c` — but it does
+mean the object behind the lookup has to be **synced before** the deals.
+
+### 2.3 The contact: a lookup when the org has one, the company otherwise
 
 `deals.contact_id` is NOT NULL; a Salesforce opportunity relates to an Account and only optionally to
 people, through OpportunityContactRole. So a real case exists that Woofed cannot represent: a large
 opportunity with a company and nobody on it.
 
-Two answers are tried: a contact of the company, then — **only if the user ticked
+Three answers are tried. First `options['contact_field']` — the only one that names a specific
+person, and the only one an org has to have built itself, since there is no standard equivalent to
+default to. Then a contact of the company. Then — **only if the user ticked
 `create_placeholder_contact`** — a contact named after the company. That placeholder is a fiction: a
 "person" called Acme Ltda with no email and no phone, created so the deal can exist. It is off by
 default because it pollutes the CRM, and offered because for some customers losing million-real
 opportunities on import is worse than carrying contacts named after companies. With neither, the row
 is reported and the deal is not imported.
+
+`contact_field` does not have to be a lookup. Plenty of objects identify a person by an email or a
+phone column rather than by a relationship, so the value is tried as a Salesforce id, then as an
+email, then as a phone — the same order `Load::Record::FindOrBuild` uses, and for the same reason.
+Only one of the three can match a given value, so trying them in sequence costs nothing and spares
+the user from having to tell Woofed which kind of field they picked. The email comparison is
+case-insensitive on both sides, since nothing normalises `contacts.email` on write.
+
+This is also why `RelationshipFields` selects `contact_field` alongside `stage_field`: an email
+column is not a reference, so the describe would never have reported it, and the query would have
+come back without the one value the mapping depends on.
 
 **The better answer is not implemented.** OpportunityContactRole is where Salesforce actually records
 the people on a deal. It can be fetched as a SOQL subquery, but Bulk API 2.0 rejects subqueries — so

@@ -62,18 +62,31 @@ RSpec.describe Inertia::Accounts::Apps::Salesforces::ObjectMappingsController, t
           object_mapping: {
             salesforce_object: 'Customer_Success__c',
             woofed_model: 'Deal',
-            options: { stage_field: 'Status__c', create_placeholder_contact: 'false' }
+            options: { stage_field: 'Status__c', company_field: 'School__c', contact_field: '',
+                       create_placeholder_contact: 'false' }
           }
         )
       end
 
       # "false" is truthy in ruby, and the loader reads the value plainly, so an
       # uncast checkbox would silently turn the placeholder contact on.
-      it 'stores the stage field and the checkbox as a real boolean' do
+      it 'stores the fields it named and the checkbox as a real boolean' do
         post "#{base_url}/object_mappings", params: deal_params
 
         expect(Apps::Salesforce::ObjectMapping.first.options).to eq(
-          'stage_field' => 'Status__c', 'create_placeholder_contact' => false
+          'stage_field' => 'Status__c', 'company_field' => 'School__c', 'contact_field' => '',
+          'create_placeholder_contact' => false
+        )
+      end
+
+      # Blank means "not configured", and each part falls back on its own terms:
+      # the standard salesforce names for stage and company, nothing at all for
+      # the contact, which has no standard lookup to fall back to.
+      it 'reads the standard names back for whatever was left blank' do
+        post "#{base_url}/object_mappings", params: deal_params
+
+        expect(Apps::Salesforce::ObjectMapping.first).to have_attributes(
+          stage_field: 'Status__c', company_field: 'School__c', contact_field: nil
         )
       end
 

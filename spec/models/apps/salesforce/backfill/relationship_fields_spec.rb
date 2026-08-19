@@ -61,6 +61,23 @@ RSpec.describe Apps::Salesforce::Backfill::RelationshipFields do
 
         expect(described_class.call(deal_mapping)).to eq(%w[AccountId])
       end
+
+      # The contact field may be an email column rather than a lookup, in which
+      # case the describe never reported it as a reference.
+      it 'selects the contact field too, whether or not it is a lookup' do
+        stub_describe([{ 'name' => 'AccountId', 'type' => 'reference' }])
+        mapping = deal_mapping('stage_field' => 'Status__c', 'contact_field' => 'Contact_Email__c')
+
+        expect(described_class.call(mapping)).to eq(%w[AccountId Status__c Contact_Email__c])
+      end
+
+      # It is already a reference, so selecting it again would only duplicate it.
+      it 'does not repeat the company lookup the describe already reported' do
+        stub_describe([{ 'name' => 'School__c', 'type' => 'reference' }])
+        mapping = deal_mapping('company_field' => 'School__c')
+
+        expect(described_class.call(mapping)).to eq(%w[School__c])
+      end
     end
 
     context 'when the mapping writes to a model that has no stage' do

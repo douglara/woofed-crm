@@ -35,7 +35,7 @@ class Inertia::Accounts::Apps::Salesforces::ObjectMappingsController < Inertia::
     params.require(:object_mapping)
           .permit(:salesforce_object, :woofed_model, :enabled,
                   field_mappings: %i[salesforce_field woofed_field kind transform],
-                  options: %i[stage_field create_placeholder_contact])
+                  options: %i[stage_field company_field contact_field create_placeholder_contact])
   end
 
   # Merged, never assigned: `options` also holds keys the form does not carry --

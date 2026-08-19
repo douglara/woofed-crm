@@ -170,6 +170,109 @@ RSpec.describe Apps::Salesforce::Load::Deals::Prepare do
       end
     end
 
+    # A custom object names its own lookups, so the standard AccountId is only a
+    # default -- the whole reason a Customer_Success__c row could not find its
+    # company.
+    context 'when the company is behind a lookup of the object own name' do
+      let(:object_mapping) do
+        create(:apps_salesforce_object_mappings, :opportunity, app: salesforce,
+                                                 salesforce_object: 'Customer_Success__c',
+                                                 options: { 'company_field' => 'School__c' })
+      end
+      let(:payload) do
+        { 'Id' => 'a02Hn00000RsTuVIAX', 'Name' => 'CS-0001', 'School__c' => '001Hn00001AbCdEIAV',
+          'StageName' => 'Stage 1' }
+      end
+
+      it 'links the deal to it and hangs the deal on one of its contacts' do
+        deal = Deal.new(name: 'Yearly contract')
+
+        result = described_class.call(deal, stage_row, object_mapping)
+        deal.save!
+
+        expect(result[:ok]).to eq(deal)
+        expect(deal.contact).to eq(contact)
+        expect(deal.reload.companies).to eq([company])
+      end
+
+      it 'reports it when the lookup points at a record woofed has not imported' do
+        deal = Deal.new(name: 'Yearly contract')
+
+        result = described_class.call(deal, stage_row('School__c' => '001Hn00009ZzZzZIAV'), object_mapping)
+
+        expect(result[:skip]).to eq(I18n.t('apps.salesforce.load.contact_not_found'))
+      end
+    end
+
+    # Objects identify a person in whichever way their org modelled it, so the
+    # named field is tried as an id, then an email, then a phone.
+    context 'when the contact field is not a lookup' do
+      let!(:by_email) { create(:contact, full_name: 'Carla', email: 'carla@acme.com') }
+      let!(:by_phone) { create(:contact, full_name: 'Diego', phone: '+5511999990000') }
+      let(:object_mapping) do
+        create(:apps_salesforce_object_mappings, :opportunity, app: salesforce,
+                                                 options: { 'contact_field' => 'Contact_Info__c' })
+      end
+
+      it 'finds the person by email, whatever the case it was stored in' do
+        deal = Deal.new(name: 'Yearly contract')
+        row = stage_row('StageName' => 'Stage 1', 'Contact_Info__c' => 'CARLA@acme.com')
+
+        described_class.call(deal, row, object_mapping)
+
+        expect(deal.contact).to eq(by_email)
+      end
+
+      it 'falls back to the phone when the value is not an email' do
+        deal = Deal.new(name: 'Yearly contract')
+        row = stage_row('StageName' => 'Stage 1', 'Contact_Info__c' => '+5511999990000')
+
+        described_class.call(deal, row, object_mapping)
+
+        expect(deal.contact).to eq(by_phone)
+      end
+
+      it 'goes on to the company when the value matches nobody' do
+        deal = Deal.new(name: 'Yearly contract')
+        row = stage_row('StageName' => 'Stage 1', 'Contact_Info__c' => 'nobody@acme.com')
+
+        described_class.call(deal, row, object_mapping)
+
+        expect(deal.contact).to eq(contact)
+      end
+    end
+
+    # Only an org that built one has it; an Opportunity has no such lookup.
+    context 'when the object points straight at a contact' do
+      let!(:direct) { create(:contact, full_name: 'Bruno') }
+      let!(:contact_mapping) do
+        create(:apps_salesforce_record_mappings, app: salesforce, recordable: direct,
+                                                 salesforce_object: 'Contact',
+                                                 salesforce_id: '003Hn00002QwErTIAX')
+      end
+      let(:object_mapping) do
+        create(:apps_salesforce_object_mappings, :opportunity, app: salesforce,
+                                                 options: { 'contact_field' => 'Contact__c' })
+      end
+
+      it 'uses that person rather than whoever happens to be on the company' do
+        deal = Deal.new(name: 'Yearly contract')
+        row = stage_row('StageName' => 'Stage 1', 'Contact__c' => '003Hn00002QwErTIAX')
+
+        described_class.call(deal, row, object_mapping)
+
+        expect(deal.contact).to eq(direct)
+      end
+
+      it 'falls back to a contact of the company when the lookup is empty' do
+        deal = Deal.new(name: 'Yearly contract')
+
+        described_class.call(deal, stage_row('StageName' => 'Stage 1', 'Contact__c' => nil), object_mapping)
+
+        expect(deal.contact).to eq(contact)
+      end
+    end
+
     context 'when there is nobody to hang the deal on' do
       before { company.contacts.destroy_all }
 

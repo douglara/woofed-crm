@@ -7,11 +7,6 @@
 # are required columns, so the alternative is an insert that fails with a
 # database error nobody can act on.
 class Apps::Salesforce::Load::Deals::Prepare
-  # What a standard Opportunity calls its stage. A custom object mapped onto Deal
-  # carries whatever the customer named the field, so the mapping can point
-  # somewhere else through `options['stage_field']`.
-  DEFAULT_STAGE_FIELD = 'StageName'
-
   def self.call(deal, sync_record, object_mapping)
     new(deal, sync_record, object_mapping).call
   end
@@ -38,19 +33,15 @@ class Apps::Salesforce::Load::Deals::Prepare
 
   attr_reader :deal, :sync_record, :object_mapping
 
-  def stage_field
-    object_mapping.options['stage_field'].presence || DEFAULT_STAGE_FIELD
-  end
-
   def stage_name
-    payload[stage_field]
+    payload[object_mapping.stage_field]
   end
 
   # Naming the field is what tells the two failures apart. A record carrying no
   # stage at all means the mapping reads the wrong field -- the case a custom
   # object hits, where the old message could only report an empty name.
   def stage_error
-    return I18n.t('apps.salesforce.load.stage_field_empty', field: stage_field) if stage_name.blank?
+    return I18n.t('apps.salesforce.load.stage_field_empty', field: object_mapping.stage_field) if stage_name.blank?
 
     I18n.t('apps.salesforce.load.stage_not_mapped', stage: stage_name)
   end
@@ -77,12 +68,10 @@ class Apps::Salesforce::Load::Deals::Prepare
     end
   end
 
-  # The opportunity's Account, already imported, is the company the deal belongs
+  # The record's company lookup, already imported, is the company the deal belongs
   # to. Assigned rather than appended so re-running does not pile up duplicates.
   def link_company
-    company = Apps::Salesforce::Load::FindMapped.call(
-      sync_record, salesforce_field: 'AccountId', recordable_type: 'Company'
-    )
+    company = Apps::Salesforce::Load::Deals::FindCompany.call(sync_record, object_mapping)
     return if company.blank? || deal.companies.include?(company)
 
     deal.companies = deal.companies.to_a + [company]

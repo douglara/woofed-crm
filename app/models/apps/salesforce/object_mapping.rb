@@ -32,6 +32,8 @@
 class Apps::Salesforce::ObjectMapping < ApplicationRecord
   self.table_name = 'apps_salesforce_object_mappings'
 
+  include Apps::Salesforce::ObjectMapping::DealFields
+
   WOOFED_MODELS = %w[Company Contact Deal Event].freeze
 
   belongs_to :app, class_name: 'Apps::Salesforce'

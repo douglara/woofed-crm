@@ -33,20 +33,28 @@ class Apps::Salesforce::Backfill::RelationshipFields
   end
 
   def self.semantic_fields(object_mapping)
-    SEMANTIC_FIELDS.fetch(object_mapping.salesforce_object, []) + stage_field(object_mapping)
+    SEMANTIC_FIELDS.fetch(object_mapping.salesforce_object, []) + configured_fields(object_mapping)
   end
 
-  # A custom object mapped onto Deal keeps its stage in a field only the user can
-  # name, so it is in neither list above: a stage is usually a picklist rather
-  # than a reference, and it maps to no Woofed column of its own, so nothing puts
-  # it among the mapped fields either. Selecting it here is what puts it in the
-  # stored payload -- a field the query never asked for is one the loader cannot
-  # read back, however well the mapping is configured.
-  def self.stage_field(object_mapping)
+  # The fields a Deal mapping names for itself, which are in neither list above:
+  # a stage is usually a picklist and a contact may be an email column, so the
+  # describe does not report them as references, and neither maps to a Woofed
+  # column of its own, so nothing puts them among the mapped fields either.
+  # Selecting them here is what puts them in the stored payload -- a field the
+  # query never asked for is one the loader cannot read back, however well the
+  # mapping is configured.
+  #
+  # The company is absent on purpose: it can only be a lookup, so it is already
+  # among the references.
+  #
+  # The stage is read raw rather than through `object_mapping.stage_field`,
+  # because that falls back to `StageName` -- and asking a custom object for a
+  # field it does not have makes Salesforce reject the whole query.
+  def self.configured_fields(object_mapping)
     return [] unless object_mapping.woofed_model == 'Deal'
 
-    [object_mapping.options['stage_field'].presence].compact
+    [object_mapping.options['stage_field'].presence, object_mapping.contact_field].compact
   end
 
-  private_class_method :reference_fields, :semantic_fields, :stage_field
+  private_class_method :reference_fields, :semantic_fields, :configured_fields
 end
