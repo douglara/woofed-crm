@@ -86,20 +86,84 @@ RSpec.describe Apps::Salesforce::Load::Deals::Prepare do
       end
     end
 
+    # The de-para most orgs need: naming the two stages alike is the whole
+    # configuration.
+    context 'when a woofed stage is named like the salesforce one' do
+      let!(:negotiation) { create(:stage, pipeline: pipeline, name: 'Negotiation') }
+      let(:object_mapping) { create(:apps_salesforce_object_mappings, :opportunity, app: salesforce) }
+
+      it 'lands on it without any mapping, ignoring case and surrounding space' do
+        deal = Deal.new(name: 'Contrato anual Acme')
+
+        result = described_class.call(deal, stage_row('StageName' => '  negotiation '), object_mapping)
+
+        expect(result[:ok]).to eq(deal)
+        expect(deal).to have_attributes(stage: negotiation, pipeline: pipeline)
+      end
+
+      it 'still lets an explicit stage_map override the coincidence of naming' do
+        object_mapping.update!(options: { 'stage_map' => { 'Negotiation' => stage.id } })
+        deal = Deal.new(name: 'Contrato anual Acme')
+
+        described_class.call(deal, stage_row('StageName' => 'Negotiation'), object_mapping)
+
+        expect(deal.stage).to eq(stage)
+      end
+
+      # Nothing stops two pipelines from using the same stage name, and a record
+      # that moved pipelines between syncs would be worse than one on either.
+      it 'resolves the same pipeline every run when the name lives in two' do
+        earlier = create(:stage, pipeline: create(:pipeline, name: 'Alpha outbound'), name: 'Negotiation')
+        deal = Deal.new(name: 'Contrato anual Acme')
+
+        described_class.call(deal, stage_row('StageName' => 'Negotiation'), object_mapping)
+
+        expect(deal.stage).to eq(earlier)
+      end
+    end
+
+    # A custom object mapped onto Deal carries whatever the customer named the
+    # field, so StageName is only the default.
+    context 'when the mapping reads the stage from another field' do
+      let(:object_mapping) do
+        create(:apps_salesforce_object_mappings, :opportunity, app: salesforce,
+                                                 salesforce_object: 'Customer_Success__c',
+                                                 options: { 'stage_field' => 'Status__c' })
+      end
+
+      it 'takes the stage from that field and matches it by name' do
+        create(:stage, pipeline: pipeline, name: 'Onboarding')
+        deal = Deal.new(name: 'Contrato anual Acme')
+
+        result = described_class.call(deal, stage_row('Status__c' => 'Onboarding'), object_mapping)
+
+        expect(result[:ok]).to eq(deal)
+        expect(deal.stage.name).to eq('Onboarding')
+      end
+
+      it 'names the field when the record carries no stage in it, rather than reporting an empty name' do
+        deal = Deal.new(name: 'Contrato anual Acme')
+
+        result = described_class.call(deal, stage_row, object_mapping)
+
+        expect(result[:skip]).to eq(I18n.t('apps.salesforce.load.stage_field_empty', field: 'Status__c'))
+      end
+    end
+
     context 'when the salesforce stage is not mapped' do
       it 'reports it rather than putting the deal on an arbitrary stage' do
         deal = Deal.new(name: 'Contrato anual Acme')
 
-        result = described_class.call(deal, stage_row('StageName' => 'Negociação'), object_mapping)
+        result = described_class.call(deal, stage_row('StageName' => 'Negotiation'), object_mapping)
 
-        expect(result[:skip]).to eq(I18n.t('apps.salesforce.load.stage_not_mapped', stage: 'Negociação'))
+        expect(result[:skip]).to eq(I18n.t('apps.salesforce.load.stage_not_mapped', stage: 'Negotiation'))
       end
 
       it 'falls back to the stage the user chose for unmapped names' do
         object_mapping.update!(options: { 'default_stage_id' => stage.id })
         deal = Deal.new(name: 'Contrato anual Acme')
 
-        result = described_class.call(deal, stage_row('StageName' => 'Negociação'), object_mapping)
+        result = described_class.call(deal, stage_row('StageName' => 'Negotiation'), object_mapping)
 
         expect(result[:ok]).to eq(deal)
         expect(deal.stage).to eq(stage)

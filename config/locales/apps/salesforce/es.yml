@@ -11,7 +11,8 @@ es:
         bulk_job_stuck: 'El trabajo masivo no terminó a tiempo.'
         started: 'Sincronización iniciada.'
       load:
-        stage_not_mapped: 'La etapa “%{stage}” de Salesforce no está mapeada a una etapa de Woofed.'
+        stage_not_mapped: 'Ninguna etapa de Woofed se llama “%{stage}”. Renombre una para que coincida, o mapee el nombre en este objeto.'
+        stage_field_empty: 'Este registro no trae etapa en “%{field}”. Apunte el mapeo al campo que la contiene.'
         contact_not_found: 'Esta oportunidad no tiene contacto en Woofed al que vincularse.'
         unknown_field: 'El mapeo apunta a campos que este modelo no tiene: %{fields}.'
         event_contact_not_found: 'Esta actividad no tiene contacto en Woofed al que pertenecer.'

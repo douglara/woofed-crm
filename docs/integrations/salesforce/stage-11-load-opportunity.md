@@ -24,14 +24,43 @@ and only Deal pays for this.
 
 ## 2. Decisions worth keeping
 
-### 2.1 Stages must be mapped by the user
+### 2.1 Stages resolve by name, and the field they come from is configurable
 
-Salesforce stage names are free-form per record type — "Prospecting" in one org, "Qualificação" in
-another — and have nothing in common with the pipeline the customer built in Woofed. Nothing can be
-inferred, so `options['stage_map']` holds the correspondence and `options['default_stage_id']`
-catches names it does not cover. A row whose stage is neither mapped nor defaulted is reported
-rather than dropped onto an arbitrary stage, because a deal on the wrong stage is worse than a deal
-the user is told about.
+> Revised. The original design required the user to state every correspondence in
+> `options['stage_map']`, and `options` was never writable from the mapping screen — so in practice
+> no Deal mapping could import anything, standard Opportunity included.
+
+`Load::Deals::FindStage` tries, in order:
+
+1. `options['stage_map']` — an explicit Salesforce name ⇒ Woofed stage id, for names that differ
+2. the Woofed stage whose **name is the same**, ignoring case and outer space
+3. `options['default_stage_id']` — a catch-all, kept from the original design, still with no UI
+
+The name match is what makes the common case need no configuration: a customer who called their
+Woofed stage "Qualificação" and their Salesforce one "Qualificação" has already stated the
+correspondence by naming them alike, and a form asking them to restate it is asking twice.
+
+Stage names are unique in neither direction, so a name living in two pipelines resolves by pipeline
+name and then position. Which pipeline the deal lands on follows from the stage — landing on the
+same one every run matters more than which one it is, since an unordered read would move the record
+between pipelines from sync to sync.
+
+Where the stage is read from is `options['stage_field']`, defaulting to `StageName`. A standard
+Opportunity always carries `StageName`; a **custom object** mapped onto Deal carries whatever the
+customer named the field, and hardcoding `StageName` made every such row fail with an empty stage
+name in the message — a failure that named neither the cause nor the fix. A record that carries no
+value in the configured field is now reported with `load.stage_field_empty`, which names the field.
+
+Configuring it is only half of it: `Backfill::RelationshipFields` also adds the field to the SELECT.
+A stage is usually a picklist rather than a reference, and it maps to no Woofed column of its own,
+so neither of the two groups that build the query would have asked for it — and a field the query
+never selected is one the loader cannot read back, however well the mapping is configured. This is
+also why fixing the mapping does not rescue rows already downloaded: `sync_records#retry` replays
+the **stored payload** and never calls Salesforce, so a payload that predates the setting needs a
+fresh sync rather than a retry.
+
+A row that reaches the end of the three without a stage is still reported rather than dropped onto
+an arbitrary stage: a deal on the wrong stage is worse than a deal the user is told about.
 
 ### 2.2 `AccountId` is the company, not a login
 

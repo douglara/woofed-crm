@@ -17,14 +17,13 @@ class Apps::Salesforce::Backfill::RelationshipFields
   }.freeze
 
   def self.call(object_mapping)
-    salesforce_object = object_mapping.salesforce_object
-    result = Apps::Salesforce::Api::Sobject::Describe.call(object_mapping.app, salesforce_object)
+    result = Apps::Salesforce::Api::Sobject::Describe.call(object_mapping.app, object_mapping.salesforce_object)
 
     # A describe the org refused must not stop the sync: the query still works
     # with the mapped fields, it just cannot resolve relationships.
-    return semantic_fields(salesforce_object) if result.key?(:error)
+    return semantic_fields(object_mapping) if result.key?(:error)
 
-    (reference_fields(result[:ok]) + semantic_fields(salesforce_object)).uniq
+    (reference_fields(result[:ok]) + semantic_fields(object_mapping)).uniq
   end
 
   def self.reference_fields(payload)
@@ -33,9 +32,21 @@ class Apps::Salesforce::Backfill::RelationshipFields
            .map { |field| field['name'] }
   end
 
-  def self.semantic_fields(salesforce_object)
-    SEMANTIC_FIELDS.fetch(salesforce_object, [])
+  def self.semantic_fields(object_mapping)
+    SEMANTIC_FIELDS.fetch(object_mapping.salesforce_object, []) + stage_field(object_mapping)
   end
 
-  private_class_method :reference_fields, :semantic_fields
+  # A custom object mapped onto Deal keeps its stage in a field only the user can
+  # name, so it is in neither list above: a stage is usually a picklist rather
+  # than a reference, and it maps to no Woofed column of its own, so nothing puts
+  # it among the mapped fields either. Selecting it here is what puts it in the
+  # stored payload -- a field the query never asked for is one the loader cannot
+  # read back, however well the mapping is configured.
+  def self.stage_field(object_mapping)
+    return [] unless object_mapping.woofed_model == 'Deal'
+
+    [object_mapping.options['stage_field'].presence].compact
+  end
+
+  private_class_method :reference_fields, :semantic_fields, :stage_field
 end

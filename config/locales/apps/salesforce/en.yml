@@ -11,7 +11,8 @@ en:
         bulk_job_stuck: 'The bulk job did not finish in time.'
         started: 'Sync started.'
       load:
-        stage_not_mapped: 'The Salesforce stage “%{stage}” is not mapped to a Woofed stage.'
+        stage_not_mapped: 'No Woofed stage is named “%{stage}”. Rename one to match, or map the name on this object.'
+        stage_field_empty: 'This record carries no stage in “%{field}”. Point the mapping at the field that holds it.'
         contact_not_found: 'This opportunity has no contact in Woofed to hang on.'
         unknown_field: 'The mapping points at fields this model does not have: %{fields}.'
         event_contact_not_found: 'This activity has no contact in Woofed to belong to.'

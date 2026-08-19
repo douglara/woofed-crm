@@ -54,6 +54,52 @@ RSpec.describe Inertia::Accounts::Apps::Salesforces::ObjectMappingsController, t
       end
     end
 
+    # Only Deal needs these, and the card only sends them for Deal.
+    context 'when the mapping carries deal settings' do
+      let!(:salesforce) { create(:apps_salesforces, :connected) }
+      let(:deal_params) do
+        mapping_params.deep_merge(
+          object_mapping: {
+            salesforce_object: 'Customer_Success__c',
+            woofed_model: 'Deal',
+            options: { stage_field: 'Status__c', create_placeholder_contact: 'false' }
+          }
+        )
+      end
+
+      # "false" is truthy in ruby, and the loader reads the value plainly, so an
+      # uncast checkbox would silently turn the placeholder contact on.
+      it 'stores the stage field and the checkbox as a real boolean' do
+        post "#{base_url}/object_mappings", params: deal_params
+
+        expect(Apps::Salesforce::ObjectMapping.first.options).to eq(
+          'stage_field' => 'Status__c', 'create_placeholder_contact' => false
+        )
+      end
+
+      it 'keeps the options the screen does not carry, instead of replacing the column' do
+        create(:apps_salesforce_object_mappings, app: salesforce, salesforce_object: 'Customer_Success__c',
+                                                 woofed_model: 'Deal',
+                                                 options: { 'stage_map' => { 'Closed Won' => 7 } })
+
+        post "#{base_url}/object_mappings", params: deal_params
+
+        expect(Apps::Salesforce::ObjectMapping.first.options).to include(
+          'stage_map' => { 'Closed Won' => 7 }, 'stage_field' => 'Status__c'
+        )
+      end
+    end
+
+    context 'when the mapping is for a model with no settings of its own' do
+      let!(:salesforce) { create(:apps_salesforces, :connected) }
+
+      it 'leaves the options empty rather than writing deal settings onto it' do
+        post "#{base_url}/object_mappings", params: mapping_params
+
+        expect(Apps::Salesforce::ObjectMapping.first.options).to eq({})
+      end
+    end
+
     context 'when the target model is not one the sync can write to' do
       let!(:salesforce) { create(:apps_salesforces, :connected) }
 
