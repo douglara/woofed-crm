@@ -80,6 +80,15 @@ RSpec.describe Apps::Salesforce::Api::Client do
       end
     end
 
+    context 'when consent was never given' do
+      it 'asks for a connection instead of calling an org it has no address for' do
+        salesforce.update!(instance_url: '', access_token: nil, refresh_token: nil)
+
+        expect(client.get('/services/data/v64.0/limits'))
+          .to eq(error: I18n.t('apps.salesforce.missing_connection'))
+      end
+    end
+
     context 'when the stored credentials can no longer be decrypted' do
       it 'asks for a reconnection instead of calling salesforce' do
         allow(salesforce).to receive(:access_token).and_raise(ActiveRecord::Encryption::Errors::Decryption)

@@ -44,7 +44,10 @@ class Inertia::Accounts::Apps::SalesforcesController < Inertia::InternalControll
       'code_verifier' => authorization[:code_verifier]
     }
 
-    redirect_to authorization[:url], allow_other_host: true
+    # The page posts over XHR, and the browser will not let that request follow a
+    # redirect to salesforce.com. Inertia's 409 + X-Inertia-Location makes the
+    # client leave the page itself instead of following the hop.
+    inertia_location(authorization[:url])
   end
 
   def destroy

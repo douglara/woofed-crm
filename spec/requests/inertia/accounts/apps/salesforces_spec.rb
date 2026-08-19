@@ -54,6 +54,21 @@ RSpec.describe Inertia::Accounts::Apps::SalesforcesController, type: :request do
         end
       end
 
+      # The credentials are saved before the user is sent to consent, so coming
+      # back to the screen finds a row that has no org behind it yet.
+      context 'when the credentials were saved but consent was never given' do
+        let!(:salesforce) { create(:apps_salesforces) }
+
+        it 'still renders the connect screen, with the standard objects' do
+          get base_url
+
+          expect(inertia).to render_component('Apps/Salesforce/Show')
+          expect(inertia.props[:connection]).to include('connected' => false)
+          expect(inertia.props[:syncable_objects].map { |object| object['salesforce_object'] })
+            .to eq(%w[Account Contact Lead Opportunity Task Event])
+        end
+      end
+
       context 'when an org is connected' do
         let!(:salesforce) { create(:apps_salesforces, :connected) }
 
@@ -127,12 +142,15 @@ RSpec.describe Inertia::Accounts::Apps::SalesforcesController, type: :request do
     before { sign_in(user) }
 
     context 'when the credentials are filled in' do
+      # Consent lives on another host, which the page cannot reach by following a
+      # redirect from its own XHR: it has to be told to leave.
       it 'stores them and sends the user to the salesforce consent screen with PKCE' do
         expect { post base_url, params: credentials }.to change(Apps::Salesforce, :count).by(1)
 
-        redirect = URI.parse(response.location)
+        redirect = URI.parse(response.headers['X-Inertia-Location'])
         query = Rack::Utils.parse_query(redirect.query)
 
+        expect(response).to have_http_status(:conflict)
         expect("#{redirect.scheme}://#{redirect.host}#{redirect.path}")
           .to eq('https://login.salesforce.com/services/oauth2/authorize')
         expect(query).to include(
@@ -150,7 +168,8 @@ RSpec.describe Inertia::Accounts::Apps::SalesforcesController, type: :request do
       it 'authenticates against the test login host' do
         post base_url, params: credentials.deep_merge(apps_salesforce: { environment: 'sandbox' })
 
-        expect(response.location).to start_with('https://test.salesforce.com/services/oauth2/authorize')
+        expect(response.headers['X-Inertia-Location'])
+          .to start_with('https://test.salesforce.com/services/oauth2/authorize')
       end
     end
 

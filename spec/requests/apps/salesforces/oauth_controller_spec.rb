@@ -24,7 +24,7 @@ RSpec.describe 'Apps::Salesforces::OauthController' do
     post account_apps_salesforce_path(account),
          params: { apps_salesforce: { client_id: 'consumer-key', client_secret: 'consumer-secret' } }
 
-    Rack::Utils.parse_query(URI.parse(response.location).query)['state']
+    Rack::Utils.parse_query(URI.parse(response.headers['X-Inertia-Location']).query)['state']
   end
 
   def stub_token(status: 200, body: nil)

@@ -36,6 +36,7 @@ class Apps::Salesforce::Api::Client
 
   def call(parse: true, retried: false, &block)
     return unreadable_credentials unless credentials_readable?
+    return missing_connection unless salesforce.connected?
 
     response = block.call(connection)
 
@@ -75,6 +76,14 @@ class Apps::Salesforce::Api::Client
     salesforce.error!
 
     { error: I18n.t('apps.salesforce.oauth_errors.unreadable_credentials') }
+  end
+
+  # The row exists from the moment the credentials are saved, which is before the
+  # user has been through consent: until the callback fills the instance URL in,
+  # there is no host to talk to. Faraday would raise on the relative URL, so this
+  # state answers in the shape every caller already handles.
+  def missing_connection
+    { error: I18n.t('apps.salesforce.missing_connection') }
   end
 
   def connection

@@ -1,5 +1,7 @@
 import { useForm } from '@inertiajs/react'
+import { useState } from 'react'
 
+import { Spinner } from '@/components/ui/spinner'
 import type { SalesforceConnection } from '@/types/salesforce'
 
 interface ConnectFormProps {
@@ -20,6 +22,23 @@ const ConnectForm = ({ connection, submitUrl }: ConnectFormProps) => {
       client_secret: ''
     }
   })
+
+  // The successful answer is a location visit to salesforce.com, so the browser
+  // keeps showing this page while it travels there. Inertia clears `processing`
+  // as soon as the response lands, which would take the feedback away during
+  // exactly that wait -- this flag stays on until the page is gone, and is only
+  // cleared when the answer keeps the user here (a validation error or a
+  // redirect back with an alert).
+  const [redirecting, setRedirecting] = useState(false)
+  const submitting = processing || redirecting
+
+  const submit = () => {
+    setRedirecting(true)
+    post(submitUrl, {
+      onSuccess: () => setRedirecting(false),
+      onError: () => setRedirecting(false)
+    })
+  }
 
   const setField = (field: string, value: string) =>
     setData('apps_salesforce', { ...data.apps_salesforce, [field]: value })
@@ -43,7 +62,7 @@ const ConnectForm = ({ connection, submitUrl }: ConnectFormProps) => {
         className="flex flex-col gap-5 px-6 py-5"
         onSubmit={(event) => {
           event.preventDefault()
-          post(submitUrl)
+          submit()
         }}
       >
         {errorMessages.length > 0 && (
@@ -103,10 +122,15 @@ const ConnectForm = ({ connection, submitUrl }: ConnectFormProps) => {
 
         <button
           type="submit"
-          disabled={processing}
-          className="button-default-fill-primary-md self-end disabled:opacity-50"
+          disabled={submitting}
+          className="button-default-fill-primary-md flex items-center gap-2 self-end disabled:opacity-50"
         >
-          {connection ? 'Reconnect to Salesforce' : 'Connect to Salesforce'}
+          {submitting && <Spinner />}
+          {submitting
+            ? 'Redirecting to Salesforce...'
+            : connection
+              ? 'Reconnect to Salesforce'
+              : 'Connect to Salesforce'}
         </button>
       </form>
     </section>
