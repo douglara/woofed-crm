@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../../../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../../../../overview.html"><img src="../../../../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../../../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-08-20 01:56:57 -0300'>2026-08-20 01:56:57 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>app/models/apps/salesforce/transform /</small> record.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating b big">
+              B
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">86</span><small> lines of codes</small></div>
+              <div><span class="metric">8</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">6.9</span><small> complexity/method</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">55.36</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                7
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># frozen_string_literal: true
+
+# Turns one raw Salesforce row into the attributes a Woofed record is built
+# from, driven entirely by the user&#39;s field mapping.
+#
+# It never touches the database: the result is a plain hash, so the same staged
+# payload can be re-transformed after a mapping change without downloading the
+# org again.
+#
+# A value that cannot be converted does not fail the row. It is reported as a
+# warning and the original is kept under `additional_attributes`, because a
+# contact with an unusable phone number is still worth importing -- dropping the
+# record loses far more than the field does.
+class Apps::Salesforce::Transform::Record
+  def initialize(object_mapping, payload)
+    @object_mapping = object_mapping
+    @payload = payload
+  end
+
+  def call
+    result = { attributes: {}, custom_attributes: {}, additional_attributes: base_additional_attributes }
+    warnings = []
+
+    object_mapping.field_mappings.each do |field_mapping|
+      apply(field_mapping, result, warnings)
+    end
+
+    { ok: result, warnings: warnings }
+  end
+
+  private
+
+  attr_reader :object_mapping, :payload
+
+  def apply(field_mapping, result, warnings)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Data-Clump.md" target="_blank"><b>DataClump</b></a>        </span>      </div>      <span>Apps::Salesforce::Transform::Record takes parameters ['field_mapping', 'result'] to 3 methods</span>              <span>Locations:</span>                  <a href="record.html#L35" class="js-smell-location">0</a>                  <a href="record.html#L55" class="js-smell-location">1</a>                  <a href="record.html#L65" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Apps::Salesforce::Transform::Record#apply has approx 7 statements</span>          </div>  </li></ol>
+    salesforce_field = field_mapping[&#39;salesforce_field&#39;]
+    woofed_field = field_mapping[&#39;woofed_field&#39;]
+    return if salesforce_field.blank? || woofed_field.blank?
+
+    # A field Salesforce did not send carries no information about the record, so
+    # it is left alone. A field it sent empty is a value the user cleared, and
+    # does get written. CDC events only carry changed fields, so conflating the
+    # two would let a phone update wipe the rest of the contact.
+    return unless payload.key?(salesforce_field)
+
+    converted = Apps::Salesforce::Transform::Value.call(
+      transform_name(field_mapping), payload[salesforce_field], transform_options
+    )
+
+    return keep_raw(field_mapping, converted, result, warnings) if converted.key?(:error)
+
+    store(field_mapping, converted[:ok], result)
+  end
+
+  def store(field_mapping, value, result)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Data-Clump.md" target="_blank"><b>DataClump</b></a>        </span>      </div>      <span>Apps::Salesforce::Transform::Record takes parameters ['field_mapping', 'result'] to 3 methods</span>              <span>Locations:</span>                  <a href="record.html#L35" class="js-smell-location">0</a>                  <a href="record.html#L55" class="js-smell-location">1</a>                  <a href="record.html#L65" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Apps::Salesforce::Transform::Record#store doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    if field_mapping[&#39;kind&#39;].to_s == &#39;custom_attribute&#39;
+      result[:custom_attributes][field_mapping[&#39;woofed_field&#39;]] = value<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Apps::Salesforce::Transform::Record#store calls 'field_mapping['woofed_field']' 2 times</span>              <span>Locations:</span>                  <a href="record.html#L57" class="js-smell-location">0</a>                  <a href="record.html#L59" class="js-smell-location">1</a>                  </div>  </li></ol>
+    else
+      result[:attributes][field_mapping[&#39;woofed_field&#39;]] = value<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Apps::Salesforce::Transform::Record#store calls 'field_mapping['woofed_field']' 2 times</span>              <span>Locations:</span>                  <a href="record.html#L57" class="js-smell-location">0</a>                  <a href="record.html#L59" class="js-smell-location">1</a>                  </div>  </li></ol>
+    end
+  end
+
+  # The original stays visible on the record, so a user can see what Salesforce
+  # actually had and fix it there.
+  def keep_raw(field_mapping, converted, result, warnings)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Data-Clump.md" target="_blank"><b>DataClump</b></a>        </span>      </div>      <span>Apps::Salesforce::Transform::Record takes parameters ['field_mapping', 'result'] to 3 methods</span>              <span>Locations:</span>                  <a href="record.html#L35" class="js-smell-location">0</a>                  <a href="record.html#L55" class="js-smell-location">1</a>                  <a href="record.html#L65" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Long-Parameter-List.md" target="_blank"><b>LongParameterList</b></a>        </span>      </div>      <span>Apps::Salesforce::Transform::Record#keep_raw has 4 parameters</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Apps::Salesforce::Transform::Record#keep_raw doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    result[:additional_attributes][&quot;salesforce_#{field_mapping[&#39;woofed_field&#39;]}_raw&quot;] = converted[:raw]
+    warnings &lt;&lt; converted[:error]
+  end
+
+  def transform_name(field_mapping)
+    field_mapping[&#39;transform&#39;].presence || Apps::Salesforce::Transform::Inferred.call(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Apps::Salesforce::Transform::Record#transform_name refers to 'field_mapping' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="record.html#L71" class="js-smell-location">0</a>                  <a href="record.html#L72" class="js-smell-location">1</a>                  </div>  </li></ol>
+      object_mapping.woofed_model, field_mapping[&#39;woofed_field&#39;], kind: field_mapping[&#39;kind&#39;]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Apps::Salesforce::Transform::Record#transform_name refers to 'field_mapping' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="record.html#L71" class="js-smell-location">0</a>                  <a href="record.html#L72" class="js-smell-location">1</a>                  </div>  </li></ol>
+    )
+  end
+
+  def transform_options
+    object_mapping.options.slice(&#39;country_code&#39;)
+  end
+
+  # Mirrors the Salesforce id onto the record so it stays visible in the detail
+  # screen and searchable, the way chatwoot_id already is. The mapping table
+  # remains the source of truth.
+  def base_additional_attributes
+    { &#39;salesforce_id&#39; =&gt; Apps::Salesforce::RecordId.call(payload[&#39;Id&#39;]) }
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../../../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../../../../assets/javascripts/application.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>
