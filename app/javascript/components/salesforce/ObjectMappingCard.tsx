@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
 import { ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react'
 
+import { Spinner } from '@/components/ui/spinner'
+import { Switch } from '@/components/ui/switch'
+import { usePendingVisit } from '@/components/salesforce/use-pending-visit'
 import type {
   FieldMapping,
   ObjectMapping,
@@ -19,8 +21,13 @@ interface ObjectMappingCardProps {
   submitUrl: string
 }
 
+// `min-w-0` is what keeps the field pickers inside the card: a select is as wide
+// as its widest option, org field names run long, and a grid or flex item refuses
+// to shrink under its content until its automatic minimum is lifted. Letting them
+// shrink beats forcing full width, which would drop the model picker out of the
+// header row onto a line of its own.
 const INPUT_CLASSES =
-  'rounded-md border color-border-default color-bg-surface-hard px-4 py-2 typography-body-900 color-fg-default focus:outline-none focus:color-border-harder'
+  'min-w-0 rounded-md border color-border-default color-bg-surface-hard px-4 py-2 typography-body-900 color-fg-default focus:outline-none focus:color-border-harder'
 
 /**
  * One card per Salesforce object. Nothing syncs until a mapping is saved and
@@ -38,6 +45,7 @@ const ObjectMappingCard = ({
   describeUrl,
   submitUrl
 }: ObjectMappingCardProps) => {
+  const { isPending, visit } = usePendingVisit()
   const [open, setOpen] = useState(false)
   const [enabled, setEnabled] = useState(mapping?.enabled ?? false)
   const [woofedModel, setWoofedModel] = useState(
@@ -130,27 +138,43 @@ const ObjectMappingCard = ({
 
   // `options` is left out entirely for the other models, so saving a Contact
   // mapping never writes deal settings onto it.
-  const save = () =>
-    router.post(submitUrl, {
-      object_mapping: {
-        salesforce_object: syncableObject.salesforce_object,
-        woofed_model: woofedModel,
-        enabled,
-        field_mappings: fieldMappings.filter(
-          (fieldMapping) => fieldMapping.salesforce_field && fieldMapping.woofed_field
-        ),
-        ...(isDeal
-          ? {
-              options: {
-                stage_field: stageField,
-                company_field: companyField,
-                contact_field: contactField,
-                create_placeholder_contact: placeholderContact
+  const persist = (nextEnabled: boolean) =>
+    visit(submitUrl, {
+      data: {
+        object_mapping: {
+          salesforce_object: syncableObject.salesforce_object,
+          woofed_model: woofedModel,
+          enabled: nextEnabled,
+          field_mappings: fieldMappings.filter(
+            (fieldMapping) => fieldMapping.salesforce_field && fieldMapping.woofed_field
+          ),
+          ...(isDeal
+            ? {
+                options: {
+                  stage_field: stageField,
+                  company_field: companyField,
+                  contact_field: contactField,
+                  create_placeholder_contact: placeholderContact
+                }
               }
-            }
-          : {})
+            : {})
+        }
       }
     })
+
+  // The switch saves on its own, and it saves the whole card rather than the one
+  // flag: turning an object on starts a sync, and that sync has to run with the
+  // field mappings the user is looking at, not with whatever was stored before
+  // they edited them.
+  //
+  // It moves before the answer arrives, because a switch that waits out a round
+  // trip to move reads as broken rather than as busy.
+  const toggleEnabled = (nextEnabled: boolean) => {
+    setEnabled(nextEnabled)
+    persist(nextEnabled)
+  }
+
+  const save = () => persist(enabled)
 
   const availableWoofedFields = woofedFields[woofedModel] ?? []
 
@@ -158,13 +182,13 @@ const ObjectMappingCard = ({
     <section className="rounded-md border color-border-default color-bg-surface-default">
       <header className="flex flex-wrap items-center justify-between gap-4 px-6 py-5">
         <div className="flex flex-wrap items-center gap-3">
-          <input
-            type="checkbox"
-            className="checkbox"
+          <Switch
             checked={enabled}
-            onChange={(event) => setEnabled(event.target.checked)}
+            disabled={isPending(submitUrl)}
+            onCheckedChange={toggleEnabled}
             aria-label={`Sync ${syncableObject.salesforce_object}`}
           />
+
           <span className="typography-sub-title-900 color-fg-hard">
             {syncableObject.label}
           </span>
@@ -185,6 +209,12 @@ const ObjectMappingCard = ({
               </option>
             ))}
           </select>
+
+          {/* Trailing the row, and holding its size whether or not it is
+              spinning, so nothing in front of it moves while the card saves. */}
+          <span className="flex size-4 items-center justify-center">
+            {isPending(submitUrl) && <Spinner />}
+          </span>
         </div>
 
         <button
@@ -393,11 +423,15 @@ const ObjectMappingCard = ({
               Add field
             </button>
 
+            {/* Saving a mapping twice enables the same object twice, and the
+                second answer overwrites the first. */}
             <button
               type="button"
+              disabled={isPending(submitUrl)}
               onClick={save}
-              className="button-default-fill-primary-sm"
+              className="button-default-fill-primary-sm disabled:opacity-50"
             >
+              {isPending(submitUrl) && <Spinner />}
               Save mapping
             </button>
           </div>

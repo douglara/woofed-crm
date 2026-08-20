@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Head, usePage } from '@inertiajs/react'
+import { useEffect, useState } from 'react'
+import { Head, usePage, usePoll } from '@inertiajs/react'
 
 import ConnectForm from '@/components/salesforce/ConnectForm'
 import ConnectionSummary from '@/components/salesforce/ConnectionSummary'
@@ -26,7 +26,15 @@ interface SalesforceShowProps {
   object_mappings: ObjectMapping[]
   sync_runs: SyncRun[]
   problem_records: ProblemRecord[]
+  sync_in_progress: boolean
 }
+
+const POLL_INTERVAL = 3000
+
+// Only what a running sync changes. Asking for the whole page would re-read the
+// object list from the org on every tick, and would throw away the field pickers
+// the user has open while they watch the numbers move.
+const LIVE_PROPS = ['sync_runs', 'problem_records', 'sync_in_progress', 'connection']
 
 const SalesforceShow = ({
   connection,
@@ -37,11 +45,30 @@ const SalesforceShow = ({
   woofed_fields,
   object_mappings,
   sync_runs,
-  problem_records
+  problem_records,
+  sync_in_progress
 }: SalesforceShowProps) => {
   const { current_account } = usePage().props
   const [addedObject, setAddedObject] = useState('')
   const basePath = `/accounts/${current_account.id}/apps/salesforce`
+
+  // A sync is minutes of work happening in background jobs, so the screen keeps
+  // itself current instead of asking the user to reload: the downloaded counts
+  // and the rows to review both fill in while they watch. It refreshes only
+  // while there is something to wait for -- an idle screen makes no requests.
+  const { start, stop } = usePoll(
+    POLL_INTERVAL,
+    { only: LIVE_PROPS },
+    { autoStart: false }
+  )
+
+  useEffect(() => {
+    if (sync_in_progress) {
+      start()
+    } else {
+      stop()
+    }
+  }, [sync_in_progress, start, stop])
 
   const mappedObjects = object_mappings.map((mapping) => mapping.salesforce_object)
   const objectFor = (name: string) =>
@@ -130,9 +157,11 @@ const SalesforceShow = ({
               >
                 Map another object
               </label>
+              {/* An org has hundreds of objects, and a select is as wide as its
+                  widest option unless it is told otherwise. */}
               <select
                 id="salesforce-add-object"
-                className="rounded-md border color-border-default color-bg-surface-hard px-4 py-2 typography-body-900 color-fg-default focus:outline-none focus:color-border-harder"
+                className="w-full min-w-0 rounded-md border color-border-default color-bg-surface-hard px-4 py-2 typography-body-900 color-fg-default focus:outline-none focus:color-border-harder"
                 value=""
                 onChange={(event) => setAddedObject(event.target.value)}
               >
@@ -153,11 +182,13 @@ const SalesforceShow = ({
               syncRuns={sync_runs}
               hasEnabledMapping={object_mappings.some((mapping) => mapping.enabled)}
               syncUrl={`${basePath}/sync`}
+              syncing={sync_in_progress}
             />
 
             <ProblemRecords
               records={problem_records}
               retryUrl={(id) => `${basePath}/raw_records/${id}/retry`}
+              syncing={sync_in_progress}
             />
           </div>
         )}

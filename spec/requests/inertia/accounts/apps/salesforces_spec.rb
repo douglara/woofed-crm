@@ -10,6 +10,17 @@ RSpec.describe Inertia::Accounts::Apps::SalesforcesController, type: :request do
                          client_secret: 'consumer-secret' } }
   end
 
+  # What the screen sends while it refreshes itself: only the props whose values
+  # a running sync changes.
+  let(:progress_refresh_headers) do
+    {
+      'X-Inertia' => 'true',
+      'X-Inertia-Version' => ViteRuby.digest,
+      'X-Inertia-Partial-Component' => 'Apps/Salesforce/Show',
+      'X-Inertia-Partial-Data' => 'sync_runs,problem_records,sync_in_progress,connection'
+    }
+  end
+
   describe 'GET /accounts/{account.id}/apps/salesforce' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -133,6 +144,51 @@ RSpec.describe Inertia::Accounts::Apps::SalesforcesController, type: :request do
           expect(inertia.props[:sync_runs].first).to include(
             'salesforce_object' => 'Account', 'status' => 'completed', 'records_downloaded' => 1_200
           )
+        end
+
+        # The screen refreshes itself on its own while this is true, so it has to
+        # stay true for as long as the numbers on it can still change.
+        it 'reports the sync as in progress while a run has not finished' do
+          create(:apps_salesforce_sync_runs, :running, app: salesforce)
+
+          get base_url
+
+          expect(inertia.props[:sync_in_progress]).to be(true)
+        end
+
+        it 'keeps reporting progress while downloaded rows are still being loaded' do
+          create(:apps_salesforce_sync_runs, app: salesforce, status: 'completed')
+          create(:apps_salesforce_raw_records, app: salesforce)
+
+          get base_url
+
+          expect(inertia.props[:sync_in_progress]).to be(true)
+        end
+
+        it 'stops reporting progress once every run finished and every row was loaded' do
+          create(:apps_salesforce_sync_runs, app: salesforce, status: 'completed')
+          create(:apps_salesforce_raw_records, :processed, app: salesforce)
+
+          get base_url
+
+          expect(inertia.props[:sync_in_progress]).to be(false)
+        end
+
+        # One of these lands every few seconds while a sync runs. Reading the
+        # object list on each of them would spend the org's API allocation on a
+        # list the screen already has.
+        it 'answers a progress refresh with the progress alone, without reading the org again' do
+          create(:apps_salesforce_sync_runs, :running, app: salesforce, records_downloaded: 40)
+
+          get base_url, headers: progress_refresh_headers
+
+          expect(inertia.props.keys).not_to include('syncable_objects', 'woofed_fields', 'object_mappings')
+          expect(inertia.props[:sync_runs].first).to include(
+            'status' => 'running', 'records_downloaded' => 40
+          )
+          expect(
+            a_request(:get, 'https://woofed-dev-ed.my.salesforce.com/services/data/v64.0/sobjects')
+          ).not_to have_been_made
         end
       end
     end

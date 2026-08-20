@@ -1,5 +1,5 @@
-import { router } from '@inertiajs/react'
-
+import { Spinner } from '@/components/ui/spinner'
+import { usePendingVisit } from '@/components/salesforce/use-pending-visit'
 import type { SalesforceConnection } from '@/types/salesforce'
 
 interface ConnectionSummaryProps {
@@ -34,6 +34,7 @@ const ConnectionSummary = ({
   connection,
   disconnectUrl
 }: ConnectionSummaryProps) => {
+  const { isPending, visit } = usePendingVisit()
   const badge = STATUS_BADGES[connection.status]
 
   return (
@@ -67,13 +68,15 @@ const ConnectionSummary = ({
 
         <button
           type="button"
+          disabled={isPending(disconnectUrl)}
           onClick={() => {
             if (window.confirm('Disconnect Salesforce? Synced records are kept.')) {
-              router.delete(disconnectUrl)
+              visit(disconnectUrl, { method: 'delete' })
             }
           }}
-          className="button-default-fill-danger-sm"
+          className="button-default-fill-danger-sm disabled:opacity-50"
         >
+          {isPending(disconnectUrl) && <Spinner />}
           Disconnect
         </button>
       </div>

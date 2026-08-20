@@ -14,19 +14,24 @@ class Inertia::Accounts::Apps::SalesforcesController < Inertia::InternalControll
     'Event' => 'Event'
   }.freeze
 
+  # Every prop that costs a query or an API call is a block: while a sync is
+  # running the screen reloads itself every few seconds asking only for the
+  # progress, and a block is evaluated only when the request includes it. Passing
+  # the values directly would make each of those polls read the whole org.
   def show
     render inertia: 'Apps/Salesforce/Show', props: {
-      connection: connection_props,
+      connection: -> { connection_props },
       # The connect screen is also the documentation: the user has to register
       # this exact callback and these exact scopes by hand in Salesforce.
       callback_url: apps_salesforces_oauth_callback_url,
       scopes: Apps::Salesforce::Oauth::AuthorizeRequest::SCOPES,
-      syncable_objects: syncable_objects,
+      syncable_objects: -> { syncable_objects },
       woofed_models: Apps::Salesforce::ObjectMapping::WOOFED_MODELS,
-      woofed_fields: woofed_fields,
-      object_mappings: object_mappings_props,
-      sync_runs: sync_runs_props,
-      problem_records: problem_records_props
+      woofed_fields: -> { woofed_fields },
+      object_mappings: -> { object_mappings_props },
+      sync_runs: -> { sync_runs_props },
+      problem_records: -> { problem_records_props },
+      sync_in_progress: -> { sync_in_progress? }
     }
   end
 
@@ -139,6 +144,16 @@ class Inertia::Accounts::Apps::SalesforcesController < Inertia::InternalControll
     salesforce.raw_records.where(status: %w[failed conflict])
               .order(processed_at: :desc).limit(PROBLEM_RECORDS_LIMIT)
               .map { |record| record.slice(:id, :salesforce_object, :salesforce_id, :status, :error) }
+  end
+
+  # Whether the screen still has something to wait for, which is what keeps it
+  # refreshing. Downloading is only half the work: rows keep being loaded -- and
+  # keep landing in the review list -- after the run that staged them is already
+  # complete, so a finished run is not the end of the sync.
+  def sync_in_progress?
+    return false if salesforce.blank?
+
+    salesforce.sync_runs.unfinished.exists? || salesforce.raw_records.pending.exists?
   end
 
   def woofed_fields
