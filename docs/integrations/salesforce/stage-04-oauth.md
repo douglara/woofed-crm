@@ -18,7 +18,7 @@ health check that notices when the customer revokes the app.
 | [apps/salesforce/oauth/error_message.rb](../../../app/models/apps/salesforce/oauth/error_message.rb) | Salesforce error code → message whose fix the user can act on |
 | [apps/salesforce/connection/refresh_token.rb](../../../app/models/apps/salesforce/connection/refresh_token.rb) | `refresh_token` grant, under a row lock |
 | [apps/salesforce/connection/refresh.rb](../../../app/models/apps/salesforce/connection/refresh.rb) + [refresh_job.rb](../../../app/jobs/apps/salesforce/connection/refresh_job.rb) | Daily health check, wired into `config/initializers/good_job.rb` |
-| [accounts/apps/salesforces_controller.rb](../../../app/controllers/accounts/apps/salesforces_controller.rb) | `create` starts the flow, `destroy` disconnects |
+| [inertia/accounts/apps/salesforces_controller.rb](../../../app/controllers/inertia/accounts/apps/salesforces_controller.rb) | `create` starts the flow, `destroy` disconnects |
 | [apps/salesforces/oauth_controller.rb](../../../app/controllers/apps/salesforces/oauth_controller.rb) | The fixed callback URL |
 | `config/locales/apps/salesforce/{en,pt-BR,es}.yml` | Flash and OAuth error messages |
 

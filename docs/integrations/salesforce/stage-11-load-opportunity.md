@@ -15,7 +15,7 @@ pipeline that stage belongs to, a contact and an outcome. This stage is the tran
 | [load/deals/prepare.rb](../../../app/models/apps/salesforce/load/deals/prepare.rb) | Fills stage, pipeline, contact, outcome and the company link |
 | [load/deals/find_stage.rb](../../../app/models/apps/salesforce/load/deals/find_stage.rb) | `StageName` → Woofed stage, from the user's map |
 | [load/deals/find_contact.rb](../../../app/models/apps/salesforce/load/deals/find_contact.rb) | Who the deal hangs on |
-| [load/find_company.rb](../../../app/models/apps/salesforce/load/find_company.rb) | The Woofed company a Salesforce lookup points at |
+| [load/deals/find_company.rb](../../../app/models/apps/salesforce/load/deals/find_company.rb) | The Woofed company a Salesforce lookup points at |
 
 `Load::Record` dispatches to a preparer by target model, so Company and Contact go straight to save
 and only Deal pays for this.
