@@ -10,18 +10,18 @@ class Apps::Salesforce::Load::Events::Prepare
   # are things Woofed itself produces, like a message or a stage change.
   DEFAULT_KIND = 'activity'
 
-  def self.call(event, sync_record, object_mapping)
-    new(event, sync_record, object_mapping).call
+  def self.call(event, raw_record, object_mapping)
+    new(event, raw_record, object_mapping).call
   end
 
-  def initialize(event, sync_record, object_mapping)
+  def initialize(event, raw_record, object_mapping)
     @event = event
-    @sync_record = sync_record
+    @raw_record = raw_record
     @object_mapping = object_mapping
   end
 
   def call
-    contact = event.contact || Apps::Salesforce::Load::Events::FindContact.call(sync_record)
+    contact = event.contact || Apps::Salesforce::Load::Events::FindContact.call(raw_record)
     return { skip: I18n.t('apps.salesforce.load.event_contact_not_found') } if contact.blank?
 
     event.contact = contact
@@ -34,7 +34,7 @@ class Apps::Salesforce::Load::Events::Prepare
 
   private
 
-  attr_reader :event, :sync_record, :object_mapping
+  attr_reader :event, :raw_record, :object_mapping
 
   def kind
     configured = object_mapping.options['kind'].to_s
@@ -44,15 +44,15 @@ class Apps::Salesforce::Load::Events::Prepare
 
   # A task logged against an opportunity belongs to that deal's timeline.
   def deal
-    Apps::Salesforce::Load::FindMapped.call(sync_record, salesforce_field: 'WhatId', recordable_type: 'Deal')
+    Apps::Salesforce::Load::FindLinked.call(raw_record, salesforce_field: 'WhatId', recordable_type: 'Deal')
   end
 
   # Salesforce marks a finished task with IsClosed; Woofed shows an activity as
   # done by when it was done.
   def mark_done
-    return if event.done_at.present? || !truthy?(sync_record.payload['IsClosed'])
+    return if event.done_at.present? || !truthy?(raw_record.payload['IsClosed'])
 
-    event.done_at = Apps::Salesforce::Transform::Datetime.call(sync_record.payload['ActivityDate'])[:ok] ||
+    event.done_at = Apps::Salesforce::Transform::Datetime.call(raw_record.payload['ActivityDate'])[:ok] ||
                     Time.current
   end
 

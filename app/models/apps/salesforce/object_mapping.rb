@@ -28,7 +28,7 @@
 #
 # A handful of rows per install -- one per object -- and they answer "how do I
 # translate?". Which specific record became which specific record is
-# Apps::Salesforce::RecordMapping.
+# Apps::Salesforce::RecordLink.
 class Apps::Salesforce::ObjectMapping < ApplicationRecord
   self.table_name = 'apps_salesforce_object_mappings'
 

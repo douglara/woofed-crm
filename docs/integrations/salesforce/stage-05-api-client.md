@@ -97,5 +97,5 @@ empty result, and a failed download.
 ## 4. What is next
 
 Stage 6 (mapping models) and stage 7 (mapping UI) are what turn this into something a user can
-point at their org: `object_mappings` / `record_mappings` / `sync_records` / `sync_runs`, then the
+point at their org: `object_mappings` / `record_links` / `raw_records` / `sync_runs`, then the
 Connect and mapping screens that `describe_object` now has the data for.

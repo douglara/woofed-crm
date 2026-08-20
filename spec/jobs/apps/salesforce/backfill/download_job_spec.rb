@@ -23,7 +23,7 @@ RSpec.describe Apps::Salesforce::Backfill::DownloadJob do
 
         expect(sync_run.reload.locator).to eq('MTAwMDA')
         expect(sync_run).to be_running
-        expect(Apps::Salesforce::SyncRecord.count).to eq(1)
+        expect(Apps::Salesforce::RawRecord.count).to eq(1)
       end
 
       it 'resumes from the checkpoint instead of downloading everything again' do
@@ -69,7 +69,7 @@ RSpec.describe Apps::Salesforce::Backfill::DownloadJob do
         described_class.perform_now(sync_run.id)
         described_class.perform_now(0)
 
-        expect(Apps::Salesforce::SyncRecord.count).to eq(0)
+        expect(Apps::Salesforce::RawRecord.count).to eq(0)
       end
     end
   end

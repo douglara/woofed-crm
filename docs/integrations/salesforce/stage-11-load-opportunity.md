@@ -55,7 +55,7 @@ Configuring it is only half of it: `Backfill::RelationshipFields` also adds the 
 A stage is usually a picklist rather than a reference, and it maps to no Woofed column of its own,
 so neither of the two groups that build the query would have asked for it — and a field the query
 never selected is one the loader cannot read back, however well the mapping is configured. This is
-also why fixing the mapping does not rescue rows already downloaded: `sync_records#retry` replays
+also why fixing the mapping does not rescue rows already downloaded: `raw_records#retry` replays
 the **stored payload** and never calls Salesforce, so a payload that predates the setting needs a
 fresh sync rather than a retry.
 

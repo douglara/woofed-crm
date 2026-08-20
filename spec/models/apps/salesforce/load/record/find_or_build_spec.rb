@@ -5,36 +5,36 @@ RSpec.describe Apps::Salesforce::Load::Record::FindOrBuild do
   let!(:account) { create(:account) }
   let!(:salesforce) { create(:apps_salesforces) }
   let!(:object_mapping) { create(:apps_salesforce_object_mappings, app: salesforce) }
-  let!(:sync_record) { create(:apps_salesforce_sync_records, app: salesforce) }
+  let!(:raw_record) { create(:apps_salesforce_raw_records, app: salesforce) }
 
   describe '#call' do
     context 'when the salesforce record was imported before' do
       it 'returns the woofed record it owns, so the row updates instead of duplicating' do
         company = create(:company, name: 'Acme Ltda')
-        mapping = create(:apps_salesforce_record_mappings, app: salesforce, recordable: company,
-                                                           salesforce_id: sync_record.salesforce_id)
+        link = create(:apps_salesforce_record_links, app: salesforce, recordable: company,
+                                                     salesforce_id: raw_record.salesforce_id)
 
-        result = described_class.new(sync_record, object_mapping, { 'name' => 'Acme' }).call
+        result = described_class.new(raw_record, object_mapping, { 'name' => 'Acme' }).call
 
         expect(result[:ok]).to eq(company)
-        expect(result[:mapping]).to eq(mapping)
+        expect(result[:link]).to eq(link)
       end
     end
 
-    context 'when nobody mapped the record but the crm already knows the email' do
+    context 'when nobody linked the record but the crm already knows the email' do
       it 'adopts the existing record rather than failing on the unique index' do
         company = create(:company, email: 'contato@acme.com')
 
-        result = described_class.new(sync_record, object_mapping, { 'email' => 'contato@acme.com' }).call
+        result = described_class.new(raw_record, object_mapping, { 'email' => 'contato@acme.com' }).call
 
         expect(result[:ok]).to eq(company)
-        expect(result[:mapping]).to be_nil
+        expect(result[:link]).to be_nil
       end
 
       it 'matches regardless of case, the way the unique index does' do
         company = create(:company, email: 'contato@acme.com')
 
-        result = described_class.new(sync_record, object_mapping, { 'email' => 'CONTATO@ACME.COM' }).call
+        result = described_class.new(raw_record, object_mapping, { 'email' => 'CONTATO@ACME.COM' }).call
 
         expect(result[:ok]).to eq(company)
       end
@@ -42,7 +42,7 @@ RSpec.describe Apps::Salesforce::Load::Record::FindOrBuild do
       it 'falls back to the phone when there is no email to match on' do
         company = create(:company, phone: '+551133334444')
 
-        result = described_class.new(sync_record, object_mapping, { 'phone' => '+551133334444' }).call
+        result = described_class.new(raw_record, object_mapping, { 'phone' => '+551133334444' }).call
 
         expect(result[:ok]).to eq(company)
       end
@@ -51,7 +51,7 @@ RSpec.describe Apps::Salesforce::Load::Record::FindOrBuild do
         by_email = create(:company, email: 'contato@acme.com')
         create(:company, phone: '+551133334444')
 
-        result = described_class.new(sync_record, object_mapping,
+        result = described_class.new(raw_record, object_mapping,
                                      { 'email' => 'contato@acme.com', 'phone' => '+551133334444' }).call
 
         expect(result[:ok]).to eq(by_email)
@@ -60,7 +60,7 @@ RSpec.describe Apps::Salesforce::Load::Record::FindOrBuild do
 
     context 'when the crm has never seen this record' do
       it 'builds a new one' do
-        result = described_class.new(sync_record, object_mapping, { 'name' => 'Acme' }).call
+        result = described_class.new(raw_record, object_mapping, { 'name' => 'Acme' }).call
 
         expect(result[:ok]).to be_a(Company)
         expect(result[:ok]).to be_new_record
@@ -69,7 +69,7 @@ RSpec.describe Apps::Salesforce::Load::Record::FindOrBuild do
       it 'builds a new one when the matchable values are blank' do
         create(:company, email: 'contato@acme.com')
 
-        result = described_class.new(sync_record, object_mapping, { 'email' => '', 'phone' => nil }).call
+        result = described_class.new(raw_record, object_mapping, { 'email' => '', 'phone' => nil }).call
 
         expect(result[:ok]).to be_new_record
       end
@@ -80,7 +80,7 @@ RSpec.describe Apps::Salesforce::Load::Record::FindOrBuild do
         mapping = create(:apps_salesforce_object_mappings, app: salesforce, salesforce_object: 'Task',
                                                            woofed_model: 'Event')
 
-        result = described_class.new(sync_record, mapping, { 'email' => 'contato@acme.com' }).call
+        result = described_class.new(raw_record, mapping, { 'email' => 'contato@acme.com' }).call
 
         expect(result[:ok]).to be_a(Event)
         expect(result[:ok]).to be_new_record

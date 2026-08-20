@@ -26,8 +26,8 @@ waiting for it: on a large object the first records are usable long before the l
 ### 2.1 Three ways to find the target record
 
 ```
-record mapping exists?  → that record, update it
-email or phone matches? → adopt that record, and map it from now on
+record link exists?     → that record, update it
+email or phone matches? → adopt that record, and link it from now on
 neither                 → a new record
 ```
 

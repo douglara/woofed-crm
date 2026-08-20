@@ -15,8 +15,8 @@ class Apps::Salesforce::Load::BatchWorker
     sync_run = Apps::Salesforce::SyncRun.find_by(id: sync_run_id)
     return if sync_run.blank?
 
-    sync_run.sync_records.pending.find_each(batch_size: BATCH_SIZE) do |sync_record|
-      Apps::Salesforce::Load::Record.new(sync_record).call
+    sync_run.raw_records.pending.find_each(batch_size: BATCH_SIZE) do |raw_record|
+      Apps::Salesforce::Load::Record.new(raw_record).call
     end
 
     count_failures(sync_run)
@@ -27,6 +27,6 @@ class Apps::Salesforce::Load::BatchWorker
   # What the sync screen reports as "rows that did not make it", conflicts
   # included: they are not errors to retry, they are decisions waiting.
   def count_failures(sync_run)
-    sync_run.update!(records_failed: sync_run.sync_records.where(status: %w[failed conflict]).count)
+    sync_run.update!(records_failed: sync_run.raw_records.where(status: %w[failed conflict]).count)
   end
 end

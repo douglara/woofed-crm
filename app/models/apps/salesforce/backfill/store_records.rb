@@ -21,7 +21,7 @@ class Apps::Salesforce::Backfill::StoreRecords
   def call
     return { ok: 0 } if rows.blank?
 
-    Apps::Salesforce::SyncRecord.insert_all(rows)
+    Apps::Salesforce::RawRecord.insert_all(rows)
     sync_run.update!(records_downloaded: sync_run.records_downloaded + rows.size)
 
     { ok: rows.size }

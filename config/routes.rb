@@ -214,7 +214,7 @@ Rails.application.routes.draw do
         resource :salesforce, only: %i[show create destroy] do
           get 'describe/:salesforce_object', to: 'salesforces#describe', as: :describe
           post 'sync', to: 'salesforces#sync'
-          post 'sync_records/:id/retry', to: 'salesforces/sync_records#retry', as: :sync_record_retry
+          post 'raw_records/:id/retry', to: 'salesforces/raw_records#retry', as: :raw_record_retry
           resources :object_mappings, only: [:create], controller: 'salesforces/object_mappings'
         end
       end

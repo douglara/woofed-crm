@@ -9,9 +9,9 @@ RSpec.describe Apps::Salesforce::Load::Deals::Prepare do
   let!(:company) { create(:company, name: 'Acme Ltda') }
   let!(:contact) { create(:contact, full_name: 'Ana') }
   let!(:account_mapping) do
-    create(:apps_salesforce_record_mappings, app: salesforce, recordable: company,
-                                             salesforce_object: 'Account',
-                                             salesforce_id: '001Hn00001AbCdEIAV')
+    create(:apps_salesforce_record_links, app: salesforce, recordable: company,
+                                          salesforce_object: 'Account',
+                                          salesforce_id: '001Hn00001AbCdEIAV')
   end
   let(:payload) do
     {
@@ -30,8 +30,8 @@ RSpec.describe Apps::Salesforce::Load::Deals::Prepare do
   end
 
   def stage_row(overrides = {})
-    create(:apps_salesforce_sync_records, app: salesforce, salesforce_object: 'Opportunity',
-                                          salesforce_id: payload['Id'], payload: payload.merge(overrides))
+    create(:apps_salesforce_raw_records, app: salesforce, salesforce_object: 'Opportunity',
+                                         salesforce_id: payload['Id'], payload: payload.merge(overrides))
   end
 
   before { company.contacts << contact }
@@ -246,9 +246,9 @@ RSpec.describe Apps::Salesforce::Load::Deals::Prepare do
     context 'when the object points straight at a contact' do
       let!(:direct) { create(:contact, full_name: 'Bruno') }
       let!(:contact_mapping) do
-        create(:apps_salesforce_record_mappings, app: salesforce, recordable: direct,
-                                                 salesforce_object: 'Contact',
-                                                 salesforce_id: '003Hn00002QwErTIAX')
+        create(:apps_salesforce_record_links, app: salesforce, recordable: direct,
+                                              salesforce_object: 'Contact',
+                                              salesforce_id: '003Hn00002QwErTIAX')
       end
       let(:object_mapping) do
         create(:apps_salesforce_object_mappings, :opportunity, app: salesforce,

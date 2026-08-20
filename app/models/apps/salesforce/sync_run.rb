@@ -39,7 +39,7 @@ class Apps::Salesforce::SyncRun < ApplicationRecord
   self.table_name = 'apps_salesforce_sync_runs'
 
   belongs_to :app, class_name: 'Apps::Salesforce'
-  has_many :sync_records, class_name: 'Apps::Salesforce::SyncRecord', dependent: :nullify
+  has_many :raw_records, class_name: 'Apps::Salesforce::RawRecord', dependent: :nullify
 
   enum kind: {
     'backfill': 'backfill',

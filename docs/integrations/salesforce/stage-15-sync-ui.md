@@ -14,7 +14,7 @@ missing and never which ones or why.
 |---|---|
 | [components/salesforce/SyncPanel.tsx](../../../app/javascript/components/salesforce/SyncPanel.tsx) | "Sync now" and the state of the latest run per object |
 | [components/salesforce/ProblemRecords.tsx](../../../app/javascript/components/salesforce/ProblemRecords.tsx) | The rows that did not make it, with their reason and a retry |
-| [salesforces/sync_records_controller.rb](../../../app/controllers/inertia/accounts/apps/salesforces/sync_records_controller.rb) | Loads one row again |
+| [salesforces/raw_records_controller.rb](../../../app/controllers/inertia/accounts/apps/salesforces/raw_records_controller.rb) | Loads one row again |
 
 The screen shows, per object: status, how many records were downloaded, and the error if the run
 stopped. Below it, up to fifty failed or conflicting rows — a bad mapping can produce thousands, and

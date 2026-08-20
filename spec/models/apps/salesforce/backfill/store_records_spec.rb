@@ -15,9 +15,9 @@ RSpec.describe Apps::Salesforce::Backfill::StoreRecords do
     context 'when a page arrives' do
       it 'stages the rows exactly as salesforce sent them' do
         expect { described_class.new(sync_run, records).call }
-          .to change(Apps::Salesforce::SyncRecord, :count).by(2)
+          .to change(Apps::Salesforce::RawRecord, :count).by(2)
 
-        staged = Apps::Salesforce::SyncRecord.find_by(salesforce_id: '001Hn00001AbCdEIAV')
+        staged = Apps::Salesforce::RawRecord.find_by(salesforce_id: '001Hn00001AbCdEIAV')
         expect(staged).to have_attributes(
           app_id: salesforce.id, sync_run_id: sync_run.id, salesforce_object: 'Account', status: 'pending'
         )
@@ -39,10 +39,10 @@ RSpec.describe Apps::Salesforce::Backfill::StoreRecords do
         expect(sync_run.reload.cursor).to be_within(1.second).of(submitted_at)
       end
 
-      it 'normalises the ids so a staged row matches its record mapping' do
+      it 'normalises the ids so a staged row matches its record link' do
         described_class.new(sync_run, [{ 'Id' => '001Hn00001AbCdE', 'Name' => 'Acme' }]).call
 
-        expect(Apps::Salesforce::SyncRecord.first.salesforce_id).to eq('001Hn00001AbCdEIAV')
+        expect(Apps::Salesforce::RawRecord.first.salesforce_id).to eq('001Hn00001AbCdEIAV')
       end
     end
 
@@ -50,7 +50,7 @@ RSpec.describe Apps::Salesforce::Backfill::StoreRecords do
       it 'skips it, since nothing could ever be mapped to it' do
         described_class.new(sync_run, [{ 'Name' => 'No id' }, records.first]).call
 
-        expect(Apps::Salesforce::SyncRecord.pluck(:salesforce_id)).to eq(['001Hn00001AbCdEIAV'])
+        expect(Apps::Salesforce::RawRecord.pluck(:salesforce_id)).to eq(['001Hn00001AbCdEIAV'])
       end
     end
 

@@ -38,24 +38,24 @@
 # Doing it properly means a second pass over the junction object, which is its
 # own piece of work.
 class Apps::Salesforce::Load::Deals::FindContact
-  def self.call(sync_record, object_mapping)
-    mapped_contact(sync_record, object_mapping) || contact_of_company(sync_record, object_mapping)
+  def self.call(raw_record, object_mapping)
+    mapped_contact(raw_record, object_mapping) || contact_of_company(raw_record, object_mapping)
   end
 
-  def self.mapped_contact(sync_record, object_mapping)
+  def self.mapped_contact(raw_record, object_mapping)
     return nil if object_mapping.contact_field.blank?
 
-    value = sync_record.payload[object_mapping.contact_field].to_s.strip
+    value = raw_record.payload[object_mapping.contact_field].to_s.strip
     return nil if value.blank?
 
-    by_identity(sync_record, object_mapping) || by_email(value) || by_phone(value)
+    by_identity(raw_record, object_mapping) || by_email(value) || by_phone(value)
   end
 
   # A lookup, whose value is a Salesforce id the identity map can resolve. It
   # only finds someone Woofed already imported.
-  def self.by_identity(sync_record, object_mapping)
-    Apps::Salesforce::Load::FindMapped.call(
-      sync_record, salesforce_field: object_mapping.contact_field, recordable_type: 'Contact'
+  def self.by_identity(raw_record, object_mapping)
+    Apps::Salesforce::Load::FindLinked.call(
+      raw_record, salesforce_field: object_mapping.contact_field, recordable_type: 'Contact'
     )
   end
 
@@ -70,18 +70,18 @@ class Apps::Salesforce::Load::Deals::FindContact
     Contact.find_by(phone: value)
   end
 
-  def self.contact_of_company(sync_record, object_mapping)
-    company = Apps::Salesforce::Load::Deals::FindCompany.call(sync_record, object_mapping)
+  def self.contact_of_company(raw_record, object_mapping)
+    company = Apps::Salesforce::Load::Deals::FindCompany.call(raw_record, object_mapping)
     contact = company&.contacts&.first
 
     return contact if contact.present?
     return nil unless object_mapping.options['create_placeholder_contact']
 
-    placeholder(company, sync_record)
+    placeholder(company, raw_record)
   end
 
-  def self.placeholder(company, sync_record)
-    Contact.create!(full_name: company&.name.presence || sync_record.payload['Name'].to_s)
+  def self.placeholder(company, raw_record)
+    Contact.create!(full_name: company&.name.presence || raw_record.payload['Name'].to_s)
   end
 
   private_class_method :mapped_contact, :by_identity, :by_email, :by_phone,

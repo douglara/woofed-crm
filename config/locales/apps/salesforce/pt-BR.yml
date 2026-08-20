@@ -16,7 +16,7 @@ pt-BR:
         contact_not_found: 'Esta oportunidade não tem contato no Woofed para ser vinculada.'
         unknown_field: 'O mapeamento aponta para campos que este modelo não possui: %{fields}.'
         event_contact_not_found: 'Esta atividade não tem contato no Woofed a que pertencer.'
-      sync_records:
+      raw_records:
         not_found: 'Essa linha não existe mais.'
         processed: 'A linha foi importada.'
         failed: 'A linha falhou novamente. O motivo está nela.'

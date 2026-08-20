@@ -13,25 +13,25 @@ already synced, what was downloaded, and how each run went.
 | Table / model | What it holds |
 |---|---|
 | `apps_salesforce_object_mappings` — [ObjectMapping](../../../app/models/apps/salesforce/object_mapping.rb) | Configuration: Account → Company, and which field feeds which field |
-| `apps_salesforce_record_mappings` — [RecordMapping](../../../app/models/apps/salesforce/record_mapping.rb) | Identity map: Account `001Hn…` ⇄ Company #42 |
-| `apps_salesforce_sync_records` — [SyncRecord](../../../app/models/apps/salesforce/sync_record.rb) | Staging: the raw row exactly as Salesforce sent it |
+| `apps_salesforce_record_links` — [RecordLink](../../../app/models/apps/salesforce/record_link.rb) | Identity map: Account `001Hn…` ⇄ Company #42 |
+| `apps_salesforce_raw_records` — [RawRecord](../../../app/models/apps/salesforce/raw_record.rb) | Staging: the raw row exactly as Salesforce sent it |
 | `apps_salesforce_sync_runs` — [SyncRun](../../../app/models/apps/salesforce/sync_run.rb) | One execution per object: bulk job id, locator, cursor, counters |
 
 Plus [RecordId](../../../app/models/apps/salesforce/record_id.rb), which normalises Salesforce ids.
 
 ---
 
-## 2. The two mapping tables are different levels
+## 2. The mapping table and the link table are different levels
 
 `ObjectMapping` is **configuration** — four to six rows in the whole install, written by the user,
-answering "how do I translate an Account?". `RecordMapping` is **data** — hundreds of thousands of
+answering "how do I translate an Account?". `RecordLink` is **data** — hundreds of thousands of
 rows on a real org, written by the sync, answering "which Company is this particular Account?".
 
 A load does both lookups: the object mapping tells it an Account becomes a Company with `Name`
-feeding `name` (the same for all 100k Accounts), and the record mapping tells it this Account is
+feeding `name` (the same for all 100k Accounts), and the record link tells it this Account is
 already Company #42, so it updates instead of creating a second one.
 
-### 2.1 The record mapping is keyed on the pair, not on the id
+### 2.1 The record link is keyed on the pair, not on the id
 
 `Contact` and `Lead` both become a Woofed `Contact`, so `recordable_type` alone does not say where a
 row came from. The unique index is `(app_id, salesforce_object, salesforce_id)`: the object plus the
@@ -44,7 +44,7 @@ adding a new target model later needs no migration.
 
 Salesforce has two ids for the same record: 15 characters, case-sensitive, shown in record URLs and
 report exports, and 18 characters, case-insensitive, returned by the API. Both circulate, and
-storing whichever arrived would let one Salesforce record occupy two mapping rows and become two
+storing whichever arrived would let one Salesforce record occupy two link rows and become two
 Woofed records — the exact duplicate the table exists to prevent.
 
 `normalizes :salesforce_id` runs every write **and every lookup** through `RecordId`, so a 15-char
@@ -55,7 +55,7 @@ capitalisation of the first fifteen characters; no call to Salesforce is involve
 
 ## 3. Why staging exists
 
-`SyncRecord` keeps the raw payload before any mapping is applied. Three things depend on that:
+`RawRecord` keeps the raw payload before any mapping is applied. Three things depend on that:
 
 - **Remapping without re-downloading.** When the user changes a field mapping — and they will — the
   transform re-runs from staging. API calls are the customer's metered resource, shared with every
@@ -67,7 +67,7 @@ capitalisation of the first fifteen characters; no call to Salesforce is involve
   validate and insert.
 
 Staging deliberately allows the same record to be staged twice: a re-run has to be able to bring the
-row again. Deduplication happens at load time, through `RecordMapping`.
+row again. Deduplication happens at load time, through `RecordLink`.
 
 ---
 
@@ -107,4 +107,4 @@ there is nothing newer, resumption state surviving, and the three staging outcom
 Stage 7 (mapping UI) is what makes any of this reachable: the Connect screen with the callback URL
 and scopes, and the object/field mapping screen fed by `describe_object`. Stage 8 (transform) is the
 first consumer of `ObjectMapping`, and stage 9 (backfill) the first writer of `SyncRun` and
-`SyncRecord`.
+`RawRecord`.

@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: apps_salesforce_record_mappings
+# Table name: apps_salesforce_record_links
 #
 #  id                         :bigint           not null, primary key
 #  deleted_at                 :datetime
@@ -20,9 +20,9 @@
 #
 # Indexes
 #
-#  index_apps_salesforce_record_mappings_on_app_id        (app_id)
-#  index_apps_salesforce_record_mappings_on_recordable    (recordable_type,recordable_id)
-#  index_salesforce_record_mappings_on_app_object_and_id  (app_id,salesforce_object,salesforce_id) UNIQUE
+#  index_apps_salesforce_record_links_on_app_id        (app_id)
+#  index_apps_salesforce_record_links_on_recordable    (recordable_type,recordable_id)
+#  index_salesforce_record_links_on_app_object_and_id  (app_id,salesforce_object,salesforce_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -30,11 +30,11 @@
 #
 # The identity map: which Salesforce record is which Woofed record.
 #
-# It is what makes re-running a sync idempotent -- the loader finds the mapping
-# and updates instead of inserting -- what lets an unchanged record be skipped,
+# It is what makes re-running a sync idempotent -- the loader finds the link and
+# updates instead of inserting -- what lets an unchanged record be skipped,
 # and what keeps a Woofed record alive after the Salesforce one is deleted.
-class Apps::Salesforce::RecordMapping < ApplicationRecord
-  self.table_name = 'apps_salesforce_record_mappings'
+class Apps::Salesforce::RecordLink < ApplicationRecord
+  self.table_name = 'apps_salesforce_record_links'
 
   belongs_to :app, class_name: 'Apps::Salesforce'
   belongs_to :recordable, polymorphic: true

@@ -5,7 +5,7 @@
 # Every path ends with the staged row marked, so nothing is silently lost: it is
 # processed, it is a conflict a human has to resolve, or it failed with a reason.
 #
-# Re-running is safe by construction. The record mapping decides between creating
+# Re-running is safe by construction. The record link decides between creating
 # and updating, and a row whose modification stamp has not moved since the last
 # sync does nothing at all -- which matters because a catch-up brings back its
 # whole window, most of it untouched.
@@ -16,35 +16,35 @@ class Apps::Salesforce::Load::Record
     'Event' => Apps::Salesforce::Load::Events::Prepare
   }.freeze
 
-  def initialize(sync_record)
-    @sync_record = sync_record
+  def initialize(raw_record)
+    @raw_record = raw_record
   end
 
   def call
-    return sync_record.mark_failed!(I18n.t('apps.salesforce.backfill.mapping_missing')) if object_mapping.blank?
+    return raw_record.mark_failed!(I18n.t('apps.salesforce.backfill.mapping_missing')) if object_mapping.blank?
 
     transformed = transform
     resolved = find_or_build(transformed)
     conflict = conflict_message(resolved, transformed)
 
-    return sync_record.mark_conflict!(conflict) if conflict.present?
+    return raw_record.mark_conflict!(conflict) if conflict.present?
 
     persist(resolved, transformed)
   rescue ActiveRecord::RecordInvalid => e
-    sync_record.mark_failed!(e.record.errors.full_messages.to_sentence)
+    raw_record.mark_failed!(e.record.errors.full_messages.to_sentence)
   end
 
   private
 
-  attr_reader :sync_record
+  attr_reader :raw_record
 
   def transform
-    Apps::Salesforce::Transform::Record.new(object_mapping, sync_record.payload).call
+    Apps::Salesforce::Transform::Record.new(object_mapping, raw_record.payload).call
   end
 
   def find_or_build(transformed)
     Apps::Salesforce::Load::Record::FindOrBuild.new(
-      sync_record, object_mapping, transformed[:ok][:attributes]
+      raw_record, object_mapping, transformed[:ok][:attributes]
     ).call
   end
 
@@ -57,14 +57,14 @@ class Apps::Salesforce::Load::Record
   end
 
   def persist(resolved, transformed)
-    mapping = resolved[:mapping]
-    return sync_record.mark_processed! if mapping.present? && !mapping.outdated?(system_modstamp)
+    link = resolved[:link]
+    return raw_record.mark_processed! if link.present? && !link.outdated?(system_modstamp)
 
     result = write(resolved[:ok], transformed[:ok])
-    return sync_record.mark_failed!(result[:skip]) if result.key?(:skip)
+    return raw_record.mark_failed!(result[:skip]) if result.key?(:skip)
 
-    upsert_mapping(resolved[:ok], mapping)
-    sync_record.mark_processed!
+    upsert_link(resolved[:ok], link)
+    raw_record.mark_processed!
   end
 
   # `compact` keeps a field Salesforce did not send from clearing the Woofed one;
@@ -99,7 +99,7 @@ class Apps::Salesforce::Load::Record
     preparer = PREPARERS[object_mapping.woofed_model]
     return { ok: recordable } if preparer.blank?
 
-    preparer.call(recordable, sync_record, object_mapping)
+    preparer.call(recordable, raw_record, object_mapping)
   end
 
   # Merged rather than replaced: these columns also hold what the user and other
@@ -110,14 +110,14 @@ class Apps::Salesforce::Load::Record
     recordable.public_send("#{column}=", recordable.public_send(column).to_h.merge(values))
   end
 
-  def upsert_mapping(recordable, mapping)
-    record_mapping = mapping || Apps::Salesforce::RecordMapping.new(
-      app_id: sync_record.app_id,
-      salesforce_object: sync_record.salesforce_object,
-      salesforce_id: sync_record.salesforce_id
+  def upsert_link(recordable, link)
+    record_link = link || Apps::Salesforce::RecordLink.new(
+      app_id: raw_record.app_id,
+      salesforce_object: raw_record.salesforce_object,
+      salesforce_id: raw_record.salesforce_id
     )
 
-    record_mapping.update!(
+    record_link.update!(
       recordable: recordable,
       salesforce_system_modstamp: system_modstamp,
       last_synced_at: Time.current,
@@ -127,12 +127,12 @@ class Apps::Salesforce::Load::Record
   end
 
   def system_modstamp
-    sync_record.payload['SystemModstamp']
+    raw_record.payload['SystemModstamp']
   end
 
   def object_mapping
     @object_mapping ||= Apps::Salesforce::ObjectMapping.find_by(
-      app_id: sync_record.app_id, salesforce_object: sync_record.salesforce_object
+      app_id: raw_record.app_id, salesforce_object: raw_record.salesforce_object
     )
   end
 end

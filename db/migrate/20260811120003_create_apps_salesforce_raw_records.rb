@@ -1,6 +1,6 @@
-class CreateAppsSalesforceSyncRecords < ActiveRecord::Migration[7.1]
+class CreateAppsSalesforceRawRecords < ActiveRecord::Migration[7.1]
   def change
-    create_table :apps_salesforce_sync_records do |t|
+    create_table :apps_salesforce_raw_records do |t|
       t.references :app, null: false, foreign_key: { to_table: :apps_salesforces }
       t.references :sync_run, foreign_key: { to_table: :apps_salesforce_sync_runs }
       t.string :salesforce_object, null: false
@@ -18,9 +18,9 @@ class CreateAppsSalesforceSyncRecords < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    add_index :apps_salesforce_sync_records, %i[app_id status],
-              name: 'index_salesforce_sync_records_on_app_and_status'
-    add_index :apps_salesforce_sync_records, %i[app_id salesforce_object salesforce_id],
-              name: 'index_salesforce_sync_records_on_app_object_and_id'
+    add_index :apps_salesforce_raw_records, %i[app_id status],
+              name: 'index_salesforce_raw_records_on_app_and_status'
+    add_index :apps_salesforce_raw_records, %i[app_id salesforce_object salesforce_id],
+              name: 'index_salesforce_raw_records_on_app_object_and_id'
   end
 end

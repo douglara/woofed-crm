@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: apps_salesforce_sync_records
+# Table name: apps_salesforce_raw_records
 #
 #  id                :bigint           not null, primary key
 #  error             :text
@@ -18,10 +18,10 @@
 #
 # Indexes
 #
-#  index_apps_salesforce_sync_records_on_app_id        (app_id)
-#  index_apps_salesforce_sync_records_on_sync_run_id   (sync_run_id)
-#  index_salesforce_sync_records_on_app_and_status     (app_id,status)
-#  index_salesforce_sync_records_on_app_object_and_id  (app_id,salesforce_object,salesforce_id)
+#  index_apps_salesforce_raw_records_on_app_id        (app_id)
+#  index_apps_salesforce_raw_records_on_sync_run_id   (sync_run_id)
+#  index_salesforce_raw_records_on_app_and_status     (app_id,status)
+#  index_salesforce_raw_records_on_app_object_and_id  (app_id,salesforce_object,salesforce_id)
 #
 # Foreign Keys
 #
@@ -34,8 +34,8 @@
 # downloading the org again, and it gives rows that could not be imported a place
 # to live: a contact whose email already belongs to another Woofed record becomes
 # a conflict here, with its reason, instead of silently disappearing.
-class Apps::Salesforce::SyncRecord < ApplicationRecord
-  self.table_name = 'apps_salesforce_sync_records'
+class Apps::Salesforce::RawRecord < ApplicationRecord
+  self.table_name = 'apps_salesforce_raw_records'
 
   belongs_to :app, class_name: 'Apps::Salesforce'
   belongs_to :sync_run, class_name: 'Apps::Salesforce::SyncRun', optional: true

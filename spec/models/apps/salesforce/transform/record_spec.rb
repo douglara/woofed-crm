@@ -37,7 +37,7 @@ RSpec.describe Apps::Salesforce::Transform::Record do
         expect(result[:ok][:additional_attributes]).to include('salesforce_id' => '001Hn00001AbCdEIAV')
       end
 
-      it 'normalises a 15 character id, so it matches its record mapping' do
+      it 'normalises a 15 character id, so it matches its record link' do
         mapping = build(:apps_salesforce_object_mappings, app: salesforce)
 
         result = described_class.new(mapping, payload.merge('Id' => '001Hn00001AbCdE')).call

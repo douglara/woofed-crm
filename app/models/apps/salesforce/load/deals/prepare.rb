@@ -7,13 +7,13 @@
 # are required columns, so the alternative is an insert that fails with a
 # database error nobody can act on.
 class Apps::Salesforce::Load::Deals::Prepare
-  def self.call(deal, sync_record, object_mapping)
-    new(deal, sync_record, object_mapping).call
+  def self.call(deal, raw_record, object_mapping)
+    new(deal, raw_record, object_mapping).call
   end
 
-  def initialize(deal, sync_record, object_mapping)
+  def initialize(deal, raw_record, object_mapping)
     @deal = deal
-    @sync_record = sync_record
+    @raw_record = raw_record
     @object_mapping = object_mapping
   end
 
@@ -21,7 +21,7 @@ class Apps::Salesforce::Load::Deals::Prepare
     stage = Apps::Salesforce::Load::Deals::FindStage.call(object_mapping, stage_name)
     return { skip: stage_error } if stage.blank?
 
-    contact = deal.contact || Apps::Salesforce::Load::Deals::FindContact.call(sync_record, object_mapping)
+    contact = deal.contact || Apps::Salesforce::Load::Deals::FindContact.call(raw_record, object_mapping)
     return { skip: I18n.t('apps.salesforce.load.contact_not_found') } if contact.blank?
 
     assign(stage, contact)
@@ -31,7 +31,7 @@ class Apps::Salesforce::Load::Deals::Prepare
 
   private
 
-  attr_reader :deal, :sync_record, :object_mapping
+  attr_reader :deal, :raw_record, :object_mapping
 
   def stage_name
     payload[object_mapping.stage_field]
@@ -71,7 +71,7 @@ class Apps::Salesforce::Load::Deals::Prepare
   # The record's company lookup, already imported, is the company the deal belongs
   # to. Assigned rather than appended so re-running does not pile up duplicates.
   def link_company
-    company = Apps::Salesforce::Load::Deals::FindCompany.call(sync_record, object_mapping)
+    company = Apps::Salesforce::Load::Deals::FindCompany.call(raw_record, object_mapping)
     return if company.blank? || deal.companies.include?(company)
 
     deal.companies = deal.companies.to_a + [company]
@@ -86,6 +86,6 @@ class Apps::Salesforce::Load::Deals::Prepare
   end
 
   def payload
-    sync_record.payload
+    raw_record.payload
   end
 end

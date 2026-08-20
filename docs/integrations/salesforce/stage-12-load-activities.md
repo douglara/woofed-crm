@@ -14,9 +14,9 @@ requires a contact on every event, and Salesforce does not.
 |---|---|
 | [load/events/prepare.rb](../../../app/models/apps/salesforce/load/events/prepare.rb) | Kind, contact, deal and the done stamp |
 | [load/events/find_contact.rb](../../../app/models/apps/salesforce/load/events/find_contact.rb) | Who the activity belongs to |
-| [load/find_mapped.rb](../../../app/models/apps/salesforce/load/find_mapped.rb) | The identity map read backwards, for any lookup field |
+| [load/find_linked.rb](../../../app/models/apps/salesforce/load/find_linked.rb) | The record links read backwards, for any lookup field |
 
-`FindCompany` became `FindMapped`: three near-identical lookups — `AccountId` → Company, `WhoId` →
+`FindCompany` became `FindLinked`: three near-identical lookups — `AccountId` → Company, `WhoId` →
 Contact, `WhatId` → Deal — are the same question asked with different arguments.
 
 ---

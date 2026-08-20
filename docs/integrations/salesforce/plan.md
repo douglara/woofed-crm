@@ -3,7 +3,7 @@
 **Scope of phase 1: one-way sync, Salesforce → Woofed.** Woofed reads Salesforce data and
 materialises it as Woofed records. Nothing is written back to Salesforce. The architecture,
 however, keeps a write-back path open (see [Designing for phase 2](#12-designing-for-phase-2-write-back)),
-because the expensive part — the record mapping table and the field mapping model — is the same
+because the expensive part — the record link table and the field mapping model — is the same
 in both directions.
 
 ---
@@ -67,7 +67,7 @@ in both directions.
 │  · fetch → normalise envelope → write raw payload       │
 └──────────────────────┬──────────────────────────────────┘
                        ▼
-        apps_salesforce_sync_records  (staging, raw JSON)
+        apps_salesforce_raw_records  (staging, raw JSON)
                        │
                        ▼
 ┌─────────────────────────────────────────────────────────┐
@@ -77,7 +77,7 @@ in both directions.
                        ▼
 ┌─────────────────────────────────────────────────────────┐
 │ Load — idempotent upsert keyed by apps_salesforce_       │
-│ record_mappings (salesforce_id ⇄ Woofed record)         │
+│ record_links (salesforce_id ⇄ Woofed record)            │
 │  · import guard: no Chatwoot export, no outbound webhook│
 └──────────────────────┬──────────────────────────────────┘
                        ▼
@@ -89,7 +89,7 @@ Two properties this shape buys us:
 1. **Raw payloads are persisted before mapping.** Changing a field mapping later re-runs the
    transform from staging instead of re-downloading from Salesforce — which matters because API
    calls are a metered resource (§4).
-2. **The load step is keyed on a mapping table, not on a jsonb attribute.** That is what makes
+2. **The load step is keyed on a link table, not on a jsonb attribute.** That is what makes
    re-running the sync idempotent and makes "which Woofed record is this Salesforce record?"
    an indexed lookup.
 
@@ -193,7 +193,7 @@ now: the migrations can land without being blocked on a multi-connection design.
 
 What follows from "exactly one" throughout the rest of this document:
 
-- **`app_id` stays on every child table** (`object_mappings`, `record_mappings`, `sync_records`,
+- **`app_id` stays on every child table** (`object_mappings`, `record_links`, `raw_records`,
   `sync_runs`) and stays in every unique index, as §6.1 already specifies. It costs nothing today
   and is what makes a future second connection a UI problem instead of a data-migration problem.
 - **The GoodJob cron entries are global**, not per connection: one `Delta::PollJob` and one
@@ -255,7 +255,7 @@ than being hardcoded to one.
 
 Notes that matter in practice:
 
-- **Persist raw rows in staging** (`apps_salesforce_sync_records`) as they arrive, before mapping.
+- **Persist raw rows in staging** (`apps_salesforce_raw_records`) as they arrive, before mapping.
   Re-mapping is then a local operation. This is the concrete answer to "should we export the data
   first?" — yes, but the export lands in *our* staging table, not in a CSV a human downloads.
 - **Checkpoint the high-water mark.** Record `max(SystemModstamp)` per object as the starting
@@ -304,12 +304,12 @@ advancing the cursor to the max `SystemModstamp` returned, paging until drained.
 Two mitigations, both cheap: query `IsDeleted = true` against the recycle bin using
 `queryAll`, or call the SOAP `getDeleted(start, end)` replication endpoint per object per tick.
 Use `queryAll` — it keeps everything on REST and avoids introducing a SOAP client. Records
-deleted in Salesforce should be **soft-marked** in Woofed (mapping row flagged `deleted_at`), not
+deleted in Salesforce should be **soft-marked** in Woofed (link row flagged `deleted_at`), not
 hard-deleted, because Woofed records may have accumulated local data (deals, events, notes) that
 the user does not want to lose.
 
 **Phase 2 adds CDC** for installs that want seconds-level latency, behind the same
-`SyncRecord` ingestion interface so the transform/load half is untouched. Implementation notes
+`RawRecord` ingestion interface so the transform/load half is untouched. Implementation notes
 for when we get there: the `grpc` and `avro` gems cover the wire format; the subscriber must be a
 long-lived process (a dedicated GoodJob worker or a separate `bin/` process), it must checkpoint
 `replay_id` after each successful *persist* (not on receipt), and on `replay_id` expiry
@@ -327,12 +327,12 @@ even while polling delivers full records.
 ```
 apps_salesforces                 — the connection (§3.2); at most one row (§3.2.1)
 apps_salesforce_object_mappings  — "Salesforce Object X ⇄ Woofed model Y", + field mapping jsonb
-apps_salesforce_record_mappings  — "Salesforce record id ⇄ Woofed record" (the identity map)
-apps_salesforce_sync_records     — raw staging payloads
+apps_salesforce_record_links     — "Salesforce record id ⇄ Woofed record" (the identity map)
+apps_salesforce_raw_records      — raw staging payloads
 apps_salesforce_sync_runs        — one row per backfill/delta execution: counters, errors, timing
 ```
 
-**`apps_salesforce_record_mappings`** is the load-bearing one:
+**`apps_salesforce_record_links`** is the load-bearing one:
 
 | Column | Note |
 |---|---|
@@ -356,7 +356,7 @@ The Chatwoot integration stores its foreign id in jsonb
 extend to: multiple Salesforce objects mapping onto the same Woofed model (Contact *and* Lead →
 `Contact`), per-record sync state and error messages, or tombstones for deleted remote records.
 
-**Do both:** the mapping table is the source of truth, and the loader also mirrors the id into
+**Do both:** the link table is the source of truth, and the loader also mirrors the id into
 `additional_attributes['salesforce_id']` so it stays visible in the record detail UI and
 searchable through the existing ransack `additional_attributes` allowlist — consistent with how
 users already see `chatwoot_id`.
@@ -441,7 +441,7 @@ Per `AGENTS.md`: **GoodJob** for long-running/scheduled work, **Sidekiq** for sh
 
 Use `GoodJob::ActiveJobExtensions::Concurrency` with a key of the `Apps::Salesforce` id — as
 `Accounts::Apps::Chatwoots::Webhooks::ProcessWebhookJob` already does — so two syncs for the same
-org can never interleave and race on the same mapping rows.
+org can never interleave and race on the same link rows.
 
 ### 8.2 The import guard (critical)
 
@@ -462,8 +462,8 @@ scheduled *before* the loader, not after.
 
 ### 8.3 Idempotency
 
-Every load operation is: resolve mapping → compare `SystemModstamp` → skip if unchanged →
-otherwise update inside a transaction and touch the mapping row. Re-running any job for any
+Every load operation is: resolve the link → compare `SystemModstamp` → skip if unchanged →
+otherwise update inside a transaction and touch the link row. Re-running any job for any
 window must be safe; that property is what lets us re-drive a failed backfill or replay a CDC
 window without producing duplicates.
 
@@ -478,7 +478,7 @@ These are the issues most likely to derail the project, and each needs a decisio
    contacts sharing `info@company.com` or a blank email. **A naive import will fail on a large
    fraction of rows.** Required strategy: match-or-create by email → then phone → then Salesforce
    id; when a *different* Woofed record already owns the email, do not fail silently — record the
-   row in `sync_records` with `status: :conflict` and surface it in a "Conflicts" tab for the user
+   row in `raw_records` with `status: :conflict` and surface it in a "Conflicts" tab for the user
    to resolve. Expect this list to be non-trivial on real orgs.
 2. **Phone format.** Woofed requires E.164 (`/\+[1-9]\d{1,14}\z/`); Salesforce phone fields are
    free text (`(11) 99999-9999`, `+55 11 99999 9999`, `ext. 204`). Normalise with a phone library
@@ -493,7 +493,7 @@ These are the issues most likely to derail the project, and each needs a decisio
    `ConvertedContactId` and map both Salesforce ids onto the single Woofed contact.
 5. **Deletes and merges.** Salesforce record merges leave the losing id dangling
    (`MasterRecordId` points at the survivor). Handle it like a delete-with-redirect: repoint the
-   mapping row at the surviving record.
+   link row at the surviving record.
 6. **Volume.** A mid-size org is 100k+ contacts and 500k+ tasks. Everything above must be batched,
    and the UI must show progress rather than a spinner — a first sync can legitimately take hours.
 
@@ -551,7 +551,7 @@ Following `AGENTS.md`:
 Phase 1 does not write to Salesforce, but three decisions taken now are what make phase 2 cheap
 rather than a rewrite:
 
-- The **record mapping table is bidirectional by construction** — it already answers "which
+- The **record link table is bidirectional by construction** — it already answers "which
   Salesforce record is this Woofed record?".
 - **Field mappings are declarative**, so an inverse mapper can reuse them with the transforms run
   backwards.
@@ -574,7 +574,7 @@ suppression (a Woofed write that originated from Salesforce must not be pushed b
 | 3 | `Apps::Salesforce` model + migration | Table, validations (incl. the single-connection guard, §3.2.1), `status` enum, revoke on destroy — shipped with stage 1, [notes](stage-01-token-encryption.md) | 1 | ✅ Done |
 | 4 | OAuth (web server flow) | Authorize + callback controllers, token refresh, connection health job — [notes](stage-04-oauth.md) | 3 | ✅ Done |
 | 5 | API client | Faraday client: describe, SOQL query + paging, `queryAll`, Bulk 2.0 jobs, retry/401 handling — [notes](stage-05-api-client.md) | 4 | ✅ Done |
-| 6 | Mapping models | `object_mappings` + `record_mappings` + `sync_records` + `sync_runs` migrations and models — [notes](stage-06-mapping-models.md) | 3 | ✅ Done |
+| 6 | Mapping models | `object_mappings` + `record_links` + `raw_records` + `sync_runs` migrations and models — [notes](stage-06-mapping-models.md) | 3 | ✅ Done |
 | 7 | Mapping UI (Inertia) | Connect screen (with the External Client App setup instructions, callback URL and scopes) + object/field mapping screen fed by cached describe — [notes](stage-07-mapping-ui.md) | 5, 6 | ✅ Done |
 | 8 | Transform layer | Named transforms, per-object mappers, conflict detection — [notes](stage-08-transform.md) | 6 | ✅ Done |
 | 9 | Backfill | Bulk/REST strategy selection, staging writes, resumable, high-water mark — [notes](stage-09-backfill.md) | 5, 8 | ✅ Done |

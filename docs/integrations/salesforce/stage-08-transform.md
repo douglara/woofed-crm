@@ -83,8 +83,8 @@ import guard exists to gate.
 
 ## 4. What is next
 
-Stage 9 (backfill) is the first writer of `SyncRun` and `SyncRecord`, and stage 10 the first consumer
-of this layer: it resolves the record mapping, runs `Conflict`, and creates or updates the Woofed
+Stage 9 (backfill) is the first writer of `SyncRun` and `RawRecord`, and stage 10 the first consumer
+of this layer: it resolves the record link, runs `Conflict`, and creates or updates the Woofed
 record.
 
 **Stage 2 is now on the critical path.** `Contact` fires `after_commit :export_contact_to_chatwoot`,

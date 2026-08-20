@@ -127,7 +127,24 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_11_120003) do
     t.index ["app_id"], name: "index_apps_salesforce_object_mappings_on_app_id"
   end
 
-  create_table "apps_salesforce_record_mappings", force: :cascade do |t|
+  create_table "apps_salesforce_raw_records", force: :cascade do |t|
+    t.bigint "app_id", null: false
+    t.bigint "sync_run_id"
+    t.string "salesforce_object", null: false
+    t.string "salesforce_id", null: false
+    t.jsonb "payload", default: {}, null: false
+    t.string "status", default: "pending", null: false
+    t.text "error"
+    t.datetime "processed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_id", "salesforce_object", "salesforce_id"], name: "index_salesforce_raw_records_on_app_object_and_id"
+    t.index ["app_id", "status"], name: "index_salesforce_raw_records_on_app_and_status"
+    t.index ["app_id"], name: "index_apps_salesforce_raw_records_on_app_id"
+    t.index ["sync_run_id"], name: "index_apps_salesforce_raw_records_on_sync_run_id"
+  end
+
+  create_table "apps_salesforce_record_links", force: :cascade do |t|
     t.bigint "app_id", null: false
     t.string "salesforce_id", null: false
     t.string "salesforce_object", null: false
@@ -140,26 +157,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_11_120003) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["app_id", "salesforce_object", "salesforce_id"], name: "index_salesforce_record_mappings_on_app_object_and_id", unique: true
-    t.index ["app_id"], name: "index_apps_salesforce_record_mappings_on_app_id"
-    t.index ["recordable_type", "recordable_id"], name: "index_apps_salesforce_record_mappings_on_recordable"
-  end
-
-  create_table "apps_salesforce_sync_records", force: :cascade do |t|
-    t.bigint "app_id", null: false
-    t.bigint "sync_run_id"
-    t.string "salesforce_object", null: false
-    t.string "salesforce_id", null: false
-    t.jsonb "payload", default: {}, null: false
-    t.string "status", default: "pending", null: false
-    t.text "error"
-    t.datetime "processed_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["app_id", "salesforce_object", "salesforce_id"], name: "index_salesforce_sync_records_on_app_object_and_id"
-    t.index ["app_id", "status"], name: "index_salesforce_sync_records_on_app_and_status"
-    t.index ["app_id"], name: "index_apps_salesforce_sync_records_on_app_id"
-    t.index ["sync_run_id"], name: "index_apps_salesforce_sync_records_on_sync_run_id"
+    t.index ["app_id", "salesforce_object", "salesforce_id"], name: "index_salesforce_record_links_on_app_object_and_id", unique: true
+    t.index ["app_id"], name: "index_apps_salesforce_record_links_on_app_id"
+    t.index ["recordable_type", "recordable_id"], name: "index_apps_salesforce_record_links_on_recordable"
   end
 
   create_table "apps_salesforce_sync_runs", force: :cascade do |t|
@@ -793,9 +793,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_11_120003) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "apps_salesforce_object_mappings", "apps_salesforces", column: "app_id"
-  add_foreign_key "apps_salesforce_record_mappings", "apps_salesforces", column: "app_id"
-  add_foreign_key "apps_salesforce_sync_records", "apps_salesforce_sync_runs", column: "sync_run_id"
-  add_foreign_key "apps_salesforce_sync_records", "apps_salesforces", column: "app_id"
+  add_foreign_key "apps_salesforce_raw_records", "apps_salesforce_sync_runs", column: "sync_run_id"
+  add_foreign_key "apps_salesforce_raw_records", "apps_salesforces", column: "app_id"
+  add_foreign_key "apps_salesforce_record_links", "apps_salesforces", column: "app_id"
   add_foreign_key "apps_salesforce_sync_runs", "apps_salesforces", column: "app_id"
   add_foreign_key "company_contacts", "companies"
   add_foreign_key "company_contacts", "contacts"

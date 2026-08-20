@@ -4,7 +4,7 @@
 #
 # SOQL has no `SELECT *`, so every field has to be named. The list is what the
 # user mapped on the mapping screen, plus what the sync itself needs regardless:
-# the id to key the record mapping on, the modification stamp that drives the
+# the id to key the record link on, the modification stamp that drives the
 # cursor and the skip-if-unchanged check, and whatever relationship fields the
 # caller resolved from the object's describe.
 #

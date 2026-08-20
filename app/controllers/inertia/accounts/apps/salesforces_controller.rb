@@ -136,7 +136,7 @@ class Inertia::Accounts::Apps::SalesforcesController < Inertia::InternalControll
   def problem_records_props
     return [] if salesforce.blank?
 
-    salesforce.sync_records.where(status: %w[failed conflict])
+    salesforce.raw_records.where(status: %w[failed conflict])
               .order(processed_at: :desc).limit(PROBLEM_RECORDS_LIMIT)
               .map { |record| record.slice(:id, :salesforce_object, :salesforce_id, :status, :error) }
   end

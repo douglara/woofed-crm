@@ -49,7 +49,7 @@ RSpec.describe Apps::Salesforce::Backfill::ObjectJob do
 
         expect(sync_run.reload).to be_completed
         expect(sync_run.records_downloaded).to eq(1)
-        expect(Apps::Salesforce::SyncRecord.count).to eq(1)
+        expect(Apps::Salesforce::RawRecord.count).to eq(1)
       end
 
       it 'stamps the cursor at submission, so an edit made during the run is not skipped' do

@@ -14,26 +14,26 @@
 # A call logged against an opportunity with nobody on it, and against a company
 # with no contacts, has no one to belong to and is reported instead of imported.
 class Apps::Salesforce::Load::Events::FindContact
-  def self.call(sync_record)
-    from_who_id(sync_record) || from_deal(sync_record) || from_company(sync_record)
+  def self.call(raw_record)
+    from_who_id(raw_record) || from_deal(raw_record) || from_company(raw_record)
   end
 
   # WhoId is a Contact or a Lead, and both are imported as Woofed contacts.
-  def self.from_who_id(sync_record)
-    Apps::Salesforce::Load::FindMapped.call(
-      sync_record, salesforce_field: 'WhoId', recordable_type: 'Contact'
+  def self.from_who_id(raw_record)
+    Apps::Salesforce::Load::FindLinked.call(
+      raw_record, salesforce_field: 'WhoId', recordable_type: 'Contact'
     )
   end
 
-  def self.from_deal(sync_record)
-    Apps::Salesforce::Load::FindMapped.call(
-      sync_record, salesforce_field: 'WhatId', recordable_type: 'Deal'
+  def self.from_deal(raw_record)
+    Apps::Salesforce::Load::FindLinked.call(
+      raw_record, salesforce_field: 'WhatId', recordable_type: 'Deal'
     )&.contact
   end
 
-  def self.from_company(sync_record)
-    Apps::Salesforce::Load::FindMapped.call(
-      sync_record, salesforce_field: 'WhatId', recordable_type: 'Company'
+  def self.from_company(raw_record)
+    Apps::Salesforce::Load::FindLinked.call(
+      raw_record, salesforce_field: 'WhatId', recordable_type: 'Company'
     )&.contacts&.first
   end
 

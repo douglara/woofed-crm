@@ -12,8 +12,8 @@ RSpec.describe Apps::Salesforce::Load::BatchWorker do
   let!(:sync_run) { create(:apps_salesforce_sync_runs, :running, app: salesforce) }
 
   def stage(payload)
-    create(:apps_salesforce_sync_records, app: salesforce, sync_run: sync_run,
-                                          salesforce_id: payload['Id'], payload: payload)
+    create(:apps_salesforce_raw_records, app: salesforce, sync_run: sync_run,
+                                         salesforce_id: payload['Id'], payload: payload)
   end
 
   describe '#perform' do
@@ -25,7 +25,7 @@ RSpec.describe Apps::Salesforce::Load::BatchWorker do
         described_class.new.perform(sync_run.id)
 
         expect(Company.pluck(:name)).to contain_exactly('Acme Ltda', 'Beta SA')
-        expect(Apps::Salesforce::SyncRecord.pending).to be_empty
+        expect(Apps::Salesforce::RawRecord.pending).to be_empty
       end
 
       it 'leaves the rows it already loaded alone when it runs again' do

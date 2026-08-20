@@ -157,7 +157,7 @@ const SalesforceShow = ({
 
             <ProblemRecords
               records={problem_records}
-              retryUrl={(id) => `${basePath}/sync_records/${id}/retry`}
+              retryUrl={(id) => `${basePath}/raw_records/${id}/retry`}
             />
           </div>
         )}

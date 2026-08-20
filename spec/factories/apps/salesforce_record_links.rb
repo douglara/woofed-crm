@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :apps_salesforce_record_mappings, class: 'Apps::Salesforce::RecordMapping' do
+  factory :apps_salesforce_record_links, class: 'Apps::Salesforce::RecordLink' do
     app factory: :apps_salesforces
     salesforce_object { 'Account' }
     salesforce_id { '001Hn00001AbCdEIAV' }

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :apps_salesforce_sync_records, class: 'Apps::Salesforce::SyncRecord' do
+  factory :apps_salesforce_raw_records, class: 'Apps::Salesforce::RawRecord' do
     app factory: :apps_salesforces
     salesforce_object { 'Account' }
     salesforce_id { '001Hn00001AbCdEIAV' }

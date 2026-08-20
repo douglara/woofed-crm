@@ -20,14 +20,14 @@ RSpec.describe Apps::Salesforce::Load::Events::Prepare do
   end
 
   def stage_task(overrides = {})
-    create(:apps_salesforce_sync_records, app: salesforce, salesforce_object: 'Task',
-                                          salesforce_id: payload['Id'], payload: payload.merge(overrides))
+    create(:apps_salesforce_raw_records, app: salesforce, salesforce_object: 'Task',
+                                         salesforce_id: payload['Id'], payload: payload.merge(overrides))
   end
 
   def map_contact
-    create(:apps_salesforce_record_mappings, app: salesforce, recordable: contact,
-                                             salesforce_object: 'Contact',
-                                             salesforce_id: '003Hn00002XyZwVIAV')
+    create(:apps_salesforce_record_links, app: salesforce, recordable: contact,
+                                          salesforce_object: 'Contact',
+                                          salesforce_id: '003Hn00002XyZwVIAV')
   end
 
   describe '.call' do
@@ -77,9 +77,9 @@ RSpec.describe Apps::Salesforce::Load::Events::Prepare do
         pipeline = create(:pipeline, account: account)
         stage = create(:stage, pipeline: pipeline)
         deal = create(:deal, contact: contact, stage: stage, pipeline: pipeline)
-        create(:apps_salesforce_record_mappings, app: salesforce, recordable: deal,
-                                                 salesforce_object: 'Opportunity',
-                                                 salesforce_id: '006Hn00003RsTuVIAV')
+        create(:apps_salesforce_record_links, app: salesforce, recordable: deal,
+                                              salesforce_object: 'Opportunity',
+                                              salesforce_id: '006Hn00003RsTuVIAV')
         event = Event.new(title: 'Ligação de follow-up')
 
         described_class.call(event, stage_task('WhoId' => nil, 'WhatId' => '006Hn00003RsTuVIAV'),
@@ -93,9 +93,9 @@ RSpec.describe Apps::Salesforce::Load::Events::Prepare do
       it 'belongs it to a contact of that company' do
         company = create(:company, name: 'Acme Ltda')
         company.contacts << contact
-        create(:apps_salesforce_record_mappings, app: salesforce, recordable: company,
-                                                 salesforce_object: 'Account',
-                                                 salesforce_id: '001Hn00001AbCdEIAV')
+        create(:apps_salesforce_record_links, app: salesforce, recordable: company,
+                                              salesforce_object: 'Account',
+                                              salesforce_id: '001Hn00001AbCdEIAV')
         event = Event.new(title: 'Ligação de follow-up')
 
         described_class.call(event, stage_task('WhoId' => nil, 'WhatId' => '001Hn00001AbCdEIAV'),

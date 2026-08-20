@@ -12,9 +12,9 @@
 # names it `AccountId`, a custom object names its own, and neither caller should
 # have to know which.
 class Apps::Salesforce::Load::Deals::FindCompany
-  def self.call(sync_record, object_mapping)
-    Apps::Salesforce::Load::FindMapped.call(
-      sync_record, salesforce_field: object_mapping.company_field, recordable_type: 'Company'
+  def self.call(raw_record, object_mapping)
+    Apps::Salesforce::Load::FindLinked.call(
+      raw_record, salesforce_field: object_mapping.company_field, recordable_type: 'Company'
     )
   end
 end
