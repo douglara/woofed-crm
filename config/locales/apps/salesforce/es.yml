@@ -1,0 +1,42 @@
+es:
+  apps:
+    salesforce:
+      connected: 'Salesforce se conectó correctamente.'
+      disconnected: 'Salesforce se desconectó correctamente.'
+      missing_connection: 'Inicie la conexión con Salesforce nuevamente.'
+      invalid_state: 'No se pudo verificar la autorización de Salesforce. Conecte nuevamente.'
+      backfill:
+        mapping_missing: 'El mapeo de este objeto ya no existe.'
+        bulk_job_failed: 'Salesforce reportó el trabajo masivo como %{state}.'
+        bulk_job_stuck: 'El trabajo masivo no terminó a tiempo.'
+        started: 'Sincronización iniciada.'
+      load:
+        stage_not_mapped: 'Ninguna etapa de Woofed se llama “%{stage}”. Renombre una para que coincida, o mapee el nombre en este objeto.'
+        stage_field_empty: 'Este registro no trae etapa en “%{field}”. Apunte el mapeo al campo que la contiene.'
+        contact_not_found: 'Esta oportunidad no tiene contacto en Woofed al que vincularse.'
+        unknown_field: 'El mapeo apunta a campos que este modelo no tiene: %{fields}.'
+        event_contact_not_found: 'Esta actividad no tiene contacto en Woofed al que pertenecer.'
+      raw_records:
+        not_found: 'Esa fila ya no existe.'
+        processed: 'La fila fue importada.'
+        failed: 'La fila falló de nuevo. El motivo está en ella.'
+        conflict: 'La fila sigue en conflicto con un registro existente.'
+        pending: 'La fila volvió a la cola.'
+      transforms:
+        invalid_currency: '“%{value}” no es un importe.'
+        invalid_datetime: '“%{value}” no es una fecha.'
+        invalid_phone: '“%{value}” no se pudo convertir a un teléfono internacional.'
+        unknown: 'Transformación “%{name}” desconocida.'
+      conflicts:
+        already_taken: 'El %{field} “%{value}” ya pertenece a %{model} #%{id}.'
+      oauth_errors:
+        redirect_uri_mismatch: 'La URL de callback registrada en la External Client App no coincide con %{redirect_uri}.'
+        invalid_client: 'La consumer key o la consumer secret no es válida.'
+        invalid_client_id: 'La consumer key no es válida.'
+        invalid_grant: 'Salesforce rechazó la autorización. Conecte nuevamente.'
+        access_denied: 'La autorización fue denegada en Salesforce.'
+        inactive_user: 'El usuario de Salesforce está inactivo.'
+        missing_refresh_token: 'Esta conexión no tiene refresh token. Conecte nuevamente.'
+        unreadable_credentials: 'Las credenciales de Salesforce almacenadas ya no se pueden leer. Conecte nuevamente.'
+        connection_failed: 'No se pudo contactar con Salesforce.'
+        unknown: 'Salesforce rechazó la conexión.'

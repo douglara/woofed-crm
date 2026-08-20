@@ -208,6 +208,16 @@ Rails.application.routes.draw do
         post 'create_message'
         post 'create_session'
       end
+      namespace :apps do
+        # A Woofed install talks to a single Salesforce org, so the resource is
+        # singular. `create` starts the OAuth flow, `destroy` disconnects.
+        resource :salesforce, only: %i[show create destroy] do
+          get 'describe/:salesforce_object', to: 'salesforces#describe', as: :describe
+          post 'sync', to: 'salesforces#sync'
+          post 'raw_records/:id/retry', to: 'salesforces/raw_records#retry', as: :raw_record_retry
+          resources :object_mappings, only: [:create], controller: 'salesforces/object_mappings'
+        end
+      end
     end
   end
 
@@ -234,6 +244,11 @@ Rails.application.routes.draw do
       collection do
         post 'webhooks'
       end
+    end
+    # Fixed URL: the customer registers it by hand in their External Client App,
+    # so it can never carry an account or connection id.
+    namespace :salesforces do
+      get 'oauth/callback', to: 'oauth#callback', as: :oauth_callback
     end
   end
   get 'service-worker' => 'pwa#service_worker'

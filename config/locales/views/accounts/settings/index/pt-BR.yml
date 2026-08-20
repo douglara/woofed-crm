@@ -12,4 +12,6 @@ pt-BR:
           webhooks_configuration: "Configure sua conexão com webhooks"
           artificial_intelligence: "Inteligência artificial"
           ai_configuration: "Configure o uso de inteligência artificial"
+          salesforce: "Salesforce"
+          salesforce_configuration: "Importe os registros do seu Salesforce para o Woofed"
           integrations: "Integrações"

@@ -1,0 +1,42 @@
+pt-BR:
+  apps:
+    salesforce:
+      connected: 'Salesforce conectado com sucesso.'
+      disconnected: 'Salesforce desconectado com sucesso.'
+      missing_connection: 'Inicie a conexão com o Salesforce novamente.'
+      invalid_state: 'Não foi possível verificar a autorização do Salesforce. Conecte novamente.'
+      backfill:
+        mapping_missing: 'O mapeamento deste objeto não existe mais.'
+        bulk_job_failed: 'O Salesforce reportou o job em massa como %{state}.'
+        bulk_job_stuck: 'O job em massa não terminou a tempo.'
+        started: 'Sincronização iniciada.'
+      load:
+        stage_not_mapped: 'Nenhum estágio do Woofed se chama “%{stage}”. Renomeie um para coincidir, ou mapeie o nome neste objeto.'
+        stage_field_empty: 'Este registro não traz estágio em “%{field}”. Aponte o mapeamento para o campo que o contém.'
+        contact_not_found: 'Esta oportunidade não tem contato no Woofed para ser vinculada.'
+        unknown_field: 'O mapeamento aponta para campos que este modelo não possui: %{fields}.'
+        event_contact_not_found: 'Esta atividade não tem contato no Woofed a que pertencer.'
+      raw_records:
+        not_found: 'Essa linha não existe mais.'
+        processed: 'A linha foi importada.'
+        failed: 'A linha falhou novamente. O motivo está nela.'
+        conflict: 'A linha ainda conflita com um registro existente.'
+        pending: 'A linha voltou para a fila.'
+      transforms:
+        invalid_currency: '“%{value}” não é um valor monetário.'
+        invalid_datetime: '“%{value}” não é uma data.'
+        invalid_phone: '“%{value}” não pôde ser convertido para um telefone internacional.'
+        unknown: 'Transformação “%{name}” desconhecida.'
+      conflicts:
+        already_taken: 'O %{field} “%{value}” já pertence a %{model} #%{id}.'
+      oauth_errors:
+        redirect_uri_mismatch: 'A URL de callback registrada no External Client App não corresponde a %{redirect_uri}.'
+        invalid_client: 'A consumer key ou a consumer secret é inválida.'
+        invalid_client_id: 'A consumer key é inválida.'
+        invalid_grant: 'O Salesforce recusou a autorização. Conecte novamente.'
+        access_denied: 'A autorização foi negada no Salesforce.'
+        inactive_user: 'O usuário do Salesforce está inativo.'
+        missing_refresh_token: 'Esta conexão não possui refresh token. Conecte novamente.'
+        unreadable_credentials: 'As credenciais do Salesforce armazenadas não podem mais ser lidas. Conecte novamente.'
+        connection_failed: 'Não foi possível se comunicar com o Salesforce.'
+        unknown: 'O Salesforce recusou a conexão.'

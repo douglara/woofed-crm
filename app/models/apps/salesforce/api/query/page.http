@@ -1,0 +1,9 @@
+GET https://{{instance}}.my.salesforce.com/services/data/v64.0/query?q=SELECT+Id,Name+FROM+Account HTTP/1.1
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+### Deleted and archived rows included
+
+GET https://{{instance}}.my.salesforce.com/services/data/v64.0/queryAll?q=SELECT+Id,IsDeleted+FROM+Account HTTP/1.1
+Authorization: Bearer {{access_token}}
+Content-Type: application/json

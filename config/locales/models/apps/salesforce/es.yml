@@ -1,0 +1,30 @@
+es:
+  activerecord:
+    models:
+      apps/salesforce:
+        one: 'Salesforce'
+        other: 'Salesforce'
+    attributes:
+      apps/salesforce:
+        name: 'Nombre'
+        status: 'Estado'
+        environment: 'Entorno'
+        client_id: 'Consumer key'
+        client_secret: 'Consumer secret'
+        instance_url: 'URL de la instancia'
+        organization_id: 'ID de la organización'
+        api_version: 'Versión de la API'
+        token_expires_at: 'El token expira en'
+        created_at: 'Creado en'
+        updated_at: 'Actualizado en'
+        statuses:
+          inactive: 'Inactivo'
+          active: 'Activo'
+          syncing: 'Sincronizando'
+          error: 'Error'
+        environments:
+          production: 'Producción'
+          sandbox: 'Sandbox'
+    errors:
+      messages:
+        salesforce_connection_already_exists: 'Ya existe una conexión con Salesforce'

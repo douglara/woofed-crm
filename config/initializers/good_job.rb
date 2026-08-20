@@ -20,6 +20,15 @@ Rails.application.configure do
     webhook_status_refresh: {
       cron: '0 12 * * *',
       class: 'Webhook::Status::RefreshJob'
+    },
+    apps_salesforce_connection_refresh: {
+      cron: '0 12 * * *',
+      class: 'Apps::Salesforce::Connection::RefreshJob'
+    },
+    # Until CDC/webhooks land, polling is the only thing keeping Woofed current.
+    apps_salesforce_delta_poll: {
+      cron: '*/5 * * * *',
+      class: 'Apps::Salesforce::Delta::PollJob'
     }
   }
 end

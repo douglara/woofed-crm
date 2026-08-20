@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_17_120000) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_11_120003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -112,6 +112,90 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_17_120000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "qrcode", default: "", null: false
+  end
+
+  create_table "apps_salesforce_object_mappings", force: :cascade do |t|
+    t.bigint "app_id", null: false
+    t.string "salesforce_object", null: false
+    t.string "woofed_model", null: false
+    t.boolean "enabled", default: false, null: false
+    t.jsonb "field_mappings", default: [], null: false
+    t.jsonb "options", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_id", "salesforce_object"], name: "index_salesforce_object_mappings_on_app_and_object", unique: true
+    t.index ["app_id"], name: "index_apps_salesforce_object_mappings_on_app_id"
+  end
+
+  create_table "apps_salesforce_raw_records", force: :cascade do |t|
+    t.bigint "app_id", null: false
+    t.bigint "sync_run_id"
+    t.string "salesforce_object", null: false
+    t.string "salesforce_id", null: false
+    t.jsonb "payload", default: {}, null: false
+    t.string "status", default: "pending", null: false
+    t.text "error"
+    t.datetime "processed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_id", "salesforce_object", "salesforce_id"], name: "index_salesforce_raw_records_on_app_object_and_id"
+    t.index ["app_id", "status"], name: "index_salesforce_raw_records_on_app_and_status"
+    t.index ["app_id"], name: "index_apps_salesforce_raw_records_on_app_id"
+    t.index ["sync_run_id"], name: "index_apps_salesforce_raw_records_on_sync_run_id"
+  end
+
+  create_table "apps_salesforce_record_links", force: :cascade do |t|
+    t.bigint "app_id", null: false
+    t.string "salesforce_id", null: false
+    t.string "salesforce_object", null: false
+    t.string "recordable_type", null: false
+    t.bigint "recordable_id", null: false
+    t.datetime "salesforce_system_modstamp"
+    t.datetime "last_synced_at"
+    t.string "sync_status", default: "pending", null: false
+    t.text "sync_error"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_id", "salesforce_object", "salesforce_id"], name: "index_salesforce_record_links_on_app_object_and_id", unique: true
+    t.index ["app_id"], name: "index_apps_salesforce_record_links_on_app_id"
+    t.index ["recordable_type", "recordable_id"], name: "index_apps_salesforce_record_links_on_recordable"
+  end
+
+  create_table "apps_salesforce_sync_runs", force: :cascade do |t|
+    t.bigint "app_id", null: false
+    t.string "salesforce_object", null: false
+    t.string "kind", default: "backfill", null: false
+    t.string "status", default: "pending", null: false
+    t.string "bulk_job_id"
+    t.string "locator"
+    t.datetime "cursor"
+    t.bigint "records_downloaded", default: 0, null: false
+    t.bigint "records_failed", default: 0, null: false
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.text "error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_id", "salesforce_object", "status"], name: "index_salesforce_sync_runs_on_app_object_and_status"
+    t.index ["app_id"], name: "index_apps_salesforce_sync_runs_on_app_id"
+  end
+
+  create_table "apps_salesforces", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "status", default: "inactive", null: false
+    t.string "environment", default: "production", null: false
+    t.string "client_id", default: "", null: false
+    t.string "instance_url", default: "", null: false
+    t.string "organization_id", default: "", null: false
+    t.string "api_version", default: "v64.0", null: false
+    t.datetime "token_expires_at"
+    t.jsonb "settings", default: {}, null: false
+    t.text "client_secret"
+    t.text "access_token"
+    t.text "refresh_token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "attachments", force: :cascade do |t|
@@ -708,6 +792,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_17_120000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "apps_salesforce_object_mappings", "apps_salesforces", column: "app_id"
+  add_foreign_key "apps_salesforce_raw_records", "apps_salesforce_sync_runs", column: "sync_run_id"
+  add_foreign_key "apps_salesforce_raw_records", "apps_salesforces", column: "app_id"
+  add_foreign_key "apps_salesforce_record_links", "apps_salesforces", column: "app_id"
+  add_foreign_key "apps_salesforce_sync_runs", "apps_salesforces", column: "app_id"
   add_foreign_key "company_contacts", "companies"
   add_foreign_key "company_contacts", "contacts"
   add_foreign_key "deal_assignees", "deals"

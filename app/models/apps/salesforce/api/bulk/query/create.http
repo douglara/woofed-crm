@@ -1,0 +1,8 @@
+POST https://{{instance}}.my.salesforce.com/services/data/v64.0/jobs/query HTTP/1.1
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "operation": "query",
+  "query": "SELECT Id, Name, SystemModstamp FROM Account"
+}
