@@ -12,13 +12,13 @@ never automatically — connecting an org still imports nothing.
 
 | File | Role |
 |---|---|
-| [backfill/start.rb](../../../app/models/apps/salesforce/backfill/start.rb) | One run per enabled mapping, in dependency order |
-| [backfill/soql.rb](../../../app/models/apps/salesforce/backfill/soql.rb) | Builds the SELECT and the COUNT for an object |
-| [backfill/relationship_fields.rb](../../../app/models/apps/salesforce/backfill/relationship_fields.rb) | The lookups to carry, read from the object's describe |
-| [backfill/store_records.rb](../../../app/models/apps/salesforce/backfill/store_records.rb) | Writes a downloaded page into staging |
-| [backfill/object_job.rb](../../../app/jobs/apps/salesforce/backfill/object_job.rb) | Picks REST or Bulk and drives the download |
-| [backfill/poll_job.rb](../../../app/jobs/apps/salesforce/backfill/poll_job.rb) | Asks whether the bulk job finished, with backoff |
-| [backfill/download_job.rb](../../../app/jobs/apps/salesforce/backfill/download_job.rb) | Downloads the finished job page by page |
+| [backfill/start.rb](../../../../app/models/apps/salesforce/backfill/start.rb) | One run per enabled mapping, in dependency order |
+| [backfill/soql.rb](../../../../app/models/apps/salesforce/backfill/soql.rb) | Builds the SELECT and the COUNT for an object |
+| [backfill/relationship_fields.rb](../../../../app/models/apps/salesforce/backfill/relationship_fields.rb) | The lookups to carry, read from the object's describe |
+| [backfill/store_records.rb](../../../../app/models/apps/salesforce/backfill/store_records.rb) | Writes a downloaded page into staging |
+| [backfill/object_job.rb](../../../../app/jobs/apps/salesforce/backfill/object_job.rb) | Picks REST or Bulk and drives the download |
+| [backfill/poll_job.rb](../../../../app/jobs/apps/salesforce/backfill/poll_job.rb) | Asks whether the bulk job finished, with backoff |
+| [backfill/download_job.rb](../../../../app/jobs/apps/salesforce/backfill/download_job.rb) | Downloads the finished job page by page |
 
 Plus the trigger: `POST /accounts/:id/apps/salesforce/sync` and a sync panel on the mapping screen
 showing the latest run per object.

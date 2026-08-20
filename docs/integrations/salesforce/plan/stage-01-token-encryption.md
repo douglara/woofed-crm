@@ -13,12 +13,12 @@ model that declares `encrypts` gives the same coverage without leaving the Sales
 
 | File | Role |
 |---|---|
-| [config/initializers/active_record_encryption.rb](../../../config/initializers/active_record_encryption.rb) | Encryption keys, derived from `secret_key_base` |
-| [db/migrate/20260810120000_create_apps_salesforces.rb](../../../db/migrate/20260810120000_create_apps_salesforces.rb) | The `apps_salesforces` table |
-| [app/models/apps/salesforce.rb](../../../app/models/apps/salesforce.rb) | Connection model: encrypted credentials, single-connection rule, revoke on destroy |
+| [config/initializers/active_record_encryption.rb](../../../../config/initializers/active_record_encryption.rb) | Encryption keys, derived from `secret_key_base` |
+| [db/migrate/20260810120000_create_apps_salesforces.rb](../../../../db/migrate/20260810120000_create_apps_salesforces.rb) | The `apps_salesforces` table |
+| [app/models/apps/salesforce.rb](../../../../app/models/apps/salesforce.rb) | Connection model: encrypted credentials, single-connection rule, revoke on destroy |
 | `config/locales/models/apps/salesforce/{en,pt-BR,es}.yml` | Attribute, enum and error translations |
-| [spec/factories/apps/salesforces.rb](../../../spec/factories/apps/salesforces.rb) | `:apps_salesforces` with `:connected`, `:sandbox`, `:token_expired` traits |
-| [spec/models/apps/salesforce_spec.rb](../../../spec/models/apps/salesforce_spec.rb) | 16 examples covering every branch of the model |
+| [spec/factories/apps/salesforces.rb](../../../../spec/factories/apps/salesforces.rb) | `:apps_salesforces` with `:connected`, `:sandbox`, `:token_expired` traits |
+| [spec/models/apps/salesforce_spec.rb](../../../../spec/models/apps/salesforce_spec.rb) | 16 examples covering every branch of the model |
 
 ---
 
@@ -35,14 +35,14 @@ token does not. That asymmetry is the reason this is worth doing before any sync
 
 Active Record Encryption needs `primary_key`, `deterministic_key` and `key_derivation_salt`. The
 Rails default is `credentials.yml.enc` + `master.key`, which this app does not have — every secret
-comes from the environment ([config/secrets.yml](../../../config/secrets.yml)). A separate set of
+comes from the environment ([config/secrets.yml](../../../../config/secrets.yml)). A separate set of
 ENV variables was considered and rejected as configuration burden for something the operator would
 almost always leave at its default. The keys are derived from `secret_key_base` instead, so an
 install needs no new configuration.
 
 **The trade-off, stated plainly:** rotating `SECRET_KEY_BASE` makes the encrypted columns
 unreadable. Today rotating it already logs everyone out, kills issued JWTs
-([json_web_token.rb:4](../../../app/use_cases/users/json_web_token.rb#L4)) and invalidates pending
+([json_web_token.rb:4](../../../../app/use_cases/users/json_web_token.rb#L4)) and invalidates pending
 Devise reset links — all of which recover by themselves. The encrypted columns do not: the
 integration has to be reconnected.
 

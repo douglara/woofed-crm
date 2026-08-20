@@ -12,9 +12,9 @@ requires a contact on every event, and Salesforce does not.
 
 | File | Role |
 |---|---|
-| [load/events/prepare.rb](../../../app/models/apps/salesforce/load/events/prepare.rb) | Kind, contact, deal and the done stamp |
-| [load/events/find_contact.rb](../../../app/models/apps/salesforce/load/events/find_contact.rb) | Who the activity belongs to |
-| [load/find_linked.rb](../../../app/models/apps/salesforce/load/find_linked.rb) | The record links read backwards, for any lookup field |
+| [load/events/prepare.rb](../../../../app/models/apps/salesforce/load/events/prepare.rb) | Kind, contact, deal and the done stamp |
+| [load/events/find_contact.rb](../../../../app/models/apps/salesforce/load/events/find_contact.rb) | Who the activity belongs to |
+| [load/find_linked.rb](../../../../app/models/apps/salesforce/load/find_linked.rb) | The record links read backwards, for any lookup field |
 
 `FindCompany` became `FindLinked`: three near-identical lookups — `AccountId` → Company, `WhoId` →
 Contact, `WhatId` → Deal — are the same question asked with different arguments.
@@ -51,7 +51,7 @@ for orgs that use tasks as notes. An unknown kind falls back rather than failing
 ## 3. A consequence worth stating
 
 `Event` schedules a webpush notification whenever `scheduled_at` is set
-([event.rb:80](../../../app/models/event.rb#L80)). Nothing here sets that column — it is only written
+([event.rb:80](../../../../app/models/event.rb#L80)). Nothing here sets that column — it is only written
 if the user maps a Salesforce date onto it — but if they do, importing historical tasks will
 schedule a notification per row, and past dates fire immediately. This is the same class of problem
 as the Chatwoot export on `Contact`, and the same answer applies: stage 2's import guard is what

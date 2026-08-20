@@ -12,14 +12,14 @@ health check that notices when the customer revokes the app.
 
 | File | Role |
 |---|---|
-| [apps/salesforce/oauth/authorize_request.rb](../../../app/models/apps/salesforce/oauth/authorize_request.rb) | Builds the consent URL and the PKCE pair |
-| [apps/salesforce/oauth/token_request.rb](../../../app/models/apps/salesforce/oauth/token_request.rb) | The only place that talks to `/services/oauth2/token` |
-| [apps/salesforce/oauth/exchange_code.rb](../../../app/models/apps/salesforce/oauth/exchange_code.rb) | `authorization_code` grant |
-| [apps/salesforce/oauth/error_message.rb](../../../app/models/apps/salesforce/oauth/error_message.rb) | Salesforce error code → message whose fix the user can act on |
-| [apps/salesforce/connection/refresh_token.rb](../../../app/models/apps/salesforce/connection/refresh_token.rb) | `refresh_token` grant, under a row lock |
-| [apps/salesforce/connection/refresh.rb](../../../app/models/apps/salesforce/connection/refresh.rb) + [refresh_job.rb](../../../app/jobs/apps/salesforce/connection/refresh_job.rb) | Daily health check, wired into `config/initializers/good_job.rb` |
-| [inertia/accounts/apps/salesforces_controller.rb](../../../app/controllers/inertia/accounts/apps/salesforces_controller.rb) | `create` starts the flow, `destroy` disconnects |
-| [apps/salesforces/oauth_controller.rb](../../../app/controllers/apps/salesforces/oauth_controller.rb) | The fixed callback URL |
+| [apps/salesforce/oauth/authorize_request.rb](../../../../app/models/apps/salesforce/oauth/authorize_request.rb) | Builds the consent URL and the PKCE pair |
+| [apps/salesforce/oauth/token_request.rb](../../../../app/models/apps/salesforce/oauth/token_request.rb) | The only place that talks to `/services/oauth2/token` |
+| [apps/salesforce/oauth/exchange_code.rb](../../../../app/models/apps/salesforce/oauth/exchange_code.rb) | `authorization_code` grant |
+| [apps/salesforce/oauth/error_message.rb](../../../../app/models/apps/salesforce/oauth/error_message.rb) | Salesforce error code → message whose fix the user can act on |
+| [apps/salesforce/connection/refresh_token.rb](../../../../app/models/apps/salesforce/connection/refresh_token.rb) | `refresh_token` grant, under a row lock |
+| [apps/salesforce/connection/refresh.rb](../../../../app/models/apps/salesforce/connection/refresh.rb) + [refresh_job.rb](../../../../app/jobs/apps/salesforce/connection/refresh_job.rb) | Daily health check, wired into `config/initializers/good_job.rb` |
+| [inertia/accounts/apps/salesforces_controller.rb](../../../../app/controllers/inertia/accounts/apps/salesforces_controller.rb) | `create` starts the flow, `destroy` disconnects |
+| [apps/salesforces/oauth_controller.rb](../../../../app/controllers/apps/salesforces/oauth_controller.rb) | The fixed callback URL |
 | `config/locales/apps/salesforce/{en,pt-BR,es}.yml` | Flash and OAuth error messages |
 
 Routes: `POST/DELETE /accounts/:account_id/apps/salesforce` (singular — one connection per install)

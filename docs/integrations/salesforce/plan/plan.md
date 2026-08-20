@@ -1,5 +1,10 @@
 # Salesforce → Woofed CRM sync — plan and technical study
 
+> **This is the design document and the backlog**, not a description of the running system. For how
+> the integration actually works today — the flows, the state machines, and what each class does —
+> read [../README.md](../README.md). Section 10 there lists every gap between this plan and the
+> code, with a pointer back to the stage that covers it.
+
 **Scope of phase 1: one-way sync, Salesforce → Woofed.** Woofed reads Salesforce data and
 materialises it as Woofed records. Nothing is written back to Salesforce. The architecture,
 however, keeps a write-back path open (see [Designing for phase 2](#12-designing-for-phase-2-write-back)),
@@ -165,8 +170,7 @@ for a managed/cloud offering, and we are not building one, so it stays out of sc
 | `refresh_token` | string (encrypted) | Long-lived |
 | `token_expires_at` | datetime | Proactive refresh instead of waiting for a 401 |
 | `api_version` | string | e.g. `v64.0`, pinned per install and discoverable via `/services/data` |
-| `settings` | jsonb | Sync toggles, poll interval, replay checkpoints |
-| `webhook_token` | string | Only needed if the Outbound Message option in §5 is chosen |
+| `settings` | jsonb | Reserved. Shipped empty and still unused: the per-object toggle ended up on `ObjectMapping#enabled`, and the poll interval is the cron expression |
 
 ### 3.2.1 Exactly one Salesforce connection per install
 
@@ -181,7 +185,7 @@ create:
 validate :only_one_connection, on: :create
 
 def only_one_connection
-  return if self.class.where.not(id: id).none?
+  return unless self.class.exists?
 
   errors.add(:base, I18n.t('activerecord.errors.messages.salesforce_connection_already_exists'))
 end
@@ -213,10 +217,10 @@ What follows from "exactly one" throughout the rest of this document:
   `active_record.encryption` keys from ENV, since this app has no `master.key`. This is a
   prerequisite task, not an optional polish — detailed in
   [stage-01-token-encryption.md](stage-01-token-encryption.md).
-- **Refresh on demand.** A single `Apps::Salesforce::Connection` object owns the Faraday client,
-  refreshes the access token when `token_expires_at` is within ~5 minutes, retries once on a
-  `401 INVALID_SESSION_ID`, and flips `status` to `error` when the refresh token is revoked so
-  the UI can prompt for reconnection.
+- **Refresh on demand.** *Shipped as `Apps::Salesforce::Api::Client` plus
+  `Apps::Salesforce::Connection::RefreshToken`.* One Faraday client for every call, a 5-minute
+  expiry margin, a single refresh-and-retry on `401 INVALID_SESSION_ID`, and `status: error` when
+  the refresh token is revoked so the UI can prompt for reconnection.
 - **Revocation.** `before_destroy` posts to `/services/oauth2/revoke`, matching
   `Apps::Chatwoot#chatwoot_delete_flow` which cleans up remote state on destroy.
 - **Do not log payloads.** Salesforce records are PII. Log record ids and counts, never bodies.
@@ -248,6 +252,9 @@ that are easy to conflate; only one of them is the sync's initial load.
 by dependency (`Account` → `Contact` → `Lead` → `Opportunity` → `Task`/`Event`), each with an
 explicit field list derived from the user's field mapping plus `Id`, `SystemModstamp`,
 `IsDeleted`, and the relevant relationship ids (`AccountId`, `OwnerId`, `ConvertedContactId`…).
+*As shipped, `Id` and `SystemModstamp` are always selected and the relationship ids are read from
+the object's `describe` rather than from a fixed list. `IsDeleted` is not selected yet — it arrives
+with the delete sweep (stage 14), which is what needs it.*
 
 Below roughly 50k records per object a plain paged REST `/query` is simpler and finishes faster
 (no job polling round-trip), so the loader should pick its strategy from a `COUNT()` probe rather
@@ -288,8 +295,8 @@ mandatory.
 ### 5.2 Recommendation: polling first, CDC second
 
 **Phase 1 ships polling.** One GoodJob cron entry per install, running
-`SELECT <fields> FROM <Object> WHERE SystemModstamp > :cursor ORDER BY SystemModstamp LIMIT 2000`,
-advancing the cursor to the max `SystemModstamp` returned, paging until drained. Reasons:
+`SELECT <fields> FROM <Object> WHERE SystemModstamp > :cursor ORDER BY SystemModstamp`, paging
+until drained. Reasons:
 
 - It is pure Faraday and slots straight into the existing `config/good_job.rb` cron block next to
   `apps_chatwoot_connection_refresh`.
@@ -299,6 +306,15 @@ advancing the cursor to the max `SystemModstamp` returned, paging until drained.
 - For a CRM, "the contact appears within 5 minutes" is nearly always acceptable. Real-time is
   a nice-to-have here, not a requirement — unlike the Chatwoot integration, where a message must
   appear immediately.
+
+> **Correction, from building it.** An earlier draft of this section said to advance the cursor to
+> the maximum `SystemModstamp` returned. That silently loses records, and the shipped code
+> deliberately does the opposite: `SyncRun#start!` stamps the cursor at **submission time**. A
+> download can run for an hour, and a record edited while it runs was already fetched with its old
+> values — its new modification stamp can still be older than the newest row of the run, so a
+> cursor taken from the data would skip it forever. Starting the next run slightly in the past only
+> costs re-reading a few records, which the load ignores as unchanged. Only a run that reached
+> `completed` advances the mark. Do not "optimise" this back.
 
 **Deletes are the gap in polling.** A deleted record simply stops appearing in query results.
 Two mitigations, both cheap: query `IsDeleted = true` against the recycle bin using
@@ -431,17 +447,24 @@ only at row 400,000 of a backfill is a bad experience.
 
 Per `AGENTS.md`: **GoodJob** for long-running/scheduled work, **Sidekiq** for short async tasks.
 
+As shipped — the namespace is `Apps::Salesforce` (singular), and "Sync now" turned out not to need
+a job of its own: the controller calls `Backfill::Start`, which fans out directly.
+
 | Job | Engine | Trigger |
 |---|---|---|
-| `Apps::Salesforces::Backfill::RunJob` | GoodJob | User clicks "Sync now" after mapping |
-| `Apps::Salesforces::Backfill::ObjectJob` | GoodJob | Fan-out, one per mapped object, dependency-ordered |
-| `Apps::Salesforces::Delta::PollJob` | GoodJob cron | `config/initializers/good_job.rb`, `*/5 * * * *` |
-| `Apps::Salesforces::Transform::BatchWorker` | Sidekiq | Chunk of staged rows → Woofed records |
-| `Apps::Salesforces::Connection::RefreshJob` | GoodJob cron | Daily token/connection health check, mirroring `Apps::Chatwoot::Connection::RefreshJob` |
+| `Apps::Salesforce::Backfill::ObjectJob` | GoodJob | Fan-out from `Backfill::Start`, one per enabled object, dependency-ordered |
+| `Apps::Salesforce::Backfill::PollJob` | GoodJob | Asks whether a bulk job finished; reschedules itself with backoff |
+| `Apps::Salesforce::Backfill::DownloadJob` | GoodJob | Pages bulk results, checkpointing the `Sforce-Locator` |
+| `Apps::Salesforce::Delta::PollJob` | GoodJob cron | `config/initializers/good_job.rb`, `*/5 * * * *` |
+| `Apps::Salesforce::Load::BatchWorker` | Sidekiq | Chunk of staged rows → Woofed records, after every downloaded page |
+| `Apps::Salesforce::Connection::RefreshJob` | GoodJob cron | Daily token/connection health check, mirroring `Apps::Chatwoot::Connection::RefreshJob` |
 
-Use `GoodJob::ActiveJobExtensions::Concurrency` with a key of the `Apps::Salesforce` id — as
-`Accounts::Apps::Chatwoots::Webhooks::ProcessWebhookJob` already does — so two syncs for the same
-org can never interleave and race on the same link rows.
+Use `GoodJob::ActiveJobExtensions::Concurrency` — as
+`Accounts::Apps::Chatwoots::Webhooks::ProcessWebhookJob` already does — so two syncs can never
+interleave and race on the same link rows. *Shipped keyed on the `SyncRun` id rather than the
+connection id: two different objects of the same org are independent and there is no reason to
+serialise them, while `Backfill::Start` already refuses to open a second run for an object that has
+an unfinished one.*
 
 ### 8.2 The import guard (critical)
 
@@ -459,6 +482,13 @@ during an import that needs to reject malformed data. **Introduce an explicit
 `Current.sync_source` (or an `importing` attribute) and gate the outbound side effects on it**,
 leaving validations intact. This is a small refactor of `Contact`/`Deal`/`Event` and should be
 scheduled *before* the loader, not after.
+
+> **Status: not done, and the loader shipped anyway (stage 2).** This is the largest known gap in
+> the integration. On an install that also has Chatwoot configured, a backfill pushes every imported
+> contact into the customer's Chatwoot account, because `Contact#export_contact_to_chatwoot` fires
+> on commit and the loader sets no flag that suppresses it. Reusing the existing `skip_validation`
+> is **not** the fix: it also switches off the email and phone validations, which an import needs
+> most. Do this before pointing the integration at a real org.
 
 ### 8.3 Idempotency
 
@@ -535,8 +565,11 @@ Following `AGENTS.md`:
   No real network calls.
 - **Request specs** through the real HTTP stack for the OAuth callback and the mapping CRUD, so the
   wiring is covered end to end rather than by mocking the use case.
-- **Factories with traits** for `:apps_salesforce` (`:connected`, `:token_expired`,
-  `:with_contact_mapping`) instead of inline `create` chains.
+- **Factories with traits** instead of inline `create` chains. Shipped:
+  `:apps_salesforces` (`:connected`, `:sandbox`, `:token_expired`),
+  `:apps_salesforce_object_mappings` (`:opportunity`, `:disabled`),
+  `:apps_salesforce_sync_runs` (`:running`), `:apps_salesforce_raw_records`
+  (`:processed`, `:conflict`), `:apps_salesforce_record_links` (`:deleted`, `:contact`).
 - Behaviour-focused examples covering the branches that will actually bite: duplicate email →
   conflict row, unparseable phone → blank phone + raw kept, Opportunity with no contact → skipped
   with reason, unchanged `SystemModstamp` → no write, deleted record → mapping tombstoned and
@@ -570,7 +603,7 @@ suppression (a Woofed write that originated from Salesforce must not be pushed b
 |---|---|---|---|---|
 | 0 | Discovery / decisions | §14.2 answered, target org identified, sandbox available | — | ⬜ Not started |
 | 1 | Token encryption | `ActiveRecord::Encryption` configured; keys derived from `secret_key_base` — [notes](stage-01-token-encryption.md) | — | ✅ Done |
-| 2 | Import guard | `Current.sync_source` gate on `Contact`/`Deal`/`Event` side effects | — | ⬜ Not started |
+| 2 | Import guard | `Current.sync_source` gate on `Contact`/`Deal`/`Event` side effects. **Skipped, and the loader shipped without it — see §8.2.** Every imported contact currently fires the Chatwoot export | — | ⬜ Not started |
 | 3 | `Apps::Salesforce` model + migration | Table, validations (incl. the single-connection guard, §3.2.1), `status` enum, revoke on destroy — shipped with stage 1, [notes](stage-01-token-encryption.md) | 1 | ✅ Done |
 | 4 | OAuth (web server flow) | Authorize + callback controllers, token refresh, connection health job — [notes](stage-04-oauth.md) | 3 | ✅ Done |
 | 5 | API client | Faraday client: describe, SOQL query + paging, `queryAll`, Bulk 2.0 jobs, retry/401 handling — [notes](stage-05-api-client.md) | 4 | ✅ Done |
@@ -584,7 +617,7 @@ suppression (a Woofed write that originated from Salesforce must not be pushed b
 | 13 | Delta poll | `SystemModstamp` cursor job + GoodJob cron entry, every 5 minutes | 9, 10 | ✅ Done |
 | 14 | Deletes | `queryAll` / `IsDeleted` sweep, mapping tombstones | 13 | ⬜ Not started |
 | 15 | Sync + conflicts UI | Progress, counters, per-record errors, conflict resolution — [notes](stage-15-sync-ui.md) | 7 | ✅ Done |
-| 16 | Hardening | Rate-limit backoff, API-usage telemetry, PII-safe logging, docs | 13–15 | ⬜ Not started |
+| 16 | Hardening | Rate-limit backoff on `REQUEST_LIMIT_EXCEEDED`, API-usage telemetry from `Sforce-Limit-Info`, PII-safe logging, docs, **and a sweeper that expires runs stuck in `running`** — without it a worker that dies mid-run leaves that object skipped by every later tick, permanently and silently | 13–15 | ⬜ Not started |
 | 17 | Pilot on a real org | Sandbox → one production org, measured | 16 | ⬜ Not started |
 | 18 | *(Phase 2)* CDC via Pub/Sub API | gRPC subscriber, `replay_id` checkpointing, 72h gap fallback | 17 | ⬜ Not started |
 | 19 | *(Phase 2)* Write-back | Outbound queue, loop suppression | 18 | ⬜ Not started |
@@ -613,7 +646,8 @@ and 2 are unglamorous but genuinely blocking — doing them after the loader mea
 ### 14.2 Still open
 
 1. **Latency requirement.** If 5-minute polling is acceptable, stage 18 (CDC) can be deferred
-   indefinitely — and it is by far the most expensive stage on the list.
+   indefinitely — and it is by far the most expensive stage on the list. *Provisionally settled:
+   stage 13 shipped at `*/5 * * * *`. Revisit only if a pilot org asks for seconds-level latency.*
 2. **Do Salesforce Tasks/Events belong in Woofed at all?** They are the highest-volume objects and
    the lowest-value ones. Consider shipping stages 10–11 only and treating stage 12 as optional.
 3. **Conflict policy on the first sync**: skip conflicting records and report, or merge into the

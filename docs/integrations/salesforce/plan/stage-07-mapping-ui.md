@@ -15,11 +15,11 @@ Inertia + React, per `AGENTS.md`. The controller moved under `Inertia::` and its
 
 | File | Role |
 |---|---|
-| [inertia/…/salesforces_controller.rb](../../../app/controllers/inertia/accounts/apps/salesforces_controller.rb) | `show`, `create` (starts OAuth), `destroy`, `describe` (JSON for the field pickers) |
-| [inertia/…/salesforces/object_mappings_controller.rb](../../../app/controllers/inertia/accounts/apps/salesforces/object_mappings_controller.rb) | Saves one object mapping |
-| [apps/salesforce/woofed_fields.rb](../../../app/models/apps/salesforce/woofed_fields.rb) | The Woofed side of the pickers: columns + custom attributes |
-| [pages/Apps/Salesforce/Show.tsx](../../../app/javascript/pages/Apps/Salesforce/Show.tsx) | The page |
-| [components/salesforce/](../../../app/javascript/components/salesforce/) | `ConnectForm`, `ConnectionSummary`, `ObjectMappingCard`, `CopyableValue` |
+| [inertia/…/salesforces_controller.rb](../../../../app/controllers/inertia/accounts/apps/salesforces_controller.rb) | `show`, `create` (starts OAuth), `destroy`, `describe` (JSON for the field pickers) |
+| [inertia/…/salesforces/object_mappings_controller.rb](../../../../app/controllers/inertia/accounts/apps/salesforces/object_mappings_controller.rb) | Saves one object mapping |
+| [apps/salesforce/woofed_fields.rb](../../../../app/models/apps/salesforce/woofed_fields.rb) | The Woofed side of the pickers: columns + custom attributes |
+| [pages/Apps/Salesforce/Show.tsx](../../../../app/javascript/pages/Apps/Salesforce/Show.tsx) | The page |
+| [components/salesforce/](../../../../app/javascript/components/salesforce/) | `ConnectForm`, `ConnectionSummary`, `ObjectMappingCard`, `CopyableValue` |
 
 Routes: `GET/POST/DELETE /accounts/:account_id/apps/salesforce`,
 `GET …/describe/:salesforce_object`, `POST …/object_mappings`.

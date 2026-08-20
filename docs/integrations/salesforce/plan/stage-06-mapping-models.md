@@ -12,12 +12,12 @@ already synced, what was downloaded, and how each run went.
 
 | Table / model | What it holds |
 |---|---|
-| `apps_salesforce_object_mappings` — [ObjectMapping](../../../app/models/apps/salesforce/object_mapping.rb) | Configuration: Account → Company, and which field feeds which field |
-| `apps_salesforce_record_links` — [RecordLink](../../../app/models/apps/salesforce/record_link.rb) | Identity map: Account `001Hn…` ⇄ Company #42 |
-| `apps_salesforce_raw_records` — [RawRecord](../../../app/models/apps/salesforce/raw_record.rb) | Staging: the raw row exactly as Salesforce sent it |
-| `apps_salesforce_sync_runs` — [SyncRun](../../../app/models/apps/salesforce/sync_run.rb) | One execution per object: bulk job id, locator, cursor, counters |
+| `apps_salesforce_object_mappings` — [ObjectMapping](../../../../app/models/apps/salesforce/object_mapping.rb) | Configuration: Account → Company, and which field feeds which field |
+| `apps_salesforce_record_links` — [RecordLink](../../../../app/models/apps/salesforce/record_link.rb) | Identity map: Account `001Hn…` ⇄ Company #42 |
+| `apps_salesforce_raw_records` — [RawRecord](../../../../app/models/apps/salesforce/raw_record.rb) | Staging: the raw row exactly as Salesforce sent it |
+| `apps_salesforce_sync_runs` — [SyncRun](../../../../app/models/apps/salesforce/sync_run.rb) | One execution per object: bulk job id, locator, cursor, counters |
 
-Plus [RecordId](../../../app/models/apps/salesforce/record_id.rb), which normalises Salesforce ids.
+Plus [RecordId](../../../../app/models/apps/salesforce/record_id.rb), which normalises Salesforce ids.
 
 ---
 

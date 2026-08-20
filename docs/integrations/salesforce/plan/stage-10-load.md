@@ -12,9 +12,9 @@ org's accounts and contacts exist in the CRM.
 
 | File | Role |
 |---|---|
-| [load/record.rb](../../../app/models/apps/salesforce/load/record.rb) | One staged row → one Woofed record, with its mapping |
-| [load/record/find_or_build.rb](../../../app/models/apps/salesforce/load/record/find_or_build.rb) | Decides update vs. create |
-| [load/batch_worker.rb](../../../app/models/apps/salesforce/load/batch_worker.rb) | Loads the pending rows of a run (Sidekiq) |
+| [load/record.rb](../../../../app/models/apps/salesforce/load/record.rb) | One staged row → one Woofed record, with its mapping |
+| [load/record/find_or_build.rb](../../../../app/models/apps/salesforce/load/record/find_or_build.rb) | Decides update vs. create |
+| [load/batch_worker.rb](../../../../app/models/apps/salesforce/load/batch_worker.rb) | Loads the pending rows of a run (Sidekiq) |
 
 The backfill enqueues a batch after every page it stages, so loading trails the download instead of
 waiting for it: on a large object the first records are usable long before the last page arrives.

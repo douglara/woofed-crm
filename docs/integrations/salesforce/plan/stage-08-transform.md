@@ -13,11 +13,11 @@ a mapping change without downloading the org again.
 
 | File | Role |
 |---|---|
-| [transform/record.rb](../../../app/models/apps/salesforce/transform/record.rb) | One row + one object mapping → attributes, custom attributes, warnings |
-| [transform/value.rb](../../../app/models/apps/salesforce/transform/value.rb) | Dispatches a value to the transform named in the mapping |
-| [transform/inferred.rb](../../../app/models/apps/salesforce/transform/inferred.rb) | Picks the transform when the mapping does not name one |
+| [transform/record.rb](../../../../app/models/apps/salesforce/transform/record.rb) | One row + one object mapping → attributes, custom attributes, warnings |
+| [transform/value.rb](../../../../app/models/apps/salesforce/transform/value.rb) | Dispatches a value to the transform named in the mapping |
+| [transform/inferred.rb](../../../../app/models/apps/salesforce/transform/inferred.rb) | Picks the transform when the mapping does not name one |
 | `transform/{text,currency_to_cents,datetime,picklist_to_label_list,boolean,phone}.rb` | The named transforms |
-| [transform/conflict.rb](../../../app/models/apps/salesforce/transform/conflict.rb) | Detects a uniqueness collision before the insert fails |
+| [transform/conflict.rb](../../../../app/models/apps/salesforce/transform/conflict.rb) | Detects a uniqueness collision before the insert fails |
 
 ---
 
