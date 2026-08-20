@@ -435,7 +435,7 @@ Per `AGENTS.md`: **GoodJob** for long-running/scheduled work, **Sidekiq** for sh
 |---|---|---|
 | `Apps::Salesforces::Backfill::RunJob` | GoodJob | User clicks "Sync now" after mapping |
 | `Apps::Salesforces::Backfill::ObjectJob` | GoodJob | Fan-out, one per mapped object, dependency-ordered |
-| `Apps::Salesforces::Delta::PollJob` | GoodJob cron | `config/good_job.rb`, e.g. `*/5 * * * *` |
+| `Apps::Salesforces::Delta::PollJob` | GoodJob cron | `config/initializers/good_job.rb`, `*/5 * * * *` |
 | `Apps::Salesforces::Transform::BatchWorker` | Sidekiq | Chunk of staged rows → Woofed records |
 | `Apps::Salesforces::Connection::RefreshJob` | GoodJob cron | Daily token/connection health check, mirroring `Apps::Chatwoot::Connection::RefreshJob` |
 
@@ -581,7 +581,7 @@ suppression (a Woofed write that originated from Salesforce must not be pushed b
 | 10 | Load — Account/Contact/Lead | Idempotent upsert into `Company`/`Contact`, dedup rules — [notes](stage-10-load.md) | 8, 9 | ✅ Done |
 | 11 | Load — Opportunity | `Deal` + pipeline/stage mapping + contact resolution — [notes](stage-11-load-opportunity.md) | 10 | ✅ Done |
 | 12 | Load — Task/Event | Woofed `Event` records — [notes](stage-12-load-activities.md) | 10 | ✅ Done |
-| 13 | Delta poll | `SystemModstamp` cursor job + GoodJob cron entry | 9, 10 | ⬜ Not started |
+| 13 | Delta poll | `SystemModstamp` cursor job + GoodJob cron entry, every 5 minutes | 9, 10 | ✅ Done |
 | 14 | Deletes | `queryAll` / `IsDeleted` sweep, mapping tombstones | 13 | ⬜ Not started |
 | 15 | Sync + conflicts UI | Progress, counters, per-record errors, conflict resolution — [notes](stage-15-sync-ui.md) | 7 | ✅ Done |
 | 16 | Hardening | Rate-limit backoff, API-usage telemetry, PII-safe logging, docs | 13–15 | ⬜ Not started |
