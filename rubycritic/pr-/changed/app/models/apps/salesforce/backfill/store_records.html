@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../../../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../../../../overview.html"><img src="../../../../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../../../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-08-19 22:59:46 -0300'>2026-08-19 22:59:46 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>app/models/apps/salesforce/backfill /</small> store_records.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating a big">
+              A
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">55</span><small> lines of codes</small></div>
+              <div><span class="metric">4</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">8.9</span><small> complexity/method</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">35.78</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                2
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># frozen_string_literal: true
+
+# Writes a downloaded page of raw rows into staging and advances the run&#39;s
+# counter.
+#
+# Rows go in through `insert_all`: a bulk page carries ten thousand records, far
+# more than Woofed can validate and save one at a time, and nothing here needs
+# callbacks -- these are raw payloads, not Woofed records yet. Turning them into
+# contacts and companies is the load step&#39;s work.
+#
+# The run&#39;s cursor is deliberately not touched here. It is set to the instant the
+# query was submitted, because a record edited *during* a long download would
+# otherwise be missed: it was already downloaded with its old values, and its new
+# modification stamp can still be older than the newest row of the run.
+class Apps::Salesforce::Backfill::StoreRecords
+  def initialize(sync_run, records)
+    @sync_run = sync_run
+    @records = records
+  end
+
+  def call
+    return { ok: 0 } if rows.blank?
+
+    Apps::Salesforce::RawRecord.insert_all(rows)
+    sync_run.update!(records_downloaded: sync_run.records_downloaded + rows.size)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Apps::Salesforce::Backfill::StoreRecords#call calls 'rows.size' 2 times</span>              <span>Locations:</span>                  <a href="store_records.html#L25" class="js-smell-location">0</a>                  <a href="store_records.html#L27" class="js-smell-location">1</a>                  </div>  </li></ol>
+
+    { ok: rows.size }<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Apps::Salesforce::Backfill::StoreRecords#call calls 'rows.size' 2 times</span>              <span>Locations:</span>                  <a href="store_records.html#L25" class="js-smell-location">0</a>                  <a href="store_records.html#L27" class="js-smell-location">1</a>                  </div>  </li></ol>
+  end
+
+  private
+
+  attr_reader :sync_run, :records
+
+  def rows
+    @rows ||= Array(records).filter_map do |record|
+      salesforce_id = Apps::Salesforce::RecordId.call(record[&#39;Id&#39;])
+      next if salesforce_id.blank?
+
+      staged_row(record, salesforce_id)
+    end
+  end
+
+  def staged_row(record, salesforce_id)
+    {
+      app_id: sync_run.app_id,
+      sync_run_id: sync_run.id,
+      salesforce_object: sync_run.salesforce_object,
+      salesforce_id: salesforce_id,
+      payload: record,
+      status: &#39;pending&#39;,
+      created_at: Time.current,<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Apps::Salesforce::Backfill::StoreRecords#staged_row calls 'Time.current' 2 times</span>              <span>Locations:</span>                  <a href="store_records.html#L51" class="js-smell-location">0</a>                  <a href="store_records.html#L52" class="js-smell-location">1</a>                  </div>  </li></ol>
+      updated_at: Time.current<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Apps::Salesforce::Backfill::StoreRecords#staged_row calls 'Time.current' 2 times</span>              <span>Locations:</span>                  <a href="store_records.html#L51" class="js-smell-location">0</a>                  <a href="store_records.html#L52" class="js-smell-location">1</a>                  </div>  </li></ol>
+    }
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../../../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../../../../assets/javascripts/application.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>

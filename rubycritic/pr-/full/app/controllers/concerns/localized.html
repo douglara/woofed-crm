@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2025-08-05 23:56:31 -0300'>2025-08-05 23:56:31 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-04-08 20:47:10 -0300'>2026-04-08 20:47:10 -0300</time>
         
       </span>
     </div>
@@ -72,11 +72,11 @@
               <div><span class="metric">4</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">6.8</span><small> complexity/method</small></div>
-              <div><span class="metric">6</span><small> churn</small></div>
+              <div><span class="metric">6.2</span><small> complexity/method</small></div>
+              <div><span class="metric">7</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">27.22</span><small> complexity</small></div>
+              <div><span class="metric">24.88</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -101,12 +101,12 @@
   extend ActiveSupport::Concern
 
   included do
-    around_action :set_locale
+    before_action :set_locale
     before_action :set_time_zone
   end
 
-  def set_locale(&amp;block)
-    I18n.with_locale(requested_locale || I18n.default_locale, &amp;block)
+  def set_locale
+    I18n.locale = requested_locale || I18n.default_locale
   end
 
   private

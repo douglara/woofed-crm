@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-12 21:30:22 -0300'>2026-03-12 21:30:22 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-06-08 18:29:14 -0300'>2026-06-08 18:29:14 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">97</span><small> lines of codes</small></div>
+              <div><span class="metric">133</span><small> lines of codes</small></div>
               <div><span class="metric">4</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">1.6</span><small> complexity/method</small></div>
-              <div><span class="metric">55</span><small> churn</small></div>
+              <div><span class="metric">73</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">6.35</span><small> complexity</small></div>
@@ -103,16 +103,25 @@
 #
 #  id                     :bigint           not null, primary key
 #  avatar_url             :string           default(&quot;&quot;), not null
+#  current_sign_in_at     :datetime
+#  current_sign_in_ip     :string
 #  email                  :string           default(&quot;&quot;), not null
 #  encrypted_password     :string           default(&quot;&quot;), not null
+#  failed_attempts        :integer          default(0)
 #  full_name              :string           default(&quot;&quot;), not null
 #  job_description        :string           default(&quot;other&quot;), not null
 #  language               :string           default(&quot;en&quot;), not null
+#  last_sign_in_at        :datetime
+#  last_sign_in_ip        :string
+#  locked_at              :datetime
 #  notifications          :jsonb            not null
 #  phone                  :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  sign_in_count          :integer          default(0)
+#  theme_preference       :string           default(&quot;system&quot;), not null
+#  unlock_token           :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -120,8 +129,16 @@
 #
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_unlock_token          (unlock_token) UNIQUE
 #
 class User &lt; ApplicationRecord
+  include User::WoofedAiToken
+
+  FORM_FIELDS = %i[full_name email phone language password password_confirmation].freeze
+
+  SHOW_FIELDS = { details: [:full_name, :email, :phone, :id, { enum_fields: %i[job_description] }, :language, :created_at,
+                             :updated_at] }.freeze
+
   has_one :installation
   has_many :webpush_subscriptions
   has_many :deal_assignees, dependent: :destroy
@@ -131,10 +148,23 @@ class User &lt; ApplicationRecord
            foreign_key: &#39;created_by_id&#39;,
            dependent: :nullify,
            inverse_of: :creator
+  # Doorkeeper records own the user via `resource_owner_id`. Without
+  # `dependent: :destroy`, destroying a user that owns any access token
+  # (e.g. the Woofed AI token minted by `User::WoofedAiToken`) fails
+  # with a foreign-key violation on `oauth_access_tokens`.
+  has_many :access_tokens,
+           class_name: &#39;Doorkeeper::AccessToken&#39;,
+           foreign_key: :resource_owner_id,
+           dependent: :destroy
+  has_many :access_grants,
+           class_name: &#39;Doorkeeper::AccessGrant&#39;,
+           foreign_key: :resource_owner_id,
+           dependent: :destroy
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :trackable, :timeoutable
 
   accepts_nested_attributes_for :account
 
@@ -175,6 +205,12 @@ class User &lt; ApplicationRecord
     operations_coordinator: &#39;operations_coordinator&#39;,
     executive_assistant: &#39;executive_assistant&#39;,
     other: &#39;other&#39;
+  }
+
+  enum theme_preference: {
+    light: &#39;light&#39;,
+    dark: &#39;dark&#39;,
+    system: &#39;system&#39;
   }
 
   def self.ransackable_attributes(_auth_object = nil)

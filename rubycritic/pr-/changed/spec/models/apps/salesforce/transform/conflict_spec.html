@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../../../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../../../../overview.html"><img src="../../../../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../../../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-08-12 16:56:25 -0300'>2026-08-12 16:56:25 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>spec/models/apps/salesforce/transform /</small> conflict_spec.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating c big">
+              C
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">72</span><small> lines of codes</small></div>
+              <div><span class="metric">0</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">N/A</span><small> complexity/method</small></div>
+              <div><span class="metric">1</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">118.52</span><small> complexity</small></div>
+              <div><span class="metric">94</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                2
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># spec/models/apps/salesforce/transform/conflict_spec.rb
+require &#39;rails_helper&#39;
+
+RSpec.describe Apps::Salesforce::Transform::Conflict do
+  # Creating a contact fires the Chatwoot export callback, which reads
+  # Current.account -- the very side effect the import guard has to gate.
+  let!(:account) { create(:account) }
+
+  describe &#39;.call&#39; do
+    context &#39;when nothing in woofed owns the values yet&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="conflict_spec.html#L10" class="js-smell-location">0</a>                  <a href="conflict_spec.html#L60" class="js-smell-location">1</a>                  <a href="conflict_spec.html#L66" class="js-smell-location">2</a>                  </div>  </li></ol>
+      it &#39;reports no conflict&#39; do
+        expect(described_class.call(&#39;Contact&#39;, { &#39;email&#39; =&gt; &#39;ana@acme.com&#39; })).to eq(ok: nil)
+      end
+    end
+
+    context &#39;when another record already owns the email&#39; do
+      it &#39;names the record that owns it, so a human can resolve the collision&#39; do
+        owner = create(:contact, email: &#39;contato@acme.com&#39;)
+
+        result = described_class.call(&#39;Contact&#39;, { &#39;email&#39; =&gt; &#39;contato@acme.com&#39; })
+
+        expect(result[:conflict]).to eq(
+          I18n.t(&#39;apps.salesforce.conflicts.already_taken&#39;, field: &#39;email&#39;, value: &#39;contato@acme.com&#39;,
+                                                            model: Contact.model_name.human, id: owner.id)
+        )
+      end
+
+      it &#39;matches regardless of case, the way the unique index does&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="conflict_spec.html#L28" class="js-smell-location">0</a>                  <a href="conflict_spec.html#L36" class="js-smell-location">1</a>                  </div>  </li></ol>
+        create(:contact, email: &#39;contato@acme.com&#39;)
+
+        expect(described_class.call(&#39;Contact&#39;, { &#39;email&#39; =&gt; &#39;CONTATO@ACME.COM&#39; })[:conflict]).to be_present
+      end
+    end
+
+    context &#39;when another record already owns the phone&#39; do
+      it &#39;reports it&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="conflict_spec.html#L28" class="js-smell-location">0</a>                  <a href="conflict_spec.html#L36" class="js-smell-location">1</a>                  </div>  </li></ol>
+        create(:contact, phone: &#39;+551133334444&#39;)
+
+        expect(described_class.call(&#39;Contact&#39;, { &#39;phone&#39; =&gt; &#39;+551133334444&#39; })[:conflict]).to be_present
+      end
+    end
+
+    context &#39;when the record that owns the value is the one being updated&#39; do
+      it &#39;reports no conflict, since that is the record this row maps to&#39; do
+        contact = create(:contact, email: &#39;contato@acme.com&#39;)
+
+        expect(described_class.call(&#39;Contact&#39;, { &#39;email&#39; =&gt; &#39;contato@acme.com&#39; }, recordable: contact))
+          .to eq(ok: nil)
+      end
+    end
+
+    context &#39;when the values are blank&#39; do
+      it &#39;reports no conflict, since salesforce leaves them empty all the time&#39; do
+        create(:contact, email: &#39;contato@acme.com&#39;)
+
+        expect(described_class.call(&#39;Contact&#39;, { &#39;email&#39; =&gt; &#39;&#39;, &#39;phone&#39; =&gt; nil })).to eq(ok: nil)
+      end
+    end
+
+    context &#39;when the target model has no such unique field&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="conflict_spec.html#L10" class="js-smell-location">0</a>                  <a href="conflict_spec.html#L60" class="js-smell-location">1</a>                  <a href="conflict_spec.html#L66" class="js-smell-location">2</a>                  </div>  </li></ol>
+      it &#39;reports no conflict&#39; do
+        expect(described_class.call(&#39;Event&#39;, { &#39;email&#39; =&gt; &#39;contato@acme.com&#39; })).to eq(ok: nil)
+      end
+    end
+
+    context &#39;when the model is not one the sync writes to&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="conflict_spec.html#L10" class="js-smell-location">0</a>                  <a href="conflict_spec.html#L60" class="js-smell-location">1</a>                  <a href="conflict_spec.html#L66" class="js-smell-location">2</a>                  </div>  </li></ol>
+      it &#39;reports no conflict rather than failing&#39; do
+        expect(described_class.call(&#39;User&#39;, { &#39;email&#39; =&gt; &#39;contato@acme.com&#39; })).to eq(ok: nil)
+      end
+    end
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../../../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../../../../assets/javascripts/application.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>

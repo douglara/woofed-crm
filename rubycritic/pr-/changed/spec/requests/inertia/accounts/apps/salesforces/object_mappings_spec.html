@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../../../../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../../../../../overview.html"><img src="../../../../../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../../../../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-08-19 19:39:41 -0300'>2026-08-19 19:39:41 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>spec/requests/inertia/accounts/apps/salesforces /</small> object_mappings_spec.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating d big">
+              D
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">137</span><small> lines of codes</small></div>
+              <div><span class="metric">0</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">N/A</span><small> complexity/method</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">223.96</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                2
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">require &#39;rails_helper&#39;
+
+RSpec.describe Inertia::Accounts::Apps::Salesforces::ObjectMappingsController, type: :request do
+  let!(:account) { create(:account) }
+  let!(:user) { create(:user) }
+  let(:base_url) { &quot;/accounts/#{account.id}/apps/salesforce&quot; }
+  let(:mapping_params) do
+    {
+      object_mapping: {
+        salesforce_object: &#39;Account&#39;,
+        woofed_model: &#39;Company&#39;,
+        enabled: true,
+        field_mappings: [
+          { salesforce_field: &#39;Name&#39;, woofed_field: &#39;name&#39;, kind: &#39;attribute&#39; },
+          { salesforce_field: &#39;Industria__c&#39;, woofed_field: &#39;industria&#39;, kind: &#39;custom_attribute&#39; }
+        ]
+      }
+    }
+  end
+
+  before { sign_in(user) }
+
+  describe &#39;POST /accounts/{account.id}/apps/salesforce/object_mappings&#39; do
+    context &#39;when the object was never mapped&#39; do
+      let!(:salesforce) { create(:apps_salesforces, :connected) }
+
+      it &#39;saves the mapping the user configured&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(POST /accounts/{account.id}/apps/salesforce/object_mappings)::context(when the object was never mapped)::it#saves the mapping the user configured has a flog score of 41</span>          </div>  </li></ol>
+        expect do
+          post &quot;#{base_url}/object_mappings&quot;, params: mapping_params
+        end.to change(Apps::Salesforce::ObjectMapping, :count).by(1)
+
+        expect(Apps::Salesforce::ObjectMapping.first).to have_attributes(
+          salesforce_object: &#39;Account&#39;, woofed_model: &#39;Company&#39;, enabled: true
+        )
+        expect(Apps::Salesforce::ObjectMapping.first.field_mappings).to eq(
+          [{ &#39;salesforce_field&#39; =&gt; &#39;Name&#39;, &#39;woofed_field&#39; =&gt; &#39;name&#39;, &#39;kind&#39; =&gt; &#39;attribute&#39; },
+           { &#39;salesforce_field&#39; =&gt; &#39;Industria__c&#39;, &#39;woofed_field&#39; =&gt; &#39;industria&#39;, &#39;kind&#39; =&gt; &#39;custom_attribute&#39; }]
+        )
+        expect(response).to redirect_to(base_url)
+      end
+    end
+
+    context &#39;when the object is already mapped&#39; do
+      let!(:salesforce) { create(:apps_salesforces, :connected) }
+
+      it &#39;edits it instead of failing on the unique index&#39; do
+        create(:apps_salesforce_object_mappings, :disabled, app: salesforce, salesforce_object: &#39;Account&#39;)
+
+        expect do
+          post &quot;#{base_url}/object_mappings&quot;, params: mapping_params
+        end.not_to change(Apps::Salesforce::ObjectMapping, :count)
+
+        expect(Apps::Salesforce::ObjectMapping.first).to be_enabled
+      end
+    end
+
+    # Only Deal needs these, and the card only sends them for Deal.
+    context &#39;when the mapping carries deal settings&#39; do
+      let!(:salesforce) { create(:apps_salesforces, :connected) }
+      let(:deal_params) do
+        mapping_params.deep_merge(
+          object_mapping: {
+            salesforce_object: &#39;Customer_Success__c&#39;,
+            woofed_model: &#39;Deal&#39;,
+            options: { stage_field: &#39;Status__c&#39;, company_field: &#39;School__c&#39;, contact_field: &#39;&#39;,
+                       create_placeholder_contact: &#39;false&#39; }
+          }
+        )
+      end
+
+      # &quot;false&quot; is truthy in ruby, and the loader reads the value plainly, so an
+      # uncast checkbox would silently turn the placeholder contact on.
+      it &#39;stores the fields it named and the checkbox as a real boolean&#39; do
+        post &quot;#{base_url}/object_mappings&quot;, params: deal_params
+
+        expect(Apps::Salesforce::ObjectMapping.first.options).to eq(
+          &#39;stage_field&#39; =&gt; &#39;Status__c&#39;, &#39;company_field&#39; =&gt; &#39;School__c&#39;, &#39;contact_field&#39; =&gt; &#39;&#39;,
+          &#39;create_placeholder_contact&#39; =&gt; false
+        )
+      end
+
+      # Blank means &quot;not configured&quot;, and each part falls back on its own terms:
+      # the standard salesforce names for stage and company, nothing at all for
+      # the contact, which has no standard lookup to fall back to.
+      it &#39;reads the standard names back for whatever was left blank&#39; do
+        post &quot;#{base_url}/object_mappings&quot;, params: deal_params
+
+        expect(Apps::Salesforce::ObjectMapping.first).to have_attributes(
+          stage_field: &#39;Status__c&#39;, company_field: &#39;School__c&#39;, contact_field: nil
+        )
+      end
+
+      it &#39;keeps the options the screen does not carry, instead of replacing the column&#39; do
+        create(:apps_salesforce_object_mappings, app: salesforce, salesforce_object: &#39;Customer_Success__c&#39;,
+                                                 woofed_model: &#39;Deal&#39;,
+                                                 options: { &#39;stage_map&#39; =&gt; { &#39;Closed Won&#39; =&gt; 7 } })
+
+        post &quot;#{base_url}/object_mappings&quot;, params: deal_params
+
+        expect(Apps::Salesforce::ObjectMapping.first.options).to include(
+          &#39;stage_map&#39; =&gt; { &#39;Closed Won&#39; =&gt; 7 }, &#39;stage_field&#39; =&gt; &#39;Status__c&#39;
+        )
+      end
+    end
+
+    context &#39;when the mapping is for a model with no settings of its own&#39; do
+      let!(:salesforce) { create(:apps_salesforces, :connected) }
+
+      it &#39;leaves the options empty rather than writing deal settings onto it&#39; do
+        post &quot;#{base_url}/object_mappings&quot;, params: mapping_params
+
+        expect(Apps::Salesforce::ObjectMapping.first.options).to eq({})
+      end
+    end
+
+    context &#39;when the target model is not one the sync can write to&#39; do
+      let!(:salesforce) { create(:apps_salesforces, :connected) }
+
+      it &#39;redirects back with the reason&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(POST /accounts/{account.id}/apps/salesforce/object_mappings)::context(when the target model is not one the sync can write to)::it#redirects back with the reason has a flog score of 27</span>          </div>  </li></ol>
+        post &quot;#{base_url}/object_mappings&quot;,
+             params: mapping_params.deep_merge(object_mapping: { woofed_model: &#39;User&#39; })
+
+        expect(Apps::Salesforce::ObjectMapping.count).to eq(0)
+        expect(flash[:alert]).to include(&#39;is not included in the list&#39;)
+      end
+    end
+
+    context &#39;when no org is connected&#39; do
+      it &#39;asks the user to connect first&#39; do
+        post &quot;#{base_url}/object_mappings&quot;, params: mapping_params
+
+        expect(Apps::Salesforce::ObjectMapping.count).to eq(0)
+        expect(flash[:alert]).to eq(I18n.t(&#39;apps.salesforce.missing_connection&#39;))
+      end
+    end
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../../../../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../../../../../assets/javascripts/application.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>

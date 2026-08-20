@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../../../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../../../../overview.html"><img src="../../../../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../../../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-08-12 16:56:25 -0300'>2026-08-12 16:56:25 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>spec/models/apps/salesforce/transform /</small> phone_spec.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating b big">
+              B
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">45</span><small> lines of codes</small></div>
+              <div><span class="metric">0</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">N/A</span><small> complexity/method</small></div>
+              <div><span class="metric">1</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">94.25</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                0
+                smell
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># spec/models/apps/salesforce/transform/phone_spec.rb
+require &#39;rails_helper&#39;
+
+RSpec.describe Apps::Salesforce::Transform::Phone do
+  describe &#39;.call&#39; do
+    context &#39;when the number already carries a country code&#39; do
+      it &#39;strips the formatting salesforce allows and keeps E.164&#39; do
+        expect(described_class.call(&#39;+55 11 99999 9999&#39;)).to eq(ok: &#39;+5511999999999&#39;)
+        expect(described_class.call(&#39;+55 (11) 99999-9999&#39;)).to eq(ok: &#39;+5511999999999&#39;)
+      end
+
+      it &#39;drops an extension, which is never part of the number&#39; do
+        expect(described_class.call(&#39;+551133334444 ext. 204&#39;)).to eq(ok: &#39;+551133334444&#39;)
+      end
+    end
+
+    context &#39;when a country code is configured for the mapping&#39; do
+      it &#39;applies it to a local number, dropping the trunk zero&#39; do
+        expect(described_class.call(&#39;(11) 99999-9999&#39;, &#39;country_code&#39; =&gt; &#39;55&#39;)).to eq(ok: &#39;+5511999999999&#39;)
+        expect(described_class.call(&#39;011 3333-4444&#39;, &#39;country_code&#39; =&gt; &#39;55&#39;)).to eq(ok: &#39;+551133334444&#39;)
+      end
+    end
+
+    context &#39;when the number has no country code and none is configured&#39; do
+      it &#39;reports it rather than guessing a country nobody can call back&#39; do
+        result = described_class.call(&#39;(11) 99999-9999&#39;)
+
+        expect(result[:error]).to eq(I18n.t(&#39;apps.salesforce.transforms.invalid_phone&#39;, value: &#39;(11) 99999-9999&#39;))
+        expect(result[:raw]).to eq(&#39;(11) 99999-9999&#39;)
+      end
+    end
+
+    context &#39;when there is nothing that looks like a number&#39; do
+      it &#39;reports it&#39; do
+        expect(described_class.call(&#39;ramal interno&#39;, &#39;country_code&#39; =&gt; &#39;55&#39;)[:error]).to be_present
+      end
+    end
+
+    context &#39;when the field is empty&#39; do
+      it &#39;returns nothing to write&#39; do
+        expect(described_class.call(&#39;&#39;)).to eq(ok: nil)
+      end
+    end
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../../../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../../../../assets/javascripts/application.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>

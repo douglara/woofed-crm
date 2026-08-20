@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../../overview.html"><img src="../../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-08-19 22:59:46 -0300'>2026-08-19 22:59:46 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>app/models/apps /</small> salesforce.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating a big">
+              A
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">69</span><small> lines of codes</small></div>
+              <div><span class="metric">3</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">3.9</span><small> complexity/method</small></div>
+              <div><span class="metric">5</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">11.59</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                0
+                smell
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># == Schema Information
+#
+# Table name: apps_salesforces
+#
+#  id               :bigint           not null, primary key
+#  access_token     :text
+#  api_version      :string           default(&quot;v64.0&quot;), not null
+#  client_secret    :text
+#  environment      :string           default(&quot;production&quot;), not null
+#  instance_url     :string           default(&quot;&quot;), not null
+#  name             :string           default(&quot;&quot;), not null
+#  refresh_token    :text
+#  settings         :jsonb            not null
+#  status           :string           default(&quot;inactive&quot;), not null
+#  token_expires_at :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  client_id        :string           default(&quot;&quot;), not null
+#  organization_id  :string           default(&quot;&quot;), not null
+#
+class Apps::Salesforce &lt; ApplicationRecord
+  include Apps::Salesforce::Urls, Apps::Salesforce::TokenManagement
+
+  enum status: {
+    &#39;inactive&#39;: &#39;inactive&#39;,
+    &#39;active&#39;: &#39;active&#39;,
+    &#39;syncing&#39;: &#39;syncing&#39;,
+    &#39;error&#39;: &#39;error&#39;
+  }
+
+  enum environment: {
+    &#39;production&#39;: &#39;production&#39;,
+    &#39;sandbox&#39;: &#39;sandbox&#39;
+  }
+
+  # raw_records are declared before sync_runs: they reference sync_runs, and
+  # dependent destruction follows declaration order.
+  has_many :object_mappings, class_name: &#39;Apps::Salesforce::ObjectMapping&#39;, foreign_key: :app_id,
+                             inverse_of: :app, dependent: :destroy
+  has_many :record_links, class_name: &#39;Apps::Salesforce::RecordLink&#39;, foreign_key: :app_id,
+                          inverse_of: :app, dependent: :destroy
+  has_many :raw_records, class_name: &#39;Apps::Salesforce::RawRecord&#39;, foreign_key: :app_id,
+                         inverse_of: :app, dependent: :destroy
+  has_many :sync_runs, class_name: &#39;Apps::Salesforce::SyncRun&#39;, foreign_key: :app_id,
+                       inverse_of: :app, dependent: :destroy
+
+  validates :client_id, presence: true
+  validates :client_secret, presence: true
+  validate :only_one_connection, on: :create
+
+  def connected?
+    instance_url.present? &amp;&amp; refresh_token.present?
+  end
+
+  def api_client
+    Apps::Salesforce::Api::Client.new(self)
+  end
+
+  private
+
+  # A Woofed install talks to a single Salesforce org. The rule lives here and not
+  # in the schema so that supporting several connections later is a UI change plus
+  # removing this validation, with no migration.
+  def only_one_connection
+    return unless self.class.exists?
+
+    errors.add(:base, I18n.t(&#39;activerecord.errors.messages.salesforce_connection_already_exists&#39;))
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../../assets/javascripts/application.js"></script>
+    <script src="../../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../../../../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../../../../../overview.html"><img src="../../../../../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../../../../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-08-19 19:39:41 -0300'>2026-08-19 19:39:41 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>app/controllers/inertia/accounts/apps/salesforces /</small> object_mappings_controller.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating b big">
+              B
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">55</span><small> lines of codes</small></div>
+              <div><span class="metric">6</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">8.7</span><small> complexity/method</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">52.15</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                3
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Inertia::Accounts::Apps::Salesforces::ObjectMappingsController &lt; Inertia::InternalController<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::Salesforces::ObjectMappingsController assumes too much for instance variable '@salesforce'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::Salesforces::ObjectMappingsController has no descriptive comment</span>          </div>  </li></ol>
+  before_action :set_salesforce
+
+  def create
+    mapping = build_mapping
+
+    return redirect_with_alert(mapping.errors.full_messages.to_sentence) unless mapping.save
+
+    redirect_to account_apps_salesforce_path(current_user.account),
+                notice: t(&#39;flash_messages.updated&#39;, model: Apps::Salesforce.model_name.human)
+  end
+
+  private
+
+  # One row per Salesforce object, so saving a mapping the user already created
+  # updates it instead of failing on the unique index.
+  def build_mapping
+    mapping = @salesforce.object_mappings.find_or_initialize_by(salesforce_object: mapping_params[:salesforce_object])
+    mapping.assign_attributes(mapping_params.except(:options))
+    mapping.options = mapping.options.merge(options_params)
+    mapping
+  end
+
+  def set_salesforce
+    @salesforce = Apps::Salesforce.first
+
+    redirect_with_alert(t(&#39;apps.salesforce.missing_connection&#39;)) if @salesforce.blank?
+  end
+
+  def redirect_with_alert(message)
+    redirect_to account_apps_salesforce_path(current_user.account), alert: message
+  end
+
+  def mapping_params
+    params.require(:object_mapping)
+          .permit(:salesforce_object, :woofed_model, :enabled,
+                  field_mappings: %i[salesforce_field woofed_field kind transform],
+                  options: %i[stage_field company_field contact_field create_placeholder_contact])
+  end
+
+  # Merged, never assigned: `options` also holds keys the form does not carry --
+  # `stage_map` and `default_stage_id` have no UI yet -- and replacing the column
+  # would erase them every time the user saved a mapping from the screen.
+  #
+  # The checkbox arrives as the string &quot;false&quot;, which is truthy in Ruby and is
+  # read as a plain value by the loader, so it is cast here rather than there.
+  def options_params
+    options = mapping_params[:options].to_h
+    return options unless options.key?(&#39;create_placeholder_contact&#39;)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::Salesforces::ObjectMappingsController#options_params refers to 'options' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="object_mappings_controller.html#L49" class="js-smell-location">0</a>                  <a href="object_mappings_controller.html#L51" class="js-smell-location">1</a>                  <a href="object_mappings_controller.html#L52" class="js-smell-location">2</a>                  </div>  </li></ol>
+
+    options.merge(&#39;create_placeholder_contact&#39; =&gt; ActiveModel::Type::Boolean.new.cast(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::Salesforces::ObjectMappingsController#options_params refers to 'options' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="object_mappings_controller.html#L49" class="js-smell-location">0</a>                  <a href="object_mappings_controller.html#L51" class="js-smell-location">1</a>                  <a href="object_mappings_controller.html#L52" class="js-smell-location">2</a>                  </div>  </li></ol>
+      options[&#39;create_placeholder_contact&#39;]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::Salesforces::ObjectMappingsController#options_params refers to 'options' more than self (maybe move it to another class?)</span>              <span>Locations:</span>                  <a href="object_mappings_controller.html#L49" class="js-smell-location">0</a>                  <a href="object_mappings_controller.html#L51" class="js-smell-location">1</a>                  <a href="object_mappings_controller.html#L52" class="js-smell-location">2</a>                  </div>  </li></ol>
+    ))
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../../../../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../../../../../assets/javascripts/application.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>

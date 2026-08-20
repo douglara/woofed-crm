@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../../../../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../../../../../overview.html"><img src="../../../../../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../../../../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-08-19 19:39:41 -0300'>2026-08-19 19:39:41 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>app/models/concerns/apps/salesforce/object_mapping /</small> deal_fields.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating a big">
+              A
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">34</span><small> lines of codes</small></div>
+              <div><span class="metric">3</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">3.9</span><small> complexity/method</small></div>
+              <div><span class="metric">1</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">11.65</span><small> complexity</small></div>
+              <div><span class="metric">0</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                0
+                smell
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># frozen_string_literal: true
+
+# Which field of the Salesforce object plays each part a Woofed deal needs: the
+# stage it sits on, the company it belongs to, the person it hangs on.
+#
+# A standard Opportunity has a name for all of them, and the loader used to
+# assume those names. A custom object mapped onto Deal names its own -- one org
+# calls the company `School__c`, another `Empresa__c` -- so every such row failed
+# against fields it never had. The mapping states the correspondence instead.
+#
+# Only Deal reads any of this. Company, Contact and Event are saved from their
+# mapped fields alone.
+module Apps::Salesforce::ObjectMapping::DealFields
+  extend ActiveSupport::Concern
+
+  DEFAULT_STAGE_FIELD = &#39;StageName&#39;
+  DEFAULT_COMPANY_FIELD = &#39;AccountId&#39;
+
+  def stage_field
+    options[&#39;stage_field&#39;].presence || DEFAULT_STAGE_FIELD
+  end
+
+  def company_field
+    options[&#39;company_field&#39;].presence || DEFAULT_COMPANY_FIELD
+  end
+
+  # No standard name to fall back on: an Opportunity relates to people through
+  # OpportunityContactRole rather than a lookup, so an org that has a contact
+  # lookup at all is one that built it, and only the user can name it. Without
+  # one the contact is still looked for through the company.
+  def contact_field
+    options[&#39;contact_field&#39;].presence
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../../../../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../../../../../assets/javascripts/application.js"></script>
+    <script src="../../../../../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>

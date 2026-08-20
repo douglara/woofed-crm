@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-13 03:49:32 -0300'>2026-03-13 03:49:32 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-04-21 19:34:32 -0300'>2026-04-21 19:34:32 -0300</time>
         
       </span>
     </div>
@@ -68,16 +68,16 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">236</span><small> lines of codes</small></div>
+              <div><span class="metric">235</span><small> lines of codes</small></div>
               <div><span class="metric">20</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">16.6</span><small> complexity/method</small></div>
-              <div><span class="metric">75</span><small> churn</small></div>
+              <div><span class="metric">16.5</span><small> complexity/method</small></div>
+              <div><span class="metric">78</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">332.03</span><small> complexity</small></div>
-              <div><span class="metric">69</span><small> duplications</small></div>
+              <div><span class="metric">330.17</span><small> complexity</small></div>
+              <div><span class="metric">61</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                44
+                43
                 smells
               </a>
             </li>
@@ -289,11 +289,10 @@ class Accounts::PipelinesController &lt; InternalController<ol class="nocode err
   end
 
   # DELETE /pipelines/1 or /pipelines/1.json
-  def destroy<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="apps_controller.html#L44" class="js-smell-location">0</a>                  <a href="pipelines_controller.html#L193" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Accounts::PipelinesController#destroy has approx 6 statements</span>          </div>  </li></ol>
+  def destroy
     @pipeline.destroy
-    respond_to do |format|
-      format.html { redirect_to pipelines_url, notice: t(&#39;flash_messages.deleted&#39;, model: Pipeline.model_name.human) }
-      format.json { head :no_content }
+    respond_to do |format|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="pipelines_controller.html#L195" class="js-smell-location">0</a>                  <a href="settings/deals/deal_lost_reasons_controller.html#L45" class="js-smell-location">1</a>                  </div>  </li></ol>
+      format.html { redirect_to account_pipelines_path(Current.account), notice: t(&#39;flash_messages.deleted&#39;, model: Pipeline.model_name.human) }
     end
   end
 

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../../../../../assets/vendor/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/vendor/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/vendor/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../../../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../../../../../overview.html"><img src="../../../../../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../../../../../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../../../../../simple_cov_index.html" class="project-nav-item coverage-index-nav"><i class="fa fa-umbrella"></i>Coverage</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2026-08-20 01:14:17 -0300'>2026-08-20 01:14:17 -0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>app/controllers/inertia/accounts/apps /</small> salesforces_controller.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating c big">
+              C
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">179</span><small> lines of codes</small></div>
+              <div><span class="metric">17</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">9.6</span><small> complexity/method</small></div>
+              <div><span class="metric">6</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">162.81</span><small> complexity</small></div>
+              <div><span class="metric">17</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                11
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Inertia::Accounts::Apps::SalesforcesController &lt; Inertia::InternalController<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController has no descriptive comment</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Methods.md" target="_blank"><b>TooManyMethods</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController has at least 17 methods</span>          </div>  </li></ol>
+  # The Woofed model each standard object maps onto by default (§6.3 of the
+  # integration plan). Only a suggestion: any object, custom ones included, can
+  # be pointed at any of the four models the sync writes to -- a Company may come
+  # from Account in one org and from School__c in another.
+  PROBLEM_RECORDS_LIMIT = 50
+
+  SUGGESTED_MODELS = {
+    &#39;Account&#39; =&gt; &#39;Company&#39;,
+    &#39;Contact&#39; =&gt; &#39;Contact&#39;,
+    &#39;Lead&#39; =&gt; &#39;Contact&#39;,
+    &#39;Opportunity&#39; =&gt; &#39;Deal&#39;,
+    &#39;Task&#39; =&gt; &#39;Event&#39;,
+    &#39;Event&#39; =&gt; &#39;Event&#39;
+  }.freeze
+
+  # Every prop that costs a query or an API call is a block: while a sync is
+  # running the screen reloads itself every few seconds asking only for the
+  # progress, and a block is evaluated only when the request includes it. Passing
+  # the values directly would make each of those polls read the whole org.
+  def show<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController#show has approx 8 statements</span>          </div>  </li></ol>
+    render inertia: &#39;Apps/Salesforce/Show&#39;, props: {
+      connection: -&gt; { connection_props },
+      # The connect screen is also the documentation: the user has to register
+      # this exact callback and these exact scopes by hand in Salesforce.
+      callback_url: apps_salesforces_oauth_callback_url,
+      scopes: Apps::Salesforce::Oauth::AuthorizeRequest::SCOPES,
+      syncable_objects: -&gt; { syncable_objects },
+      woofed_models: Apps::Salesforce::ObjectMapping::WOOFED_MODELS,
+      woofed_fields: -&gt; { woofed_fields },
+      object_mappings: -&gt; { object_mappings_props },
+      sync_runs: -&gt; { sync_runs_props },
+      problem_records: -&gt; { problem_records_props },
+      sync_in_progress: -&gt; { sync_in_progress? }
+    }
+  end
+
+  def create<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController#create has approx 6 statements</span>          </div>  </li></ol>
+    salesforce = Apps::Salesforce.first || Apps::Salesforce.new
+    salesforce.assign_attributes(salesforce_params)
+
+    return redirect_with_alert(salesforce.errors.full_messages.to_sentence) unless salesforce.save
+
+    authorization = Apps::Salesforce::Oauth::AuthorizeRequest.new(salesforce).call
+    # The verifier proves, at callback time, that this install started the flow.
+    # It never leaves Woofed.
+    session[:salesforce_oauth] = {
+      &#39;state&#39; =&gt; authorization[:state],
+      &#39;code_verifier&#39; =&gt; authorization[:code_verifier]
+    }
+
+    # The page posts over XHR, and the browser will not let that request follow a
+    # redirect to salesforce.com. Inertia&#39;s 409 + X-Inertia-Location makes the
+    # client leave the page itself instead of following the hop.
+    inertia_location(authorization[:url])
+  end
+
+  def destroy
+    Apps::Salesforce.first&amp;.destroy
+
+    redirect_to account_apps_salesforce_path(current_user.account), notice: t(&#39;apps.salesforce.disconnected&#39;)
+  end
+
+  # The initial load, one run per enabled mapping. Nothing is downloaded before
+  # the user asks for it: connecting an org imports nothing on its own.
+  def sync
+    result = Apps::Salesforce::Backfill::Start.new(salesforce).call
+
+    return redirect_with_alert(result[:error]) if result.key?(:error)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md" target="_blank"><b>RepeatedConditional</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController tests 'result.key?(:error)' at least 3 times</span>              <span>Locations:</span>                  <a href="salesforces_controller.html#L69" class="js-smell-location">0</a>                  <a href="salesforces_controller.html#L80" class="js-smell-location">1</a>                  <a href="salesforces_controller.html#L104" class="js-smell-location">2</a>                  </div>  </li></ol>
+
+    redirect_to account_apps_salesforce_path(current_user.account), notice: t(&#39;apps.salesforce.backfill.started&#39;)
+  end
+
+  # Feeds the field pickers. The describe payload is cached, so opening the same
+  # object twice costs one call to the org.
+  def describe
+    return render json: { error: t(&#39;apps.salesforce.missing_connection&#39;) }, status: :not_found if salesforce.blank?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md" target="_blank"><b>RepeatedConditional</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController tests 'salesforce.blank?' at least 7 times</span>              <span>Locations:</span>                  <a href="salesforces_controller.html#L77" class="js-smell-location">0</a>                  <a href="salesforces_controller.html#L92" class="js-smell-location">1</a>                  <a href="salesforces_controller.html#L101" class="js-smell-location">2</a>                  <a href="salesforces_controller.html#L123" class="js-smell-location">3</a>                  <a href="salesforces_controller.html#L132" class="js-smell-location">4</a>                  <a href="salesforces_controller.html#L142" class="js-smell-location">5</a>                  <a href="salesforces_controller.html#L154" class="js-smell-location">6</a>                  </div>  </li></ol>
+
+    result = Apps::Salesforce::Api::Sobject::Describe.call(salesforce, params[:salesforce_object])
+    return render json: { error: result[:error] }, status: :unprocessable_entity if result.key?(:error)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md" target="_blank"><b>RepeatedConditional</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController tests 'result.key?(:error)' at least 3 times</span>              <span>Locations:</span>                  <a href="salesforces_controller.html#L69" class="js-smell-location">0</a>                  <a href="salesforces_controller.html#L80" class="js-smell-location">1</a>                  <a href="salesforces_controller.html#L104" class="js-smell-location">2</a>                  </div>  </li></ol>
+
+    render json: { fields: describe_fields(result[:ok]) }
+  end
+
+  private
+
+  def salesforce
+    @salesforce ||= Apps::Salesforce.first
+  end
+
+  def connection_props
+    return nil if salesforce.blank?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md" target="_blank"><b>RepeatedConditional</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController tests 'salesforce.blank?' at least 7 times</span>              <span>Locations:</span>                  <a href="salesforces_controller.html#L77" class="js-smell-location">0</a>                  <a href="salesforces_controller.html#L92" class="js-smell-location">1</a>                  <a href="salesforces_controller.html#L101" class="js-smell-location">2</a>                  <a href="salesforces_controller.html#L123" class="js-smell-location">3</a>                  <a href="salesforces_controller.html#L132" class="js-smell-location">4</a>                  <a href="salesforces_controller.html#L142" class="js-smell-location">5</a>                  <a href="salesforces_controller.html#L154" class="js-smell-location">6</a>                  </div>  </li></ol>
+
+    salesforce.slice(:id, :name, :status, :environment, :instance_url, :organization_id, :token_expires_at)
+              .merge(connected: salesforce.connected?)
+  end
+
+  # Read from the org so custom objects can be mapped too. Before a connection
+  # exists there is nothing to ask, and the standard objects stand in.
+  def syncable_objects
+    return suggested_objects if salesforce.blank?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md" target="_blank"><b>RepeatedConditional</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController tests 'salesforce.blank?' at least 7 times</span>              <span>Locations:</span>                  <a href="salesforces_controller.html#L77" class="js-smell-location">0</a>                  <a href="salesforces_controller.html#L92" class="js-smell-location">1</a>                  <a href="salesforces_controller.html#L101" class="js-smell-location">2</a>                  <a href="salesforces_controller.html#L123" class="js-smell-location">3</a>                  <a href="salesforces_controller.html#L132" class="js-smell-location">4</a>                  <a href="salesforces_controller.html#L142" class="js-smell-location">5</a>                  <a href="salesforces_controller.html#L154" class="js-smell-location">6</a>                  </div>  </li></ol>
+
+    result = Apps::Salesforce::Api::Sobject::List.call(salesforce)
+    return suggested_objects if result.key?(:error)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md" target="_blank"><b>RepeatedConditional</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController tests 'result.key?(:error)' at least 3 times</span>              <span>Locations:</span>                  <a href="salesforces_controller.html#L69" class="js-smell-location">0</a>                  <a href="salesforces_controller.html#L80" class="js-smell-location">1</a>                  <a href="salesforces_controller.html#L104" class="js-smell-location">2</a>                  </div>  </li></ol>
+
+    result[:ok].map do |sobject|
+      {
+        salesforce_object: sobject[&#39;name&#39;],<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController#syncable_objects calls 'sobject['name']' 2 times</span>              <span>Locations:</span>                  <a href="salesforces_controller.html#L108" class="js-smell-location">0</a>                  <a href="salesforces_controller.html#L111" class="js-smell-location">1</a>                  </div>  </li></ol>
+        label: sobject[&#39;label&#39;],
+        custom: sobject[&#39;custom&#39;],
+        woofed_model: SUGGESTED_MODELS[sobject[&#39;name&#39;]]<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController#syncable_objects calls 'sobject['name']' 2 times</span>              <span>Locations:</span>                  <a href="salesforces_controller.html#L108" class="js-smell-location">0</a>                  <a href="salesforces_controller.html#L111" class="js-smell-location">1</a>                  </div>  </li></ol>
+      }
+    end
+  end
+
+  def suggested_objects<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController#suggested_objects doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    SUGGESTED_MODELS.map do |salesforce_object, woofed_model|
+      { salesforce_object: salesforce_object, label: salesforce_object, custom: false, woofed_model: woofed_model }
+    end
+  end
+
+  def object_mappings_props
+    return [] if salesforce.blank?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md" target="_blank"><b>RepeatedConditional</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController tests 'salesforce.blank?' at least 7 times</span>              <span>Locations:</span>                  <a href="salesforces_controller.html#L77" class="js-smell-location">0</a>                  <a href="salesforces_controller.html#L92" class="js-smell-location">1</a>                  <a href="salesforces_controller.html#L101" class="js-smell-location">2</a>                  <a href="salesforces_controller.html#L123" class="js-smell-location">3</a>                  <a href="salesforces_controller.html#L132" class="js-smell-location">4</a>                  <a href="salesforces_controller.html#L142" class="js-smell-location">5</a>                  <a href="salesforces_controller.html#L154" class="js-smell-location">6</a>                  </div>  </li></ol>
+
+    salesforce.object_mappings.map do |mapping|
+      mapping.slice(:id, :salesforce_object, :woofed_model, :enabled, :field_mappings, :options)
+    end
+  end
+
+  # The latest run per object: what the sync section shows as progress.
+  def sync_runs_props
+    return [] if salesforce.blank?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md" target="_blank"><b>RepeatedConditional</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController tests 'salesforce.blank?' at least 7 times</span>              <span>Locations:</span>                  <a href="salesforces_controller.html#L77" class="js-smell-location">0</a>                  <a href="salesforces_controller.html#L92" class="js-smell-location">1</a>                  <a href="salesforces_controller.html#L101" class="js-smell-location">2</a>                  <a href="salesforces_controller.html#L123" class="js-smell-location">3</a>                  <a href="salesforces_controller.html#L132" class="js-smell-location">4</a>                  <a href="salesforces_controller.html#L142" class="js-smell-location">5</a>                  <a href="salesforces_controller.html#L154" class="js-smell-location">6</a>                  </div>  </li></ol>
+
+    salesforce.sync_runs.order(created_at: :desc).group_by(&amp;:salesforce_object).map do |_object, runs|
+      runs.first.slice(:id, :salesforce_object, :kind, :status, :records_downloaded, :error, :finished_at)
+    end
+  end
+
+  # The rows that did not make it, which is the only way a user learns that some
+  # records are missing and why. Capped: a bad mapping can produce thousands.
+  def problem_records_props
+    return [] if salesforce.blank?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md" target="_blank"><b>RepeatedConditional</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController tests 'salesforce.blank?' at least 7 times</span>              <span>Locations:</span>                  <a href="salesforces_controller.html#L77" class="js-smell-location">0</a>                  <a href="salesforces_controller.html#L92" class="js-smell-location">1</a>                  <a href="salesforces_controller.html#L101" class="js-smell-location">2</a>                  <a href="salesforces_controller.html#L123" class="js-smell-location">3</a>                  <a href="salesforces_controller.html#L132" class="js-smell-location">4</a>                  <a href="salesforces_controller.html#L142" class="js-smell-location">5</a>                  <a href="salesforces_controller.html#L154" class="js-smell-location">6</a>                  </div>  </li></ol>
+
+    salesforce.raw_records.where(status: %w[failed conflict])
+              .order(processed_at: :desc).limit(PROBLEM_RECORDS_LIMIT)
+              .map { |record| record.slice(:id, :salesforce_object, :salesforce_id, :status, :error) }
+  end
+
+  # Whether the screen still has something to wait for, which is what keeps it
+  # refreshing. Downloading is only half the work: rows keep being loaded -- and
+  # keep landing in the review list -- after the run that staged them is already
+  # complete, so a finished run is not the end of the sync.
+  def sync_in_progress?
+    return false if salesforce.blank?<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Repeated-Conditional.md" target="_blank"><b>RepeatedConditional</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController tests 'salesforce.blank?' at least 7 times</span>              <span>Locations:</span>                  <a href="salesforces_controller.html#L77" class="js-smell-location">0</a>                  <a href="salesforces_controller.html#L92" class="js-smell-location">1</a>                  <a href="salesforces_controller.html#L101" class="js-smell-location">2</a>                  <a href="salesforces_controller.html#L123" class="js-smell-location">3</a>                  <a href="salesforces_controller.html#L132" class="js-smell-location">4</a>                  <a href="salesforces_controller.html#L142" class="js-smell-location">5</a>                  <a href="salesforces_controller.html#L154" class="js-smell-location">6</a>                  </div>  </li></ol>
+
+    salesforce.sync_runs.unfinished.exists? || salesforce.raw_records.pending.exists?
+  end
+
+  def woofed_fields<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController#woofed_fields doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    Apps::Salesforce::ObjectMapping::WOOFED_MODELS.index_with do |model|
+      Apps::Salesforce::WoofedFields.call(model)
+    end
+  end
+
+  # Only what a picker needs: the payload itself is hundreds of KB.
+  def describe_fields(payload)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Inertia::Accounts::Apps::SalesforcesController#describe_fields doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    payload.fetch(&#39;fields&#39;, []).map do |field|
+      { name: field[&#39;name&#39;], label: field[&#39;label&#39;], type: field[&#39;type&#39;], custom: field[&#39;custom&#39;] }<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="salesforces_controller.html#L168" class="js-smell-location">0</a>                  <a href="../../../../use_cases/accounts/apps/chatwoots/export_contact.html#L78" class="js-smell-location">1</a>                  </div>  </li></ol>
+    end
+  end
+
+  def redirect_with_alert(message)
+    redirect_to account_apps_salesforce_path(current_user.account), alert: message
+  end
+
+  def salesforce_params
+    params.require(:apps_salesforce).permit(:name, :environment, :client_id, :client_secret)
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src="../../../../../assets/vendor/javascripts/jquery.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.tablesorter.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.scrollTo.min.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.timeago.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/highcharts.src-4.0.1.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/prettify.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/bootstrap.min.js"></script>
+    <script src="../../../../../assets/javascripts/application.js"></script>
+    <script src="../../../../../assets/vendor/javascripts/jquery.filtertable.min.js"></script>
+  </body>
+</html>

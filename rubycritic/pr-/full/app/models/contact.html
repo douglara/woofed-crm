@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-12 21:30:22 -0300'>2026-03-12 21:30:22 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-07-17 02:39:00 -0300'>2026-07-17 02:39:00 -0300</time>
         
       </span>
     </div>
@@ -62,22 +62,22 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating a big">
-              A
+            <div class="rating b big">
+              B
             </div>
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">96</span><small> lines of codes</small></div>
+              <div><span class="metric">98</span><small> lines of codes</small></div>
               <div><span class="metric">7</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">3.6</span><small> complexity/method</small></div>
-              <div><span class="metric">74</span><small> churn</small></div>
+              <div><span class="metric">78</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">25.39</span><small> complexity</small></div>
-              <div><span class="metric">0</span><small> duplications</small></div>
+              <div><span class="metric">16</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                3
+                4
                 smells
               </a>
             </li>
@@ -140,6 +140,8 @@ class Contact &lt; ApplicationRecord
                                               locale: I18n.locale) }, unless: :skip_validation
 
   has_many :deals, dependent: :destroy
+  has_many :company_contacts, dependent: :destroy
+  has_many :companies, through: :company_contacts
   belongs_to :app, polymorphic: true, optional: true
   scope :by_chatwoot_id, lambda { |chatwoot_id|
     chatwoot_id.present? ? where(&quot;additional_attributes-&gt;&gt;&#39;chatwoot_id&#39; = ?&quot;, chatwoot_id.to_s) : none
@@ -150,14 +152,14 @@ class Contact &lt; ApplicationRecord
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    %w[labels chatwoot_conversations_labels deals]
+    %w[labels chatwoot_conversations_labels deals companies]
   end
 
   def connected_with_chatwoot?
     additional_attributes[&#39;chatwoot_id&#39;].present?
   end
 
-  FORM_FIELDS = %i[full_name email phone label_list chatwoot_conversations_label_list]
+  FORM_FIELDS = %i[full_name email phone label_list]
 
   SHOW_FIELDS = { details: %i[full_name email phone id label_list custom_attributes created_at
                               updated_at],
@@ -166,7 +168,7 @@ class Contact &lt; ApplicationRecord
 
   after_commit :export_contact_to_chatwoot, on: %i[create update], unless: :skip_validation
 
-  def phone=(value)
+  def phone=(value)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company.html#L54" class="js-smell-location">0</a>                  <a href="contact.html#L72" class="js-smell-location">1</a>                  </div>  </li></ol>
     value = &quot;+#{value}&quot; if value.present? &amp;&amp; !value.start_with?(&#39;+&#39;)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Feature-Envy.md" target="_blank"><b>FeatureEnvy</b></a>        </span>      </div>      <span>Contact#phone= refers to 'value' more than self (maybe move it to another class?)</span>          </div>  </li></ol>
     super(value)
   end
@@ -180,8 +182,8 @@ class Contact &lt; ApplicationRecord
   private
 
   def export_contact_to_chatwoot
-    account.apps_chatwoots.present? &amp;&amp; Accounts::Apps::Chatwoots::ExportContactWorker.perform_async(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Contact#export_contact_to_chatwoot calls 'account.apps_chatwoots' 2 times</span>              <span>Locations:</span>                  <a href="contact.html#L84" class="js-smell-location">0</a>                  <a href="contact.html#L85" class="js-smell-location">1</a>                  </div>  </li></ol>
-      account.apps_chatwoots.first.id, id<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Contact#export_contact_to_chatwoot calls 'account.apps_chatwoots' 2 times</span>              <span>Locations:</span>                  <a href="contact.html#L84" class="js-smell-location">0</a>                  <a href="contact.html#L85" class="js-smell-location">1</a>                  </div>  </li></ol>
+    account.apps_chatwoots.present? &amp;&amp; Accounts::Apps::Chatwoots::ExportContactWorker.perform_async(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Contact#export_contact_to_chatwoot calls 'account.apps_chatwoots' 2 times</span>              <span>Locations:</span>                  <a href="contact.html#L86" class="js-smell-location">0</a>                  <a href="contact.html#L87" class="js-smell-location">1</a>                  </div>  </li></ol>
+      account.apps_chatwoots.first.id, id<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Duplicate-Method-Call.md" target="_blank"><b>DuplicateMethodCall</b></a>        </span>      </div>      <span>Contact#export_contact_to_chatwoot calls 'account.apps_chatwoots' 2 times</span>              <span>Locations:</span>                  <a href="contact.html#L86" class="js-smell-location">0</a>                  <a href="contact.html#L87" class="js-smell-location">1</a>                  </div>  </li></ol>
     )
   end
 

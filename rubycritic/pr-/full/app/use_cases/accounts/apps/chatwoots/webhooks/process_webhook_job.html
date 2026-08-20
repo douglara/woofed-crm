@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">2.24</span><small> complexity</small></div>
-              <div><span class="metric">0</span><small> duplications</small></div>
+              <div><span class="metric">16</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                2
+                3
                 smells
               </a>
             </li>
@@ -104,7 +104,7 @@ class Accounts::Apps::Chatwoots::Webhooks::ProcessWebhookJob &lt; ApplicationJob
 
   self.queue_adapter = :good_job
 
-  good_job_control_concurrency_with(
+  good_job_control_concurrency_with(<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="../../../../../jobs/apps/salesforce/backfill/object_job.html#L17" class="js-smell-location">0</a>                  <a href="process_webhook_job.html#L8" class="js-smell-location">1</a>                  </div>  </li></ol>
     # Maximum number of jobs with the concurrency key to be
     # concurrently performed (excludes enqueued jobs)
     perform_limit: 1,

@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-3">
               <div><span class="metric">46.4</span><small> complexity</small></div>
-              <div><span class="metric">24</span><small> duplications</small></div>
+              <div><span class="metric">30</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -101,10 +101,10 @@
   before_action :set_deal_assignee, only: %i[destroy]
   before_action :set_deal, only: %i[new]
 
-  def destroy
+  def destroy<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="company_contacts_controller.html#L27" class="js-smell-location">0</a>                  <a href="deal_assignees_controller.html#L5" class="js-smell-location">1</a>                  </div>  </li></ol>
     return unless @deal_assignee.destroy
 
-    respond_to do |format|<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="deal_assignees_controller.html#L8" class="js-smell-location">0</a>                  <a href="deal_products_controller.html#L9" class="js-smell-location">1</a>                  </div>  </li></ol>
+    respond_to do |format|
       format.html do
         redirect_to account_deal_path(current_user.account, @deal_assignee.deal),
                     notice: t(&#39;flash_messages.deleted&#39;, model: DealAssignee.model_name.human)

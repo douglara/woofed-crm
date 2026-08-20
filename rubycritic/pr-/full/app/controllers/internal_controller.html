@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2024-09-10 22:04:36 -0300'>2024-09-10 22:04:36 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-30 14:29:04 +1000'>2026-03-30 14:29:04 +1000</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">9</span><small> lines of codes</small></div>
-              <div><span class="metric">1</span><small> methods</small></div>
+              <div><span class="metric">40</span><small> lines of codes</small></div>
+              <div><span class="metric">5</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">7.5</span><small> complexity/method</small></div>
-              <div><span class="metric">6</span><small> churn</small></div>
+              <div><span class="metric">5.7</span><small> complexity/method</small></div>
+              <div><span class="metric">9</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">7.47</span><small> complexity</small></div>
+              <div><span class="metric">28.33</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,8 +88,8 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                1
-                smell
+                2
+                smells
               </a>
             </li>
           </ul>
@@ -99,11 +99,42 @@
 
     <code class="prettyprint linenums lang-ruby file-code js-file-code">class InternalController &lt; ApplicationController<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>InternalController has no descriptive comment</span>          </div>  </li></ol>
   before_action :sign_in_preview_env
-  before_action :authenticate_user!
+  before_action :authenticate_user_jwt_or_cookie!
+  skip_before_action :verify_authenticity_token, if: :jwt_authenticated?
   layout &quot;internal&quot;
+
+  private
 
   def sign_in_preview_env
     sign_in User.first if ENV[&#39;PREVIEW_APP&#39;].present? &amp;&amp; current_user.blank?
+  end
+
+  def authenticate_user_jwt_or_cookie!<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Missing-Safe-Method.md" target="_blank"><b>MissingSafeMethod</b></a>        </span>      </div>      <span>InternalController has missing safe method 'authenticate_user_jwt_or_cookie!'</span>          </div>  </li></ol>
+    return if current_user.present?
+
+    result = decode_embed_jwt_from_request
+    if result&amp;.dig(:ok)
+      sign_in(result[:ok], store: false)
+    else
+      authenticate_user!
+    end
+  end
+
+  def jwt_authenticated?
+    @jwt_authenticated ||= decode_embed_jwt_from_request&amp;.dig(:ok).present?
+  end
+
+  def decode_embed_jwt_from_request
+    token = bearer_token_from_header
+    token ||= params[:embed_jwt].presence
+    return nil unless token
+
+    Users::JsonWebToken.decode_embed(token)
+  end
+
+  def bearer_token_from_header
+    token, = ActionController::HttpAuthentication::Token.token_and_options(request)
+    token
   end
 end
 </code>

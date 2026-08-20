@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2021-09-25 17:06:55 -0300'>2021-09-25 17:06:55 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-30 14:29:04 +1000'>2026-03-30 14:29:04 +1000</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">18</span><small> lines of codes</small></div>
-              <div><span class="metric">2</span><small> methods</small></div>
+              <div><span class="metric">37</span><small> lines of codes</small></div>
+              <div><span class="metric">4</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">4.4</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">5.2</span><small> complexity/method</small></div>
+              <div><span class="metric">3</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">8.76</span><small> complexity</small></div>
+              <div><span class="metric">20.79</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                2
+                4
                 smells
               </a>
             </li>
@@ -97,22 +97,41 @@
       </div>
     </div>
 
-    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Users::JsonWebToken<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Users::JsonWebToken has no descriptive comment</span>          </div>  </li></ol>
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># frozen_string_literal: true
+
+class Users::JsonWebToken<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Users::JsonWebToken has no descriptive comment</span>          </div>  </li></ol>
   SECRET_KEY = Rails.application.secrets.secret_key_base.to_s
 
-  def self.encode_user(user)
-    hmac_secret = SECRET_KEY
-    JWT.encode({ sub: user.id }, hmac_secret)
+  def self.encode_user(user, expires_in: nil, audience: nil)
+    payload = { sub: user.id }
+    payload[:exp] = expires_in.from_now.to_i if expires_in
+    payload[:aud] = audience if audience
+    JWT.encode(payload, SECRET_KEY)
+  end
+
+  def self.encode_embed(user, expires_in: 8.hours)
+    encode_user(user, expires_in:, audience: &#39;embed&#39;)
   end
 
   def self.decode_user(token)
-    begin
-      decoded = JWT.decode(token, SECRET_KEY)[0]
-      user = User.find(decoded[&quot;sub&quot;])
-      return { ok: user }
-    rescue =&gt; e<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md" target="_blank"><b>UncommunicativeVariableName</b></a>        </span>      </div>      <span>Users::JsonWebToken#self.decode_user has the variable name 'e'</span>          </div>  </li></ol>
-      return { error: e }
-    end
+    decoded = JWT.decode(token, SECRET_KEY)[0]
+    user = User.find(decoded[&#39;sub&#39;])
+    { ok: user }
+  rescue StandardError =&gt; e<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md" target="_blank"><b>UncommunicativeVariableName</b></a>        </span>      </div>      <span>Users::JsonWebToken#self.decode_user has the variable name 'e'</span>          </div>  </li></ol>
+    { error: e }
+  end
+
+  def self.decode_embed(token)<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Statements.md" target="_blank"><b>TooManyStatements</b></a>        </span>      </div>      <span>Users::JsonWebToken#self.decode_embed has approx 6 statements</span>          </div>  </li></ol>
+    decoded = JWT.decode(
+      token, SECRET_KEY, true,
+      { verify_expiration: true, aud: &#39;embed&#39;, verify_aud: true }
+    )[0]
+    user = User.find(decoded[&#39;sub&#39;])
+    { ok: user }
+  rescue JWT::ExpiredSignature
+    { error: :expired }
+  rescue StandardError =&gt; e<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md" target="_blank"><b>UncommunicativeVariableName</b></a>        </span>      </div>      <span>Users::JsonWebToken#self.decode_embed has the variable name 'e'</span>          </div>  </li></ol>
+    { error: e }
   end
 end
 </code>

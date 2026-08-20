@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2025-12-16 12:10:15 -0300'>2025-12-16 12:10:15 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-03-22 10:15:30 -0300'>2026-03-22 10:15:30 -0300</time>
         
       </span>
     </div>
@@ -62,22 +62,22 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating b big">
-              B
+            <div class="rating d big">
+              D
             </div>
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">48</span><small> lines of codes</small></div>
-              <div><span class="metric">5</span><small> methods</small></div>
+              <div><span class="metric">61</span><small> lines of codes</small></div>
+              <div><span class="metric">6</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">9.8</span><small> complexity/method</small></div>
-              <div><span class="metric">20</span><small> churn</small></div>
+              <div><span class="metric">10.4</span><small> complexity/method</small></div>
+              <div><span class="metric">22</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">49.2</span><small> complexity</small></div>
-              <div><span class="metric">69</span><small> duplications</small></div>
+              <div><span class="metric">62.43</span><small> complexity</small></div>
+              <div><span class="metric">124</span><small> duplications</small></div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                4
+                8
                 smells
               </a>
             </li>
@@ -97,7 +97,7 @@
       </div>
     </div>
 
-    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Api::V1::Accounts::DealsController &lt; Api::V1::InternalController<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Api::V1::Accounts::DealsController assumes too much for instance variable '@deal'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Api::V1::Accounts::DealsController has no descriptive comment</span>          </div>  </li></ol>
+    <code class="prettyprint linenums lang-ruby file-code js-file-code">class Api::V1::Accounts::DealsController &lt; Api::V1::InternalController<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Api::V1::Accounts::DealsController assumes too much for instance variable '@deal'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Api::V1::Accounts::DealsController assumes too much for instance variable '@deals'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md" target="_blank"><b>InstanceVariableAssumption</b></a>        </span>      </div>      <span>Api::V1::Accounts::DealsController assumes too much for instance variable '@pagy'</span>          </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md" target="_blank"><b>IrresponsibleModule</b></a>        </span>      </div>      <span>Api::V1::Accounts::DealsController has no descriptive comment</span>          </div>  </li></ol>
   include DealConcern
 
   def show
@@ -139,6 +139,19 @@
     else
       render json: { errors: @deal.errors.full_messages }, status: :unprocessable_entity
     end
+  end
+
+  def search<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 4 nodes</span>              <span>Locations:</span>                  <a href="contacts_controller.html#L37" class="js-smell-location">0</a>                  <a href="deals_controller.html#L45" class="js-smell-location">1</a>                  <a href="products_controller.html#L22" class="js-smell-location">2</a>                  <a href="users_controller.html#L6" class="js-smell-location">3</a>                  </div>  </li></ol>
+    deals = Deal.ransack(params[:query])
+
+    @pagy, @deals = pagy(deals.result, metadata: %i[page items count pages from last to prev next])
+    render json: { data: @deals,
+                   pagination: pagy_metadata(@pagy) }
+  rescue ArgumentError =&gt; e<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Uncommunicative-Variable-Name.md" target="_blank"><b>UncommunicativeVariableName</b></a>        </span>      </div>      <span>Api::V1::Accounts::DealsController#search has the variable name 'e'</span>          </div>  </li></ol>
+    render json: {
+      errors: &#39;Invalid search parameters&#39;,
+      details: e.message
+    }, status: :unprocessable_entity
   end
 
   def deal_params

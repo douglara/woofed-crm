@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2026-03-12 21:30:22 -0300'>2026-03-12 21:30:22 -0300</time>
+          Updated <time class='js-timeago' datetime='2026-07-17 02:39:00 -0300'>2026-07-17 02:39:00 -0300</time>
         
       </span>
     </div>
@@ -68,12 +68,12 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">113</span><small> lines of codes</small></div>
+              <div><span class="metric">115</span><small> lines of codes</small></div>
               <div><span class="metric">8</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">2.2</span><small> complexity/method</small></div>
-              <div><span class="metric">93</span><small> churn</small></div>
+              <div><span class="metric">95</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">17.56</span><small> complexity</small></div>
@@ -146,6 +146,8 @@ class Deal &lt; ApplicationRecord
   has_many :deal_products, dependent: :destroy
   has_many :deal_assignees, dependent: :destroy
   has_many :users, through: :deal_assignees
+  has_many :deal_companies, dependent: :destroy
+  has_many :companies, through: :deal_companies
 
   accepts_nested_attributes_for :contact
 
@@ -168,7 +170,7 @@ class Deal &lt; ApplicationRecord
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    %w[users contact stage pipeline creator]
+    %w[users contact stage pipeline creator companies]
   end
 
   def total_amount_in_cents

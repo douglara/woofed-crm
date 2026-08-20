@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2025-10-18 04:32:41 +1000'>2025-10-18 04:32:41 +1000</time>
+          Updated <time class='js-timeago' datetime='2026-07-17 02:39:00 -0300'>2026-07-17 02:39:00 -0300</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">129</span><small> lines of codes</small></div>
-              <div><span class="metric">18</span><small> methods</small></div>
+              <div><span class="metric">137</span><small> lines of codes</small></div>
+              <div><span class="metric">20</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">1.1</span><small> complexity/method</small></div>
-              <div><span class="metric">38</span><small> churn</small></div>
+              <div><span class="metric">43</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">19.79</span><small> complexity</small></div>
+              <div><span class="metric">21.79</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,7 +88,7 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                17
+                19
                 smells
               </a>
             </li>
@@ -113,7 +113,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
-class Account &lt; ApplicationRecord<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Methods.md" target="_blank"><b>TooManyMethods</b></a>        </span>      </div>      <span>Account has at least 18 methods</span>          </div>  </li></ol>
+class Account &lt; ApplicationRecord<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Too-Many-Methods.md" target="_blank"><b>TooManyMethods</b></a>        </span>      </div>      <span>Account has at least 20 methods</span>          </div>  </li></ol>
   include Account::Settings
 
   validates :name, presence: true
@@ -202,6 +202,14 @@ class Account &lt; ApplicationRecord<ol class="nocode errors smells">  <li>    <
 
   def products<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#products doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
     Product.all
+  end
+
+  def companies<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#companies doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    Company.all
+  end
+
+  def company_contacts<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#company_contacts doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
+    CompanyContact.all
   end
 
   def embedding_documments<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Utility-Function.md" target="_blank"><b>UtilityFunction</b></a>        </span>      </div>      <span>Account#embedding_documments doesn't depend on instance state (maybe move it to another class?)</span>          </div>  </li></ol>
