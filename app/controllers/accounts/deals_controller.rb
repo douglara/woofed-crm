@@ -129,17 +129,21 @@ class Accounts::DealsController < InternalController
 
   def events_to_do
     @pagy, @events = pagy(@deal.contact.events.where(deal_id: [nil, @deal.id]).to_do, items: 5)
+    # HTML is the default so the lazy turbo-frame's initial load replaces its
+    # skeleton placeholder. Pagination requests ask for turbo_stream explicitly
+    # via the `.turbo_stream` URL format, which appends the next page. Browsers
+    # send `Accept: */*` for these frames, so turbo_stream must not come first.
     respond_to do |format|
-      format.turbo_stream
       format.html
+      format.turbo_stream
     end
   end
 
   def events_done
     @pagy, @events = pagy(@deal.contact.events.where(deal_id: [nil, @deal.id]).done, items: 5)
     respond_to do |format|
-      format.turbo_stream
       format.html
+      format.turbo_stream
     end
   end
 
