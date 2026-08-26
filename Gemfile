@@ -116,7 +116,7 @@ group :test do
   gem 'capybara', '>= 3.26'
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
-  gem 'rexml', '3.3.9'
+  gem 'rexml', '3.4.2'
   gem 'simplecov', require: false
   gem 'simplecov_json_formatter', require: false
   gem 'vcr'
