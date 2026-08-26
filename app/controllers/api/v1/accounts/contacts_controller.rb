@@ -5,6 +5,16 @@ class Api::V1::Accounts::ContactsController < Api::V1::InternalController
     render json: @contact, include: %i[deals events], status: :ok
   end
 
+  def by_chatwoot_id
+    @contact = Contact.by_chatwoot_id(params[:chatwoot_id]).first
+
+    if @contact
+      render json: @contact, include: %i[deals events], status: :ok
+    else
+      render json: { error: 'Contact not found' }, status: :not_found
+    end
+  end
+
   def create
     @contact = Contact.new(contact_params)
 

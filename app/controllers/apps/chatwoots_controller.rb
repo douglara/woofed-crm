@@ -39,10 +39,34 @@ class Apps::ChatwootsController < ActionController::Base
     render json: { jwt: }
   end
 
+  # Serves the dashboard widget JS for this integration (config interpolated from
+  # the chatwoot record). Chatwoot's DASHBOARD_SCRIPTS only needs a small loader
+  # pointing here, so the widget code updates without re-injecting.
+  def dashboard_script
+    @frontend_url = ENV['FRONTEND_URL']
+    @service_email = @chatwoot.account.users.first&.email
+    render 'dashboard_script', formats: :js, layout: false, content_type: 'text/javascript'
+  end
+
+  # Signs the user in from an embed JWT and redirects to an internal path, so an
+  # embedded WoofedCRM page (e.g. the pipeline) loads authenticated inside an iframe.
+  def embed_login
+    user = Users::JsonWebToken.decode_embed(params[:jwt])[:ok]
+    return render plain: 'Unauthorized', status: :unauthorized if user.blank?
+
+    sign_out_all_scopes
+    sign_in(user)
+    # Chrome-less rendering inside the iframe is decided client-side (see
+    # layouts/internal.html.erb), so no embedded session flag is needed here.
+    path = params[:path].to_s
+    path = '/' unless path.start_with?('/')
+    redirect_to path
+  end
+
   private
 
   def check_user_authentication
-    return false if action_name.in?(%w[embedding embedding_generate_jwt])
+    return false if action_name.in?(%w[embedding embedding_generate_jwt embed_login dashboard_script])
     User.find_by_id(current_user&.id).blank?
   end
 

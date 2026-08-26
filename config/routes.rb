@@ -129,7 +129,11 @@ Rails.application.routes.draw do
           post 'refresh_qr_code'
         end
       end
-      resources :chatwoots
+      resources :chatwoots do
+        member do
+          post 'install_widget'
+        end
+      end
       # resources :events, module: :contacts
       resource :ai_assistent, only: %i[edit update]
     end
@@ -170,9 +174,14 @@ Rails.application.routes.draw do
         resources :contacts, only: %i[show create destroy] do
           post 'upsert', on: :collection
           match 'search', on: :collection, via: %i[get post]
+          get 'by_chatwoot_id', on: :collection
+          resources :events, only: [:create], module: :contacts
         end
+        resources :pipelines, only: [:index]
         namespace :apps do
-          # resources :events, module: :contacts
+          resources :chatwoots, only: [] do
+            get 'inboxes', on: :collection
+          end
         end
         resources :deal_products, only: %i[create show update]
         resources :products, only: %i[create show update] do
@@ -238,6 +247,8 @@ Rails.application.routes.draw do
         get 'embedding_init_authenticate'
         post 'embedding_authenticate'
         post 'embedding_generate_jwt'
+        get 'embed_login'
+        get 'dashboard_script'
       end
     end
     resources :evolution_apis do

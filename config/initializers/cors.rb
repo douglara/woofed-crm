@@ -8,5 +8,9 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins '*'
+    # Without an explicit resource the `origins '*'` above is a no-op (rack-cors
+    # adds no headers). The API is authenticated per-request via a Bearer JWT, so
+    # exposing it cross-origin is safe and matches the intent stated above.
+    resource '*', headers: :any, methods: %i[get post put patch delete options head]
   end
 end
