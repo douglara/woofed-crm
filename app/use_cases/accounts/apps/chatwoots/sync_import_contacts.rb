@@ -62,8 +62,12 @@ class Accounts::Apps::Chatwoots::SyncImportContacts
   end
 
   def build_contact_att(body)
+    # Chatwoot allows contacts without a name (e.g. WhatsApp contacts identified
+    # only by phone number). `full_name` is NOT NULL in the database, so passing a
+    # nil name raises PG::NotNullViolation and aborts the whole import. Fall back to
+    # the phone number, then the email, so the contact is still imported.
     contact = @account.contacts.new(
-      full_name: body['name'],
+      full_name: body['name'].presence || body['phone_number'].presence || body['email'].presence || 'Unknown',
       email: (body['email']).to_s,
       phone: (body['phone_number']).to_s
     )
