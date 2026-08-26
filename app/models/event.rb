@@ -58,6 +58,10 @@ class Event < ApplicationRecord
   attribute :invalid_files
 
   validate :validate_invalid_files
+  validate :validate_chatwoot_template, if: :chatwoot_template?
+  # Persist the resolved template text as the event content so the sent message is
+  # visible in the CRM timeline (the template form hides the free-text field).
+  before_save :store_resolved_template_content, if: :chatwoot_template?
 
   def validate_invalid_files
     errors.add(:files, 'Invalid files') if invalid_files == true
@@ -109,6 +113,158 @@ class Event < ApplicationRecord
 
   def content_is_blank?(value)
     value.respond_to?(:body)
+  end
+
+  # === WhatsApp template support (Chatwoot) =================================
+  # Template inputs live in additional_attributes; the template definition
+  # (name/category/language/components) is derived at send time from the synced
+  # data on the app's inboxes, never stored on the event.
+
+  def chatwoot_template?
+    chatwoot_message? && additional_attributes['chatwoot_template_name'].present?
+  end
+
+  def chatwoot_template_definition
+    return nil unless chatwoot_template? && app.respond_to?(:inboxes)
+
+    inbox = Array(app.inboxes).find { |i| i['id'].to_s == additional_attributes['chatwoot_inbox_id'].to_s }
+    return nil unless inbox
+
+    Array(inbox['message_templates']).find { |t| t['name'] == additional_attributes['chatwoot_template_name'] }
+  end
+
+  # The BODY text with {{n}} replaced by the stored values — the required `content`.
+  def resolved_template_content
+    template = chatwoot_template_definition
+    return content if template.nil?
+
+    body = Array(template['components']).find { |c| c['type'] == 'BODY' }
+    params = resolved_template_body_params
+    body.to_h['text'].to_s.gsub(/\{\{(\d+)\}\}/) { params[Regexp.last_match(1)].to_s }
+  end
+
+  # Assembles Chatwoot's `template_params` payload from the stored inputs.
+  def chatwoot_template_params
+    template = chatwoot_template_definition
+    return nil if template.nil?
+
+    {
+      'name' => template['name'],
+      'category' => template['category'],
+      'language' => template['language'],
+      'processed_params' => chatwoot_processed_params(template)
+    }
+  end
+
+  def chatwoot_processed_params(template)
+    components = Array(template['components'])
+    processed = {}
+
+    body_params = resolved_template_body_params
+    processed['body'] = body_params if body_params.present?
+
+    header = components.find { |c| c['type'] == 'HEADER' }
+    if chatwoot_media_header?(header) && additional_attributes['template_header_media_url'].present?
+      processed['header'] = {
+        'media_url' => resolve_merge_tags(additional_attributes['template_header_media_url']),
+        'media_type' => header['format'].to_s.downcase
+      }
+    end
+
+    buttons = chatwoot_processed_buttons(template)
+    processed['buttons'] = buttons if buttons.present?
+
+    processed
+  end
+
+  # Only buttons that carry a runtime parameter (a URL containing {{n}}) are sent;
+  # static QUICK_REPLY / plain URL buttons come from the template itself.
+  def chatwoot_dynamic_buttons(template)
+    buttons = Array(template['components']).find { |c| c['type'] == 'BUTTONS' }.to_h['buttons']
+    Array(buttons).select { |b| b['type'] == 'URL' && b['url'].to_s =~ /\{\{\d+\}\}/ }
+  end
+
+  def chatwoot_processed_buttons(template)
+    button_params = additional_attributes['template_button_params'] || {}
+    chatwoot_dynamic_buttons(template).each_with_index.filter_map do |_button, index|
+      value = resolve_merge_tags(button_params[index.to_s])
+      { 'type' => 'url', 'parameter' => value } if value.present?
+    end
+  end
+
+  CONTACT_MERGE_FIELDS = %w[full_name email phone].freeze
+
+  # Body params with {{contact.<field>}} merge tags resolved against this event's
+  # contact, so a bulk send personalises every lead. Plain values pass through.
+  def resolved_template_body_params
+    (additional_attributes['template_body_params'] || {}).transform_values { |v| resolve_merge_tags(v) }
+  end
+
+  # True when a required body variable resolves to blank for this contact (e.g. a
+  # {{contact.full_name}} mapping but the contact has no name). Bulk sends skip
+  # these leads instead of dispatching a template the WhatsApp API would reject.
+  def chatwoot_template_missing_data?
+    return false unless chatwoot_template?
+
+    template = chatwoot_template_definition
+    return false if template.nil?
+
+    body = Array(template['components']).find { |c| c['type'] == 'BODY' }
+    required = body.to_h['text'].to_s.scan(/\{\{(\d+)\}\}/).flatten
+    raw = additional_attributes['template_body_params'] || {}
+    # Only a merge tag that resolves to blank is a per-lead data gap; a blank
+    # fixed-text value is a configuration mistake caught by validation instead.
+    required.any? { |n| merge_tag?(raw[n]) && resolve_merge_tags(raw[n]).blank? }
+  end
+
+  def merge_tag?(value)
+    value.is_a?(String) && value.include?('{{contact.')
+  end
+
+  # Replaces {{contact.<field>}} tokens with the contact's value. Supports the
+  # standard fields and custom attributes via {{contact.custom.<key>}}.
+  def resolve_merge_tags(value)
+    return value unless merge_tag?(value)
+
+    value.gsub(/\{\{\s*contact\.([a-z_]+(?:\.[A-Za-z0-9_ -]+)?)\s*\}\}/) do
+      resolve_contact_field(Regexp.last_match(1))
+    end
+  end
+
+  def resolve_contact_field(key)
+    return '' if contact.blank?
+
+    if key.start_with?('custom.')
+      contact.custom_attributes.to_h[key.delete_prefix('custom.')].to_s
+    elsif CONTACT_MERGE_FIELDS.include?(key)
+      contact.public_send(key).to_s
+    else
+      ''
+    end
+  end
+
+  def chatwoot_media_header?(header)
+    header.present? && %w[IMAGE VIDEO DOCUMENT].include?(header['format'].to_s)
+  end
+
+  def store_resolved_template_content
+    self.content = resolved_template_content
+  end
+
+  def validate_chatwoot_template
+    template = chatwoot_template_definition
+    return errors.add(:base, :chatwoot_template_not_found) if template.nil?
+
+    components = Array(template['components'])
+    body = components.find { |c| c['type'] == 'BODY' }
+    body_params = additional_attributes['template_body_params'] || {}
+    required = body.to_h['text'].to_s.scan(/\{\{(\d+)\}\}/).flatten
+    errors.add(:base, :chatwoot_template_body_params_missing) if required.any? { |n| body_params[n].blank? }
+
+    header = components.find { |c| c['type'] == 'HEADER' }
+    if chatwoot_media_header?(header) && additional_attributes['template_header_media_url'].blank?
+      errors.add(:base, :chatwoot_template_header_missing)
+    end
   end
 
   def should_delivery_event_scheduled?

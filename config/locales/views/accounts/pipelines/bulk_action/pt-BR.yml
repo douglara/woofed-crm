@@ -5,3 +5,6 @@ pt-BR:
         bulk_action:
           form_modal:
             warning: "Para prevenir possíveis banimentos do número que enviará a mensagem, será introduzido um pequeno atraso no envio das mensagens. No entanto, é importante observar que o número ainda está sujeito a banimento."
+          result:
+            created: "%{count} mensagens criadas"
+            skipped: "%{count} sem dado (pulados)"

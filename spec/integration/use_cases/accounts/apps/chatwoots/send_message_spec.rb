@@ -44,4 +44,27 @@ RSpec.describe Accounts::Apps::Chatwoots::SendMessage, type: :request do
       end
     end
   end
+
+  describe '.build_body' do
+    let(:account) { create(:account) }
+    let(:inbox) { JSON.parse(File.read('spec/integration/use_cases/accounts/apps/chatwoots/inbox_detail.json')) }
+    let(:chatwoot) { create(:apps_chatwoots, :skip_validate, account:, inboxes: [inbox]) }
+    let(:contact) { create(:contact, account:) }
+
+    it 'returns a plain content hash for a free-text message' do
+      event = build(:event, kind: 'chatwoot_message', app: chatwoot, contact:, deal: nil, content: 'Hi Lorena')
+      expect(described_class.build_body(event)).to eq('content' => 'Hi Lorena')
+    end
+
+    it 'includes template_params and resolved content for a template message' do
+      event = build(:event, kind: 'chatwoot_message', app: chatwoot, contact:, deal: nil,
+                            additional_attributes: { 'chatwoot_inbox_id' => 101,
+                                                     'chatwoot_template_name' => 'lembrete_aula',
+                                                     'template_body_params' => { '1' => 'Paula', '2' => '14:00' } })
+      body = described_class.build_body(event)
+      expect(body['content']).to eq('Oi Paula! Sua aula experimental e hoje as 14:00!')
+      expect(body['template_params']['name']).to eq('lembrete_aula')
+      expect(body['template_params']['processed_params']).to eq('body' => { '1' => 'Paula', '2' => '14:00' })
+    end
+  end
 end

@@ -161,6 +161,28 @@ RSpec.describe Accounts::Contacts::EventsController, type: :request do
           expect(flash[:error]).to be_nil
         end
 
+        context 'when chatwoot message uses a whatsapp template' do
+          let!(:chatwoot_templates) do
+            create(:apps_chatwoots, :skip_validate,
+                   inboxes: [JSON.parse(File.read('spec/integration/use_cases/accounts/apps/chatwoots/inbox_detail.json'))])
+          end
+
+          it 'persists the nested template params through strong params' do
+            params = valid_params.deep_merge(event: { kind: 'chatwoot_message', done: '0', app_type: 'Apps::Chatwoot',
+                                                      app_id: chatwoot_templates.id,
+                                                      scheduled_at: (Time.current + 2.hours).round, send_now: 'false',
+                                                      additional_attributes: { chatwoot_inbox_id: '101',
+                                                                               chatwoot_template_name: 'lembrete_aula',
+                                                                               template_body_params: { '1' => 'Paula', '2' => '14:00' } } })
+            expect do
+              post "/accounts/#{account.id}/contacts/#{contact.id}/events", params: params
+            end.to change(Event, :count).by(1)
+            expect(event_created.additional_attributes['template_body_params']).to eq('1' => 'Paula', '2' => '14:00')
+            expect(event_created.additional_attributes['chatwoot_template_name']).to eq('lembrete_aula')
+            expect(event_created.additional_attributes['chatwoot_inbox_id']).to eq('101')
+          end
+        end
+
         context 'when chatwoot message is scheduled and delivered' do
           it do
             params = valid_params.deep_merge(event: { kind: 'chatwoot_message', done: '0', app_type: 'Apps::Chatwoot', app_id: chatwoot.id, chatwoot_inbox_id: 1, scheduled_at: (Time.current + 2.hours).round, auto_done: true, send_now: 'false' })

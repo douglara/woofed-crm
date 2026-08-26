@@ -1,0 +1,100 @@
+{
+  "id": 101,
+  "name": "Official WhatsApp",
+  "channel_type": "Channel::Whatsapp",
+  "message_templates": [
+    {
+      "id": "100000000000001",
+      "name": "lembrete_aula",
+      "status": "APPROVED",
+      "category": "UTILITY",
+      "language": "pt_BR",
+      "components": [
+        {
+          "text": "Oi {{1}}! Sua aula experimental e hoje as {{2}}!",
+          "type": "BODY",
+          "example": { "body_text": [["Paula", "14:00"]] }
+        },
+        {
+          "type": "BUTTONS",
+          "buttons": [
+            { "text": "Vou Participar", "type": "QUICK_REPLY" },
+            { "text": "Preciso Reagendar", "type": "QUICK_REPLY" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "100000000000002",
+      "name": "appointment_confirmation",
+      "status": "APPROVED",
+      "category": "UTILITY",
+      "language": "pt_BR",
+      "components": [
+        { "text": "Confirmacao de agendamento", "type": "HEADER", "format": "TEXT" },
+        {
+          "text": "Ola {{1}},\nSua aula esta agendada para {{2}} as {{3}}.",
+          "type": "BODY",
+          "example": { "body_text": [["John", "05/06/26", "10:00h"]] }
+        },
+        {
+          "type": "BUTTONS",
+          "buttons": [
+            { "text": "Confirmar", "type": "QUICK_REPLY" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "100000000000003",
+      "name": "flight_confirmation",
+      "status": "APPROVED",
+      "category": "UTILITY",
+      "language": "pt_BR",
+      "components": [
+        { "type": "HEADER", "format": "DOCUMENT" },
+        {
+          "text": "Esta e a confirmacao do seu voo para {{1}}.",
+          "type": "BODY",
+          "example": { "body_text": [["Recife"]] }
+        },
+        { "text": "Mensagem automatica.", "type": "FOOTER" }
+      ]
+    },
+    {
+      "id": "100000000000004",
+      "name": "validation_code",
+      "status": "APPROVED",
+      "category": "AUTHENTICATION",
+      "language": "pt_BR",
+      "components": [
+        {
+          "text": "Seu codigo de verificacao e *{{1}}*.",
+          "type": "BODY",
+          "example": { "body_text": [["123456"]] }
+        },
+        {
+          "type": "BUTTONS",
+          "buttons": [
+            {
+              "url": "https://www.whatsapp.com/otp/code/?otp_type=COPY_CODE&code=otp{{1}}",
+              "text": "Copiar codigo",
+              "type": "URL",
+              "example": ["https://www.whatsapp.com/otp/code/?otp_type=COPY_CODE&code=otp123456"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "100000000000005",
+      "name": "not_approved_template",
+      "status": "PENDING",
+      "category": "MARKETING",
+      "language": "pt_BR",
+      "components": [
+        { "text": "Promo {{1}}", "type": "BODY" }
+      ]
+    }
+  ]
+}

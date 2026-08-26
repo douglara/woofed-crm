@@ -7,3 +7,5 @@ en:
             inbox: "Inbox"
             content: "Message Content"
             confirm: Confirm
+            free_text: "Free text"
+            template: "Template"

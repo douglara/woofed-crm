@@ -19,3 +19,11 @@ en:
         title: Type
         auto_done: 'Send message automatically'
         done: 'Mark activity as done'
+    errors:
+      models:
+        event:
+          attributes:
+            base:
+              chatwoot_template_not_found: 'Selected WhatsApp template was not found'
+              chatwoot_template_body_params_missing: 'Fill in all template variables'
+              chatwoot_template_header_missing: 'Provide the template header media URL'

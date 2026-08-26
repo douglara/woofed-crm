@@ -1,5 +1,7 @@
 <%= turbo_stream.replace :flash_message do %>
-  <%= render partial: 'components/flash_message', locals: { message: "#{t('activerecord.models.other')}: #{@result.count}" } %>
+  <% message = t('views.accounts.pipelines.bulk_action.result.created', count: @created) %>
+  <% message = "#{message} · #{t('views.accounts.pipelines.bulk_action.result.skipped', count: @skipped.count)}" if @skipped.any? %>
+  <%= render partial: 'components/flash_message', locals: { message: message } %>
 <% end %>
 <%= turbo_stream.replace :modal do %>
   <%= turbo_frame_tag :modal %>

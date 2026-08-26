@@ -55,6 +55,15 @@ FactoryBot.define do
         attachment.file_type = attachment.check_file_type
       end
     end
+    trait :chatwoot_template do
+      kind { 'chatwoot_message' }
+      from_me { true }
+      additional_attributes do
+        { 'chatwoot_inbox_id' => 101,
+          'chatwoot_template_name' => 'lembrete_aula',
+          'template_body_params' => { '1' => 'Paula', '2' => '14:00' } }
+      end
+    end
     trait :with_zip_file do
       after(:build) do |event|
         attachment = event.build_attachment
