@@ -856,7 +856,7 @@ GEM
       concurrent-ruby (~> 1.0)
     uber (0.1.0)
     unicode-display_width (2.5.0)
-    uri (1.0.3)
+    uri (1.0.4)
     vcr (6.2.0)
     virtus (2.0.0)
       axiom-types (~> 0.1)
