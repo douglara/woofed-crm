@@ -1,0 +1,62 @@
+uk:
+  activerecord:
+    models:
+      user:
+        one: Користувач
+        other: Користувачі
+        new: "Новий користувач"
+        edit: "Редагувати користувача"
+        all: "Всі користувачі"
+        theme_light_description: "Класичний світлий вигляд"
+        theme_dark_description: "Зменшує навантаження на очі при слабкому освітленні"
+        theme_system_description: "Слідує налаштуванням вашої операційної системи"
+    attributes:
+      user:
+        email: Електронна пошта
+        email2: Підтвердіть електронну пошту
+        email_confirmation: Підтвердіть електронну пошту
+        password: Пароль
+        password2: Підтвердіть пароль
+        password_confirmation: Підтвердіть пароль
+        full_name: ПІБ / Повне ім'я
+        phone: Телефон (мобільний)
+        id: Код користувача
+        job_description: "Посада"
+        avatar_url: "URL аватара"
+        language: Мова
+        created_at: Створено
+        updated_at: Оновлено
+        webpush_notify_on_event_expired: "Надсилати push-сповіщення при завершенні терміну дії за угодою"
+        theme_preference: "Тема оформлення"
+        theme_preferences:
+          light: "Світла"
+          dark: "Темна"
+          system: "Системна"
+        job_descriptions:
+          ceo: "Генеральний директор (CEO)"
+          cfo: "Фінансовий директор (CFO)"
+          cto: "Технічний директор (CTO)"
+          project_manager: "Керівник проєкту (Project Manager)"
+          software_engineer: "Інженер-програміст (Software Engineer)"
+          marketing_manager: "Менеджер з маркетингу (Marketing Manager)"
+          sales_representative: "Менеджер з продажу (Sales Representative)"
+          hr_specialist: "HR-спеціаліст"
+          customer_support: "Спеціаліст підтримки (Customer Support)"
+          product_manager: "Менеджер продукту (Product Manager)"
+          operations_manager: "Операційний менеджер (Operations Manager)"
+          business_development_manager: "Менеджер з розвитку бізнесу (BDM)"
+          data_analyst: "Аналітик даних (Data Analyst)"
+          account_manager: "Акаунт-менеджер (Account Manager)"
+          consultant: "Консультант"
+          financial_analyst: "Фінансовий аналітик"
+          graphic_designer: "Графічний дизайнер"
+          ux_ui_designer: "UX/UI дизайнер"
+          content_creator: "Контент-мейкер"
+          legal_counsel: "Юрисконсульт"
+          research_scientist: "Науковий дослідник"
+          it_administrator: "IT-адміністратор"
+          system_administrator: "Системний адміністратор"
+          project_coordinator: "Координатор проєкту"
+          operations_coordinator: "Операційний координатор"
+          executive_assistant: "Виконавчий помічник"
+          other: "Інше"

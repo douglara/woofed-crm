@@ -1,0 +1,15 @@
+uk:
+  activerecord:
+    models:
+      stage:
+        one: Етап
+        other: Етапи
+        new: Новий етап
+    attributes:
+      stage:
+        name: Назва
+        account_id: ID облікового запису
+        pipeline_id: ID воронки
+        position: Позиція
+        created_at: Створено
+        updated_at: Оновлено

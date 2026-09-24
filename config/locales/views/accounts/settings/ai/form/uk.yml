@@ -1,0 +1,10 @@
+---
+uk:
+  views:
+    accounts:
+      settings:
+        ai:
+          form:
+            account_data: Дані облікового запису
+            ai_answer: Автоматично відповідати на запитання з бази знань
+            save: Зберегти

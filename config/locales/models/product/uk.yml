@@ -1,0 +1,20 @@
+uk:
+  activerecord:
+    models:
+      product:
+        one: Продукт
+        other: Продукти
+        new: "Новий продукт"
+        edit: "Редагувати продукт"
+        add: "Додати продукт"
+    attributes:
+      product:
+        id: ID
+        name: Назва
+        identifier: Ідентифікатор
+        amount_in_cents: Ціна
+        amount_in_cents_at_format: Ціна
+        quantity_available: Доступна кількість
+        description: Опис
+        created_at: Створено
+        updated_at: Оновлено

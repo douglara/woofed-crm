@@ -1,0 +1,10 @@
+---
+uk:
+  views:
+    installation:
+      header_nav:
+        basic_info: Основна інформація
+        password: Пароль
+        company_info: Інформація про компанію
+        register_now: Зареєструватися зараз
+        no_registration_message: Ви ще не зареєстровані у Woofed, але не хвилюйтеся — ви можете продовжити реєстрацію.

@@ -1,0 +1,8 @@
+---
+uk:
+  views:
+    accounts:
+      pipelines:
+        form:
+          pipeline_data: Дані воронки
+          drag_to_reorder: Перетягніть для зміни порядку

@@ -1,0 +1,18 @@
+---
+uk:
+  views:
+    accounts:
+      settings:
+        index:
+          integrate_with_other_apps: Інтегруйте Woofed з іншими додатками вашої компанії
+          whatsapp: WhatsApp
+          whatsapp_configuration: Налаштувати підключення до WhatsApp
+          chatwoot: Chatwoot
+          chatwoot_configuration: Налаштувати підключення до Chatwoot
+          webhooks: Вебхуки
+          webhooks_configuration: Налаштувати підключення вебхуків
+          artificial_intelligence: Штучний інтелект
+          ai_configuration: Налаштувати використання штучного інтелекту
+          salesforce: Salesforce
+          salesforce_configuration: Імпортуйте ваші записи Salesforce у Woofed
+          integrations: Інтеграції

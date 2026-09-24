@@ -1,0 +1,7 @@
+---
+uk:
+  views:
+    accounts:
+      pipelines:
+        import:
+          import_deals: 'Імпорт угод (Етап: %{stage_name})'

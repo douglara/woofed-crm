@@ -1,0 +1,25 @@
+uk:
+  activerecord:
+    models:
+      apps/chatwoot:
+        one: 'Chatwoot'
+        other: 'Chatwoot'
+    attributes:
+      apps/chatwoot:
+        account_id: 'ID облікового запису'
+        name: 'Назва'
+        active: 'Активний'
+        status: 'Статус'
+        embedding_token: 'Токен вбудовування'
+        chatwoot_account_id: 'ID акаунта Chatwoot'
+        chatwoot_endpoint_url: 'URL Chatwoot'
+        chatwoot_user_token: 'Токен користувача Chatwoot'
+        chatwoot_dashboard_app_id: 'ID додатку панелі Chatwoot'
+        chatwoot_webhook_id: 'ID вебхука Chatwoot'
+        created_at: 'Створено'
+        updated_at: 'Оновлено'
+        inboxes: 'Вхідні скриньки'
+    errors:
+      messages:
+        invalid_chatwoot_configuration: 'Недійсна конфігурація Chatwoot'
+        invalid_chatwoot_token: 'недійсний'

@@ -1,0 +1,20 @@
+---
+uk:
+  views:
+    layouts:
+      devise:
+        cellphone_title: Трансформуйте<br>продажі!
+        cellphone_list_easy: Легко
+        cellphone_list_simple: Просто
+        cellphone_list_efficient: Ефективно
+        cellphone_tagline: CRM, яка спрощує життя<br>та збільшує продажі!
+        new_leads_generated: Нових лідів згенеровано
+        new_lead: Новий лід
+        mastery: Опануйте разом з %{crm_name}
+        sales_funnel: Воронка продажів
+        reminder: Нагадування
+        crm_help: "<strong>CRM</strong>, яка <br> допоможе вашій компанії <br> <strong>ЗРОСТАТИ</strong>"
+        lead_management: Керування лідами
+        new_lead_arrival: "\U0001F389 Щойно надійшов новий лід"
+        new_client: Новий клієнт
+        ceo_founder: CEO/Засновник

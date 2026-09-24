@@ -1,0 +1,10 @@
+---
+uk:
+  views:
+    accounts:
+      deals:
+        details:
+          edit:
+            save_changes: Зберегти зміни
+            add_custom_attributes: Додати поля
+            tag_placeholder: Введіть теги

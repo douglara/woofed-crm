@@ -1,0 +1,21 @@
+uk:
+  activerecord:
+    models:
+      event:
+        one: Подія
+        other: Події
+        new: 'Нова подія'
+        edit: 'Редагувати подію'
+    attributes:
+      event:
+        kinds:
+          note: Нотатка
+          evolution_api_message: 'Повідомлення WhatsApp'
+          activity: Активність
+          chatwoot_message: 'Повідомлення Chatwoot'
+        kind: Тип
+        content: Опис
+        scheduled_at: Запланувати
+        title: Тип
+        auto_done: 'Надсилати повідомлення автоматично'
+        done: 'Позначити активність як виконану'

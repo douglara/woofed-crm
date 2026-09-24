@@ -1,0 +1,8 @@
+---
+uk:
+  views:
+    accounts:
+      contacts:
+        chatwoot_embeded:
+          form:
+            contact_not_found: Цей контакт не існує в %{crm_name}. Бажаєте створити його?

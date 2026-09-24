@@ -1,0 +1,19 @@
+uk:
+  activerecord:
+    models:
+      deal_assignee:
+        one: "Відповідальний"
+        other: "Відповідальні"
+        new: "Новий відповідальний"
+        edit: "Редагувати відповідального"
+        add: "Додати відповідального"
+    attributes:
+      deal_assignee:
+        user: "Користувач"
+        deal: "Угода"
+    errors:
+      models:
+        deal_assignee:
+          attributes:
+            user_id:
+              taken: "вже пов'язаний з цією угодою"

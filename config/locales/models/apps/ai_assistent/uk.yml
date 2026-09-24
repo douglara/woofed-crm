@@ -1,0 +1,15 @@
+uk:
+  activerecord:
+    models:
+      apps/ai_assistent:
+        one: "Штучний інтелект-асистент"
+        other: "Штучний інтелект-асистенти"
+    attributes:
+      apps/ai_assistent:
+        api_key: "Ключ API"
+        auto_reply: "Автоматично відповідати на запитання з бази знань"
+        enabled: "Увімкнено"
+        model: "Модель"
+        usage: "Використання"
+        created_at: "Створено"
+        updated_at: "Оновлено"

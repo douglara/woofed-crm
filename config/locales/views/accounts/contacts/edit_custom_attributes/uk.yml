@@ -1,0 +1,9 @@
+---
+uk:
+  views:
+    accounts:
+      contacts:
+        edit_custom_attributes:
+          search: Пошук
+          field_content: Вміст поля
+          confirm: Підтвердити

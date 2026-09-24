@@ -1,0 +1,8 @@
+---
+uk:
+  views:
+    installation:
+      new:
+        join_crm: Приєднуйтесь до %{crm_name}
+        step_away_from_growth: Ви за крок від зростання вашої компанії.
+        login_with_provider: Увійти через %{provider}

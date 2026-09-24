@@ -1,0 +1,14 @@
+---
+uk:
+  views:
+    accounts:
+      contacts:
+        events:
+          event_deal_updated:
+            deal_opened: Угоду відкрито
+            deal_won: Угоду виграно
+            deal_lost: Угоду втрачено
+            deal_reopened: Угоду перевідкрито
+            deal_stage_change: Угоду переміщено з етапу %{old_stage_name} у воронці %{old_stage_pipeline_name} на етап %{new_stage_name} у воронці %{new_stage_pipeline_name}
+            deal_product_added: Продукт %{product_name} додано до угоди
+            deal_product_removed: Продукт %{product_name} видалено з угоди

@@ -1,0 +1,8 @@
+---
+uk:
+  views:
+    accounts:
+      apps:
+        evolution_apis:
+          qrcode:
+            refresh: Натисніть тут, щоб завантажити QR-код

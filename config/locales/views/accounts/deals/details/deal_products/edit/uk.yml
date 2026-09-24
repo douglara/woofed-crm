@@ -1,0 +1,10 @@
+---
+uk:
+  views:
+    accounts:
+      deals:
+        details:
+          deal_products:
+            edit:
+              save_changes: Зберегти зміни
+              add_custom_attributes: Додати поля

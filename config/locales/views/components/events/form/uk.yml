@@ -1,0 +1,14 @@
+---
+uk:
+  views:
+    components:
+      events:
+        form:
+          actions: Дії
+          kinds:
+            activity: Активність
+            note: Нотатка
+          messages:
+            phone_number_required: Контакт %{full_name} повинен мати номер телефону.
+            chatwoot_account_required: Користувач %{email} повинен бути зареєстрований у Chatwoot.
+            send_message: Надіслати повідомлення %{app}

@@ -1,0 +1,8 @@
+---
+uk:
+  views:
+    components:
+      events:
+        form:
+          note:
+            confirm: Підтвердити

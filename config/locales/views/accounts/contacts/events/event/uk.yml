@@ -1,0 +1,9 @@
+---
+uk:
+  views:
+    accounts:
+      contacts:
+        events:
+          event:
+            are_you_sure?: Ви впевнені?
+            deadline: Крайній термін

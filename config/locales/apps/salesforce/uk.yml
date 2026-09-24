@@ -1,0 +1,42 @@
+uk:
+  apps:
+    salesforce:
+      connected: 'Salesforce успішно підключено.'
+      disconnected: 'Salesforce успішно відключено.'
+      missing_connection: 'Розпочніть підключення до Salesforce знову.'
+      invalid_state: 'Не вдалося перевірити авторизацію Salesforce. Підключіться знову.'
+      backfill:
+        mapping_missing: 'Зіставлення для цього об’єкта більше не існує.'
+        bulk_job_failed: 'Salesforce повідомив про помилку масового завдання: %{state}.'
+        bulk_job_stuck: 'Масове завдання не завершилося вчасно.'
+        started: 'Синхронізацію розпочато.'
+      load:
+        stage_not_mapped: 'У Woofed немає етапу з назвою «%{stage}». Перейменуйте відповідний етап або налаштуйте зіставлення.'
+        stage_field_empty: 'Цей запис не містить етапу в «%{field}». Вкажіть у зіставленні поле, яке його містить.'
+        contact_not_found: 'Ця можливість не має контакту у Woofed для прив’язки.'
+        unknown_field: 'Зіставлення вказує на поля, яких немає в цій моделі: %{fields}.'
+        event_contact_not_found: 'Ця активність не має контакту у Woofed для прив’язки.'
+      raw_records:
+        not_found: 'Цей рядок більше не існує.'
+        processed: 'Рядок імпортовано.'
+        failed: 'Помилка обробки рядка. Причина вказана в ньому.'
+        conflict: 'Рядок конфліктує з наявним записом.'
+        pending: 'Рядок знову додано до черги.'
+      transforms:
+        invalid_currency: '«%{value}» не є грошовою сумою.'
+        invalid_datetime: '«%{value}» не є датою.'
+        invalid_phone: '«%{value}» не вдалося перетворити на міжнародний номер телефону.'
+        unknown: 'Невідоме перетворення «%{name}».'
+      conflicts:
+        already_taken: '%{field} «%{value}» вже належить %{model} #%{id}.'
+      oauth_errors:
+        redirect_uri_mismatch: 'URL зворотного виклику (callback URL) у додатку External Client App не відповідає %{redirect_uri}.'
+        invalid_client: 'Недійсний consumer key або consumer secret.'
+        invalid_client_id: 'Недійсний consumer key.'
+        invalid_grant: 'Salesforce відхилив авторизацію. Підключіться знову.'
+        access_denied: 'У доступі відмовлено на стороні Salesforce.'
+        inactive_user: 'Користувач Salesforce неактивний.'
+        missing_refresh_token: 'Це підключення не має refresh token. Підключіться знову.'
+        unreadable_credentials: 'Збережені облікові дані Salesforce більше неможливо прочитати. Підключіться знову.'
+        connection_failed: 'Не вдалося зв’язатися з Salesforce.'
+        unknown: 'Salesforce відхилив підключення.'

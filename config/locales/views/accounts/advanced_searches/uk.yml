@@ -1,0 +1,10 @@
+---
+uk:
+  views:
+    accounts:
+      advanced_searches:
+        title: Пошук
+        placeholder: Шукати контакти, угоди, продукти...
+        no_results: Результатів не знайдено
+        filters:
+          all: Всі

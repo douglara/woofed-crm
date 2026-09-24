@@ -1,0 +1,12 @@
+---
+uk:
+  views:
+    accounts:
+      products:
+        index:
+          images: Зображення
+          product_name: Назва продукту
+          amount: Ціна
+          quantity: Кількість
+          identifier: Ідентифікатор
+          created_at: Створено

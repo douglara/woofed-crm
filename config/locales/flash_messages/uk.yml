@@ -1,0 +1,6 @@
+uk:
+  flash_messages:
+    created: '%{model} успішно створено.'
+    deleted: '%{model} успішно видалено.'
+    updated: '%{model} успішно оновлено.'
+    added: '%{model} успішно додано.'

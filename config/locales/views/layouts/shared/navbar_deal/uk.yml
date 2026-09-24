@@ -1,0 +1,13 @@
+---
+uk:
+  views:
+    layouts:
+      shared:
+        navbar_deal:
+          delete: Видалити
+          lost: Втрачено
+          won: Виграно
+          deal_lost: Угоду втрачено
+          deal_won: Угоду виграно
+          are_you_sure?: Ви впевнені?
+          reopen: Перевідкрити

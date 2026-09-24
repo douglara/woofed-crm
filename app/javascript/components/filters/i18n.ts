@@ -3,6 +3,7 @@ import { getBrowserLocale } from "@/utils/locale";
 import en from "./locales/en.json";
 import ptBR from "./locales/pt-BR.json";
 import es from "./locales/es.json";
+import uk from "./locales/uk.json";
 
 type TranslationMap = Record<string, Record<string, string>>;
 
@@ -10,6 +11,7 @@ const TRANSLATIONS: Record<string, TranslationMap> = {
   en,
   "pt-br": ptBR,
   es,
+  uk,
 };
 
 function resolveLocale(locale: string): string {

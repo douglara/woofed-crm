@@ -1,0 +1,9 @@
+---
+uk:
+  views:
+    accounts:
+      apps:
+        chatwoots:
+          edit:
+            delete: Видалити
+            are_you_sure?: Ви впевнені?

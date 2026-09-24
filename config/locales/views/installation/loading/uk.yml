@@ -1,0 +1,7 @@
+---
+uk:
+  views:
+    installation:
+      loading:
+        creating_company: Ми створюємо вашу компанію...
+        no_registration_message: Ви ще не зареєстровані у Woofed, але не хвилюйтеся — ви можете продовжити реєстрацію.

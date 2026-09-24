@@ -1,0 +1,25 @@
+uk:
+  activerecord:
+    models:
+      apps/evolution_api:
+        one: 'Whatsapp'
+        other: 'Whatsapp'
+    attributes:
+      apps/evolution_api:
+        connection_statuses:
+          disconnected: Відключено
+          connected: Підключено
+          sync: Синхронізація
+          connecting: Підключення
+        account_id: 'ID облікового запису'
+        connection_status: 'Статус підключення'
+        active: 'Активний'
+        endpoint_url: 'URL кінцевої точки'
+        token: 'Токен'
+        phone: 'Телефон'
+        name: 'Назва'
+        instance: 'Інстанс'
+        additional_attributes: 'Додаткові атрибути'
+        created_at: 'Створено'
+        updated_at: 'Оновлено'
+        qrcode: 'QR-код'

@@ -1,0 +1,12 @@
+---
+uk:
+  views:
+    devise:
+      passwords:
+        edit:
+          title: Встановлення нового пароля
+          subtitle: Ваш новий пароль має містити щонайменше %{min} символів.
+          new_password: Новий пароль
+          confirm_password: Підтвердіть новий пароль
+          save_password: Зберегти новий пароль
+          back_to_login: Повернутися до входу

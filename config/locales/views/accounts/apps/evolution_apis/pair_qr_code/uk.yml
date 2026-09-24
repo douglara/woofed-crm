@@ -1,0 +1,12 @@
+---
+uk:
+  views:
+    accounts:
+      apps:
+        evolution_apis:
+          pair_qr_code:
+            scan_qr_code: Наведіть камеру телефону на QR-код
+            step_one: 1. Відкрийте WhatsApp на телефоні.
+            step_two: 2. Торкніться <b class="text-dark-gray-palette-p2">Більше опцій</b> на Android або <b class="text-dark-gray-palette-p2">Параметри</b> на iPhone.
+            step_three: 3. Торкніться <b class="text-dark-gray-palette-p2">Зв'язані пристрої</b>, а потім <b class="text-dark-gray-palette-p2">Зв'язати пристрій</b>.
+            step_four: 4. Наведіть телефон на цей екран, щоб сканувати QR-код.

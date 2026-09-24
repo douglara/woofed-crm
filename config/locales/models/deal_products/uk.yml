@@ -1,0 +1,21 @@
+uk:
+  activerecord:
+    models:
+      deal_product: "Продукт"
+    attributes:
+      deal_product:
+        quantity: "Додана кількість"
+        created_at: "Створено"
+        updated_at: "Оновлено"
+        deal_id: "Угода"
+        product_id: "Продукт"
+        total_amount_in_cents: "Загальна вартість"
+        unit_amount_in_cents: "Ціна за одиницю"
+        product_identifier: Ідентифікатор
+        product_name: Назва
+    errors:
+      models:
+        deal_product:
+          attributes:
+            product_id:
+              taken: "вже додано до цієї угоди"

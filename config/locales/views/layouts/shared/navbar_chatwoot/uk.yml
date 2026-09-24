@@ -1,0 +1,7 @@
+---
+uk:
+  views:
+    layouts:
+      shared:
+        navbar_chatwoot:
+          configure_chatwoot: Налаштувати Chatwoot

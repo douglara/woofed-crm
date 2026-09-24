@@ -1,0 +1,9 @@
+---
+uk:
+  views:
+    layouts:
+      shared:
+        navbar_evolution_api:
+          whatsapp_connections: Підключення WhatsApp
+          new_whatsapp_integration: Нова інтеграція WhatsApp
+          add_connection: Додати підключення
