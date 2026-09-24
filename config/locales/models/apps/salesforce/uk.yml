@@ -1,0 +1,30 @@
+uk:
+  activerecord:
+    models:
+      apps/salesforce:
+        one: 'Salesforce'
+        other: 'Salesforce'
+    attributes:
+      apps/salesforce:
+        name: 'Назва'
+        status: 'Статус'
+        environment: 'Середовище'
+        client_id: 'Consumer key'
+        client_secret: 'Consumer secret'
+        instance_url: 'URL інстансу'
+        organization_id: 'ID організації'
+        api_version: 'Версія API'
+        token_expires_at: 'Токен дійсний до'
+        created_at: 'Створено'
+        updated_at: 'Оновлено'
+        statuses:
+          inactive: 'Неактивний'
+          active: 'Активний'
+          syncing: 'Синхронізація'
+          error: 'Помилка'
+        environments:
+          production: 'Production'
+          sandbox: 'Sandbox'
+    errors:
+      messages:
+        salesforce_connection_already_exists: 'Підключення до Salesforce уже існує'

@@ -1,0 +1,9 @@
+---
+uk:
+  views:
+    accounts:
+      contacts:
+        form:
+          contact_data: Дані контакту
+          chatwoot_conversations_label_list_empty: Немає міток розмови
+          tag_placeholder: Введіть теги

@@ -2,7 +2,7 @@
 I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
 # Permitted locales available for the application
-I18n.available_locales = %i[en pt-BR es]
+I18n.available_locales = %i[en pt-BR es uk]
 
 # Set default locale to something other than :en
 I18n.default_locale = ENV.fetch('LANGUAGE', 'en')
@@ -41,7 +41,7 @@ LANGUAGES_CONFIG = {
   30 => { name: '中文 (zh-CN)', iso_639_3_code: 'zho', iso_639_1_code: 'zh_CN', enabled: false },
   31 => { name: 'język polski (pl)', iso_639_3_code: 'pol', iso_639_1_code: 'pl', enabled: false },
   32 => { name: 'slovenčina (sk)', iso_639_3_code: 'slk', iso_639_1_code: 'sk', enabled: false },
-  33 => { name: 'украї́нська мо́ва (uk)', iso_639_3_code: 'ukr', iso_639_1_code: 'uk', enabled: false },
+  33 => { name: 'украї́нська мо́ва (uk)', iso_639_3_code: 'ukr', iso_639_1_code: 'uk', enabled: true },
   34 => { name: 'ภาษาไทย (th)', iso_639_3_code: 'tha', iso_639_1_code: 'th', enabled: false },
   35 => { name: 'latviešu valoda (lv)', iso_639_3_code: 'lav', iso_639_1_code: 'lv', enabled: false },
   36 => { name: 'íslenska (is)', iso_639_3_code: 'isl', iso_639_1_code: 'is', enabled: false },

@@ -1,0 +1,11 @@
+---
+uk:
+  views:
+    devise:
+      sessions:
+        new:
+          log_in: Увійти
+          forgot_password: Забули пароль?
+          account_answer: Не маєте облікового запису?
+          create_account: Створити обліковий запис
+          start_installation: Розпочати встановлення

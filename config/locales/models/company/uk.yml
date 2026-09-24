@@ -1,0 +1,29 @@
+uk:
+  activerecord:
+    models:
+      company:
+        one: Компанія
+        other: Компанії
+        new: Нова компанія
+        edit: Редагувати компанію
+        add: Додати компанію
+    attributes:
+      company:
+        id: "Код компанії"
+        name: Назва
+        phone: Телефон
+        email: Електронна пошта
+        label_list: Мітки
+        labels: Мітки
+        contacts: Контакти
+        attachments: Вкладення
+        custom_attributes: Користувацькі атрибути
+        additional_attributes: Додаткові атрибути
+        created_at: Створено
+        updated_at: Оновлено
+    errors:
+      company:
+        email:
+          invalid: недійсна
+        phone:
+          invalid: має бути у форматі e164

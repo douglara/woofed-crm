@@ -1,0 +1,7 @@
+---
+uk:
+  views:
+    accounts:
+      pipelines:
+        bulk_action:
+          title: 'Масова дія (Етап: %{stage})'

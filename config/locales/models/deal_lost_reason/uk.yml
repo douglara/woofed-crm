@@ -1,0 +1,14 @@
+uk:
+  activerecord:
+    models:
+      deal_lost_reason:
+        one: "Причина втрати"
+        other: "Причини втрати"
+        new: "Нова причина втрати"
+        edit: "Редагувати причину втрати"
+    attributes:
+      deal_lost_reason:
+        id: "ID"
+        name: "Причина втрати"
+        created_at: "Створено"
+        updated_at: "Оновлено"

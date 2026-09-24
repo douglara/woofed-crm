@@ -1,0 +1,8 @@
+---
+uk:
+  views:
+    accounts:
+      settings:
+        webhooks:
+          form:
+            webhook_data: Дані вебхука

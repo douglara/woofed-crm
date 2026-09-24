@@ -1,0 +1,5 @@
+uk:
+  use_cases:
+    pwa:
+      send_notifications_worker:
+        body: "Термін для %{event_kind} (%{event_title}) за угодою (%{deal_name}) щойно закінчився."

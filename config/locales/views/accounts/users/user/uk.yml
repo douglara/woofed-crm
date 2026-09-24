@@ -1,0 +1,9 @@
+---
+uk:
+  views:
+    accounts:
+      users:
+        user:
+          are_you_sure?: Ви впевнені, що хочете видалити?
+          delete: Видалити
+          edit: Редагувати

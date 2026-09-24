@@ -1,0 +1,7 @@
+---
+uk:
+  views:
+    layouts:
+      shared:
+        navbar_setting:
+          company: Компанія

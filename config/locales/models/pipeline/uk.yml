@@ -1,0 +1,15 @@
+uk:
+  activerecord:
+    models:
+      pipeline:
+        one: Пайплайн
+        other: Пайплайни
+        new: "Новий пайплайн"
+        edit: "Редагувати пайплайн"
+        confirm_destroy: Ви впевнені, що хочете видалити цей пайплайн? Усі пов'язані з ним етапи та угоди також буде видалено.
+    attributes:
+      pipeline:
+        name: Назва
+        created_at: Створено
+        updated_at: Оновлено
+        stages: Етапи

@@ -1,0 +1,11 @@
+---
+uk:
+  views:
+    layouts:
+      shared:
+        navbar_pipe:
+          all_open_deals: Всі відкриті угоди
+          all_won_deals: Всі виграні угоди
+          all_lost_deals: Всі втрачені угоди
+          all_deals: Всі угоди
+          logout: Вийти

@@ -1,0 +1,11 @@
+---
+uk:
+  views:
+    accounts:
+      apps:
+        evolution_apis:
+          evolution_api:
+            connect: Підключити
+            edit: Редагувати
+            delete: Видалити
+            are_you_sure?: Ви впевнені, що хочете видалити?

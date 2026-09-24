@@ -1,0 +1,18 @@
+uk:
+  activerecord:
+    models:
+      webhook:
+        one: 'Вебхук'
+        other: 'Вебхуки'
+        new: 'Новий вебхук'
+    attributes:
+      webhook:
+        statuses:
+          inactive: 'Неактивний'
+          active: 'Активний'
+        id: 'ID'
+        account_id: 'ID облікового запису'
+        url: 'URL'
+        created_at: 'Створено'
+        updated_at: 'Оновлено'
+        status: 'Статус'

@@ -1,0 +1,12 @@
+---
+uk:
+  views:
+    devise:
+      shared:
+        links:
+          log_in: Увійти
+          sign_up: Зареєструватися
+          forgot_password: Забули пароль?
+          resend_confirmation: Не отримали інструкції з підтвердження?
+          resend_unlock: Не отримали інструкції з розблокування?
+          sign_in_with: Увійти через %{provider}

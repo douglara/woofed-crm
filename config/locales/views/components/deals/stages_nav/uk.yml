@@ -1,0 +1,7 @@
+---
+uk:
+  views:
+    components:
+      deals:
+        stages_nav:
+          are_you_sure?: Ви впевнені?

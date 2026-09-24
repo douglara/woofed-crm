@@ -1,0 +1,10 @@
+---
+uk:
+  views:
+    components:
+      events:
+        form:
+          chatwoot_message:
+            inbox: Вхідна скринька
+            content: Вміст повідомлення
+            confirm: Підтвердити

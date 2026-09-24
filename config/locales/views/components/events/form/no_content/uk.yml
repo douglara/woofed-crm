@@ -1,0 +1,9 @@
+---
+uk:
+  views:
+    components:
+      events:
+        form:
+          no_content:
+            add_activity_title: Додати активність
+            add_activity_instruction: Натисніть на поля вище, щоб додати активність

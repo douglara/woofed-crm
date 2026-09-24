@@ -1,0 +1,14 @@
+---
+uk:
+  views:
+    accounts:
+      users:
+        form:
+          user_data: Дані користувача
+          access_token: Токен доступу
+          access_token_info: Цей токен можна використовувати під час налаштування інтеграції через API.
+          copy: Копіювати
+          copied: Скопійовано
+          push_notification_btn: Увімкнути push-сповіщення
+          push_notification_activate_message: Ви увімкнули push-сповіщення для цього браузера.
+          notifications: Сповіщення

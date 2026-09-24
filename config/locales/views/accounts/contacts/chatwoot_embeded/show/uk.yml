@@ -1,0 +1,8 @@
+---
+uk:
+  views:
+    accounts:
+      contacts:
+        chatwoot_embeded:
+          show:
+            kanban_view: Показати вигляд канбан

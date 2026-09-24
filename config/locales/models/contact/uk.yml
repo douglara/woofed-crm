@@ -1,0 +1,32 @@
+uk:
+  activerecord:
+    models:
+      contact:
+        one: Контакт
+        other: Контакти
+        new: Новий контакт
+        edit: Редагувати контакт
+        add: Додати контакт
+        unknown: Невідомий контакт
+    attributes:
+      contact:
+        full_name: ПІБ / Повне ім'я
+        phone: Телефон (мобільний)
+        email: Електронна пошта
+        label_list: Мітки
+        labels: Мітки
+        chatwoot_conversations_label_list: Мітки розмов Chatwoot
+        chatwoot_conversations_labels: Мітки розмов Chatwoot
+        chatwoot_last_conversation: "Остання розмова в Chatwoot"
+        chatwoot_identifier: "Ідентифікатор контакту"
+        id: "Код контакту"
+        created_at: Створено
+        updated_at: Оновлено
+        custom_attributes: Користувацькі атрибути
+        additional_attributes: Додаткові атрибути
+    errors:
+      contact:
+        email:
+          invalid: недійсна
+        phone:
+          invalid: має бути у форматі e164

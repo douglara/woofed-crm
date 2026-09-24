@@ -1,0 +1,10 @@
+---
+uk:
+  views:
+    accounts:
+      settings:
+        webhooks:
+          webhook:
+            delete: Видалити
+            edit: Редагувати
+            are_you_sure?: Ви впевнені, що хочете видалити?

@@ -1,0 +1,4 @@
+uk:
+  doorkeeper:
+    scopes:
+      mcp: Доступ до вашої CRM через MCP

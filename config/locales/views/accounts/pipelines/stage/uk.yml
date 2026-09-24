@@ -1,0 +1,9 @@
+---
+uk:
+  views:
+    accounts:
+      pipelines:
+        stage:
+          bulk_action: Масова дія
+          import_deals: Імпорт угод
+          export_deals: Експорт угод

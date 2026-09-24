@@ -1,0 +1,10 @@
+---
+uk:
+  views:
+    components:
+      events:
+        form:
+          evolution_api_message:
+            from: Від
+            content: Вміст повідомлення
+            confirm: Підтвердити

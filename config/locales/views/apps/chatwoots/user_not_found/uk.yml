@@ -1,0 +1,9 @@
+---
+uk:
+  views:
+    apps:
+      chatwoots:
+        user_not_found:
+          user_not_found: Користувача Chatwoot не знайдено!
+          description: Користувач з електронною поштою <strong class='text-dark-gray-palette-p3'>%{user_email}</strong> не зареєстрований у Woofed. Для коректної роботи створіть користувача через меню <strong class='text-dark-gray-palette-p3'>Компанія</strong> у Woofed CRM.
+          register_user: Зареєструвати користувача

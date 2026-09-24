@@ -1,0 +1,10 @@
+---
+uk:
+  views:
+    accounts:
+      pipelines:
+        form_import_deals:
+          send: Надіслати
+          download_here: Тут
+          select_file: Виберіть файл
+          download_spreadsheet: Завантажити приклад таблиці

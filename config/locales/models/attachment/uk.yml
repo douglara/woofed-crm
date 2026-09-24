@@ -1,0 +1,34 @@
+uk:
+  activerecord:
+    models:
+      attachment:
+        one: Вкладення
+        other: Вкладення
+        new: 'Нове вкладення'
+        edit: 'Редагувати вкладення'
+        add: 'Додати вкладення'
+        drop_file: 'Перетягніть файл сюди'
+        max_size: 'МАКС. 40МБ'
+        images_attached: 'Додані зображення'
+        videos_attached: 'Додані відео'
+        files_attached: 'Додані файли'
+    attributes:
+      attachment:
+        file: 'Файл'
+        file_type: 'Тип файлу'
+    errors:
+      messages:
+        file_type_not_supported: "тип не підтримується"
+        file_size_too_big: "розмір занадто великий"
+    enums:
+      attachment:
+        file_types:
+          image: 'Зображення'
+          audio: 'Аудіо'
+          video: 'Відео'
+          file: 'Файл'
+          location: 'Геолокація'
+          fallback: 'Резервний'
+          share: 'Поділитися'
+          story_mention: 'Згадка в історії'
+          contact: 'Контакт'

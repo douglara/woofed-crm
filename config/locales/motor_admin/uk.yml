@@ -1,0 +1,340 @@
+uk:
+  motor:
+    action_has_been_applied: Дія була застосована!
+    action_has_failed_with_code: Дія завершилася помилкою з кодом
+    action_type: Тип дії
+    actions: Дії
+    add: Додати
+    add_action: Додати дію
+    add_alert: Додати сповіщення
+    add_column: Додати стовпець
+    add_dashboard: Додати дашборд
+    add_field: Додати поле
+    add_filter: Додати фільтр
+    add_form: Додати форму
+    add_group: Додати групу
+    add_item: Додати елемент
+    add_link: Додати посилання
+    add_query: Додати запит
+    add_scope: Додати область (scope)
+    add_tab: Додати вкладку
+    adjust_form: Налаштувати форму
+    adjust_fields: Налаштувати поля
+    alert_email_has_been_sent: Електронний лист зі сповіщенням надіслано!
+    alert_has_been_activated: Сповіщення активовано
+    alert_has_been_disabled: Сповіщення вимкнено
+    alert_has_been_saved: Сповіщення збережено!
+    alert_name: Назва сповіщення
+    alerts: Сповіщення
+    all: Всі
+    all_resources: Всі ресурси
+    and: Та
+    api_path: Шлях API
+    api_request: Запит API
+    apply: Застосувати
+    are_you_sure: Ви впевнені?
+    associations: Зв'язки
+    bar_chart: Стовпчаста діаграма
+    base: Базовий
+    boolean: Булеве значення
+    build_custom_form: Створити власну форму
+    cancel: Скасувати
+    cents: Центи
+    checkbox: Прапорець
+    clear_all: Очистити все
+    clear_selection: Очистити вибір
+    close: Закрити
+    close_editor: Закрити редактор
+    close_settings: Закрити налаштування
+    close_variables: Закрити змінні
+    columns: Стовпці
+    contains: Містить
+    create: Створити
+    currency: Валюта
+    dashboard: Дашборд
+    dashboard_has_been_saved: Дашборд збережено!
+    dashboard_title: Заголовок дашборду
+    dashboards: Дашборди
+    date: Дата
+    date_and_time: Дата та час
+    decimal: Десяткове число
+    default: За замовчуванням
+    default_value: Значення за замовчуванням
+    describe_this_alert_optional: Опишіть це сповіщення (необов'язково)
+    describe_your_dashboard_optional: Опишіть ваш дашборд (необов'язково)
+    describe_your_form_optional: Опишіть вашу форму (необов'язково)
+    describe_your_query_optional: Опишіть ваш запит (необов'язково)
+    description: Опис
+    deselect_all: Зняти вибір з усіх
+    details: Деталі
+    disable: Вимкнути
+    display_as: Відображати як
+    edit: Редагувати
+    edit_sql: Редагувати SQL
+    edit_markdown: Редагувати Markdown
+    emails: Електронні листи
+    ends_with: Закінчується на
+    equal_to: Дорівнює
+    every_day_at_hh_mm: щодня о HH:mm...
+    excludes: виключає
+    field_is_not_a_number: '%{field} не є числом'
+    field_is_required: '%{field} є обов’язковим'
+    field_list_cant_be_empty: "Список %{field} не може бути порожнім"
+    field_must_be_exactly_in_length: 'Довжина %{field} має бути рівно %{length}'
+    field_must_be_less_in_length: 'Довжина %{field} має бути меншою за %{length}'
+    field_must_be_more_in_length: 'Довжина %{field} має бути більшою за %{length}'
+    field_name: Назва поля
+    field_value_does_not_match_pattern: 'Значення %{field} не відповідає шаблону %{pattern}'
+    file: Файл
+    filter: Фільтр
+    filters: Фільтри
+    form: Форма
+    form_has_been_saved: Форму збережено!
+    form_has_been_submitted_successfully: Форму успішно надіслано!
+    form_name: Назва форми
+    forms: Форми
+    funnel: Лійка
+    greater_or_equal: Більше або дорівнює
+    greater_than: Більше ніж
+    greater_than_or_equal_to: Більше або дорівнює
+    group_name: Назва групи
+    has_been_created: створено
+    has_been_removed_succesfully: успішно видалено
+    has_been_updated: оновлено
+    hello_admin: Вітаємо, адміністраторе 👋
+    hidden: Приховано
+    image: Зображення
+    includes: Включає
+    input_type: Тип поля
+    integer: Ціле число
+    interval: Інтервал
+    is: Є
+    is_not: Не є
+    items_have_been_removed: елементи видалено
+    items_will_be_removed: '%{count} елементів буде видалено'
+    json: JSON
+    label: Валюта
+    less_or_equal: Менше або дорівнює
+    less_than: Менше ніж
+    less_than_or_equal_to: Менше або дорівнює
+    line_chart: Лінійний графік
+    link_name: Назва посилання
+    links: Посилання
+    load_initial_data: Завантажити початкові дані
+    loading: Завантаження...
+    looks_like_you_are_new_here: Схоже, ви тут уперше 🙃
+    markdown: Markdown
+    method: Метод
+    method_call: Виклик методу
+    multiple: Множинний вибір
+    name: Назва
+    new_alert: Нове сповіщення
+    new_dashboard: Новий дашборд
+    new_form: Нова форма
+    new_query: Новий запит
+    no_data: Немає даних
+    not_found: Не знайдено
+    number: Число
+    ok: OK
+    options_separated_with_new_line_or_comma: Варіанти, розділені новим рядком або комою
+    or: Або
+    other_than: Крім
+    param_name: Назва параметра
+    password: Пароль
+    path: Шлях
+    percent: Відсоток
+    pie_chart: Кругова діаграма
+    queries: Запити
+    query: Запит
+    query_has_been_saved: Запит збережено!
+    query_name: Назва запиту
+    query_not_selected: Запит не вибрано
+    query_revisions: Ревізії запиту
+    read_only: Лише для читання
+    read_write: Читання та запис
+    reference: Посилання
+    reference_resource: Пов'язаний ресурс
+    remove: Видалити
+    reports: Звіти
+    request_param: Параметр запиту
+    required: Обов'язкове
+    resource_filters: 'Фільтри %{resource}'
+    resource_settings: 'Налаштування %{resource}'
+    resources: Ресурси
+    resubmit: Надіслати знову
+    revert: Відновити
+    revision_has_been_applied: Ревізію застосовано
+    revisions: Ревізії
+    richtext: Форматований текст
+    row_chart: Стрічкова діаграма
+    save: Зберегти
+    save_and_create_new: Зберегти та створити новий
+    save_as_new: Зберегти як новий
+    save_dashboard: Зберегти дашборд
+    save_form: Зберегти форму
+    save_query: Зберегти запит
+    scopes: Області видимості
+    search: Пошук
+    search_placeholder: Пошук...
+    search_query: Пошуковий запит
+    select: Вибрати
+    select_alert_tags: Виберіть теги сповіщення
+    select_dashboard: Виберіть дашборд
+    select_dashboard_tags: Виберіть теги дашборду
+    select_form: Виберіть форму
+    select_form_tags: Виберіть теги форми
+    select_options: Виберіть варіанти
+    select_placeholder: Вибрати...
+    select_query: Виберіть запит
+    select_query_tags: Виберіть теги запиту
+    select_resource_placeholder: Виберіть ресурс...
+    selected_item_has_been_removed: Вибраний елемент видалено
+    selected_item_will_be_removed: Вибраний елемент буде видалено
+    selected_item_will_be_removed_are_you_sure: Вибраний елемент буде видалено. Ви впевнені?
+    send_empty: Надіслати порожнім?
+    send_now: Надіслати зараз
+    send_to: Надіслати до
+    set_tags: Встановити теги
+    settings: Налаштування
+    should_be_a_valid_json: '%{field} має бути валідним JSON'
+    should_be_error_constraint: '%{field} має бути %{error} %{constraint}'
+    stacked_bars: Складені стовпчики
+    starts_with: Починається з
+    submit: Надіслати
+    tab_type: Тип вкладки
+    table: Таблиця
+    tabs: Вкладки
+    tags: Теги
+    text: Текст
+    textarea: Текстова область
+    timezone: Часовий пояс
+    title: Заголовок
+    type: Тип
+    unable_to_load_form_data: Не вдалося завантажити дані форми
+    unable_to_remove_item: Не вдалося видалити елемент
+    unable_to_remove_items: Не вдалося видалити елементи
+    unable_to_send_email: Не вдалося надіслати лист
+    unable_to_submit_form: Не вдалося надіслати форму
+    unit: Одиниця
+    value: Значення
+    values_axis: Вісь значень
+    variables: Змінні
+    visibility: Видимість
+    visualization: Візуалізація
+    write_only: Лише для запису
+    long_text: Довгий текст
+    percentage: Відсоток
+    change: Зміна
+    chart: Діаграма
+    tag: Тег
+    link: Посилання
+    color: Колір
+    link_text: Текст посилання
+    copied_to_the_clipboard: Скопійовано в буфер обміну
+    queries_can_contain_variable_via_syntax_html: "Запити можуть містити вбудовані змінні за синтаксисом <code>{{variable}}</code>:"
+    syntax_is_used_for_if_and_if_not_conditions_html: "Синтаксис <code>{{#variable}} ... {{/variable}}</code> та <code>{{^variable}} ... {{variable}}</code> використовується відповідно для умов <code>if</code> та <code>if not</code>:"
+    current_user_variables_are_always_passed_explicitly_and_can_he_used_html: "Змінні <code>{{current_user_id}}</code> та <code>{{current_user_email}}</code> завжди передаються явно і можуть використовуватися для визначення даних, які слід показувати користувачеві:"
+    create_new: Створити новий
+    conditional: Умовний
+    condition: Умова
+    field: Поле
+    empty: Порожній
+    not_empty: Не порожній
+    general: Загальне
+    run: Запустити
+    use_default: За замовчуванням
+    query_editor: Редактор запитів
+    polymorphic: Поліморфний
+    foreign_key: Зовнішній ключ
+    primary_key: Первинний ключ
+    through: Через
+    source: Джерело
+    resource: Ресурс
+    add_association: Додати зв'язок
+    there_are_unsaved_changes_from: "Є незбережені зміни від %{timestamp}"
+    clear: Очистити
+    restore: Відновити
+    more: Більше
+    add_text: Додати текст
+    edit_text: Редагувати текст
+    open_in_markdown_editor: Відкрити в редакторі Markdown
+    activate: Активувати
+    load_existing_options_from_database: Завантажити наявні варіанти з бази даних
+    add_database: Додати базу даних
+    audio: Аудіо
+    video: Відео
+    display_column: Стовпець для відображення
+    not_authorized_to_perform_action: У вас немає прав для виконання цієї дії.
+    upload: Завантажити
+    there_is_nothing_here_yet: Тут поки що нічого немає 🤷‍♂️
+    is_null: Є null
+    is_not_null: Не є null
+    split_tags_by: Розділяти теги за
+    do_not_split: Не розділяти
+    semicolon: Крапка з комою
+    hyphen: Дефіс
+    comma: Кома
+    slash: Скісна риска
+    searchable_columns: Стовпці для пошуку
+    validate: Перевірити
+    error_message: Повідомлення про помилку
+    validation_regexp: Регулярний вираз перевірки
+    regexp: Регулярний вираз
+    message: Повідомлення
+    should_be_a_valid_regexp: Має бути валідним рядком регулярного виразу
+    order_by: Сортувати за
+    ascending: За зростанням
+    descending: За спаданням
+    url: URL
+    expand: Розгорнути
+    add_api: Додати API
+    on_collection: Для колекції
+    association: Зв'язок
+    action_has_been_removed: Цю дію було видалено
+    every_5_seconds: Кожні 5 секунд
+    every_30_seconds: Кожні 30 секунд
+    every_minute: Щовилини
+    every_5_minutes: Кожні 5 хвилин
+    do_not_refresh: Не оновлювати
+    html: HTML
+    edit_html: Редагувати HTML
+    there_are_unsaved_changes_close_form: "Є незбережені зміни. Закрити форму?"
+    send_file_url: Надіслати URL файлу
+    rating: Рейтинг
+    total: Разом
+    radar_chart: Пелюсткова діаграма
+    show_on_table: Показати в таблиці
+    map: Карта
+    audits: Аудит
+    nothing_to_show_here_yet: Тут поки що нічого показувати 🤷
+    internal: Внутрішній/Анонімний
+    updated: оновлено
+    created: створено
+    deleted: видалено
+    sign_out: Вийти
+    header: Шапка
+    user_dropdown: Меню користувача
+    add_condition: Додати умову
+    remove_condition: Видалити умову
+    unable_to_send_alert: Не вдалося надіслати сповіщення
+    send_via: Надіслати через
+    download: Завантажити
+    alert: Сповіщення
+    downloading: Завантаження
+    display_id: Відображати ID
+    display_settings: Налаштування відображення
+    sql: SQL
+    api: API
+    variable_name: Назва змінної
+    add_variable: Додати змінну
+    notes: Нотатки
+    new_mention_for: "Нова згадка для %{resource}"
+    user_mentioned_you_with_note: "%{user} згадав(ла) вас у нотатці:\n%{note}"
+    edit_note: Редагувати нотатку
+    create_reminder: Створити нагадування
+    new_reminder_for: "Нове нагадування для %{resource}"
+    reminder_has_been_removed: Нагадування видалено
+    note_has_been_removed: Нотатку видалено
+    schedule_at: Запланувати на
+    kanban_columns: Стовпці канбану
+    kanban_card_columns: Стовпці карток канбану

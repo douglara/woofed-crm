@@ -1,0 +1,10 @@
+---
+uk:
+  views:
+    accounts:
+      contacts:
+        events:
+          status_labels:
+            history: Історія
+            scheduled: Заплановані
+            completed: Завершені

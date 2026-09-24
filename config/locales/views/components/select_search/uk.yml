@@ -1,0 +1,8 @@
+---
+uk:
+  views:
+    components:
+      select_search:
+        select: Вибрати %{model}
+        search: Шукати %{model}
+        new: Новий %{model}

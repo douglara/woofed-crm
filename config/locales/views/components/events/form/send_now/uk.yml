@@ -1,0 +1,9 @@
+---
+uk:
+  views:
+    components:
+      events:
+        form:
+          send_now:
+            send_message_now: Надіслати зараз
+            schedule_message: Запланувати повідомлення

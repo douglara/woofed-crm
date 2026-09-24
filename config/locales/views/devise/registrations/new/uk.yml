@@ -1,0 +1,10 @@
+---
+uk:
+  views:
+    devise:
+      registrations:
+        new:
+          register: Зареєструватися
+          company: Компанія
+          url_company: Вебсайт компанії
+          password_minimum_characters: "(Мінімум %{characters} символів)"

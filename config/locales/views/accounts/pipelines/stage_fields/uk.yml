@@ -1,0 +1,7 @@
+---
+uk:
+  views:
+    accounts:
+      pipelines:
+        stage_fields:
+          are_you_sure?: Ви впевнені? Усі угоди на цьому етапі також буде видалено

@@ -1,0 +1,28 @@
+uk:
+  activerecord:
+    models:
+      custom_attribute_definition:
+        one: Користувацькі атрибути
+        other: Користувацькі атрибути
+        new: Новий користувацький атрибут
+        edit: Редагувати користувацький атрибут
+        add: Додати користувацький атрибут
+    attributes:
+      custom_attribute_definition:
+        attribute_key: Ключ
+        attribute_display_name: Назва для відображення
+        attribute_description: Опис
+        attribute_model: Тип
+        attribute_models:
+          contact_attribute: Контакт
+          deal_attribute: Угода
+          product_attribute: Продукт
+        contact_attribute: Контакт
+        deal_attribute: Угода
+        product_attribute: Продукт
+    enums:
+      custom_attribute_definition:
+        attribute_models:
+          contact_attribute: Контакт
+          deal_attribute: Угода
+          product_attribute: Продукт

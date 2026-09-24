@@ -1,0 +1,8 @@
+---
+uk:
+  views:
+    accounts:
+      contacts:
+        chatwoot_conversation_link:
+          has_conversation: Перейти до останньої розмови
+          no_conversation: Немає розмов для цього контакту
