@@ -9,7 +9,7 @@ uk:
       stage:
         name: Назва
         account_id: ID облікового запису
-        pipeline_id: ID воронки
+        pipeline_id: ID пайплайну
         position: Позиція
         created_at: Створено
         updated_at: Оновлено

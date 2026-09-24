@@ -17,7 +17,7 @@ uk:
         labels: Мітки
         contacts: Контакти
         attachments: Вкладення
-        custom_attributes: Спеціальні атрибути
+        custom_attributes: Користувацькі атрибути
         additional_attributes: Додаткові атрибути
         created_at: Створено
         updated_at: Оновлено

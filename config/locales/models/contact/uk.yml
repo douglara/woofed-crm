@@ -22,7 +22,7 @@ uk:
         id: "Код контакту"
         created_at: Створено
         updated_at: Оновлено
-        custom_attributes: Спеціальні атрибути
+        custom_attributes: Користувацькі атрибути
         additional_attributes: Додаткові атрибути
     errors:
       contact:

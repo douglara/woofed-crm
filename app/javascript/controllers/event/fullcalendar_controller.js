@@ -8,6 +8,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import ptBrLocale from "@fullcalendar/core/locales/pt-br";
 import esLocale from "@fullcalendar/core/locales/es";
 import enGbLocale from "@fullcalendar/core/locales/en-gb";
+import ukLocale from "@fullcalendar/core/locales/uk";
 
 export default class extends Controller {
   static targets = ["calendar"];
@@ -75,6 +76,13 @@ export default class extends Controller {
     ptBrLocale.noEventsText = "Nenhuma atividade para mostrar";
     enGbLocale.noEventsText = "No activities to display";
     esLocale.noEventsText = "No hay actividades para mostrar";
+    ukLocale.noEventsText = "Немає активностей для відображення";
+    if (ukLocale.buttonText) {
+      ukLocale.buttonText.list = "Список";
+      ukLocale.buttonText.next = "Наступний";
+      ukLocale.buttonText.prev = "Попередній";
+      ukLocale.buttonText.today = "Сьогодні";
+    }
   }
 
   get language() {
@@ -82,6 +90,7 @@ export default class extends Controller {
       "pt-br": ptBrLocale,
       es: esLocale,
       en: enGbLocale,
+      uk: ukLocale,
     };
 
     const lang = this.languageValue?.toLowerCase() || "en";

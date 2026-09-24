@@ -30,13 +30,13 @@ uk:
         total_amount_in_cents: Загальна сума
         total_amount_in_cents_at_format: Загальна сума
         actual_closing_date: Фактична дата закриття
-        custom_attributes: Спеціальні атрибути
+        custom_attributes: Користувацькі атрибути
         description: Опис проєкту
         status: Статус
         contact_id: ID контакту
         contact: Контакт
-        pipeline_id: ID воронки
-        pipeline: Воронка
+        pipeline_id: ID пайплайну
+        pipeline: Пайплайн
         created_at: Створено
         id: "Код угоди"
         lost_reason: "Причина втрати"

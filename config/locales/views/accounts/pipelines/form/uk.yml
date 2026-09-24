@@ -4,5 +4,5 @@ uk:
     accounts:
       pipelines:
         form:
-          pipeline_data: Дані воронки
+          pipeline_data: Дані пайплайну
           drag_to_reorder: Перетягніть для зміни порядку

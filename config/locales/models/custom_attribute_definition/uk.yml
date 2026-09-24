@@ -2,11 +2,11 @@ uk:
   activerecord:
     models:
       custom_attribute_definition:
-        one: Спеціальний атрибут
-        other: Спеціальні атрибути
-        new: Новий спеціальний атрибут
-        edit: Редагувати спеціальний атрибут
-        add: Додати спеціальний атрибут
+        one: Користувацькі атрибути
+        other: Користувацькі атрибути
+        new: Новий користувацький атрибут
+        edit: Редагувати користувацький атрибут
+        add: Додати користувацький атрибут
     attributes:
       custom_attribute_definition:
         attribute_key: Ключ
