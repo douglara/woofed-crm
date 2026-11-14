@@ -1,5 +1,7 @@
 class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
   require 'open-uri'
+  require 'ipaddr'
+  require 'resolv'
 
   def initialize(chatwoot, contact, webhook)
     @chatwoot = chatwoot
@@ -63,15 +65,44 @@ class Accounts::Apps::Chatwoots::Webhooks::ImportMessage
 
   def create_attachment(event, attachment_params)
     begin
-      downloaded_file = URI.open(attachment_params['data_url'])
+      data_url = attachment_params['data_url']
+      unless fetchable_url?(data_url)
+        event.status = 'failed'
+        return
+      end
+      downloaded_file = URI.open(data_url)
       attachment = event.build_attachment(
         file_type: attachment_params['file_type']
       )
       attachment.file.attach(io: downloaded_file,
-                             filename: File.basename(attachment_params['data_url']))
+                             filename: File.basename(data_url))
     rescue OpenURI::HTTPError
       event.status = 'failed'
     end
+  end
+
+  # Only allow fetching public http(s) URLs. The attachment metadata (including
+  # data_url) comes straight from the inbound webhook payload, so without this
+  # guard a crafted payload could point data_url at an internal address
+  # (127.0.0.1, 169.254.169.254, RFC1918, ...) and have the server fetch it.
+  def fetchable_url?(url)
+    uri = URI.parse(url.to_s)
+    return false unless %w[http https].include?(uri.scheme)
+    return false if uri.host.blank?
+
+    addresses = Resolv.getaddresses(uri.host)
+    return false if addresses.empty?
+
+    addresses.none? { |ip| internal_ip?(ip) }
+  rescue URI::InvalidURIError, Resolv::ResolvError
+    false
+  end
+
+  def internal_ip?(ip)
+    addr = IPAddr.new(ip.to_s)
+    addr.loopback? || addr.private? || addr.link_local?
+  rescue IPAddr::Error
+    true
   end
 
   def build_done_at(order = nil)
